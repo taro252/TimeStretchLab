@@ -2,6 +2,8 @@
 #include "dsp/OverlapAdd.h"
 #include "dsp/PhaseVocoder.h"
 #include "dsp/STFT.h"
+#include "dsp/TransientDetector.h"
+#include <string>
 #include <vector>
 
 namespace ts {
@@ -16,6 +18,13 @@ struct StretchConfig {
     int fftSize = 4096;
     int analysisHop = 1024;
     float transientThreshold = 1.5f;
+    float transientSensitivity = 3.0f;
+    float transientMinimumFlux = 0.02f;
+    float transientStrengthThreshold = 0.25f;
+    int transientHistoryFrames = 12;
+    int transientCooldownFrames = 2;
+    int transientLookbackFrames = 1;
+    std::string debugCsvDirectory;
 };
 
 class TimeStretchEngine {
@@ -25,11 +34,13 @@ public:
     void setTimeRatio(double ratio);
     std::vector<std::vector<float>> processOffline(const std::vector<std::vector<float>>& input);
     double synthesisHop() const { return config_.analysisHop * config_.timeRatio; }
+    std::size_t lastTransientCount() const { return lastTransientCount_; }
 private:
     StretchConfig config_;
     STFT stft_;
     std::vector<PhaseVocoder> vocoders_;
     std::vector<float> frame_, synthesized_;
     std::vector<std::complex<float>> spectrum_, stretchedSpectrum_;
+    std::size_t lastTransientCount_ = 0;
 };
 }

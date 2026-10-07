@@ -10,3 +10,11 @@
 *.swp
 *.swo
 *~
+
+# Generated audio and diagnostic traces (reports and metrics stay versioned)
+/results/**/*.wav
+/results/**/debug/
+/results/**/moving_debug/
+/results/**/impulse_debug/
+/results/**/drum_debug/
+/results/**/stereo_debug/

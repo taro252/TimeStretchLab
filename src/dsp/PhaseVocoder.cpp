@@ -5,17 +5,20 @@
 #include <stdexcept>
 
 namespace ts {
-PhaseVocoder::PhaseVocoder(std::size_t size, int hop)
+PhaseVocoder::PhaseVocoder(std::size_t size, int hop, bool enablePhaseLocking)
     : size_(size), analysisHop_(hop), initialized_(size / 2 + 1, false),
-      previousPhase_(size / 2 + 1), synthesisPhase_(size / 2 + 1) {
+      previousPhase_(size / 2 + 1), synthesisPhase_(size / 2 + 1),
+      enablePhaseLocking_(enablePhaseLocking), phaseLocker_(size) {
     if (hop <= 0) throw std::invalid_argument("Analysis hop must be positive");
 }
 void PhaseVocoder::reset() {
     std::fill(initialized_.begin(), initialized_.end(), false);
     std::fill(previousPhase_.begin(), previousPhase_.end(), 0.0);
     std::fill(synthesisPhase_.begin(), synthesisPhase_.end(), 0.0);
+    phaseLocker_.reset();
 }
-void PhaseVocoder::process(const std::complex<float>* input, std::complex<float>* output, double synthesisHop) {
+void PhaseVocoder::process(const std::complex<float>* input, std::complex<float>* output,
+                           double synthesisHop, bool resetPhase) {
     constexpr double pi = std::numbers::pi;
     // DC and Nyquist must remain real for a real-valued inverse transform.
     output[0] = {input[0].real(), 0.0f};
@@ -32,7 +35,9 @@ void PhaseVocoder::process(const std::complex<float>* input, std::complex<float>
             continue;
         }
         const double phase = std::atan2(input[k].imag(), input[k].real());
-        if (!initialized_[k]) synthesisPhase_[k] = phase;
+        // At an onset, align the output and persistent state with this frame's
+        // analysis phase; propagation across an attack would smear its timing.
+        if (resetPhase || !initialized_[k]) synthesisPhase_[k] = phase;
         else {
             const double binOmega = 2.0 * pi * k / size_;
             const double expected = binOmega * analysisHop_;
@@ -44,6 +49,10 @@ void PhaseVocoder::process(const std::complex<float>* input, std::complex<float>
         previousPhase_[k] = phase;
         initialized_[k] = true;
         output[k] = std::polar(static_cast<float>(magnitude), static_cast<float>(synthesisPhase_[k]));
+    }
+    if (enablePhaseLocking_) {
+        phaseLocker_.analyzePeaks(input, size_ / 2 + 1);
+        phaseLocker_.lock(synthesisPhase_, output);
     }
 }
 }
