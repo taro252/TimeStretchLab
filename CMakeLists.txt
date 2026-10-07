@@ -31,4 +31,8 @@ if(BUILD_TESTING)
     add_executable(phase1_tests tests/Phase1Tests.cpp)
     target_link_libraries(phase1_tests PRIVATE timestretch_core)
     add_test(NAME phase1 COMMAND phase1_tests)
+
+    add_executable(phase1_validation tests/Phase1Validation.cpp)
+    target_link_libraries(phase1_validation PRIVATE timestretch_core)
+    add_test(NAME phase1_validation COMMAND phase1_validation)
 endif()

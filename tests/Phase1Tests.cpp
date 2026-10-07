@@ -1,6 +1,7 @@
 #include "audio/WavReader.h"
 #include "audio/WavWriter.h"
 #include "dsp/FFTAccelerate.h"
+#include "dsp/PhaseVocoder.h"
 #include "dsp/TimeStretchEngine.h"
 #include <algorithm>
 #include <chrono>
@@ -41,9 +42,33 @@ double dominantFrequency(const std::vector<float>& x, double rate) {
     }
     return bestFrequency;
 }
+void testThresholdCrossing() {
+    // One spectral bin represents a low-amplitude sinusoid whose amplitude
+    // falls below the tracking threshold for two frames, then returns.
+    constexpr std::size_t size = 4096, bin = 41;
+    std::vector<std::complex<float>> input(size / 2 + 1), output(size / 2 + 1);
+    for (double synthesisHop : {1024.0 / 0.75, 2048.0}) {
+        ts::PhaseVocoder vocoder(size, 1024);
+        auto step = [&](float magnitude, float phase) {
+            input[bin] = std::polar(magnitude, phase);
+            vocoder.process(input.data(), output.data(), synthesisHop);
+            return output[bin];
+        };
+        step(2e-7f, 0.3f);
+        require(step(5e-8f, 0.7f) == std::complex<float>(0, 0), "Subthreshold bin was not muted");
+        require(step(5e-8f, -0.8f) == std::complex<float>(0, 0), "Subthreshold bin was not muted");
+        const auto resumed = step(2e-7f, 1.2f);
+        // At a fresh onset the output phase must match the input phase. A stale
+        // previous phase would create an unrelated jump here.
+        const auto phaseError = std::remainder(std::arg(resumed) - 1.2, 2 * std::numbers::pi);
+        require(std::abs(phaseError) < 1e-5, "Phase jump after threshold crossing");
+        require(std::abs(std::abs(resumed) - 2e-7f) < 1e-12, "Recovered sinusoid amplitude changed");
+    }
+}
 }
 int main(int argc, char** argv) {
     try {
+        testThresholdCrossing();
         const auto resultDir = argc > 1 ? std::filesystem::path(argv[1]) : std::filesystem::path();
         if (!resultDir.empty()) std::filesystem::create_directories(resultDir);
         constexpr int rate = 44100;
@@ -111,8 +136,9 @@ int main(int argc, char** argv) {
         ts::StretchConfig config;
         config.channels = 1; config.timeRatio = 2;
         auto zeros = ts::TimeStretchEngine(config).processOffline({silence})[0];
-        require(std::all_of(zeros.begin(), zeros.end(), [](float x) { return x == 0.0f; }), "Silence became nonzero");
-        std::cout << "PASS: FFT, WAV, 440 Hz pitch, duration, unity, impulse, silence\n";
+        require(std::all_of(zeros.begin(), zeros.end(), [](float x) { return std::isfinite(x) && x == 0.0f; }),
+                "Silence became non-finite or nonzero");
+        std::cout << "PASS: FFT, WAV, 440 Hz pitch, duration, unity, impulse, silence, threshold crossing\n";
     } catch (const std::exception& error) {
         std::cerr << "FAIL: " << error.what() << '\n'; return 1;
     }

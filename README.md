@@ -10,6 +10,7 @@ cmake --build build
 ctest --test-dir build --output-on-failure
 ./build/timestretch input.wav output.wav --speed 0.5
 ./build/phase1_tests results/phase1
+./build/phase1_validation
 ```
 
 入力: mono/stereo、44.1/48 kHz、PCM int16 または IEEE float32 WAV。出力: IEEE float32 WAV。

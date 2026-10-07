@@ -24,6 +24,11 @@ void PhaseVocoder::process(const std::complex<float>* input, std::complex<float>
         const double magnitude = std::abs(input[k]);
         if (magnitude < 1e-7) {
             output[k] = {0, 0};
+            // A later reappearance is a new onset: the previous phase no longer
+            // represents a sample exactly one analysis hop in the past.
+            initialized_[k] = false;
+            previousPhase_[k] = 0.0;
+            synthesisPhase_[k] = 0.0;
             continue;
         }
         const double phase = std::atan2(input[k].imag(), input[k].real());
