@@ -19,6 +19,7 @@ add_library(timestretch_core
     src/dsp/PhaseVocoder.cpp
     src/dsp/PhaseLocker.cpp
     src/dsp/TransientDetector.cpp
+    src/dsp/TransientEventMap.cpp
     src/dsp/TimeStretchEngine.cpp
 )
 target_include_directories(timestretch_core PUBLIC src)
@@ -51,4 +52,8 @@ if(BUILD_TESTING)
     add_executable(phase3_tests tests/Phase3Tests.cpp)
     target_link_libraries(phase3_tests PRIVATE timestretch_core)
     add_test(NAME phase3 COMMAND phase3_tests ${CMAKE_SOURCE_DIR}/results/phase2)
+
+    add_executable(phase35_tests tests/Phase35Tests.cpp)
+    target_link_libraries(phase35_tests PRIVATE timestretch_core)
+    add_test(NAME phase35 COMMAND phase35_tests ${CMAKE_SOURCE_DIR}/results/phase35/artificial)
 endif()

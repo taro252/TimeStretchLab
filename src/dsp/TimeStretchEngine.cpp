@@ -15,7 +15,8 @@ TimeStretchEngine::TimeStretchEngine(const StretchConfig& config)
         (config.channels != 1 && config.channels != 2) ||
         config.analysisHop < 1 || config.analysisHop > config.fftSize / 2 ||
         !std::isfinite(config.timeRatio) || config.timeRatio <= 0 ||
-        config.enableMultiResolution)
+        config.enableMultiResolution ||
+        (config.enableAdaptiveTimeMapping && !config.enableTransientHandling))
         throw std::invalid_argument("Invalid configuration or unsupported later-phase feature enabled");
     for (int c = 0; c < config.channels; ++c)
         vocoders_.emplace_back(config.fftSize, config.analysisHop, config.enablePhaseLocking);
@@ -23,6 +24,7 @@ TimeStretchEngine::TimeStretchEngine(const StretchConfig& config)
 void TimeStretchEngine::reset() {
     for (auto& vocoder : vocoders_) vocoder.reset();
     lastTransientCount_ = 0;
+    lastEventCount_ = 0;
 }
 void TimeStretchEngine::setTimeRatio(double ratio) {
     if (!std::isfinite(ratio) || ratio <= 0) throw std::invalid_argument("Invalid time ratio");
@@ -31,6 +33,7 @@ void TimeStretchEngine::setTimeRatio(double ratio) {
 }
 std::vector<std::vector<float>> TimeStretchEngine::processOffline(const std::vector<std::vector<float>>& input) {
     lastTransientCount_ = 0;
+    lastEventCount_ = 0;
     if (input.size() != static_cast<std::size_t>(config_.channels))
         throw std::invalid_argument("Input channel count differs from configuration");
     const auto length = input.front().size();
@@ -61,6 +64,7 @@ std::vector<std::vector<float>> TimeStretchEngine::processOffline(const std::vec
         }
     };
     std::unique_ptr<TransientDetector> detector;
+    std::unique_ptr<TransientEventMap> eventMap;
     if (config_.enableTransientHandling) {
         TransientConfig transientConfig;
         transientConfig.sensitivity = config_.transientSensitivity;
@@ -87,6 +91,16 @@ std::vector<std::vector<float>> TimeStretchEngine::processOffline(const std::vec
             ? (length + padding - fftSize) / hop + 1 : 0;
         detector->finalize(activeFrameCount);
         lastTransientCount_ = detector->transientCount();
+        if (config_.enableAdaptiveTimeMapping) {
+            EventMapConfig mapConfig;
+            mapConfig.minimumDistanceFrames = config_.eventMinimumDistanceFrames;
+            mapConfig.decayMergeFrames = config_.eventDecayMergeFrames;
+            mapConfig.preRollFrames = config_.eventPreRollFrames;
+            mapConfig.postRollFrames = config_.eventPostRollFrames;
+            eventMap = std::make_unique<TransientEventMap>(
+                detector->frames(), activeFrameCount, config_.analysisHop, config_.timeRatio, mapConfig);
+            lastEventCount_ = eventMap->events().size();
+        }
     }
     if (!config_.debugCsvDirectory.empty())
         std::filesystem::create_directories(config_.debugCsvDirectory);
@@ -101,6 +115,17 @@ std::vector<std::vector<float>> TimeStretchEngine::processOffline(const std::vec
                 << frames[i].threshold << ','
                 << frames[i].strength << ',' << frames[i].detected << ','
                 << frames[i].resetApplied << ',' << input.size() << '\n';
+    }
+    if (eventMap && !config_.debugCsvDirectory.empty()) {
+        std::ofstream csv(std::filesystem::path(config_.debugCsvDirectory) / "event_map.csv");
+        if (!csv) throw std::runtime_error("Cannot create event map debug CSV");
+        csv << "frameIndex,flux,threshold,eventId,eventStrength,isTransientRegion,localTimeRatio,synthesisStart,resetApplied,sharedChannels\n";
+        const auto& frames = detector->frames();
+        for (std::size_t i = 0; i < frames.size(); ++i)
+            csv << i << ',' << frames[i].spectralFlux << ',' << frames[i].threshold << ','
+                << eventMap->eventIdAt(i) << ',' << eventMap->eventStrengthAt(i) << ','
+                << eventMap->isTransientRegion(i) << ',' << eventMap->localRatios()[i] << ','
+                << eventMap->starts()[i] << ',' << eventMap->resetAt(i) << ',' << input.size() << '\n';
     }
     for (std::size_t c = 0; c < input.size(); ++c) {
         vocoders_[c].reset();
@@ -121,10 +146,12 @@ std::vector<std::vector<float>> TimeStretchEngine::processOffline(const std::vec
             fillFrame(c, analysisStart);
             stft_.analyze(frame_.data(), spectrum_.data());
             // Round absolute positions, never a repeatedly rounded hop.
-            const auto start = std::llround(frameIndex * synthesisHop());
+            const auto start = eventMap ? eventMap->starts()[frameIndex]
+                                        : std::llround(frameIndex * synthesisHop());
             const double delta = frameIndex == 0 ? 0.0 : (start - previousStart);
             vocoders_[c].process(spectrum_.data(), stretchedSpectrum_.data(), delta,
-                                 detector && detector->resetAt(frameIndex));
+                                 eventMap ? eventMap->resetAt(frameIndex)
+                                          : (detector && detector->resetAt(frameIndex)));
             if (framesCsv) {
                 const auto& peaks = vocoders_[c].phaseLocker().peaks();
                 framesCsv << frameIndex << ',' << peaks.size() << '\n';

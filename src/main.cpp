@@ -12,9 +12,10 @@ namespace {
 void usage() {
     std::cerr << "Usage: timestretch input.wav output.wav --speed 0.5 "
                  "[--fft-size 4096] [--analysis-hop 1024] "
-                 "[--phase-locking on|off] [--transient on|off] [--debug-csv directory]\n"
+                 "[--phase-locking on|off] [--transient on|off] [--adaptive-time-map on|off] [--debug-csv directory]\n"
                  "[--transient-sensitivity 3] [--transient-history 12] "
-                 "[--transient-cooldown 2] [--transient-lookback 1]\n"
+                 "[--transient-cooldown 2] [--transient-lookback 1] "
+                 "[--event-distance 4] [--event-decay-merge 12] [--event-preroll 2] [--event-postroll 5]\n"
                  "Multiresolution supports only off.\n";
 }
 double number(const char* text, const std::string& option) {
@@ -32,8 +33,10 @@ int main(int argc, char** argv) {
         int fftSize = 4096, analysisHop = 1024;
         bool phaseLocking = false;
         bool transientHandling = false;
+        bool adaptiveTimeMap = false;
         float transientSensitivity = 3.0f;
         int transientHistory = 12, transientCooldown = 2, transientLookback = 1;
+        int eventDistance = 4, eventDecayMerge = 12, eventPreRoll = 2, eventPostRoll = 5;
         std::string debugCsvDirectory;
         bool hopSpecified = false;
         for (int i = 3; i < argc; i += 2) {
@@ -49,6 +52,9 @@ int main(int argc, char** argv) {
             } else if (key == "--transient") {
                 if (value != "on" && value != "off") throw std::invalid_argument("--transient expects on/off");
                 transientHandling = value == "on";
+            } else if (key == "--adaptive-time-map") {
+                if (value != "on" && value != "off") throw std::invalid_argument("--adaptive-time-map expects on/off");
+                adaptiveTimeMap = value == "on";
             } else if (key == "--transient-sensitivity") {
                 transientSensitivity = static_cast<float>(number(argv[i + 1], key));
             } else if (key == "--transient-history") {
@@ -57,6 +63,14 @@ int main(int argc, char** argv) {
                 transientCooldown = static_cast<int>(number(argv[i + 1], key));
             } else if (key == "--transient-lookback") {
                 transientLookback = static_cast<int>(number(argv[i + 1], key));
+            } else if (key == "--event-distance") {
+                eventDistance = static_cast<int>(number(argv[i + 1], key));
+            } else if (key == "--event-decay-merge") {
+                eventDecayMerge = static_cast<int>(number(argv[i + 1], key));
+            } else if (key == "--event-preroll") {
+                eventPreRoll = static_cast<int>(number(argv[i + 1], key));
+            } else if (key == "--event-postroll") {
+                eventPostRoll = static_cast<int>(number(argv[i + 1], key));
             } else if (key == "--debug-csv") {
                 debugCsvDirectory = value;
             } else if (key == "--multiresolution") {
@@ -74,10 +88,15 @@ int main(int argc, char** argv) {
         config.analysisHop = analysisHop;
         config.enablePhaseLocking = phaseLocking;
         config.enableTransientHandling = transientHandling;
+        config.enableAdaptiveTimeMapping = adaptiveTimeMap;
         config.transientSensitivity = transientSensitivity;
         config.transientHistoryFrames = transientHistory;
         config.transientCooldownFrames = transientCooldown;
         config.transientLookbackFrames = transientLookback;
+        config.eventMinimumDistanceFrames = eventDistance;
+        config.eventDecayMergeFrames = eventDecayMerge;
+        config.eventPreRollFrames = eventPreRoll;
+        config.eventPostRollFrames = eventPostRoll;
         config.debugCsvDirectory = debugCsvDirectory;
         ts::TimeStretchEngine engine(config);
         const auto start = std::chrono::steady_clock::now();
@@ -92,6 +111,8 @@ int main(int argc, char** argv) {
                   << " phase_locking=" << (phaseLocking ? "on" : "off")
                   << " transient=" << (transientHandling ? "on" : "off")
                   << " transient_count=" << engine.lastTransientCount()
+                  << " adaptive_time_map=" << (adaptiveTimeMap ? "on" : "off")
+                  << " event_count=" << engine.lastEventCount()
                   << " input_frames=" << input.channels.front().size()
                   << " output_frames=" << output.front().size()
                   << " processing_seconds=" << elapsed << " peak=" << peak << '\n';
