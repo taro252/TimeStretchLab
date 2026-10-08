@@ -72,4 +72,17 @@ void PhaseLocker::lock(std::vector<double>& synthesisPhase, std::complex<float>*
         output[k] = std::polar(magnitude_[k], static_cast<float>(locked));
     }
 }
+void PhaseLocker::lockWithOwners(const std::complex<float>* input, std::complex<float>* output,
+                                std::vector<double>& synthesisPhase, const std::vector<int>& owners) {
+    constexpr double twoPi = 2.0 * std::numbers::pi;
+    for (std::size_t k = 1; k + 1 < owners.size(); ++k) {
+        const int owner = owners[k];
+        if (owner < 1 || static_cast<int>(k) == owner ||
+            std::abs(input[k]) < 1e-7f || std::abs(input[owner]) < 1e-7f) continue;
+        const double relative = std::remainder(double(std::arg(input[k])) - std::arg(input[owner]), twoPi);
+        const double locked = std::remainder(synthesisPhase[owner] + relative, twoPi);
+        synthesisPhase[k] = locked;
+        output[k] = std::polar(std::abs(input[k]), static_cast<float>(locked));
+    }
+}
 }

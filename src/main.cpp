@@ -13,7 +13,8 @@ void usage() {
     std::cerr << "Usage: timestretch input.wav output.wav --speed 0.5 "
                  "[--fft-size 4096] [--analysis-hop 1024] "
                  "[--phase-locking on|off] [--transient on|off] [--adaptive-time-map on|off] "
-                 "[--selective-reset on|off] [--precise-anchoring on|off] [--debug-csv directory]\n"
+                 "[--selective-reset on|off] [--precise-anchoring on|off] [--stereo-coherence on|off] "
+                 "[--coherence-strength 1] [--low-frequency-coherence 0.5] [--debug-csv directory]\n"
                  "[--transient-sensitivity 3] [--transient-history 12] "
                  "[--transient-cooldown 2] [--transient-lookback 1] "
                  "[--event-distance 4] [--event-decay-merge 12] [--event-preroll 2] "
@@ -38,6 +39,8 @@ int main(int argc, char** argv) {
         bool adaptiveTimeMap = false;
         bool selectiveReset = false;
         bool preciseAnchoring = false;
+        bool stereoCoherence = false;
+        float coherenceStrength = 1.0f, lowFrequencyCoherence = 0.5f;
         float transientSensitivity = 3.0f;
         int transientHistory = 12, transientCooldown = 2, transientLookback = 1;
         int eventDistance = 4, eventDecayMerge = 12, eventPreRoll = 2, eventPostRoll = 5;
@@ -66,6 +69,13 @@ int main(int argc, char** argv) {
             } else if (key == "--precise-anchoring") {
                 if (value != "on" && value != "off") throw std::invalid_argument("--precise-anchoring expects on/off");
                 preciseAnchoring = value == "on";
+            } else if (key == "--stereo-coherence") {
+                if (value != "on" && value != "off") throw std::invalid_argument("--stereo-coherence expects on/off");
+                stereoCoherence = value == "on";
+            } else if (key == "--coherence-strength") {
+                coherenceStrength = static_cast<float>(number(argv[i + 1], key));
+            } else if (key == "--low-frequency-coherence") {
+                lowFrequencyCoherence = static_cast<float>(number(argv[i + 1], key));
             } else if (key == "--transient-sensitivity") {
                 transientSensitivity = static_cast<float>(number(argv[i + 1], key));
             } else if (key == "--transient-history") {
@@ -104,6 +114,9 @@ int main(int argc, char** argv) {
         config.enableAdaptiveTimeMapping = adaptiveTimeMap;
         config.enableSelectivePhaseReset = selectiveReset;
         config.enablePreciseTransientAnchoring = preciseAnchoring;
+        config.enableStereoCoherence = stereoCoherence;
+        config.stereoCoherenceStrength = coherenceStrength;
+        config.lowFrequencyCoherenceStrength = lowFrequencyCoherence;
         config.transientSensitivity = transientSensitivity;
         config.transientHistoryFrames = transientHistory;
         config.transientCooldownFrames = transientCooldown;
@@ -140,6 +153,8 @@ int main(int argc, char** argv) {
                   << " adaptive_time_map=" << (adaptiveTimeMap ? "on" : "off")
                   << " selective_reset=" << (selectiveReset ? "on" : "off")
                   << " precise_anchoring=" << (preciseAnchoring ? "on" : "off")
+                  << " stereo_coherence=" << (stereoCoherence ? "on" : "off")
+                  << " average_coherence_weight=" << engine.lastAverageCoherenceWeight()
                   << " anchored_event_count=" << engine.lastAnchoredEventCount()
                   << " event_count=" << engine.lastEventCount()
                   << " events_per_second=" << (input.channels.front().empty() ? 0.0 :

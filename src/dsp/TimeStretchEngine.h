@@ -19,6 +19,9 @@ struct StretchConfig {
     bool enableAdaptiveTimeMapping = false;
     bool enableSelectivePhaseReset = false;
     bool enablePreciseTransientAnchoring = false;
+    bool enableStereoCoherence = false;
+    float stereoCoherenceStrength = 1.0f;
+    float lowFrequencyCoherenceStrength = 0.5f;
     bool enableMultiResolution = false;
     int fftSize = 4096;
     int analysisHop = 1024;
@@ -49,6 +52,7 @@ public:
     const std::vector<TransientEvent>& lastEvents() const { return lastEvents_; }
     long long lastAnchorMaxErrorSamples() const { return lastAnchorMaxErrorSamples_; }
     std::size_t lastAnchoredEventCount() const { return lastAnchoredEventCount_; }
+    double lastAverageCoherenceWeight() const { return lastAverageCoherenceWeight_; }
     const std::vector<TransientAnchor>& lastAnchors() const { return lastAnchors_; }
 private:
     StretchConfig config_;
@@ -62,5 +66,6 @@ private:
     long long lastAnchorMaxErrorSamples_ = 0;
     std::size_t lastAnchoredEventCount_ = 0;
     std::vector<TransientAnchor> lastAnchors_;
+    double lastAverageCoherenceWeight_ = 0;
 };
 }

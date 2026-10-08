@@ -18,6 +18,8 @@ public:
     void reset();
     void analyzePeaks(const std::complex<float>* spectrum, std::size_t binCount);
     void lock(std::vector<double>& synthesisPhase, std::complex<float>* output) const;
+    static void lockWithOwners(const std::complex<float>* input, std::complex<float>* output,
+                               std::vector<double>& synthesisPhase, const std::vector<int>& owners);
     const std::vector<SpectralPeak>& peaks() const { return peaks_; }
     const std::vector<int>& ownerPeak() const { return ownerPeak_; }
     const std::vector<float>& magnitudes() const { return magnitude_; }

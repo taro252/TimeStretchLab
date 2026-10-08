@@ -13,7 +13,9 @@ public:
     // Hs is the distance from the preceding synthesis frame, including fractional timing.
     void process(const std::complex<float>* input, std::complex<float>* output,
                  double synthesisHop, bool resetPhase = false,
-                 bool selectiveReset = false, float eventStrength = 1.0f);
+                 bool selectiveReset = false, float eventStrength = 1.0f,
+                 const std::vector<int>* sharedOwners = nullptr);
+    void setOutputPhase(std::size_t bin, double phase);
     const PhaseLocker& phaseLocker() const { return phaseLocker_; }
 private:
     std::size_t size_;

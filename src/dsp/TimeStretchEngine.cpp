@@ -1,4 +1,5 @@
 #include "dsp/TimeStretchEngine.h"
+#include "dsp/StereoPhaseCoherence.h"
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
@@ -6,6 +7,7 @@
 #include <fstream>
 #include <limits>
 #include <memory>
+#include <numbers>
 #include <stdexcept>
 
 namespace ts {
@@ -20,7 +22,11 @@ TimeStretchEngine::TimeStretchEngine(const StretchConfig& config)
         (config.enableAdaptiveTimeMapping && !config.enableTransientHandling) ||
         (config.enableSelectivePhaseReset && !config.enableAdaptiveTimeMapping) ||
         (config.enablePreciseTransientAnchoring && !config.enableAdaptiveTimeMapping) ||
-        (config.enableSelectivePhaseReset && config.enablePreciseTransientAnchoring))
+        (config.enableSelectivePhaseReset && config.enablePreciseTransientAnchoring) ||
+        !std::isfinite(config.stereoCoherenceStrength) ||
+        config.stereoCoherenceStrength < 0 || config.stereoCoherenceStrength > 1 ||
+        !std::isfinite(config.lowFrequencyCoherenceStrength) ||
+        config.lowFrequencyCoherenceStrength < 0 || config.lowFrequencyCoherenceStrength > 1)
         throw std::invalid_argument("Invalid configuration or unsupported later-phase feature enabled");
     for (int c = 0; c < config.channels; ++c)
         vocoders_.emplace_back(config.fftSize, config.analysisHop,
@@ -34,6 +40,7 @@ void TimeStretchEngine::reset() {
     lastAnchorMaxErrorSamples_ = 0;
     lastAnchoredEventCount_ = 0;
     lastAnchors_.clear();
+    lastAverageCoherenceWeight_ = 0;
 }
 void TimeStretchEngine::setTimeRatio(double ratio) {
     if (!std::isfinite(ratio) || ratio <= 0) throw std::invalid_argument("Invalid time ratio");
@@ -47,6 +54,7 @@ std::vector<std::vector<float>> TimeStretchEngine::processOffline(const std::vec
     lastAnchorMaxErrorSamples_ = 0;
     lastAnchoredEventCount_ = 0;
     lastAnchors_.clear();
+    lastAverageCoherenceWeight_ = 0;
     if (input.size() != static_cast<std::size_t>(config_.channels))
         throw std::invalid_argument("Input channel count differs from configuration");
     const auto length = input.front().size();
@@ -186,6 +194,78 @@ std::vector<std::vector<float>> TimeStretchEngine::processOffline(const std::vec
                 << anchor.confident << ',' << eventMap->idealStartAt(anchor.frame) << ','
                 << eventMap->starts()[anchor.frame] << '\n';
         }
+    }
+    if (config_.enableStereoCoherence && input.size() == 2) {
+        for (auto& vocoder : vocoders_) vocoder.reset();
+        StereoPhaseCoherence coherence(fftSize, config_.sampleRate,
+            config_.stereoCoherenceStrength, config_.lowFrequencyCoherenceStrength);
+        PhaseLocker sharedPeaks(fftSize);
+        const auto bins = fftSize / 2 + 1;
+        std::vector<std::complex<float>> leftInput(bins), rightInput(bins),
+            leftOutput(bins), rightOutput(bins), combined(bins);
+        std::vector<double> independentIpd;
+        OverlapAdd leftOla(capacity), rightOla(capacity);
+        std::ofstream coherenceCsv;
+        if (!config_.debugCsvDirectory.empty()) {
+            coherenceCsv.open(std::filesystem::path(config_.debugCsvDirectory) / "stereo_coherence.csv");
+            if (!coherenceCsv) throw std::runtime_error("Cannot create stereo coherence CSV");
+            coherenceCsv << "frame,bin,magL,magR,midMagnitude,sideMagnitude,inputIPD,independentOutputIPD,finalOutputIPD,coherenceWeight,ILD\n";
+            independentIpd.resize(bins);
+        }
+        long long previousStart = 0;
+        for (std::size_t frameIndex = 0; frameIndex < frameCount; ++frameIndex) {
+            const auto analysisStart = frameIndex * hop;
+            fillFrame(0, analysisStart);
+            stft_.analyze(frame_.data(), leftInput.data());
+            fillFrame(1, analysisStart);
+            stft_.analyze(frame_.data(), rightInput.data());
+            for (std::size_t k = 0; k < bins; ++k)
+                combined[k] = {std::hypot(std::abs(leftInput[k]), std::abs(rightInput[k])), 0};
+            sharedPeaks.analyzePeaks(combined.data(), bins);
+            const auto start = eventMap ? eventMap->starts()[frameIndex]
+                                        : std::llround(frameIndex * synthesisHop());
+            const double delta = frameIndex == 0 ? 0.0 : start - previousStart;
+            const bool resetPhase = eventMap ? eventMap->resetAt(frameIndex)
+                : (detector && detector->resetAt(frameIndex));
+            const float strength = eventMap ? eventMap->resetStrengthAt(frameIndex) : 0.0f;
+            const auto* owners = config_.enablePhaseLocking ? &sharedPeaks.ownerPeak() : nullptr;
+            vocoders_[0].process(leftInput.data(), leftOutput.data(), delta, resetPhase,
+                                 config_.enableSelectivePhaseReset, strength, owners);
+            vocoders_[1].process(rightInput.data(), rightOutput.data(), delta, resetPhase,
+                                 config_.enableSelectivePhaseReset, strength, owners);
+            // CSV diagnostics need the independent phase before coherence changes it.
+            if (coherenceCsv.is_open()) {
+                for (std::size_t k = 1; k + 1 < bins; ++k)
+                    independentIpd[k] = std::remainder(double(std::arg(rightOutput[k])) -
+                        std::arg(leftOutput[k]), 2.0 * std::numbers::pi);
+            }
+            coherence.process(leftInput.data(), rightInput.data(), leftOutput.data(),
+                              rightOutput.data(), vocoders_[0], vocoders_[1],
+                              sharedPeaks.ownerPeak());
+            if (coherenceCsv.is_open()) {
+                for (std::size_t k = 1; k + 1 < bins; ++k) {
+                    const double ml = std::abs(leftInput[k]), mr = std::abs(rightInput[k]);
+                    if (std::max(ml, mr) < 1e-5) continue;
+                    coherenceCsv << frameIndex << ',' << k << ',' << ml << ',' << mr << ','
+                        << 0.5 * std::abs(leftInput[k] + rightInput[k]) << ','
+                        << 0.5 * std::abs(leftInput[k] - rightInput[k]) << ','
+                        << std::remainder(double(std::arg(rightInput[k])) - std::arg(leftInput[k]),
+                                          2.0 * std::numbers::pi) << ',' << independentIpd[k] << ','
+                        << std::remainder(double(std::arg(rightOutput[k])) - std::arg(leftOutput[k]),
+                                          2.0 * std::numbers::pi) << ',' << coherence.weights()[k] << ','
+                        << 20 * std::log10((ml + 1e-12) / (mr + 1e-12)) << '\n';
+                }
+            }
+            stft_.synthesize(leftOutput.data(), synthesized_.data());
+            leftOla.add(synthesized_.data(), stft_.window().data(), fftSize, start);
+            stft_.synthesize(rightOutput.data(), synthesized_.data());
+            rightOla.add(synthesized_.data(), stft_.window().data(), fftSize, start);
+            previousStart = start;
+        }
+        result[0] = leftOla.finish(outputLength, padding);
+        result[1] = rightOla.finish(outputLength, padding);
+        lastAverageCoherenceWeight_ = coherence.averageWeight();
+        return result;
     }
     for (std::size_t c = 0; c < input.size(); ++c) {
         vocoders_[c].reset();

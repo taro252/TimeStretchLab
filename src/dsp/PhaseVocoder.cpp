@@ -22,7 +22,8 @@ void PhaseVocoder::reset() {
 }
 void PhaseVocoder::process(const std::complex<float>* input, std::complex<float>* output,
                            double synthesisHop, bool resetPhase,
-                           bool selectiveReset, float eventStrength) {
+                           bool selectiveReset, float eventStrength,
+                           const std::vector<int>* sharedOwners) {
     constexpr double pi = std::numbers::pi;
     // DC and Nyquist must remain real for a real-valued inverse transform.
     output[0] = {input[0].real(), 0.0f};
@@ -73,8 +74,15 @@ void PhaseVocoder::process(const std::complex<float>* input, std::complex<float>
         output[k] = std::polar(static_cast<float>(magnitude), static_cast<float>(synthesisPhase_[k]));
     }
     if (enablePhaseLocking_) {
-        phaseLocker_.analyzePeaks(input, size_ / 2 + 1);
-        phaseLocker_.lock(synthesisPhase_, output);
+        if (sharedOwners) PhaseLocker::lockWithOwners(input, output, synthesisPhase_, *sharedOwners);
+        else {
+            phaseLocker_.analyzePeaks(input, size_ / 2 + 1);
+            phaseLocker_.lock(synthesisPhase_, output);
+        }
     }
+}
+void PhaseVocoder::setOutputPhase(std::size_t bin, double phase) {
+    if (bin == 0 || bin >= size_ / 2) return;
+    synthesisPhase_[bin] = phase;
 }
 }

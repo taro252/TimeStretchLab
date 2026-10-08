@@ -21,6 +21,7 @@ add_library(timestretch_core
     src/dsp/TransientDetector.cpp
     src/dsp/TransientEventMap.cpp
     src/dsp/TransientAnchor.cpp
+    src/dsp/StereoPhaseCoherence.cpp
     src/dsp/TimeStretchEngine.cpp
 )
 target_include_directories(timestretch_core PUBLIC src)
@@ -38,6 +39,9 @@ target_link_libraries(wav_compare PRIVATE timestretch_core)
 
 add_executable(bass_pitch_metrics src/bass_pitch_metrics.cpp)
 target_link_libraries(bass_pitch_metrics PRIVATE timestretch_core)
+
+add_executable(stereo_spectral_metrics src/stereo_spectral_metrics.cpp)
+target_link_libraries(stereo_spectral_metrics PRIVATE timestretch_core)
 
 include(CTest)
 if(BUILD_TESTING)
@@ -68,4 +72,8 @@ if(BUILD_TESTING)
     add_executable(phase37_tests tests/Phase37Tests.cpp)
     target_link_libraries(phase37_tests PRIVATE timestretch_core)
     add_test(NAME phase37 COMMAND phase37_tests ${CMAKE_SOURCE_DIR}/results/phase37/artificial)
+
+    add_executable(phase4_tests tests/Phase4Tests.cpp)
+    target_link_libraries(phase4_tests PRIVATE timestretch_core)
+    add_test(NAME phase4 COMMAND phase4_tests)
 endif()

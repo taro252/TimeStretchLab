@@ -20,9 +20,11 @@ int main(int argc, char** argv) {
             double peak = 0, sumSquares = 0, leftSquares = 0, rightSquares = 0, cross = 0;
             double midSquares = 0, sideSquares = 0;
             std::uint64_t overOne = 0;
+            bool finite = true;
             for (std::size_t i = 0; i < frames; ++i) {
                 for (const auto& channel : audio.channels) {
                     const double value = channel[i];
+                    finite = finite && std::isfinite(value);
                     peak = std::max(peak, std::abs(value));
                     sumSquares += value * value;
                     if (std::abs(value) > 1.0) ++overOne;
@@ -78,7 +80,7 @@ int main(int argc, char** argv) {
                               << " corr_1s_negative_fraction=" << double(negative) / correlations.size();
                 }
             }
-            std::cout << " finite=yes\n";
+            std::cout << " finite=" << (finite ? "yes" : "no") << '\n';
         }
     } catch (const std::exception& error) {
         std::cerr << "Error: " << error.what() << '\n'; return 1;
