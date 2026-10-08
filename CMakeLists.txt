@@ -32,6 +32,7 @@ add_library(timestretch_core
     src/dsp/ChunkedTimeStretchEngine.cpp
     src/dsp/TimeStretchEngine.cpp
     src/dsp/WSOLAEngine.cpp
+    src/dsp/SinusoidalResidualEngine.cpp
 )
 target_include_directories(timestretch_core PUBLIC src)
 target_link_libraries(timestretch_core PUBLIC ${ACCELERATE_FRAMEWORK})
@@ -42,6 +43,9 @@ target_link_libraries(timestretch PRIVATE timestretch_core)
 
 add_executable(wsola_stretch src/wsola_main.cpp)
 target_link_libraries(wsola_stretch PRIVATE timestretch_core)
+
+add_executable(sinusoidal_residual_stretch src/sinusoidal_residual_main.cpp)
+target_link_libraries(sinusoidal_residual_stretch PRIVATE timestretch_core)
 
 add_executable(wav_metrics src/wav_metrics.cpp)
 target_link_libraries(wav_metrics PRIVATE timestretch_core)
@@ -116,4 +120,8 @@ if(BUILD_TESTING)
     add_executable(phase8a_tests tests/Phase8ATests.cpp)
     target_link_libraries(phase8a_tests PRIVATE timestretch_core)
     add_test(NAME phase8a COMMAND phase8a_tests)
+
+    add_executable(phase9a_tests tests/Phase9ATests.cpp)
+    target_link_libraries(phase9a_tests PRIVATE timestretch_core)
+    add_test(NAME phase9a COMMAND phase9a_tests)
 endif()
