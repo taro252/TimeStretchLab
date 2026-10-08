@@ -49,3 +49,9 @@ Phase 4 は Phase 3.7 の引数に `--stereo-coherence on` を加えて有効に
 Phase 5 は Phase 4 の引数に `--multiresolution on` を加えて有効になります。8192/2048、4096/1024、1024/256 の3つの FFT/解析ホップで処理します。中解像度で決定したイベントと出力時間配置を `TimeMap` で共有し、3つの出力を線形位相FIRの周波数分割で合成します。既定は OFF で、ON時の `--fft-size` と `--analysis-hop` は中解像度の4096/1024に固定です。全長Mix/Bass比較は `bash scripts/phase5_real_ab.sh mix.wav bass.wav`、測定は `bash scripts/phase5_analyze.sh`。男女ボーカルの30秒比較は `bash scripts/phase5_vocal_ab.sh input.wav output_dir label` で行えます。結果と残る音質上の課題は [Phase 5 レポート](results/phase5/REPORT.md) を参照してください。
 
 Phase 5.1 の逐次処理は、Phase 5 の引数に `--chunked on` を加えると有効になります。既定の書き出し単位は 16384 サンプルで、`--chunk-size 8192..65536` で変更できます。WAV の読み込み、各解像度の重ね合わせ、周波数分割の畳み込み、WAV 書き出しを有限長の作業領域で行います。音質アルゴリズムと共通の時間配置は Phase 5 のままです。長さ別のメモリ測定は `bash scripts/phase51_memory.sh mix.wav bass.wav metrics.txt` で再実行できます。測定結果は [Phase 5.1 レポート](results/phase51/REPORT.md) を参照してください。
+
+# Phase 5.2 比較モード
+
+逐次処理の `--ablation a|b|c` で、同じ中解像度の過渡検出と時間配置を使う3構成を比較できます。`--chunked on --multiresolution on` と併用します。A は 4096/1024 のみ、B は低 8192/2048 と中 4096/1024 を `mid + LP250(low-mid)` で合成、C は現行 Phase 5.1 の3経路です。`--ablation` を省略すると従来どおり C です。音質処理、WAV形式、ゲインは変更しません。
+
+比較手順と計測結果は [Phase 5.2 レポート](results/phase52/REPORT.md) を参照してください。

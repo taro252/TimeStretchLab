@@ -90,4 +90,8 @@ if(BUILD_TESTING)
     add_executable(phase51_tests tests/Phase51Tests.cpp)
     target_link_libraries(phase51_tests PRIVATE timestretch_core)
     add_test(NAME phase51 COMMAND phase51_tests)
+
+    add_executable(phase52_tests tests/Phase52Tests.cpp)
+    target_link_libraries(phase52_tests PRIVATE timestretch_core)
+    add_test(NAME phase52 COMMAND phase52_tests)
 endif()

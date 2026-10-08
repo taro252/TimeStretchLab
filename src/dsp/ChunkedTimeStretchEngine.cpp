@@ -237,7 +237,7 @@ ChunkedTimeStretchEngine::ChunkedTimeStretchEngine(StretchConfig config):config_
     TimeStretchEngine validate(config_);
 }
 ChunkedResult ChunkedTimeStretchEngine::processWav(const std::filesystem::path& input,
-    const std::filesystem::path& output,std::size_t chunkSize) {
+    const std::filesystem::path& output,std::size_t chunkSize,AblationMode mode) {
     if (chunkSize<8192 || chunkSize>65536)
         throw std::invalid_argument("Chunk size must be 8192..65536");
     WavStreamReader reader(input);
@@ -279,19 +279,37 @@ ChunkedResult ChunkedTimeStretchEngine::processWav(const std::filesystem::path& 
     result.anchoredEventCount=detection.anchoredCount;
     result.maxAnchorErrorSamples=detection.anchorError;
     std::array<std::unique_ptr<ResolutionStream>,3> resolution;
-    resolution[0]=std::make_unique<ResolutionStream>(input,config_,8192,2048,detection,false,result.outputFrames);
     resolution[1]=std::make_unique<ResolutionStream>(input,config_,4096,1024,detection,true,result.outputFrames);
-    resolution[2]=std::make_unique<ResolutionStream>(input,config_,1024,256,detection,false,result.outputFrames);
-    for (const auto& item: resolution) result.olaRingSamples+=item->olaSize()*reader.channels();
-    MultiResolutionCrossover filters(config_.sampleRate);
+    if (mode!=AblationMode::MidOnly)
+        resolution[0]=std::make_unique<ResolutionStream>(input,config_,8192,2048,detection,false,result.outputFrames);
+    if (mode==AblationMode::Full)
+        resolution[2]=std::make_unique<ResolutionStream>(input,config_,1024,256,detection,false,result.outputFrames);
+    for (const auto& item: resolution) if (item) result.olaRingSamples+=item->olaSize()*reader.channels();
+    std::unique_ptr<MultiResolutionCrossover> filters;
     std::vector<std::unique_ptr<StreamingCrossoverChannel>> crossovers;
-    for (std::size_t c=0; c<reader.channels(); ++c)
-        crossovers.emplace_back(std::make_unique<StreamingCrossoverChannel>(filters,result.outputFrames));
-    result.firRingSamples=crossovers[0]->ringSize()*reader.channels();
+    std::vector<std::unique_ptr<StreamingFIR>> lowFilters;
+    if (mode!=AblationMode::MidOnly) {
+        filters=std::make_unique<MultiResolutionCrossover>(config_.sampleRate);
+        for (std::size_t c=0; c<reader.channels(); ++c) {
+            if (mode==AblationMode::Full)
+                crossovers.emplace_back(std::make_unique<StreamingCrossoverChannel>(*filters,result.outputFrames));
+            else
+                lowFilters.emplace_back(std::make_unique<StreamingFIR>(filters->lowFilter(),result.outputFrames));
+        }
+        result.firRingSamples=(mode==AblationMode::Full ? crossovers[0]->ringSize()
+            : lowFilters[0]->ringSize())*reader.channels();
+    }
     for (std::size_t start=0; start<result.outputFrames; start+=chunkSize) {
         const auto count=std::min(chunkSize,result.outputFrames-start);
         for (std::size_t i=0; i<count; ++i) for (std::size_t c=0; c<reader.channels(); ++c) {
-            const auto value=crossovers[c]->next(start+i,[&](std::size_t r,std::size_t n) {
+            float value;
+            if (mode==AblationMode::MidOnly) value=resolution[1]->get(c,start+i);
+            else if (mode==AblationMode::LowMid) {
+                const auto mid=resolution[1]->get(c,start+i);
+                value=mid+lowFilters[c]->next(start+i,[&](std::size_t n) {
+                    return resolution[0]->get(c,n)-resolution[1]->get(c,n);
+                });
+            } else value=crossovers[c]->next(start+i,[&](std::size_t r,std::size_t n) {
                 return resolution[r]->get(c,n);
             });
             chunk[c][i]=value;

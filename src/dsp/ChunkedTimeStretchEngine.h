@@ -5,6 +5,7 @@
 #include <filesystem>
 
 namespace ts {
+enum class AblationMode { MidOnly, LowMid, Full };
 struct ChunkedResult {
     std::size_t inputFrames = 0, outputFrames = 0;
     std::size_t transientCount = 0, eventCount = 0, anchoredEventCount = 0;
@@ -20,7 +21,8 @@ public:
     explicit ChunkedTimeStretchEngine(StretchConfig config);
     ChunkedResult processWav(const std::filesystem::path& input,
                              const std::filesystem::path& output,
-                             std::size_t chunkSize = 16384);
+                             std::size_t chunkSize = 16384,
+                             AblationMode mode = AblationMode::Full);
 private:
     StretchConfig config_;
 };

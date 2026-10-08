@@ -19,7 +19,7 @@ void usage() {
                  "[--phase-locking on|off] [--transient on|off] [--adaptive-time-map on|off] "
                  "[--selective-reset on|off] [--precise-anchoring on|off] [--stereo-coherence on|off] "
                  "[--coherence-strength 1] [--low-frequency-coherence 0.5] "
-                 "[--multiresolution on|off] [--chunked on|off] [--chunk-size 16384] [--debug-csv directory]\n"
+                 "[--multiresolution on|off] [--chunked on|off] [--chunk-size 16384] [--ablation a|b|c] [--debug-csv directory]\n"
                  "[--transient-sensitivity 3] [--transient-history 12] "
                  "[--transient-cooldown 2] [--transient-lookback 1] "
                  "[--event-distance 4] [--event-decay-merge 12] [--event-preroll 2] "
@@ -47,6 +47,8 @@ int main(int argc, char** argv) {
         bool stereoCoherence = false;
         bool multiresolution = false;
         bool chunked = false;
+        ts::AblationMode ablation = ts::AblationMode::Full;
+        bool ablationSpecified = false;
         std::size_t chunkSize = 16384;
         float coherenceStrength = 1.0f, lowFrequencyCoherence = 0.5f;
         float transientSensitivity = 3.0f;
@@ -110,6 +112,12 @@ int main(int argc, char** argv) {
             } else if (key == "--chunked") {
                 if (value != "on" && value != "off") throw std::invalid_argument("--chunked expects on/off");
                 chunked = value == "on";
+            } else if (key == "--ablation") {
+                ablationSpecified = true;
+                if (value == "a") ablation = ts::AblationMode::MidOnly;
+                else if (value == "b") ablation = ts::AblationMode::LowMid;
+                else if (value == "c") ablation = ts::AblationMode::Full;
+                else throw std::invalid_argument("--ablation expects a, b, or c");
             } else if (key == "--chunk-size") {
                 const auto requested=number(argv[i+1],key);
                 if (requested<8192 || requested>65536 || std::floor(requested)!=requested)
@@ -121,6 +129,8 @@ int main(int argc, char** argv) {
         if (!hopSpecified) analysisHop = fftSize / 4;
         if (chunked && !multiresolution)
             throw std::invalid_argument("--chunked on requires --multiresolution on");
+        if (ablationSpecified && !chunked)
+            throw std::invalid_argument("--ablation requires --chunked on");
         if (chunked && !debugCsvDirectory.empty())
             throw std::invalid_argument("--debug-csv is unavailable with --chunked on");
         const ts::WavStreamReader metadata(argv[1]);
@@ -152,12 +162,16 @@ int main(int argc, char** argv) {
         if (chunked) {
             ts::ChunkedTimeStretchEngine engine(config);
             const auto start=std::chrono::steady_clock::now();
-            const auto result=engine.processWav(argv[1],argv[2],chunkSize);
+            const auto result=engine.processWav(argv[1],argv[2],chunkSize,ablation);
             const auto elapsed=std::chrono::duration<double>(
                 std::chrono::steady_clock::now()-start).count();
             rusage usage{};
-            const auto memoryBytes=getrusage(RUSAGE_SELF,&usage)==0
+            const auto resourceMeasured=getrusage(RUSAGE_SELF,&usage)==0;
+            const auto memoryBytes=resourceMeasured
                 ? static_cast<long long>(usage.ru_maxrss) : -1LL;
+            const auto cpuSeconds=resourceMeasured
+                ? double(usage.ru_utime.tv_sec)+usage.ru_utime.tv_usec/1e6+
+                  double(usage.ru_stime.tv_sec)+usage.ru_stime.tv_usec/1e6 : -1.0;
             std::cout << "FFT=" << fftSize << " Ha=" << analysisHop
                       << " speed=" << speed << " phase_locking=" << (phaseLocking?"on":"off")
                       << " transient=" << (transientHandling?"on":"off")
@@ -167,6 +181,8 @@ int main(int argc, char** argv) {
                       << " stereo_coherence=" << (stereoCoherence?"on":"off")
                       << " average_coherence_weight=" << result.averageCoherenceWeight
                       << " multiresolution=on chunked=on chunk_size=" << result.chunkSize
+                      << " ablation=" << (ablation==ts::AblationMode::MidOnly?"a":
+                            ablation==ts::AblationMode::LowMid?"b":"c")
                       << " ola_ring_samples=" << result.olaRingSamples
                       << " fir_ring_samples=" << result.firRingSamples
                       << " event_count=" << result.eventCount
@@ -176,6 +192,7 @@ int main(int argc, char** argv) {
                       << " input_frames=" << result.inputFrames
                       << " output_frames=" << result.outputFrames
                       << " processing_seconds=" << elapsed << " peak=" << result.peak
+                      << " cpu_seconds=" << cpuSeconds
                       << " max_rss_bytes=" << memoryBytes << '\n';
             return 0;
         }
