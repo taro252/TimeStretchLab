@@ -2,6 +2,7 @@
 #include "audio/WavStream.h"
 #include "dsp/MultiResolutionCrossover.h"
 #include "dsp/PartialTracker.h"
+#include "dsp/PeriodicResynchronizer.h"
 #include "dsp/RingOverlapAdd.h"
 #include "dsp/StreamingCrossover.h"
 #include "dsp/StereoPhaseCoherence.h"
@@ -10,6 +11,7 @@
 #include <cmath>
 #include <complex>
 #include <cstdlib>
+#include <fstream>
 #include <limits>
 #include <memory>
 #include <stdexcept>
@@ -137,6 +139,18 @@ public:
         if (mid_ && config_.enablePartialTracking)
             tracker_=std::make_unique<PartialTracker>(fftSize_,hop_,config.sampleRate,
                                                       static_cast<int>(reader_.channels()));
+        if (mid_ && config_.enablePVSOLA) {
+            resynchronizer_=std::make_unique<PeriodicResynchronizer>(config_,fftSize_,hop_);
+            alignedSpectra_.resize(reader_.channels(),
+                                   std::vector<std::complex<float>>(fftSize_/2+1));
+            if (!config_.debugCsvDirectory.empty()) {
+                std::filesystem::create_directories(config_.debugCsvDirectory);
+                diagnostics_.open(std::filesystem::path(config_.debugCsvDirectory)/"pvsola_resync.csv");
+                if (!diagnostics_) throw std::runtime_error("Cannot create PVSOLA diagnostics");
+                diagnostics_ << "frame,inputSample,outputSample,scheduledResync,resyncApplied,searchOffsetSamples,"
+                                "correlation,tonality,transientSuppressed\n";
+            }
+        }
         if (!mid_) {
             resets_.resize(frameCount_);
             strengths_.resize(frameCount_);
@@ -160,6 +174,7 @@ public:
     double averageCoherenceWeight() const { return coherence_.averageWeight(); }
     std::size_t olaSize() const { return olas_.empty()?0:olas_[0].capacity(); }
     const PartialTracker* tracker() const { return tracker_.get(); }
+    const PeriodicResynchronizer* resynchronizer() const { return resynchronizer_.get(); }
 private:
     void analyze(std::size_t channel,std::size_t frameIndex) {
         const auto start=frameIndex*hop_;
@@ -180,15 +195,46 @@ private:
         const bool reset=mid_ ? detection_.resets[nextFrame_] : resets_[nextFrame_];
         const float strength=mid_ ? detection_.strengths[nextFrame_] : strengths_[nextFrame_];
         for (std::size_t c=0; c<reader_.channels(); ++c) analyze(c,nextFrame_);
-        if (reader_.channels()==2 && (config_.enableStereoCoherence || tracker_)) {
+        const bool shared=reader_.channels()==2 &&
+            (config_.enableStereoCoherence || tracker_ || resynchronizer_);
+        if (shared) {
             for (std::size_t k=0; k<combined_.size(); ++k)
                 combined_[k]={std::hypot(std::abs(inputSpectra_[0][k]),
                                          std::abs(inputSpectra_[1][k])),0};
             sharedPeaks_.analyzePeaks(combined_.data(),combined_.size());
+        } else if (resynchronizer_)
+            sharedPeaks_.analyzePeaks(inputSpectra_[0].data(),combined_.size());
+        ResyncDecision decision;
+        if (resynchronizer_) {
+            decision=resynchronizer_->consider(nextFrame_,start,nextFrame_*hop_,
+                detection_.resets,sharedPeaks_,reader_,olas_);
+            if (decision.applied) {
+                for (std::size_t c=0;c<reader_.channels();++c) {
+                    for (std::size_t i=0;i<fftSize_;++i) {
+                        const auto inputSample=static_cast<long long>(nextFrame_*hop_)+
+                            decision.offsetSamples+static_cast<long long>(i)-
+                            static_cast<long long>(padding_);
+                        frame_[i]=inputSample>=0 &&
+                            inputSample<static_cast<long long>(length_)
+                            ? reader_.sample(c,static_cast<std::size_t>(inputSample)) : 0;
+                    }
+                    stft_.analyze(frame_.data(),alignedSpectra_[c].data());
+                }
+            }
+            if (diagnostics_)
+                diagnostics_ << nextFrame_ << ',' << nextFrame_*hop_ << ',' << start << ','
+                    << int(decision.scheduled) << ',' << int(decision.applied) << ','
+                    << decision.offsetSamples << ',' << decision.correlation << ','
+                    << decision.tonality << ',' << int(decision.transientSuppressed) << '\n';
+        }
+        if (shared) {
             const auto* owners=config_.enablePhaseLocking ? &sharedPeaks_.ownerPeak() : nullptr;
             for (std::size_t c=0; c<2; ++c)
                 vocoders_[c].process(inputSpectra_[c].data(),outputSpectra_[c].data(),
-                    delta,reset,config_.enableSelectivePhaseReset,strength,owners);
+                    delta,reset,config_.enableSelectivePhaseReset,strength,owners,pendingAnalysisHop_);
+            if (decision.applied) for (std::size_t c=0;c<2;++c)
+                vocoders_[c].resynchronize(inputSpectra_[c].data(),alignedSpectra_[c].data(),
+                                          outputSpectra_[c].data(),owners);
             if (tracker_) tracker_->process(sharedPeaks_,
                 {inputSpectra_[0].data(),inputSpectra_[1].data()},
                 {outputSpectra_[0].data(),outputSpectra_[1].data()},
@@ -203,7 +249,11 @@ private:
                 if (tracker_) sharedPeaks_.analyzePeaks(inputSpectra_[c].data(),combined_.size());
                 vocoders_[c].process(inputSpectra_[c].data(),outputSpectra_[c].data(),
                     delta,reset,config_.enableSelectivePhaseReset,strength,
-                    tracker_ ? &sharedPeaks_.ownerPeak() : nullptr);
+                    (tracker_ || resynchronizer_) ? &sharedPeaks_.ownerPeak() : nullptr,
+                    pendingAnalysisHop_);
+                if (decision.applied)
+                    vocoders_[c].resynchronize(inputSpectra_[c].data(),alignedSpectra_[c].data(),
+                        outputSpectra_[c].data(),&sharedPeaks_.ownerPeak());
                 if (tracker_) {
                     tracker_->process(sharedPeaks_,{inputSpectra_[c].data(),nullptr},
                         {outputSpectra_[c].data(),nullptr},{&vocoders_[c],nullptr},delta,reset);
@@ -211,6 +261,7 @@ private:
                 }
             }
         }
+        pendingAnalysisHop_=decision.applied ? hop_-decision.offsetSamples : 0;
         for (std::size_t c=0; c<reader_.channels(); ++c) {
             stft_.synthesize(outputSpectra_[c].data(),synthesized_.data());
             olas_[c].add(synthesized_.data(),stft_.window().data(),fftSize_,start);
@@ -238,16 +289,20 @@ private:
     StereoPhaseCoherence coherence_;
     PhaseLocker sharedPeaks_;
     std::unique_ptr<PartialTracker> tracker_;
+    std::unique_ptr<PeriodicResynchronizer> resynchronizer_;
+    std::ofstream diagnostics_;
     std::vector<PhaseVocoder> vocoders_;
     std::vector<RingOverlapAdd> olas_;
     std::vector<float> frame_,synthesized_;
     std::vector<std::vector<std::complex<float>>> inputSpectra_,outputSpectra_;
+    std::vector<std::vector<std::complex<float>>> alignedSpectra_;
     std::vector<std::complex<float>> combined_;
     std::vector<std::array<float,2>> cache_;
     std::vector<bool> resets_;
     std::vector<float> strengths_;
     std::size_t nextFrame_=0,produced_=0;
     long long previousStart_=0;
+    int pendingAnalysisHop_=0;
 };
 }
 
@@ -353,6 +408,15 @@ ChunkedResult ChunkedTimeStretchEngine::processWav(const std::filesystem::path& 
         result.peakPhaseDiscontinuityMean=stats.phaseDiscontinuityCount ?
             stats.phaseDiscontinuitySum/stats.phaseDiscontinuityCount : 0;
         result.peakPhaseDiscontinuityMax=stats.phaseDiscontinuityMax;
+    }
+    if (const auto* resync=resolution[1]->resynchronizer()) {
+        const auto& stats=resync->stats();
+        result.resyncScheduled=stats.scheduled;
+        result.resyncApplied=stats.applied;
+        result.resyncTransientSuppressed=stats.transientSuppressed;
+        result.averageResyncCorrelation=stats.applied ? stats.correlationSum/stats.applied : 0;
+        result.averageResyncOffsetSamples=stats.applied ?
+            stats.absoluteOffsetSum/stats.applied : 0;
     }
     return result;
 }

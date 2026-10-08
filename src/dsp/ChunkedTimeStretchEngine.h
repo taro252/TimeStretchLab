@@ -19,6 +19,8 @@ struct ChunkedResult {
     std::size_t appliedPeakFrames = 0, trackSwitches = 0;
     double averageTrackLifetimeFrames = 0, averageTrackCount = 0;
     double peakPhaseDiscontinuityMean = 0, peakPhaseDiscontinuityMax = 0;
+    std::size_t resyncScheduled=0,resyncApplied=0,resyncTransientSuppressed=0;
+    double averageResyncCorrelation=0,averageResyncOffsetSamples=0;
 };
 
 class ChunkedTimeStretchEngine {

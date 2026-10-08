@@ -21,6 +21,7 @@ add_library(timestretch_core
     src/dsp/PhaseVocoder.cpp
     src/dsp/PhaseLocker.cpp
     src/dsp/PartialTracker.cpp
+    src/dsp/PeriodicResynchronizer.cpp
     src/dsp/TransientDetector.cpp
     src/dsp/TransientEventMap.cpp
     src/dsp/TransientAnchor.cpp
@@ -103,4 +104,8 @@ if(BUILD_TESTING)
     add_executable(phase6_tests tests/Phase6Tests.cpp)
     target_link_libraries(phase6_tests PRIVATE timestretch_core)
     add_test(NAME phase6 COMMAND phase6_tests)
+
+    add_executable(phase7_tests tests/Phase7Tests.cpp)
+    target_link_libraries(phase7_tests PRIVATE timestretch_core)
+    add_test(NAME phase7 COMMAND phase7_tests)
 endif()

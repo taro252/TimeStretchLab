@@ -7,6 +7,7 @@
 namespace ts {
 PhaseVocoder::PhaseVocoder(std::size_t size, int hop, bool enablePhaseLocking, double sampleRate)
     : size_(size), analysisHop_(hop), sampleRate_(sampleRate), initialized_(size / 2 + 1, false),
+      resyncPending_(size / 2 + 1,false),
       previousPhase_(size / 2 + 1), synthesisPhase_(size / 2 + 1),
       previousMagnitude_(size / 2 + 1),
       enablePhaseLocking_(enablePhaseLocking), phaseLocker_(size) {
@@ -15,6 +16,7 @@ PhaseVocoder::PhaseVocoder(std::size_t size, int hop, bool enablePhaseLocking, d
 }
 void PhaseVocoder::reset() {
     std::fill(initialized_.begin(), initialized_.end(), false);
+    std::fill(resyncPending_.begin(), resyncPending_.end(), false);
     std::fill(previousPhase_.begin(), previousPhase_.end(), 0.0);
     std::fill(synthesisPhase_.begin(), synthesisPhase_.end(), 0.0);
     std::fill(previousMagnitude_.begin(), previousMagnitude_.end(), 0.0f);
@@ -23,12 +25,15 @@ void PhaseVocoder::reset() {
 void PhaseVocoder::process(const std::complex<float>* input, std::complex<float>* output,
                            double synthesisHop, bool resetPhase,
                            bool selectiveReset, float eventStrength,
-                           const std::vector<int>* sharedOwners) {
+                           const std::vector<int>* sharedOwners,int analysisHopOverride) {
     constexpr double pi = std::numbers::pi;
     // DC and Nyquist must remain real for a real-valued inverse transform.
     output[0] = {input[0].real(), 0.0f};
     output[size_ / 2] = {input[size_ / 2].real(), 0.0f};
     for (std::size_t k = 1; k < size_ / 2; ++k) {
+        const int analysisDistance=analysisHopOverride>0 && resyncPending_[k]
+            ? analysisHopOverride : analysisHop_;
+        resyncPending_[k]=false;
         const double magnitude = std::abs(input[k]);
         if (magnitude < 1e-7) {
             output[k] = {0, 0};
@@ -46,11 +51,11 @@ void PhaseVocoder::process(const std::complex<float>* input, std::complex<float>
         if ((resetPhase && !selectiveReset) || !initialized_[k]) synthesisPhase_[k] = phase;
         else {
             const double binOmega = 2.0 * pi * k / size_;
-            const double expected = binOmega * analysisHop_;
+            const double expected = binOmega * analysisDistance;
             const double residual = std::remainder(phase - previousPhase_[k] - expected, 2.0 * pi);
             // Basic bin-wise propagation retains a sinusoid between FFT bins at its pitch.
             synthesisPhase_[k] = std::remainder(
-                synthesisPhase_[k] + (binOmega + residual / analysisHop_) * synthesisHop, 2.0 * pi);
+                synthesisPhase_[k] + (binOmega + residual / analysisDistance) * synthesisHop, 2.0 * pi);
             if (resetPhase && selectiveReset) {
                 const double rise = std::max(0.0, magnitude - previousMagnitude_[k]);
                 const double relativeRise = std::clamp(rise / (magnitude + 1e-7), 0.0, 1.0);
@@ -79,6 +84,45 @@ void PhaseVocoder::process(const std::complex<float>* input, std::complex<float>
             phaseLocker_.analyzePeaks(input, size_ / 2 + 1);
             phaseLocker_.lock(synthesisPhase_, output);
         }
+    }
+}
+void PhaseVocoder::resynchronize(const std::complex<float>* scheduled,
+                                 const std::complex<float>* aligned,
+                                 std::complex<float>* output,
+                                 const std::vector<int>* sharedOwners) {
+    constexpr double twoPi=2.0*std::numbers::pi;
+    for (std::size_t k=1;k<size_/2;++k) {
+        const float magnitude=std::abs(scheduled[k]);
+        const float alignedMagnitude=std::abs(aligned[k]);
+        if (magnitude<1e-7f || alignedMagnitude<1e-7f) {
+            if (magnitude<1e-7f) {
+                output[k]={0,0}; initialized_[k]=false;
+                previousPhase_[k]=synthesisPhase_[k]=0;
+                previousMagnitude_[k]=0;
+                resyncPending_[k]=false;
+            }
+            continue;
+        }
+        const double phase=std::arg(aligned[k]);
+        previousPhase_[k]=synthesisPhase_[k]=phase;
+        previousMagnitude_[k]=magnitude;
+        initialized_[k]=true;
+        resyncPending_[k]=true;
+        output[k]=std::polar(magnitude,static_cast<float>(phase));
+    }
+    // Preserve the scheduled peak ownership while using the aligned frame's
+    // relative phase. Also update persistent state to exactly match IFFT phase.
+    const auto& owners=sharedOwners ? *sharedOwners : phaseLocker_.ownerPeak();
+    for (std::size_t k=1;k<size_/2;++k) {
+        const int owner=owners[k];
+        if (owner<1 || static_cast<std::size_t>(owner)==k ||
+            std::abs(scheduled[k])<1e-7f || std::abs(aligned[k])<1e-7f ||
+            std::abs(aligned[owner])<1e-7f || !initialized_[owner]) continue;
+        const double relative=std::remainder(double(std::arg(aligned[k]))-
+                                             std::arg(aligned[owner]),twoPi);
+        const double phase=std::remainder(synthesisPhase_[owner]+relative,twoPi);
+        synthesisPhase_[k]=phase;
+        output[k]=std::polar(std::abs(scheduled[k]),static_cast<float>(phase));
     }
 }
 void PhaseVocoder::setOutputPhase(std::size_t bin, double phase) {

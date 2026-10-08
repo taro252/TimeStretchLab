@@ -25,4 +25,10 @@ float RingOverlapAdd::pop() {
     ++base_;
     return result;
 }
+float RingOverlapAdd::preview(std::size_t absoluteSample) const {
+    if (absoluteSample<base_ || absoluteSample>=base_+signal_.size())
+        return 0;
+    const auto slot=absoluteSample%signal_.size();
+    return weight_[slot]>1e-8f ? signal_[slot]/weight_[slot] : 0.0f;
+}
 }

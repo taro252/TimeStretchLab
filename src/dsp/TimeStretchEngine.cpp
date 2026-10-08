@@ -27,6 +27,19 @@ TimeStretchEngine::TimeStretchEngine(const StretchConfig& config)
         (config.enableSelectivePhaseReset && config.enablePreciseTransientAnchoring) ||
         (config.enablePartialTracking && (!config.enablePhaseLocking || config.fftSize!=4096 ||
                                           config.analysisHop!=1024)) ||
+        (config.enablePVSOLA && (!config.enablePhaseLocking || config.enablePartialTracking ||
+                                 !config.enableTransientHandling ||
+                                 !config.enableAdaptiveTimeMapping ||
+                                 !config.enablePreciseTransientAnchoring ||
+                                 (config.channels==2 && !config.enableStereoCoherence) ||
+                                 !config.enableMultiResolution ||
+                                 config.qualityMode!=QualityMode::High ||
+                                 config.fftSize!=4096 || config.analysisHop!=1024)) ||
+        !std::isfinite(config.pvsolaIntervalMs) || config.pvsolaIntervalMs<50 ||
+        config.pvsolaIntervalMs>500 || !std::isfinite(config.pvsolaSearchMs) ||
+        config.pvsolaSearchMs<1 || config.pvsolaSearchMs>20 ||
+        !std::isfinite(config.pvsolaMinimumCorrelation) ||
+        config.pvsolaMinimumCorrelation<0 || config.pvsolaMinimumCorrelation>1 ||
         !std::isfinite(config.stereoCoherenceStrength) ||
         config.stereoCoherenceStrength < 0 || config.stereoCoherenceStrength > 1 ||
         !std::isfinite(config.lowFrequencyCoherenceStrength) ||
@@ -58,6 +71,8 @@ void TimeStretchEngine::setTimeRatio(double ratio) {
 }
 std::vector<std::vector<float>> TimeStretchEngine::processOffline(
     const std::vector<std::vector<float>>& input) {
+    if (config_.enablePVSOLA)
+        throw std::invalid_argument("PVSOLA prototype requires chunked processing");
     if (config_.enableMultiResolution && config_.qualityMode!=QualityMode::Normal)
         return processMultiResolution(input);
     return processSingleResolution(input, nullptr);
@@ -74,6 +89,8 @@ std::vector<std::vector<float>> TimeStretchEngine::processMultiResolution(
     lowConfig.fftSize = 8192; lowConfig.analysisHop = 2048;
     lowConfig.enablePartialTracking = false;
     highConfig.enablePartialTracking = false;
+    lowConfig.enablePVSOLA = false;
+    highConfig.enablePVSOLA = false;
     // A single mid-resolution detector decides all events and timing. The
     // satellite engines only sample this shared timeline at their frame times.
     lowConfig.debugCsvDirectory.clear();

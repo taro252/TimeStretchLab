@@ -18,6 +18,8 @@ void usage() {
     std::cerr << "Usage: timestretch input.wav output.wav --speed 0.5 "
                  "[--fft-size 4096] [--analysis-hop 1024] "
                  "[--phase-locking on|off] [--partial-tracking on|off] "
+                 "[--pvsola on|off] [--pvsola-interval-ms 120] "
+                 "[--pvsola-search-ms 10] [--pvsola-min-correlation 0.65] "
                  "[--transient on|off] [--adaptive-time-map on|off] "
                  "[--selective-reset on|off] [--precise-anchoring on|off] [--stereo-coherence on|off] "
                  "[--coherence-strength 1] [--low-frequency-coherence 0.5] "
@@ -45,6 +47,8 @@ int main(int argc, char** argv) {
         int fftSize = 4096, analysisHop = 1024;
         bool phaseLocking = false;
         bool partialTracking = false;
+        bool pvsola = false;
+        double pvsolaIntervalMs=120,pvsolaSearchMs=10,pvsolaMinimumCorrelation=0.65;
         bool transientHandling = false;
         bool adaptiveTimeMap = false;
         bool selectiveReset = false;
@@ -78,6 +82,15 @@ int main(int argc, char** argv) {
             } else if (key == "--partial-tracking") {
                 if (value != "on" && value != "off") throw std::invalid_argument("--partial-tracking expects on/off");
                 partialTracking = value == "on";
+            } else if (key == "--pvsola") {
+                if (value != "on" && value != "off") throw std::invalid_argument("--pvsola expects on/off");
+                pvsola=value=="on";
+            } else if (key == "--pvsola-interval-ms") {
+                pvsolaIntervalMs=number(argv[i+1],key);
+            } else if (key == "--pvsola-search-ms") {
+                pvsolaSearchMs=number(argv[i+1],key);
+            } else if (key == "--pvsola-min-correlation") {
+                pvsolaMinimumCorrelation=number(argv[i+1],key);
             } else if (key == "--transient") {
                 if (value != "on" && value != "off") throw std::invalid_argument("--transient expects on/off");
                 transientHandling = value == "on";
@@ -151,7 +164,9 @@ int main(int argc, char** argv) {
         if (qualitySpecified) multiresolution = qualityMode != ts::QualityMode::Normal;
         if (ablationSpecified && !chunked)
             throw std::invalid_argument("--ablation requires --chunked on");
-        if (chunked && !debugCsvDirectory.empty())
+        if (pvsola && !chunked)
+            throw std::invalid_argument("PVSOLA prototype requires --chunked on");
+        if (chunked && !debugCsvDirectory.empty() && !pvsola)
             throw std::invalid_argument("--debug-csv is unavailable with --chunked on");
         const ts::WavStreamReader metadata(argv[1]);
         ts::StretchConfig config;
@@ -162,6 +177,10 @@ int main(int argc, char** argv) {
         config.analysisHop = analysisHop;
         config.enablePhaseLocking = phaseLocking;
         config.enablePartialTracking = partialTracking;
+        config.enablePVSOLA=pvsola;
+        config.pvsolaIntervalMs=pvsolaIntervalMs;
+        config.pvsolaSearchMs=pvsolaSearchMs;
+        config.pvsolaMinimumCorrelation=pvsolaMinimumCorrelation;
         config.enableTransientHandling = transientHandling;
         config.enableAdaptiveTimeMapping = adaptiveTimeMap;
         config.enableSelectivePhaseReset = selectiveReset;
@@ -204,6 +223,10 @@ int main(int argc, char** argv) {
             std::cout << "FFT=" << fftSize << " Ha=" << analysisHop
                       << " speed=" << speed << " phase_locking=" << (phaseLocking?"on":"off")
                       << " partial_tracking=" << (partialTracking?"on":"off")
+                      << " pvsola=" << (pvsola?"on":"off")
+                      << " pvsola_interval_ms=" << pvsolaIntervalMs
+                      << " pvsola_search_ms=" << pvsolaSearchMs
+                      << " pvsola_min_correlation=" << pvsolaMinimumCorrelation
                       << " transient=" << (transientHandling?"on":"off")
                       << " transient_count=" << result.transientCount
                       << " adaptive_time_map=" << (adaptiveTimeMap?"on":"off")
@@ -236,6 +259,15 @@ int main(int argc, char** argv) {
                           result.trackSwitches*config.sampleRate/result.inputFrames : 0.0)
                       << " peak_phase_discontinuity_mean_rad=" << result.peakPhaseDiscontinuityMean
                       << " peak_phase_discontinuity_max_rad=" << result.peakPhaseDiscontinuityMax
+                      << " resync_scheduled=" << result.resyncScheduled
+                      << " resync_applied=" << result.resyncApplied
+                      << " resync_transient_suppressed=" << result.resyncTransientSuppressed
+                      << " resync_per_second=" << (result.inputFrames ?
+                          result.resyncApplied*config.sampleRate/result.inputFrames : 0.0)
+                      << " resync_skip_rate=" << (result.resyncScheduled ?
+                          1.0-double(result.resyncApplied)/result.resyncScheduled : 0.0)
+                      << " average_resync_correlation=" << result.averageResyncCorrelation
+                      << " average_resync_offset_samples=" << result.averageResyncOffsetSamples
                       << " cpu_seconds=" << cpuSeconds
                       << " max_rss_bytes=" << memoryBytes << '\n';
             return 0;

@@ -18,6 +18,10 @@ struct StretchConfig {
     // Reserved switches for later phases; Phase 1 requires all to be false.
     bool enablePhaseLocking = false;
     bool enablePartialTracking = false;
+    bool enablePVSOLA = false;
+    double pvsolaIntervalMs = 120.0;
+    double pvsolaSearchMs = 10.0;
+    double pvsolaMinimumCorrelation = 0.65;
     bool enableTransientHandling = false;
     bool enableAdaptiveTimeMapping = false;
     bool enableSelectivePhaseReset = false;

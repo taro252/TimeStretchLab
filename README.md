@@ -64,3 +64,7 @@ Phase 5.1 の逐次処理は `--chunked on` で有効になります。既定の
 # Phase 6 部分音ピーク追跡
 
 `--phase-locking on --partial-tracking on` で中4096/1024経路の部分音ピーク追跡を試せます。左右共通のピーク地図とtrack IDを使い、各チャンネルの位相を継続します。低8192/2048経路、過渡処理、TimeMap、クロスオーバーは従来どおりです。既定は OFF です。Vocalの主観AB試聴を含む採用判断が済むまで、High Quality基準はPhase 5.3のまま維持します。[Phase 6 レポート](results/phase6/REPORT.md) に比較結果を記録しています。
+
+# Phase 7 周期的な位相再同期の試作
+
+`--phase-locking on --transient on --adaptive-time-map on --precise-anchoring on --stereo-coherence on --pvsola on --chunked on --quality high` で Mid 経路の PVSOLA 型再同期を試せます。既定は OFF で、Phase 6 の `--partial-tracking on` とは併用しません。既定の再同期間隔は 120 ms、入力探索範囲は ±10 ms、波形相関の下限は 0.65 です。`--pvsola-interval-ms`、`--pvsola-search-ms`、`--pvsola-min-correlation` で変更できます。`--debug-csv directory` は `pvsola_resync.csv` を保存します。試作版の ON 処理は逐次処理専用です。出力時間配置と Low 経路は Phase 5.3 のままです。実 Vocal の指標には悪化もあり、採用・既定化はしていません。[Phase 7 レポート](results/phase7/REPORT.md) に A/B と測定結果を記録しています。
