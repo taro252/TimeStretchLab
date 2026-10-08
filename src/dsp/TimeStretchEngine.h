@@ -4,6 +4,7 @@
 #include "dsp/STFT.h"
 #include "dsp/TransientDetector.h"
 #include "dsp/TransientEventMap.h"
+#include "dsp/TransientAnchor.h"
 #include <string>
 #include <vector>
 
@@ -17,6 +18,7 @@ struct StretchConfig {
     bool enableTransientHandling = false;
     bool enableAdaptiveTimeMapping = false;
     bool enableSelectivePhaseReset = false;
+    bool enablePreciseTransientAnchoring = false;
     bool enableMultiResolution = false;
     int fftSize = 4096;
     int analysisHop = 1024;
@@ -46,6 +48,8 @@ public:
     std::size_t lastEventCount() const { return lastEventCount_; }
     const std::vector<TransientEvent>& lastEvents() const { return lastEvents_; }
     long long lastAnchorMaxErrorSamples() const { return lastAnchorMaxErrorSamples_; }
+    std::size_t lastAnchoredEventCount() const { return lastAnchoredEventCount_; }
+    const std::vector<TransientAnchor>& lastAnchors() const { return lastAnchors_; }
 private:
     StretchConfig config_;
     STFT stft_;
@@ -56,5 +60,7 @@ private:
     std::size_t lastEventCount_ = 0;
     std::vector<TransientEvent> lastEvents_;
     long long lastAnchorMaxErrorSamples_ = 0;
+    std::size_t lastAnchoredEventCount_ = 0;
+    std::vector<TransientAnchor> lastAnchors_;
 };
 }

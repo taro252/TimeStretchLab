@@ -83,10 +83,14 @@ TransientEventMap::TransientEventMap(const std::vector<TransientFrame>& frames,
         const auto right = std::min(frames.size() - 1,
             (config.preserveAttackRegion ? event.attackEndFrame : event.peakFrame) + config.postRollFrames);
         for (std::size_t i = left; i <= right; ++i) {
-            const double distance = i < event.onsetFrame
-                ? double(event.onsetFrame - i) / std::max(1, config.preRollFrames + 1)
-                : (i <= event.attackEndFrame ? 0.0
-                    : double(i - event.attackEndFrame) / std::max(1, config.postRollFrames + 1));
+            const double distance = !config.preserveAttackRegion
+                ? (i < event.peakFrame
+                    ? double(event.peakFrame - i) / std::max(1, config.preRollFrames + 1)
+                    : double(i - event.peakFrame) / std::max(1, config.postRollFrames + 1))
+                : (i < event.onsetFrame
+                    ? double(event.onsetFrame - i) / std::max(1, config.preRollFrames + 1)
+                    : (i <= event.attackEndFrame ? 0.0
+                        : double(i - event.attackEndFrame) / std::max(1, config.postRollFrames + 1)));
             const double weight = distance < 1 ? 0.5 * (1 + std::cos(std::numbers::pi * distance)) : 0;
             regionWeights_[i] = std::max(regionWeights_[i], weight);
             if (weight > 0 && eventIds_[i] < 0) {
@@ -130,13 +134,19 @@ void TransientEventMap::buildTimeline() {
         double totalWeight = 0;
         for (auto i = first; i < last; ++i) totalWeight += regionWeights_[i];
         const double count = last - first;
-        const auto targetAt = [&](std::size_t frame) {
-            double correction = 0;
+        const auto correctionAt = [&](std::size_t frame) {
             for (std::size_t i = 0; i < events_.size(); ++i)
-                if (events_[i].peakFrame == frame) { correction = anchorCorrections_[i]; break; }
-            return frame * analysisHop_ * globalRatio_ + correction;
+                if (events_[i].peakFrame == frame) return anchorCorrections_[i];
+            return 0.0;
         };
-        const double segmentRatio = (targetAt(last) - targetAt(first)) / (count * analysisHop_);
+        const double firstCorrection = correctionAt(first);
+        const double lastCorrection = correctionAt(last);
+        // Keep the original Phase 3.5 arithmetic exactly when neither
+        // endpoint has a sub-frame correction.
+        if (totalWeight == 0 && firstCorrection == 0 && lastCorrection == 0) continue;
+        const double segmentRatio = firstCorrection == 0 && lastCorrection == 0
+            ? globalRatio_
+            : globalRatio_ + (lastCorrection - firstCorrection) / (count * analysisHop_);
         if (totalWeight == 0 || segmentRatio <= 1.0) {
             for (auto i = first; i < last; ++i) localRatios_[i] = segmentRatio;
             continue;

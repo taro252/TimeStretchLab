@@ -20,6 +20,7 @@ add_library(timestretch_core
     src/dsp/PhaseLocker.cpp
     src/dsp/TransientDetector.cpp
     src/dsp/TransientEventMap.cpp
+    src/dsp/TransientAnchor.cpp
     src/dsp/TimeStretchEngine.cpp
 )
 target_include_directories(timestretch_core PUBLIC src)
@@ -63,4 +64,8 @@ if(BUILD_TESTING)
     add_executable(phase36_tests tests/Phase36Tests.cpp)
     target_link_libraries(phase36_tests PRIVATE timestretch_core)
     add_test(NAME phase36 COMMAND phase36_tests ${CMAKE_SOURCE_DIR}/results/phase36/artificial)
+
+    add_executable(phase37_tests tests/Phase37Tests.cpp)
+    target_link_libraries(phase37_tests PRIVATE timestretch_core)
+    add_test(NAME phase37 COMMAND phase37_tests ${CMAKE_SOURCE_DIR}/results/phase37/artificial)
 endif()

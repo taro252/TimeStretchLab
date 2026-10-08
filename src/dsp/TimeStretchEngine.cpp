@@ -18,7 +18,9 @@ TimeStretchEngine::TimeStretchEngine(const StretchConfig& config)
         !std::isfinite(config.timeRatio) || config.timeRatio <= 0 ||
         config.enableMultiResolution ||
         (config.enableAdaptiveTimeMapping && !config.enableTransientHandling) ||
-        (config.enableSelectivePhaseReset && !config.enableAdaptiveTimeMapping))
+        (config.enableSelectivePhaseReset && !config.enableAdaptiveTimeMapping) ||
+        (config.enablePreciseTransientAnchoring && !config.enableAdaptiveTimeMapping) ||
+        (config.enableSelectivePhaseReset && config.enablePreciseTransientAnchoring))
         throw std::invalid_argument("Invalid configuration or unsupported later-phase feature enabled");
     for (int c = 0; c < config.channels; ++c)
         vocoders_.emplace_back(config.fftSize, config.analysisHop,
@@ -30,6 +32,8 @@ void TimeStretchEngine::reset() {
     lastEventCount_ = 0;
     lastEvents_.clear();
     lastAnchorMaxErrorSamples_ = 0;
+    lastAnchoredEventCount_ = 0;
+    lastAnchors_.clear();
 }
 void TimeStretchEngine::setTimeRatio(double ratio) {
     if (!std::isfinite(ratio) || ratio <= 0) throw std::invalid_argument("Invalid time ratio");
@@ -41,6 +45,8 @@ std::vector<std::vector<float>> TimeStretchEngine::processOffline(const std::vec
     lastEventCount_ = 0;
     lastEvents_.clear();
     lastAnchorMaxErrorSamples_ = 0;
+    lastAnchoredEventCount_ = 0;
+    lastAnchors_.clear();
     if (input.size() != static_cast<std::size_t>(config_.channels))
         throw std::invalid_argument("Input channel count differs from configuration");
     const auto length = input.front().size();
@@ -108,30 +114,18 @@ std::vector<std::vector<float>> TimeStretchEngine::processOffline(const std::vec
             mapConfig.preserveAttackRegion = config_.enableSelectivePhaseReset;
             eventMap = std::make_unique<TransientEventMap>(
                 detector->frames(), activeFrameCount, config_.analysisHop, config_.timeRatio, mapConfig);
-            if (config_.enableSelectivePhaseReset) {
+            if (config_.enableSelectivePhaseReset || config_.enablePreciseTransientAnchoring) {
                 std::vector<double> offsets(eventMap->events().size());
-                for (std::size_t id = 0; id < eventMap->events().size(); ++id) {
-                    const auto center = eventMap->events()[id].peakFrame * hop;
-                    const auto lo = center > hop ? center - hop : 0;
-                    const auto hi = std::min(length, center + 2 * hop);
-                    double energy = 0, peakEnergy = 0;
-                    std::size_t peakSample = center;
-                    for (auto sample = lo; sample < hi; ++sample) {
-                        double sampleEnergy = 0;
-                        for (const auto& channel : input)
-                            sampleEnergy += double(channel[sample]) * channel[sample];
-                        energy += sampleEnergy;
-                        if (sampleEnergy > peakEnergy) {
-                            peakEnergy = sampleEnergy;
-                            peakSample = sample;
-                        }
-                    }
-                    // A sparse click has a very high crest factor. Use its
-                    // true input sample to avoid frame-grid timing error;
-                    // tonal/drum material keeps the spectral event anchor.
-                    if (hi > lo && peakEnergy > 0 &&
-                        std::sqrt(peakEnergy / (energy / (hi - lo))) >= 20.0)
-                        offsets[id] = static_cast<double>(peakSample) - center;
+                AnchorLocatorConfig anchorConfig;
+                if (config_.enablePreciseTransientAnchoring) {
+                    anchorConfig.minimumPeakToRunnerUp = 3.0;
+                    anchorConfig.requireInteriorPeak = true;
+                }
+                lastAnchors_ = TransientAnchorLocator::locate(
+                    input, eventMap->events(), hop, anchorConfig);
+                for (std::size_t id = 0; id < lastAnchors_.size(); ++id) {
+                    offsets[id] = lastAnchors_[id].sampleOffset;
+                    if (lastAnchors_[id].confident) ++lastAnchoredEventCount_;
                 }
                 eventMap->refineAnchors(offsets);
             }
@@ -179,6 +173,18 @@ std::vector<std::vector<float>> TimeStretchEngine::processOffline(const std::vec
             csv << id << ',' << event.onsetFrame << ',' << event.peakFrame << ','
                 << event.attackEndFrame << ',' << event.endFrame << ',' << event.strength
                 << ',' << ideal << ',' << actual << ',' << actual - ideal << '\n';
+        }
+    }
+    if (eventMap && config_.enablePreciseTransientAnchoring && !config_.debugCsvDirectory.empty()) {
+        std::ofstream csv(std::filesystem::path(config_.debugCsvDirectory) / "anchors.csv");
+        if (!csv) throw std::runtime_error("Cannot create anchor debug CSV");
+        csv << "eventId,frame,sampleOffset,absoluteInputSample,crestFactor,confident,idealFrameStart,actualFrameStart\n";
+        for (std::size_t id = 0; id < lastAnchors_.size(); ++id) {
+            const auto& anchor = lastAnchors_[id];
+            csv << id << ',' << anchor.frame << ',' << anchor.sampleOffset << ','
+                << anchor.absoluteInputSample << ',' << anchor.crestFactor << ','
+                << anchor.confident << ',' << eventMap->idealStartAt(anchor.frame) << ','
+                << eventMap->starts()[anchor.frame] << '\n';
         }
     }
     for (std::size_t c = 0; c < input.size(); ++c) {

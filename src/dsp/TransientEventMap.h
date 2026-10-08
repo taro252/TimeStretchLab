@@ -35,7 +35,7 @@ public:
     bool resetAt(std::size_t frame) const { return resetMask_[frame]; }
     float resetStrengthAt(std::size_t frame) const { return eventStrengths_[frame]; }
     // Optional sub-frame corrections for isolated impulses, in input samples
-    // relative to peakFrame * analysisHop. Used only by Phase 3.6.
+    // relative to peakFrame * analysisHop. Used by optional precise anchoring.
     void refineAnchors(const std::vector<double>& inputSampleOffsets);
     long long idealStartAt(std::size_t frame) const;
 private:

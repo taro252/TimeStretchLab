@@ -1,4 +1,4 @@
-# TimeStretchLab — Phase 1 / Phase 2 / Phase 3 / Phase 3.5 / Phase 3.6
+# TimeStretchLab — Phase 1 / Phase 2 / Phase 3 / Phase 3.5 / Phase 3.6 / Phase 3.7
 
 プロジェクト全体の設計方針は [DESIGN.md](DESIGN.md) を参照してください。
 今回の Peak-based Phase Locking の要件は [PHASE2_REQUIREMENTS.md](PHASE2_REQUIREMENTS.md) に保存しています。
@@ -19,6 +19,7 @@ ctest --test-dir build --output-on-failure
 ./build/phase3_tests results/phase2 results/phase3/artificial
 ./build/phase35_tests results/phase35/artificial
 ./build/phase36_tests results/phase36/artificial
+./build/phase37_tests results/phase37/artificial
 ```
 
 入力: mono/stereo、44.1/48 kHz、PCM int16 または IEEE float32 WAV。出力: IEEE float32 WAV。
@@ -36,3 +37,5 @@ Phase 3 は `--transient on` で、オフラインの過渡検出と左右共通
 Phase 3.5 は `--transient on --adaptive-time-map on` で有効になります。過渡候補をイベントにまとめ、イベント前後の局所伸縮率を滑らかに 1.0 へ近づけます。イベント位置を元のテンポ上に保ちながら、間の持続区間で時間を補償します。左右でイベントと時間配置を共有します。`--debug-csv directory` で `event_map.csv` にイベント ID、局所伸縮率、合成開始位置を記録します。Mix/Bass の 3 方式比較は `bash scripts/phase35_real_ab.sh mix.wav bass.wav` で再生成できます。測定結果と制約は [Phase 3.5 レポート](results/phase35/REPORT.md) に記載しています。
 
 Phase 3.6 は `--transient on --adaptive-time-map on --selective-reset on` で有効になります。過渡イベントの開始から早い減衰までを保護し、位相リセットをスペクトル上昇の強い bin に絞ります。疎なクリックは入力サンプル位置を使ってイベント時刻を補正します。`--debug-csv directory` の `events.csv` に領域境界と時刻誤差を記録します。Mix/Bass の Phase 2／3.5／3.6 比較は `bash scripts/phase36_real_ab.sh mix.wav bass.wav` で再生成できます。**Phase 3.6 は実験的機能です。Bass のステレオ幅と人工ドラムの 0.50x アタック幅に未解決の退行があるため、既定では無効です。** 数値は [Phase 3.6 レポート](results/phase36/REPORT.md) を参照してください。
+
+Phase 3.7 は `--transient on --adaptive-time-map on --precise-anchoring on` で有効になります。音質処理は Phase 3.5 と同じです。孤立した鋭いイベントだけ、入力サンプルの実際の位置を使って時間配置を補正します。曖昧なイベントは Phase 3.5 と同じフレーム位置のままです。`--selective-reset on` との併用はできません。`--debug-csv directory` の `anchors.csv` に補正判定を記録します。Mix/Bass の比較は `bash scripts/phase37_real_ab.sh mix.wav bass.wav` で再生成できます。検証結果は [Phase 3.7 レポート](results/phase37/REPORT.md) にあります。
