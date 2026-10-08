@@ -7,6 +7,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <string>
+#include <sys/resource.h>
 
 namespace {
 void usage() {
@@ -14,12 +15,13 @@ void usage() {
                  "[--fft-size 4096] [--analysis-hop 1024] "
                  "[--phase-locking on|off] [--transient on|off] [--adaptive-time-map on|off] "
                  "[--selective-reset on|off] [--precise-anchoring on|off] [--stereo-coherence on|off] "
-                 "[--coherence-strength 1] [--low-frequency-coherence 0.5] [--debug-csv directory]\n"
+                 "[--coherence-strength 1] [--low-frequency-coherence 0.5] "
+                 "[--multiresolution on|off] [--debug-csv directory]\n"
                  "[--transient-sensitivity 3] [--transient-history 12] "
                  "[--transient-cooldown 2] [--transient-lookback 1] "
                  "[--event-distance 4] [--event-decay-merge 12] [--event-preroll 2] "
                  "[--event-postroll 5] [--attack-postroll 10]\n"
-                 "Multiresolution supports only off.\n";
+                 "Multiresolution uses FFT/hop 8192/2048, 4096/1024, 1024/256.\n";
 }
 double number(const char* text, const std::string& option) {
     std::size_t used = 0;
@@ -40,6 +42,7 @@ int main(int argc, char** argv) {
         bool selectiveReset = false;
         bool preciseAnchoring = false;
         bool stereoCoherence = false;
+        bool multiresolution = false;
         float coherenceStrength = 1.0f, lowFrequencyCoherence = 0.5f;
         float transientSensitivity = 3.0f;
         int transientHistory = 12, transientCooldown = 2, transientLookback = 1;
@@ -97,7 +100,8 @@ int main(int argc, char** argv) {
             } else if (key == "--debug-csv") {
                 debugCsvDirectory = value;
             } else if (key == "--multiresolution") {
-                if (value != "off") throw std::invalid_argument(key + " is unavailable");
+                if (value != "on" && value != "off") throw std::invalid_argument("--multiresolution expects on/off");
+                multiresolution = value == "on";
             } else throw std::invalid_argument("Unknown/unsupported Phase 1 option: " + key);
         }
         if (!(speed > 0 && speed <= 1.25)) throw std::invalid_argument("Speed must be > 0 and <= 1.25");
@@ -117,6 +121,7 @@ int main(int argc, char** argv) {
         config.enableStereoCoherence = stereoCoherence;
         config.stereoCoherenceStrength = coherenceStrength;
         config.lowFrequencyCoherenceStrength = lowFrequencyCoherence;
+        config.enableMultiResolution = multiresolution;
         config.transientSensitivity = transientSensitivity;
         config.transientHistoryFrames = transientHistory;
         config.transientCooldownFrames = transientCooldown;
@@ -131,6 +136,9 @@ int main(int argc, char** argv) {
         const auto start = std::chrono::steady_clock::now();
         const auto output = engine.processOffline(input.channels);
         const auto elapsed = std::chrono::duration<double>(std::chrono::steady_clock::now() - start).count();
+        rusage usage{};
+        const auto memoryBytes = getrusage(RUSAGE_SELF, &usage) == 0
+            ? static_cast<long long>(usage.ru_maxrss) : -1LL;
         ts::WavWriter::write(argv[2], {input.sampleRate, output});
         float peak = 0;
         for (const auto& channel : output) for (float sample : channel)
@@ -155,6 +163,10 @@ int main(int argc, char** argv) {
                   << " precise_anchoring=" << (preciseAnchoring ? "on" : "off")
                   << " stereo_coherence=" << (stereoCoherence ? "on" : "off")
                   << " average_coherence_weight=" << engine.lastAverageCoherenceWeight()
+                  << " multiresolution=" << (multiresolution ? "on" : "off")
+                  << " resolution_fft_hops=" << (multiresolution
+                        ? "8192/2048,4096/1024,1024/256" : "single")
+                  << " crossover_working_bytes=" << engine.lastCrossoverWorkingMemoryBytes()
                   << " anchored_event_count=" << engine.lastAnchoredEventCount()
                   << " event_count=" << engine.lastEventCount()
                   << " events_per_second=" << (input.channels.front().empty() ? 0.0 :
@@ -167,7 +179,8 @@ int main(int argc, char** argv) {
                   << " max_event_anchor_error_samples=" << engine.lastAnchorMaxErrorSamples()
                   << " input_frames=" << input.channels.front().size()
                   << " output_frames=" << output.front().size()
-                  << " processing_seconds=" << elapsed << " peak=" << peak << '\n';
+                  << " processing_seconds=" << elapsed << " peak=" << peak
+                  << " max_rss_bytes=" << memoryBytes << '\n';
         if (peak > 1.0f) std::cerr << "Warning: output peak exceeds 1.0 (no normalization applied)\n";
     } catch (const std::exception& error) {
         std::cerr << "Error: " << error.what() << '\n'; usage(); return 1;

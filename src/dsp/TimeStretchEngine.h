@@ -5,6 +5,7 @@
 #include "dsp/TransientDetector.h"
 #include "dsp/TransientEventMap.h"
 #include "dsp/TransientAnchor.h"
+#include "dsp/TimeMap.h"
 #include <string>
 #include <vector>
 
@@ -53,6 +54,7 @@ public:
     long long lastAnchorMaxErrorSamples() const { return lastAnchorMaxErrorSamples_; }
     std::size_t lastAnchoredEventCount() const { return lastAnchoredEventCount_; }
     double lastAverageCoherenceWeight() const { return lastAverageCoherenceWeight_; }
+    std::size_t lastCrossoverWorkingMemoryBytes() const { return lastCrossoverWorkingMemoryBytes_; }
     const std::vector<TransientAnchor>& lastAnchors() const { return lastAnchors_; }
 private:
     StretchConfig config_;
@@ -67,5 +69,11 @@ private:
     std::size_t lastAnchoredEventCount_ = 0;
     std::vector<TransientAnchor> lastAnchors_;
     double lastAverageCoherenceWeight_ = 0;
+    std::size_t lastCrossoverWorkingMemoryBytes_ = 0;
+    TimeMap lastTimeMap_;
+    std::vector<std::vector<float>> processSingleResolution(
+        const std::vector<std::vector<float>>& input, const TimeMap* sharedMap);
+    std::vector<std::vector<float>> processMultiResolution(
+        const std::vector<std::vector<float>>& input);
 };
 }

@@ -22,6 +22,8 @@ add_library(timestretch_core
     src/dsp/TransientEventMap.cpp
     src/dsp/TransientAnchor.cpp
     src/dsp/StereoPhaseCoherence.cpp
+    src/dsp/TimeMap.cpp
+    src/dsp/MultiResolutionCrossover.cpp
     src/dsp/TimeStretchEngine.cpp
 )
 target_include_directories(timestretch_core PUBLIC src)
@@ -76,4 +78,8 @@ if(BUILD_TESTING)
     add_executable(phase4_tests tests/Phase4Tests.cpp)
     target_link_libraries(phase4_tests PRIVATE timestretch_core)
     add_test(NAME phase4 COMMAND phase4_tests)
+
+    add_executable(phase5_tests tests/Phase5Tests.cpp)
+    target_link_libraries(phase5_tests PRIVATE timestretch_core)
+    add_test(NAME phase5 COMMAND phase5_tests)
 endif()

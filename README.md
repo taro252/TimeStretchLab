@@ -1,4 +1,4 @@
-# TimeStretchLab — Phase 1〜4
+# TimeStretchLab — Phase 1〜5
 
 プロジェクト全体の設計方針は [DESIGN.md](DESIGN.md) を参照してください。
 今回の Peak-based Phase Locking の要件は [PHASE2_REQUIREMENTS.md](PHASE2_REQUIREMENTS.md) に保存しています。
@@ -6,6 +6,7 @@ Transient Detection + Phase Reset の要件は [PHASE3_REQUIREMENTS.md](PHASE3_R
 イベント統合と局所時間配置の要件は [PHASE35_REQUIREMENTS.md](PHASE35_REQUIREMENTS.md) に保存しています。
 アタック領域保護と帯域別位相リセットの要件は [PHASE36_REQUIREMENTS.md](PHASE36_REQUIREMENTS.md) に保存しています。
 ステレオ位相の一貫性に関する要件は [PHASE4_REQUIREMENTS.md](PHASE4_REQUIREMENTS.md) に保存しています。
+複数解像度処理の要件は [PHASE5_REQUIREMENTS.md](PHASE5_REQUIREMENTS.md) に保存しています。
 
 Apple Accelerate と C++20 によるオフライン WAV タイムストレッチ。DSP は planar float32 で処理します。
 
@@ -22,6 +23,7 @@ ctest --test-dir build --output-on-failure
 ./build/phase36_tests results/phase36/artificial
 ./build/phase37_tests results/phase37/artificial
 ./build/phase4_tests
+./build/phase5_tests
 ```
 
 入力: mono/stereo、44.1/48 kHz、PCM int16 または IEEE float32 WAV。出力: IEEE float32 WAV。
@@ -43,3 +45,5 @@ Phase 3.6 は `--transient on --adaptive-time-map on --selective-reset on` で�
 Phase 3.7 は `--transient on --adaptive-time-map on --precise-anchoring on` で有効になります。音質処理は Phase 3.5 と同じです。孤立した鋭いイベントだけ、入力サンプルの実際の位置を使って時間配置を補正します。曖昧なイベントは Phase 3.5 と同じフレーム位置のままです。`--selective-reset on` との併用はできません。`--debug-csv directory` の `anchors.csv` に補正判定を記録します。Mix/Bass の比較は `bash scripts/phase37_real_ab.sh mix.wav bass.wav` で再生成できます。検証結果は [Phase 3.7 レポート](results/phase37/REPORT.md) にあります。
 
 Phase 4 は Phase 3.7 の引数に `--stereo-coherence on` を加えて有効になります。左右の合成位相を入力の左右位相差へ向けて補正します。左右の振幅は変えず、共同のピーク領域を使います。`--coherence-strength` と `--low-frequency-coherence` は 0〜1 の強さです。モノラルでは処理しません。既定は OFF です。`--debug-csv directory` の `stereo_coherence.csv` に周波数ごとの補正量を記録します。全長の Mix/Bass 比較は `bash scripts/phase4_real_ab.sh mix.wav bass.wav` で生成し、`bash scripts/phase4_analyze.sh` で測定できます。結果は [Phase 4 レポート](results/phase4/REPORT.md) を参照してください。
+
+Phase 5 は Phase 4 の引数に `--multiresolution on` を加えて有効になります。8192/2048、4096/1024、1024/256 の3つの FFT/解析ホップで処理します。中解像度で決定したイベントと出力時間配置を `TimeMap` で共有し、3つの出力を線形位相FIRの周波数分割で合成します。既定は OFF で、ON時の `--fft-size` と `--analysis-hop` は中解像度の4096/1024に固定です。全長Mix/Bass比較は `bash scripts/phase5_real_ab.sh mix.wav bass.wav`、測定は `bash scripts/phase5_analyze.sh`。男女ボーカルの30秒比較は `bash scripts/phase5_vocal_ab.sh input.wav output_dir label` で行えます。結果と残る音質上の課題は [Phase 5 レポート](results/phase5/REPORT.md) を参照してください。

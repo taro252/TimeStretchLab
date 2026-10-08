@@ -1,5 +1,6 @@
 #include "dsp/TimeStretchEngine.h"
 #include "dsp/StereoPhaseCoherence.h"
+#include "dsp/MultiResolutionCrossover.h"
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
@@ -18,7 +19,7 @@ TimeStretchEngine::TimeStretchEngine(const StretchConfig& config)
         (config.channels != 1 && config.channels != 2) ||
         config.analysisHop < 1 || config.analysisHop > config.fftSize / 2 ||
         !std::isfinite(config.timeRatio) || config.timeRatio <= 0 ||
-        config.enableMultiResolution ||
+        (config.enableMultiResolution && (config.fftSize != 4096 || config.analysisHop != 1024)) ||
         (config.enableAdaptiveTimeMapping && !config.enableTransientHandling) ||
         (config.enableSelectivePhaseReset && !config.enableAdaptiveTimeMapping) ||
         (config.enablePreciseTransientAnchoring && !config.enableAdaptiveTimeMapping) ||
@@ -41,13 +42,54 @@ void TimeStretchEngine::reset() {
     lastAnchoredEventCount_ = 0;
     lastAnchors_.clear();
     lastAverageCoherenceWeight_ = 0;
+    lastCrossoverWorkingMemoryBytes_ = 0;
+    lastTimeMap_ = TimeMap{};
 }
 void TimeStretchEngine::setTimeRatio(double ratio) {
     if (!std::isfinite(ratio) || ratio <= 0) throw std::invalid_argument("Invalid time ratio");
     config_.timeRatio = ratio;
     reset();
 }
-std::vector<std::vector<float>> TimeStretchEngine::processOffline(const std::vector<std::vector<float>>& input) {
+std::vector<std::vector<float>> TimeStretchEngine::processOffline(
+    const std::vector<std::vector<float>>& input) {
+    if (config_.enableMultiResolution) return processMultiResolution(input);
+    return processSingleResolution(input, nullptr);
+}
+std::vector<std::vector<float>> TimeStretchEngine::processMultiResolution(
+    const std::vector<std::vector<float>>& input) {
+    if (config_.timeRatio == 1.0) return processSingleResolution(input, nullptr);
+    StretchConfig midConfig = config_;
+    midConfig.enableMultiResolution = false;
+    TimeStretchEngine midEngine(midConfig);
+    auto mid = midEngine.processSingleResolution(input, nullptr);
+    const TimeMap& shared = midEngine.lastTimeMap_;
+    StretchConfig lowConfig = midConfig, highConfig = midConfig;
+    lowConfig.fftSize = 8192; lowConfig.analysisHop = 2048;
+    highConfig.fftSize = 1024; highConfig.analysisHop = 256;
+    // A single mid-resolution detector decides all events and timing. The
+    // satellite engines only sample this shared timeline at their frame times.
+    lowConfig.debugCsvDirectory.clear();
+    highConfig.debugCsvDirectory.clear();
+    TimeStretchEngine lowEngine(lowConfig), highEngine(highConfig);
+    auto low = lowEngine.processSingleResolution(input, &shared);
+    auto high = highEngine.processSingleResolution(input, &shared);
+    MultiResolutionCrossover crossover(config_.sampleRate);
+    std::vector<std::vector<float>> result(input.size());
+    for (std::size_t c = 0; c < input.size(); ++c)
+        crossover.combine(low[c], mid[c], high[c], result[c]);
+    lastCrossoverWorkingMemoryBytes_ = crossover.workingMemoryBytes();
+    lastTimeMap_ = shared;
+    lastTransientCount_ = midEngine.lastTransientCount_;
+    lastEventCount_ = midEngine.lastEventCount_;
+    lastEvents_ = midEngine.lastEvents_;
+    lastAnchors_ = midEngine.lastAnchors_;
+    lastAnchoredEventCount_ = midEngine.lastAnchoredEventCount_;
+    lastAnchorMaxErrorSamples_ = midEngine.lastAnchorMaxErrorSamples_;
+    lastAverageCoherenceWeight_ = midEngine.lastAverageCoherenceWeight_;
+    return result;
+}
+std::vector<std::vector<float>> TimeStretchEngine::processSingleResolution(
+    const std::vector<std::vector<float>>& input, const TimeMap* sharedMap) {
     lastTransientCount_ = 0;
     lastEventCount_ = 0;
     lastEvents_.clear();
@@ -55,6 +97,8 @@ std::vector<std::vector<float>> TimeStretchEngine::processOffline(const std::vec
     lastAnchoredEventCount_ = 0;
     lastAnchors_.clear();
     lastAverageCoherenceWeight_ = 0;
+    lastCrossoverWorkingMemoryBytes_ = 0;
+    lastTimeMap_ = TimeMap{};
     if (input.size() != static_cast<std::size_t>(config_.channels))
         throw std::invalid_argument("Input channel count differs from configuration");
     const auto length = input.front().size();
@@ -77,6 +121,20 @@ std::vector<std::vector<float>> TimeStretchEngine::processOffline(const std::vec
         static_cast<std::size_t>(std::ceil(synthesisHop())) + padding;
     std::vector<std::vector<float>> result(input.size());
     const auto frameCount = (length + padding + hop - 1) / hop + 1;
+    std::vector<bool> sharedResets(frameCount, false);
+    std::vector<float> sharedStrengths(frameCount, 0.0f);
+    if (sharedMap) {
+        lastEvents_ = sharedMap->events();
+        lastEventCount_ = lastEvents_.size();
+        for (const auto& event : lastEvents_) {
+            const auto inputSample = event.peakFrame *
+                static_cast<std::size_t>(sharedMap->sourceHop());
+            const auto mappedFrame = std::min(frameCount-1,
+                static_cast<std::size_t>(std::llround(double(inputSample)/hop)));
+            sharedResets[mappedFrame] = true;
+            sharedStrengths[mappedFrame] = std::max(sharedStrengths[mappedFrame], event.strength);
+        }
+    }
     auto fillFrame = [&](std::size_t channel, std::size_t analysisStart) {
         for (std::size_t i = 0; i < fftSize; ++i) {
             const auto padded = analysisStart + i;
@@ -86,7 +144,7 @@ std::vector<std::vector<float>> TimeStretchEngine::processOffline(const std::vec
     };
     std::unique_ptr<TransientDetector> detector;
     std::unique_ptr<TransientEventMap> eventMap;
-    if (config_.enableTransientHandling) {
+    if (config_.enableTransientHandling && !sharedMap) {
         TransientConfig transientConfig;
         transientConfig.sensitivity = config_.transientSensitivity;
         transientConfig.minimumFlux = config_.transientMinimumFlux;
@@ -145,6 +203,13 @@ std::vector<std::vector<float>> TimeStretchEngine::processOffline(const std::vec
                                eventMap->idealStartAt(event.peakFrame)));
         }
     }
+    std::vector<long long> timelineStarts(frameCount);
+    for (std::size_t frameIndex = 0; frameIndex < frameCount; ++frameIndex)
+        timelineStarts[frameIndex] = sharedMap
+            ? std::llround(sharedMap->outputPositionForInputSample(frameIndex * double(hop)))
+            : (eventMap ? eventMap->starts()[frameIndex]
+                        : std::llround(frameIndex * synthesisHop()));
+    lastTimeMap_ = TimeMap(config_.analysisHop, std::move(timelineStarts), lastEvents_);
     if (!config_.debugCsvDirectory.empty())
         std::filesystem::create_directories(config_.debugCsvDirectory);
     if (detector && !config_.debugCsvDirectory.empty()) {
@@ -222,12 +287,13 @@ std::vector<std::vector<float>> TimeStretchEngine::processOffline(const std::vec
             for (std::size_t k = 0; k < bins; ++k)
                 combined[k] = {std::hypot(std::abs(leftInput[k]), std::abs(rightInput[k])), 0};
             sharedPeaks.analyzePeaks(combined.data(), bins);
-            const auto start = eventMap ? eventMap->starts()[frameIndex]
-                                        : std::llround(frameIndex * synthesisHop());
+            const auto start = lastTimeMap_.outputPositionForInputSample(frameIndex * double(hop));
             const double delta = frameIndex == 0 ? 0.0 : start - previousStart;
-            const bool resetPhase = eventMap ? eventMap->resetAt(frameIndex)
-                : (detector && detector->resetAt(frameIndex));
-            const float strength = eventMap ? eventMap->resetStrengthAt(frameIndex) : 0.0f;
+            const bool resetPhase = sharedMap ? sharedResets[frameIndex] :
+                (eventMap ? eventMap->resetAt(frameIndex)
+                          : (detector && detector->resetAt(frameIndex)));
+            const float strength = sharedMap ? sharedStrengths[frameIndex] :
+                (eventMap ? eventMap->resetStrengthAt(frameIndex) : 0.0f);
             const auto* owners = config_.enablePhaseLocking ? &sharedPeaks.ownerPeak() : nullptr;
             vocoders_[0].process(leftInput.data(), leftOutput.data(), delta, resetPhase,
                                  config_.enableSelectivePhaseReset, strength, owners);
@@ -286,14 +352,15 @@ std::vector<std::vector<float>> TimeStretchEngine::processOffline(const std::vec
             fillFrame(c, analysisStart);
             stft_.analyze(frame_.data(), spectrum_.data());
             // Round absolute positions, never a repeatedly rounded hop.
-            const auto start = eventMap ? eventMap->starts()[frameIndex]
-                                        : std::llround(frameIndex * synthesisHop());
+            const auto start = lastTimeMap_.outputPositionForInputSample(frameIndex * double(hop));
             const double delta = frameIndex == 0 ? 0.0 : (start - previousStart);
             vocoders_[c].process(spectrum_.data(), stretchedSpectrum_.data(), delta,
-                                 eventMap ? eventMap->resetAt(frameIndex)
-                                          : (detector && detector->resetAt(frameIndex)),
+                                 sharedMap ? sharedResets[frameIndex] :
+                                   (eventMap ? eventMap->resetAt(frameIndex)
+                                             : (detector && detector->resetAt(frameIndex))),
                                  config_.enableSelectivePhaseReset,
-                                 eventMap ? eventMap->resetStrengthAt(frameIndex) : 0.0f);
+                                 sharedMap ? sharedStrengths[frameIndex] :
+                                   (eventMap ? eventMap->resetStrengthAt(frameIndex) : 0.0f));
             if (framesCsv) {
                 const auto& peaks = vocoders_[c].phaseLocker().peaks();
                 framesCsv << frameIndex << ',' << peaks.size() << '\n';
