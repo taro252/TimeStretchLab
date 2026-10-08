@@ -23,6 +23,7 @@ ts::StretchConfig config(double speed, bool multi, int channels = 1) {
     c.enablePhaseLocking = true; c.enableTransientHandling = true;
     c.enableAdaptiveTimeMapping = true; c.enablePreciseTransientAnchoring = true;
     c.enableStereoCoherence = true; c.enableMultiResolution = multi;
+    if (multi) c.qualityMode = ts::QualityMode::Experimental;
     return c;
 }
 void finiteAndLength(const Audio& output, std::size_t inputLength, double speed) {

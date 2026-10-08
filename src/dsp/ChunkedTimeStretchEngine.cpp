@@ -232,12 +232,15 @@ private:
 }
 
 ChunkedTimeStretchEngine::ChunkedTimeStretchEngine(StretchConfig config):config_(std::move(config)) {
-    if (!config_.enableMultiResolution || config_.fftSize!=4096 || config_.analysisHop!=1024)
-        throw std::invalid_argument("Chunked processing requires Phase 5 multiresolution settings");
+    if (config_.fftSize!=4096 || config_.analysisHop!=1024)
+        throw std::invalid_argument("Chunked processing requires 4096/1024 mid-resolution settings");
     TimeStretchEngine validate(config_);
 }
 ChunkedResult ChunkedTimeStretchEngine::processWav(const std::filesystem::path& input,
-    const std::filesystem::path& output,std::size_t chunkSize,AblationMode mode) {
+    const std::filesystem::path& output,std::size_t chunkSize,std::optional<AblationMode> requestedMode) {
+    const auto mode=requestedMode.value_or(!config_.enableMultiResolution ||
+        config_.qualityMode==QualityMode::Normal ? AblationMode::MidOnly :
+        config_.qualityMode==QualityMode::Experimental ? AblationMode::Full : AblationMode::LowMid);
     if (chunkSize<8192 || chunkSize>65536)
         throw std::invalid_argument("Chunk size must be 8192..65536");
     WavStreamReader reader(input);
@@ -289,7 +292,7 @@ ChunkedResult ChunkedTimeStretchEngine::processWav(const std::filesystem::path& 
     std::vector<std::unique_ptr<StreamingCrossoverChannel>> crossovers;
     std::vector<std::unique_ptr<StreamingFIR>> lowFilters;
     if (mode!=AblationMode::MidOnly) {
-        filters=std::make_unique<MultiResolutionCrossover>(config_.sampleRate);
+        filters=std::make_unique<MultiResolutionCrossover>(config_.sampleRate,config_.lowCrossoverHz);
         for (std::size_t c=0; c<reader.channels(); ++c) {
             if (mode==AblationMode::Full)
                 crossovers.emplace_back(std::make_unique<StreamingCrossoverChannel>(*filters,result.outputFrames));

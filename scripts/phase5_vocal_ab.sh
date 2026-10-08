@@ -12,7 +12,7 @@ for speed in 0.75 0.50; do
   id="${speed/./}"
   for phase in 4 5; do
     options=()
-    if [[ "$phase" == 5 ]]; then options+=(--multiresolution on)
+    if [[ "$phase" == 5 ]]; then options+=(--multiresolution on --quality experimental)
     else options+=(--multiresolution off); fi
     "$project_dir/build/timestretch" "$output/input_30s.wav" \
       "$output/${prefix}_${id}_phase${phase}.wav" --speed "$speed" --phase-locking on \

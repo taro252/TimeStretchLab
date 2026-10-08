@@ -53,6 +53,7 @@ void run(double speed, int channels, std::size_t chunkSize) {
     config.enablePreciseTransientAnchoring=true;
     config.enableStereoCoherence=true;
     config.enableMultiResolution=true;
+    config.qualityMode=ts::QualityMode::Experimental;
     ts::TimeStretchEngine baseline(config);
     const auto expected=baseline.processOffline(input.channels);
     ts::ChunkedTimeStretchEngine streaming(config);
@@ -88,6 +89,7 @@ void silence(double speed,int channels) {
     config.enablePhaseLocking=true; config.enableTransientHandling=true;
     config.enableAdaptiveTimeMapping=true; config.enablePreciseTransientAnchoring=true;
     config.enableStereoCoherence=true; config.enableMultiResolution=true;
+    config.qualityMode=ts::QualityMode::Experimental;
     const auto stats=ts::ChunkedTimeStretchEngine(config).processWav(inputPath,outputPath);
     const auto output=ts::WavReader::read(outputPath);
     if (output.channels[0].size()!=stats.outputFrames) throw std::runtime_error("Silence length");

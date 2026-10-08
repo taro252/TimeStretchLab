@@ -46,12 +46,16 @@ Phase 3.7 は `--transient on --adaptive-time-map on --precise-anchoring on` で
 
 Phase 4 は Phase 3.7 の引数に `--stereo-coherence on` を加えて有効になります。左右の合成位相を入力の左右位相差へ向けて補正します。左右の振幅は変えず、共同のピーク領域を使います。`--coherence-strength` と `--low-frequency-coherence` は 0〜1 の強さです。モノラルでは処理しません。既定は OFF です。`--debug-csv directory` の `stereo_coherence.csv` に周波数ごとの補正量を記録します。全長の Mix/Bass 比較は `bash scripts/phase4_real_ab.sh mix.wav bass.wav` で生成し、`bash scripts/phase4_analyze.sh` で測定できます。結果は [Phase 4 レポート](results/phase4/REPORT.md) を参照してください。
 
-Phase 5 は Phase 4 の引数に `--multiresolution on` を加えて有効になります。8192/2048、4096/1024、1024/256 の3つの FFT/解析ホップで処理します。中解像度で決定したイベントと出力時間配置を `TimeMap` で共有し、3つの出力を線形位相FIRの周波数分割で合成します。既定は OFF で、ON時の `--fft-size` と `--analysis-hop` は中解像度の4096/1024に固定です。全長Mix/Bass比較は `bash scripts/phase5_real_ab.sh mix.wav bass.wav`、測定は `bash scripts/phase5_analyze.sh`。男女ボーカルの30秒比較は `bash scripts/phase5_vocal_ab.sh input.wav output_dir label` で行えます。結果と残る音質上の課題は [Phase 5 レポート](results/phase5/REPORT.md) を参照してください。
+Phase 5 の歴史的な3経路構成は `--quality experimental` で再現できます。8192/2048、4096/1024、1024/256 の3つの FFT/解析ホップで処理し、中解像度で決定したイベントと出力時間配置を `TimeMap` で共有します。全長Mix/Bass比較は `bash scripts/phase5_real_ab.sh mix.wav bass.wav`、測定は `bash scripts/phase5_analyze.sh`。男女ボーカルの30秒比較は `bash scripts/phase5_vocal_ab.sh input.wav output_dir label` で行えます。結果は [Phase 5 レポート](results/phase5/REPORT.md) を参照してください。
 
-Phase 5.1 の逐次処理は、Phase 5 の引数に `--chunked on` を加えると有効になります。既定の書き出し単位は 16384 サンプルで、`--chunk-size 8192..65536` で変更できます。WAV の読み込み、各解像度の重ね合わせ、周波数分割の畳み込み、WAV 書き出しを有限長の作業領域で行います。音質アルゴリズムと共通の時間配置は Phase 5 のままです。長さ別のメモリ測定は `bash scripts/phase51_memory.sh mix.wav bass.wav metrics.txt` で再実行できます。測定結果は [Phase 5.1 レポート](results/phase51/REPORT.md) を参照してください。
+Phase 5.1 の逐次処理は `--chunked on` で有効になります。既定の書き出し単位は 16384 サンプルで、`--chunk-size 8192..65536` で変更できます。WAV の読み込み、重ね合わせ、周波数分割、書き出しを有限長の作業領域で行います。歴史的な3経路での長さ別メモリ測定は `bash scripts/phase51_memory.sh mix.wav bass.wav metrics.txt` で再実行できます。結果は [Phase 5.1 レポート](results/phase51/REPORT.md) を参照してください。
 
 # Phase 5.2 比較モード
 
-逐次処理の `--ablation a|b|c` で、同じ中解像度の過渡検出と時間配置を使う3構成を比較できます。`--chunked on --multiresolution on` と併用します。A は 4096/1024 のみ、B は低 8192/2048 と中 4096/1024 を `mid + LP250(low-mid)` で合成、C は現行 Phase 5.1 の3経路です。`--ablation` を省略すると従来どおり C です。音質処理、WAV形式、ゲインは変更しません。
+逐次処理の `--ablation a|b|c` で、同じ中解像度の過渡検出と時間配置を使う3構成を比較できます。`--chunked on` と併用します。A は 4096/1024 のみ、B は低 8192/2048 と中 4096/1024 を `mid + LP250(low-mid)` で合成、C は旧 Phase 5.1 の3経路です。現在は `--ablation` を省略して `--multiresolution on` にすると B を選びます。
 
 比較手順と計測結果は [Phase 5.2 レポート](results/phase52/REPORT.md) を参照してください。
+
+# Phase 5.3 品質モード
+
+`--quality normal|high|experimental` を指定できます。Normal は中4096/1024のみ、High は低8192/2048＋中4096/1024で LP250 により合成、Experimental は旧3経路です。`--multiresolution on` の既定は High に変更しました。品質モードを指定しない `--multiresolution off` は Normal、`--multiresolution on` は High です。逐次処理でも全長処理でも同じ品質モードを選べます。比較実験用に `--low-crossover-hz 200|250|300` を指定できますが、既定は250 Hzのままです。[Phase 5.3 レポート](results/phase53/REPORT.md) に回帰・音質・負荷の結果を記録しています。

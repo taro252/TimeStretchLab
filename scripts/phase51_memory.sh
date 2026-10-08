@@ -19,7 +19,7 @@ for label in bass mix; do
     printf 'source=%s duration=%s ' "$label" "$seconds" >> "$3"
     "$project_dir/build/timestretch" "$scratch/input.wav" "$scratch/output.wav" \
       --speed 0.50 --phase-locking on --transient on --adaptive-time-map on \
-      --precise-anchoring on --stereo-coherence on --multiresolution on --chunked on >> "$3"
+      --precise-anchoring on --stereo-coherence on --multiresolution on --quality experimental --chunked on >> "$3"
     rm -f "$scratch/input.wav" "$scratch/output.wav"
   done
 done

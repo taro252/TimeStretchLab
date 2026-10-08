@@ -10,6 +10,7 @@
 #include <vector>
 
 namespace ts {
+enum class QualityMode { Normal, High, Experimental };
 struct StretchConfig {
     double sampleRate = 44100.0;
     int channels = 2;
@@ -24,6 +25,8 @@ struct StretchConfig {
     float stereoCoherenceStrength = 1.0f;
     float lowFrequencyCoherenceStrength = 0.5f;
     bool enableMultiResolution = false;
+    QualityMode qualityMode = QualityMode::High;
+    double lowCrossoverHz = 250.0;
     int fftSize = 4096;
     int analysisHop = 1024;
     float transientThreshold = 1.5f;

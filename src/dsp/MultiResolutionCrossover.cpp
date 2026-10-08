@@ -5,8 +5,8 @@
 #include <stdexcept>
 
 namespace ts {
-MultiResolutionCrossover::MultiResolutionCrossover(double sampleRate)
-    : fft_(fftSize_), low_(makeFilter(fft_, 2049, 250, sampleRate)),
+MultiResolutionCrossover::MultiResolutionCrossover(double sampleRate, double lowCutoffHz)
+    : fft_(fftSize_), low_(makeFilter(fft_, 2049, lowCutoffHz, sampleRate)),
       high_(makeFilter(fft_, 513, 3500, sampleRate)),
       block_(fftSize_), transformed_(fftSize_), spectrum_(fftSize_/2+1) {}
 MultiResolutionCrossover::Filter MultiResolutionCrossover::makeFilter(
@@ -62,6 +62,13 @@ void MultiResolutionCrossover::combine(const std::vector<float>& low,
     output = high;
     addFilteredDifference(low, mid, low_, output);
     addFilteredDifference(mid, high, high_, output);
+}
+void MultiResolutionCrossover::combineLowMid(const std::vector<float>& low,
+                                             const std::vector<float>& mid,
+                                             std::vector<float>& output) {
+    if (low.size()!=mid.size()) throw std::invalid_argument("Crossover input lengths differ");
+    output=mid;
+    addFilteredDifference(low,mid,low_,output);
 }
 std::size_t MultiResolutionCrossover::workingMemoryBytes() const {
     return (block_.size()+transformed_.size())*sizeof(float) +

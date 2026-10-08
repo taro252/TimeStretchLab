@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <filesystem>
+#include <optional>
 
 namespace ts {
 enum class AblationMode { MidOnly, LowMid, Full };
@@ -22,7 +23,7 @@ public:
     ChunkedResult processWav(const std::filesystem::path& input,
                              const std::filesystem::path& output,
                              std::size_t chunkSize = 16384,
-                             AblationMode mode = AblationMode::Full);
+                             std::optional<AblationMode> mode = std::nullopt);
 private:
     StretchConfig config_;
 };

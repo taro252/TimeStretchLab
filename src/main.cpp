@@ -8,6 +8,7 @@
 #include <cmath>
 #include <cstdint>
 #include <iostream>
+#include <optional>
 #include <stdexcept>
 #include <string>
 #include <sys/resource.h>
@@ -19,12 +20,14 @@ void usage() {
                  "[--phase-locking on|off] [--transient on|off] [--adaptive-time-map on|off] "
                  "[--selective-reset on|off] [--precise-anchoring on|off] [--stereo-coherence on|off] "
                  "[--coherence-strength 1] [--low-frequency-coherence 0.5] "
-                 "[--multiresolution on|off] [--chunked on|off] [--chunk-size 16384] [--ablation a|b|c] [--debug-csv directory]\n"
+                 "[--multiresolution on|off] [--quality normal|high|experimental] "
+                 "[--chunked on|off] [--chunk-size 16384] [--ablation a|b|c] "
+                 "[--low-crossover-hz 250] [--debug-csv directory]\n"
                  "[--transient-sensitivity 3] [--transient-history 12] "
                  "[--transient-cooldown 2] [--transient-lookback 1] "
                  "[--event-distance 4] [--event-decay-merge 12] [--event-preroll 2] "
                  "[--event-postroll 5] [--attack-postroll 10]\n"
-                 "Multiresolution uses FFT/hop 8192/2048, 4096/1024, 1024/256.\n";
+                 "High uses 8192/2048 + 4096/1024; experimental also uses 1024/256.\n";
 }
 double number(const char* text, const std::string& option) {
     std::size_t used = 0;
@@ -49,6 +52,9 @@ int main(int argc, char** argv) {
         bool chunked = false;
         ts::AblationMode ablation = ts::AblationMode::Full;
         bool ablationSpecified = false;
+        ts::QualityMode qualityMode = ts::QualityMode::High;
+        bool qualitySpecified = false;
+        double lowCrossoverHz = 250.0;
         std::size_t chunkSize = 16384;
         float coherenceStrength = 1.0f, lowFrequencyCoherence = 0.5f;
         float transientSensitivity = 3.0f;
@@ -109,6 +115,14 @@ int main(int argc, char** argv) {
             } else if (key == "--multiresolution") {
                 if (value != "on" && value != "off") throw std::invalid_argument("--multiresolution expects on/off");
                 multiresolution = value == "on";
+            } else if (key == "--quality") {
+                qualitySpecified = true;
+                if (value == "normal") qualityMode = ts::QualityMode::Normal;
+                else if (value == "high") qualityMode = ts::QualityMode::High;
+                else if (value == "experimental") qualityMode = ts::QualityMode::Experimental;
+                else throw std::invalid_argument("--quality expects normal, high, or experimental");
+            } else if (key == "--low-crossover-hz") {
+                lowCrossoverHz = number(argv[i+1],key);
             } else if (key == "--chunked") {
                 if (value != "on" && value != "off") throw std::invalid_argument("--chunked expects on/off");
                 chunked = value == "on";
@@ -127,8 +141,9 @@ int main(int argc, char** argv) {
         }
         if (!(speed > 0 && speed <= 1.25)) throw std::invalid_argument("Speed must be > 0 and <= 1.25");
         if (!hopSpecified) analysisHop = fftSize / 4;
-        if (chunked && !multiresolution)
-            throw std::invalid_argument("--chunked on requires --multiresolution on");
+        if (qualitySpecified && ablationSpecified)
+            throw std::invalid_argument("Choose --quality or --ablation, not both");
+        if (qualitySpecified) multiresolution = qualityMode != ts::QualityMode::Normal;
         if (ablationSpecified && !chunked)
             throw std::invalid_argument("--ablation requires --chunked on");
         if (chunked && !debugCsvDirectory.empty())
@@ -149,6 +164,8 @@ int main(int argc, char** argv) {
         config.stereoCoherenceStrength = coherenceStrength;
         config.lowFrequencyCoherenceStrength = lowFrequencyCoherence;
         config.enableMultiResolution = multiresolution;
+        config.qualityMode = qualityMode;
+        config.lowCrossoverHz = lowCrossoverHz;
         config.transientSensitivity = transientSensitivity;
         config.transientHistoryFrames = transientHistory;
         config.transientCooldownFrames = transientCooldown;
@@ -162,7 +179,13 @@ int main(int argc, char** argv) {
         if (chunked) {
             ts::ChunkedTimeStretchEngine engine(config);
             const auto start=std::chrono::steady_clock::now();
-            const auto result=engine.processWav(argv[1],argv[2],chunkSize,ablation);
+            const auto selected=ablationSpecified ? ablation :
+                !multiresolution || qualityMode==ts::QualityMode::Normal
+                    ? ts::AblationMode::MidOnly :
+                qualityMode==ts::QualityMode::Experimental
+                    ? ts::AblationMode::Full : ts::AblationMode::LowMid;
+            const auto result=engine.processWav(argv[1],argv[2],chunkSize,
+                ablationSpecified ? std::optional<ts::AblationMode>(ablation) : std::nullopt);
             const auto elapsed=std::chrono::duration<double>(
                 std::chrono::steady_clock::now()-start).count();
             rusage usage{};
@@ -180,9 +203,12 @@ int main(int argc, char** argv) {
                       << " precise_anchoring=" << (preciseAnchoring?"on":"off")
                       << " stereo_coherence=" << (stereoCoherence?"on":"off")
                       << " average_coherence_weight=" << result.averageCoherenceWeight
-                      << " multiresolution=on chunked=on chunk_size=" << result.chunkSize
-                      << " ablation=" << (ablation==ts::AblationMode::MidOnly?"a":
-                            ablation==ts::AblationMode::LowMid?"b":"c")
+                      << " multiresolution=" << (selected==ts::AblationMode::MidOnly?"off":"on")
+                      << " chunked=on chunk_size=" << result.chunkSize
+                      << " quality=" << (selected==ts::AblationMode::MidOnly?"normal":
+                            selected==ts::AblationMode::LowMid?"high":"experimental")
+                      << " ablation=" << (selected==ts::AblationMode::MidOnly?"a":
+                            selected==ts::AblationMode::LowMid?"b":"c")
                       << " ola_ring_samples=" << result.olaRingSamples
                       << " fir_ring_samples=" << result.firRingSamples
                       << " event_count=" << result.eventCount
@@ -234,8 +260,11 @@ int main(int argc, char** argv) {
                   << " stereo_coherence=" << (stereoCoherence ? "on" : "off")
                   << " average_coherence_weight=" << engine.lastAverageCoherenceWeight()
                   << " multiresolution=" << (multiresolution ? "on" : "off")
-                  << " resolution_fft_hops=" << (multiresolution
-                        ? "8192/2048,4096/1024,1024/256" : "single")
+                  << " quality=" << (!multiresolution || qualityMode==ts::QualityMode::Normal
+                        ? "normal" : qualityMode==ts::QualityMode::High ? "high" : "experimental")
+                  << " resolution_fft_hops=" << (!multiresolution || qualityMode==ts::QualityMode::Normal
+                        ? "4096/1024" : qualityMode==ts::QualityMode::High
+                        ? "8192/2048,4096/1024" : "8192/2048,4096/1024,1024/256")
                   << " crossover_working_bytes=" << engine.lastCrossoverWorkingMemoryBytes()
                   << " anchored_event_count=" << engine.lastAnchoredEventCount()
                   << " event_count=" << engine.lastEventCount()

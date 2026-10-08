@@ -29,6 +29,9 @@ TimeStretchEngine::TimeStretchEngine(const StretchConfig& config)
         !std::isfinite(config.lowFrequencyCoherenceStrength) ||
         config.lowFrequencyCoherenceStrength < 0 || config.lowFrequencyCoherenceStrength > 1)
         throw std::invalid_argument("Invalid configuration or unsupported later-phase feature enabled");
+    if (!std::isfinite(config.lowCrossoverHz) || config.lowCrossoverHz < 100 ||
+        config.lowCrossoverHz > 1000)
+        throw std::invalid_argument("Invalid configuration or unsupported later-phase feature enabled");
     for (int c = 0; c < config.channels; ++c)
         vocoders_.emplace_back(config.fftSize, config.analysisHop,
                                config.enablePhaseLocking, config.sampleRate);
@@ -52,7 +55,8 @@ void TimeStretchEngine::setTimeRatio(double ratio) {
 }
 std::vector<std::vector<float>> TimeStretchEngine::processOffline(
     const std::vector<std::vector<float>>& input) {
-    if (config_.enableMultiResolution) return processMultiResolution(input);
+    if (config_.enableMultiResolution && config_.qualityMode!=QualityMode::Normal)
+        return processMultiResolution(input);
     return processSingleResolution(input, nullptr);
 }
 std::vector<std::vector<float>> TimeStretchEngine::processMultiResolution(
@@ -65,18 +69,24 @@ std::vector<std::vector<float>> TimeStretchEngine::processMultiResolution(
     const TimeMap& shared = midEngine.lastTimeMap_;
     StretchConfig lowConfig = midConfig, highConfig = midConfig;
     lowConfig.fftSize = 8192; lowConfig.analysisHop = 2048;
-    highConfig.fftSize = 1024; highConfig.analysisHop = 256;
     // A single mid-resolution detector decides all events and timing. The
     // satellite engines only sample this shared timeline at their frame times.
     lowConfig.debugCsvDirectory.clear();
     highConfig.debugCsvDirectory.clear();
-    TimeStretchEngine lowEngine(lowConfig), highEngine(highConfig);
+    TimeStretchEngine lowEngine(lowConfig);
     auto low = lowEngine.processSingleResolution(input, &shared);
-    auto high = highEngine.processSingleResolution(input, &shared);
-    MultiResolutionCrossover crossover(config_.sampleRate);
+    MultiResolutionCrossover crossover(config_.sampleRate,config_.lowCrossoverHz);
     std::vector<std::vector<float>> result(input.size());
-    for (std::size_t c = 0; c < input.size(); ++c)
-        crossover.combine(low[c], mid[c], high[c], result[c]);
+    if (config_.qualityMode==QualityMode::Experimental) {
+        highConfig.fftSize = 1024; highConfig.analysisHop = 256;
+        TimeStretchEngine highEngine(highConfig);
+        auto high = highEngine.processSingleResolution(input, &shared);
+        for (std::size_t c = 0; c < input.size(); ++c)
+            crossover.combine(low[c], mid[c], high[c], result[c]);
+    } else {
+        for (std::size_t c = 0; c < input.size(); ++c)
+            crossover.combineLowMid(low[c],mid[c],result[c]);
+    }
     lastCrossoverWorkingMemoryBytes_ = crossover.workingMemoryBytes();
     lastTimeMap_ = shared;
     lastTransientCount_ = midEngine.lastTransientCount_;

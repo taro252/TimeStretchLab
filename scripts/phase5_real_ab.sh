@@ -25,7 +25,7 @@ for index in "${!inputs[@]}"; do
     if [[ ! -f "$phase4" ]]; then echo "Missing Phase 4 baseline: $phase4" >&2; exit 1; fi
     "$tool" "$input" "$phase5" --speed "$speed" --phase-locking on \
       --transient on --adaptive-time-map on --precise-anchoring on \
-      --stereo-coherence on --multiresolution on >> "$output_dir/processing_metrics.txt"
+      --stereo-coherence on --multiresolution on --quality experimental >> "$output_dir/processing_metrics.txt"
     for phase in 4 5; do
       if [[ "$phase" == 4 ]]; then source="$phase4"; else source="$phase5"; fi
       printf '%s,%s,%s,%s,%s\n' "$label" "$speed" "$phase" "$input" "$source" \

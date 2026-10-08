@@ -45,22 +45,27 @@ int main() {
             config.enableMultiResolution=true;
             const auto b=engine.processWav(input,output,16384,ts::AblationMode::LowMid);
             const auto actualB=ts::WavReader::read(output);
+            engine.processWav(input,control);
+            const auto defaultB=ts::WavReader::read(control);
             const auto c=engine.processWav(input,output,16384,ts::AblationMode::Full);
             const auto actualC=ts::WavReader::read(output);
-            engine.processWav(input,control);
+            config.qualityMode=ts::QualityMode::Experimental;
+            ts::ChunkedTimeStretchEngine(config).processWav(input,control);
             const auto defaultC=ts::WavReader::read(control);
-            double maxC=0;
+            double maxB=0,maxC=0;
             for (int ch=0;ch<2;++ch) for (std::size_t i=0;i<actualC.channels[ch].size();++i) {
+                maxB=std::max(maxB,std::abs(double(actualB.channels[ch][i])-defaultB.channels[ch][i]));
                 maxC=std::max(maxC,std::abs(double(actualC.channels[ch][i])-defaultC.channels[ch][i]));
                 if (!std::isfinite(actualB.channels[ch][i])) throw std::runtime_error("B nonfinite");
             }
-            if (maxC!=0 || a.timeMapHash!=b.timeMapHash || b.timeMapHash!=c.timeMapHash ||
+            if (maxB!=0 || maxC!=0 || a.timeMapHash!=b.timeMapHash || b.timeMapHash!=c.timeMapHash ||
                 a.outputFrames!=b.outputFrames || b.outputFrames!=c.outputFrames ||
                 b.olaRingSamples!=98304 || c.olaRingSamples!=106496 ||
                 b.firRingSamples!=32768 || c.firRingSamples!=65536)
                 throw std::runtime_error("A/B/C time map, length, or C regression mismatch");
             std::cout << "speed=" << speed << " A_vs_Phase4_max=" << maxA
-                      << " C_vs_default_max=" << maxC << " time_map_hash=" << c.timeMapHash << '\n';
+                      << " B_vs_High_max=" << maxB << " C_vs_Experimental_max=" << maxC
+                      << " time_map_hash=" << c.timeMapHash << '\n';
         }
         std::filesystem::remove(input); std::filesystem::remove(output); std::filesystem::remove(control);
     } catch (const std::exception& error) {
