@@ -2,6 +2,7 @@
 #include <Accelerate/Accelerate.h>
 #include <complex>
 #include <cstddef>
+#include <cstdint>
 #include <vector>
 
 namespace ts {
@@ -19,6 +20,11 @@ private:
     std::size_t size_;
     vDSP_Length log2Size_;
     FFTSetup setup_;
-    std::vector<float> real_, imag_;
+    // The 1024-point path needs a fixed SIMD alignment; other sizes retain
+    // their Phase 1–5 storage layout for exact regression compatibility.
+    std::vector<float> realStorage_, imagStorage_;
+    float* real_ = nullptr;
+    float* imag_ = nullptr;
+    static float* alignedWorkspace(std::vector<float>& storage);
 };
 }

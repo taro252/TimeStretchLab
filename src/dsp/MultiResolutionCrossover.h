@@ -9,15 +9,17 @@ namespace ts {
 // For identical inputs, high + LP(low-mid) + LP(mid-high) is exactly unity.
 class MultiResolutionCrossover {
 public:
-    explicit MultiResolutionCrossover(double sampleRate);
-    void combine(const std::vector<float>& low, const std::vector<float>& mid,
-                 const std::vector<float>& high, std::vector<float>& output);
-    std::size_t workingMemoryBytes() const;
-private:
     struct Filter {
         std::size_t taps;
         std::vector<std::complex<float>> response;
     };
+    explicit MultiResolutionCrossover(double sampleRate);
+    void combine(const std::vector<float>& low, const std::vector<float>& mid,
+                 const std::vector<float>& high, std::vector<float>& output);
+    std::size_t workingMemoryBytes() const;
+    const Filter& lowFilter() const { return low_; }
+    const Filter& highFilter() const { return high_; }
+private:
     static constexpr std::size_t fftSize_ = 4096;
     FFTAccelerate fft_;
     Filter low_, high_;

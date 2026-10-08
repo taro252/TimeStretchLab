@@ -30,7 +30,7 @@ ctest --test-dir build --output-on-failure
 
 既定の FFT は 4096 点、解析ホップは 1024 サンプル。合成ホップは `analysisHop / speed` で、フレーム位置を絶対座標から丸めるため、非整数ホップでも累積丸め誤差を避けます。周期 Hann 窓を解析と合成に適用し、重ね合わせた各サンプルを窓の二乗和で割ります。speed=1.0 は入力をそのまま通す経路です。
 
-`--fft-size`、`--analysis-hop` で変更できます。`--phase-locking on` で Phase 2 のピーク位相固定を使い、`off`（既定）で Phase 1 と同じ処理を使います。`--transient on` で Phase 3 の過渡検出を使います。複数解像度処理は未実装です。
+`--fft-size`、`--analysis-hop` で変更できます。`--phase-locking on` で Phase 2 のピーク位相固定を使い、`off`（既定）で Phase 1 と同じ処理を使います。`--transient on` で Phase 3 の過渡検出を使います。
 
 `TimeStretchEngine` は構成と処理の窓口、`STFT` は窓と FFT、`PhaseVocoder` は各チャンネルの位相状態、`PhaseLocker` はピーク検出・所有領域・相対位相の固定、`OverlapAdd` は復元と振幅補正を担当します。後続 Phase ではこれらの処理段階を拡張できます。
 
@@ -47,3 +47,5 @@ Phase 3.7 は `--transient on --adaptive-time-map on --precise-anchoring on` で
 Phase 4 は Phase 3.7 の引数に `--stereo-coherence on` を加えて有効になります。左右の合成位相を入力の左右位相差へ向けて補正します。左右の振幅は変えず、共同のピーク領域を使います。`--coherence-strength` と `--low-frequency-coherence` は 0〜1 の強さです。モノラルでは処理しません。既定は OFF です。`--debug-csv directory` の `stereo_coherence.csv` に周波数ごとの補正量を記録します。全長の Mix/Bass 比較は `bash scripts/phase4_real_ab.sh mix.wav bass.wav` で生成し、`bash scripts/phase4_analyze.sh` で測定できます。結果は [Phase 4 レポート](results/phase4/REPORT.md) を参照してください。
 
 Phase 5 は Phase 4 の引数に `--multiresolution on` を加えて有効になります。8192/2048、4096/1024、1024/256 の3つの FFT/解析ホップで処理します。中解像度で決定したイベントと出力時間配置を `TimeMap` で共有し、3つの出力を線形位相FIRの周波数分割で合成します。既定は OFF で、ON時の `--fft-size` と `--analysis-hop` は中解像度の4096/1024に固定です。全長Mix/Bass比較は `bash scripts/phase5_real_ab.sh mix.wav bass.wav`、測定は `bash scripts/phase5_analyze.sh`。男女ボーカルの30秒比較は `bash scripts/phase5_vocal_ab.sh input.wav output_dir label` で行えます。結果と残る音質上の課題は [Phase 5 レポート](results/phase5/REPORT.md) を参照してください。
+
+Phase 5.1 の逐次処理は、Phase 5 の引数に `--chunked on` を加えると有効になります。既定の書き出し単位は 16384 サンプルで、`--chunk-size 8192..65536` で変更できます。WAV の読み込み、各解像度の重ね合わせ、周波数分割の畳み込み、WAV 書き出しを有限長の作業領域で行います。音質アルゴリズムと共通の時間配置は Phase 5 のままです。長さ別のメモリ測定は `bash scripts/phase51_memory.sh mix.wav bass.wav metrics.txt` で再実行できます。測定結果は [Phase 5.1 レポート](results/phase51/REPORT.md) を参照してください。

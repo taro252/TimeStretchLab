@@ -1,9 +1,12 @@
 #include "audio/WavReader.h"
+#include "audio/WavStream.h"
 #include "audio/WavWriter.h"
+#include "dsp/ChunkedTimeStretchEngine.h"
 #include "dsp/TimeStretchEngine.h"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
+#include <cstdint>
 #include <iostream>
 #include <stdexcept>
 #include <string>
@@ -16,7 +19,7 @@ void usage() {
                  "[--phase-locking on|off] [--transient on|off] [--adaptive-time-map on|off] "
                  "[--selective-reset on|off] [--precise-anchoring on|off] [--stereo-coherence on|off] "
                  "[--coherence-strength 1] [--low-frequency-coherence 0.5] "
-                 "[--multiresolution on|off] [--debug-csv directory]\n"
+                 "[--multiresolution on|off] [--chunked on|off] [--chunk-size 16384] [--debug-csv directory]\n"
                  "[--transient-sensitivity 3] [--transient-history 12] "
                  "[--transient-cooldown 2] [--transient-lookback 1] "
                  "[--event-distance 4] [--event-decay-merge 12] [--event-preroll 2] "
@@ -43,6 +46,8 @@ int main(int argc, char** argv) {
         bool preciseAnchoring = false;
         bool stereoCoherence = false;
         bool multiresolution = false;
+        bool chunked = false;
+        std::size_t chunkSize = 16384;
         float coherenceStrength = 1.0f, lowFrequencyCoherence = 0.5f;
         float transientSensitivity = 3.0f;
         int transientHistory = 12, transientCooldown = 2, transientLookback = 1;
@@ -102,14 +107,26 @@ int main(int argc, char** argv) {
             } else if (key == "--multiresolution") {
                 if (value != "on" && value != "off") throw std::invalid_argument("--multiresolution expects on/off");
                 multiresolution = value == "on";
+            } else if (key == "--chunked") {
+                if (value != "on" && value != "off") throw std::invalid_argument("--chunked expects on/off");
+                chunked = value == "on";
+            } else if (key == "--chunk-size") {
+                const auto requested=number(argv[i+1],key);
+                if (requested<8192 || requested>65536 || std::floor(requested)!=requested)
+                    throw std::invalid_argument("--chunk-size expects 8192..65536 samples");
+                chunkSize=static_cast<std::size_t>(requested);
             } else throw std::invalid_argument("Unknown/unsupported Phase 1 option: " + key);
         }
         if (!(speed > 0 && speed <= 1.25)) throw std::invalid_argument("Speed must be > 0 and <= 1.25");
         if (!hopSpecified) analysisHop = fftSize / 4;
-        const auto input = ts::WavReader::read(argv[1]);
+        if (chunked && !multiresolution)
+            throw std::invalid_argument("--chunked on requires --multiresolution on");
+        if (chunked && !debugCsvDirectory.empty())
+            throw std::invalid_argument("--debug-csv is unavailable with --chunked on");
+        const ts::WavStreamReader metadata(argv[1]);
         ts::StretchConfig config;
-        config.sampleRate = input.sampleRate;
-        config.channels = static_cast<int>(input.channels.size());
+        config.sampleRate = metadata.sampleRate();
+        config.channels = static_cast<int>(metadata.channels());
         config.timeRatio = 1.0 / speed;
         config.fftSize = fftSize;
         config.analysisHop = analysisHop;
@@ -132,9 +149,45 @@ int main(int argc, char** argv) {
         config.eventPostRollFrames = eventPostRoll;
         config.eventAttackPostRollFrames = attackPostRoll;
         config.debugCsvDirectory = debugCsvDirectory;
+        if (chunked) {
+            ts::ChunkedTimeStretchEngine engine(config);
+            const auto start=std::chrono::steady_clock::now();
+            const auto result=engine.processWav(argv[1],argv[2],chunkSize);
+            const auto elapsed=std::chrono::duration<double>(
+                std::chrono::steady_clock::now()-start).count();
+            rusage usage{};
+            const auto memoryBytes=getrusage(RUSAGE_SELF,&usage)==0
+                ? static_cast<long long>(usage.ru_maxrss) : -1LL;
+            std::cout << "FFT=" << fftSize << " Ha=" << analysisHop
+                      << " speed=" << speed << " phase_locking=" << (phaseLocking?"on":"off")
+                      << " transient=" << (transientHandling?"on":"off")
+                      << " transient_count=" << result.transientCount
+                      << " adaptive_time_map=" << (adaptiveTimeMap?"on":"off")
+                      << " precise_anchoring=" << (preciseAnchoring?"on":"off")
+                      << " stereo_coherence=" << (stereoCoherence?"on":"off")
+                      << " average_coherence_weight=" << result.averageCoherenceWeight
+                      << " multiresolution=on chunked=on chunk_size=" << result.chunkSize
+                      << " ola_ring_samples=" << result.olaRingSamples
+                      << " fir_ring_samples=" << result.firRingSamples
+                      << " event_count=" << result.eventCount
+                      << " time_map_hash=" << result.timeMapHash
+                      << " anchored_event_count=" << result.anchoredEventCount
+                      << " max_event_anchor_error_samples=" << result.maxAnchorErrorSamples
+                      << " input_frames=" << result.inputFrames
+                      << " output_frames=" << result.outputFrames
+                      << " processing_seconds=" << elapsed << " peak=" << result.peak
+                      << " max_rss_bytes=" << memoryBytes << '\n';
+            return 0;
+        }
+        const auto input = ts::WavReader::read(argv[1]);
         ts::TimeStretchEngine engine(config);
         const auto start = std::chrono::steady_clock::now();
         const auto output = engine.processOffline(input.channels);
+        std::uint64_t timeMapHash=14695981039346656037ULL;
+        for (const auto position: engine.lastTimeMap().starts()) {
+            timeMapHash^=static_cast<std::uint64_t>(position);
+            timeMapHash*=1099511628211ULL;
+        }
         const auto elapsed = std::chrono::duration<double>(std::chrono::steady_clock::now() - start).count();
         rusage usage{};
         const auto memoryBytes = getrusage(RUSAGE_SELF, &usage) == 0
@@ -169,6 +222,7 @@ int main(int argc, char** argv) {
                   << " crossover_working_bytes=" << engine.lastCrossoverWorkingMemoryBytes()
                   << " anchored_event_count=" << engine.lastAnchoredEventCount()
                   << " event_count=" << engine.lastEventCount()
+                  << " time_map_hash=" << timeMapHash
                   << " events_per_second=" << (input.channels.front().empty() ? 0.0 :
                         engine.lastEventCount() * input.sampleRate /
                         double(input.channels.front().size()))

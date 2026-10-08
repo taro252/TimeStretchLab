@@ -13,9 +13,11 @@ find_library(ACCELERATE_FRAMEWORK Accelerate REQUIRED)
 add_library(timestretch_core
     src/audio/WavReader.cpp
     src/audio/WavWriter.cpp
+    src/audio/WavStream.cpp
     src/dsp/FFTAccelerate.cpp
     src/dsp/STFT.cpp
     src/dsp/OverlapAdd.cpp
+    src/dsp/RingOverlapAdd.cpp
     src/dsp/PhaseVocoder.cpp
     src/dsp/PhaseLocker.cpp
     src/dsp/TransientDetector.cpp
@@ -24,6 +26,8 @@ add_library(timestretch_core
     src/dsp/StereoPhaseCoherence.cpp
     src/dsp/TimeMap.cpp
     src/dsp/MultiResolutionCrossover.cpp
+    src/dsp/StreamingCrossover.cpp
+    src/dsp/ChunkedTimeStretchEngine.cpp
     src/dsp/TimeStretchEngine.cpp
 )
 target_include_directories(timestretch_core PUBLIC src)
@@ -82,4 +86,8 @@ if(BUILD_TESTING)
     add_executable(phase5_tests tests/Phase5Tests.cpp)
     target_link_libraries(phase5_tests PRIVATE timestretch_core)
     add_test(NAME phase5 COMMAND phase5_tests)
+
+    add_executable(phase51_tests tests/Phase51Tests.cpp)
+    target_link_libraries(phase51_tests PRIVATE timestretch_core)
+    add_test(NAME phase51 COMMAND phase51_tests)
 endif()

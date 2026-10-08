@@ -13,6 +13,7 @@ public:
             std::vector<TransientEvent> events);
     double outputPositionForInputSample(double inputSample) const;
     const std::vector<TransientEvent>& events() const { return events_; }
+    const std::vector<long long>& starts() const { return starts_; }
     int sourceHop() const { return sourceHop_; }
     bool empty() const { return starts_.empty(); }
 private:

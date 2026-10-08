@@ -1,6 +1,7 @@
 #pragma once
 #include "dsp/TransientEventMap.h"
 #include <cstddef>
+#include <functional>
 #include <vector>
 
 namespace ts {
@@ -24,6 +25,11 @@ class TransientAnchorLocator {
 public:
     static std::vector<TransientAnchor> locate(
         const std::vector<std::vector<float>>& input,
+        const std::vector<TransientEvent>& events, std::size_t analysisHop,
+        AnchorLocatorConfig config = {});
+    static std::vector<TransientAnchor> locate(
+        std::size_t length, std::size_t channels,
+        const std::function<float(std::size_t, std::size_t)>& sample,
         const std::vector<TransientEvent>& events, std::size_t analysisHop,
         AnchorLocatorConfig config = {});
 };

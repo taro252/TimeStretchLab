@@ -56,6 +56,7 @@ public:
     double lastAverageCoherenceWeight() const { return lastAverageCoherenceWeight_; }
     std::size_t lastCrossoverWorkingMemoryBytes() const { return lastCrossoverWorkingMemoryBytes_; }
     const std::vector<TransientAnchor>& lastAnchors() const { return lastAnchors_; }
+    const TimeMap& lastTimeMap() const { return lastTimeMap_; }
 private:
     StretchConfig config_;
     STFT stft_;
