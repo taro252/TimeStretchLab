@@ -17,6 +17,7 @@ struct StretchConfig {
     double timeRatio = 1.0; // output duration / input duration
     // Reserved switches for later phases; Phase 1 requires all to be false.
     bool enablePhaseLocking = false;
+    bool enablePartialTracking = false;
     bool enableTransientHandling = false;
     bool enableAdaptiveTimeMapping = false;
     bool enableSelectivePhaseReset = false;

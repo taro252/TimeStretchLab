@@ -17,7 +17,8 @@ namespace {
 void usage() {
     std::cerr << "Usage: timestretch input.wav output.wav --speed 0.5 "
                  "[--fft-size 4096] [--analysis-hop 1024] "
-                 "[--phase-locking on|off] [--transient on|off] [--adaptive-time-map on|off] "
+                 "[--phase-locking on|off] [--partial-tracking on|off] "
+                 "[--transient on|off] [--adaptive-time-map on|off] "
                  "[--selective-reset on|off] [--precise-anchoring on|off] [--stereo-coherence on|off] "
                  "[--coherence-strength 1] [--low-frequency-coherence 0.5] "
                  "[--multiresolution on|off] [--quality normal|high|experimental] "
@@ -43,6 +44,7 @@ int main(int argc, char** argv) {
         double speed = -1;
         int fftSize = 4096, analysisHop = 1024;
         bool phaseLocking = false;
+        bool partialTracking = false;
         bool transientHandling = false;
         bool adaptiveTimeMap = false;
         bool selectiveReset = false;
@@ -73,6 +75,9 @@ int main(int argc, char** argv) {
             } else if (key == "--phase-locking") {
                 if (value != "on" && value != "off") throw std::invalid_argument("--phase-locking expects on/off");
                 phaseLocking = value == "on";
+            } else if (key == "--partial-tracking") {
+                if (value != "on" && value != "off") throw std::invalid_argument("--partial-tracking expects on/off");
+                partialTracking = value == "on";
             } else if (key == "--transient") {
                 if (value != "on" && value != "off") throw std::invalid_argument("--transient expects on/off");
                 transientHandling = value == "on";
@@ -156,6 +161,7 @@ int main(int argc, char** argv) {
         config.fftSize = fftSize;
         config.analysisHop = analysisHop;
         config.enablePhaseLocking = phaseLocking;
+        config.enablePartialTracking = partialTracking;
         config.enableTransientHandling = transientHandling;
         config.enableAdaptiveTimeMapping = adaptiveTimeMap;
         config.enableSelectivePhaseReset = selectiveReset;
@@ -197,6 +203,7 @@ int main(int argc, char** argv) {
                   double(usage.ru_stime.tv_sec)+usage.ru_stime.tv_usec/1e6 : -1.0;
             std::cout << "FFT=" << fftSize << " Ha=" << analysisHop
                       << " speed=" << speed << " phase_locking=" << (phaseLocking?"on":"off")
+                      << " partial_tracking=" << (partialTracking?"on":"off")
                       << " transient=" << (transientHandling?"on":"off")
                       << " transient_count=" << result.transientCount
                       << " adaptive_time_map=" << (adaptiveTimeMap?"on":"off")
@@ -218,6 +225,17 @@ int main(int argc, char** argv) {
                       << " input_frames=" << result.inputFrames
                       << " output_frames=" << result.outputFrames
                       << " processing_seconds=" << elapsed << " peak=" << result.peak
+                      << " track_continuity_ratio=" << (result.trackablePeakFrames ?
+                          double(result.matchedPeakFrames)/result.trackablePeakFrames : 0.0)
+                      << " trackable_peak_frames=" << result.trackablePeakFrames
+                      << " matched_peak_frames=" << result.matchedPeakFrames
+                      << " applied_peak_frames=" << result.appliedPeakFrames
+                      << " average_track_lifetime_frames=" << result.averageTrackLifetimeFrames
+                      << " average_track_count=" << result.averageTrackCount
+                      << " track_switches_per_second=" << (result.inputFrames ?
+                          result.trackSwitches*config.sampleRate/result.inputFrames : 0.0)
+                      << " peak_phase_discontinuity_mean_rad=" << result.peakPhaseDiscontinuityMean
+                      << " peak_phase_discontinuity_max_rad=" << result.peakPhaseDiscontinuityMax
                       << " cpu_seconds=" << cpuSeconds
                       << " max_rss_bytes=" << memoryBytes << '\n';
             return 0;
@@ -252,6 +270,7 @@ int main(int argc, char** argv) {
         std::cout << "FFT=" << fftSize << " Ha=" << analysisHop
                   << " Hs=" << engine.synthesisHop() << " speed=" << speed
                   << " phase_locking=" << (phaseLocking ? "on" : "off")
+                  << " partial_tracking=" << (partialTracking ? "on" : "off")
                   << " transient=" << (transientHandling ? "on" : "off")
                   << " transient_count=" << engine.lastTransientCount()
                   << " adaptive_time_map=" << (adaptiveTimeMap ? "on" : "off")

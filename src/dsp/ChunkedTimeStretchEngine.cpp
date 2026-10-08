@@ -1,6 +1,7 @@
 #include "dsp/ChunkedTimeStretchEngine.h"
 #include "audio/WavStream.h"
 #include "dsp/MultiResolutionCrossover.h"
+#include "dsp/PartialTracker.h"
 #include "dsp/RingOverlapAdd.h"
 #include "dsp/StreamingCrossover.h"
 #include "dsp/StereoPhaseCoherence.h"
@@ -133,6 +134,9 @@ public:
             vocoders_.emplace_back(fftSize,hop,config.enablePhaseLocking,config.sampleRate);
             olas_.emplace_back(fftSize*4);
         }
+        if (mid_ && config_.enablePartialTracking)
+            tracker_=std::make_unique<PartialTracker>(fftSize_,hop_,config.sampleRate,
+                                                      static_cast<int>(reader_.channels()));
         if (!mid_) {
             resets_.resize(frameCount_);
             strengths_.resize(frameCount_);
@@ -155,6 +159,7 @@ public:
     }
     double averageCoherenceWeight() const { return coherence_.averageWeight(); }
     std::size_t olaSize() const { return olas_.empty()?0:olas_[0].capacity(); }
+    const PartialTracker* tracker() const { return tracker_.get(); }
 private:
     void analyze(std::size_t channel,std::size_t frameIndex) {
         const auto start=frameIndex*hop_;
@@ -175,7 +180,7 @@ private:
         const bool reset=mid_ ? detection_.resets[nextFrame_] : resets_[nextFrame_];
         const float strength=mid_ ? detection_.strengths[nextFrame_] : strengths_[nextFrame_];
         for (std::size_t c=0; c<reader_.channels(); ++c) analyze(c,nextFrame_);
-        if (config_.enableStereoCoherence && reader_.channels()==2) {
+        if (reader_.channels()==2 && (config_.enableStereoCoherence || tracker_)) {
             for (std::size_t k=0; k<combined_.size(); ++k)
                 combined_[k]={std::hypot(std::abs(inputSpectra_[0][k]),
                                          std::abs(inputSpectra_[1][k])),0};
@@ -184,13 +189,27 @@ private:
             for (std::size_t c=0; c<2; ++c)
                 vocoders_[c].process(inputSpectra_[c].data(),outputSpectra_[c].data(),
                     delta,reset,config_.enableSelectivePhaseReset,strength,owners);
-            coherence_.process(inputSpectra_[0].data(),inputSpectra_[1].data(),
-                outputSpectra_[0].data(),outputSpectra_[1].data(),
-                vocoders_[0],vocoders_[1],sharedPeaks_.ownerPeak());
+            if (tracker_) tracker_->process(sharedPeaks_,
+                {inputSpectra_[0].data(),inputSpectra_[1].data()},
+                {outputSpectra_[0].data(),outputSpectra_[1].data()},
+                {&vocoders_[0],&vocoders_[1]},delta,reset);
+            if (config_.enableStereoCoherence)
+                coherence_.process(inputSpectra_[0].data(),inputSpectra_[1].data(),
+                    outputSpectra_[0].data(),outputSpectra_[1].data(),
+                    vocoders_[0],vocoders_[1],sharedPeaks_.ownerPeak());
+            if (tracker_) tracker_->synchronize({outputSpectra_[0].data(),outputSpectra_[1].data()});
         } else {
-            for (std::size_t c=0; c<reader_.channels(); ++c)
+            for (std::size_t c=0; c<reader_.channels(); ++c) {
+                if (tracker_) sharedPeaks_.analyzePeaks(inputSpectra_[c].data(),combined_.size());
                 vocoders_[c].process(inputSpectra_[c].data(),outputSpectra_[c].data(),
-                    delta,reset,config_.enableSelectivePhaseReset,strength);
+                    delta,reset,config_.enableSelectivePhaseReset,strength,
+                    tracker_ ? &sharedPeaks_.ownerPeak() : nullptr);
+                if (tracker_) {
+                    tracker_->process(sharedPeaks_,{inputSpectra_[c].data(),nullptr},
+                        {outputSpectra_[c].data(),nullptr},{&vocoders_[c],nullptr},delta,reset);
+                    tracker_->synchronize({outputSpectra_[c].data(),nullptr});
+                }
+            }
         }
         for (std::size_t c=0; c<reader_.channels(); ++c) {
             stft_.synthesize(outputSpectra_[c].data(),synthesized_.data());
@@ -218,6 +237,7 @@ private:
     STFT stft_;
     StereoPhaseCoherence coherence_;
     PhaseLocker sharedPeaks_;
+    std::unique_ptr<PartialTracker> tracker_;
     std::vector<PhaseVocoder> vocoders_;
     std::vector<RingOverlapAdd> olas_;
     std::vector<float> frame_,synthesized_;
@@ -322,6 +342,18 @@ ChunkedResult ChunkedTimeStretchEngine::processWav(const std::filesystem::path& 
     }
     writer.finish();
     result.averageCoherenceWeight=resolution[1]->averageCoherenceWeight();
+    if (const auto* tracker=resolution[1]->tracker()) {
+        const auto& stats=tracker->stats();
+        result.trackablePeakFrames=stats.trackablePeakFrames;
+        result.matchedPeakFrames=stats.matchedPeakFrames;
+        result.appliedPeakFrames=stats.appliedPeakFrames;
+        result.trackSwitches=stats.trackSwitches;
+        result.averageTrackLifetimeFrames=tracker->averageLifetimeFrames();
+        result.averageTrackCount=tracker->averageTrackCount();
+        result.peakPhaseDiscontinuityMean=stats.phaseDiscontinuityCount ?
+            stats.phaseDiscontinuitySum/stats.phaseDiscontinuityCount : 0;
+        result.peakPhaseDiscontinuityMax=stats.phaseDiscontinuityMax;
+    }
     return result;
 }
 }

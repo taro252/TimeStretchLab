@@ -1,6 +1,7 @@
 #include "dsp/TimeStretchEngine.h"
 #include "dsp/StereoPhaseCoherence.h"
 #include "dsp/MultiResolutionCrossover.h"
+#include "dsp/PartialTracker.h"
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
@@ -24,6 +25,8 @@ TimeStretchEngine::TimeStretchEngine(const StretchConfig& config)
         (config.enableSelectivePhaseReset && !config.enableAdaptiveTimeMapping) ||
         (config.enablePreciseTransientAnchoring && !config.enableAdaptiveTimeMapping) ||
         (config.enableSelectivePhaseReset && config.enablePreciseTransientAnchoring) ||
+        (config.enablePartialTracking && (!config.enablePhaseLocking || config.fftSize!=4096 ||
+                                          config.analysisHop!=1024)) ||
         !std::isfinite(config.stereoCoherenceStrength) ||
         config.stereoCoherenceStrength < 0 || config.stereoCoherenceStrength > 1 ||
         !std::isfinite(config.lowFrequencyCoherenceStrength) ||
@@ -69,6 +72,8 @@ std::vector<std::vector<float>> TimeStretchEngine::processMultiResolution(
     const TimeMap& shared = midEngine.lastTimeMap_;
     StretchConfig lowConfig = midConfig, highConfig = midConfig;
     lowConfig.fftSize = 8192; lowConfig.analysisHop = 2048;
+    lowConfig.enablePartialTracking = false;
+    highConfig.enablePartialTracking = false;
     // A single mid-resolution detector decides all events and timing. The
     // satellite engines only sample this shared timeline at their frame times.
     lowConfig.debugCsvDirectory.clear();
@@ -270,11 +275,15 @@ std::vector<std::vector<float>> TimeStretchEngine::processSingleResolution(
                 << eventMap->starts()[anchor.frame] << '\n';
         }
     }
-    if (config_.enableStereoCoherence && input.size() == 2) {
+    if (input.size() == 2 && (config_.enableStereoCoherence || config_.enablePartialTracking)) {
         for (auto& vocoder : vocoders_) vocoder.reset();
         StereoPhaseCoherence coherence(fftSize, config_.sampleRate,
             config_.stereoCoherenceStrength, config_.lowFrequencyCoherenceStrength);
         PhaseLocker sharedPeaks(fftSize);
+        std::unique_ptr<PartialTracker> tracker;
+        if (config_.enablePartialTracking)
+            tracker=std::make_unique<PartialTracker>(fftSize,config_.analysisHop,
+                                                     config_.sampleRate,2);
         const auto bins = fftSize / 2 + 1;
         std::vector<std::complex<float>> leftInput(bins), rightInput(bins),
             leftOutput(bins), rightOutput(bins), combined(bins);
@@ -309,15 +318,21 @@ std::vector<std::vector<float>> TimeStretchEngine::processSingleResolution(
                                  config_.enableSelectivePhaseReset, strength, owners);
             vocoders_[1].process(rightInput.data(), rightOutput.data(), delta, resetPhase,
                                  config_.enableSelectivePhaseReset, strength, owners);
+            if (tracker) tracker->process(sharedPeaks,
+                {leftInput.data(),rightInput.data()},
+                {leftOutput.data(),rightOutput.data()},
+                {&vocoders_[0],&vocoders_[1]},delta,resetPhase);
             // CSV diagnostics need the independent phase before coherence changes it.
             if (coherenceCsv.is_open()) {
                 for (std::size_t k = 1; k + 1 < bins; ++k)
                     independentIpd[k] = std::remainder(double(std::arg(rightOutput[k])) -
                         std::arg(leftOutput[k]), 2.0 * std::numbers::pi);
             }
-            coherence.process(leftInput.data(), rightInput.data(), leftOutput.data(),
-                              rightOutput.data(), vocoders_[0], vocoders_[1],
-                              sharedPeaks.ownerPeak());
+            if (config_.enableStereoCoherence)
+                coherence.process(leftInput.data(), rightInput.data(), leftOutput.data(),
+                                  rightOutput.data(), vocoders_[0], vocoders_[1],
+                                  sharedPeaks.ownerPeak());
+            if (tracker) tracker->synchronize({leftOutput.data(),rightOutput.data()});
             if (coherenceCsv.is_open()) {
                 for (std::size_t k = 1; k + 1 < bins; ++k) {
                     const double ml = std::abs(leftInput[k]), mr = std::abs(rightInput[k]);
@@ -345,6 +360,10 @@ std::vector<std::vector<float>> TimeStretchEngine::processSingleResolution(
     }
     for (std::size_t c = 0; c < input.size(); ++c) {
         vocoders_[c].reset();
+        std::unique_ptr<PartialTracker> tracker;
+        if (config_.enablePartialTracking)
+            tracker=std::make_unique<PartialTracker>(fftSize,config_.analysisHop,
+                                                     config_.sampleRate,1);
         std::ofstream framesCsv, peaksCsv;
         if (!config_.debugCsvDirectory.empty() && config_.enablePhaseLocking) {
             const auto base = std::filesystem::path(config_.debugCsvDirectory);
@@ -364,13 +383,20 @@ std::vector<std::vector<float>> TimeStretchEngine::processSingleResolution(
             // Round absolute positions, never a repeatedly rounded hop.
             const auto start = lastTimeMap_.outputPositionForInputSample(frameIndex * double(hop));
             const double delta = frameIndex == 0 ? 0.0 : (start - previousStart);
+            const bool resetPhase=sharedMap ? sharedResets[frameIndex] :
+                (eventMap ? eventMap->resetAt(frameIndex)
+                          : (detector && detector->resetAt(frameIndex)));
             vocoders_[c].process(spectrum_.data(), stretchedSpectrum_.data(), delta,
-                                 sharedMap ? sharedResets[frameIndex] :
-                                   (eventMap ? eventMap->resetAt(frameIndex)
-                                             : (detector && detector->resetAt(frameIndex))),
+                                 resetPhase,
                                  config_.enableSelectivePhaseReset,
                                  sharedMap ? sharedStrengths[frameIndex] :
                                    (eventMap ? eventMap->resetStrengthAt(frameIndex) : 0.0f));
+            if (tracker) {
+                tracker->process(vocoders_[c].phaseLocker(),
+                    {spectrum_.data(),nullptr},{stretchedSpectrum_.data(),nullptr},
+                    {&vocoders_[c],nullptr},delta,resetPhase);
+                tracker->synchronize({stretchedSpectrum_.data(),nullptr});
+            }
             if (framesCsv) {
                 const auto& peaks = vocoders_[c].phaseLocker().peaks();
                 framesCsv << frameIndex << ',' << peaks.size() << '\n';

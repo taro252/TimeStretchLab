@@ -7,6 +7,7 @@ Transient Detection + Phase Reset の要件は [PHASE3_REQUIREMENTS.md](PHASE3_R
 アタック領域保護と帯域別位相リセットの要件は [PHASE36_REQUIREMENTS.md](PHASE36_REQUIREMENTS.md) に保存しています。
 ステレオ位相の一貫性に関する要件は [PHASE4_REQUIREMENTS.md](PHASE4_REQUIREMENTS.md) に保存しています。
 複数解像度処理の要件は [PHASE5_REQUIREMENTS.md](PHASE5_REQUIREMENTS.md) に保存しています。
+継続的な調波ピーク追跡の要件は [PHASE6_REQUIREMENTS.md](PHASE6_REQUIREMENTS.md) に保存しています。
 
 Apple Accelerate と C++20 によるオフライン WAV タイムストレッチ。DSP は planar float32 で処理します。
 
@@ -59,3 +60,7 @@ Phase 5.1 の逐次処理は `--chunked on` で有効になります。既定の
 # Phase 5.3 品質モード
 
 `--quality normal|high|experimental` を指定できます。Normal は中4096/1024のみ、High は低8192/2048＋中4096/1024で LP250 により合成、Experimental は旧3経路です。`--multiresolution on` の既定は High に変更しました。品質モードを指定しない `--multiresolution off` は Normal、`--multiresolution on` は High です。逐次処理でも全長処理でも同じ品質モードを選べます。比較実験用に `--low-crossover-hz 200|250|300` を指定できますが、既定は250 Hzのままです。[Phase 5.3 レポート](results/phase53/REPORT.md) に回帰・音質・負荷の結果を記録しています。
+
+# Phase 6 部分音ピーク追跡
+
+`--phase-locking on --partial-tracking on` で中4096/1024経路の部分音ピーク追跡を試せます。左右共通のピーク地図とtrack IDを使い、各チャンネルの位相を継続します。低8192/2048経路、過渡処理、TimeMap、クロスオーバーは従来どおりです。既定は OFF です。Vocalの主観AB試聴を含む採用判断が済むまで、High Quality基準はPhase 5.3のまま維持します。[Phase 6 レポート](results/phase6/REPORT.md) に比較結果を記録しています。

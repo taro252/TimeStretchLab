@@ -15,6 +15,10 @@ struct ChunkedResult {
     float peak = 0;
     std::size_t chunkSize = 0, olaRingSamples = 0, firRingSamples = 0;
     std::uint64_t timeMapHash = 0;
+    std::size_t trackablePeakFrames = 0, matchedPeakFrames = 0;
+    std::size_t appliedPeakFrames = 0, trackSwitches = 0;
+    double averageTrackLifetimeFrames = 0, averageTrackCount = 0;
+    double peakPhaseDiscontinuityMean = 0, peakPhaseDiscontinuityMax = 0;
 };
 
 class ChunkedTimeStretchEngine {

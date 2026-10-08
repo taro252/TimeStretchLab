@@ -20,6 +20,7 @@ add_library(timestretch_core
     src/dsp/RingOverlapAdd.cpp
     src/dsp/PhaseVocoder.cpp
     src/dsp/PhaseLocker.cpp
+    src/dsp/PartialTracker.cpp
     src/dsp/TransientDetector.cpp
     src/dsp/TransientEventMap.cpp
     src/dsp/TransientAnchor.cpp
@@ -98,4 +99,8 @@ if(BUILD_TESTING)
     add_executable(phase53_tests tests/Phase53Tests.cpp)
     target_link_libraries(phase53_tests PRIVATE timestretch_core)
     add_test(NAME phase53 COMMAND phase53_tests)
+
+    add_executable(phase6_tests tests/Phase6Tests.cpp)
+    target_link_libraries(phase6_tests PRIVATE timestretch_core)
+    add_test(NAME phase6 COMMAND phase6_tests)
 endif()
