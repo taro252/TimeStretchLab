@@ -12,10 +12,12 @@ namespace {
 void usage() {
     std::cerr << "Usage: timestretch input.wav output.wav --speed 0.5 "
                  "[--fft-size 4096] [--analysis-hop 1024] "
-                 "[--phase-locking on|off] [--transient on|off] [--adaptive-time-map on|off] [--debug-csv directory]\n"
+                 "[--phase-locking on|off] [--transient on|off] [--adaptive-time-map on|off] "
+                 "[--selective-reset on|off] [--debug-csv directory]\n"
                  "[--transient-sensitivity 3] [--transient-history 12] "
                  "[--transient-cooldown 2] [--transient-lookback 1] "
-                 "[--event-distance 4] [--event-decay-merge 12] [--event-preroll 2] [--event-postroll 5]\n"
+                 "[--event-distance 4] [--event-decay-merge 12] [--event-preroll 2] "
+                 "[--event-postroll 5] [--attack-postroll 10]\n"
                  "Multiresolution supports only off.\n";
 }
 double number(const char* text, const std::string& option) {
@@ -34,9 +36,11 @@ int main(int argc, char** argv) {
         bool phaseLocking = false;
         bool transientHandling = false;
         bool adaptiveTimeMap = false;
+        bool selectiveReset = false;
         float transientSensitivity = 3.0f;
         int transientHistory = 12, transientCooldown = 2, transientLookback = 1;
         int eventDistance = 4, eventDecayMerge = 12, eventPreRoll = 2, eventPostRoll = 5;
+        int attackPostRoll = 10;
         std::string debugCsvDirectory;
         bool hopSpecified = false;
         for (int i = 3; i < argc; i += 2) {
@@ -55,6 +59,9 @@ int main(int argc, char** argv) {
             } else if (key == "--adaptive-time-map") {
                 if (value != "on" && value != "off") throw std::invalid_argument("--adaptive-time-map expects on/off");
                 adaptiveTimeMap = value == "on";
+            } else if (key == "--selective-reset") {
+                if (value != "on" && value != "off") throw std::invalid_argument("--selective-reset expects on/off");
+                selectiveReset = value == "on";
             } else if (key == "--transient-sensitivity") {
                 transientSensitivity = static_cast<float>(number(argv[i + 1], key));
             } else if (key == "--transient-history") {
@@ -71,6 +78,8 @@ int main(int argc, char** argv) {
                 eventPreRoll = static_cast<int>(number(argv[i + 1], key));
             } else if (key == "--event-postroll") {
                 eventPostRoll = static_cast<int>(number(argv[i + 1], key));
+            } else if (key == "--attack-postroll") {
+                attackPostRoll = static_cast<int>(number(argv[i + 1], key));
             } else if (key == "--debug-csv") {
                 debugCsvDirectory = value;
             } else if (key == "--multiresolution") {
@@ -89,6 +98,7 @@ int main(int argc, char** argv) {
         config.enablePhaseLocking = phaseLocking;
         config.enableTransientHandling = transientHandling;
         config.enableAdaptiveTimeMapping = adaptiveTimeMap;
+        config.enableSelectivePhaseReset = selectiveReset;
         config.transientSensitivity = transientSensitivity;
         config.transientHistoryFrames = transientHistory;
         config.transientCooldownFrames = transientCooldown;
@@ -97,6 +107,7 @@ int main(int argc, char** argv) {
         config.eventDecayMergeFrames = eventDecayMerge;
         config.eventPreRollFrames = eventPreRoll;
         config.eventPostRollFrames = eventPostRoll;
+        config.eventAttackPostRollFrames = attackPostRoll;
         config.debugCsvDirectory = debugCsvDirectory;
         ts::TimeStretchEngine engine(config);
         const auto start = std::chrono::steady_clock::now();
@@ -106,13 +117,32 @@ int main(int argc, char** argv) {
         float peak = 0;
         for (const auto& channel : output) for (float sample : channel)
             peak = std::max(peak, std::abs(sample));
+        std::size_t gapUnder50 = 0, gapUnder100 = 0, gapUnder200 = 0, gapAtLeast200 = 0;
+        const auto& events = engine.lastEvents();
+        for (std::size_t i = 1; i < events.size(); ++i) {
+            const double gapMs = 1000.0 * (events[i].peakFrame - events[i - 1].peakFrame)
+                * analysisHop / input.sampleRate;
+            if (gapMs < 50) ++gapUnder50;
+            else if (gapMs < 100) ++gapUnder100;
+            else if (gapMs < 200) ++gapUnder200;
+            else ++gapAtLeast200;
+        }
         std::cout << "FFT=" << fftSize << " Ha=" << analysisHop
                   << " Hs=" << engine.synthesisHop() << " speed=" << speed
                   << " phase_locking=" << (phaseLocking ? "on" : "off")
                   << " transient=" << (transientHandling ? "on" : "off")
                   << " transient_count=" << engine.lastTransientCount()
                   << " adaptive_time_map=" << (adaptiveTimeMap ? "on" : "off")
+                  << " selective_reset=" << (selectiveReset ? "on" : "off")
                   << " event_count=" << engine.lastEventCount()
+                  << " events_per_second=" << (input.channels.front().empty() ? 0.0 :
+                        engine.lastEventCount() * input.sampleRate /
+                        double(input.channels.front().size()))
+                  << " gaps_lt50ms=" << gapUnder50
+                  << " gaps_50to100ms=" << gapUnder100
+                  << " gaps_100to200ms=" << gapUnder200
+                  << " gaps_ge200ms=" << gapAtLeast200
+                  << " max_event_anchor_error_samples=" << engine.lastAnchorMaxErrorSamples()
                   << " input_frames=" << input.channels.front().size()
                   << " output_frames=" << output.front().size()
                   << " processing_seconds=" << elapsed << " peak=" << peak << '\n';

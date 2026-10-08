@@ -18,6 +18,7 @@ int main(int argc, char** argv) {
             const auto audio = ts::WavReader::read(argv[file]);
             const auto frames = audio.channels.front().size();
             double peak = 0, sumSquares = 0, leftSquares = 0, rightSquares = 0, cross = 0;
+            double midSquares = 0, sideSquares = 0;
             std::uint64_t overOne = 0;
             for (std::size_t i = 0; i < frames; ++i) {
                 for (const auto& channel : audio.channels) {
@@ -31,6 +32,10 @@ int main(int argc, char** argv) {
                     leftSquares += left * left;
                     rightSquares += right * right;
                     cross += left * right;
+                    const double mid = 0.5 * (left + right);
+                    const double side = 0.5 * (left - right);
+                    midSquares += mid * mid;
+                    sideSquares += side * side;
                 }
             }
             const double rms = std::sqrt(sumSquares / (frames * audio.channels.size()));
@@ -40,8 +45,13 @@ int main(int argc, char** argv) {
                       << " rms=" << rms << " peak=" << peak
                       << " samples_over_1=" << overOne;
             if (audio.channels.size() == 2)
-                std::cout << " lr_rms_ratio=" << std::sqrt(leftSquares / rightSquares)
-                          << " lr_correlation=" << cross / std::sqrt(leftSquares * rightSquares);
+                std::cout << " lr_rms_ratio=" << (rightSquares > 0 ? std::sqrt(leftSquares / rightSquares) : 0)
+                          << " lr_correlation=" << (leftSquares > 0 && rightSquares > 0
+                              ? cross / std::sqrt(leftSquares * rightSquares) : 0)
+                          << " mid_rms=" << std::sqrt(midSquares / frames)
+                          << " side_rms=" << std::sqrt(sideSquares / frames)
+                          << " side_mid_ratio=" << (midSquares > 0
+                              ? std::sqrt(sideSquares / midSquares) : 0);
             if (audio.channels.size() == 2) {
                 std::vector<double> correlations;
                 const auto window = static_cast<std::size_t>(audio.sampleRate);

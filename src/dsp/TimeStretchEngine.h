@@ -16,6 +16,7 @@ struct StretchConfig {
     bool enablePhaseLocking = false;
     bool enableTransientHandling = false;
     bool enableAdaptiveTimeMapping = false;
+    bool enableSelectivePhaseReset = false;
     bool enableMultiResolution = false;
     int fftSize = 4096;
     int analysisHop = 1024;
@@ -30,6 +31,7 @@ struct StretchConfig {
     int eventDecayMergeFrames = 12;
     int eventPreRollFrames = 2;
     int eventPostRollFrames = 5;
+    int eventAttackPostRollFrames = 10;
     std::string debugCsvDirectory;
 };
 
@@ -42,6 +44,8 @@ public:
     double synthesisHop() const { return config_.analysisHop * config_.timeRatio; }
     std::size_t lastTransientCount() const { return lastTransientCount_; }
     std::size_t lastEventCount() const { return lastEventCount_; }
+    const std::vector<TransientEvent>& lastEvents() const { return lastEvents_; }
+    long long lastAnchorMaxErrorSamples() const { return lastAnchorMaxErrorSamples_; }
 private:
     StretchConfig config_;
     STFT stft_;
@@ -50,5 +54,7 @@ private:
     std::vector<std::complex<float>> spectrum_, stretchedSpectrum_;
     std::size_t lastTransientCount_ = 0;
     std::size_t lastEventCount_ = 0;
+    std::vector<TransientEvent> lastEvents_;
+    long long lastAnchorMaxErrorSamples_ = 0;
 };
 }

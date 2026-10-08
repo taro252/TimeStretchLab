@@ -1,6 +1,7 @@
 #include "dsp/TimeStretchEngine.h"
 #include <algorithm>
 #include <cmath>
+#include <cstdlib>
 #include <filesystem>
 #include <fstream>
 #include <limits>
@@ -16,15 +17,19 @@ TimeStretchEngine::TimeStretchEngine(const StretchConfig& config)
         config.analysisHop < 1 || config.analysisHop > config.fftSize / 2 ||
         !std::isfinite(config.timeRatio) || config.timeRatio <= 0 ||
         config.enableMultiResolution ||
-        (config.enableAdaptiveTimeMapping && !config.enableTransientHandling))
+        (config.enableAdaptiveTimeMapping && !config.enableTransientHandling) ||
+        (config.enableSelectivePhaseReset && !config.enableAdaptiveTimeMapping))
         throw std::invalid_argument("Invalid configuration or unsupported later-phase feature enabled");
     for (int c = 0; c < config.channels; ++c)
-        vocoders_.emplace_back(config.fftSize, config.analysisHop, config.enablePhaseLocking);
+        vocoders_.emplace_back(config.fftSize, config.analysisHop,
+                               config.enablePhaseLocking, config.sampleRate);
 }
 void TimeStretchEngine::reset() {
     for (auto& vocoder : vocoders_) vocoder.reset();
     lastTransientCount_ = 0;
     lastEventCount_ = 0;
+    lastEvents_.clear();
+    lastAnchorMaxErrorSamples_ = 0;
 }
 void TimeStretchEngine::setTimeRatio(double ratio) {
     if (!std::isfinite(ratio) || ratio <= 0) throw std::invalid_argument("Invalid time ratio");
@@ -34,6 +39,8 @@ void TimeStretchEngine::setTimeRatio(double ratio) {
 std::vector<std::vector<float>> TimeStretchEngine::processOffline(const std::vector<std::vector<float>>& input) {
     lastTransientCount_ = 0;
     lastEventCount_ = 0;
+    lastEvents_.clear();
+    lastAnchorMaxErrorSamples_ = 0;
     if (input.size() != static_cast<std::size_t>(config_.channels))
         throw std::invalid_argument("Input channel count differs from configuration");
     const auto length = input.front().size();
@@ -96,10 +103,44 @@ std::vector<std::vector<float>> TimeStretchEngine::processOffline(const std::vec
             mapConfig.minimumDistanceFrames = config_.eventMinimumDistanceFrames;
             mapConfig.decayMergeFrames = config_.eventDecayMergeFrames;
             mapConfig.preRollFrames = config_.eventPreRollFrames;
-            mapConfig.postRollFrames = config_.eventPostRollFrames;
+            mapConfig.postRollFrames = config_.enableSelectivePhaseReset
+                ? config_.eventAttackPostRollFrames : config_.eventPostRollFrames;
+            mapConfig.preserveAttackRegion = config_.enableSelectivePhaseReset;
             eventMap = std::make_unique<TransientEventMap>(
                 detector->frames(), activeFrameCount, config_.analysisHop, config_.timeRatio, mapConfig);
+            if (config_.enableSelectivePhaseReset) {
+                std::vector<double> offsets(eventMap->events().size());
+                for (std::size_t id = 0; id < eventMap->events().size(); ++id) {
+                    const auto center = eventMap->events()[id].peakFrame * hop;
+                    const auto lo = center > hop ? center - hop : 0;
+                    const auto hi = std::min(length, center + 2 * hop);
+                    double energy = 0, peakEnergy = 0;
+                    std::size_t peakSample = center;
+                    for (auto sample = lo; sample < hi; ++sample) {
+                        double sampleEnergy = 0;
+                        for (const auto& channel : input)
+                            sampleEnergy += double(channel[sample]) * channel[sample];
+                        energy += sampleEnergy;
+                        if (sampleEnergy > peakEnergy) {
+                            peakEnergy = sampleEnergy;
+                            peakSample = sample;
+                        }
+                    }
+                    // A sparse click has a very high crest factor. Use its
+                    // true input sample to avoid frame-grid timing error;
+                    // tonal/drum material keeps the spectral event anchor.
+                    if (hi > lo && peakEnergy > 0 &&
+                        std::sqrt(peakEnergy / (energy / (hi - lo))) >= 20.0)
+                        offsets[id] = static_cast<double>(peakSample) - center;
+                }
+                eventMap->refineAnchors(offsets);
+            }
             lastEventCount_ = eventMap->events().size();
+            lastEvents_ = eventMap->events();
+            for (const auto& event : lastEvents_)
+                lastAnchorMaxErrorSamples_ = std::max(lastAnchorMaxErrorSamples_,
+                    std::llabs(eventMap->starts()[event.peakFrame] -
+                               eventMap->idealStartAt(event.peakFrame)));
         }
     }
     if (!config_.debugCsvDirectory.empty())
@@ -127,6 +168,19 @@ std::vector<std::vector<float>> TimeStretchEngine::processOffline(const std::vec
                 << eventMap->isTransientRegion(i) << ',' << eventMap->localRatios()[i] << ','
                 << eventMap->starts()[i] << ',' << eventMap->resetAt(i) << ',' << input.size() << '\n';
     }
+    if (eventMap && config_.enableSelectivePhaseReset && !config_.debugCsvDirectory.empty()) {
+        std::ofstream csv(std::filesystem::path(config_.debugCsvDirectory) / "events.csv");
+        if (!csv) throw std::runtime_error("Cannot create event debug CSV");
+        csv << "eventId,onsetFrame,peakFrame,attackEndFrame,endFrame,strength,idealStart,actualStart,errorSamples\n";
+        for (std::size_t id = 0; id < eventMap->events().size(); ++id) {
+            const auto& event = eventMap->events()[id];
+            const auto ideal = eventMap->idealStartAt(event.peakFrame);
+            const auto actual = eventMap->starts()[event.peakFrame];
+            csv << id << ',' << event.onsetFrame << ',' << event.peakFrame << ','
+                << event.attackEndFrame << ',' << event.endFrame << ',' << event.strength
+                << ',' << ideal << ',' << actual << ',' << actual - ideal << '\n';
+        }
+    }
     for (std::size_t c = 0; c < input.size(); ++c) {
         vocoders_[c].reset();
         std::ofstream framesCsv, peaksCsv;
@@ -151,7 +205,9 @@ std::vector<std::vector<float>> TimeStretchEngine::processOffline(const std::vec
             const double delta = frameIndex == 0 ? 0.0 : (start - previousStart);
             vocoders_[c].process(spectrum_.data(), stretchedSpectrum_.data(), delta,
                                  eventMap ? eventMap->resetAt(frameIndex)
-                                          : (detector && detector->resetAt(frameIndex)));
+                                          : (detector && detector->resetAt(frameIndex)),
+                                 config_.enableSelectivePhaseReset,
+                                 eventMap ? eventMap->resetStrengthAt(frameIndex) : 0.0f);
             if (framesCsv) {
                 const auto& peaks = vocoders_[c].phaseLocker().peaks();
                 framesCsv << frameIndex << ',' << peaks.size() << '\n';

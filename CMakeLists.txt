@@ -35,6 +35,9 @@ target_link_libraries(wav_metrics PRIVATE timestretch_core)
 add_executable(wav_compare src/wav_compare.cpp)
 target_link_libraries(wav_compare PRIVATE timestretch_core)
 
+add_executable(bass_pitch_metrics src/bass_pitch_metrics.cpp)
+target_link_libraries(bass_pitch_metrics PRIVATE timestretch_core)
+
 include(CTest)
 if(BUILD_TESTING)
     add_executable(phase1_tests tests/Phase1Tests.cpp)
@@ -56,4 +59,8 @@ if(BUILD_TESTING)
     add_executable(phase35_tests tests/Phase35Tests.cpp)
     target_link_libraries(phase35_tests PRIVATE timestretch_core)
     add_test(NAME phase35 COMMAND phase35_tests ${CMAKE_SOURCE_DIR}/results/phase35/artificial)
+
+    add_executable(phase36_tests tests/Phase36Tests.cpp)
+    target_link_libraries(phase36_tests PRIVATE timestretch_core)
+    add_test(NAME phase36 COMMAND phase36_tests ${CMAKE_SOURCE_DIR}/results/phase36/artificial)
 endif()
