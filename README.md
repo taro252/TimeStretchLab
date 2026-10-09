@@ -2,6 +2,8 @@
 
 **現在の製品向け音質基準は Phase 12 の Experimental 3500 Hz** です。設定、15本の無加工ゴールデンWAV、リアルタイム化との差分・計画は [正式音質基準](PHASE12_QUALITY_BASELINE.md)、[ゴールデン参照](results/phase12/golden/REPORT.md)、[音源保管設計](PHASE12_ARTIFACT_CUSTODY.md)、[リアルタイム化計画](PHASE12_REALTIME_PLAN.md) を参照してください。既存CLIの既定値は互換性のため変更しておらず、この基準を使うときは `--quality experimental --high-crossover-hz 3500` を明示します。
 
+Phase 13の既知ファイル・0.50倍速C++ストリーミング試作とGolden波形照合は [Phase 13レポート](results/phase13/REPORT.md) に記録しています。`build/phase13_stream input.wav output.wav [block-frames]` で無加工float WAVを生成し、`python3 scripts/phase13_verify.py` で凍結した5音源との照合を再実行できます。Goldenの二次保管・USBからの復元試験は [保管レポート](results/phase13/CUSTODY_REPORT.md) に記録しています。
+
 プロジェクト全体の設計方針は [DESIGN.md](DESIGN.md) を参照してください。
 今回の Peak-based Phase Locking の要件は [PHASE2_REQUIREMENTS.md](PHASE2_REQUIREMENTS.md) に保存しています。
 Transient Detection + Phase Reset の要件は [PHASE3_REQUIREMENTS.md](PHASE3_REQUIREMENTS.md) に保存しています。

@@ -4,7 +4,7 @@
 
 `input/`に5種類の既存比較区間をコピーし、`raw/`に速度0.50／0.75／1.00の計15本を保存した。すべてDSP本来の**無加工float WAV**で、音量一致版ではない。全長SHA-256、入力SHA-256、フレーム数、ピーク、RMS、統合LUFS、true peak、実行時間、常駐メモリ、イベント数は [`manifest.csv`](manifest.csv) に記録した。実行条件は [`baseline.json`](baseline.json)、再生成・整合性検証は [`scripts/phase12_golden.py`](../../../scripts/phase12_golden.py)。再生時のクリッピングを避けるため、DSP参照とは別に `audition/` に−18 LUFSを目標とした**固定ゲインのみ**の試聴コピーを置き、適用ゲインと別ハッシュを [`audition_manifest.csv`](audition_manifest.csv) に記録した。
 
-WAVはGit管理外で現在ローカルに保持している。非公開の二次保管と復元試験の条件は [`PHASE12_ARTIFACT_CUSTODY.md`](../../../PHASE12_ARTIFACT_CUSTODY.md) に定めた。二次保管の実施はまだ確認していない。
+WAVはGit管理外でローカルに保持している。非公開の二次保管と復元試験の条件は [`PHASE12_ARTIFACT_CUSTODY.md`](../../../PHASE12_ARTIFACT_CUSTODY.md) に定めた。2026-10-10に暗号化USBコピーからの復元試験を完了した。検証結果は [Phase 13保管レポート](../../phase13/CUSTODY_REPORT.md) を参照。
 
 | 音源 | 既存区間 | 入力長 | サンプルレート |
 | --- | --- | ---: | ---: |

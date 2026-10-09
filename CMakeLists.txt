@@ -30,6 +30,7 @@ add_library(timestretch_core
     src/dsp/MultiResolutionCrossover.cpp
     src/dsp/StreamingCrossover.cpp
     src/dsp/ChunkedTimeStretchEngine.cpp
+    src/dsp/Phase13StreamingEngine.cpp
     src/dsp/TimeStretchEngine.cpp
     src/dsp/TimeStretchProcessor.cpp
     src/dsp/WSOLAEngine.cpp
@@ -44,6 +45,8 @@ add_executable(timestretch src/main.cpp)
 target_link_libraries(timestretch PRIVATE timestretch_core)
 add_executable(realtime_stretch src/realtime_main.cpp)
 target_link_libraries(realtime_stretch PRIVATE timestretch_core)
+add_executable(phase13_stream src/phase13_main.cpp)
+target_link_libraries(phase13_stream PRIVATE timestretch_core)
 add_executable(phase101_offline_events src/phase101_offline_events.cpp)
 target_link_libraries(phase101_offline_events PRIVATE timestretch_core)
 
@@ -144,4 +147,8 @@ if(BUILD_TESTING)
     add_test(NAME phase101 COMMAND phase10_tests --phase101)
     add_test(NAME phase10_stress COMMAND phase10_tests --stress)
     add_test(NAME phase10_benchmark COMMAND phase10_tests --benchmark)
+
+    add_executable(phase13_tests tests/Phase13Tests.cpp)
+    target_link_libraries(phase13_tests PRIVATE timestretch_core)
+    add_test(NAME phase13 COMMAND phase13_tests)
 endif()
