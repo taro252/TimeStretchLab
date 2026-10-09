@@ -69,6 +69,20 @@ int main() {
             });
         check(sustained>=1,"Vibrato track was fragmented");
         check(result.output.size()==2*vibrato.size(),"Vibrato duration mismatch");
+        ts::SinusoidalResidualEngine repeatEngine(config);
+        const auto repeat=repeatEngine.processMono(vibrato);
+        check(result.output==repeat.output,"Random residual is not reproducible");
+        config.residualPhaseMode=ts::ResidualPhaseMode::AnalysisContinuity;
+        ts::SinusoidalResidualEngine phaseEngine(config);
+        const auto continued=phaseEngine.processMono(vibrato);
+        check(result.sinusoidalOutput==continued.sinusoidalOutput,
+              "Diagnostic phase mode changed the oscillator");
+        check(result.residualInput==continued.residualInput,
+              "Diagnostic phase mode changed the decomposition");
+        check(result.residualOutput!=continued.residualOutput,
+              "Residual phase diagnostic produced identical output");
+        for (float sample:continued.output)
+            check(std::isfinite(sample),"Nonfinite analysis-phase output");
         std::cout << "phase9a PASS\n";
     } catch (const std::exception& error) {
         std::cerr << "phase9a FAIL: " << error.what() << '\n';

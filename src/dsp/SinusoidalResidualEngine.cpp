@@ -193,6 +193,9 @@ void SinusoidalResidualEngine::synthesizeResidual(
     const std::vector<float>& residual,std::vector<float>& output) const {
     const auto bins=config_.fftSize/2+1;
     std::vector<std::vector<float>> magnitudes(frameCount_,std::vector<float>(bins));
+    std::vector<std::vector<float>> analysisPhases;
+    if (config_.residualPhaseMode==ResidualPhaseMode::AnalysisContinuity)
+        analysisPhases.assign(frameCount_,std::vector<float>(bins));
     FFTAccelerate fft(config_.fftSize);
     std::vector<float> time(config_.fftSize);
     std::vector<std::complex<float>> spectrum(bins);
@@ -205,13 +208,20 @@ void SinusoidalResidualEngine::synthesizeResidual(
                 ? residual[at]*window_[n] : 0;
         }
         fft.forward(time.data(),spectrum.data());
-        for (std::size_t k=0;k<bins;++k)
+        for (std::size_t k=0;k<bins;++k) {
             // A tracked partial's leftover energy is coherent leakage, not
             // noise. Suppress it smoothly before randomizing residual phase.
             magnitudes[frame][k]=std::abs(spectrum[k])*(1-masks_[frame][k]);
+            if (!analysisPhases.empty()) analysisPhases[frame][k]=std::arg(spectrum[k]);
+        }
     }
     std::vector<double> sums(output.size()),weights(output.size());
     std::uint32_t random=0x9e3779b9u;
+    std::vector<double> continuedPhase;
+    if (!analysisPhases.empty()) {
+        continuedPhase.resize(bins);
+        for (std::size_t k=0;k<bins;++k) continuedPhase[k]=analysisPhases[0][k];
+    }
     const auto outputFrames=(output.size()+config_.analysisHop-1)/config_.analysisHop+1;
     for (std::size_t frame=0;frame<outputFrames;++frame) {
         const long long center=static_cast<long long>(frame*config_.analysisHop);
@@ -222,8 +232,27 @@ void SinusoidalResidualEngine::synthesizeResidual(
         spectrum[0]={0,0};spectrum[bins-1]={0,0};
         for (std::size_t k=1;k+1<bins;++k) {
             const double magnitude=magnitudes[left][k]*(1-u)+magnitudes[right][k]*u;
-            random^=random<<13;random^=random>>17;random^=random<<5;
-            const double phase=twoPi*double(random)/double(UINT32_MAX);
+            double phase;
+            if (analysisPhases.empty()) {
+                random^=random<<13;random^=random>>17;random^=random<<5;
+                phase=twoPi*double(random)/double(UINT32_MAX);
+            } else {
+                // Diagnostic only: carry the residual's measured per-bin
+                // phase advance through the output timeline. The default
+                // random-phase output follows the original code path.
+                if (frame>0) {
+                    const auto next=std::min(left+1,frameCount_-1);
+                    const double expected=twoPi*k*config_.analysisHop/config_.fftSize;
+                    const double deviation=next>left ? std::remainder(
+                        double(analysisPhases[next][k])-analysisPhases[left][k]-expected,
+                        twoPi) : 0;
+                    continuedPhase[k]+=twoPi*k*config_.analysisHop/config_.fftSize+
+                        deviation;
+                    if (std::abs(continuedPhase[k])>1e6)
+                        continuedPhase[k]=std::remainder(continuedPhase[k],twoPi);
+                }
+                phase=continuedPhase[k];
+            }
             spectrum[k]=std::polar(static_cast<float>(magnitude),static_cast<float>(phase));
         }
         fft.inverse(spectrum.data(),time.data());

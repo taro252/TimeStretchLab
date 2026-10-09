@@ -6,12 +6,14 @@
 #include <vector>
 
 namespace ts {
+enum class ResidualPhaseMode { Random, AnalysisContinuity };
 struct SinusoidalResidualConfig {
     double sampleRate=48000;
     double timeRatio=1;
     std::size_t fftSize=4096;
     std::size_t analysisHop=512;
     std::size_t maximumTracksPerFrame=64;
+    ResidualPhaseMode residualPhaseMode=ResidualPhaseMode::Random;
 };
 struct SinusoidalNode {
     std::size_t center=0;

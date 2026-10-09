@@ -21,7 +21,8 @@ double number(const char* text) {
 int main(int argc,char** argv) {
     if (argc<5 || argc%2==0) {
         std::cerr << "Usage: sinusoidal_residual_stretch input.wav output.wav "
-                     "--speed 0.75 [--analysis-hop 512] [--diagnostics directory]\n";
+                     "--speed 0.75 [--analysis-hop 512] [--residual-phase random|analysis] "
+                     "[--diagnostics directory]\n";
         return 2;
     }
     try {
@@ -37,6 +38,13 @@ int main(int argc,char** argv) {
                     throw std::invalid_argument("Invalid analysis hop");
                 config.analysisHop=static_cast<std::size_t>(hop);
             } else if (key=="--diagnostics") diagnostics=argv[i+1];
+            else if (key=="--residual-phase") {
+                const std::string value=argv[i+1];
+                if (value=="random") config.residualPhaseMode=ts::ResidualPhaseMode::Random;
+                else if (value=="analysis")
+                    config.residualPhaseMode=ts::ResidualPhaseMode::AnalysisContinuity;
+                else throw std::invalid_argument("--residual-phase expects random|analysis");
+            }
             else throw std::invalid_argument("Unknown option: "+key);
         }
         if (!(speed>0 && speed<=2)) throw std::invalid_argument("Invalid speed");
