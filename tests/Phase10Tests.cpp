@@ -181,6 +181,47 @@ void transientPartition() {
     check(mono.statistics.transientEvents>0 && mono.frames==192000,
           "Mono transient path failed");
 }
+void transientPhaseResetAblation() {
+    for (double speed:{.75,.5}) {
+        const auto full=run(48000*4,speed,2,512,237,true,48000,false,
+                            {true,128,true},true);
+        allocationCount.store(0);
+        const auto withoutReset=run(48000*4,speed,2,512,237,true,48000,false,
+                                    {true,128,false},true);
+        check(allocationCount.load()==0,"Phase reset ablation allocated after prepare");
+        check(full.frames==withoutReset.frames,"Phase reset ablation changed duration");
+        check(full.statistics.transientEvents==withoutReset.statistics.transientEvents &&
+              full.statistics.preciseAnchors==withoutReset.statistics.preciseAnchors,
+              "Phase reset ablation changed event detection");
+        check(std::abs(full.statistics.stretchDebtSamples-
+                       withoutReset.statistics.stretchDebtSamples)<1e-9,
+              "Phase reset ablation changed time map debt");
+        check(full.events.size()==withoutReset.events.size(),
+              "Phase reset ablation changed event count");
+        for (std::size_t i=0;i<full.events.size();++i)
+            check(full.events[i].peakFrame==withoutReset.events[i].peakFrame &&
+                  full.events[i].inputSample==withoutReset.events[i].inputSample,
+                  "Phase reset ablation changed event positions");
+        double difference=0;
+        for (int c=0;c<2;++c)for (std::size_t i=0;i<full.frames;++i)
+            difference=std::max(difference,
+                std::abs(double(full.channels[c][i])-withoutReset.channels[c][i]));
+        check(difference>1e-5,"Phase reset ablation did not change audio");
+        const auto partitioned=run(48000*4,speed,2,2048,911,true,48000,false,
+                                   {true,128,false},true);
+        double partitionDifference=0;
+        for (int c=0;c<2;++c)for (std::size_t i=0;i<full.frames;++i)
+            partitionDifference=std::max(partitionDifference,
+                std::abs(double(partitioned.channels[c][i])-
+                         withoutReset.channels[c][i]));
+        check(partitionDifference<1e-6,
+              "Phase reset ablation depends on block partition");
+        std::cout << "phase_reset_ablation_speed=" << speed
+                  << " events=" << full.statistics.transientEvents
+                  << " max_audio_difference=" << difference
+                  << " partition_difference=" << partitionDifference << '\n';
+    }
+}
 void transientResetAndSpeed() {
     allocationCount.store(0);
     ts::TimeStretchProcessor processor;
@@ -538,6 +579,7 @@ int main(int argc,char** argv) {
         }
         else if (argc==2 && std::string_view(argv[1])=="--phase101") {
             transientPartition();
+            transientPhaseResetAblation();
             transientResetAndSpeed();
             transientClickTiming();
             latencyProbe();

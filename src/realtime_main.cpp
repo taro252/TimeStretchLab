@@ -14,28 +14,36 @@ int main(int argc,char** argv) {
     if (argc<7 || (argc-3)%2!=0) {
         std::cerr << "Usage: realtime_stretch input.wav output.wav --speed 0.75 "
                      "--mode linear|transient [--lookahead-ms 64|128|192] "
+                     "[--phase-reset on|off] "
                      "[--events-csv path]\n";
         return 2;
     }
     try {
         double speed=0;std::string mode,eventCsv;unsigned lookahead=128;
+        bool phaseReset=true;
         for (int i=3;i<argc;i+=2) {
             const std::string key=argv[i],value=argv[i+1];
             if (key=="--speed")speed=std::stod(value);
             else if (key=="--mode")mode=value;
             else if (key=="--lookahead-ms")lookahead=static_cast<unsigned>(std::stoul(value));
+            else if (key=="--phase-reset") {
+                if (value!="on" && value!="off")
+                    throw std::invalid_argument("--phase-reset must be on or off");
+                phaseReset=value=="on";
+            }
             else if (key=="--events-csv")eventCsv=value;
             else throw std::invalid_argument("Unknown option: "+key);
         }
         if (!std::isfinite(speed) || speed<0.25 || speed>2 ||
-            (mode!="linear" && mode!="transient"))
+            (mode!="linear" && mode!="transient") ||
+            (mode=="linear" && !phaseReset))
             throw std::invalid_argument("Invalid speed or mode");
         ts::WavStreamReader reader(argv[1]);
         const auto expected=static_cast<std::size_t>(std::llround(reader.frames()/speed));
         ts::WavStreamWriter writer(argv[2],reader.sampleRate(),reader.channels(),expected);
         ts::TimeStretchProcessor processor;
         processor.prepare(reader.sampleRate(),static_cast<int>(reader.channels()),4096,
-                          {mode=="transient",lookahead});
+                          {mode=="transient",lookahead,phaseReset});
         processor.setSpeed(speed);
         std::array<std::array<float,4096>,2> input{},output{};
         std::size_t in=0,out=0;

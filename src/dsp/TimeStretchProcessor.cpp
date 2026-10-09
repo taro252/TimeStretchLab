@@ -531,8 +531,8 @@ struct TimeStretchProcessor::Impl {
                 stft.analyze(frame.data(),inputSpectra[c].data());
             }
             const double delta=nextFrame==0?0.0:double(start-previousStart);
-            const bool reset=parent.transient && parent.transient->resetAt(nextFrame,
-                                                                          size==8192);
+            const bool reset=parent.transient && parent.enableTransientPhaseReset &&
+                parent.transient->resetAt(nextFrame,size==8192);
             if (channels==2) {
                 for (std::size_t k=0;k<combined.size();++k)
                     combined[k]={std::hypot(std::abs(inputSpectra[0][k]),
@@ -602,6 +602,7 @@ struct TimeStretchProcessor::Impl {
     PlanarFifo input,output;
     LiveTimeline timeline;
     std::unique_ptr<FiniteTransientDetector> transient;
+    bool enableTransientPhaseReset=true;
     MultiResolutionCrossover filters;
     Resolution low,mid;
     std::vector<std::unique_ptr<LiveFIR>> fir;
@@ -620,6 +621,7 @@ struct TimeStretchProcessor::Impl {
          RealtimeTransientConfig transientConfig)
         :rate(sampleRate),channels(count),maxBlock(block),
          input(count,inputCapacity),output(count,outputCapacity),timeline(sampleRate),
+         enableTransientPhaseReset(transientConfig.enablePhaseReset),
          filters(sampleRate,250.0),low(*this,8192,2048),mid(*this,4096,1024) {
         if (transientConfig.enabled)
             transient=std::make_unique<FiniteTransientDetector>(channels,

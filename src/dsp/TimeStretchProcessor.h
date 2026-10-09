@@ -8,6 +8,8 @@ struct RealtimeTransientConfig {
     bool enabled=false;
     // Supported finite lookahead budgets: 64, 128, or 192 ms.
     unsigned lookaheadMilliseconds=128;
+    // Diagnostic ablation only. Keep event detection, time map and anchoring.
+    bool enablePhaseReset=true;
 };
 
 struct RealtimeTransientEvent {
