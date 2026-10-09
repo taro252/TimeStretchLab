@@ -25,7 +25,7 @@ void usage() {
                  "[--coherence-strength 1] [--low-frequency-coherence 0.5] "
                  "[--multiresolution on|off] [--quality normal|high|experimental] "
                  "[--chunked on|off] [--chunk-size 16384] [--ablation a|b|c] "
-                 "[--low-crossover-hz 250] [--debug-csv directory]\n"
+                 "[--low-crossover-hz 250] [--high-crossover-hz 3500] [--debug-csv directory]\n"
                  "[--transient-sensitivity 3] [--transient-history 12] "
                  "[--transient-cooldown 2] [--transient-lookback 1] "
                  "[--event-distance 4] [--event-decay-merge 12] [--event-preroll 2] "
@@ -61,6 +61,8 @@ int main(int argc, char** argv) {
         ts::QualityMode qualityMode = ts::QualityMode::High;
         bool qualitySpecified = false;
         double lowCrossoverHz = 250.0;
+        double highCrossoverHz = 3500.0;
+        bool highCrossoverSpecified = false;
         std::size_t chunkSize = 16384;
         float coherenceStrength = 1.0f, lowFrequencyCoherence = 0.5f;
         float transientSensitivity = 3.0f;
@@ -141,6 +143,9 @@ int main(int argc, char** argv) {
                 else throw std::invalid_argument("--quality expects normal, high, or experimental");
             } else if (key == "--low-crossover-hz") {
                 lowCrossoverHz = number(argv[i+1],key);
+            } else if (key == "--high-crossover-hz") {
+                highCrossoverHz = number(argv[i+1],key);
+                highCrossoverSpecified = true;
             } else if (key == "--chunked") {
                 if (value != "on" && value != "off") throw std::invalid_argument("--chunked expects on/off");
                 chunked = value == "on";
@@ -161,6 +166,8 @@ int main(int argc, char** argv) {
         if (!hopSpecified) analysisHop = fftSize / 4;
         if (qualitySpecified && ablationSpecified)
             throw std::invalid_argument("Choose --quality or --ablation, not both");
+        if (highCrossoverSpecified && (!qualitySpecified || qualityMode!=ts::QualityMode::Experimental))
+            throw std::invalid_argument("--high-crossover-hz requires --quality experimental");
         if (qualitySpecified) multiresolution = qualityMode != ts::QualityMode::Normal;
         if (ablationSpecified && !chunked)
             throw std::invalid_argument("--ablation requires --chunked on");
@@ -191,6 +198,7 @@ int main(int argc, char** argv) {
         config.enableMultiResolution = multiresolution;
         config.qualityMode = qualityMode;
         config.lowCrossoverHz = lowCrossoverHz;
+        config.highCrossoverHz = highCrossoverHz;
         config.transientSensitivity = transientSensitivity;
         config.transientHistoryFrames = transientHistory;
         config.transientCooldownFrames = transientCooldown;
@@ -236,7 +244,8 @@ int main(int argc, char** argv) {
                       << " multiresolution=" << (selected==ts::AblationMode::MidOnly?"off":"on")
                       << " chunked=on chunk_size=" << result.chunkSize
                       << " quality=" << (selected==ts::AblationMode::MidOnly?"normal":
-                            selected==ts::AblationMode::LowMid?"high":"experimental")
+                      selected==ts::AblationMode::LowMid?"high":"experimental")
+                      << " high_crossover_hz=" << highCrossoverHz
                       << " ablation=" << (selected==ts::AblationMode::MidOnly?"a":
                             selected==ts::AblationMode::LowMid?"b":"c")
                       << " ola_ring_samples=" << result.olaRingSamples

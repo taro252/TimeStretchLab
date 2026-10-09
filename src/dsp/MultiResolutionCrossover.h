@@ -13,7 +13,8 @@ public:
         std::size_t taps;
         std::vector<std::complex<float>> response;
     };
-    explicit MultiResolutionCrossover(double sampleRate, double lowCutoffHz = 250.0);
+    explicit MultiResolutionCrossover(double sampleRate, double lowCutoffHz = 250.0,
+                                      double highCutoffHz = 3500.0);
     void combineLowMid(const std::vector<float>& low, const std::vector<float>& mid,
                        std::vector<float>& output);
     void combine(const std::vector<float>& low, const std::vector<float>& mid,

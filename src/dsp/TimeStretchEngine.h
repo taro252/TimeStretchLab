@@ -32,6 +32,7 @@ struct StretchConfig {
     bool enableMultiResolution = false;
     QualityMode qualityMode = QualityMode::High;
     double lowCrossoverHz = 250.0;
+    double highCrossoverHz = 3500.0; // Experimental three-way crossover.
     int fftSize = 4096;
     int analysisHop = 1024;
     float transientThreshold = 1.5f;

@@ -367,7 +367,8 @@ ChunkedResult ChunkedTimeStretchEngine::processWav(const std::filesystem::path& 
     std::vector<std::unique_ptr<StreamingCrossoverChannel>> crossovers;
     std::vector<std::unique_ptr<StreamingFIR>> lowFilters;
     if (mode!=AblationMode::MidOnly) {
-        filters=std::make_unique<MultiResolutionCrossover>(config_.sampleRate,config_.lowCrossoverHz);
+        filters=std::make_unique<MultiResolutionCrossover>(config_.sampleRate,
+            config_.lowCrossoverHz,config_.highCrossoverHz);
         for (std::size_t c=0; c<reader.channels(); ++c) {
             if (mode==AblationMode::Full)
                 crossovers.emplace_back(std::make_unique<StreamingCrossoverChannel>(*filters,result.outputFrames));

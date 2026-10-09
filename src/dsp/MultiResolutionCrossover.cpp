@@ -5,9 +5,10 @@
 #include <stdexcept>
 
 namespace ts {
-MultiResolutionCrossover::MultiResolutionCrossover(double sampleRate, double lowCutoffHz)
+MultiResolutionCrossover::MultiResolutionCrossover(double sampleRate, double lowCutoffHz,
+                                                   double highCutoffHz)
     : fft_(fftSize_), low_(makeFilter(fft_, 2049, lowCutoffHz, sampleRate)),
-      high_(makeFilter(fft_, 513, 3500, sampleRate)),
+      high_(makeFilter(fft_, 513, highCutoffHz, sampleRate)),
       block_(fftSize_), transformed_(fftSize_), spectrum_(fftSize_/2+1) {}
 MultiResolutionCrossover::Filter MultiResolutionCrossover::makeFilter(
     FFTAccelerate& fft, std::size_t taps, double cutoff, double rate) {

@@ -46,7 +46,9 @@ TimeStretchEngine::TimeStretchEngine(const StretchConfig& config)
         config.lowFrequencyCoherenceStrength < 0 || config.lowFrequencyCoherenceStrength > 1)
         throw std::invalid_argument("Invalid configuration or unsupported later-phase feature enabled");
     if (!std::isfinite(config.lowCrossoverHz) || config.lowCrossoverHz < 100 ||
-        config.lowCrossoverHz > 1000)
+        config.lowCrossoverHz > 1000 ||
+        !std::isfinite(config.highCrossoverHz) || config.highCrossoverHz < 1000 ||
+        config.highCrossoverHz > 8000)
         throw std::invalid_argument("Invalid configuration or unsupported later-phase feature enabled");
     for (int c = 0; c < config.channels; ++c)
         vocoders_.emplace_back(config.fftSize, config.analysisHop,
@@ -97,7 +99,8 @@ std::vector<std::vector<float>> TimeStretchEngine::processMultiResolution(
     highConfig.debugCsvDirectory.clear();
     TimeStretchEngine lowEngine(lowConfig);
     auto low = lowEngine.processSingleResolution(input, &shared);
-    MultiResolutionCrossover crossover(config_.sampleRate,config_.lowCrossoverHz);
+    MultiResolutionCrossover crossover(config_.sampleRate,config_.lowCrossoverHz,
+                                       config_.highCrossoverHz);
     std::vector<std::vector<float>> result(input.size());
     if (config_.qualityMode==QualityMode::Experimental) {
         highConfig.fftSize = 1024; highConfig.analysisHop = 256;
