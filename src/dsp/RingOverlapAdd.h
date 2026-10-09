@@ -7,6 +7,7 @@ namespace ts {
 class RingOverlapAdd {
 public:
     explicit RingOverlapAdd(std::size_t capacity);
+    void reset();
     void add(const float* frame, const float* window, std::size_t size, long long start);
     float pop();
     float preview(std::size_t absoluteSample) const;

@@ -1,10 +1,16 @@
 #include "dsp/RingOverlapAdd.h"
+#include <algorithm>
 #include <stdexcept>
 
 namespace ts {
 RingOverlapAdd::RingOverlapAdd(std::size_t capacity)
     : signal_(capacity), weight_(capacity) {
     if (capacity == 0) throw std::invalid_argument("Empty OLA ring");
+}
+void RingOverlapAdd::reset() {
+    std::fill(signal_.begin(),signal_.end(),0.0f);
+    std::fill(weight_.begin(),weight_.end(),0.0f);
+    base_=0;
 }
 void RingOverlapAdd::add(const float* frame, const float* window,
                          std::size_t size, long long start) {

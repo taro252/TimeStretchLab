@@ -31,6 +31,7 @@ add_library(timestretch_core
     src/dsp/StreamingCrossover.cpp
     src/dsp/ChunkedTimeStretchEngine.cpp
     src/dsp/TimeStretchEngine.cpp
+    src/dsp/TimeStretchProcessor.cpp
     src/dsp/WSOLAEngine.cpp
     src/dsp/SinusoidalResidualEngine.cpp
     src/dsp/TonalResidualEngine.cpp
@@ -132,4 +133,10 @@ if(BUILD_TESTING)
     add_executable(phase9c_tests tests/Phase9CTests.cpp)
     target_link_libraries(phase9c_tests PRIVATE timestretch_core)
     add_test(NAME phase9c COMMAND phase9c_tests)
+
+    add_executable(phase10_tests tests/Phase10Tests.cpp)
+    target_link_libraries(phase10_tests PRIVATE timestretch_core)
+    add_test(NAME phase10 COMMAND phase10_tests)
+    add_test(NAME phase10_stress COMMAND phase10_tests --stress)
+    add_test(NAME phase10_benchmark COMMAND phase10_tests --benchmark)
 endif()
