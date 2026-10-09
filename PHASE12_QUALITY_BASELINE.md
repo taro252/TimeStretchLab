@@ -37,8 +37,8 @@
 
 この参照のコード版は `276bed754bcfe8c7b0f617e63e1f18b88d48e299`、`build/timestretch` のSHA-256は `d27dfe5ddf1dbc05c9ee96c756e3894be132eabff4e0475287318c413f734500`。ゴールデンの作成・検証手順は [`scripts/phase12_golden.py`](scripts/phase12_golden.py)、試聴コピーは [`scripts/phase12_audition.py`](scripts/phase12_audition.py)、補助クリックは [`scripts/phase12_anchor_diagnostic.py`](scripts/phase12_anchor_diagnostic.py)。通常実行は既存ファイルのハッシュ検証だけを行い、明示的な `--force` 指定時に再生成する。
 
-WAVファイルは現在の `.gitignore` で除外されるため**ローカル作業領域に保持**し、Gitでは仕様、生成スクリプト、ハッシュ付きmanifestを管理する。別ホストや新規チェックアウトへ参照を移す際は、WAV本体と入力コピーをハッシュ確認付きで別途保管・転送する必要がある。
+WAVファイルは現在の `.gitignore` で除外されるため**ローカル作業領域に保持**し、Gitでは仕様、生成スクリプト、ハッシュ付きmanifestを管理する。再生成に必要な入力、環境、非公開アーカイブ、二次コピー、復元試験の条件は [`PHASE12_ARTIFACT_CUSTODY.md`](PHASE12_ARTIFACT_CUSTODY.md) に定めた。現時点で二次コピーと復元試験は未完了であり、公開リポジトリへ著作権上公開できない音声を追加しない。
 
 ## 変更禁止と品質ゲート
 
-Phase 12では新しいリアルタイムDSPを実装しない。今後の実装は独立した経路で進め、Experimental 3500のオフラインコードと15本のゴールデン出力を変更しない。Phase 10.1の全binリセット、局所時間写像、伸張債務返済、アンカー補正を、音質悪化の要因が未分離のまま製品経路へ持ち込まない。リアルタイム化の差分、リスク、検証順は [`PHASE12_REALTIME_PLAN.md`](PHASE12_REALTIME_PLAN.md) に記す。
+Phase 12では新しいリアルタイムDSPを実装しない。**最初の試作は既知ファイルの0.50倍速固定**とし、Experimental 3500のオフラインコードとゴールデン出力を変更せずに波形再現を検証する。速度変更は後段階とする。Phase 10.1の有限先読みイベントに基づくリセット時刻、局所時間写像、伸張債務返済、アンカー補正を、音質悪化の要因が未分離のまま製品経路へ持ち込まない。採用済みオフライン基準のPhase 3.5型リセットは維持する。リアルタイム化の差分、リスク、検証順は [`PHASE12_REALTIME_PLAN.md`](PHASE12_REALTIME_PLAN.md) に記す。
