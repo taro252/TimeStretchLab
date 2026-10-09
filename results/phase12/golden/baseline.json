@@ -1,0 +1,68 @@
+{
+  "baseline_name": "Phase 12 Experimental 3500 offline golden",
+  "dsp_git_revision": "276bed754bcfe8c7b0f617e63e1f18b88d48e299",
+  "executable_sha256": "d27dfe5ddf1dbc05c9ee96c756e3894be132eabff4e0475287318c413f734500",
+  "platform": "macOS arm64; CMake Release; Apple Accelerate",
+  "processing": "ChunkedTimeStretchEngine; raw pcm_f32le WAV; chunk_size=16384",
+  "quality_mode": "Experimental",
+  "resolutions": {
+    "low": {
+      "fft": 8192,
+      "analysis_hop": 2048
+    },
+    "mid": {
+      "fft": 4096,
+      "analysis_hop": 1024
+    },
+    "high": {
+      "fft": 1024,
+      "analysis_hop": 256
+    }
+  },
+  "crossover": {
+    "low_hz": 250,
+    "high_hz": 3500,
+    "low_fir_taps": 2049,
+    "high_fir_taps": 513,
+    "fft_convolution_size": 4096
+  },
+  "features": {
+    "phase_locking": true,
+    "transient_handling": true,
+    "adaptive_time_mapping": true,
+    "precise_transient_anchoring": true,
+    "stereo_coherence": true,
+    "selective_phase_reset": false,
+    "partial_tracking": false,
+    "pvsola": false
+  },
+  "speeds": [
+    0.5,
+    0.75,
+    1.0
+  ],
+  "ratio_convention": "output_frames = round(input_frames / speed)",
+  "unity_behavior": "speed=1.0 is exact sample bypass, not a three-resolution DSP run",
+  "hash_scope": "SHA-256 of complete unmodified WAV file; no listening gain applied",
+  "stereo_coherence": {
+    "strength": 1.0,
+    "low_frequency_strength": 0.5
+  },
+  "transient_detection": {
+    "sensitivity": 3.0,
+    "minimum_flux": 0.02,
+    "reset_strength_threshold": 0.25,
+    "history_frames": 12,
+    "cooldown_frames": 2,
+    "lookback_frames": 1
+  },
+  "event_map": {
+    "minimum_distance_frames": 4,
+    "decay_merge_frames": 12,
+    "pre_roll_frames": 2,
+    "post_roll_frames": 5,
+    "selective_reset": false
+  },
+  "stft_window": "periodic Hann; analysis and synthesis; window-squared OLA normalization",
+  "fft_backend": "Apple Accelerate/vDSP"
+}
