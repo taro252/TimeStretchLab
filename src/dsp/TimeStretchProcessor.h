@@ -4,6 +4,20 @@
 #include <memory>
 
 namespace ts {
+struct RealtimeTransientConfig {
+    bool enabled=false;
+    // Supported finite lookahead budgets: 64, 128, or 192 ms.
+    unsigned lookaheadMilliseconds=128;
+};
+
+struct RealtimeTransientEvent {
+    std::uint64_t sequence=0;
+    std::size_t peakFrame=0;
+    std::size_t inputSample=0;
+    float strength=0;
+    bool preciseAnchor=false;
+};
+
 struct ProcessorStatistics {
     std::uint64_t inputUnderrunCalls=0;
     std::uint64_t outputUnderrunFrames=0;
@@ -13,6 +27,11 @@ struct ProcessorStatistics {
     std::uint64_t processingNanoseconds=0;
     std::uint64_t workerCalls=0;
     std::uint64_t resetCount=0;
+    std::uint64_t transientEvents=0;
+    std::uint64_t preciseAnchors=0;
+    double stretchDebtSamples=0;
+    double maximumAbsoluteDebtSamples=0;
+    int dspFaultCode=0; // 1: exception, 2: nonfinite, 3: past OLA, 4: future OLA.
 };
 
 struct ProcessorLatency {
@@ -35,7 +54,8 @@ public:
     ~TimeStretchProcessor();
     TimeStretchProcessor(const TimeStretchProcessor&)=delete;
     TimeStretchProcessor& operator=(const TimeStretchProcessor&)=delete;
-    void prepare(double sampleRate,int channels,std::size_t maxBlockSize);
+    void prepare(double sampleRate,int channels,std::size_t maxBlockSize,
+                 RealtimeTransientConfig transient={});
     void reset() noexcept;
     void setSpeed(double speed);
     double targetSpeed() const noexcept;
@@ -55,6 +75,9 @@ public:
     std::size_t inputFifoCapacity() const noexcept;
     std::size_t outputFifoCapacity() const noexcept;
     std::size_t workingMemoryBytes() const noexcept;
+    // Worker-owned diagnostic ring retaining the latest 256 events. Query only
+    // while the worker is stopped; this is not an audio-render callback API.
+    bool transientEvent(std::uint64_t sequence,RealtimeTransientEvent& event) const noexcept;
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;

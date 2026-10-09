@@ -36,15 +36,17 @@ template<class F> auto measured(F&& call) {
 }
 struct RunResult {
     std::vector<std::vector<float>> channels;
+    std::vector<ts::RealtimeTransientEvent> events;
     std::size_t frames=0;
     ts::ProcessorStatistics statistics;
     std::size_t bytes=0;
 };
 RunResult run(std::size_t inputFrames,double speed,int channelCount,
               std::size_t inputBlock,std::size_t pullBlock,bool capture=true,
-              double sampleRate=48000,bool repeatingInput=false) {
+              double sampleRate=48000,bool repeatingInput=false,
+              ts::RealtimeTransientConfig transient={},bool clickTrain=false) {
     ts::TimeStretchProcessor processor;
-    processor.prepare(sampleRate,channelCount,4096);
+    processor.prepare(sampleRate,channelCount,4096,transient);
     processor.setSpeed(speed);
     const auto bytes=processor.workingMemoryBytes();
     std::array<std::array<float,4096>,2> input{},output{};
@@ -84,10 +86,12 @@ RunResult run(std::size_t inputFrames,double speed,int channelCount,
         if (!repeatingInput)for (std::size_t i=0;i<count;++i) {
             const auto sample=inputPosition+i;
             const double t=sample/sampleRate;
-            const float signal=static_cast<float>(0.13*std::sin(
-                2*std::numbers::pi*437.3*t)+
-                0.06*std::sin(2*std::numbers::pi*82.41*t)+
-                (sample%13031==7?0.12:0));
+            const float signal=clickTrain
+                ? (sample%24000==113 && sample>=24000?0.85f:0.0f)
+                : static_cast<float>(0.13*std::sin(
+                    2*std::numbers::pi*437.3*t)+
+                    0.06*std::sin(2*std::numbers::pi*82.41*t)+
+                    (sample%13031==7?0.12:0));
             input[0][i]=signal;
             input[1][i]=0.72f*signal;
         }
@@ -107,6 +111,10 @@ RunResult run(std::size_t inputFrames,double speed,int channelCount,
     check(processor.drained(),"End-of-stream flush stalled");
     result.frames=outputPosition;
     result.statistics=processor.statistics();
+    if (transient.enabled)for (std::uint64_t i=0;i<result.statistics.transientEvents;++i) {
+        ts::RealtimeTransientEvent event;
+        if (processor.transientEvent(i,event))result.events.push_back(event);
+    }
     result.bytes=bytes;
     check(result.statistics.inputOverrunFrames==0,"Input FIFO overflow");
     check(result.statistics.outputUnderrunFrames==0,"Output FIFO underrun");
@@ -134,6 +142,132 @@ void partitionAndAllocation() {
                   << " max_partition_difference=" << worst
                   << " working_memory_bytes=" << reference.bytes << '\n';
         check(worst<1e-6,"Output depends on block partition");
+    }
+}
+void transientPartition() {
+    for (unsigned lookahead:{64u,128u,192u})for (double speed:{.75,.5}) {
+        allocationCount.store(0);
+        const ts::RealtimeTransientConfig mode{true,lookahead};
+        const auto reference=run(48000*2,speed,2,512,237,true,48000,false,mode);
+        check(reference.statistics.transientEvents>0,"No transient events detected");
+        check(allocationCount.load()==0,"Transient path allocated after prepare");
+        check(reference.frames==std::size_t(std::llround(96000/speed)),
+              "Transient duration mismatch");
+        double difference=0;
+        std::size_t candidateEvents=0;
+        const std::array<std::size_t,7> allBlocks{64,128,256,512,1024,2048,4096};
+        const auto candidates=lookahead==128?allBlocks.size():std::size_t(1);
+        for (std::size_t test=0;test<candidates;++test) {
+            const auto block=lookahead==128?allBlocks[test]:std::size_t(4096);
+            const auto candidate=run(48000*2,speed,2,block,911,true,48000,false,mode);
+            check(allocationCount.load()==0,"Transient candidate allocated after prepare");
+            check(reference.frames==candidate.frames,"Transient partition length mismatch");
+            candidateEvents=candidate.statistics.transientEvents;
+            for (int c=0;c<2;++c)for (std::size_t i=0;i<reference.frames;++i)
+                difference=std::max(difference,std::abs(double(reference.channels[c][i])-
+                                                        candidate.channels[c][i]));
+        }
+        std::cout << "transient_lookahead_ms=" << lookahead << " speed=" << speed
+                  << " events=" << reference.statistics.transientEvents
+                  << " candidate_events=" << candidateEvents
+                  << " anchors=" << reference.statistics.preciseAnchors
+                  << " debt=" << reference.statistics.stretchDebtSamples
+                  << " maximum_debt=" << reference.statistics.maximumAbsoluteDebtSamples
+                  << " working_memory_bytes=" << reference.bytes
+                  << " partition_difference=" << difference << '\n';
+        check(difference<1e-6,"Transient path depends on block partition");
+    }
+    const auto mono=run(48000*2,.5,1,257,333,true,48000,false,{true,128});
+    check(mono.statistics.transientEvents>0 && mono.frames==192000,
+          "Mono transient path failed");
+}
+void transientResetAndSpeed() {
+    allocationCount.store(0);
+    ts::TimeStretchProcessor processor;
+    processor.prepare(48000,2,4096,{true,128});
+    processor.setSpeed(.5);
+    std::array<float,4096> left{},right{},outLeft{},outRight{};
+    left[2048]=right[2048]=0.9f;
+    const float* input[]={left.data(),right.data()};
+    float* output[]={outLeft.data(),outRight.data()};
+    const auto passage=[&] {
+        std::vector<float> captured;
+        for (int block=0;block<6;++block) {
+            check(measured([&]{return processor.pushInput(input,4096);})==4096,
+                  "Transient reset input overflow");
+            measured([&]{return processor.process(4096);});
+            const auto count=std::min<std::size_t>(4096,processor.availableOutputFrames());
+            if (count) {
+                measured([&]{return processor.pullOutput(output,count);});
+                captured.insert(captured.end(),outLeft.begin(),outLeft.begin()+count);
+            }
+        }
+        return captured;
+    };
+    const auto first=passage();
+    check(!first.empty(),"Transient passage produced no output");
+    measured([&]{processor.reset();return 0;});
+    check(processor.statistics().transientEvents==0 &&
+          processor.statistics().stretchDebtSamples==0 &&
+          processor.availableOutputFrames()==0,"Transient reset left state");
+    const auto second=passage();
+    check(first==second,"Transient reset is not deterministic");
+    measured([&]{processor.setSpeed(.75);return 0;});
+    check(processor.currentSpeed()<.75,"Transient speed jumped immediately");
+    for (int i=0;i<20;++i) {
+        if (processor.availableInputCapacity()>=4096)
+            measured([&]{return processor.pushInput(input,4096);});
+        measured([&]{return processor.process(4096);});
+        const auto count=std::min<std::size_t>(4096,processor.availableOutputFrames());
+        if (count)measured([&]{return processor.pullOutput(output,count);});
+    }
+    check(std::abs(processor.currentSpeed()-.75)<1e-6,
+          "Transient speed ramp did not finish");
+    const auto previousDebt=processor.statistics().stretchDebtSamples;
+    measured([&]{processor.setSpeed(1.5);return 0;});
+    for (int i=0;i<20;++i) {
+        if (processor.availableInputCapacity()>=4096)
+            measured([&]{return processor.pushInput(input,4096);});
+        measured([&]{return processor.process(4096);});
+        const auto count=std::min<std::size_t>(4096,processor.availableOutputFrames());
+        if (count)measured([&]{return processor.pullOutput(output,count);});
+    }
+    check(std::abs(processor.currentSpeed()-1.5)<1e-6,
+          "Transient speed-up ramp did not finish");
+    check(processor.statistics().stretchDebtSamples<=previousDebt+1e-6 &&
+          std::isfinite(processor.statistics().stretchDebtSamples),
+          "Transient debt failed during speed change");
+    check(allocationCount.load()==0,"Transient reset/speed path allocated after prepare");
+}
+void transientClickTiming() {
+    for (double speed:{.75,.5}) {
+        const auto linear=run(48000*10,speed,2,512,333,true,48000,false,{},true);
+        const auto mapped=run(48000*10,speed,2,512,333,true,48000,false,
+                              {true,128},true);
+        check(mapped.statistics.transientEvents==19 &&
+              mapped.statistics.preciseAnchors==19,
+              "Click events or precise anchors missing");
+        const auto maxInterval=[&](const RunResult& result) {
+            std::array<std::size_t,19> peaks{};
+            for (std::size_t event=0;event<peaks.size();++event) {
+                const auto ideal=std::size_t(std::llround(
+                    double((event+1)*24000+113)/speed));
+                const auto begin=ideal-2400,end=std::min(result.frames,ideal+2400);
+                float maximum=0;
+                for (auto sample=begin;sample<end;++sample) {
+                    const float value=std::abs(result.channels[0][sample]);
+                    if (value>maximum) {maximum=value;peaks[event]=sample;}
+                }
+            }
+            double worst=0;
+            for (std::size_t i=1;i<peaks.size();++i)
+                worst=std::max(worst,std::abs(double(peaks[i]-peaks[i-1])-24000/speed));
+            return worst/48.0;
+        };
+        const auto before=maxInterval(linear),after=maxInterval(mapped);
+        std::cout << "click_speed=" << speed << " linear_max_interval_ms=" << before
+                  << " transient_max_interval_ms=" << after << '\n';
+        check(after<before,"Transient mapping did not improve click intervals");
     }
 }
 void resetAndSpeedChange() {
@@ -198,6 +332,25 @@ void latencyProbe() {
         std::cout << "speed=" << speed << " first_output_input_frames=" << supplied
                   << " latency_estimate=" << expected << '\n';
         check(supplied==expected,"Startup latency accounting mismatch");
+    }
+    for (unsigned lookahead:{64u,128u,192u})for (double speed:{.5,.75,1.0}) {
+        ts::TimeStretchProcessor processor;
+        processor.prepare(48000,1,4096,{true,lookahead});
+        processor.setSpeed(speed);
+        std::array<float,64> input{};
+        const float* ptr[]={input.data()};
+        std::size_t supplied=0;
+        while (processor.availableOutputFrames()==0 && supplied<50000) {
+            check(processor.pushInput(ptr,input.size())==input.size(),
+                  "Transient latency input FIFO full");
+            supplied+=input.size();processor.process(1);
+        }
+        const auto estimate=processor.latency().startupInputFrames;
+        std::cout << "lookahead_ms=" << lookahead
+                  << " speed=" << speed
+                  << " transient_first_output_input_frames=" << supplied
+                  << " latency_estimate=" << estimate << '\n';
+        check(supplied==estimate,"Transient startup latency estimate mismatch");
     }
 }
 void concurrentPipeline() {
@@ -279,6 +432,37 @@ void stress() {
               << " output_high_water_frames=" << result.statistics.outputHighWaterFrames
               << " allocations=" << allocationCount.load() << '\n';
 }
+void transientStress(double speed) {
+    constexpr std::size_t rate=48000,durationSeconds=1800;
+    allocationCount.store(0);
+    rusage before{};getrusage(RUSAGE_SELF,&before);
+    const auto start=std::chrono::steady_clock::now();
+    const auto result=run(rate*durationSeconds,speed,2,4096,1024,false,rate,true,
+                          {true,128});
+    const auto expected=std::size_t(std::llround(double(rate*durationSeconds)/speed));
+    check(result.frames==expected,"30-minute transient duration mismatch");
+    check(allocationCount.load()==0,"30-minute transient heap allocation");
+    check(std::isfinite(result.statistics.stretchDebtSamples) &&
+          result.statistics.maximumAbsoluteDebtSamples<rate*2,
+          "Transient debt diverged");
+    rusage after{};getrusage(RUSAGE_SELF,&after);
+    std::cout << "transient_stress_input_seconds=" << durationSeconds
+              << " speed=" << speed << " sample_rate=" << rate
+              << " output_frames=" << result.frames
+              << " expected_frames=" << expected
+              << " debt_samples=" << result.statistics.stretchDebtSamples
+              << " maximum_debt_samples=" << result.statistics.maximumAbsoluteDebtSamples
+              << " events=" << result.statistics.transientEvents
+              << " anchors=" << result.statistics.preciseAnchors
+              << " input_overrun_frames=" << result.statistics.inputOverrunFrames
+              << " output_underrun_frames=" << result.statistics.outputUnderrunFrames
+              << " worker_seconds=" << result.statistics.processingNanoseconds/1e9
+              << " cpu_seconds=" << cpuSeconds(after)-cpuSeconds(before)
+              << " wall_seconds=" << std::chrono::duration<double>(
+                  std::chrono::steady_clock::now()-start).count()
+              << " peak_rss_bytes=" << after.ru_maxrss
+              << " allocations=" << allocationCount.load() << '\n';
+}
 void benchmark() {
     constexpr std::size_t rate=48000,durationSeconds=30;
     allocationCount.store(0);
@@ -339,6 +523,26 @@ int main(int argc,char** argv) {
     try {
         if (argc==2 && std::string_view(argv[1])=="--stress")stress();
         else if (argc==2 && std::string_view(argv[1])=="--benchmark")benchmark();
+        else if (argc==2 && std::string_view(argv[1])=="--stress-transient-100")transientStress(1.0);
+        else if (argc==2 && std::string_view(argv[1])=="--stress-transient-075")transientStress(.75);
+        else if (argc==2 && std::string_view(argv[1])=="--stress-transient-050")transientStress(.5);
+        else if (argc==2 && std::string_view(argv[1])=="--transient-smoke") {
+            for (double speed:{1.0,.75,.5}) {
+                const auto result=run(48000*60,speed,2,4096,1024,false,48000,true,
+                                      {true,128});
+                std::cout << "smoke_speed=" << speed << " events="
+                          << result.statistics.transientEvents << " debt="
+                          << result.statistics.stretchDebtSamples << " maximum_debt="
+                          << result.statistics.maximumAbsoluteDebtSamples << '\n';
+            }
+        }
+        else if (argc==2 && std::string_view(argv[1])=="--phase101") {
+            transientPartition();
+            transientResetAndSpeed();
+            transientClickTiming();
+            latencyProbe();
+            std::cout << "phase101 PASS\n";
+        }
         else {
             partitionAndAllocation();
             resetAndSpeedChange();
