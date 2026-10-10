@@ -33,6 +33,9 @@ public:
     Phase13PreparedFile() = default;
     std::size_t inputFrames() const;
     std::size_t outputFrames() const;
+    // Frozen pre-analysis map. The output sample is the first sample selected
+    // when a UI request names an input sample; output-frame seek remains exact.
+    std::size_t outputFrameForInputFrame(std::size_t inputFrame) const;
 private:
     struct Impl;
     std::shared_ptr<const Impl> impl_;

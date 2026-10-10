@@ -21,6 +21,7 @@ namespace {
 using Clock=std::chrono::steady_clock;
 constexpr float playbackGain=0.5f;
 constexpr std::size_t prefillFrames=16384;
+constexpr std::uint32_t seekFadeFrames=256;
 volatile std::sig_atomic_t interrupted=0;
 thread_local bool insideRender=false;
 std::atomic<std::uint64_t> renderCppAllocations{0};
@@ -39,6 +40,9 @@ struct RenderState {
     double sourceRate=0;
     std::uint32_t timeNumer=1,timeDenom=1;
     std::atomic<bool> active{false},routeChanged{false},diagnosticStarve{false};
+    std::atomic<int> seekFadeMode{0}; // 0=off, 1=out, 2=in; playback gain only
+    std::atomic<std::uint32_t> seekFadeProgress{0};
+    std::atomic<bool> seekFadeOutComplete{false};
     std::atomic<std::uint32_t> activeCallbacks{0};
     std::atomic<std::uint64_t> contentFrames{0},renderedFrames{0};
     std::atomic<std::uint64_t> silenceFrames{0},callbackCalls{0},deadlineMisses{0};
@@ -48,6 +52,7 @@ struct RenderState {
         contentFrames.store(0);renderedFrames.store(0);silenceFrames.store(0);
         callbackCalls.store(0);deadlineMisses.store(0);maxCallbackNanoseconds.store(0);
         formatErrors.store(0);routeChanged.store(false);diagnosticStarve.store(false);
+        seekFadeMode.store(0);seekFadeProgress.store(0);seekFadeOutComplete.store(false);
     }
 };
 
@@ -90,6 +95,23 @@ OSStatus render(RenderState* state,BOOL* isSilence,AVAudioFrameCount frames,
             if (starve)
                 for (unsigned i=0;i<state->channels;++i)
                     std::memset(channel[i],0,requested*sizeof(float));
+            const auto fadeMode=state->seekFadeMode.load(std::memory_order_acquire);
+            if (fadeMode && received) {
+                auto progress=state->seekFadeProgress.load(std::memory_order_relaxed);
+                for (std::size_t i=0;i<received;++i) {
+                    const auto step=std::min(progress,seekFadeFrames-1);
+                    const float factor=fadeMode==1
+                        ? float(seekFadeFrames-1-step)/float(seekFadeFrames-1)
+                        : float(step)/float(seekFadeFrames-1);
+                    for (unsigned c=0;c<state->channels;++c) channel[c][i]*=factor;
+                    if (progress<seekFadeFrames) ++progress;
+                }
+                state->seekFadeProgress.store(progress,std::memory_order_release);
+                if (fadeMode==1 && progress>=seekFadeFrames)
+                    state->seekFadeOutComplete.store(true,std::memory_order_release);
+                if (fadeMode==2 && progress>=seekFadeFrames)
+                    state->seekFadeMode.store(0,std::memory_order_release);
+            }
             for (unsigned i=0;i<state->channels;++i)
                 std::memset(channel[i]+requested,0,(frames-requested)*sizeof(float));
             state->contentFrames.store(consumed+received,std::memory_order_release);
@@ -127,11 +149,11 @@ ts::StretchConfig frozenConfig(const ts::WavStreamReader& input) {
 
 struct RunResult {
     ts::Phase14Statistics pipeline;
-    std::uint64_t target=0,content=0,rendered=0,silence=0,callbacks=0;
+    std::uint64_t startFrame=0,target=0,content=0,rendered=0,silence=0,callbacks=0;
     std::uint64_t deadlineMisses=0,maxCallbackNanoseconds=0,formatErrors=0;
     std::uint64_t cppAllocations=0;
-    double wallSeconds=0,outputRate=0,presentationLatency=0,peakRSSMiB=0;
-    bool routeChanged=false,interrupted=false,eosDrained=false;
+    double wallSeconds=0,outputRate=0,presentationLatency=0,peakRSSMiB=0,seekWarmupSeconds=0;
+    bool routeChanged=false,interrupted=false,eosDrained=false,seekInterrupted=false;
 };
 
 class MacPlayer {
@@ -178,23 +200,30 @@ public:
         if (observer_) [[NSNotificationCenter defaultCenter] removeObserver:observer_];
     }
 
-    RunResult run(std::uint64_t limitFrames=0,bool forceUnderflow=false) {
-        const auto target=limitFrames ? std::min<std::uint64_t>(limitFrames,pipeline_.outputFrames())
-                                      : pipeline_.outputFrames();
+    RunResult run(std::uint64_t limitFrames=0,bool forceUnderflow=false,
+                  std::uint64_t startFrame=0,std::uint64_t seekAfterFrames=0) {
+        if (startFrame>=pipeline_.outputFrames()) throw std::out_of_range("Seek past end of output");
+        const auto remaining=pipeline_.outputFrames()-startFrame;
+        const auto target=limitFrames ? std::min<std::uint64_t>(limitFrames,remaining) : remaining;
         state_.reset(target);
         renderCppAllocations.store(0);
-        pipeline_.start();
+        const auto seekBegin=Clock::now();
+        if (startFrame) pipeline_.startAtOutputFrame(startFrame,
+            std::min<std::uint64_t>(prefillFrames,target),std::chrono::seconds(120));
+        else pipeline_.start();
         if (!forceUnderflow) {
             const auto prefill=std::min<std::uint64_t>(prefillFrames,target);
-            if (!pipeline_.waitForPrefill(prefill,std::chrono::seconds(120))) {
+            if (!startFrame && !pipeline_.waitForPrefill(prefill,std::chrono::seconds(120))) {
                 stop();
                 pipeline_.rethrowWorkerError();
                 throw std::runtime_error("DSP prefill timed out");
             }
         }
+        const auto seekWarmup=std::chrono::duration<double>(Clock::now()-seekBegin).count();
         NSError* error=nil;
         const auto begin=Clock::now();
         state_.diagnosticStarve.store(forceUnderflow,std::memory_order_release);
+        if (startFrame) state_.seekFadeMode.store(2,std::memory_order_release);
         state_.active.store(true,std::memory_order_release);
         bool started=false;
         @try { started=[engine_ startAndReturnError:&error]; }
@@ -214,7 +243,19 @@ public:
         }
         const auto timeout=std::chrono::duration<double>(double(target)/input_.sampleRate()+30.0);
         auto nextProgress=begin+std::chrono::seconds(30);
+        bool seekInterrupted=false,fadeRequested=false;
         while (state_.contentFrames.load(std::memory_order_acquire)<target) {
+            if (seekAfterFrames && !fadeRequested &&
+                state_.contentFrames.load(std::memory_order_acquire)>=seekAfterFrames) {
+                state_.seekFadeProgress.store(0,std::memory_order_relaxed);
+                state_.seekFadeOutComplete.store(false,std::memory_order_relaxed);
+                state_.seekFadeMode.store(1,std::memory_order_release);
+                fadeRequested=true;
+            }
+            if (fadeRequested && state_.seekFadeOutComplete.load(std::memory_order_acquire)) {
+                seekInterrupted=true;
+                break;
+            }
             if (interrupted || state_.routeChanged.load(std::memory_order_acquire) ||
                 state_.formatErrors.load(std::memory_order_relaxed)) break;
             if (Clock::now()-begin>timeout) break;
@@ -228,12 +269,14 @@ public:
                           << " underrun_frames=" << pipeline_.statistics().underrunFrames << '\n';
                 nextProgress+=std::chrono::seconds(30);
             }
-            std::this_thread::sleep_for(std::chrono::milliseconds(20));
+            std::this_thread::sleep_for(seekAfterFrames ? std::chrono::milliseconds(1)
+                                                       : std::chrono::milliseconds(20));
         }
         const bool completed=state_.contentFrames.load(std::memory_order_acquire)==target;
         const auto latency=engine_.outputNode.presentationLatency;
         if (completed) std::this_thread::sleep_for(std::chrono::duration<double>(std::max(0.1,latency+0.1)));
         RunResult result;
+        result.startFrame=startFrame;
         result.target=target;
         result.content=state_.contentFrames.load();
         result.rendered=state_.renderedFrames.load();
@@ -246,6 +289,8 @@ public:
         result.wallSeconds=std::chrono::duration<double>(Clock::now()-begin).count();
         result.outputRate=[[engine_.outputNode outputFormatForBus:0] sampleRate];
         result.presentationLatency=latency;
+        result.seekWarmupSeconds=seekWarmup;
+        result.seekInterrupted=seekInterrupted;
         rusage usage{};
         if (getrusage(RUSAGE_SELF,&usage)==0)
             result.peakRSSMiB=double(usage.ru_maxrss)/(1024.0*1024.0);
@@ -255,15 +300,20 @@ public:
         result.pipeline=pipeline_.statistics();
         result.eosDrained=pipeline_.drained();
         pipeline_.rethrowWorkerError();
-        if (!completed && !result.routeChanged && !result.interrupted)
+        if (!completed && !result.routeChanged && !result.interrupted && !result.seekInterrupted)
             throw std::runtime_error("Playback did not consume expected DSP frames");
-        if (completed && target==pipeline_.outputFrames() && !result.eosDrained)
+        if (completed && startFrame==0 && target==pipeline_.outputFrames() && !result.eosDrained)
             throw std::runtime_error("End of stream was not fully drained");
         return result;
     }
 
     double inputRate() const { return input_.sampleRate(); }
     double initialOutputRate() const { return initialOutputRate_; }
+    std::size_t inputFrames() const { return pipeline_.inputFrames(); }
+    std::size_t outputFrames() const { return pipeline_.outputFrames(); }
+    std::size_t outputFrameForInputFrame(std::size_t frame) const {
+        return pipeline_.outputFrameForInputFrame(frame);
+    }
 private:
     void stop() noexcept {
         state_.active.store(false,std::memory_order_release);
@@ -287,8 +337,11 @@ void print(const char* name,const MacPlayer& player,const RunResult& r) {
               << "output_sample_rate_start=" << player.initialOutputRate() << '\n'
               << "output_sample_rate_end=" << r.outputRate << '\n'
               << "headroom_gain=" << playbackGain << '\n'
+              << "seek_playback_fade_frames=" << seekFadeFrames << '\n'
+              << "start_raw_frame=" << r.startFrame << '\n'
               << "target_raw_frames=" << r.target << '\n'
               << "consumed_raw_frames=" << r.content << '\n'
+              << "absolute_raw_frame=" << r.startFrame+r.content << '\n'
               << "rendered_frames=" << r.rendered << '\n'
               << "inserted_silence_frames=" << r.silence << '\n'
               << "callback_calls=" << r.callbacks << '\n'
@@ -301,6 +354,7 @@ void print(const char* name,const MacPlayer& player,const RunResult& r) {
               << "playback_wall_seconds=" << r.wallSeconds << '\n'
               << "analysis_seconds=" << r.pipeline.analysisSeconds << '\n'
               << "prefill_seconds=" << r.pipeline.prefillSeconds << '\n'
+              << "seek_warmup_seconds=" << r.seekWarmupSeconds << '\n'
               << "dsp_active_seconds=" << r.pipeline.dspActiveSeconds << '\n'
               << "max_worker_chunk_ms=" << r.pipeline.maxWorkerChunkSeconds*1000 << '\n'
               << "fifo_high_water_frames=" << r.pipeline.fifoHighWaterFrames << '\n'
@@ -310,6 +364,7 @@ void print(const char* name,const MacPlayer& player,const RunResult& r) {
               << "produced_raw_frames=" << r.pipeline.producedFrames << '\n'
               << "eos_drained=" << r.eosDrained << '\n'
               << "route_changed=" << r.routeChanged << '\n'
+              << "seek_interrupted=" << r.seekInterrupted << '\n'
               << "interrupted=" << r.interrupted << '\n';
 }
 }
@@ -329,7 +384,7 @@ void operator delete[](void* p,std::size_t,std::align_val_t) noexcept { std::fre
 
 int main(int argc,char** argv) {
     if (argc<2 || argc>3) {
-        std::cerr << "Usage: phase15_play input.wav [--restart-smoke|--underflow-smoke]\n";
+        std::cerr << "Usage: phase15_play input.wav [--seek-input-frame=N|--seek-live=AFTER_OUTPUT_FRAME:TARGET_INPUT_FRAME|--seek-smoke|--seek-underflow-smoke|--restart-smoke|--underflow-smoke]\n";
         return 2;
     }
     std::signal(SIGINT,interruptHandler);
@@ -338,9 +393,49 @@ int main(int argc,char** argv) {
             MacPlayer player(argv[1]);
             if (argc==3) {
                 const std::string option(argv[2]);
+                if (option.rfind("--seek-input-frame=",0)==0) {
+                    const auto inputFrame=std::stoull(option.substr(19));
+                    const auto outputFrame=player.outputFrameForInputFrame(inputFrame);
+                    const auto result=player.run(0,false,outputFrame);
+                    print("stopped_seek",player,result);
+                    return result.routeChanged || result.interrupted ? 3 : 0;
+                }
+                if (option.rfind("--seek-live=",0)==0) {
+                    const auto spec=option.substr(12);
+                    const auto delimiter=spec.find(':');
+                    if (delimiter==std::string::npos) throw std::invalid_argument("Seek needs AFTER:TARGET");
+                    const auto afterFrame=std::stoull(spec.substr(0,delimiter));
+                    const auto inputFrame=std::stoull(spec.substr(delimiter+1));
+                    if (!afterFrame) throw std::invalid_argument("Seek trigger must be after sample zero");
+                    const auto outputFrame=player.outputFrameForInputFrame(inputFrame);
+                    const auto before=player.run(0,false,0,afterFrame);
+                    print("before_live_seek",player,before);
+                    if (!before.seekInterrupted) return 4;
+                    const auto after=player.run(0,false,outputFrame);
+                    print("after_live_seek",player,after);
+                    return after.routeChanged || after.interrupted ? 3 : 0;
+                }
                 if (option=="--underflow-smoke") {
                     const auto result=player.run(static_cast<std::uint64_t>(player.inputRate()*3),true);
                     print("forced_underflow",player,result);
+                    return result.silence>0 && result.content==result.target ? 0 : 4;
+                }
+                if (option=="--seek-smoke") {
+                    const auto second=static_cast<std::uint64_t>(player.inputRate());
+                    const auto before=player.run(0,false,0,second);
+                    print("before_live_seek",player,before);
+                    const auto middleFrame=player.outputFrameForInputFrame(player.inputFrames()/2);
+                    const auto middle=player.run(second*2,false,middleFrame);
+                    print("after_live_seek",player,middle);
+                    const auto nearEnd=player.run(second,false,player.outputFrames()-second);
+                    print("stopped_seek_near_end",player,nearEnd);
+                    return before.seekInterrupted && middle.content==middle.target &&
+                        nearEnd.content==nearEnd.target ? 0 : 4;
+                }
+                if (option=="--seek-underflow-smoke") {
+                    const auto middle=player.outputFrameForInputFrame(player.inputFrames()/2);
+                    const auto result=player.run(static_cast<std::uint64_t>(player.inputRate()*2),true,middle);
+                    print("seek_forced_underflow",player,result);
                     return result.silence>0 && result.content==result.target ? 0 : 4;
                 }
                 if (option!="--restart-smoke") throw std::invalid_argument("Unknown option");

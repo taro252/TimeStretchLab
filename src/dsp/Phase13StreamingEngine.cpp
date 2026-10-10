@@ -342,6 +342,14 @@ std::size_t Phase13PreparedFile::inputFrames() const {
 std::size_t Phase13PreparedFile::outputFrames() const {
     return impl_ ? impl_->outputFrames : 0;
 }
+std::size_t Phase13PreparedFile::outputFrameForInputFrame(std::size_t inputFrame) const {
+    if (!impl_ || inputFrame>impl_->inputFrames)
+        throw std::out_of_range("Input frame outside analyzed file");
+    if (inputFrame==impl_->inputFrames) return impl_->outputFrames;
+    const auto mapped=impl_->detection.map.outputPositionForInputSample(double(inputFrame));
+    return static_cast<std::size_t>(std::clamp(std::llround(mapped),0LL,
+        static_cast<long long>(impl_->outputFrames-1)));
+}
 
 Phase13StreamingEngine::Phase13StreamingEngine(StretchConfig config):config_(std::move(config)) {
     if (config_.fftSize!=4096 || config_.analysisHop!=1024)

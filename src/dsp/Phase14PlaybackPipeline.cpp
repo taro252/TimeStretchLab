@@ -127,6 +127,49 @@ void Phase14PlaybackPipeline::start() {
     });
 }
 
+void Phase14PlaybackPipeline::startAtOutputFrame(std::size_t outputFrame,
+    std::size_t prefillFrames,std::chrono::milliseconds timeout) {
+    if (worker_.joinable()) throw std::logic_error("Stop before seeking");
+    if (outputFrame>=prepared_.outputFrames())
+        throw std::out_of_range("Seek output frame outside playable range");
+    if (prefillFrames>fifo_.capacity())
+        throw std::invalid_argument("Seek prefill exceeds FIFO capacity");
+    start();
+    try {
+        constexpr std::size_t discardBlock=8192;
+        std::vector<std::vector<float>> scratch(fifo_.channels(),
+                                                std::vector<float>(discardBlock));
+        std::vector<float*> pointers(scratch.size());
+        for (std::size_t c=0;c<scratch.size();++c) pointers[c]=scratch[c].data();
+        std::size_t skipped=0;
+        const auto begin=Clock::now();
+        while (skipped<outputFrame) {
+            const auto available=availableOutputFrames();
+            if (available==0) {
+                if (workerFinished()) {
+                    rethrowWorkerError();
+                    throw std::runtime_error("DSP ended before seek frame");
+                }
+                if (Clock::now()-begin>=timeout) throw std::runtime_error("Seek timed out");
+                std::this_thread::sleep_for(std::chrono::microseconds(100));
+                continue;
+            }
+            const auto count=std::min({outputFrame-skipped,available,discardBlock});
+            if (fifo_.read(pointers.data(),count)!=count)
+                throw std::runtime_error("Seek FIFO unexpectedly underflowed");
+            skipped+=count;
+        }
+        const auto needed=std::min(prefillFrames,prepared_.outputFrames()-outputFrame);
+        if (needed && !waitForPrefill(needed,timeout)) {
+            rethrowWorkerError();
+            throw std::runtime_error("Seek prefill timed out");
+        }
+    } catch (...) {
+        stop();
+        throw;
+    }
+}
+
 void Phase14PlaybackPipeline::stop() {
     stopRequested_.store(true,std::memory_order_release);
     if (worker_.joinable()) worker_.join();

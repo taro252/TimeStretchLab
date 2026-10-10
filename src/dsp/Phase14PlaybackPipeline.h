@@ -17,6 +17,8 @@ public:
     Phase14AudioFifo(std::size_t channels, std::size_t capacityFrames);
     std::size_t available() const noexcept;
     std::size_t free() const noexcept;
+    std::size_t channels() const noexcept { return data_.size(); }
+    std::size_t capacity() const noexcept { return capacity_; }
     std::size_t read(float* const* output, std::size_t frames) noexcept;
     bool write(const float* const* input, std::size_t frames) noexcept;
     void clearQuiescent() noexcept;
@@ -56,6 +58,11 @@ public:
 
     void prepare(const std::filesystem::path& knownFile);
     void start();
+    // Phase 16 control-thread seek. The audio consumer must be stopped and
+    // quiescent before this call. Replays from sample zero, discards only raw
+    // output before outputFrame, then prefills the existing FIFO.
+    void startAtOutputFrame(std::size_t outputFrame,std::size_t prefillFrames,
+                            std::chrono::milliseconds timeout);
     void stop();
     // A real callback calls only this method. Missing frames are filled with zero.
     std::size_t pullAudio(float* const* output, std::size_t frames) noexcept;
@@ -64,6 +71,9 @@ public:
     bool drained() const noexcept { return workerFinished() && fifo_.available()==0; }
     std::size_t outputFrames() const noexcept { return prepared_.outputFrames(); }
     std::size_t inputFrames() const noexcept { return prepared_.inputFrames(); }
+    std::size_t outputFrameForInputFrame(std::size_t inputFrame) const {
+        return prepared_.outputFrameForInputFrame(inputFrame);
+    }
     bool waitForPrefill(std::size_t frames, std::chrono::milliseconds timeout);
     void rethrowWorkerError() const;
     Phase14Statistics statistics() const noexcept;
