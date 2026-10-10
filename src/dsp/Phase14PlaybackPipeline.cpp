@@ -1,4 +1,5 @@
 #include "dsp/Phase14PlaybackPipeline.h"
+#include "audio/WavStream.h"
 #include <algorithm>
 #include <cstring>
 #include <stdexcept>
@@ -75,7 +76,7 @@ void Phase14AudioFifo::clearQuiescent() noexcept {
 Phase14PlaybackPipeline::Phase14PlaybackPipeline(StretchConfig config, std::size_t fifoFrames,
                                                  std::size_t workerBlockFrames)
     : engine_(config), fifo_(config.channels,fifoFrames),
-      workerBlockFrames_(workerBlockFrames) {
+      workerBlockFrames_(workerBlockFrames),sourceRate_(static_cast<std::uint32_t>(config.sampleRate)) {
     if (workerBlockFrames<8192 || workerBlockFrames>65536 || workerBlockFrames>fifoFrames)
         throw std::invalid_argument("Phase 14 worker block/FIFO size");
 }
@@ -128,7 +129,9 @@ void Phase14PlaybackPipeline::start() {
 }
 
 void Phase14PlaybackPipeline::startAtOutputFrame(std::size_t outputFrame,
-    std::size_t prefillFrames,std::chrono::milliseconds timeout) {
+    std::size_t prefillFrames,std::chrono::milliseconds timeout,
+    const std::function<bool()>& superseded) {
+    if (superseded && superseded()) throw SeekSuperseded{};
     if (worker_.joinable()) throw std::logic_error("Stop before seeking");
     if (outputFrame>=prepared_.outputFrames())
         throw std::out_of_range("Seek output frame outside playable range");
@@ -144,6 +147,7 @@ void Phase14PlaybackPipeline::startAtOutputFrame(std::size_t outputFrame,
         std::size_t skipped=0;
         const auto begin=Clock::now();
         while (skipped<outputFrame) {
+            if (superseded && superseded()) throw SeekSuperseded{};
             const auto available=availableOutputFrames();
             if (available==0) {
                 if (workerFinished()) {
@@ -164,10 +168,84 @@ void Phase14PlaybackPipeline::startAtOutputFrame(std::size_t outputFrame,
             rethrowWorkerError();
             throw std::runtime_error("Seek prefill timed out");
         }
+        if (superseded && superseded()) throw SeekSuperseded{};
     } catch (...) {
         stop();
         throw;
     }
+}
+
+void Phase14PlaybackPipeline::startFromCache(const std::filesystem::path& cacheFile,
+    std::size_t outputFrame,std::size_t prefillFrames,std::chrono::milliseconds timeout,
+    const std::function<bool()>& superseded) {
+    if (superseded && superseded()) throw SeekSuperseded{};
+    if (worker_.joinable()) throw std::logic_error("Stop before cached seek");
+    if (outputFrame>=prepared_.outputFrames()) throw std::out_of_range("Cache seek past end");
+    if (prefillFrames>fifo_.capacity()) throw std::invalid_argument("Cache prefill exceeds FIFO");
+    WavStreamReader verified(cacheFile);
+    if (verified.frames()!=prepared_.outputFrames() ||
+        verified.channels()!=fifo_.channels() ||
+        verified.sampleRate()!=sourceRate_)
+        throw std::invalid_argument("Cache metadata does not match prepared audio");
+    fifo_.clearQuiescent();
+    underrunCalls_.store(0);
+    underrunFrames_.store(0);
+    producedFrames_.store(0);
+    dspSeconds_.store(0);
+    dspActiveSeconds_.store(0);
+    maxWorkerChunkSeconds_.store(0);
+    workerError_=nullptr;
+    stopRequested_.store(false,std::memory_order_release);
+    workerFinished_.store(false,std::memory_order_release);
+    worker_=std::thread([this,cacheFile,outputFrame] {
+        constexpr std::size_t chunkFrames=8192;
+        const auto begin=Clock::now();
+        try {
+            WavStreamReader reader(cacheFile);
+            std::vector<std::vector<float>> chunk(fifo_.channels(),std::vector<float>(chunkFrames));
+            std::vector<const float*> pointers(chunk.size());
+            for (std::size_t c=0;c<chunk.size();++c) pointers[c]=chunk[c].data();
+            for (std::size_t at=outputFrame;at<reader.frames();) {
+                if (stopRequested_.load(std::memory_order_acquire)) break;
+                const auto count=std::min(chunkFrames,reader.frames()-at);
+                const auto chunkBegin=Clock::now();
+                for (std::size_t i=0;i<count;++i)
+                    for (std::size_t c=0;c<chunk.size();++c)
+                        chunk[c][i]=reader.sample(c,at+i);
+                while (!stopRequested_.load(std::memory_order_acquire) && fifo_.free()<count)
+                    std::this_thread::sleep_for(std::chrono::microseconds(100));
+                if (stopRequested_.load(std::memory_order_acquire)) break;
+                if (!fifo_.write(pointers.data(),count)) throw std::runtime_error("Cache FIFO overrun");
+                producedFrames_.fetch_add(count,std::memory_order_relaxed);
+                at+=count;
+                const auto seconds=std::chrono::duration<double>(Clock::now()-chunkBegin).count();
+                maxWorkerChunkSeconds_.store(std::max(maxWorkerChunkSeconds_.load(),seconds));
+            }
+        } catch (...) { workerError_=std::current_exception(); }
+        dspSeconds_.store(std::chrono::duration<double>(Clock::now()-begin).count());
+        workerFinished_.store(true,std::memory_order_release);
+    });
+    const auto needed=std::min(prefillFrames,prepared_.outputFrames()-outputFrame);
+    const auto begin=Clock::now();
+    while (availableOutputFrames()<needed && !workerFinished()) {
+        if (superseded && superseded()) {
+            stop();
+            throw SeekSuperseded{};
+        }
+        if (Clock::now()-begin>=timeout) break;
+        std::this_thread::sleep_for(std::chrono::microseconds(100));
+    }
+    prefillSeconds_=std::chrono::duration<double>(Clock::now()-begin).count();
+    if (availableOutputFrames()<needed) {
+        stop();
+        rethrowWorkerError();
+        throw std::runtime_error("Cache prefill timed out");
+    }
+    if (superseded && superseded()) {
+        stop();
+        throw SeekSuperseded{};
+    }
+    rethrowWorkerError();
 }
 
 void Phase14PlaybackPipeline::stop() {

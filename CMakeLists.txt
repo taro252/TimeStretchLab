@@ -32,6 +32,7 @@ add_library(timestretch_core
     src/dsp/ChunkedTimeStretchEngine.cpp
     src/dsp/Phase13StreamingEngine.cpp
     src/dsp/Phase14PlaybackPipeline.cpp
+    src/dsp/Phase18PcmCache.cpp
     src/dsp/TimeStretchEngine.cpp
     src/dsp/TimeStretchProcessor.cpp
     src/dsp/WSOLAEngine.cpp
@@ -41,6 +42,18 @@ add_library(timestretch_core
 target_include_directories(timestretch_core PUBLIC src)
 target_link_libraries(timestretch_core PUBLIC ${ACCELERATE_FRAMEWORK})
 target_compile_options(timestretch_core PRIVATE -Wall -Wextra -Wpedantic)
+file(GLOB PHASE18_DSP_SOURCES CONFIGURE_DEPENDS src/dsp/* src/audio/*)
+list(SORT PHASE18_DSP_SOURCES)
+set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${PHASE18_DSP_SOURCES})
+set(PHASE18_DSP_SOURCE_DIGEST "")
+foreach(PHASE18_DSP_SOURCE IN LISTS PHASE18_DSP_SOURCES)
+    if(NOT IS_DIRECTORY "${PHASE18_DSP_SOURCE}")
+        file(SHA256 "${PHASE18_DSP_SOURCE}" PHASE18_SOURCE_SHA)
+        string(APPEND PHASE18_DSP_SOURCE_DIGEST "${PHASE18_DSP_SOURCE}:${PHASE18_SOURCE_SHA};")
+    endif()
+endforeach()
+string(SHA256 PHASE18_DSP_FINGERPRINT "${PHASE18_DSP_SOURCE_DIGEST};${CMAKE_CXX_COMPILER_ID};${CMAKE_CXX_COMPILER_VERSION};${CMAKE_OSX_ARCHITECTURES};${CMAKE_OSX_DEPLOYMENT_TARGET};${CMAKE_BUILD_TYPE};${CMAKE_CXX_FLAGS};${CMAKE_CXX_FLAGS_RELEASE};${CMAKE_CXX_FLAGS_DEBUG};${CMAKE_SYSTEM_VERSION}")
+target_compile_definitions(timestretch_core PRIVATE "TS_PHASE18_DSP_FINGERPRINT=\"${PHASE18_DSP_FINGERPRINT}\"")
 
 add_executable(timestretch src/main.cpp)
 target_link_libraries(timestretch PRIVATE timestretch_core)
@@ -170,4 +183,7 @@ if(BUILD_TESTING)
     add_executable(phase16_tests tests/Phase16Tests.cpp)
     target_link_libraries(phase16_tests PRIVATE timestretch_core)
     add_test(NAME phase16 COMMAND phase16_tests)
+    add_executable(phase18_tests tests/Phase18Tests.cpp)
+    target_link_libraries(phase18_tests PRIVATE timestretch_core)
+    add_test(NAME phase18 COMMAND phase18_tests)
 endif()

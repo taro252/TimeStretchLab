@@ -4,11 +4,13 @@
 #include <atomic>
 #include <chrono>
 #include <filesystem>
+#include <functional>
 #include <memory>
 #include <thread>
 #include <vector>
 
 namespace ts {
+struct SeekSuperseded {};
 
 // One DSP producer and one audio consumer. Storage is allocated before start().
 // Neither read() nor write() allocates, waits, locks, or performs I/O.
@@ -62,7 +64,13 @@ public:
     // quiescent before this call. Replays from sample zero, discards only raw
     // output before outputFrame, then prefills the existing FIFO.
     void startAtOutputFrame(std::size_t outputFrame,std::size_t prefillFrames,
-                            std::chrono::milliseconds timeout);
+                            std::chrono::milliseconds timeout,
+                            const std::function<bool()>& superseded={});
+    // Phase 18 control thread: verified raw PCM cache feeds the same FIFO.
+    // File reads and planar conversion run exclusively on the worker.
+    void startFromCache(const std::filesystem::path& cacheFile,std::size_t outputFrame,
+                        std::size_t prefillFrames,std::chrono::milliseconds timeout,
+                        const std::function<bool()>& superseded={});
     void stop();
     // A real callback calls only this method. Missing frames are filled with zero.
     std::size_t pullAudio(float* const* output, std::size_t frames) noexcept;
@@ -82,6 +90,7 @@ private:
     Phase13PreparedFile prepared_;
     Phase14AudioFifo fifo_;
     const std::size_t workerBlockFrames_;
+    const std::uint32_t sourceRate_;
     std::thread worker_;
     std::atomic<bool> stopRequested_{false}, workerFinished_{false};
     std::atomic<std::uint64_t> underrunCalls_{0}, underrunFrames_{0};

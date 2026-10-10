@@ -1,6 +1,8 @@
 #import <AVFoundation/AVFoundation.h>
 #include "audio/WavStream.h"
 #include "dsp/Phase14PlaybackPipeline.h"
+#include "dsp/Phase18PcmCache.h"
+#include "dsp/Phase18SeekQueue.h"
 #include <algorithm>
 #include <atomic>
 #include <chrono>
@@ -9,13 +11,17 @@
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
+#include <functional>
 #include <iostream>
+#include <memory>
+#include <optional>
 #include <mach/mach_time.h>
 #include <new>
 #include <stdexcept>
 #include <string>
 #include <sys/resource.h>
 #include <thread>
+#include <vector>
 
 namespace {
 using Clock=std::chrono::steady_clock;
@@ -153,14 +159,23 @@ struct RunResult {
     std::uint64_t deadlineMisses=0,maxCallbackNanoseconds=0,formatErrors=0;
     std::uint64_t cppAllocations=0;
     double wallSeconds=0,outputRate=0,presentationLatency=0,peakRSSMiB=0,seekWarmupSeconds=0;
+    double cacheValidationSeconds=0,pcmPrefillSeconds=0,controlSwitchSeconds=0;
+    double fadeInSeconds=0,fadeOutWaitSeconds=0,engineRestartSeconds=0,cacheGenerationSeconds=0;
+    std::uint64_t cacheBytes=0;
+    std::string source="dsp_stream";
+    std::string cacheError;
     bool routeChanged=false,interrupted=false,eosDrained=false,seekInterrupted=false;
 };
 
 class MacPlayer {
 public:
-    explicit MacPlayer(const std::filesystem::path& file)
+    explicit MacPlayer(const std::filesystem::path& file,
+                       const std::filesystem::path& cacheDirectory={},bool cacheEnabled=true)
         : input_(file),pipeline_(frozenConfig(input_)) {
         pipeline_.prepare(file);
+        if (cacheEnabled) cache_=std::make_unique<ts::Phase18PcmCache>(file,
+            cacheDirectory.empty() ? std::filesystem::current_path()/"results/phase18/cache"
+                                   : cacheDirectory,frozenConfig(input_));
         state_.pipeline=&pipeline_;
         state_.channels=static_cast<unsigned>(input_.channels());
         state_.sourceRate=input_.sampleRate();
@@ -201,16 +216,44 @@ public:
     }
 
     RunResult run(std::uint64_t limitFrames=0,bool forceUnderflow=false,
-                  std::uint64_t startFrame=0,std::uint64_t seekAfterFrames=0) {
+                  std::uint64_t startFrame=0,std::uint64_t seekAfterFrames=0,
+                  const std::function<bool()>& superseded={}) {
         if (startFrame>=pipeline_.outputFrames()) throw std::out_of_range("Seek past end of output");
         const auto remaining=pipeline_.outputFrames()-startFrame;
         const auto target=limitFrames ? std::min<std::uint64_t>(limitFrames,remaining) : remaining;
         state_.reset(target);
+        cacheStartError_.clear();
         renderCppAllocations.store(0);
         const auto seekBegin=Clock::now();
-        if (startFrame) pipeline_.startAtOutputFrame(startFrame,
-            std::min<std::uint64_t>(prefillFrames,target),std::chrono::seconds(120));
-        else pipeline_.start();
+        double cacheValidation=0;
+        std::string source="dsp_stream";
+        if (startFrame) {
+            std::optional<std::filesystem::path> valid;
+            if (cache_) valid=cache_->validPath(&cacheValidation);
+            if (superseded && superseded()) throw ts::SeekSuperseded{};
+            if (valid) {
+                try {
+                    pipeline_.startFromCache(*valid,startFrame,
+                        std::min<std::uint64_t>(prefillFrames,target),std::chrono::seconds(120),superseded);
+                    source="pcm_cache";
+                } catch (const ts::SeekSuperseded&) {
+                    throw;
+                } catch (...) {
+                    pipeline_.stop();
+                    source="dsp_fallback_after_cache_error";
+                    pipeline_.startAtOutputFrame(startFrame,
+                        std::min<std::uint64_t>(prefillFrames,target),std::chrono::seconds(120),superseded);
+                }
+            } else {
+                source="dsp_fallback_cache_miss";
+                pipeline_.startAtOutputFrame(startFrame,
+                    std::min<std::uint64_t>(prefillFrames,target),std::chrono::seconds(120),superseded);
+            }
+            if (cache_ && source!="pcm_cache") {
+                try {cache_->beginGeneration();}
+                catch (const std::exception& error) {cacheStartError_=error.what();}
+            }
+        } else pipeline_.start();
         if (!forceUnderflow) {
             const auto prefill=std::min<std::uint64_t>(prefillFrames,target);
             if (!startFrame && !pipeline_.waitForPrefill(prefill,std::chrono::seconds(120))) {
@@ -220,6 +263,10 @@ public:
             }
         }
         const auto seekWarmup=std::chrono::duration<double>(Clock::now()-seekBegin).count();
+        if (!startFrame && cache_) {
+            try {cache_->beginGeneration();}
+            catch (const std::exception& error) {cacheStartError_=error.what();}
+        }
         NSError* error=nil;
         const auto begin=Clock::now();
         state_.diagnosticStarve.store(forceUnderflow,std::memory_order_release);
@@ -235,6 +282,7 @@ public:
             stop();
             throw std::runtime_error(error ? [[error description] UTF8String] : "AVAudioEngine start failed");
         }
+        const auto engineRestart=std::chrono::duration<double>(Clock::now()-begin).count();
         // Diagnostic only: suppress FIFO reads for 100 ms while the worker
         // runs, then verify that zero fill preserves the raw-content position.
         if (forceUnderflow) {
@@ -244,15 +292,20 @@ public:
         const auto timeout=std::chrono::duration<double>(double(target)/input_.sampleRate()+30.0);
         auto nextProgress=begin+std::chrono::seconds(30);
         bool seekInterrupted=false,fadeRequested=false;
+        auto fadeRequestedAt=Clock::time_point{};
+        double fadeOutWait=0;
         while (state_.contentFrames.load(std::memory_order_acquire)<target) {
-            if (seekAfterFrames && !fadeRequested &&
-                state_.contentFrames.load(std::memory_order_acquire)>=seekAfterFrames) {
+            if (!fadeRequested && ((seekAfterFrames &&
+                state_.contentFrames.load(std::memory_order_acquire)>=seekAfterFrames) ||
+                (superseded && superseded()))) {
                 state_.seekFadeProgress.store(0,std::memory_order_relaxed);
                 state_.seekFadeOutComplete.store(false,std::memory_order_relaxed);
                 state_.seekFadeMode.store(1,std::memory_order_release);
                 fadeRequested=true;
+                fadeRequestedAt=Clock::now();
             }
             if (fadeRequested && state_.seekFadeOutComplete.load(std::memory_order_acquire)) {
+                fadeOutWait=std::chrono::duration<double>(Clock::now()-fadeRequestedAt).count();
                 seekInterrupted=true;
                 break;
             }
@@ -290,6 +343,22 @@ public:
         result.outputRate=[[engine_.outputNode outputFormatForBus:0] sampleRate];
         result.presentationLatency=latency;
         result.seekWarmupSeconds=seekWarmup;
+        result.cacheValidationSeconds=cacheValidation;
+        result.pcmPrefillSeconds=source=="pcm_cache" ? pipeline_.statistics().prefillSeconds : 0;
+        result.controlSwitchSeconds=std::max(0.0,seekWarmup-cacheValidation-result.pcmPrefillSeconds);
+        result.fadeInSeconds=startFrame ? double(seekFadeFrames)/input_.sampleRate() : 0;
+        result.fadeOutWaitSeconds=fadeOutWait;
+        result.engineRestartSeconds=engineRestart;
+        result.source=source;
+        result.cacheError=cacheStartError_;
+        if (cache_) {
+            result.cacheGenerationSeconds=cache_->generationSeconds();
+            if (cache_->generationFinished() && !cache_->generationError().empty())
+                result.cacheError=cache_->generationError();
+            std::error_code ignored;
+            result.cacheBytes=std::filesystem::file_size(cache_->cachePath(),ignored);
+            if (ignored) result.cacheBytes=0;
+        }
         result.seekInterrupted=seekInterrupted;
         rusage usage{};
         if (getrusage(RUSAGE_SELF,&usage)==0)
@@ -305,6 +374,19 @@ public:
         if (completed && startFrame==0 && target==pipeline_.outputFrames() && !result.eosDrained)
             throw std::runtime_error("End of stream was not fully drained");
         return result;
+    }
+
+    RunResult runLatest(ts::Phase18SeekQueue& requests,std::uint64_t limitFrames=0) {
+        for (;;) {
+            const auto [version,outputFrame]=requests.latest();
+            try {
+                auto result=run(limitFrames,false,outputFrame,0,
+                    [&requests,version] { return requests.superseded(version); });
+                if (!requests.superseded(version)) return result;
+            } catch (const ts::SeekSuperseded&) {
+                pipeline_.stop();
+            }
+        }
     }
 
     double inputRate() const { return input_.sampleRate(); }
@@ -324,6 +406,8 @@ private:
     }
     ts::WavStreamReader input_;
     ts::Phase14PlaybackPipeline pipeline_;
+    std::unique_ptr<ts::Phase18PcmCache> cache_;
+    std::string cacheStartError_;
     RenderState state_;
     AVAudioEngine* engine_=nil;
     AVAudioSourceNode* source_=nil;
@@ -355,6 +439,16 @@ void print(const char* name,const MacPlayer& player,const RunResult& r) {
               << "analysis_seconds=" << r.pipeline.analysisSeconds << '\n'
               << "prefill_seconds=" << r.pipeline.prefillSeconds << '\n'
               << "seek_warmup_seconds=" << r.seekWarmupSeconds << '\n'
+              << "raw_source=" << r.source << '\n'
+              << "cache_validation_seconds=" << r.cacheValidationSeconds << '\n'
+              << "pcm_prefill_seconds=" << r.pcmPrefillSeconds << '\n'
+              << "control_switch_seconds=" << r.controlSwitchSeconds << '\n'
+              << "playback_fade_in_nominal_seconds=" << r.fadeInSeconds << '\n'
+              << "playback_fade_out_wait_seconds=" << r.fadeOutWaitSeconds << '\n'
+              << "audio_engine_restart_seconds=" << r.engineRestartSeconds << '\n'
+              << "cache_generation_seconds=" << r.cacheGenerationSeconds << '\n'
+              << "cache_bytes=" << r.cacheBytes << '\n'
+              << "cache_error=" << r.cacheError << '\n'
               << "dsp_active_seconds=" << r.pipeline.dspActiveSeconds << '\n'
               << "max_worker_chunk_ms=" << r.pipeline.maxWorkerChunkSeconds*1000 << '\n'
               << "fifo_high_water_frames=" << r.pipeline.fifoHighWaterFrames << '\n'
@@ -383,16 +477,44 @@ void operator delete(void* p,std::size_t,std::align_val_t) noexcept { std::free(
 void operator delete[](void* p,std::size_t,std::align_val_t) noexcept { std::free(p); }
 
 int main(int argc,char** argv) {
-    if (argc<2 || argc>3) {
-        std::cerr << "Usage: phase15_play input.wav [--seek-input-frame=N|--seek-live=AFTER_OUTPUT_FRAME:TARGET_INPUT_FRAME|--seek-smoke|--seek-underflow-smoke|--restart-smoke|--underflow-smoke]\n";
+    if (argc<2) {
+        std::cerr << "Usage: phase15_play input.wav [action] [--cache-dir=PATH] [--no-cache]\n";
         return 2;
     }
     std::signal(SIGINT,interruptHandler);
     @autoreleasepool {
         try {
-            MacPlayer player(argv[1]);
-            if (argc==3) {
-                const std::string option(argv[2]);
+            std::string option;
+            std::filesystem::path cacheDirectory;
+            bool cacheEnabled=true;
+            for (int i=2;i<argc;++i) {
+                const std::string argument(argv[i]);
+                if (argument=="--no-cache") cacheEnabled=false;
+                else if (argument.rfind("--cache-dir=",0)==0)
+                    cacheDirectory=argument.substr(12);
+                else if (option.empty()) option=argument;
+                else throw std::invalid_argument("Only one playback action is supported");
+            }
+            if (option=="--cache-generate-only") {
+                if (!cacheEnabled) throw std::invalid_argument("Cache is disabled");
+                ts::WavStreamReader input(argv[1]);
+                ts::Phase18PcmCache cache(argv[1],cacheDirectory.empty() ?
+                    std::filesystem::current_path()/"results/phase18/cache" : cacheDirectory,
+                    frozenConfig(input));
+                cache.beginGeneration();cache.wait();
+                if (!cache.generationError().empty()) throw std::runtime_error(cache.generationError());
+                double validation=0;
+                const auto ready=cache.validPath(&validation);
+                if (!ready) throw std::runtime_error("Generated cache invalid");
+                std::cout << "cache_path=" << ready->string() << '\n'
+                          << "cache_key=" << cache.key() << '\n'
+                          << "cache_bytes=" << std::filesystem::file_size(*ready) << '\n'
+                          << "cache_generation_seconds=" << cache.generationSeconds() << '\n'
+                          << "cache_validation_seconds=" << validation << '\n';
+                return 0;
+            }
+            MacPlayer player(argv[1],cacheDirectory,cacheEnabled);
+            if (!option.empty()) {
                 if (option.rfind("--seek-input-frame=",0)==0) {
                     const auto inputFrame=std::stoull(option.substr(19));
                     const auto outputFrame=player.outputFrameForInputFrame(inputFrame);
@@ -414,6 +536,43 @@ int main(int argc,char** argv) {
                     const auto after=player.run(0,false,outputFrame);
                     print("after_live_seek",player,after);
                     return after.routeChanged || after.interrupted ? 3 : 0;
+                }
+                if (option.rfind("--seek-burst=",0)==0) {
+                    const auto spec=option.substr(13);
+                    const auto delimiter=spec.find(':');
+                    if (delimiter==std::string::npos)
+                        throw std::invalid_argument("Seek burst needs AFTER:INPUT1,INPUT2,...");
+                    const auto afterFrame=std::stoull(spec.substr(0,delimiter));
+                    if (!afterFrame) throw std::invalid_argument("Seek burst trigger is zero");
+                    std::vector<std::size_t> targets;
+                    std::size_t from=delimiter+1;
+                    for (;;) {
+                        const auto comma=spec.find(',',from);
+                        targets.push_back(player.outputFrameForInputFrame(
+                            std::stoull(spec.substr(from,comma==std::string::npos ? comma : comma-from))));
+                        if (comma==std::string::npos) break;
+                        from=comma+1;
+                    }
+                    if (targets.size()<2) throw std::invalid_argument("Seek burst needs at least 2 targets");
+                    const auto before=player.run(0,false,0,afterFrame);
+                    print("before_seek_burst",player,before);
+                    if (!before.seekInterrupted) return 4;
+                    ts::Phase18SeekQueue requests;
+                    requests.post(targets.front());
+                    std::thread poster([&] {
+                        for (std::size_t i=1;i<targets.size();++i) {
+                            std::this_thread::sleep_for(std::chrono::milliseconds(5));
+                            requests.post(targets[i]);
+                        }
+                    });
+                    RunResult after;
+                    try { after=player.runLatest(requests,static_cast<std::uint64_t>(player.inputRate())); }
+                    catch (...) { poster.join();throw; }
+                    poster.join();
+                    if (after.startFrame!=targets.back())
+                        after=player.run(static_cast<std::uint64_t>(player.inputRate()),false,targets.back());
+                    print("after_seek_burst",player,after);
+                    return after.startFrame==targets.back() && after.content==after.target ? 0 : 4;
                 }
                 if (option=="--underflow-smoke") {
                     const auto result=player.run(static_cast<std::uint64_t>(player.inputRate()*3),true);
