@@ -27,7 +27,7 @@ namespace {
 using Clock=std::chrono::steady_clock;
 constexpr float playbackGain=0.5f;
 constexpr std::size_t prefillFrames=16384;
-constexpr std::uint32_t seekFadeFrames=256;
+constexpr std::uint32_t defaultSeekFadeFrames=256;
 volatile std::sig_atomic_t interrupted=0;
 thread_local bool insideRender=false;
 std::atomic<std::uint64_t> renderCppAllocations{0};
@@ -44,6 +44,7 @@ struct RenderState {
     std::uint64_t targetFrames=0;
     unsigned channels=0;
     double sourceRate=0;
+    std::uint32_t fadeFrames=defaultSeekFadeFrames;
     std::uint32_t timeNumer=1,timeDenom=1;
     std::atomic<bool> active{false},routeChanged{false},diagnosticStarve{false};
     std::atomic<int> seekFadeMode{0}; // 0=off, 1=out, 2=in; playback gain only
@@ -105,17 +106,17 @@ OSStatus render(RenderState* state,BOOL* isSilence,AVAudioFrameCount frames,
             if (fadeMode && received) {
                 auto progress=state->seekFadeProgress.load(std::memory_order_relaxed);
                 for (std::size_t i=0;i<received;++i) {
-                    const auto step=std::min(progress,seekFadeFrames-1);
+                    const auto step=std::min(progress,state->fadeFrames-1);
                     const float factor=fadeMode==1
-                        ? float(seekFadeFrames-1-step)/float(seekFadeFrames-1)
-                        : float(step)/float(seekFadeFrames-1);
+                        ? float(state->fadeFrames-1-step)/float(state->fadeFrames-1)
+                        : float(step)/float(state->fadeFrames-1);
                     for (unsigned c=0;c<state->channels;++c) channel[c][i]*=factor;
-                    if (progress<seekFadeFrames) ++progress;
+                    if (progress<state->fadeFrames) ++progress;
                 }
                 state->seekFadeProgress.store(progress,std::memory_order_release);
-                if (fadeMode==1 && progress>=seekFadeFrames)
+                if (fadeMode==1 && progress>=state->fadeFrames)
                     state->seekFadeOutComplete.store(true,std::memory_order_release);
-                if (fadeMode==2 && progress>=seekFadeFrames)
+                if (fadeMode==2 && progress>=state->fadeFrames)
                     state->seekFadeMode.store(0,std::memory_order_release);
             }
             for (unsigned i=0;i<state->channels;++i)
@@ -170,15 +171,20 @@ struct RunResult {
 class MacPlayer {
 public:
     explicit MacPlayer(const std::filesystem::path& file,
-                       const std::filesystem::path& cacheDirectory={},bool cacheEnabled=true)
+                       const std::filesystem::path& cacheDirectory={},bool cacheEnabled=true,
+                       std::uint32_t fadeFrames=defaultSeekFadeFrames)
         : input_(file),pipeline_(frozenConfig(input_)) {
         pipeline_.prepare(file);
-        if (cacheEnabled) cache_=std::make_unique<ts::Phase18PcmCache>(file,
-            cacheDirectory.empty() ? std::filesystem::current_path()/"results/phase18/cache"
-                                   : cacheDirectory,frozenConfig(input_));
+        if (cacheEnabled) {
+            cache_=std::make_unique<ts::Phase18PcmCache>(file,
+                cacheDirectory.empty() ? std::filesystem::current_path()/"results/phase18/cache"
+                                       : cacheDirectory,frozenConfig(input_));
+            cache_->acquireVerified(&initialCacheValidationSeconds_); // full check once at load
+        }
         state_.pipeline=&pipeline_;
         state_.channels=static_cast<unsigned>(input_.channels());
         state_.sourceRate=input_.sampleRate();
+        state_.fadeFrames=fadeFrames;
         mach_timebase_info_data_t info{};
         mach_timebase_info(&info);
         state_.timeNumer=info.numer;
@@ -228,18 +234,19 @@ public:
         double cacheValidation=0;
         std::string source="dsp_stream";
         if (startFrame) {
-            std::optional<std::filesystem::path> valid;
-            if (cache_) valid=cache_->validPath(&cacheValidation);
+            std::shared_ptr<const ts::VerifiedPcmCache> valid;
+            if (cache_) valid=cache_->acquireVerified(&cacheValidation);
             if (superseded && superseded()) throw ts::SeekSuperseded{};
             if (valid) {
                 try {
-                    pipeline_.startFromCache(*valid,startFrame,
+                    pipeline_.startFromVerifiedCache(valid,startFrame,
                         std::min<std::uint64_t>(prefillFrames,target),std::chrono::seconds(120),superseded);
                     source="pcm_cache";
                 } catch (const ts::SeekSuperseded&) {
                     throw;
                 } catch (...) {
                     pipeline_.stop();
+                    cache_->invalidateSession();
                     source="dsp_fallback_after_cache_error";
                     pipeline_.startAtOutputFrame(startFrame,
                         std::min<std::uint64_t>(prefillFrames,target),std::chrono::seconds(120),superseded);
@@ -346,7 +353,7 @@ public:
         result.cacheValidationSeconds=cacheValidation;
         result.pcmPrefillSeconds=source=="pcm_cache" ? pipeline_.statistics().prefillSeconds : 0;
         result.controlSwitchSeconds=std::max(0.0,seekWarmup-cacheValidation-result.pcmPrefillSeconds);
-        result.fadeInSeconds=startFrame ? double(seekFadeFrames)/input_.sampleRate() : 0;
+        result.fadeInSeconds=startFrame ? double(state_.fadeFrames)/input_.sampleRate() : 0;
         result.fadeOutWaitSeconds=fadeOutWait;
         result.engineRestartSeconds=engineRestart;
         result.source=source;
@@ -391,6 +398,8 @@ public:
 
     double inputRate() const { return input_.sampleRate(); }
     double initialOutputRate() const { return initialOutputRate_; }
+    double initialCacheValidationSeconds() const { return initialCacheValidationSeconds_; }
+    std::uint32_t seekFadeFrames() const { return state_.fadeFrames; }
     std::size_t inputFrames() const { return pipeline_.inputFrames(); }
     std::size_t outputFrames() const { return pipeline_.outputFrames(); }
     std::size_t outputFrameForInputFrame(std::size_t frame) const {
@@ -413,6 +422,7 @@ private:
     AVAudioSourceNode* source_=nil;
     id observer_=nil;
     double initialOutputRate_=0;
+    double initialCacheValidationSeconds_=0;
 };
 
 void print(const char* name,const MacPlayer& player,const RunResult& r) {
@@ -421,7 +431,8 @@ void print(const char* name,const MacPlayer& player,const RunResult& r) {
               << "output_sample_rate_start=" << player.initialOutputRate() << '\n'
               << "output_sample_rate_end=" << r.outputRate << '\n'
               << "headroom_gain=" << playbackGain << '\n'
-              << "seek_playback_fade_frames=" << seekFadeFrames << '\n'
+              << "initial_cache_validation_seconds=" << player.initialCacheValidationSeconds() << '\n'
+              << "seek_playback_fade_frames=" << player.seekFadeFrames() << '\n'
               << "start_raw_frame=" << r.startFrame << '\n'
               << "target_raw_frames=" << r.target << '\n'
               << "consumed_raw_frames=" << r.content << '\n'
@@ -487,9 +498,12 @@ int main(int argc,char** argv) {
             std::string option;
             std::filesystem::path cacheDirectory;
             bool cacheEnabled=true;
+            std::uint32_t fadeFrames=defaultSeekFadeFrames;
             for (int i=2;i<argc;++i) {
                 const std::string argument(argv[i]);
                 if (argument=="--no-cache") cacheEnabled=false;
+                else if (argument=="--seek-fade=64") fadeFrames=64;
+                else if (argument=="--seek-fade=256") fadeFrames=256;
                 else if (argument.rfind("--cache-dir=",0)==0)
                     cacheDirectory=argument.substr(12);
                 else if (option.empty()) option=argument;
@@ -513,8 +527,19 @@ int main(int argc,char** argv) {
                           << "cache_validation_seconds=" << validation << '\n';
                 return 0;
             }
-            MacPlayer player(argv[1],cacheDirectory,cacheEnabled);
+            MacPlayer player(argv[1],cacheDirectory,cacheEnabled,fadeFrames);
             if (!option.empty()) {
+                if (option.rfind("--seek-output-frame=",0)==0) {
+                    const auto spec=option.substr(20);
+                    const auto colon=spec.find(':');
+                    const auto frame=std::stoull(spec.substr(0,colon));
+                    const auto length=colon==std::string::npos ?
+                        static_cast<std::uint64_t>(player.inputRate()*2) :
+                        std::stoull(spec.substr(colon+1));
+                    const auto result=player.run(length,false,frame);
+                    print("output_frame_seek",player,result);
+                    return result.routeChanged || result.interrupted ? 3 : 0;
+                }
                 if (option.rfind("--seek-input-frame=",0)==0) {
                     const auto inputFrame=std::stoull(option.substr(19));
                     const auto outputFrame=player.outputFrameForInputFrame(inputFrame);
@@ -573,6 +598,46 @@ int main(int argc,char** argv) {
                         after=player.run(static_cast<std::uint64_t>(player.inputRate()),false,targets.back());
                     print("after_seek_burst",player,after);
                     return after.startFrame==targets.back() && after.content==after.target ? 0 : 4;
+                }
+                if (option.rfind("--seek-series=",0)==0) {
+                    const auto count=std::stoul(option.substr(14));
+                    if (count<2 || count>1000) throw std::invalid_argument("Seek series count must be 2..1000");
+                    const auto first=player.run(static_cast<std::uint64_t>(player.inputRate()));
+                    if (first.routeChanged || first.interrupted) return 3;
+                    std::vector<double> preparation,validation,restart;
+                    preparation.reserve(count);validation.reserve(count);restart.reserve(count);
+                    std::uint64_t underruns=0,deadlineMisses=0;
+                    for (std::size_t i=0;i<count;++i) {
+                        const auto inputFrame=std::min<std::size_t>(player.inputFrames()-1,
+                            ((i+1)*player.inputFrames())/(count+1));
+                        const auto frame=player.outputFrameForInputFrame(inputFrame);
+                        const auto result=player.run(1024,false,frame);
+                        if (result.source!="pcm_cache" || result.content!=result.target)
+                            throw std::runtime_error("Seek series did not use complete PCM cache");
+                        preparation.push_back(result.seekWarmupSeconds);
+                        validation.push_back(result.cacheValidationSeconds);
+                        restart.push_back(result.engineRestartSeconds);
+                        underruns+=result.pipeline.underrunFrames;
+                        deadlineMisses+=result.deadlineMisses;
+                    }
+                    std::sort(preparation.begin(),preparation.end());
+                    std::sort(validation.begin(),validation.end());
+                    std::sort(restart.begin(),restart.end());
+                    const auto percentile=[&](const std::vector<double>& values,double q) {
+                        return values[std::min(values.size()-1,
+                            static_cast<std::size_t>(std::ceil(q*values.size()))-1)];
+                    };
+                    std::cout << "series_count=" << count << '\n'
+                              << "series_initial_cache_validation_ms="
+                              << player.initialCacheValidationSeconds()*1000 << '\n'
+                              << "series_prepare_median_ms=" << percentile(preparation,0.5)*1000 << '\n'
+                              << "series_prepare_p95_ms=" << percentile(preparation,0.95)*1000 << '\n'
+                              << "series_prepare_max_ms=" << preparation.back()*1000 << '\n'
+                              << "series_validation_median_ms=" << percentile(validation,0.5)*1000 << '\n'
+                              << "series_restart_median_ms=" << percentile(restart,0.5)*1000 << '\n'
+                              << "series_underrun_frames=" << underruns << '\n'
+                              << "series_deadline_misses=" << deadlineMisses << '\n';
+                    return underruns || deadlineMisses ? 4 : 0;
                 }
                 if (option=="--underflow-smoke") {
                     const auto result=player.run(static_cast<std::uint64_t>(player.inputRate()*3),true);

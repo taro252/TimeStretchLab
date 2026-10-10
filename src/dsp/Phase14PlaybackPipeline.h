@@ -11,6 +11,7 @@
 
 namespace ts {
 struct SeekSuperseded {};
+class VerifiedPcmCache;
 
 // One DSP producer and one audio consumer. Storage is allocated before start().
 // Neither read() nor write() allocates, waits, locks, or performs I/O.
@@ -70,6 +71,10 @@ public:
     // File reads and planar conversion run exclusively on the worker.
     void startFromCache(const std::filesystem::path& cacheFile,std::size_t outputFrame,
                         std::size_t prefillFrames,std::chrono::milliseconds timeout,
+                        const std::function<bool()>& superseded={});
+    void startFromVerifiedCache(std::shared_ptr<const VerifiedPcmCache> cache,
+                        std::size_t outputFrame,std::size_t prefillFrames,
+                        std::chrono::milliseconds timeout,
                         const std::function<bool()>& superseded={});
     void stop();
     // A real callback calls only this method. Missing frames are filled with zero.

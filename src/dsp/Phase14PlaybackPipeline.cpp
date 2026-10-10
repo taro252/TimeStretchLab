@@ -1,4 +1,5 @@
 #include "dsp/Phase14PlaybackPipeline.h"
+#include "dsp/Phase18PcmCache.h"
 #include "audio/WavStream.h"
 #include <algorithm>
 #include <cstring>
@@ -245,6 +246,65 @@ void Phase14PlaybackPipeline::startFromCache(const std::filesystem::path& cacheF
         stop();
         throw SeekSuperseded{};
     }
+    rethrowWorkerError();
+}
+
+void Phase14PlaybackPipeline::startFromVerifiedCache(
+    std::shared_ptr<const VerifiedPcmCache> cache,std::size_t outputFrame,
+    std::size_t prefillFrames,std::chrono::milliseconds timeout,
+    const std::function<bool()>& superseded) {
+    if (superseded && superseded()) throw SeekSuperseded{};
+    if (!cache || worker_.joinable()) throw std::logic_error("Invalid verified cache start");
+    if (outputFrame>=prepared_.outputFrames() || cache->frames()!=prepared_.outputFrames() ||
+        cache->channels()!=fifo_.channels() || cache->sampleRate()!=sourceRate_)
+        throw std::invalid_argument("Verified cache does not match prepared audio");
+    if (prefillFrames>fifo_.capacity()) throw std::invalid_argument("Cache prefill exceeds FIFO");
+    fifo_.clearQuiescent();
+    underrunCalls_.store(0);underrunFrames_.store(0);producedFrames_.store(0);
+    dspSeconds_.store(0);dspActiveSeconds_.store(0);maxWorkerChunkSeconds_.store(0);
+    workerError_=nullptr;
+    stopRequested_.store(false,std::memory_order_release);
+    workerFinished_.store(false,std::memory_order_release);
+    worker_=std::thread([this,cache=std::move(cache),outputFrame] {
+        constexpr std::size_t chunkFrames=8192;
+        const auto begin=Clock::now();
+        try {
+            std::vector<std::vector<float>> chunk(fifo_.channels(),std::vector<float>(chunkFrames));
+            std::vector<float*> output(chunk.size());
+            std::vector<const float*> pointers(chunk.size());
+            for (std::size_t c=0;c<chunk.size();++c) {
+                output[c]=chunk[c].data();pointers[c]=chunk[c].data();
+            }
+            for (std::size_t at=outputFrame;at<cache->frames();) {
+                if (stopRequested_.load(std::memory_order_acquire)) break;
+                const auto count=std::min(chunkFrames,cache->frames()-at);
+                const auto chunkBegin=Clock::now();
+                cache->readFrames(at,count,output.data());
+                while (!stopRequested_.load(std::memory_order_acquire) && fifo_.free()<count)
+                    std::this_thread::sleep_for(std::chrono::microseconds(100));
+                if (stopRequested_.load(std::memory_order_acquire)) break;
+                if (!fifo_.write(pointers.data(),count)) throw std::runtime_error("Cache FIFO overrun");
+                producedFrames_.fetch_add(count,std::memory_order_relaxed);
+                at+=count;
+                const auto seconds=std::chrono::duration<double>(Clock::now()-chunkBegin).count();
+                maxWorkerChunkSeconds_.store(std::max(maxWorkerChunkSeconds_.load(),seconds));
+            }
+        } catch (...) { workerError_=std::current_exception(); }
+        dspSeconds_.store(std::chrono::duration<double>(Clock::now()-begin).count());
+        workerFinished_.store(true,std::memory_order_release);
+    });
+    const auto needed=std::min(prefillFrames,prepared_.outputFrames()-outputFrame);
+    const auto begin=Clock::now();
+    while (availableOutputFrames()<needed && !workerFinished()) {
+        if (superseded && superseded()) {stop();throw SeekSuperseded{};}
+        if (Clock::now()-begin>=timeout) break;
+        std::this_thread::sleep_for(std::chrono::microseconds(100));
+    }
+    prefillSeconds_=std::chrono::duration<double>(Clock::now()-begin).count();
+    if (availableOutputFrames()<needed) {
+        stop();rethrowWorkerError();throw std::runtime_error("Verified cache prefill timed out");
+    }
+    if (superseded && superseded()) {stop();throw SeekSuperseded{};}
     rethrowWorkerError();
 }
 
