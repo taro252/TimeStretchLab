@@ -6,17 +6,20 @@
 #include <string>
 
 int main(int argc, char** argv) {
-    if (argc != 3 && argc != 4) {
-        std::cerr << "Usage: phase13_stream input.wav output.wav [block-frames:8192..65536]\n";
+    if (argc < 3 || argc > 5) {
+        std::cerr << "Usage: phase13_stream input.wav output.wav [block-frames:8192..65536] [speed:0.50|0.75]\n";
         return 2;
     }
     try {
-        const std::size_t block = argc == 4 ? std::stoul(argv[3]) : 16384;
+        const std::size_t block = argc >= 4 ? std::stoul(argv[3]) : 16384;
+        const double speed = argc == 5 ? std::stod(argv[4]) : 0.50;
+        if (speed != 0.50 && speed != 0.75)
+            throw std::invalid_argument("Only fixed 0.50 and 0.75 speeds are supported");
         const ts::WavStreamReader input(argv[1]);
         ts::StretchConfig config;
         config.sampleRate = input.sampleRate();
         config.channels = static_cast<int>(input.channels());
-        config.timeRatio = 2.0;
+        config.timeRatio = 1.0 / speed;
         config.enableMultiResolution = true;
         config.qualityMode = ts::QualityMode::Experimental;
         config.enablePhaseLocking = true;
@@ -24,7 +27,8 @@ int main(int argc, char** argv) {
         config.enableAdaptiveTimeMapping = true;
         config.enablePreciseTransientAnchoring = true;
         config.enableStereoCoherence = true;
-        ts::WavStreamWriter writer(argv[2],input.sampleRate(),input.channels(),input.frames()*2);
+        ts::WavStreamWriter writer(argv[2],input.sampleRate(),input.channels(),
+                                  static_cast<std::size_t>(std::round(input.frames()*config.timeRatio)));
         ts::Phase13StreamingEngine engine(config);
         const auto result = engine.processFile(argv[1], [&](const float* const* data, std::size_t count) {
             writer.write(data,count);

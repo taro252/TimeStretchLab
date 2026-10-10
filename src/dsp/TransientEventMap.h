@@ -24,8 +24,16 @@ struct EventMapConfig {
 // Offline event grouping and one shared, duration-conserving synthesis timeline.
 class TransientEventMap {
 public:
+    // Event grouping depends only on input analysis, not playback speed.
+    static std::vector<TransientEvent> consolidateEvents(
+        const std::vector<TransientFrame>& frames, std::size_t activeFrameCount,
+        EventMapConfig config = {});
     TransientEventMap(const std::vector<TransientFrame>& frames, std::size_t activeFrameCount,
                       int analysisHop, double globalRatio, EventMapConfig config = {});
+    TransientEventMap(const std::vector<TransientFrame>& frames, std::size_t activeFrameCount,
+                      int analysisHop, double globalRatio,
+                      EventMapConfig config,
+                      std::vector<TransientEvent> consolidatedEvents);
     const std::vector<TransientEvent>& events() const { return events_; }
     const std::vector<double>& localRatios() const { return localRatios_; }
     const std::vector<long long>& starts() const { return starts_; }

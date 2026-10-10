@@ -3,12 +3,49 @@
 #include <cmath>
 #include <numbers>
 #include <stdexcept>
+#include <utility>
 
 namespace ts {
+std::vector<TransientEvent> TransientEventMap::consolidateEvents(
+    const std::vector<TransientFrame>& frames, std::size_t activeFrameCount,
+    EventMapConfig config) {
+    const auto active = std::min(activeFrameCount, frames.size());
+    std::vector<TransientEvent> events;
+    for (std::size_t i = 1; i < active; ++i) {
+        const auto& frame = frames[i];
+        if (frame.spectralFlux <= frame.threshold || frame.strength < 0.25f ||
+            frame.logEnergy <= frame.previousLogEnergy * 1.02) continue;
+        if (events.empty()) {
+            events.push_back({i, i, i, i, frame.strength});
+            continue;
+        }
+        auto& event = events.back();
+        const auto gap = i - event.endFrame;
+        const bool nearby = gap <= static_cast<std::size_t>(config.minimumDistanceFrames);
+        const bool decayingAftershock = gap <= static_cast<std::size_t>(config.decayMergeFrames) &&
+            frame.logEnergy < frames[event.peakFrame].logEnergy * 0.2;
+        if (!nearby && !decayingAftershock) {
+            events.push_back({i, i, i, i, frame.strength});
+            continue;
+        }
+        event.endFrame = i;
+        if (frame.spectralFlux > frames[event.peakFrame].spectralFlux) event.peakFrame = i;
+        event.strength = std::max(event.strength, frame.strength);
+    }
+    return events;
+}
 TransientEventMap::TransientEventMap(const std::vector<TransientFrame>& frames,
                                    std::size_t activeFrameCount, int analysisHop,
                                    double globalRatio, EventMapConfig config)
-    : localRatios_(frames.size(), globalRatio), starts_(frames.size()),
+    : TransientEventMap(frames, activeFrameCount, analysisHop, globalRatio,
+                        config, consolidateEvents(frames, activeFrameCount, config)) {}
+TransientEventMap::TransientEventMap(const std::vector<TransientFrame>& frames,
+                                   std::size_t activeFrameCount, int analysisHop,
+                                   double globalRatio,
+                                   EventMapConfig config,
+                                   std::vector<TransientEvent> consolidatedEvents)
+    : events_(std::move(consolidatedEvents)),
+      localRatios_(frames.size(), globalRatio), starts_(frames.size()),
       eventIds_(frames.size(), -1), eventStrengths_(frames.size()),
       regionWeights_(frames.size()), resetMask_(frames.size()),
       analysisHop_(analysisHop), globalRatio_(globalRatio),
@@ -19,29 +56,6 @@ TransientEventMap::TransientEventMap(const std::vector<TransientFrame>& frames,
         !std::isfinite(config.maximumCompensation) || config.maximumCompensation < 1)
         throw std::invalid_argument("Invalid transient event map configuration");
     const auto active = std::min(activeFrameCount, frames.size());
-    // Start an event at a significant flux rise. Nearby candidates, and weak
-    // aftershocks following a strong attack, join the same physical event.
-    for (std::size_t i = 1; i < active; ++i) {
-        const auto& frame = frames[i];
-        if (frame.spectralFlux <= frame.threshold || frame.strength < 0.25f ||
-            frame.logEnergy <= frame.previousLogEnergy * 1.02) continue;
-        if (events_.empty()) {
-            events_.push_back({i, i, i, i, frame.strength});
-            continue;
-        }
-        auto& event = events_.back();
-        const auto gap = i - event.endFrame;
-        const bool nearby = gap <= static_cast<std::size_t>(config.minimumDistanceFrames);
-        const bool decayingAftershock = gap <= static_cast<std::size_t>(config.decayMergeFrames) &&
-            frame.logEnergy < frames[event.peakFrame].logEnergy * 0.2;
-        if (!nearby && !decayingAftershock) {
-            events_.push_back({i, i, i, i, frame.strength});
-            continue;
-        }
-        event.endFrame = i;
-        if (frame.spectralFlux > frames[event.peakFrame].spectralFlux) event.peakFrame = i;
-        event.strength = std::max(event.strength, frame.strength);
-    }
     for (std::size_t id = 0; id < events_.size(); ++id) {
         auto& event = events_[id];
         if (config.preserveAttackRegion) {

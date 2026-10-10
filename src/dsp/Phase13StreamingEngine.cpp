@@ -20,6 +20,15 @@
 #include <stdexcept>
 
 namespace ts {
+struct Phase13TransientData {
+    std::filesystem::path input;
+    std::size_t inputFrames=0, channels=0, frameCount=0, activeFrames=0;
+    std::uint32_t sampleRate=0;
+    std::size_t transientCount=0;
+    std::vector<TransientFrame> detectorFrames;
+    std::vector<TransientEvent> events;
+    std::vector<TransientAnchor> anchors;
+};
 namespace {
 constexpr std::size_t cacheSize = 65536;
 constexpr std::uint64_t hashSeed = 14695981039346656037ULL;
@@ -44,19 +53,31 @@ struct Detection {
     long long anchorError = 0;
 };
 
-Detection detect(const std::filesystem::path& path, const StretchConfig& config,
-                 std::size_t length, std::size_t channels) {
-    Detection result;
+EventMapConfig eventSettings(const StretchConfig& config) {
+    EventMapConfig settings;
+    settings.minimumDistanceFrames=config.eventMinimumDistanceFrames;
+    settings.decayMergeFrames=config.eventDecayMergeFrames;
+    settings.preRollFrames=config.eventPreRollFrames;
+    settings.postRollFrames=config.enableSelectivePhaseReset
+        ? config.eventAttackPostRollFrames : config.eventPostRollFrames;
+    settings.preserveAttackRegion=config.enableSelectivePhaseReset;
+    return settings;
+}
+Phase13TransientData analyzeInputEvents(const std::filesystem::path& path,
+    const StretchConfig& config, std::size_t length, std::size_t channels) {
+    Phase13TransientData analysis;
+    analysis.input=path;
+    analysis.inputFrames=length;
+    analysis.channels=channels;
+    analysis.sampleRate=config.sampleRate;
     const std::size_t fftSize = 4096, hop = 1024, padding = fftSize/2;
     const auto frameCount = (length+padding+hop-1)/hop+1;
-    result.resets.resize(frameCount);
-    result.strengths.resize(frameCount);
+    analysis.frameCount=frameCount;
     WavStreamReader reader(path);
     STFT stft(fftSize);
     std::vector<float> frame(fftSize), combined(fftSize/2+1);
     std::vector<std::complex<float>> spectrum(fftSize/2+1);
     std::unique_ptr<TransientDetector> detector;
-    std::unique_ptr<TransientEventMap> events;
     if (config.enableTransientHandling) {
         TransientConfig settings;
         settings.sensitivity = config.transientSensitivity;
@@ -85,47 +106,57 @@ Detection detect(const std::filesystem::path& path, const StretchConfig& config,
         const auto active=length+padding>=fftSize
             ? (length+padding-fftSize)/hop+1 : 0;
         detector->finalize(active);
-        result.transientCount=detector->transientCount();
+        analysis.transientCount=detector->transientCount();
+        analysis.activeFrames=active;
+        analysis.detectorFrames=detector->frames();
         if (config.enableAdaptiveTimeMapping) {
-            EventMapConfig settings;
-            settings.minimumDistanceFrames=config.eventMinimumDistanceFrames;
-            settings.decayMergeFrames=config.eventDecayMergeFrames;
-            settings.preRollFrames=config.eventPreRollFrames;
-            settings.postRollFrames=config.enableSelectivePhaseReset
-                ? config.eventAttackPostRollFrames : config.eventPostRollFrames;
-            settings.preserveAttackRegion=config.enableSelectivePhaseReset;
-            events=std::make_unique<TransientEventMap>(detector->frames(),active,hop,
-                                                       config.timeRatio,settings);
+            analysis.events=TransientEventMap::consolidateEvents(
+                analysis.detectorFrames,active,eventSettings(config));
             if (config.enableSelectivePhaseReset || config.enablePreciseTransientAnchoring) {
                 AnchorLocatorConfig anchorSettings;
                 if (config.enablePreciseTransientAnchoring) {
                     anchorSettings.minimumPeakToRunnerUp=3.0;
                     anchorSettings.requireInteriorPeak=true;
                 }
-                const auto anchors=TransientAnchorLocator::locate(length,channels,
+                analysis.anchors=TransientAnchorLocator::locate(length,channels,
                     [&](std::size_t channel,std::size_t sample) {
                         return reader.sample(channel,sample);
-                    },events->events(),hop,anchorSettings);
-                std::vector<double> offsets(anchors.size());
-                for (std::size_t i=0; i<anchors.size(); ++i) {
-                    offsets[i]=anchors[i].sampleOffset;
-                    if (anchors[i].confident) ++result.anchoredCount;
-                }
-                events->refineAnchors(offsets);
+                    },analysis.events,hop,anchorSettings);
             }
-            result.eventCount=events->events().size();
-            for (const auto& event: events->events())
-                result.anchorError=std::max(result.anchorError,
-                    std::llabs(events->starts()[event.peakFrame]-
-                               events->idealStartAt(event.peakFrame)));
         }
+    }
+    return analysis;
+}
+Detection buildDetection(const Phase13TransientData& analysis,
+    const StretchConfig& config) {
+    Detection result;
+    const std::size_t hop=1024, frameCount=analysis.frameCount;
+    result.resets.resize(frameCount);
+    result.strengths.resize(frameCount);
+    result.transientCount=analysis.transientCount;
+    std::unique_ptr<TransientEventMap> events;
+    if (config.enableAdaptiveTimeMapping && config.enableTransientHandling) {
+        events=std::make_unique<TransientEventMap>(analysis.detectorFrames,
+            analysis.activeFrames,hop,config.timeRatio,eventSettings(config),analysis.events);
+        if (config.enableSelectivePhaseReset || config.enablePreciseTransientAnchoring) {
+            std::vector<double> offsets(analysis.anchors.size());
+            for (std::size_t i=0; i<analysis.anchors.size(); ++i) {
+                offsets[i]=analysis.anchors[i].sampleOffset;
+                if (analysis.anchors[i].confident) ++result.anchoredCount;
+            }
+            events->refineAnchors(offsets);
+        }
+        result.eventCount=events->events().size();
+        for (const auto& event: events->events())
+            result.anchorError=std::max(result.anchorError,
+                std::llabs(events->starts()[event.peakFrame]-
+                           events->idealStartAt(event.peakFrame)));
     }
     std::vector<long long> starts(frameCount);
     for (std::size_t i=0; i<frameCount; ++i) {
         starts[i]=events ? events->starts()[i]
             : std::llround(i*hop*config.timeRatio);
-        result.resets[i]=events ? events->resetAt(i)
-            : (detector && detector->resetAt(i));
+        result.resets[i]=events ? events->resetAt(i) : false;
         result.strengths[i]=events ? events->resetStrengthAt(i) : 0.0f;
     }
     result.map=TimeMap(hop,std::move(starts),events ? events->events()
@@ -333,8 +364,32 @@ struct Phase13PreparedFile::Impl {
     std::filesystem::path input;
     std::size_t inputFrames=0, outputFrames=0, channels=0;
     std::uint32_t sampleRate=0;
+    double timeRatio=0;
+    std::shared_ptr<const Phase13TransientData> analysis;
     Detection detection;
 };
+
+std::size_t Phase13TransientAnalysis::inputFrames() const {
+    return impl_ ? impl_->inputFrames : 0;
+}
+std::size_t Phase13TransientAnalysis::transientCount() const {
+    return impl_ ? impl_->transientCount : 0;
+}
+const std::vector<TransientEvent>& Phase13TransientAnalysis::events() const {
+    if (!impl_) throw std::logic_error("Transient analysis is empty");
+    return impl_->events;
+}
+const std::vector<TransientAnchor>& Phase13TransientAnalysis::anchors() const {
+    if (!impl_) throw std::logic_error("Transient analysis is empty");
+    return impl_->anchors;
+}
+const std::vector<TransientFrame>& Phase13TransientAnalysis::detectorFrames() const {
+    if (!impl_) throw std::logic_error("Transient analysis is empty");
+    return impl_->detectorFrames;
+}
+std::size_t Phase13TransientAnalysis::activeFrameCount() const {
+    return impl_ ? impl_->activeFrames : 0;
+}
 
 std::size_t Phase13PreparedFile::inputFrames() const {
     return impl_ ? impl_->inputFrames : 0;
@@ -354,7 +409,8 @@ std::size_t Phase13PreparedFile::outputFrameForInputFrame(std::size_t inputFrame
 Phase13StreamingEngine::Phase13StreamingEngine(StretchConfig config):config_(std::move(config)) {
     if (config_.fftSize!=4096 || config_.analysisHop!=1024)
         throw std::invalid_argument("Chunked processing requires 4096/1024 mid-resolution settings");
-    if (config_.timeRatio != 2.0 || config_.qualityMode != QualityMode::Experimental ||
+    if ((config_.timeRatio != 2.0 && config_.timeRatio != 4.0/3.0) ||
+        config_.qualityMode != QualityMode::Experimental ||
         !config_.enableMultiResolution || !config_.enablePhaseLocking ||
         !config_.enableTransientHandling || !config_.enableAdaptiveTimeMapping ||
         !config_.enablePreciseTransientAnchoring || !config_.enableStereoCoherence ||
@@ -373,25 +429,50 @@ Phase13StreamingEngine::Phase13StreamingEngine(StretchConfig config):config_(std
         config_.eventDecayMergeFrames != 12 ||
         config_.eventPreRollFrames != 2 ||
         config_.eventPostRollFrames != 5)
-        throw std::invalid_argument("Phase 13 requires the frozen Experimental 3500 speed-0.50 settings");
+        throw std::invalid_argument("Phase 13 requires the frozen Experimental 3500 fixed-speed settings");
     TimeStretchEngine validate(config_);
 }
 Phase13PreparedFile Phase13StreamingEngine::analyzeFile(const std::filesystem::path& input) const {
+    return prepareWithAnalysis(analyzeTransientEvents(input));
+}
+Phase13TransientAnalysis Phase13StreamingEngine::analyzeTransientEvents(
+    const std::filesystem::path& input) const {
     WavStreamReader reader(input);
     if (reader.channels()!=static_cast<std::size_t>(config_.channels) ||
         reader.sampleRate()!=config_.sampleRate)
         throw std::invalid_argument("WAV metadata differs from configuration");
-    const auto target=std::round(reader.frames()*config_.timeRatio);
+    auto data=std::make_shared<Phase13TransientData>();
+    if (reader.frames()!=0)
+        *data=analyzeInputEvents(input,config_,reader.frames(),reader.channels());
+    else {
+        data->input=input;
+        data->channels=reader.channels();
+        data->sampleRate=reader.sampleRate();
+    }
+    Phase13TransientAnalysis analysis;
+    analysis.impl_=std::move(data);
+    return analysis;
+}
+Phase13PreparedFile Phase13StreamingEngine::prepareWithAnalysis(
+    const Phase13TransientAnalysis& analysis) const {
+    if (!analysis.impl_) throw std::invalid_argument("Transient analysis is empty");
+    const auto& data=*analysis.impl_;
+    if (data.channels!=static_cast<std::size_t>(config_.channels) ||
+        data.sampleRate!=config_.sampleRate)
+        throw std::invalid_argument("Transient analysis metadata differs from configuration");
+    const auto target=std::round(data.inputFrames*config_.timeRatio);
     if (!std::isfinite(target) || target>double(std::numeric_limits<std::size_t>::max()/2))
         throw std::length_error("Output too large");
     auto plan=std::make_shared<Phase13PreparedFile::Impl>();
-    plan->input=input;
-    plan->inputFrames=reader.frames();
+    plan->input=data.input;
+    plan->inputFrames=data.inputFrames;
     plan->outputFrames=static_cast<std::size_t>(target);
-    plan->channels=reader.channels();
-    plan->sampleRate=reader.sampleRate();
-    if (reader.frames()!=0)
-        plan->detection=detect(input,config_,reader.frames(),reader.channels());
+    plan->channels=data.channels;
+    plan->sampleRate=data.sampleRate;
+    plan->timeRatio=config_.timeRatio;
+    plan->analysis=analysis.impl_;
+    if (data.inputFrames!=0)
+        plan->detection=buildDetection(data,config_);
     Phase13PreparedFile prepared;
     prepared.impl_=std::move(plan);
     return prepared;
@@ -403,6 +484,8 @@ Phase13Result Phase13StreamingEngine::processFile(const std::filesystem::path& i
 Phase13Result Phase13StreamingEngine::processPrepared(const Phase13PreparedFile& prepared,
     const OutputSink& sink, std::size_t chunkSize) {
     if (!prepared.impl_) throw std::invalid_argument("Phase 13 file has not been analyzed");
+    if (prepared.impl_->timeRatio!=config_.timeRatio)
+        throw std::invalid_argument("Prepared TimeMap belongs to another fixed speed");
     if (!sink) throw std::invalid_argument("Phase 13 output sink is required");
     constexpr auto mode = AblationMode::Full;
     Phase13Result phase13;
