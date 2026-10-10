@@ -329,6 +329,20 @@ private:
 };
 }
 
+struct Phase13PreparedFile::Impl {
+    std::filesystem::path input;
+    std::size_t inputFrames=0, outputFrames=0, channels=0;
+    std::uint32_t sampleRate=0;
+    Detection detection;
+};
+
+std::size_t Phase13PreparedFile::inputFrames() const {
+    return impl_ ? impl_->inputFrames : 0;
+}
+std::size_t Phase13PreparedFile::outputFrames() const {
+    return impl_ ? impl_->outputFrames : 0;
+}
+
 Phase13StreamingEngine::Phase13StreamingEngine(StretchConfig config):config_(std::move(config)) {
     if (config_.fftSize!=4096 || config_.analysisHop!=1024)
         throw std::invalid_argument("Chunked processing requires 4096/1024 mid-resolution settings");
@@ -354,8 +368,33 @@ Phase13StreamingEngine::Phase13StreamingEngine(StretchConfig config):config_(std
         throw std::invalid_argument("Phase 13 requires the frozen Experimental 3500 speed-0.50 settings");
     TimeStretchEngine validate(config_);
 }
+Phase13PreparedFile Phase13StreamingEngine::analyzeFile(const std::filesystem::path& input) const {
+    WavStreamReader reader(input);
+    if (reader.channels()!=static_cast<std::size_t>(config_.channels) ||
+        reader.sampleRate()!=config_.sampleRate)
+        throw std::invalid_argument("WAV metadata differs from configuration");
+    const auto target=std::round(reader.frames()*config_.timeRatio);
+    if (!std::isfinite(target) || target>double(std::numeric_limits<std::size_t>::max()/2))
+        throw std::length_error("Output too large");
+    auto plan=std::make_shared<Phase13PreparedFile::Impl>();
+    plan->input=input;
+    plan->inputFrames=reader.frames();
+    plan->outputFrames=static_cast<std::size_t>(target);
+    plan->channels=reader.channels();
+    plan->sampleRate=reader.sampleRate();
+    if (reader.frames()!=0)
+        plan->detection=detect(input,config_,reader.frames(),reader.channels());
+    Phase13PreparedFile prepared;
+    prepared.impl_=std::move(plan);
+    return prepared;
+}
 Phase13Result Phase13StreamingEngine::processFile(const std::filesystem::path& input,
     const OutputSink& sink, std::size_t chunkSize) {
+    return processPrepared(analyzeFile(input),sink,chunkSize);
+}
+Phase13Result Phase13StreamingEngine::processPrepared(const Phase13PreparedFile& prepared,
+    const OutputSink& sink, std::size_t chunkSize) {
+    if (!prepared.impl_) throw std::invalid_argument("Phase 13 file has not been analyzed");
     if (!sink) throw std::invalid_argument("Phase 13 output sink is required");
     constexpr auto mode = AblationMode::Full;
     Phase13Result phase13;
@@ -367,10 +406,14 @@ Phase13Result Phase13StreamingEngine::processFile(const std::filesystem::path& i
     phase13.stages.fir = hashSeed;
     if (chunkSize<8192 || chunkSize>65536)
         throw std::invalid_argument("Chunk size must be 8192..65536");
+    const auto& input=prepared.impl_->input;
     WavStreamReader reader(input);
-    if (reader.channels()!=static_cast<std::size_t>(config_.channels) ||
+    if (reader.channels()!=prepared.impl_->channels ||
+        reader.sampleRate()!=prepared.impl_->sampleRate ||
+        reader.frames()!=prepared.impl_->inputFrames ||
+        reader.channels()!=static_cast<std::size_t>(config_.channels) ||
         reader.sampleRate()!=config_.sampleRate)
-        throw std::invalid_argument("WAV metadata differs from configuration");
+        throw std::invalid_argument("Analyzed WAV metadata differs from input/configuration");
     auto& result = phase13.processing;
     result.inputFrames=reader.frames();
     const auto target=std::round(reader.frames()*config_.timeRatio);
@@ -393,7 +436,7 @@ Phase13Result Phase13StreamingEngine::processFile(const std::filesystem::path& i
         }
         return phase13;
     }
-    const auto detection=detect(input,config_,reader.frames(),reader.channels());
+    const auto& detection=prepared.impl_->detection;
     result.timeMapHash=14695981039346656037ULL;
     for (const auto start: detection.map.starts()) {
         result.timeMapHash^=static_cast<std::uint64_t>(start);
