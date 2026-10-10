@@ -200,4 +200,10 @@ if(BUILD_TESTING)
         src/prototype/Phase22VariableTimeMap.cpp)
     target_link_libraries(phase22_timemap_study PRIVATE timestretch_core)
     add_test(NAME phase22_timemap COMMAND phase22_timemap_study)
+    add_executable(phase22b_study
+        tests/Phase22BStudy.cpp
+        src/prototype/Phase22BResponsiveMap.cpp
+        src/prototype/Phase22VariableTimeMap.cpp)
+    target_link_libraries(phase22b_study PRIVATE timestretch_core)
+    add_test(NAME phase22b COMMAND phase22b_study)
 endif()
