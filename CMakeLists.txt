@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-project(TimeStretchLab VERSION 0.1 LANGUAGES CXX)
+project(TimeStretchLab VERSION 0.1 LANGUAGES CXX OBJCXX)
 
 if(NOT APPLE)
     message(FATAL_ERROR "Phase 1 requires Apple Accelerate")
@@ -50,6 +50,11 @@ add_executable(phase13_stream src/phase13_main.cpp)
 target_link_libraries(phase13_stream PRIVATE timestretch_core)
 add_executable(phase14_sim src/phase14_main.cpp)
 target_link_libraries(phase14_sim PRIVATE timestretch_core)
+find_library(AVFOUNDATION_FRAMEWORK AVFoundation REQUIRED)
+find_library(FOUNDATION_FRAMEWORK Foundation REQUIRED)
+add_executable(phase15_play src/platform/macos/Phase15MacPlayback.mm)
+target_link_libraries(phase15_play PRIVATE timestretch_core ${AVFOUNDATION_FRAMEWORK} ${FOUNDATION_FRAMEWORK})
+target_compile_options(phase15_play PRIVATE -fobjc-arc -Wall -Wextra -Wpedantic)
 add_executable(phase101_offline_events src/phase101_offline_events.cpp)
 target_link_libraries(phase101_offline_events PRIVATE timestretch_core)
 
