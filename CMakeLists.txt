@@ -254,4 +254,9 @@ if(BUILD_TESTING)
     add_test(NAME phase26_playback COMMAND phase26_playback_tests)
     add_test(NAME phase27_repeated COMMAND phase27_repeated_tests ${CMAKE_SOURCE_DIR})
     add_test(NAME phase27_synthetic COMMAND phase27_repeated_tests --synthetic)
+    add_executable(phase28_map_study tests/Phase28MapStudy.cpp
+        src/prototype/Phase28ArbitraryTimeMap.cpp
+        src/prototype/Phase22VariableTimeMap.cpp)
+    target_link_libraries(phase28_map_study PRIVATE timestretch_core)
+    add_test(NAME phase28_map COMMAND phase28_map_study ${CMAKE_SOURCE_DIR})
 endif()

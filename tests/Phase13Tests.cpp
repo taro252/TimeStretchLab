@@ -76,9 +76,11 @@ int main() {
         require(results[0].stages.highFir==results[1].stages.highFir,"LP3500 depends on output block");
         require(results[0].stages.fir==results[1].stages.fir,"FIR depends on output block");
         config.timeRatio=1.0;
+        ts::Phase13StreamingEngine unity(config);
+        config.timeRatio=2.1;
         try {
             ts::Phase13StreamingEngine invalid(config);
-            throw std::runtime_error("Incorrectly accepted non-0.50 speed");
+            throw std::runtime_error("Incorrectly accepted out-of-range speed");
         } catch (const std::invalid_argument&) {}
         std::filesystem::remove_all(dir);
         std::cout << "Phase 13: offline reference and two output block sizes match exactly\n";

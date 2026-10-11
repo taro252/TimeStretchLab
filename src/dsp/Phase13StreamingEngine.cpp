@@ -409,7 +409,8 @@ std::size_t Phase13PreparedFile::outputFrameForInputFrame(std::size_t inputFrame
 Phase13StreamingEngine::Phase13StreamingEngine(StretchConfig config):config_(std::move(config)) {
     if (config_.fftSize!=4096 || config_.analysisHop!=1024)
         throw std::invalid_argument("Chunked processing requires 4096/1024 mid-resolution settings");
-    if ((config_.timeRatio != 2.0 && config_.timeRatio != 4.0/3.0) ||
+    if (!std::isfinite(config_.timeRatio) || config_.timeRatio<1.0 ||
+        config_.timeRatio>2.0 ||
         config_.qualityMode != QualityMode::Experimental ||
         !config_.enableMultiResolution || !config_.enablePhaseLocking ||
         !config_.enableTransientHandling || !config_.enableAdaptiveTimeMapping ||
