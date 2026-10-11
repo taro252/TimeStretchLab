@@ -2,22 +2,33 @@
 #include "dsp/Phase14PlaybackPipeline.h"
 #include "prototype/Phase26BidirectionalTimeMap.h"
 #include "prototype/Phase24StreamingSpeedEngine.h"
-#include <array>
 #include <atomic>
 #include <chrono>
 #include <filesystem>
+#include <mutex>
 #include <thread>
+#include <vector>
 
 namespace ts::prototype {
 
 enum class Phase26RequestState : std::uint8_t {
-    Idle, Submitting, Requested, Applied, Rejected
+    Idle, Submitting, Requested, Applied, Rejected, Cancelled
 };
 enum class Phase26RequestResult : std::uint8_t {
     Accepted, Busy, Duplicate, Stopped, LimitReached
 };
+enum class Phase26AudibleStage : std::uint8_t {
+    Stable, Accepted, AwaitingSafeRegion, AwaitingPlayback,
+    Transitioning, Complete, Rejected, Cancelled
+};
+struct Phase26PlanMetric {
+    BidirectionalPlan plan;
+    std::size_t requestedOutput=0,requestedInput=0,planningFence=0;
+    double planMilliseconds=0;
+};
 struct Phase26Snapshot {
     Phase26RequestState state=Phase26RequestState::Idle;
+    Phase26AudibleStage audibleStage=Phase26AudibleStage::Stable;
     BidirectionalOutcome planOutcome=BidirectionalOutcome::NoSafeInterval;
     PlaybackSpeed initial=PlaybackSpeed::Half,from=PlaybackSpeed::Half;
     PlaybackSpeed target=PlaybackSpeed::Half,currentAudible=PlaybackSpeed::Half;
@@ -28,7 +39,8 @@ struct Phase26Snapshot {
     std::size_t planningFence=0,appliedOutput=0,completionOutput=0,outputLength=0;
     std::size_t fifoHighWater=0;
     std::uint64_t underrunFrames=0,rejectedWrites=0;
-    double maxWorkerChunkSeconds=0;
+    double maxWorkerChunkSeconds=0,planMilliseconds=0;
+    std::size_t completedChanges=0;
 };
 struct Phase26RealtimeMarkers {
     std::size_t outputLength=0,appliedOutput=0,completionOutput=0;
@@ -55,6 +67,7 @@ public:
     Phase26Snapshot snapshot() const noexcept;
     Phase26RealtimeMarkers realtimeMarkers() const noexcept;
     std::vector<BidirectionalPlan> history() const;
+    std::vector<Phase26PlanMetric> planMetrics() const;
     void rethrowWorkerError() const;
     std::uint32_t sampleRate() const noexcept { return sampleRate_; }
     std::size_t channels() const noexcept { return channels_; }
@@ -71,7 +84,8 @@ private:
     std::atomic<bool> stop_{false},finished_{false},started_{false};
     std::atomic<Phase26RequestState> state_{Phase26RequestState::Idle};
     std::atomic<BidirectionalOutcome> planOutcome_{BidirectionalOutcome::NoSafeInterval};
-    std::atomic<PlaybackSpeed> from_{PlaybackSpeed::Half},target_{PlaybackSpeed::Half};
+    std::atomic<PlaybackSpeed> from_{PlaybackSpeed::Half},target_{PlaybackSpeed::Half},
+        currentTail_{PlaybackSpeed::Half};
     std::atomic<std::uint64_t> generation_{0},requestNs_{0},acceptedNs_{0};
     std::atomic<std::uint64_t> workerSeenNs_{0},planNs_{0};
     std::atomic<std::size_t> requestedOutput_{0},requestedInput_{0};
@@ -81,9 +95,11 @@ private:
     std::atomic<std::size_t> processedInputFence_{0},planningFence_{0};
     std::atomic<std::size_t> appliedOutput_{0},completionOutput_{0};
     std::atomic<std::uint64_t> underrunFrames_{0};
-    std::atomic<double> maxWorkerChunkSeconds_{0};
-    std::array<BidirectionalPlan,2> plans_{};
+    std::atomic<double> maxWorkerChunkSeconds_{0},planMilliseconds_{0};
+    mutable std::mutex historyMutex_;
+    std::vector<Phase26PlanMetric> plans_;
     std::atomic<std::size_t> planCount_{0};
+    std::atomic<std::uint64_t> appliedGeneration_{0};
     std::exception_ptr error_;
 };
 }

@@ -1,0 +1,54 @@
+initial_speed=050
+profile=BCD
+requested_changes=5
+sent_changes=5
+observed_completions=5
+fifo_capacity_frames=16384
+lead_limit_frames=12288
+dsp_block_frames=2048
+prefill_seconds=0.0250695
+analysis_seconds=0.129818
+output_device_rate=48000
+wall_seconds=25.0132
+cpu_user_seconds=52.4314
+cpu_system_seconds=0.776344
+device_presentation_latency_ms=1.375
+request_output=661755
+request_generation=5
+plan_outcome=0
+published_at_request=673792
+planning_fence=688135
+prepared_at_plan=675840
+prepared_fence=684032
+processed_input_fence=688135
+first_input_at_plan=417792
+fifo_at_plan_frames=12037
+event_protection_delay_frames=0
+published_ahead_at_plan_frames=12037
+applied_output=688135
+completion_output=690622
+request_to_apply_map_ms=598.186
+map_ramp_ms=56.3946
+presented_frames=1104024
+output_length=2776996
+eos_drained=0
+fifo_high_water=12288
+fifo_rejected_writes=0
+underrun_frames=0
+max_worker_chunk_ms=64.5398
+max_callback_ms=0.009375
+callback_deadline_misses=0
+callback_format_errors=0
+callback_cpp_allocations=0
+peak_rss_mib=26.9219
+last_applied_callback_generation=5
+last_completion_callback_generation=5
+control_accept_ms=0
+accept_to_worker_ms=2.17163
+worker_to_plan_ms=0.011417
+plan_to_applied_callback_ms=per_change_below
+change=1 generation=1 from=0 target=1 applied_output=155915 completed_output=158364 plan_ms=0.01875 apply_callback_ms=543.881 complete_callback_ms=597.203
+change=2 generation=2 from=1 target=0 applied_output=313789 completed_output=317560 plan_ms=0.019916 apply_callback_ms=1118.96 complete_callback_ms=1204.25
+change=3 generation=3 from=0 target=1 applied_output=428999 completed_output=431532 plan_ms=0.017458 apply_callback_ms=724.675 complete_callback_ms=788.709
+change=4 generation=4 from=1 target=0 applied_output=567951 completed_output=571864 plan_ms=0.012708 apply_callback_ms=874.381 complete_callback_ms=970.357
+change=5 generation=5 from=0 target=1 applied_output=688135 completed_output=690622 plan_ms=0.010583 apply_callback_ms=607.607 complete_callback_ms=660.984

@@ -62,12 +62,14 @@ void Phase26PlaybackPipeline::start() {
     fifo_.clearQuiescent();
     stop_=false;finished_=false;state_=Phase26RequestState::Idle;
     planOutcome_=BidirectionalOutcome::NoSafeInterval;
-    from_=initial_;target_=initial_;generation_=0;requestNs_=0;acceptedNs_=0;
+    from_=initial_;target_=initial_;currentTail_=initial_;generation_=0;requestNs_=0;acceptedNs_=0;
     workerSeenNs_=0;planNs_=0;requestedOutput_=0;requestedInput_=0;
     produced_=0;presented_=0;underrunFrames_=0;maxWorkerChunkSeconds_=0;
+    planMilliseconds_=0;
     preparedAtPlan_=0;publishedAtPlan_=0;fifoAtPlan_=0;processedInputAtPlan_=0;
     preparedFence_=0;processedInputFence_=0;planningFence_=0;
-    appliedOutput_=0;completionOutput_=0;planCount_=0;error_=nullptr;
+    appliedOutput_=0;completionOutput_=0;planCount_=0;appliedGeneration_=0;error_=nullptr;
+    { std::lock_guard lock(historyMutex_); plans_.clear(); plans_.reserve(64); }
     outputLength_=static_cast<std::size_t>(std::llround(analysis_.inputFrames()*ratio(initial_)));
     worker_=std::thread([this] {
         try {
@@ -114,30 +116,43 @@ void Phase26PlaybackPipeline::start() {
                 planningFence_.store(fence,std::memory_order_relaxed);
                 const auto requestInput=inverseInput(map,asked);
                 requestedInput_.store(requestInput,std::memory_order_relaxed);
-                const auto proposal=timeline.submit({generation,target,requestInput,
+                const auto beginPlan=Clock::now();
+                auto candidate=timeline;
+                const auto proposal=candidate.submit({generation,target,requestInput,
                     static_cast<long long>(fence),50.0});
                 planOutcome_.store(proposal.outcome,std::memory_order_relaxed);
                 if (!proposal.applied()) {
+                    planMilliseconds_.store(std::chrono::duration<double,std::milli>(
+                        Clock::now()-beginPlan).count(),std::memory_order_relaxed);
                     planNs_.store(nowNs(),std::memory_order_relaxed);
                     state_.store(Phase26RequestState::Rejected,std::memory_order_release);
                     return;
                 }
                 const auto newLength=static_cast<std::size_t>(std::llround(
-                    timeline.current().outputPositionForInputSample(
+                    candidate.current().outputPositionForInputSample(
                         double(analysis_.inputFrames()))));
                 if (newLength<=committed+blockFrames_+8192) {
                     planOutcome_.store(BidirectionalOutcome::Truncated,std::memory_order_relaxed);
+                    planMilliseconds_.store(std::chrono::duration<double,std::milli>(
+                        Clock::now()-beginPlan).count(),std::memory_order_relaxed);
                     planNs_.store(nowNs(),std::memory_order_relaxed);
                     state_.store(Phase26RequestState::Rejected,std::memory_order_release);
                     return;
                 }
+                timeline=std::move(candidate);
                 map=timeline.current();
                 length=newLength;
                 outputLength_.store(newLength,std::memory_order_release);
                 appliedOutput_.store(proposal.appliedOutputSample,std::memory_order_relaxed);
                 completionOutput_.store(proposal.completionOutputSample,std::memory_order_relaxed);
                 from_.store(proposal.from,std::memory_order_relaxed);
-                plans_[planCount_.load(std::memory_order_relaxed)]=proposal;
+                currentTail_.store(target,std::memory_order_relaxed);
+                const auto milliseconds=std::chrono::duration<double,std::milli>(
+                    Clock::now()-beginPlan).count();
+                planMilliseconds_.store(milliseconds,std::memory_order_relaxed);
+                { std::lock_guard lock(historyMutex_);
+                  plans_.push_back({proposal,asked,requestInput,fence,milliseconds}); }
+                appliedGeneration_.store(generation,std::memory_order_release);
                 planCount_.fetch_add(1,std::memory_order_release);
                 planNs_.store(nowNs(),std::memory_order_relaxed);
                 state_.store(Phase26RequestState::Applied,std::memory_order_release);
@@ -155,8 +170,9 @@ void Phase26PlaybackPipeline::start() {
                     },plan,blockFrames_);
         } catch (const Stopped&) {
         } catch (...) { error_=std::current_exception(); }
-        if (state_.load(std::memory_order_acquire)==Phase26RequestState::Requested)
-            state_.store(Phase26RequestState::Rejected,std::memory_order_release);
+        auto pending=Phase26RequestState::Requested;
+        state_.compare_exchange_strong(pending,Phase26RequestState::Cancelled,
+            std::memory_order_acq_rel,std::memory_order_relaxed);
         finished_.store(true,std::memory_order_release);
     });
     started_.store(true,std::memory_order_release);
@@ -165,35 +181,51 @@ void Phase26PlaybackPipeline::stop() {
     started_.store(false,std::memory_order_release);
     stop_.store(true,std::memory_order_release);
     if (worker_.joinable()) worker_.join();
+    auto pending=Phase26RequestState::Requested;
+    state_.compare_exchange_strong(pending,Phase26RequestState::Cancelled,
+        std::memory_order_acq_rel,std::memory_order_relaxed);
+    pending=Phase26RequestState::Submitting;
+    state_.compare_exchange_strong(pending,Phase26RequestState::Cancelled,
+        std::memory_order_acq_rel,std::memory_order_relaxed);
+    if (presented_.load(std::memory_order_acquire)<
+        completionOutput_.load(std::memory_order_acquire)) {
+        pending=Phase26RequestState::Applied;
+        state_.compare_exchange_strong(pending,Phase26RequestState::Cancelled,
+            std::memory_order_acq_rel,std::memory_order_relaxed);
+    }
 }
 Phase26RequestResult Phase26PlaybackPipeline::requestSpeed(
     PlaybackSpeed target,std::size_t presentedOutputFrame) noexcept {
     if (!started_.load(std::memory_order_acquire) ||
         finished_.load(std::memory_order_acquire)) return Phase26RequestResult::Stopped;
     auto expected=state_.load(std::memory_order_acquire);
-    if (expected==Phase26RequestState::Idle) {
-        if (target==initial_) return Phase26RequestResult::Duplicate;
-    } else if (expected==Phase26RequestState::Applied) {
+    if (expected==Phase26RequestState::Applied) {
         if (presented_.load(std::memory_order_acquire)<
             completionOutput_.load(std::memory_order_acquire))
             return Phase26RequestResult::Busy;
-        if (target==target_.load(std::memory_order_acquire))
-            return Phase26RequestResult::Duplicate;
-    } else return Phase26RequestResult::Busy;
+    } else if (expected!=Phase26RequestState::Idle &&
+               expected!=Phase26RequestState::Rejected) return Phase26RequestResult::Busy;
+    if (target==currentTail_.load(std::memory_order_acquire))
+        return Phase26RequestResult::Duplicate;
     const auto generation=generation_.load(std::memory_order_acquire)+1;
-    if (generation>2) return Phase26RequestResult::LimitReached;
+    if (generation==0) return Phase26RequestResult::LimitReached;
     if (!state_.compare_exchange_strong(expected,Phase26RequestState::Submitting,
         std::memory_order_acq_rel,std::memory_order_relaxed))
         return Phase26RequestResult::Busy;
     requestNs_.store(nowNs(),std::memory_order_relaxed);
     requestedOutput_.store(presentedOutputFrame,std::memory_order_relaxed);
+    from_.store(currentTail_.load(std::memory_order_acquire),std::memory_order_relaxed);
     target_.store(target,std::memory_order_relaxed);
     generation_.store(generation,std::memory_order_relaxed);
+    workerSeenNs_.store(0,std::memory_order_relaxed);
+    planNs_.store(0,std::memory_order_relaxed);
+    planMilliseconds_.store(0,std::memory_order_relaxed);
+    planOutcome_.store(BidirectionalOutcome::NoSafeInterval,std::memory_order_relaxed);
     acceptedNs_.store(nowNs(),std::memory_order_relaxed);
     state_.store(Phase26RequestState::Requested,std::memory_order_release);
     if (finished_.load(std::memory_order_acquire)) {
         expected=Phase26RequestState::Requested;
-        state_.compare_exchange_strong(expected,Phase26RequestState::Rejected,
+        state_.compare_exchange_strong(expected,Phase26RequestState::Cancelled,
             std::memory_order_acq_rel,std::memory_order_relaxed);
         return Phase26RequestResult::Stopped;
     }
@@ -240,23 +272,47 @@ Phase26Snapshot Phase26PlaybackPipeline::snapshot() const noexcept {
     value.underrunFrames=underrunFrames_.load();
     value.rejectedWrites=fifo_.rejectedWrites();
     value.maxWorkerChunkSeconds=maxWorkerChunkSeconds_.load();
-    value.currentAudible=initial_;
+    value.planMilliseconds=planMilliseconds_.load();
     const auto count=planCount_.load(std::memory_order_acquire);
-    const auto presented=value.presented;
-    for (std::size_t i=0;i<count;++i)
-        if (presented>=plans_[i].appliedOutputSample)
-            value.currentAudible=plans_[i].target;
+    value.currentAudible=value.from;
+    value.completedChanges=count-((value.state==Phase26RequestState::Applied ||
+        value.state==Phase26RequestState::Cancelled) &&
+        value.presented<value.completionOutput ? 1 : 0);
+    switch (value.state) {
+    case Phase26RequestState::Idle: value.audibleStage=Phase26AudibleStage::Stable; break;
+    case Phase26RequestState::Submitting:
+    case Phase26RequestState::Requested:
+        value.audibleStage=value.workerSeenNs ? Phase26AudibleStage::AwaitingSafeRegion :
+            Phase26AudibleStage::Accepted; break;
+    case Phase26RequestState::Applied:
+        if (value.presented<value.appliedOutput)
+            value.audibleStage=Phase26AudibleStage::AwaitingPlayback;
+        else if (value.presented<value.completionOutput)
+            value.audibleStage=Phase26AudibleStage::Transitioning;
+        else { value.audibleStage=Phase26AudibleStage::Complete;
+               value.currentAudible=value.target; }
+        break;
+    case Phase26RequestState::Rejected: value.audibleStage=Phase26AudibleStage::Rejected; break;
+    case Phase26RequestState::Cancelled: value.audibleStage=Phase26AudibleStage::Cancelled; break;
+    }
     return value;
 }
 Phase26RealtimeMarkers Phase26PlaybackPipeline::realtimeMarkers() const noexcept {
     return {outputLength_.load(std::memory_order_acquire),
             appliedOutput_.load(std::memory_order_acquire),
             completionOutput_.load(std::memory_order_acquire),
-            planCount_.load(std::memory_order_acquire)};
+            appliedGeneration_.load(std::memory_order_acquire)};
 }
 std::vector<BidirectionalPlan> Phase26PlaybackPipeline::history() const {
-    const auto count=planCount_.load(std::memory_order_acquire);
-    return {plans_.begin(),plans_.begin()+count};
+    std::lock_guard lock(historyMutex_);
+    std::vector<BidirectionalPlan> result;
+    result.reserve(plans_.size());
+    for (const auto& metric:plans_) result.push_back(metric.plan);
+    return result;
+}
+std::vector<Phase26PlanMetric> Phase26PlaybackPipeline::planMetrics() const {
+    std::lock_guard lock(historyMutex_);
+    return plans_;
 }
 void Phase26PlaybackPipeline::rethrowWorkerError() const {
     if (!finished()) throw std::logic_error("Worker still active");

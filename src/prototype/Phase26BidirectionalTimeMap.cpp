@@ -20,7 +20,7 @@ Phase26BidirectionalTimeMap::Phase26BidirectionalTimeMap(
       events_(analysis.events()),sampleRate_(sampleRate),tailSpeed_(initial) {
     if (sampleRate==0 || current_.starts().size()<2)
         throw std::invalid_argument("Phase 26 requires analyzed input");
-    history_.reserve(2);
+    history_.reserve(32);
 }
 const TimeMap& Phase26BidirectionalTimeMap::fixed(PlaybackSpeed speed) const noexcept {
     return speed==PlaybackSpeed::Half ? half_ : threeQuarter_;

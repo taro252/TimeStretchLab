@@ -1,0 +1,54 @@
+initial_speed=050
+profile=BCD
+requested_changes=5
+sent_changes=5
+observed_completions=5
+fifo_capacity_frames=16384
+lead_limit_frames=12288
+dsp_block_frames=2048
+prefill_seconds=0.0308828
+analysis_seconds=0.0634673
+output_device_rate=48000
+wall_seconds=15.7412
+cpu_user_seconds=1.74211
+cpu_system_seconds=0.436277
+device_presentation_latency_ms=1.375
+request_output=480256
+request_generation=5
+plan_outcome=0
+published_at_request=491520
+planning_fence=502992
+prepared_at_plan=493568
+prepared_fence=501760
+processed_input_fence=502992
+first_input_at_plan=296960
+fifo_at_plan_frames=11264
+event_protection_delay_frames=10301
+published_ahead_at_plan_frames=11264
+applied_output=513293
+completion_output=515826
+request_to_apply_map_ms=688.271
+map_ramp_ms=52.7708
+presented_frames=750109
+output_length=750109
+eos_drained=1
+fifo_high_water=12288
+fifo_rejected_writes=0
+underrun_frames=0
+max_worker_chunk_ms=15.4677
+max_callback_ms=0.010791
+callback_deadline_misses=0
+callback_format_errors=0
+callback_cpp_allocations=0
+peak_rss_mib=27.5938
+last_applied_callback_generation=5
+last_completion_callback_generation=5
+control_accept_ms=0
+accept_to_worker_ms=0.106333
+worker_to_plan_ms=0.007792
+plan_to_applied_callback_ms=per_change_below
+change=1 generation=1 from=0 target=1 applied_output=134987 completed_output=137577 plan_ms=0.010583 apply_callback_ms=810.331 complete_callback_ms=863.656
+change=2 generation=2 from=1 target=0 applied_output=227715 completed_output=231412 plan_ms=0.007875 apply_callback_ms=745.878 complete_callback_ms=820.543
+change=3 generation=3 from=0 target=1 applied_output=319369 completed_output=323157 plan_ms=0.008333 apply_callback_ms=649.894 complete_callback_ms=735.212
+change=4 generation=4 from=1 target=0 applied_output=406837 completed_output=410671 plan_ms=0.010125 apply_callback_ms=479.223 complete_callback_ms=564.558
+change=5 generation=5 from=0 target=1 applied_output=513293 completed_output=515826 plan_ms=0.006792 apply_callback_ms=693.191 complete_callback_ms=746.484
