@@ -29,10 +29,14 @@ ts::StretchConfig config(std::uint32_t rate=48000,double ratio=2.0) {
 using Audio=std::array<std::vector<float>,2>;
 struct Capture { Audio audio;ts::prototype::Phase24Snapshot status; };
 Capture simulate(const std::filesystem::path& input,std::size_t block,
-                 bool change,std::size_t requestAt) {
-    ts::prototype::Phase24PlaybackPipeline pipeline(input,32768,8192);
+                 bool change,std::size_t requestAt,
+                 std::size_t fifoFrames=32768,std::size_t dspBlock=8192,
+                 std::size_t leadLimit=0,bool pollBlocked=false) {
+    ts::prototype::Phase24PlaybackPipeline pipeline(input,fifoFrames,dspBlock,
+                                                     leadLimit,pollBlocked);
     pipeline.start();
-    require(pipeline.waitForPrefill(16384,std::chrono::seconds(30)),"Prefill timeout");
+    require(pipeline.waitForPrefill(leadLimit ? 8192 : 16384,
+                                   std::chrono::seconds(30)),"Prefill timeout");
     Audio output;
     std::array<std::vector<float>,2> scratch={std::vector<float>(block),std::vector<float>(block)};
     float* pointers[]={scratch[0].data(),scratch[1].data()};
@@ -77,13 +81,13 @@ Audio reference(const std::filesystem::path& input,const ts::Phase13TransientAna
 }
 Audio phase24Fixed(const std::filesystem::path& input,
     const ts::Phase13TransientAnalysis& analysis,const ts::TimeMap& map,
-    std::size_t length,ts::StretchConfig settings) {
+    std::size_t length,ts::StretchConfig settings,std::size_t chunk=8192) {
     Audio output;
     ts::prototype::Phase24StreamingSpeedEngine(settings).process(input,analysis,map,length,
         [&](const float* const* data,std::size_t n) {
             for (std::size_t c=0;c<2;++c)
                 output[c].insert(output[c].end(),data[c],data[c]+n);
-        },{},8192);
+        },{},chunk);
     return output;
 }
 void equal(const Audio& a,const Audio& b,const char* message) {
@@ -123,8 +127,13 @@ int main(int argc,char** argv) {
         equal(phase24Fixed(input,analysis,maps.fixedThreeQuarter(),n*4/3,
                            config(48000,4.0/3.0)),threeQuarter,
               "Phase 24 fixed 0.75 differs from Phase 23");
+        equal(phase24Fixed(input,analysis,maps.fixedThreeQuarter(),n*4/3,
+                           config(48000,4.0/3.0),2048),threeQuarter,
+              "Phase 25 small-block fixed 0.75 differs from Phase 23");
         const auto fixed=simulate(input,256,false,0);
         equal(fixed.audio,half,"Fixed half differs from Phase 23");
+        equal(simulate(input,256,false,0,16384,2048,12288,true).audio,half,
+              "Phase 25 fixed half differs from Phase 23");
         for (const auto block:{512u,1024u,2048u})
             equal(simulate(input,block,false,0).audio,half,
                   "Fixed output depends on callback block size");
@@ -155,6 +164,27 @@ int main(int argc,char** argv) {
         require(expectedLength==changed.audio[0].size(),"Reference length mismatch");
         const auto variable=reference(input,analysis,planMap.current(),expectedLength);
         equal(changed.audio,variable,"Live worker differs from Phase 23 variable reference");
+        for (const auto tuning: {
+                std::array<std::size_t,4>{32768,2048,0,0},
+                {16384,8192,12288,0},
+                {32768,8192,0,1},
+                {16384,8192,12288,1},
+                {16384,2048,12288,1}}) {
+            const auto trial=simulate(input,256,true,48000*3,
+                                      tuning[0],tuning[1],tuning[2],tuning[3]!=0);
+            ts::prototype::VariableTimeMap trialMap(analysis,48000);
+            const auto trialPlan=trialMap.submit({1,trial.status.requestedInput,
+                static_cast<long long>(trial.status.planningFence),50.0});
+            require(trialPlan.applied,"Phase 25 plan rejected");
+            const auto trialLength=static_cast<std::size_t>(std::llround(
+                trialMap.current().outputPositionForInputSample(double(n))));
+            equal(trial.audio,reference(input,analysis,trialMap.current(),trialLength),
+                  "Phase 25 live PCM differs from Phase 23");
+            for (std::size_t c=0;c<2;++c)
+                require(std::equal(trial.audio[c].begin(),
+                    trial.audio[c].begin()+trial.status.preparedAtPlan,half[c].begin()),
+                    "Phase 25 prepared PCM changed");
+        }
         for (std::size_t c=0;c<2;++c)
             require(std::equal(changed.audio[c].begin(),
                 changed.audio[c].begin()+changed.status.publishedAtRequest,half[c].begin()),
@@ -203,6 +233,18 @@ int main(int argc,char** argv) {
                     goldenWriter.finish();
                     require(index==length,"Real Golden length mismatch");
                     require(identical(output,golden),"Phase 24 real Golden bytes differ");
+                    const auto smallOutput=folder/(std::string(name)+
+                        (speed==0.50 ? "_small_050.wav":"_small_075.wav"));
+                    ts::WavStreamWriter smallWriter(smallOutput,reader.sampleRate(),
+                                                    reader.channels(),length);
+                    ts::prototype::Phase24StreamingSpeedEngine(config(reader.sampleRate(),ratio))
+                        .process(path,data,map,length,
+                            [&](const float* const* audio,std::size_t count) {
+                                smallWriter.write(audio,count);
+                            },{},2048);
+                    smallWriter.finish();
+                    require(identical(smallOutput,golden),
+                            "Phase 25 small-block real Golden bytes differ");
                     std::cout<<name<<','<<speed<<",sample-identical\n";
                 }
                 const auto switched=simulate(path,256,true,reader.frames());
@@ -225,6 +267,55 @@ int main(int argc,char** argv) {
                          <<switched.status.publishedAtRequest<<",apply="
                          <<switched.status.appliedOutput<<",complete="
                          <<switched.status.completionOutput<<'\n';
+                const auto optimized=simulate(path,256,true,reader.frames(),
+                                              16384,2048,12288,true);
+                ts::prototype::VariableTimeMap optimizedMap(data,reader.sampleRate());
+                const auto optimizedPlan=optimizedMap.submit({1,optimized.status.requestedInput,
+                    static_cast<long long>(optimized.status.planningFence),50.0});
+                require(optimizedPlan.applied,"Optimized real plan rejected");
+                const auto optimizedLength=static_cast<std::size_t>(std::llround(
+                    optimizedMap.current().outputPositionForInputSample(double(reader.frames()))));
+                equal(optimized.audio,reference(path,data,optimizedMap.current(),
+                      optimizedLength,settings),"Optimized real output differs from Phase 23");
+                for (std::size_t i=0;i<optimized.status.preparedAtPlan;++i)
+                    for (std::size_t c=0;c<reader.channels();++c)
+                        require(optimized.audio[c][i]==goldenHalf.sample(c,i),
+                                "Optimized prepared PCM differs from Golden");
+                std::cout<<name<<",phase25,sample-identical,request="
+                         <<optimized.status.requestedOutput<<",prepared="
+                         <<optimized.status.preparedAtPlan<<",apply="
+                         <<optimized.status.appliedOutput<<'\n';
+                if (std::string(name)=="mix" || std::string(name)=="drums") {
+                    std::size_t eventInput=0;
+                    for (const auto& event:data.events()) {
+                        const auto at=event.peakFrame*1024;
+                        if (at>reader.frames()/3 && at<reader.frames()*2/3) {
+                            eventInput=at;
+                            break;
+                        }
+                    }
+                    require(eventInput!=0,"No middle transient for Phase 25 test");
+                    const auto eventOutput=static_cast<std::size_t>(std::llround(
+                        maps.fixedHalf().outputPositionForInputSample(double(eventInput))));
+                    for (const auto requestAt:{eventOutput-256,eventOutput,eventOutput+256,
+                                              reader.frames()*3/2}) {
+                        const auto trial=simulate(path,256,true,requestAt,
+                                                  16384,2048,12288,true);
+                        ts::prototype::VariableTimeMap candidateMap(data,reader.sampleRate());
+                        const auto candidate=candidateMap.submit({1,trial.status.requestedInput,
+                            static_cast<long long>(trial.status.planningFence),50.0});
+                        require(candidate.applied,"Phase 25 event/late plan rejected");
+                        const auto candidateLength=static_cast<std::size_t>(std::llround(
+                            candidateMap.current().outputPositionForInputSample(
+                                double(reader.frames()))));
+                        equal(trial.audio,reference(path,data,candidateMap.current(),
+                            candidateLength,settings),"Phase 25 event/late PCM differs");
+                        for (std::size_t i=0;i<trial.status.preparedAtPlan;++i)
+                            for (std::size_t c=0;c<reader.channels();++c)
+                                require(trial.audio[c][i]==goldenHalf.sample(c,i),
+                                        "Phase 25 event/late prepared PCM changed");
+                    }
+                }
             }
         }
         std::cout<<"phase24 fixed and variable sample exact; request="

@@ -344,11 +344,11 @@ Phase24StreamingSpeedEngine::Phase24StreamingSpeedEngine(StretchConfig config)
 Phase13Result Phase24StreamingSpeedEngine::process(
     const std::filesystem::path& input,const Phase13TransientAnalysis& analysis,
     TimeMap map,std::size_t outputFrames,const OutputSink& sink,
-    const UpdateHook& update,std::size_t chunkSize) {
+    const UpdateHook& update,std::size_t chunkSize,const PreparedSink& preparedSink) {
     std::ostream* stageTrace=nullptr;
     std::size_t probeInputSample=0;
-    if (!sink || map.empty() || map.sourceHop()!=1024 ||
-        chunkSize<8192 || chunkSize>65536)
+    if ((!sink && !preparedSink) || map.empty() || map.sourceHop()!=1024 ||
+        chunkSize<1024 || chunkSize>65536)
         throw std::invalid_argument("Invalid Phase 24 process request");
     WavStreamReader reader(input);
     if (reader.frames()!=analysis.inputFrames() ||
@@ -427,8 +427,8 @@ Phase13Result Phase24StreamingSpeedEngine::process(
                            <<phase13.stages.lowFir<<','<<phase13.stages.highFir<<','
                            <<phase13.stages.fir<<'\n';
         }
-        sink(pointers.data(),count);
-        if (update && start+count<outputFrames) {
+        const auto poll=[&] {
+            if (!update || start+count>=outputFrames) return;
             const auto firstUnprocessed=std::max({
                 resolution[0]->firstUnprocessedInputSample(),
                 resolution[1]->firstUnprocessedInputSample(),
@@ -439,6 +439,11 @@ Phase13Result Phase24StreamingSpeedEngine::process(
             for (auto& item:resolution) item->setOutputLength(outputFrames);
             for (auto& item:lowFilters) item->setOutputLength(outputFrames);
             for (auto& item:highFilters) item->setOutputLength(outputFrames);
+        };
+        if (preparedSink) preparedSink(pointers.data(),count,poll);
+        else {
+            sink(pointers.data(),count);
+            poll();
         }
     }
     result.outputFrames=outputFrames;

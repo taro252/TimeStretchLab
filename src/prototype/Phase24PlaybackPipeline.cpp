@@ -9,6 +9,10 @@ namespace {
 using Clock=std::chrono::steady_clock;
 struct Stopped {};
 static_assert(std::atomic<std::size_t>::is_always_lock_free);
+std::uint64_t nowNs() {
+    return static_cast<std::uint64_t>(std::chrono::duration_cast<std::chrono::nanoseconds>(
+        Clock::now().time_since_epoch()).count());
+}
 StretchConfig frozen(const std::filesystem::path& file) {
     WavStreamReader reader(file);
     StretchConfig config;
@@ -38,12 +42,16 @@ std::size_t inverseInput(const TimeMap& map,std::size_t output) {
 }
 
 Phase24PlaybackPipeline::Phase24PlaybackPipeline(const std::filesystem::path& file,
-    std::size_t fifoFrames,std::size_t blockFrames)
+    std::size_t fifoFrames,std::size_t blockFrames,
+    std::size_t leadLimitFrames,bool pollWhileBlocked)
     : file_(file),sampleRate_(WavStreamReader(file).sampleRate()),
       channels_(WavStreamReader(file).channels()),blockFrames_(blockFrames),
+      leadLimitFrames_(leadLimitFrames ? leadLimitFrames : fifoFrames),
+      pollWhileBlocked_(pollWhileBlocked),
       analysis_(Phase13StreamingEngine(frozen(file)).analyzeTransientEvents(file)),
       fifo_(channels_,fifoFrames) {
-    if (blockFrames<8192 || blockFrames>65536 || blockFrames>fifoFrames)
+    if (blockFrames<1024 || blockFrames>65536 || blockFrames>fifoFrames ||
+        leadLimitFrames_<blockFrames || leadLimitFrames_>fifoFrames)
         throw std::invalid_argument("Phase 24 block/FIFO size");
 }
 Phase24PlaybackPipeline::~Phase24PlaybackPipeline() { stop(); }
@@ -56,37 +64,52 @@ void Phase24PlaybackPipeline::start() {
     requestedOutput_=0;requestedInput_=0;publishedAtRequest_=0;planningFence_=0;
     appliedInput_=0;appliedOutput_=0;completionOutput_=0;
     produced_=0;presented_=0;underrunFrames_=0;maxWorkerChunkSeconds_=0;
-    firstUnprocessedInput_=0;planTimestampNs_=0;error_=nullptr;
+    firstUnprocessedInput_=0;preparedAtPlan_=0;fifoAtPlan_=0;firstInputAtPlan_=0;
+    preparedFence_=0;processedInputFence_=0;
+    requestTimestampNs_=0;acceptedTimestampNs_=0;
+    workerSeenTimestampNs_=0;planTimestampNs_=0;error_=nullptr;
     outputLength_=static_cast<std::size_t>(std::llround(analysis_.inputFrames()*2.0));
     worker_=std::thread([this] {
         try {
             VariableTimeMap timeline(analysis_,sampleRate_);
             Phase24StreamingSpeedEngine engine(frozen(file_));
             auto previous=Clock::now();
-            engine.process(file_,analysis_,timeline.fixedHalf(),outputLength_.load(),
-                [&](const float* const* data,std::size_t frames) {
+            const auto publish=[&](const float* const* data,std::size_t frames,
+                                   const std::function<void()>& poll) {
                     const auto now=Clock::now();
                     const auto seconds=std::chrono::duration<double>(now-previous).count();
                     auto old=maxWorkerChunkSeconds_.load();
                     while (old<seconds && !maxWorkerChunkSeconds_.compare_exchange_weak(old,seconds)) {}
-                    while (!stop_.load(std::memory_order_acquire) && fifo_.free()<frames)
+                    while (!stop_.load(std::memory_order_acquire) &&
+                           (fifo_.free()<frames || fifo_.available()+frames>leadLimitFrames_)) {
+                        if (pollWhileBlocked_) poll();
                         std::this_thread::sleep_for(std::chrono::microseconds(100));
+                    }
                     if (stop_.load(std::memory_order_acquire)) throw Stopped{};
+                    if (pollWhileBlocked_) poll();
                     if (!fifo_.write(data,frames)) throw std::runtime_error("Phase 24 FIFO overflow");
                     produced_.fetch_add(frames,std::memory_order_release);
                     previous=Clock::now();
-                },
-                [&](std::size_t published,std::size_t firstInput,TimeMap& map,
+            };
+            const auto plan=[&](std::size_t committed,std::size_t firstInput,TimeMap& map,
                     std::size_t& length) {
                     firstUnprocessedInput_.store(firstInput,std::memory_order_release);
                     if (requestState_.load(std::memory_order_acquire)!=SpeedRequestState::Requested)
                         return;
+                    workerSeenTimestampNs_.store(nowNs(),std::memory_order_relaxed);
                     const auto asked=requestedOutput_.load(std::memory_order_relaxed);
-                    publishedAtRequest_.store(published,std::memory_order_relaxed);
+                    publishedAtRequest_.store(pollWhileBlocked_ ? produced_.load(
+                        std::memory_order_acquire) : committed,std::memory_order_relaxed);
+                    preparedAtPlan_.store(committed,std::memory_order_relaxed);
+                    fifoAtPlan_.store(fifo_.available(),std::memory_order_relaxed);
+                    firstInputAtPlan_.store(firstInput,std::memory_order_relaxed);
                     const auto protectedInput=std::min(analysis_.inputFrames(),firstInput+1024);
                     const auto inputFence=static_cast<std::size_t>(std::ceil(
                         map.outputPositionForInputSample(double(protectedInput))));
-                    const auto fence=std::max(published+8192,inputFence);
+                    const auto preparedFence=committed+8192;
+                    preparedFence_.store(preparedFence,std::memory_order_relaxed);
+                    processedInputFence_.store(inputFence,std::memory_order_relaxed);
+                    const auto fence=std::max(preparedFence,inputFence);
                     planningFence_.store(fence,std::memory_order_relaxed);
                     const auto requestInput=inverseInput(timeline.fixedHalf(),asked);
                     requestedInput_.store(requestInput,std::memory_order_relaxed);
@@ -99,7 +122,7 @@ void Phase24PlaybackPipeline::start() {
                     const auto newLength=static_cast<std::size_t>(std::llround(
                         timeline.current().outputPositionForInputSample(
                             double(analysis_.inputFrames()))));
-                    if (newLength<=published+blockFrames_+8192) {
+                    if (newLength<=committed+blockFrames_+8192) {
                         requestState_.store(SpeedRequestState::Rejected,std::memory_order_release);
                         return;
                     }
@@ -109,11 +132,20 @@ void Phase24PlaybackPipeline::start() {
                     appliedInput_.store(plan.appliedFrame*1024,std::memory_order_relaxed);
                     appliedOutput_.store(plan.appliedOutputSample,std::memory_order_relaxed);
                     completionOutput_.store(map.starts()[plan.rampEndFrame],std::memory_order_relaxed);
-                    planTimestampNs_.store(static_cast<std::uint64_t>(
-                        std::chrono::duration_cast<std::chrono::nanoseconds>(
-                            Clock::now().time_since_epoch()).count()),std::memory_order_relaxed);
+                    planTimestampNs_.store(nowNs(),std::memory_order_relaxed);
                     requestState_.store(SpeedRequestState::Applied,std::memory_order_release);
-                },blockFrames_);
+            };
+            if (pollWhileBlocked_)
+                engine.process(file_,analysis_,timeline.fixedHalf(),outputLength_.load(),
+                    {},plan,blockFrames_,[&](const float* const* data,std::size_t frames,
+                                              const std::function<void()>& poll) {
+                        publish(data,frames,poll);
+                    });
+            else
+                engine.process(file_,analysis_,timeline.fixedHalf(),outputLength_.load(),
+                    [&](const float* const* data,std::size_t frames) {
+                        publish(data,frames,[]{});
+                    },plan,blockFrames_);
         } catch (const Stopped&) {
         } catch (...) { error_=std::current_exception(); }
         if (requestState_.load(std::memory_order_acquire)==SpeedRequestState::Requested)
@@ -126,11 +158,14 @@ void Phase24PlaybackPipeline::stop() {
     if (worker_.joinable()) worker_.join();
 }
 bool Phase24PlaybackPipeline::requestThreeQuarter(std::size_t frame) noexcept {
+    const auto requested=nowNs();
     if (finished_.load(std::memory_order_acquire)) return false;
     SpeedRequestState expected=SpeedRequestState::Idle;
     if (!requestState_.compare_exchange_strong(expected,SpeedRequestState::Submitting,
         std::memory_order_acq_rel,std::memory_order_relaxed)) return false;
     requestedOutput_.store(frame,std::memory_order_relaxed);
+    requestTimestampNs_.store(requested,std::memory_order_relaxed);
+    acceptedTimestampNs_.store(nowNs(),std::memory_order_relaxed);
     requestState_.store(SpeedRequestState::Requested,std::memory_order_release);
     if (finished_.load(std::memory_order_acquire)) {
         expected=SpeedRequestState::Requested;
@@ -169,10 +204,18 @@ Phase24Snapshot Phase24PlaybackPipeline::snapshot() const noexcept {
     value.produced=produced_.load();value.presented=presented_.load();
     value.outputLength=outputLength_.load();
     value.firstUnprocessedInput=firstUnprocessedInput_.load();
+    value.preparedAtPlan=preparedAtPlan_.load();
+    value.fifoAtPlan=fifoAtPlan_.load();
+    value.firstInputAtPlan=firstInputAtPlan_.load();
+    value.preparedFence=preparedFence_.load();
+    value.processedInputFence=processedInputFence_.load();
     value.fifoHighWater=fifo_.highWater();
     value.rejectedWrites=fifo_.rejectedWrites();
     value.underrunFrames=underrunFrames_.load();
     value.planTimestampNs=planTimestampNs_.load();
+    value.requestTimestampNs=requestTimestampNs_.load();
+    value.acceptedTimestampNs=acceptedTimestampNs_.load();
+    value.workerSeenTimestampNs=workerSeenTimestampNs_.load();
     value.maxWorkerChunkSeconds=maxWorkerChunkSeconds_.load();
     return value;
 }

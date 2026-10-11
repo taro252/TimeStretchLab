@@ -13,6 +13,7 @@
 #include <stdexcept>
 #include <sys/resource.h>
 #include <thread>
+#include <vector>
 
 namespace {
 thread_local bool insideRender=false;
@@ -69,6 +70,21 @@ struct PlaybackGuard {
         if (observer) [[NSNotificationCenter defaultCenter] removeObserver:observer];
     }
     ~PlaybackGuard() { stop(); }
+};
+struct CpuStress {
+    std::atomic<bool> stop{false};
+    std::atomic<std::uint64_t> ticks{0};
+    std::vector<std::thread> threads;
+    explicit CpuStress(bool enabled) {
+        if (enabled) for (int i=0;i<2;++i) threads.emplace_back([this] {
+            while (!stop.load(std::memory_order_relaxed))
+                ticks.fetch_add(1,std::memory_order_relaxed);
+        });
+    }
+    ~CpuStress() {
+        stop.store(true,std::memory_order_relaxed);
+        for (auto& thread:threads) thread.join();
+    }
 };
 OSStatus render(State* state,BOOL* isSilence,AVAudioFrameCount frames,
                 AudioBufferList* buffers) noexcept {
@@ -128,8 +144,9 @@ OSStatus render(State* state,BOOL* isSilence,AVAudioFrameCount frames,
 }
 
 int main(int argc,char** argv) {
-    if (argc<2 || argc>4) {
-        std::cerr<<"Usage: phase24_play input.wav [switch-at-output-seconds] [max-play-seconds]\n";
+    if (argc<2 || argc>5) {
+        std::cerr<<"Usage: phase24_play input.wav [switch-at-output-seconds] "
+                    "[max-play-seconds] [A|B|C|D|CD|BCD]\n";
         return 2;
     }
     std::signal(SIGINT,interrupt);
@@ -137,8 +154,19 @@ int main(int argc,char** argv) {
         const double switchSeconds=argc>=3 ? std::stod(argv[2]) : 3.0;
         const double maxSeconds=argc>=4 ? std::stod(argv[3]) : 0.0;
         if (switchSeconds<0 || maxSeconds<0) throw std::invalid_argument("Negative time");
+        const std::string profile=argc>=5 ? argv[4] : "A";
+        std::size_t fifoFrames=32768,blockFrames=8192,leadLimit=0;
+        bool pollBlocked=false;
+        if (profile=="B") blockFrames=2048;
+        else if (profile=="C") { fifoFrames=16384;leadLimit=12288; }
+        else if (profile=="D") pollBlocked=true;
+        else if (profile=="CD") { fifoFrames=16384;leadLimit=12288;pollBlocked=true; }
+        else if (profile=="BCD") {
+            fifoFrames=16384;blockFrames=2048;leadLimit=12288;pollBlocked=true;
+        } else if (profile!="A") throw std::invalid_argument("Unknown Phase 25 profile");
         const auto prepareBegin=Clock::now();
-        ts::prototype::Phase24PlaybackPipeline pipeline(argv[1]);
+        ts::prototype::Phase24PlaybackPipeline pipeline(argv[1],fifoFrames,blockFrames,
+                                                        leadLimit,pollBlocked);
         const auto analysisSeconds=std::chrono::duration<double>(
             Clock::now()-prepareBegin).count();
         State state;
@@ -169,7 +197,8 @@ int main(int argc,char** argv) {
                 }];
             [engine attachNode:source];
             [engine connect:source to:engine.mainMixerNode format:format];
-            engine.mainMixerNode.outputVolume=0.5f; // playback only; FIFO stays raw
+            engine.mainMixerNode.outputVolume=std::getenv("PHASE25_SILENT") ? 0.0f : 0.5f;
+            // The playback gain is never applied to the raw DSP FIFO.
             [engine prepare];
             observer=[[NSNotificationCenter defaultCenter]
                 addObserverForName:AVAudioEngineConfigurationChangeNotification object:engine
@@ -182,7 +211,8 @@ int main(int argc,char** argv) {
         PlaybackGuard guard{engine,&state,&pipeline,observer};
         const auto prefillBegin=Clock::now();
         pipeline.start();
-        if (!pipeline.waitForPrefill(std::min<std::size_t>(16384,pipeline.inputFrames()*2),
+        if (!pipeline.waitForPrefill(std::min<std::size_t>(
+                leadLimit ? 8192 : 16384,pipeline.inputFrames()*2),
                                      std::chrono::seconds(120)))
             throw std::runtime_error("DSP prefill timed out");
         const auto prefill=std::chrono::duration<double>(Clock::now()-prefillBegin).count();
@@ -195,6 +225,7 @@ int main(int argc,char** argv) {
         }
         if (!started)
             throw std::runtime_error(error ? [[error description] UTF8String] : "Audio start failed");
+        CpuStress stress(std::getenv("PHASE25_STRESS")!=nullptr);
         const auto playStart=Clock::now();
         const auto threshold=static_cast<std::size_t>(switchSeconds*pipeline.sampleRate());
         bool sent=false;
@@ -247,7 +278,11 @@ int main(int argc,char** argv) {
         const auto systemCpu=usage.ru_stime.tv_sec+usage.ru_stime.tv_usec/1e6;
         const auto wall=std::chrono::duration<double>(Clock::now()-playStart).count();
         const auto deviceLatencyMs=engine.outputNode.presentationLatency*1000;
-        std::cout<<"prefill_seconds="<<prefill<<'\n'
+        std::cout<<"profile="<<profile<<'\n'
+                 <<"fifo_capacity_frames="<<fifoFrames<<'\n'
+                 <<"lead_limit_frames="<<(leadLimit ? leadLimit : fifoFrames)<<'\n'
+                 <<"dsp_block_frames="<<blockFrames<<'\n'
+                 <<"prefill_seconds="<<prefill<<'\n'
                  <<"analysis_seconds="<<analysisSeconds<<'\n'
                  <<"output_device_rate="<<hardware.sampleRate<<'\n'
                  <<"wall_seconds="<<wall<<'\n'
@@ -257,6 +292,14 @@ int main(int argc,char** argv) {
                  <<"request_output="<<status.requestedOutput<<'\n'
                  <<"published_at_request="<<status.publishedAtRequest<<'\n'
                  <<"planning_fence="<<status.planningFence<<'\n'
+                 <<"prepared_at_plan="<<status.preparedAtPlan<<'\n'
+                 <<"prepared_fence="<<status.preparedFence<<'\n'
+                 <<"processed_input_fence="<<status.processedInputFence<<'\n'
+                 <<"first_input_at_plan="<<status.firstInputAtPlan<<'\n'
+                 <<"fifo_at_plan_frames="<<status.fifoAtPlan<<'\n'
+                 <<"event_protection_delay_frames="
+                 <<(status.appliedOutput>=status.planningFence
+                    ? status.appliedOutput-status.planningFence : 0)<<'\n'
                  <<"published_ahead_at_plan_frames="
                  <<(status.publishedAtRequest>=status.requestedOutput
                     ? status.publishedAtRequest-status.requestedOutput : 0)<<'\n'
@@ -291,7 +334,23 @@ int main(int argc,char** argv) {
                    ? (state.appliedPresentationNs.load()-requestNs)/1e6+deviceLatencyMs : -1)<<'\n'
                  <<"request_to_plan_ms="
                  <<(status.planTimestampNs && requestSteadyNs
-                   ? (status.planTimestampNs-requestSteadyNs)/1e6 : -1)<<'\n';
+                   ? (status.planTimestampNs-requestSteadyNs)/1e6 : -1)<<'\n'
+                 <<"control_poll_late_ms="
+                 <<(status.requestedOutput>=threshold
+                    ? double(status.requestedOutput-threshold)*1000/pipeline.sampleRate() : -1)<<'\n'
+                 <<"control_accept_ms="
+                 <<(status.acceptedTimestampNs>=status.requestTimestampNs
+                    ? (status.acceptedTimestampNs-status.requestTimestampNs)/1e6 : -1)<<'\n'
+                 <<"accept_to_worker_ms="
+                 <<(status.workerSeenTimestampNs>=status.acceptedTimestampNs
+                    ? (status.workerSeenTimestampNs-status.acceptedTimestampNs)/1e6 : -1)<<'\n'
+                 <<"worker_to_plan_ms="
+                 <<(status.planTimestampNs>=status.workerSeenTimestampNs
+                    ? (status.planTimestampNs-status.workerSeenTimestampNs)/1e6 : -1)<<'\n'
+                 <<"plan_to_applied_callback_ms="
+                 <<(state.appliedPresentationNs.load() && status.planTimestampNs
+                    ? (state.appliedPresentationNs.load()-requestNs)/1e6-
+                      (status.planTimestampNs-requestSteadyNs)/1e6 : -1)<<'\n';
         return !sent || (maxSeconds==0 && !endDrained) ||
             status.requestState!=ts::prototype::SpeedRequestState::Applied ||
             status.underrunFrames || status.rejectedWrites || state.deadlineMisses ||
