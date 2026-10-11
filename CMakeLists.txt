@@ -108,6 +108,17 @@ target_link_libraries(phase27_repeated_tests PRIVATE phase26_variable)
 add_executable(phase27_play src/platform/macos/Phase27MacPlayback.mm)
 target_link_libraries(phase27_play PRIVATE phase26_variable ${AVFOUNDATION_FRAMEWORK} ${FOUNDATION_FRAMEWORK})
 target_compile_options(phase27_play PRIVATE -fobjc-arc -Wall -Wextra -Wpedantic)
+add_library(phase30_variable
+    src/prototype/Phase28ArbitraryTimeMap.cpp
+    src/prototype/Phase30PlaybackPipeline.cpp)
+target_link_libraries(phase30_variable PUBLIC phase24_variable)
+target_include_directories(phase30_variable PUBLIC src)
+add_executable(phase30_playback_tests tests/Phase30PlaybackTests.cpp
+    src/prototype/Phase23VariableSpeedEngine.cpp)
+target_link_libraries(phase30_playback_tests PRIVATE phase30_variable)
+add_executable(phase30_play src/platform/macos/Phase30MacPlayback.mm)
+target_link_libraries(phase30_play PRIVATE phase30_variable ${AVFOUNDATION_FRAMEWORK} ${FOUNDATION_FRAMEWORK})
+target_compile_options(phase30_play PRIVATE -fobjc-arc -Wall -Wextra -Wpedantic)
 add_executable(phase24_sim src/phase24_sim_main.cpp)
 target_link_libraries(phase24_sim PRIVATE phase24_variable)
 add_executable(phase101_offline_events src/phase101_offline_events.cpp)
@@ -267,4 +278,7 @@ if(BUILD_TESTING)
     add_test(NAME phase29_audio COMMAND python3
         ${CMAKE_CURRENT_SOURCE_DIR}/tests/Phase29Smoke.py
         $<TARGET_FILE:phase13_stream> $<TARGET_FILE:phase29_audio>)
+    add_test(NAME phase30_playback COMMAND python3
+        ${CMAKE_SOURCE_DIR}/tests/Phase30Smoke.py
+        $<TARGET_FILE:phase30_playback_tests>)
 endif()

@@ -61,6 +61,7 @@ public:
         length_=length;
     }
     std::size_t ringSize() const { return accum_.size(); }
+    std::size_t firstUnprocessedSourceSample() const { return nextBlock_; }
     template<class Source> float next(std::size_t index,Source&& source) {
         if (index!=base_) throw std::logic_error("Non-sequential FIR retrieval");
         while (nextBlock_<length_ && nextBlock_<=index+center_) {
@@ -344,7 +345,8 @@ Phase24StreamingSpeedEngine::Phase24StreamingSpeedEngine(StretchConfig config)
 Phase13Result Phase24StreamingSpeedEngine::process(
     const std::filesystem::path& input,const Phase13TransientAnalysis& analysis,
     TimeMap map,std::size_t outputFrames,const OutputSink& sink,
-    const UpdateHook& update,std::size_t chunkSize,const PreparedSink& preparedSink) {
+    const UpdateHook& update,std::size_t chunkSize,const PreparedSink& preparedSink,
+    const DetailedUpdateHook& detailedUpdate) {
     std::ostream* stageTrace=nullptr;
     std::size_t probeInputSample=0;
     if ((!sink && !preparedSink) || map.empty() || map.sourceHop()!=1024 ||
@@ -428,12 +430,24 @@ Phase13Result Phase24StreamingSpeedEngine::process(
                            <<phase13.stages.fir<<'\n';
         }
         const auto poll=[&] {
-            if (!update || start+count>=outputFrames) return;
-            const auto firstUnprocessed=std::max({
-                resolution[0]->firstUnprocessedInputSample(),
-                resolution[1]->firstUnprocessedInputSample(),
-                resolution[2]->firstUnprocessedInputSample()});
-            update(start+count,firstUnprocessed,detection.map,outputFrames);
+            if ((!update && !detailedUpdate) || start+count>=outputFrames) return;
+            if (detailedUpdate) {
+                ProcessingFrontier frontier;
+                frontier.preparedOutput=start+count;
+                for (std::size_t r=0;r<3;++r)
+                    frontier.firstUnprocessedInput[r]=
+                        resolution[r]->firstUnprocessedInputSample();
+                frontier.firstUnprocessedFirSource={
+                    lowFilters[0]->firstUnprocessedSourceSample(),
+                    highFilters[0]->firstUnprocessedSourceSample()};
+                detailedUpdate(frontier,detection.map,outputFrames);
+            } else {
+                const auto firstUnprocessed=std::max({
+                    resolution[0]->firstUnprocessedInputSample(),
+                    resolution[1]->firstUnprocessedInputSample(),
+                    resolution[2]->firstUnprocessedInputSample()});
+                update(start+count,firstUnprocessed,detection.map,outputFrames);
+            }
             if (outputFrames<start+count || outputFrames>reader.frames()*2+2)
                 throw std::runtime_error("Invalid live output length");
             for (auto& item:resolution) item->setOutputLength(outputFrames);
