@@ -61,6 +61,11 @@ add_executable(realtime_stretch src/realtime_main.cpp)
 target_link_libraries(realtime_stretch PRIVATE timestretch_core)
 add_executable(phase13_stream src/phase13_main.cpp)
 target_link_libraries(phase13_stream PRIVATE timestretch_core)
+add_executable(phase23_audio
+    src/phase23_main.cpp
+    src/prototype/Phase23VariableSpeedEngine.cpp
+    src/prototype/Phase22VariableTimeMap.cpp)
+target_link_libraries(phase23_audio PRIVATE timestretch_core)
 add_executable(phase14_sim src/phase14_main.cpp)
 target_link_libraries(phase14_sim PRIVATE timestretch_core)
 add_executable(phase17_seek_study src/phase17_seek_study.cpp)
@@ -206,4 +211,7 @@ if(BUILD_TESTING)
         src/prototype/Phase22VariableTimeMap.cpp)
     target_link_libraries(phase22b_study PRIVATE timestretch_core)
     add_test(NAME phase22b COMMAND phase22b_study)
+    add_test(NAME phase23 COMMAND python3
+        ${CMAKE_CURRENT_SOURCE_DIR}/tests/Phase23Smoke.py
+        $<TARGET_FILE:phase13_stream> $<TARGET_FILE:phase23_audio>)
 endif()
