@@ -66,6 +66,11 @@ add_executable(phase23_audio
     src/prototype/Phase23VariableSpeedEngine.cpp
     src/prototype/Phase22VariableTimeMap.cpp)
 target_link_libraries(phase23_audio PRIVATE timestretch_core)
+add_executable(phase29_audio
+    src/phase29_main.cpp
+    src/prototype/Phase23VariableSpeedEngine.cpp
+    src/prototype/Phase28ArbitraryTimeMap.cpp)
+target_link_libraries(phase29_audio PRIVATE timestretch_core)
 add_library(phase24_variable
     src/prototype/Phase24StreamingSpeedEngine.cpp
     src/prototype/Phase24PlaybackPipeline.cpp
@@ -259,4 +264,7 @@ if(BUILD_TESTING)
         src/prototype/Phase22VariableTimeMap.cpp)
     target_link_libraries(phase28_map_study PRIVATE timestretch_core)
     add_test(NAME phase28_map COMMAND phase28_map_study ${CMAKE_SOURCE_DIR})
+    add_test(NAME phase29_audio COMMAND python3
+        ${CMAKE_CURRENT_SOURCE_DIR}/tests/Phase29Smoke.py
+        $<TARGET_FILE:phase13_stream> $<TARGET_FILE:phase29_audio>)
 endif()

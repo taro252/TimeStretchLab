@@ -22,7 +22,7 @@ double smooth(double t) {
     return t*t*(3.0-2.0*t);
 }
 double validatedRatio(DecimalSpeed speed) {
-    if (DecimalSpeed::fromDouble(speed.value())!=speed)
+    if (!speed.valid())
         throw std::invalid_argument("Invalid initial speed");
     return speed.timeRatio();
 }
@@ -39,13 +39,16 @@ Phase28ArbitraryTimeMap::Phase28ArbitraryTimeMap(
       events_(analysis.events()),sampleRate_(rate),tail_(initial) {
     if (rate==0 || current_.starts().size()<2)
         throw std::invalid_argument("Invalid Phase 28 initialization");
-    fixed_.emplace(initial.micros,current_);
+    fixed_.emplace(initial.micros,std::make_shared<TimeMap>(current_));
 }
-const TimeMap& Phase28ArbitraryTimeMap::fixed(DecimalSpeed speed) {
-    if (DecimalSpeed::fromDouble(speed.value())!=speed)
+std::shared_ptr<const TimeMap> Phase28ArbitraryTimeMap::fixed(DecimalSpeed speed) {
+    if (!speed.valid())
         throw std::invalid_argument("Invalid target speed");
-    auto [it,inserted]=fixed_.try_emplace(speed.micros);
-    if (inserted) it->second=makeFixed(analysis_,speed.timeRatio());
+    auto it=fixed_.find(speed.micros);
+    if (it==fixed_.end()) {
+        auto made=std::make_shared<TimeMap>(makeFixed(analysis_,speed.timeRatio()));
+        it=fixed_.emplace(speed.micros,std::move(made)).first;
+    }
     // A decimal speed may have a million possible values; keep the prototype's
     // coordinate cache bounded independently of the number of requests.
     if (fixed_.size()>5) {
@@ -66,10 +69,13 @@ std::size_t Phase28ArbitraryTimeMap::protectedEndAt(std::size_t frame) const noe
 }
 ArbitraryPlan Phase28ArbitraryTimeMap::submit(const ArbitraryRequest& request) {
     ArbitraryPlan result;
-    if (request.generation<=lastGeneration_ || request.publishedOutputSample<lastPublished_ ||
-        request.publishedOutputSample<0 || !std::isfinite(request.transitionOutputMs) ||
-        request.transitionOutputMs<=0 || request.transitionOutputMs>1000 ||
-        DecimalSpeed::fromDouble(request.target.value())!=request.target) {
+    if (!request.target.valid() || request.publishedOutputSample<0 ||
+        !std::isfinite(request.transitionOutputMs) ||
+        request.transitionOutputMs<=0 || request.transitionOutputMs>1000) {
+        result.outcome=ArbitraryOutcome::Invalid;
+        return result;
+    }
+    if (request.generation<=lastGeneration_ || request.publishedOutputSample<lastPublished_) {
         result.outcome=ArbitraryOutcome::Stale;
         return result;
     }
@@ -80,7 +86,8 @@ ArbitraryPlan Phase28ArbitraryTimeMap::submit(const ArbitraryRequest& request) {
         result.outcome=ArbitraryOutcome::Busy;return result;
     }
     const auto& before=current_.starts();
-    const auto& target=fixed(request.target).starts();
+    const auto targetLease=fixed(request.target);
+    const auto& target=targetLease->starts();
     const auto count=before.size();
     const auto requested=std::min(count-1,request.requestedInputSample/1024+
         static_cast<std::size_t>(request.requestedInputSample%1024!=0));
@@ -171,7 +178,7 @@ std::array<HopRange,3> Phase28ArbitraryTimeMap::measureHops() const {
 }
 std::size_t Phase28ArbitraryTimeMap::fixedMapBytes() const noexcept {
     std::size_t bytes=current_.starts().size()*sizeof(long long);
-    for (const auto& [speed,map]:fixed_) { (void)speed;bytes+=map.starts().size()*sizeof(long long); }
+    for (const auto& [speed,map]:fixed_) { (void)speed;bytes+=map->starts().size()*sizeof(long long); }
     return bytes;
 }
 }

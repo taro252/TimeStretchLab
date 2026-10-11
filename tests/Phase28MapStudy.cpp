@@ -69,19 +69,19 @@ void run(const std::filesystem::path& path) {
     auto half=DecimalSpeed::fromDouble(0.50);
     Phase28ArbitraryTimeMap prototype(analysis,reader.sampleRate(),half);
     const VariableTimeMap old(analysis,reader.sampleRate());
-    check(prototype.fixed(half).starts()==old.fixedHalf().starts(),"0.50 fixed map changed");
+    check(prototype.fixed(half)->starts()==old.fixedHalf().starts(),"0.50 fixed map changed");
     const auto threeQuarter=DecimalSpeed::fromDouble(0.75);
-    check(prototype.fixed(threeQuarter).starts()==old.fixedThreeQuarter().starts(),
+    check(prototype.fixed(threeQuarter)->starts()==old.fixedThreeQuarter().starts(),
           "0.75 fixed map changed");
     const auto eventHash=hashEvents(analysis.events());
     for (double value:{0.50,0.60,0.70,0.75,0.80}) {
         const auto speed=DecimalSpeed::fromDouble(value);
         const auto start=std::chrono::steady_clock::now();
-        const auto& map=prototype.fixed(speed);
+        const auto map=prototype.fixed(speed);
         const auto elapsed=std::chrono::duration<double,std::milli>(
             std::chrono::steady_clock::now()-start).count();
         const auto resetHash=hashResets(analysis,speed.timeRatio());
-        std::cout<<path.stem().string()<<','<<value<<','<<hashStarts(map)<<','
+        std::cout<<path.stem().string()<<','<<value<<','<<hashStarts(*map)<<','
                  <<eventHash<<','<<resetHash<<','<<analysis.events().size()<<','
                  <<elapsed<<','<<prototype.fixedMapBytes()<<'\n';
     }
@@ -89,6 +89,20 @@ void run(const std::filesystem::path& path) {
     const auto speed70=DecimalSpeed::fromDouble(0.70);
     const auto speed80=DecimalSpeed::fromDouble(0.80);
     const auto n=reader.frames();
+    {
+        Phase28ArbitraryTimeMap invalid(analysis,reader.sampleRate(),half);
+        const auto saved=invalid.current().starts();
+        check(invalid.submit({1,{499999},n/2,0,50}).outcome==ArbitraryOutcome::Invalid,
+              "Below-range internal speed was accepted");
+        check(invalid.submit({1,{1000001},n/2,0,50}).outcome==ArbitraryOutcome::Invalid,
+              "Above-range internal speed was accepted");
+        check(invalid.current().starts()==saved,
+              "Invalid speed changed the map");
+        bool rejected=false;
+        try { (void)invalid.fixed({1000001}); }
+        catch (const std::invalid_argument&) { rejected=true; }
+        check(rejected,"Fixed map accepted invalid internal speed");
+    }
     for (const auto target:{speed60,speed70,speed80}) {
         Phase28ArbitraryTimeMap trial(analysis,reader.sampleRate(),half);
         const auto input=n/2;
@@ -171,8 +185,12 @@ void run(const std::filesystem::path& path) {
         const auto reversePlan=reverse.submit({1,speed60,reverseInput,reverseFence,50});
         valid(reverse,reversePlan);
         if (path.stem()=="mix") {
+            const auto retained=trial.fixed({500000});
+            const auto retainedHash=hashStarts(*retained);
             for (std::uint32_t micros=500000;micros<=1000000;micros+=25000)
                 (void)trial.fixed({micros});
+            check(hashStarts(*retained)==retainedHash,
+                  "Evicting fixed-map cache invalidated a retained lease");
             check(trial.fixedMapBytes()<=6*trial.current().starts().size()*sizeof(long long),
                   "Arbitrary-speed map cache grew without a bound");
             std::cout<<"cache_bound,mix,"<<trial.fixedMapBytes()<<'\n';
@@ -231,7 +249,7 @@ int main(int argc,char** argv) {
                 temp/"tiny.wav");
             Phase28ArbitraryTimeMap map(analysis,rate,DecimalSpeed::fromDouble(0.50));
             check(map.monotonic(),"Tiny input map is not monotonic");
-            check(map.fixed(DecimalSpeed::fromDouble(0.80)).starts().size()==
+            check(map.fixed(DecimalSpeed::fromDouble(0.80))->starts().size()==
                   map.current().starts().size(),"Tiny fixed map length differs");
             const auto outcome=map.submit({1,DecimalSpeed::fromDouble(0.70),
                 tiny.size()-1,static_cast<long long>(map.current().starts().back()),50});
