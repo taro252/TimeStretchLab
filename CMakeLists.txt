@@ -66,6 +66,12 @@ add_executable(phase23_audio
     src/prototype/Phase23VariableSpeedEngine.cpp
     src/prototype/Phase22VariableTimeMap.cpp)
 target_link_libraries(phase23_audio PRIVATE timestretch_core)
+add_library(phase24_variable
+    src/prototype/Phase24StreamingSpeedEngine.cpp
+    src/prototype/Phase24PlaybackPipeline.cpp
+    src/prototype/Phase22VariableTimeMap.cpp)
+target_link_libraries(phase24_variable PUBLIC timestretch_core)
+target_include_directories(phase24_variable PUBLIC src)
 add_executable(phase14_sim src/phase14_main.cpp)
 target_link_libraries(phase14_sim PRIVATE timestretch_core)
 add_executable(phase17_seek_study src/phase17_seek_study.cpp)
@@ -77,6 +83,11 @@ find_library(FOUNDATION_FRAMEWORK Foundation REQUIRED)
 add_executable(phase15_play src/platform/macos/Phase15MacPlayback.mm)
 target_link_libraries(phase15_play PRIVATE timestretch_core ${AVFOUNDATION_FRAMEWORK} ${FOUNDATION_FRAMEWORK})
 target_compile_options(phase15_play PRIVATE -fobjc-arc -Wall -Wextra -Wpedantic)
+add_executable(phase24_play src/platform/macos/Phase24MacPlayback.mm)
+target_link_libraries(phase24_play PRIVATE phase24_variable ${AVFOUNDATION_FRAMEWORK} ${FOUNDATION_FRAMEWORK})
+target_compile_options(phase24_play PRIVATE -fobjc-arc -Wall -Wextra -Wpedantic)
+add_executable(phase24_sim src/phase24_sim_main.cpp)
+target_link_libraries(phase24_sim PRIVATE phase24_variable)
 add_executable(phase101_offline_events src/phase101_offline_events.cpp)
 target_link_libraries(phase101_offline_events PRIVATE timestretch_core)
 
@@ -214,4 +225,7 @@ if(BUILD_TESTING)
     add_test(NAME phase23 COMMAND python3
         ${CMAKE_CURRENT_SOURCE_DIR}/tests/Phase23Smoke.py
         $<TARGET_FILE:phase13_stream> $<TARGET_FILE:phase23_audio>)
+    add_executable(phase24_tests tests/Phase24Tests.cpp src/prototype/Phase23VariableSpeedEngine.cpp)
+    target_link_libraries(phase24_tests PRIVATE phase24_variable)
+    add_test(NAME phase24 COMMAND phase24_tests)
 endif()
