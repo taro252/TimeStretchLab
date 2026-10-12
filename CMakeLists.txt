@@ -127,6 +127,11 @@ add_executable(phase31_render
     src/prototype/Phase31ResearchEngine.cpp)
 target_link_libraries(phase31_render PRIVATE timestretch_core)
 target_compile_options(phase31_render PRIVATE -Wall -Wextra -Wpedantic)
+add_executable(phase32_render
+    src/prototype/Phase32Render.cpp
+    src/prototype/Phase32ResearchEngine.cpp)
+target_link_libraries(phase32_render PRIVATE timestretch_core)
+target_compile_options(phase32_render PRIVATE -Wall -Wextra -Wpedantic)
 add_executable(phase24_sim src/phase24_sim_main.cpp)
 target_link_libraries(phase24_sim PRIVATE phase24_variable)
 add_executable(phase101_offline_events src/phase101_offline_events.cpp)
@@ -292,4 +297,7 @@ if(BUILD_TESTING)
     add_test(NAME phase31_feasibility COMMAND python3
         ${CMAKE_SOURCE_DIR}/tests/Phase31Smoke.py
         $<TARGET_FILE:phase31_feasibility> $<TARGET_FILE:phase31_render>)
+    add_test(NAME phase32_diagnostics COMMAND python3
+        ${CMAKE_SOURCE_DIR}/tests/Phase32Smoke.py
+        $<TARGET_FILE:phase31_render> $<TARGET_FILE:phase32_render>)
 endif()
