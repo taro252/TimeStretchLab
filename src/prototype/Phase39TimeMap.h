@@ -22,6 +22,10 @@ struct Phase39Speed {
 };
 
 enum class Phase39Outcome { Applied, Duplicate, Busy, Stale, Invalid, NoSafeInterval, Truncated };
+// A preserves the Phase 39 behaviour. B starts in the first complete safe
+// interval; C accumulates the ramp across safe intervals and holds protected
+// hops at their previously committed values.
+enum class Phase39Planning { A, B, C, C0 }; // C0 retains the initial unguarded diagnostic.
 struct Phase39Request {
     std::uint64_t generation=0;
     Phase39Speed target;
@@ -35,6 +39,9 @@ struct Phase39Plan {
     long long appliedOutputSample=0,completionOutputSample=0;
     std::size_t protectedEventsSkipped=0;
     bool protectedEventsPaused=false;
+    std::size_t firstMutableFrame=0, firstSafeFrame=0;
+    std::size_t nextEventFrame=0, protectionEndFrame=0;
+    std::size_t safeFramesUsed=0, heldFrames=0;
     bool applied() const noexcept { return outcome==Phase39Outcome::Applied; }
 };
 
@@ -42,7 +49,8 @@ struct Phase39Plan {
 class Phase39TimeMap {
 public:
     Phase39TimeMap(const Phase13TransientAnalysis& analysis,
-                            std::uint32_t sampleRate,Phase39Speed initial);
+                            std::uint32_t sampleRate,Phase39Speed initial,
+                            Phase39Planning planning=Phase39Planning::A);
     // The shared ownership lease remains valid even when the cache evicts it.
     std::shared_ptr<const TimeMap> fixed(Phase39Speed speed);
     const TimeMap& current() const noexcept { return current_; }
@@ -58,10 +66,13 @@ private:
     std::map<std::uint32_t,std::shared_ptr<const TimeMap>> fixed_;
     TimeMap current_;
     std::vector<TransientEvent> events_;
+    std::vector<std::size_t> protectedEndByFrame_;
+    std::vector<bool> safeRunEligible_;
     std::uint32_t sampleRate_;
     Phase39Speed tail_;
     std::uint64_t lastGeneration_=0;
     long long lastPublished_=0,completionOutput_=-1;
     std::vector<Phase39Plan> history_;
+    Phase39Planning planning_;
 };
 }

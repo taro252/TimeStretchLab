@@ -44,6 +44,8 @@ struct Phase39Snapshot {
     std::size_t fifoHighWater=0;
     std::uint64_t underrunFrames=0,rejectedWrites=0;
     double maxWorkerChunkSeconds=0,planMilliseconds=0;
+    double maxWorkerCpuSeconds=0,maxFifoWaitSeconds=0;
+    std::uint64_t fifoWaitNanoseconds=0,workerChunksOver100Ms=0;
     std::size_t completedChanges=0;
 };
 struct Phase39RealtimeMarkers {
@@ -57,7 +59,8 @@ class Phase39PlaybackPipeline {
 public:
     Phase39PlaybackPipeline(const std::filesystem::path& input,Phase39Speed initial,
         std::size_t fifoFrames=16384,std::size_t blockFrames=2048,
-        std::size_t leadFrames=12288);
+        std::size_t leadFrames=12288,
+        Phase39Planning planning=Phase39Planning::A);
     ~Phase39PlaybackPipeline();
     void start();
     void stop(); // The audio consumer must first be quiescent.
@@ -82,6 +85,7 @@ private:
     const std::uint32_t sampleRate_;
     const std::size_t channels_,blockFrames_,leadFrames_;
     const Phase39Speed initial_;
+    const Phase39Planning planning_;
     Phase13TransientAnalysis analysis_;
     Phase14AudioFifo fifo_;
     std::thread worker_;
@@ -98,6 +102,8 @@ private:
     std::atomic<std::size_t> appliedOutput_{0},completionOutput_{0};
     std::atomic<std::uint64_t> underrunFrames_{0};
     std::atomic<double> maxWorkerChunkSeconds_{0},planMilliseconds_{0};
+    std::atomic<double> maxWorkerCpuSeconds_{0},maxFifoWaitSeconds_{0};
+    std::atomic<std::uint64_t> fifoWaitNanoseconds_{0},workerChunksOver100Ms_{0};
     mutable std::mutex historyMutex_;
     std::vector<Phase39PlanMetric> plans_;
     std::vector<double> workerChunkSeconds_;

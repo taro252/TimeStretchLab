@@ -13,8 +13,8 @@
 using namespace ts;
 using namespace ts::prototype;
 int main(int argc,char** argv) {
-    if (argc!=5) {
-        std::cerr<<"Usage: phase36_reference input.wav output.wav initial_speed plans.csv\n";
+    if (argc!=5 && argc!=6) {
+        std::cerr<<"Usage: phase39_reference input.wav output.wav initial_speed plans.csv [A|B|C|C0]\n";
         return 2;
     }
     try {
@@ -30,7 +30,13 @@ int main(int argc,char** argv) {
         config.enableStereoCoherence=true;
         auto analysisConfig=config;analysisConfig.timeRatio=2.0;
         const auto analysis=Phase13StreamingEngine(analysisConfig).analyzeTransientEvents(argv[1]);
-        Phase39TimeMap timeline(analysis,reader.sampleRate(),initial);
+        const std::string strategy=argc==6 ? argv[5] : "A";
+        const auto planning=strategy=="A" ? Phase39Planning::A :
+            strategy=="B" ? Phase39Planning::B :
+            strategy=="C" ? Phase39Planning::C :
+            strategy=="C0" ? Phase39Planning::C0 :
+            throw std::invalid_argument("Planning strategy must be A, B, C or C0");
+        Phase39TimeMap timeline(analysis,reader.sampleRate(),initial,planning);
         std::vector<std::pair<std::size_t,bool>> modes;
         std::ifstream csv(argv[4]);
         std::string line;std::getline(csv,line);

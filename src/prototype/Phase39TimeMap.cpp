@@ -36,11 +36,41 @@ Phase39Speed Phase39Speed::fromDouble(double speed) {
     return {static_cast<std::uint32_t>(std::llround(speed*1000000.0))};
 }
 Phase39TimeMap::Phase39TimeMap(
-    const Phase13TransientAnalysis& analysis,std::uint32_t rate,Phase39Speed initial)
+    const Phase13TransientAnalysis& analysis,std::uint32_t rate,Phase39Speed initial,
+    Phase39Planning planning)
     : analysis_(analysis),current_(makeFixed(analysis,validatedRatio(initial))),
-      events_(analysis.events()),sampleRate_(rate),tail_(initial) {
+      events_(analysis.events()),sampleRate_(rate),tail_(initial),planning_(planning) {
     if (rate==0 || current_.starts().size()<2)
         throw std::invalid_argument("Invalid Phase 39 initialization");
+    const auto limit=current_.starts().size()-1;
+    protectedEndByFrame_.assign(current_.starts().size(),
+        std::numeric_limits<std::size_t>::max());
+    for (const auto& event:events_) {
+        const auto begin=event.onsetFrame>2 ? event.onsetFrame-2 : 0;
+        const auto end=std::min(limit,std::max(event.endFrame,event.peakFrame)+5);
+        for (auto i=begin;i<=end;++i) {
+            auto& value=protectedEndByFrame_[i];
+            // Keep the first matching event exactly as Phase 39's original
+            // linear scan did; the following lookup is only an index.
+            if (value==std::numeric_limits<std::size_t>::max()) value=end;
+        }
+    }
+    safeRunEligible_.assign(current_.starts().size(),false);
+    // A one-node gap before the next attack is numerically unprotected, but
+    // changing one hop there can still affect an overlapping Low window.
+    // C therefore uses only safe runs of at least four Mid intervals.
+    for (std::size_t first=0;first<limit;) {
+        if (protectedEndByFrame_[first]!=std::numeric_limits<std::size_t>::max()) {
+            ++first;continue;
+        }
+        auto last=first;
+        while (last<limit && protectedEndByFrame_[last]==
+               std::numeric_limits<std::size_t>::max()) ++last;
+        if (last-first>=4)
+            std::fill(safeRunEligible_.begin()+first,
+                      safeRunEligible_.begin()+last,true);
+        first=last;
+    }
     fixed_.emplace(initial.micros,std::make_shared<TimeMap>(current_));
 }
 std::shared_ptr<const TimeMap> Phase39TimeMap::fixed(Phase39Speed speed) {
@@ -61,13 +91,8 @@ std::shared_ptr<const TimeMap> Phase39TimeMap::fixed(Phase39Speed speed) {
     return it->second;
 }
 std::size_t Phase39TimeMap::protectedEndAt(std::size_t frame) const noexcept {
-    const auto limit=current_.starts().size()-1;
-    for (const auto& event:events_) {
-        const auto begin=event.onsetFrame>2 ? event.onsetFrame-2 : 0;
-        const auto end=std::min(limit,std::max(event.endFrame,event.peakFrame)+5);
-        if (frame>=begin && frame<=end) return end;
-    }
-    return std::numeric_limits<std::size_t>::max();
+    return frame<protectedEndByFrame_.size() ? protectedEndByFrame_[frame] :
+        std::numeric_limits<std::size_t>::max();
 }
 Phase39Plan Phase39TimeMap::submit(const Phase39Request& request) {
     Phase39Plan result;
@@ -96,10 +121,21 @@ Phase39Plan Phase39TimeMap::submit(const Phase39Request& request) {
     result.requestedFrame=requested;
     auto candidate=std::max(requested,static_cast<std::size_t>(
         std::lower_bound(before.begin(),before.end(),request.publishedOutputSample)-before.begin()));
+    result.firstMutableFrame=candidate;
+    result.nextEventFrame=count-1;
+    for (const auto& event:events_)
+        if (event.peakFrame>candidate) {
+            result.nextEventFrame=event.peakFrame;
+            break;
+        }
+    const auto atProtection=protectedEndAt(candidate);
+    result.protectionEndFrame=atProtection==std::numeric_limits<std::size_t>::max() ?
+        candidate : atProtection;
     // Phase 37 B redistributes compression inside event-to-event segments.
     // Start at a fresh segment so a new target cannot change any portion of
     // a segment already processed by a resolution or by an FIR source block.
-    if (request.target.micros>1000000 || tail_.micros>1000000) {
+    if (planning_==Phase39Planning::A &&
+        (request.target.micros>1000000 || tail_.micros>1000000)) {
         std::size_t next=count-1;
         for (const auto& event:events_)
             if (event.peakFrame>candidate && event.peakFrame<next)
@@ -109,7 +145,19 @@ Phase39Plan Phase39TimeMap::submit(const Phase39Request& request) {
     const auto duration=std::llround(request.transitionOutputMs*sampleRate_/1000.0);
     if (duration<1 || candidate>=count-1) return result;
     const auto fallbackStart=candidate;
-    while (candidate<count-1) {
+    if (planning_!=Phase39Planning::A) {
+        while (candidate<count-1 &&
+               (planning_==Phase39Planning::C ? !safeRunEligible_[candidate] :
+                protectedEndAt(candidate)!=std::numeric_limits<std::size_t>::max())) {
+            const auto end=protectedEndAt(candidate);
+            candidate=end==std::numeric_limits<std::size_t>::max() ?
+                candidate+1 : end+1;
+            ++result.protectedEventsSkipped;
+        }
+    }
+    result.firstSafeFrame=candidate;
+    while (candidate<count-1 && planning_!=Phase39Planning::C &&
+           planning_!=Phase39Planning::C0) {
         auto end=candidate;
         long long minimumElapsed=0;
         while (end+1<count && minimumElapsed<duration) {
@@ -130,10 +178,21 @@ Phase39Plan Phase39TimeMap::submit(const Phase39Request& request) {
         candidate=conflictEnd+1;
     }
     bool pausedFallback=candidate>=count-1;
-    if (pausedFallback) candidate=fallbackStart;
+    if (planning_==Phase39Planning::C || planning_==Phase39Planning::C0)
+        pausedFallback=true;
+    if (planning_==Phase39Planning::B && pausedFallback) {
+        result.outcome=Phase39Outcome::NoSafeInterval;
+        return result;
+    }
+    if (pausedFallback && planning_==Phase39Planning::A) candidate=fallbackStart;
+    if (candidate>=count-1) {
+        result.outcome=Phase39Outcome::NoSafeInterval;
+        return result;
+    }
+    result.firstSafeFrame=candidate;
     auto output=before;
     std::size_t end=count-1;
-    for (int attempt=0;attempt<2;++attempt) {
+    for (int attempt=0;attempt<(planning_==Phase39Planning::A ? 2 : 1);++attempt) {
         end=count-1;
         output=before;
         long long safeElapsed=0;
@@ -142,13 +201,16 @@ Phase39Plan Phase39TimeMap::submit(const Phase39Request& request) {
             const auto oldHop=before[i+1]-before[i];
             const auto newHop=target[i+1]-target[i];
             const bool protectedNow=pausedFallback &&
-                protectedEndAt(i)!=std::numeric_limits<std::size_t>::max();
+                (planning_==Phase39Planning::C ? !safeRunEligible_[i] :
+                 protectedEndAt(i)!=std::numeric_limits<std::size_t>::max());
             const auto elapsed=pausedFallback ? safeElapsed : output[i]-start;
             const auto weight=smooth(double(elapsed)/double(duration));
             const auto hop=protectedNow ? oldHop :
                 std::llround((1.0-weight)*oldHop+weight*newHop);
             if (hop<=0) throw std::runtime_error("Non-monotonic arbitrary-speed hop");
             output[i+1]=output[i]+hop;
+            if (protectedNow) ++result.heldFrames;
+            else ++result.safeFramesUsed;
             if (pausedFallback && !protectedNow)
                 safeElapsed+=std::max(1LL,std::min(oldHop,newHop)-1);
             if (elapsed>=duration && !protectedNow) { end=i;break; }

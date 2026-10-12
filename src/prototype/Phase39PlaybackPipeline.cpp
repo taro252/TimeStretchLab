@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cmath>
 #include <stdexcept>
+#include <ctime>
 
 namespace ts::prototype {
 namespace {
@@ -13,6 +14,11 @@ static_assert(std::atomic<std::uint64_t>::is_always_lock_free);
 std::uint64_t nowNs() {
     return static_cast<std::uint64_t>(std::chrono::duration_cast<std::chrono::nanoseconds>(
         Clock::now().time_since_epoch()).count());
+}
+double workerCpuSeconds() {
+    timespec stamp{};
+    if (clock_gettime(CLOCK_THREAD_CPUTIME_ID,&stamp)!=0) return 0;
+    return double(stamp.tv_sec)+double(stamp.tv_nsec)*1e-9;
 }
 StretchConfig frozen(const std::filesystem::path& file,Phase39Speed initial) {
     if (!initial.valid()) throw std::invalid_argument("Invalid initial speed");
@@ -44,10 +50,10 @@ std::size_t inverseInput(const TimeMap& map,std::size_t output) {
 }
 Phase39PlaybackPipeline::Phase39PlaybackPipeline(const std::filesystem::path& input,
     Phase39Speed initial,std::size_t fifoFrames,std::size_t blockFrames,
-    std::size_t leadFrames)
+    std::size_t leadFrames,Phase39Planning planning)
     : file_(input),sampleRate_(WavStreamReader(input).sampleRate()),
       channels_(WavStreamReader(input).channels()),blockFrames_(blockFrames),
-      leadFrames_(leadFrames ? leadFrames : fifoFrames),initial_(initial),
+      leadFrames_(leadFrames ? leadFrames : fifoFrames),initial_(initial),planning_(planning),
       analysis_(Phase13StreamingEngine(frozen(input,{500000})).analyzeTransientEvents(input)),
       fifo_(channels_,fifoFrames) {
     if (blockFrames<1024 || blockFrames>65536 || blockFrames>fifoFrames ||
@@ -65,6 +71,8 @@ void Phase39PlaybackPipeline::start() {
     generation_=0;requestNs_=0;acceptedNs_=0;
     workerSeenNs_=0;planNs_=0;requestedOutput_=0;requestedInput_=0;
     produced_=0;presented_=0;underrunFrames_=0;maxWorkerChunkSeconds_=0;
+    maxWorkerCpuSeconds_=0;maxFifoWaitSeconds_=0;
+    fifoWaitNanoseconds_=0;workerChunksOver100Ms_=0;
     planMilliseconds_=0;
     preparedAtPlan_=0;publishedAtPlan_=0;fifoAtPlan_=0;processedInputAtPlan_=0;
     planningFence_=0;
@@ -76,28 +84,42 @@ void Phase39PlaybackPipeline::start() {
     outputLength_=static_cast<std::size_t>(std::llround(analysis_.inputFrames()*initial_.timeRatio()));
     worker_=std::thread([this] {
         try {
-            Phase39TimeMap timeline(analysis_,sampleRate_,initial_);
+            Phase39TimeMap timeline(analysis_,sampleRate_,initial_,planning_);
             Phase36StreamingSpeedEngine engine(frozen(file_,initial_));
             auto previous=Clock::now();
+            auto previousCpu=workerCpuSeconds();
             const auto publish=[&](const float* const* data,std::size_t frames,
                                    const std::function<void()>& poll) {
                 const auto now=Clock::now();
                 const auto seconds=std::chrono::duration<double>(now-previous).count();
+                const auto cpuNow=workerCpuSeconds();
+                const auto cpuSeconds=std::max(0.0,cpuNow-previousCpu);
+                auto oldCpu=maxWorkerCpuSeconds_.load();
+                while (oldCpu<cpuSeconds &&
+                       !maxWorkerCpuSeconds_.compare_exchange_weak(oldCpu,cpuSeconds)) {}
+                if (seconds>0.1) workerChunksOver100Ms_.fetch_add(1);
                 auto old=maxWorkerChunkSeconds_.load();
                 while (old<seconds && !maxWorkerChunkSeconds_.compare_exchange_weak(old,seconds)) {}
                 { std::lock_guard lock(historyMutex_);
                   if (workerChunkSeconds_.size()<65536)
                       workerChunkSeconds_.push_back(seconds); }
+                const auto waitBegin=Clock::now();
                 while (!stop_.load(std::memory_order_acquire) &&
                        (fifo_.free()<frames || fifo_.available()+frames>leadFrames_)) {
                     poll();
                     std::this_thread::sleep_for(std::chrono::microseconds(100));
                 }
                 if (stop_.load(std::memory_order_acquire)) throw Stopped{};
+                const auto waited=std::chrono::duration<double>(Clock::now()-waitBegin).count();
+                fifoWaitNanoseconds_.fetch_add(static_cast<std::uint64_t>(waited*1e9));
+                auto oldWait=maxFifoWaitSeconds_.load();
+                while (oldWait<waited &&
+                       !maxFifoWaitSeconds_.compare_exchange_weak(oldWait,waited)) {}
                 poll();
                 if (!fifo_.write(data,frames)) throw std::runtime_error("Phase 39 FIFO overflow");
                 produced_.fetch_add(frames,std::memory_order_release);
                 previous=Clock::now();
+                previousCpu=workerCpuSeconds();
             };
             const auto plan=[&](const Phase36StreamingSpeedEngine::Frontier& frontier,
                                  TimeMap& map,std::size_t& length,
@@ -315,6 +337,10 @@ Phase39Snapshot Phase39PlaybackPipeline::snapshot() const noexcept {
     value.underrunFrames=underrunFrames_.load();
     value.rejectedWrites=fifo_.rejectedWrites();
     value.maxWorkerChunkSeconds=maxWorkerChunkSeconds_.load();
+    value.maxWorkerCpuSeconds=maxWorkerCpuSeconds_.load();
+    value.maxFifoWaitSeconds=maxFifoWaitSeconds_.load();
+    value.fifoWaitNanoseconds=fifoWaitNanoseconds_.load();
+    value.workerChunksOver100Ms=workerChunksOver100Ms_.load();
     value.planMilliseconds=planMilliseconds_.load();
     const auto count=planCount_.load(std::memory_order_acquire);
     value.currentAudible=value.from;

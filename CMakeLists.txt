@@ -185,6 +185,9 @@ target_compile_options(phase39_sim PRIVATE -Wall -Wextra -Wpedantic)
 add_executable(phase39_paced_sim src/prototype/Phase39PacedSim.cpp)
 target_link_libraries(phase39_paced_sim PRIVATE phase39_variable)
 target_compile_options(phase39_paced_sim PRIVATE -Wall -Wextra -Wpedantic)
+add_executable(phase40_paced_sim src/prototype/Phase40PacedSim.cpp)
+target_link_libraries(phase40_paced_sim PRIVATE phase39_variable)
+target_compile_options(phase40_paced_sim PRIVATE -Wall -Wextra -Wpedantic)
 add_executable(phase39_reference src/prototype/Phase39Reference.cpp
     src/prototype/Phase35TransitionEngine.cpp)
 target_link_libraries(phase39_reference PRIVATE phase39_variable)
@@ -400,4 +403,8 @@ if(BUILD_TESTING)
     add_test(NAME phase39_high_speed_streaming COMMAND python3
         ${CMAKE_SOURCE_DIR}/tests/Phase39Smoke.py
         $<TARGET_FILE:phase39_sim> $<TARGET_FILE:phase39_reference> ${CMAKE_SOURCE_DIR})
+    add_test(NAME phase40_high_speed_planning COMMAND python3
+        ${CMAKE_SOURCE_DIR}/tests/Phase40Smoke.py
+        $<TARGET_FILE:phase39_sim> $<TARGET_FILE:phase39_reference>
+        ${CMAKE_SOURCE_DIR}/results/phase31/input/mix.wav)
 endif()

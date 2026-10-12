@@ -15,9 +15,9 @@
 using namespace ts;
 using namespace ts::prototype;
 int main(int argc,char** argv) {
-    if (argc<5 || argc>8) {
+    if (argc<5 || argc>9) {
         std::cerr<<"Usage: phase39_sim input.wav output.wav initial_speed "
-                    "output_seconds:target_speed[,...] [callback_frames] [plans.csv] [dsp_block_frames]\n";
+                    "output_seconds:target_speed[,...] [callback_frames] [plans.csv] [dsp_block_frames] [A|B|C|C0]\n";
         return 2;
     }
     try {
@@ -28,6 +28,12 @@ int main(int argc,char** argv) {
         const std::size_t callback=argc>=6 ? std::stoull(argv[5]) : 512;
         if (callback<64 || callback>4096) throw std::invalid_argument("Callback frames");
         const std::size_t dspBlock=argc>=8 ? std::stoull(argv[7]) : 2048;
+        const std::string strategy=argc>=9 ? argv[8] : "A";
+        const auto planning=strategy=="A" ? Phase39Planning::A :
+            strategy=="B" ? Phase39Planning::B :
+            strategy=="C" ? Phase39Planning::C :
+            strategy=="C0" ? Phase39Planning::C0 :
+            throw std::invalid_argument("Planning strategy must be A, B, C or C0");
         struct Request { std::size_t output; Phase39Speed speed; };
         std::vector<Request> requests;
         WavStreamReader reader(argv[1]);
@@ -48,7 +54,7 @@ int main(int argc,char** argv) {
                 start=comma+1;
             }
         }
-        Phase39PlaybackPipeline pipeline(argv[1],initial,16384,dspBlock,12288);
+        Phase39PlaybackPipeline pipeline(argv[1],initial,16384,dspBlock,12288,planning);
         pipeline.start();
         if (!pipeline.waitForPrefill(std::min<std::size_t>(8192,
             static_cast<std::size_t>(std::llround(reader.frames()*initial.timeRatio()))),
@@ -113,7 +119,9 @@ int main(int argc,char** argv) {
                    "prepared,published,applied_frame,applied_output,completion_output,"
                    "density_input,map_bytes,plan_ms,next_low,next_mid,next_high,"
                    "last_low,last_mid,last_high,ola_low,ola_mid,ola_high,fir_low,fir_high,"
-                   "paused_at_protected_events\n";
+                   "paused_at_protected_events,first_mutable_frame,first_safe_frame,"
+                   "next_event_frame,protection_end_frame,safe_frames_used,held_frames,"
+                   "protected_events_skipped\n";
             for (const auto& metric:pipeline.planMetrics())
                 csv<<metric.generation<<','<<metric.requestedOutput<<','
                    <<metric.requestedInput<<','<<metric.from.value()<<','
@@ -133,13 +141,21 @@ int main(int argc,char** argv) {
                    <<metric.finalizedOla[2]<<','
                    <<metric.firstUnprocessedFirSources[0]<<','
                    <<metric.firstUnprocessedFirSources[1]<<','
-                   <<int(metric.plan.protectedEventsPaused)<<'\n';
+                   <<int(metric.plan.protectedEventsPaused)<<','
+                   <<metric.plan.firstMutableFrame<<','<<metric.plan.firstSafeFrame<<','
+                   <<metric.plan.nextEventFrame<<','<<metric.plan.protectionEndFrame<<','
+                   <<metric.plan.safeFramesUsed<<','<<metric.plan.heldFrames<<','
+                   <<metric.plan.protectedEventsSkipped<<'\n';
         }
         std::cout<<"frames="<<presented<<"\nchanges="<<next
                  <<"\nunderrun="<<snapshot.underrunFrames
                  <<"\nrejected_writes="<<snapshot.rejectedWrites
                  <<"\nfifo_high_water="<<snapshot.fifoHighWater
                  <<"\nmax_worker_chunk_seconds="<<snapshot.maxWorkerChunkSeconds
+                 <<"\nmax_worker_cpu_seconds="<<snapshot.maxWorkerCpuSeconds
+                 <<"\nmax_fifo_wait_seconds="<<snapshot.maxFifoWaitSeconds
+                 <<"\nfifo_wait_seconds="<<double(snapshot.fifoWaitNanoseconds)/1e9
+                 <<"\nworker_chunks_over_100ms="<<snapshot.workerChunksOver100Ms
                  <<"\np95_worker_chunk_seconds="<<pipeline.workerChunkP95Seconds()
                  <<"\nmax_callback_seconds="<<maxCallbackSeconds;
         rusage usageAfter{};getrusage(RUSAGE_SELF,&usageAfter);
@@ -150,7 +166,9 @@ int main(int argc,char** argv) {
             std::chrono::steady_clock::now()-begin).count()
                  <<"\nuser_cpu_seconds="<<seconds(usageAfter.ru_utime)-
                     seconds(usageBefore.ru_utime)
-                 <<"\npeak_rss_bytes="<<usageAfter.ru_maxrss<<'\n';
+                 <<"\npeak_rss_bytes="<<usageAfter.ru_maxrss
+                 <<"\nmajor_faults="<<usageAfter.ru_majflt-usageBefore.ru_majflt
+                 <<"\nminor_faults="<<usageAfter.ru_minflt-usageBefore.ru_minflt<<'\n';
         pipeline.stop();
     } catch (const std::exception& error) {
         std::cerr<<"Phase 39: "<<error.what()<<'\n';return 1;
