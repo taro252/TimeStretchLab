@@ -73,7 +73,7 @@ struct State {
     std::uint32_t numer=1,denom=1;
     std::atomic<bool> active{false},routeChanged{false};
     std::atomic<std::uint32_t> activeCallbacks{0};
-    std::atomic<std::uint64_t> content{0},calls{0},silence{0};
+    std::atomic<std::uint64_t> content{0},presentationFrames{0},calls{0},silence{0};
     std::atomic<std::uint64_t> maxCallbackNs{0},deadlineMisses{0},formatErrors{0};
     std::atomic<std::uint64_t> appliedPresentationNs{0},completionPresentationNs{0};
     std::atomic<std::uint64_t> appliedPresentationGeneration{0},
@@ -143,6 +143,7 @@ OSStatus render(State* state,BOOL* isSilence,AVAudioFrameCount frames,
         for (std::uint32_t c=0;c<state->channels;++c)
             std::memset(channel[c]+wanted,0,(frames-wanted)*sizeof(float));
         state->content.store(before+received,std::memory_order_release);
+        state->presentationFrames.fetch_add(wanted,std::memory_order_relaxed);
         state->silence.fetch_add(wanted-received,std::memory_order_relaxed);
         state->calls.fetch_add(1,std::memory_order_relaxed);
         const auto now=mach_absolute_time();
@@ -258,39 +259,74 @@ int main(int argc,char** argv) {
             throw std::runtime_error(error ? [[error description] UTF8String] : "Audio start failed");
         CpuStress stress(std::getenv("PHASE43_STRESS")!=nullptr);
         const auto playStart=Clock::now();
-        std::size_t sent=0,observed=0;
-        std::vector<double> applyLatencyMs,completionLatencyMs;
-        std::vector<std::uint64_t> requestMachNs;
+        const bool continueRejected=std::getenv("PHASE43_REJECT_POLICY") &&
+            std::strcmp(std::getenv("PHASE43_REJECT_POLICY"),"continue")==0;
+        const bool forceRejectFirst=std::getenv("PHASE44_FORCE_REJECT_FIRST")!=nullptr;
+        std::size_t sent=0,observed=0,rejected=0,cancelled=0,active=changeCount;
+        bool strictFailure=false;
+        std::vector<double> applyLatencyMs(changeCount,-1),completionLatencyMs(changeCount,-1);
+        std::vector<std::uint64_t> requestMachNs(changeCount,0),
+            requestGenerations(changeCount,0);
+        std::vector<std::string> requestStates(changeCount,"Scheduled");
         std::size_t checkpoint=0;
         constexpr double checkpoints[]={180,300,600};
         while (!interrupted && !state.routeChanged.load()) {
             const auto played=state.content.load(std::memory_order_acquire);
             const auto snapshot=pipeline.snapshot();
-            if (sent<changeCount && played>=schedule[sent].outputFrame &&
-                (snapshot.state==ts::prototype::Phase39RequestState::Idle ||
-                 (snapshot.state==ts::prototype::Phase39RequestState::Applied &&
-                  played>=snapshot.completionOutput))) {
+            if (active<changeCount) {
+                if (snapshot.generation!=requestGenerations[active])
+                    throw std::runtime_error("Speed request generation changed unexpectedly");
+                if (snapshot.state==ts::prototype::Phase39RequestState::Rejected ||
+                    snapshot.state==ts::prototype::Phase39RequestState::Cancelled) {
+                    requestStates[active]=snapshot.state==ts::prototype::Phase39RequestState::Rejected
+                        ? "Rejected" : "Cancelled";
+                    if (snapshot.state==ts::prototype::Phase39RequestState::Rejected)
+                        ++rejected;
+                    else ++cancelled;
+                    active=changeCount;
+                    if (!continueRejected || cancelled) strictFailure=true;
+                } else if (snapshot.state==ts::prototype::Phase39RequestState::Applied) {
+                    if (requestStates[active]=="Requested") requestStates[active]="Applied";
+                    if (state.completionPresentationGeneration.load(
+                            std::memory_order_acquire)==requestGenerations[active]) {
+                        const auto completion=state.completionPresentationNs.load();
+                        const auto apply=state.appliedPresentationGeneration.load()==
+                            requestGenerations[active] ?
+                            state.appliedPresentationNs.load() : 0;
+                        applyLatencyMs[active]=apply && apply>=requestMachNs[active] ?
+                            (apply-requestMachNs[active])/1e6 : -1;
+                        completionLatencyMs[active]=completion>=requestMachNs[active] ?
+                            (completion-requestMachNs[active])/1e6 : -1;
+                        requestStates[active]="Completed";
+                        ++observed;
+                        active=changeCount;
+                    }
+                }
+            }
+            if (strictFailure) break;
+            if (active==changeCount && sent<changeCount &&
+                played>=schedule[sent].outputFrame) {
                 const auto ticks=mach_absolute_time();
                 const auto requestNs=static_cast<std::uint64_t>(
                     (static_cast<long double>(ticks)*state.numer)/state.denom);
-                if (pipeline.requestSpeed(schedule[sent].speed,played)!=
-                    ts::prototype::Phase39RequestResult::Accepted)
-                    throw std::runtime_error("Speed request rejected at control thread");
-                requestMachNs.push_back(requestNs);
-                ++sent;
-            }
-            if (observed<sent &&
-                state.completionPresentationGeneration.load(std::memory_order_acquire)==
-                    static_cast<std::uint64_t>(observed+1)) {
-                const auto generation=static_cast<std::uint64_t>(observed+1);
-                const auto completion=state.completionPresentationNs.load();
-                const auto apply=state.appliedPresentationGeneration.load()==generation ?
-                    state.appliedPresentationNs.load() : 0;
-                applyLatencyMs.push_back(apply && apply>=requestMachNs[observed] ?
-                    (apply-requestMachNs[observed])/1e6 : -1.0);
-                completionLatencyMs.push_back(completion>=requestMachNs[observed] ?
-                    (completion-requestMachNs[observed])/1e6 : -1.0);
-                ++observed;
+                const auto result=forceRejectFirst && sent==0 ?
+                    ts::prototype::Phase39RequestResult::Invalid :
+                    pipeline.requestSpeed(schedule[sent].speed,played);
+                if (result==ts::prototype::Phase39RequestResult::Accepted) {
+                    requestMachNs[sent]=requestNs;
+                    requestGenerations[sent]=pipeline.snapshot().generation;
+                    requestStates[sent]="Requested";
+                    active=sent++;
+                } else if (result==ts::prototype::Phase39RequestResult::Busy) {
+                    requestStates[sent]="Busy";
+                } else if (result!=ts::prototype::Phase39RequestResult::Busy) {
+                    requestStates[sent]=result==ts::prototype::Phase39RequestResult::Duplicate ?
+                        "Duplicate" : result==ts::prototype::Phase39RequestResult::Stopped ?
+                        "Stopped" : "Rejected";
+                    ++rejected;
+                    ++sent;
+                    if (!continueRejected) strictFailure=true;
+                }
             }
             if (pipeline.finished()) pipeline.rethrowWorkerError();
             if (pipeline.drained() && played>=pipeline.snapshot().outputLength) break;
@@ -310,6 +346,12 @@ int main(int argc,char** argv) {
             if (maxSeconds>0 && Clock::now()-playStart>=std::chrono::duration<double>(maxSeconds)) break;
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
         }
+        if (active<changeCount && requestStates[active]!="Completed") {
+            requestStates[active]="Cancelled";
+            ++cancelled;
+        }
+        for (std::size_t i=sent;i<changeCount;++i)
+            requestStates[i]="Stopped";
         const bool endDrained=pipeline.drained() &&
             state.content.load(std::memory_order_acquire)>=pipeline.snapshot().outputLength;
         if (endDrained) {
@@ -329,6 +371,9 @@ int main(int argc,char** argv) {
                  <<"requested_changes="<<changeCount<<'\n'
                  <<"sent_changes="<<sent<<'\n'
                  <<"observed_completions="<<observed<<'\n'
+                 <<"rejected_changes="<<rejected<<'\n'
+                 <<"cancelled_changes="<<cancelled<<'\n'
+                 <<"reject_policy="<<(continueRejected ? "Continue" : "Strict")<<'\n'
                  <<"fifo_capacity_frames="<<fifoFrames<<'\n'
                  <<"lead_limit_frames="<<leadLimit<<'\n'
                  <<"dsp_block_frames="<<blockFrames<<'\n'
@@ -362,8 +407,12 @@ int main(int argc,char** argv) {
                  <<(status.completionOutput>=status.appliedOutput
                     ? double(status.completionOutput-status.appliedOutput)*1000/pipeline.sampleRate() : -1)<<'\n'
                  <<"presented_frames="<<state.content.load()<<'\n'
+                 <<"presented_audio_timeline_frames="
+                 <<state.presentationFrames.load()<<'\n'
                  <<"output_length="<<status.outputLength<<'\n'
                  <<"eos_drained="<<endDrained<<'\n'
+                 <<"route_changed="<<state.routeChanged.load()<<'\n'
+                 <<"interrupted="<<interrupted<<'\n'
                  <<"fifo_high_water="<<status.fifoHighWater<<'\n'
                  <<"fifo_rejected_writes="<<status.rejectedWrites<<'\n'
                  <<"underrun_frames="<<status.underrunFrames<<'\n'
@@ -407,7 +456,11 @@ int main(int argc,char** argv) {
         std::cout<<"apply_latency_median_ms="<<latency[0]<<'\n'
                  <<"apply_latency_p95_ms="<<latency[1]<<'\n'
                  <<"apply_latency_max_ms="<<latency[2]<<'\n';
-        for (std::size_t i=0;i<metrics.size();++i)
+        for (std::size_t i=0;i<metrics.size();++i) {
+            const auto position=std::find(requestGenerations.begin(),
+                requestGenerations.end(),metrics[i].generation);
+            const auto requestIndex=position==requestGenerations.end() ?
+                changeCount : static_cast<std::size_t>(position-requestGenerations.begin());
             std::cout<<"change="<<i+1
                      <<" generation="<<metrics[i].generation
                      <<" from="<<metrics[i].from.value()
@@ -420,14 +473,24 @@ int main(int argc,char** argv) {
                      <<" lp250_next_source="<<metrics[i].firstUnprocessedFirSources[0]
                      <<" lp3500_next_source="<<metrics[i].firstUnprocessedFirSources[1]
                      <<" plan_ms="<<metrics[i].planMilliseconds
-                     <<" apply_callback_ms="<<(i<applyLatencyMs.size() ? applyLatencyMs[i] : -1)
+                     <<" apply_callback_ms="<<(requestIndex<applyLatencyMs.size() ?
+                        applyLatencyMs[requestIndex] : -1)
                      <<" complete_callback_ms="
-                     <<(i<completionLatencyMs.size() ? completionLatencyMs[i] : -1)<<'\n';
-        return sent!=changeCount || observed!=changeCount ||
+                     <<(requestIndex<completionLatencyMs.size() ?
+                        completionLatencyMs[requestIndex] : -1)<<'\n';
+        }
+        for (std::size_t i=0;i<changeCount;++i)
+            std::cout<<"request_result="<<i+1<<" state="<<requestStates[i]
+                     <<" generation="<<requestGenerations[i]
+                     <<" scheduled_frame="<<schedule[i].outputFrame<<'\n';
+        return strictFailure || cancelled || sent!=changeCount ||
+            (!continueRejected && observed!=changeCount) ||
             (maxSeconds==0 && !endDrained) ||
-            (changeCount && status.state!=ts::prototype::Phase39RequestState::Applied) ||
+            (changeCount && !continueRejected &&
+             status.state!=ts::prototype::Phase39RequestState::Applied) ||
             status.underrunFrames || status.rejectedWrites || state.deadlineMisses ||
-            state.formatErrors || renderCppAllocations.load() || state.routeChanged ? 4 : 0;
+            state.formatErrors || renderCppAllocations.load() || state.routeChanged ||
+            (endDrained && state.presentationFrames.load()!=status.outputLength) ? 4 : 0;
     } catch (const std::exception& exception) {
         std::cerr<<"Phase 43: "<<exception.what()<<'\n';
         return 1;

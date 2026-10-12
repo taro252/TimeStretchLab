@@ -420,4 +420,6 @@ if(BUILD_TESTING)
         ${CMAKE_SOURCE_DIR}/results/phase31/input/mix.wav)
     add_test(NAME phase42_safe_density COMMAND python3
         ${CMAKE_SOURCE_DIR}/scripts/phase42_guard_test.py)
+    add_test(NAME phase44_quality_gate COMMAND python3
+        ${CMAKE_SOURCE_DIR}/scripts/phase44_quality_test.py)
 endif()

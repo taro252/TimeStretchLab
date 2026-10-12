@@ -9,6 +9,8 @@
 #include <thread>
 #include <vector>
 #include <atomic>
+#include <array>
+#include <cstdlib>
 #include <sys/resource.h>
 
 using namespace ts;
@@ -21,6 +23,16 @@ struct LoadThreads {
         stop.store(true);
         for (auto& thread:threads) if (thread.joinable()) thread.join();
     }
+};
+struct UnderrunEvent {
+    std::uint64_t unixNs=0,lastPublicationNs=0;
+    std::size_t callback=0,available=0,wanted=0,received=0;
+    double wakeLateSeconds=0,callbackSeconds=0;
+};
+struct CallbackEvent {
+    std::uint64_t unixNs=0,lastPublicationNs=0;
+    std::size_t callback=0,available=0,wanted=0,received=0;
+    double wakeLateSeconds=0,callbackSeconds=0;
 };
 }
 int main(int argc,char** argv) {
@@ -56,7 +68,9 @@ int main(int argc,char** argv) {
         if (density==Phase39DensityDiagnostic::AfterRamp &&
             (from.value()>=0.50 || to.value()<0.50))
             throw std::invalid_argument("delay-density supports low-to-high only");
-        Phase39PlaybackPipeline pipeline(argv[1],from,fifo,dsp,lead,strategy,density);
+        const bool traceEvents=std::getenv("PHASE44_TRACE_EVENTS")!=nullptr;
+        Phase39PlaybackPipeline pipeline(argv[1],from,fifo,dsp,lead,strategy,density,
+                                        traceEvents);
         pipeline.start();
         if (!pipeline.waitForPrefill(std::min<std::size_t>(lead,8192),
                                      std::chrono::seconds(60)))
@@ -88,6 +102,12 @@ int main(int argc,char** argv) {
         std::size_t underrunCalls=0,maxRun=0,run=0,lateWakeups=0,callbackOverruns=0;
         double maxCallbackSeconds=0;
         std::uint64_t requestNs=0,firstAudibleNs=0;
+        const bool injectUnderrun=std::getenv("PHASE44_FORCE_UNDERRUN")!=nullptr;
+        bool injected=false;
+        std::array<UnderrunEvent,4096> underrunEvents{};
+        std::vector<CallbackEvent> callbackEvents;
+        if (traceEvents) callbackEvents.resize(65536);
+        std::size_t eventCount=0,eventOverflow=0,callbackIndex=0;
         while (!pipeline.drained()) {
             deadline+=std::chrono::duration_cast<std::chrono::steady_clock::duration>(period);
             std::this_thread::sleep_until(deadline);
@@ -100,6 +120,7 @@ int main(int argc,char** argv) {
             }
             const auto state=pipeline.snapshot();
             const auto callbackStart=std::chrono::steady_clock::now();
+            ++callbackIndex;
             if (callbackStart-deadline>period) ++lateWakeups;
             const auto need=state.outputLength>pcmConsumed ?
                 std::min(block,state.outputLength-pcmConsumed) : 0;
@@ -107,8 +128,27 @@ int main(int argc,char** argv) {
                 // A speed change may lengthen EOS; the worker will publish it.
                 continue;
             }
-            const auto count=need ? pipeline.pullAudio(ptr.data(),need) : 0;
+            const bool skip=injectUnderrun && !injected && need>0;
+            if (skip) injected=true;
+            const auto availableBefore=pipeline.available();
+            const auto lastPublication=pipeline.lastPublishedUnixNs();
+            const auto count=need && !skip ? pipeline.pullAudio(ptr.data(),need) : 0;
             if (count<need) {
+                if (traceEvents) {
+                    if (eventCount<underrunEvents.size()) {
+                        auto& event=underrunEvents[eventCount++];
+                        event.unixNs=static_cast<std::uint64_t>(
+                            std::chrono::duration_cast<std::chrono::nanoseconds>(
+                                std::chrono::system_clock::now().time_since_epoch()).count());
+                        event.lastPublicationNs=lastPublication;
+                        event.callback=callbackIndex;
+                        event.available=availableBefore;
+                        event.wanted=need;
+                        event.received=count;
+                        event.wakeLateSeconds=std::chrono::duration<double>(
+                            callbackStart-deadline).count();
+                    } else ++eventOverflow;
+                }
                 for (auto& channel:audio)
                     std::fill(channel.begin()+count,channel.begin()+need,0.0f);
                 missing+=need-count;++underrunCalls;
@@ -127,6 +167,22 @@ int main(int argc,char** argv) {
                         callbackStart.time_since_epoch()).count());
             const auto seconds=std::chrono::duration<double>(
                 std::chrono::steady_clock::now()-callbackStart).count();
+            if (traceEvents) {
+                auto& event=callbackEvents[(callbackIndex-1)%callbackEvents.size()];
+                event.unixNs=static_cast<std::uint64_t>(
+                    std::chrono::duration_cast<std::chrono::nanoseconds>(
+                        std::chrono::system_clock::now().time_since_epoch()).count());
+                event.lastPublicationNs=lastPublication;
+                event.callback=callbackIndex;
+                event.available=availableBefore;
+                event.wanted=need;
+                event.received=count;
+                event.wakeLateSeconds=std::chrono::duration<double>(
+                    callbackStart-deadline).count();
+                event.callbackSeconds=seconds;
+            }
+            if (traceEvents && count<need && eventCount)
+                underrunEvents[eventCount-1].callbackSeconds=seconds;
             maxCallbackSeconds=std::max(maxCallbackSeconds,seconds);
             if (seconds>period.count()) ++callbackOverruns;
             if (presentedTimeline>reader.frames()*6+reader.sampleRate()*30)
@@ -160,13 +216,72 @@ int main(int argc,char** argv) {
                  <<"\nmax_fifo_wait_seconds="<<state.maxFifoWaitSeconds
                  <<"\nfifo_wait_seconds="<<double(state.fifoWaitNanoseconds)/1e9
                  <<"\nworker_chunks_over_100ms="<<state.workerChunksOver100Ms
+                 <<"\nworker_qos_applied="<<state.workerQosApplied
                  <<"\nplan_ms="<<state.planMilliseconds
                  <<"\ncoordinate_delay_ms="<<coordinateMs
                  <<"\napplied_callback_delay_ms="<<appliedCallbackMs
                  <<"\nfifo_high_water="<<state.fifoHighWater
                  <<"\npeak_rss_bytes="<<usage.ru_maxrss
+                 <<"\ncpu_user_seconds="
+                 <<usage.ru_utime.tv_sec+usage.ru_utime.tv_usec/1e6
+                 <<"\ncpu_system_seconds="
+                 <<usage.ru_stime.tv_sec+usage.ru_stime.tv_usec/1e6
                  <<"\nmajor_faults="<<usage.ru_majflt
                  <<"\nminor_faults="<<usage.ru_minflt<<'\n';
+        const bool completed=requested && state.planOutcome==Phase39Outcome::Applied &&
+            state.state==Phase39RequestState::Applied &&
+            pcmConsumed>=state.completionOutput;
+        std::cout<<"request_state="<<(completed ? "Completed" : "Incomplete")
+                 <<"\neos_drained="<<pipeline.drained()
+                 <<"\nworker_errors=0\n";
+        if (traceEvents && argc>=12) {
+            const auto blocks=pipeline.allBlockProfiles();
+            std::ofstream workerCsv(std::string(argv[11])+".workers.csv");
+            workerCsv<<"output_start,start_unix_ns,end_unix_ns,thread_id,cycle_wall_s,"
+                         "cycle_cpu_s,dsp_wall_s,dsp_cpu_s,fifo_wait_s,fifo_write_s,"
+                         "plan_wall_s,plan_cpu_s,mutex_wait_s,mutex_hold_s,"
+                         "wav_wall_s,wav_cpu_s,fft_wall_s,fft_cpu_s,"
+                         "phase_wall_s,phase_cpu_s,ola_wall_s,ola_cpu_s,"
+                         "fir_wall_s,fir_cpu_s\n";
+            for (const auto& item:blocks) {
+                workerCsv<<item.outputStart<<','<<item.startUnixNs<<','<<item.endUnixNs
+                         <<','<<item.threadId<<','<<item.fullCycleWallSeconds<<','
+                         <<item.fullCycleCpuSeconds<<','<<item.chunkWallSeconds<<','
+                         <<item.chunkCpuSeconds<<','<<item.fifoWaitSeconds<<','
+                         <<item.fifoWriteSeconds<<','<<item.planWallSeconds<<','
+                         <<item.planCpuSeconds<<','<<item.mutexWaitSeconds<<','
+                         <<item.mutexHoldSeconds;
+                for (const auto& stage:item.work.stages)
+                    workerCsv<<','<<stage.wallSeconds<<','<<stage.threadCpuSeconds;
+                workerCsv<<'\n';
+            }
+            std::ofstream eventCsv(std::string(argv[11])+".underruns.csv");
+            eventCsv<<"callback,unix_ns,available,wanted,received,missing,"
+                        "last_publication_ns,next_publication_ns,wake_late_s,callback_s\n";
+            for (std::size_t i=0;i<eventCount;++i) {
+                const auto& event=underrunEvents[i];
+                const auto next=std::find_if(blocks.begin(),blocks.end(),
+                    [&](const auto& block){ return block.endUnixNs>event.unixNs; });
+                eventCsv<<event.callback<<','<<event.unixNs<<','<<event.available
+                        <<','<<event.wanted<<','<<event.received<<','
+                        <<event.wanted-event.received<<','<<event.lastPublicationNs
+                        <<','<<(next==blocks.end() ? 0 : next->endUnixNs)<<','
+                        <<event.wakeLateSeconds<<','<<event.callbackSeconds<<'\n';
+            }
+            std::ofstream callbackCsv(std::string(argv[11])+".callbacks.csv");
+            callbackCsv<<"callback,unix_ns,available,wanted,received,missing,"
+                           "last_publication_ns,wake_late_s,callback_s\n";
+            const auto retained=std::min(callbackIndex,callbackEvents.size());
+            for (std::size_t i=0;i<retained;++i) {
+                const auto index=(callbackIndex-retained+i)%callbackEvents.size();
+                const auto& event=callbackEvents[index];
+                callbackCsv<<event.callback<<','<<event.unixNs<<','<<event.available
+                           <<','<<event.wanted<<','<<event.received<<','
+                           <<event.wanted-event.received<<','<<event.lastPublicationNs
+                           <<','<<event.wakeLateSeconds<<','<<event.callbackSeconds<<'\n';
+            }
+            std::cout<<"underrun_event_overflow="<<eventOverflow<<'\n';
+        }
         if (argc>=12) {
             std::ofstream csv(argv[11]);
             csv<<"requested_output,requested_input,fence,published,prepared,"
@@ -188,8 +303,10 @@ int main(int argc,char** argv) {
             }
         }
         pipeline.stop();
-        if (!requested || state.planOutcome!=Phase39Outcome::Applied ||
-            pcmConsumed!=state.outputLength) return 1;
+        if (!completed || !pipeline.drained() || missing || underrunCalls ||
+            state.rejectedWrites || callbackOverruns ||
+            pcmConsumed!=state.outputLength ||
+            presentedTimeline!=state.outputLength) return 1;
         return 0;
     } catch (const std::exception& error) {
         std::cerr<<"Phase 40 paced simulation: "<<error.what()<<'\n';

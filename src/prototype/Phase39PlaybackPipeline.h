@@ -58,6 +58,7 @@ struct Phase39Snapshot {
     double maxHistoryMutexWaitSeconds=0;
     double maxWorkerCycleSeconds=0,maxWorkerCycleCpuSeconds=0;
     std::uint64_t fifoWaitNanoseconds=0,workerChunksOver100Ms=0;
+    bool workerQosApplied=false;
     std::size_t completedChanges=0;
 };
 struct Phase39RealtimeMarkers {
@@ -104,10 +105,14 @@ public:
     bool finished() const noexcept { return finished_.load(std::memory_order_acquire); }
     bool drained() const noexcept { return finished() && fifo_.available()==0; }
     std::size_t available() const noexcept { return fifo_.available(); }
+    std::uint64_t lastPublishedUnixNs() const noexcept {
+        return lastPublishedUnixNs_.load(std::memory_order_acquire);
+    }
     Phase39Snapshot snapshot() const noexcept;
     Phase39RealtimeMarkers realtimeMarkers() const noexcept;
     std::vector<Phase39PlanMetric> planMetrics() const;
     std::vector<Phase39BlockProfile> slowestBlocks() const;
+    std::vector<Phase39BlockProfile> allBlockProfiles() const;
     std::vector<Phase39GuardMetric> guardMetrics() const;
     double workerChunkP95Seconds() const;
     double workerChunkP99Seconds() const;
@@ -144,17 +149,20 @@ private:
     std::atomic<std::size_t> processedInputAtPlan_{0},planningFence_{0};
     std::atomic<std::size_t> appliedOutput_{0},completionOutput_{0};
     std::atomic<std::uint64_t> underrunFrames_{0};
+    std::atomic<std::uint64_t> lastPublishedUnixNs_{0};
     std::atomic<double> maxWorkerChunkSeconds_{0},planMilliseconds_{0};
     std::atomic<double> planCpuMilliseconds_{0};
     std::atomic<double> maxWorkerCpuSeconds_{0},maxFifoWaitSeconds_{0};
     std::atomic<double> maxFifoWriteSeconds_{0},maxHistoryMutexWaitSeconds_{0};
     std::atomic<double> maxWorkerCycleSeconds_{0},maxWorkerCycleCpuSeconds_{0};
     std::atomic<std::uint64_t> fifoWaitNanoseconds_{0},workerChunksOver100Ms_{0};
+    std::atomic<bool> workerQosApplied_{false};
     mutable std::mutex historyMutex_;
     std::vector<Phase39PlanMetric> plans_;
     std::vector<double> workerChunkSeconds_;
     std::vector<double> workerCycleSeconds_;
     std::vector<Phase39BlockProfile> slowestBlocks_; // Worker-only until finished.
+    std::vector<Phase39BlockProfile> allBlockProfiles_; // Diagnostic only, bounded.
     std::vector<Phase39GuardMetric> guardMetrics_; // Worker-only until finished.
     std::atomic<std::size_t> planCount_{0};
     std::atomic<std::uint64_t> appliedGeneration_{0};

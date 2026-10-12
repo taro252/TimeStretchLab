@@ -6,6 +6,7 @@ import argparse
 import csv
 import json
 from collections import defaultdict
+from bisect import bisect_right
 from datetime import datetime
 from pathlib import Path
 
@@ -61,21 +62,30 @@ def main():
     intervals = collect_states(args.states, tid)
     if not intervals:
         raise SystemExit(f"No thread state for TID {tid}")
+    intervals.sort(key=lambda item: item[0])
+    begins = [item[0] for item in intervals]
     rows = []
     for block in blocks:
         first = int(block["start_unix_ns"]) - trace_start_ns
         last = int(block["end_unix_ns"]) - trace_start_ns
         totals = defaultdict(int)
-        for begin, end, state in intervals:
+        for index in range(max(0, bisect_right(begins, first) - 1), len(intervals)):
+            begin, end, state = intervals[index]
+            if begin >= last:
+                break
             overlap = max(0, min(last, end) - max(first, begin))
             if overlap:
                 totals[state] += overlap
         covered = sum(totals.values())
         rows.append(dict(output_start=block["output_start"],
-                         block_wall_ms=float(block["worker_cycle_wall_s"]) * 1000,
-                         block_cpu_ms=float(block["worker_cycle_cpu_s"]) * 1000,
-                         dsp_compute_wall_ms=float(block["dsp_compute_wall_s"]) * 1000,
-                         dsp_compute_cpu_ms=float(block["dsp_compute_cpu_s"]) * 1000,
+                         block_wall_ms=float(block.get("worker_cycle_wall_s",
+                                                       block.get("cycle_wall_s", 0))) * 1000,
+                         block_cpu_ms=float(block.get("worker_cycle_cpu_s",
+                                                      block.get("cycle_cpu_s", 0))) * 1000,
+                         dsp_compute_wall_ms=float(block.get("dsp_compute_wall_s",
+                                                             block.get("dsp_wall_s", 0))) * 1000,
+                         dsp_compute_cpu_ms=float(block.get("dsp_compute_cpu_s",
+                                                            block.get("dsp_cpu_s", 0))) * 1000,
                          trace_start_ms=first / 1e6, trace_end_ms=last / 1e6,
                          trace_coverage_ms=covered / 1e6,
                          trace_unclassified_ms=max(0, last-first-covered) / 1e6,

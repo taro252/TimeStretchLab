@@ -3,6 +3,7 @@
 #include "audio/WavStream.h"
 #include <algorithm>
 #include <cmath>
+#include <cstdlib>
 #include <stdexcept>
 #include <ctime>
 #include <fstream>
@@ -92,10 +93,11 @@ void Phase39PlaybackPipeline::start() {
     currentTailMicros_=initial_.micros;
     generation_=0;requestNs_=0;acceptedNs_=0;
     workerSeenNs_=0;planNs_=0;requestedOutput_=0;requestedInput_=0;
-    produced_=0;presented_=0;underrunFrames_=0;maxWorkerChunkSeconds_=0;
+    produced_=0;presented_=0;underrunFrames_=0;lastPublishedUnixNs_=0;
+    maxWorkerChunkSeconds_=0;
     maxWorkerCpuSeconds_=0;maxFifoWaitSeconds_=0;
     maxWorkerCycleSeconds_=0;maxWorkerCycleCpuSeconds_=0;
-    fifoWaitNanoseconds_=0;workerChunksOver100Ms_=0;
+    fifoWaitNanoseconds_=0;workerChunksOver100Ms_=0;workerQosApplied_=false;
     planMilliseconds_=0;planCpuMilliseconds_=0;
     maxFifoWriteSeconds_=0;maxHistoryMutexWaitSeconds_=0;
     preparedAtPlan_=0;publishedAtPlan_=0;fifoAtPlan_=0;processedInputAtPlan_=0;
@@ -103,9 +105,13 @@ void Phase39PlaybackPipeline::start() {
     appliedOutput_=0;completionOutput_=0;planCount_=0;appliedGeneration_=0;error_=nullptr;
     stageDigests_={};
     slowestBlocks_.clear();
+    allBlockProfiles_.clear();
     guardMetrics_.clear();
     guardMetrics_.reserve(64);
-    if (enableProfile_) slowestBlocks_.reserve(20);
+    if (enableProfile_) {
+        slowestBlocks_.reserve(20);
+        allBlockProfiles_.reserve(16384);
+    }
     { std::lock_guard lock(historyMutex_);
       plans_.clear(); plans_.reserve(64);
       workerChunkSeconds_.clear(); workerChunkSeconds_.reserve(65536); }
@@ -114,6 +120,12 @@ void Phase39PlaybackPipeline::start() {
     outputLength_=static_cast<std::size_t>(std::llround(analysis_.inputFrames()*initial_.timeRatio()));
     worker_=std::thread([this] {
         try {
+            // Research-only scheduling control. CoreAudio's render thread has
+            // higher priority; the product default remains unchanged.
+            if (std::getenv("PHASE44_WORKER_QOS"))
+                workerQosApplied_.store(
+                    pthread_set_qos_class_self_np(QOS_CLASS_USER_INITIATED,0)==0,
+                    std::memory_order_relaxed);
             Phase39TimeMap timeline(analysis_,sampleRate_,initial_,planning_);
             Phase36StreamingSpeedEngine engine(frozen(file_,initial_));
             std::ofstream componentOutput;
@@ -135,6 +147,8 @@ void Phase39PlaybackPipeline::start() {
             Phase39BlockProfile latestProfile;
             const auto publish=[&](const float* const* data,std::size_t frames,
                                    const std::function<void()>& poll) {
+                const auto previousBookkeepingWait=postPublicationMutexWait;
+                const auto previousBookkeepingHold=postPublicationMutexHold;
                 const auto now=Clock::now();
                 const auto seconds=std::chrono::duration<double>(now-previous).count();
                 const auto cpuNow=workerCpuSeconds();
@@ -156,17 +170,14 @@ void Phase39PlaybackPipeline::start() {
                 const auto mutexStart=Clock::now();
                 std::unique_lock historyLock(historyMutex_);
                 const auto mutexWait=std::chrono::duration<double>(Clock::now()-mutexStart).count();
-                if (enableProfile_) latestProfile.mutexWaitSeconds=
-                    mutexWait+planMutexWait+postPublicationMutexWait;
                 auto oldMutex=maxHistoryMutexWaitSeconds_.load();
                 while (oldMutex<mutexWait &&
                        !maxHistoryMutexWaitSeconds_.compare_exchange_weak(oldMutex,mutexWait)) {}
                 if (workerChunkSeconds_.size()<65536)
                     workerChunkSeconds_.push_back(seconds);
                 historyLock.unlock();
-                if (enableProfile_) latestProfile.mutexHoldSeconds=
-                    std::chrono::duration<double>(Clock::now()-mutexStart).count()-mutexWait+
-                    planMutexHold+postPublicationMutexHold;
+                const auto historyHold=
+                    std::chrono::duration<double>(Clock::now()-mutexStart).count()-mutexWait;
                 const auto waitBegin=Clock::now();
                 while (!stop_.load(std::memory_order_acquire) &&
                        (fifo_.free()<frames || fifo_.available()+frames>leadFrames_)) {
@@ -191,6 +202,7 @@ void Phase39PlaybackPipeline::start() {
                 produced_.fetch_add(frames,std::memory_order_release);
                 const auto publishedAt=Clock::now();
                 const auto publishedUnix=unixNowNs();
+                lastPublishedUnixNs_.store(publishedUnix,std::memory_order_release);
                 const auto publishedCpu=workerCpuSeconds();
                 const auto cycleSeconds=std::chrono::duration<double>(publishedAt-previous).count();
                 const auto cycleCpu=std::max(0.0,publishedCpu-previousCpu);
@@ -206,10 +218,18 @@ void Phase39PlaybackPipeline::start() {
                   if (workerCycleSeconds_.size()<65536)
                       workerCycleSeconds_.push_back(cycleSeconds);
                   lock.unlock();
+                  // This bookkeeping occurs after publication, so it belongs
+                  // to the NEXT publication-to-publication worker cycle.
                   postPublicationMutexWait=wait;
                   postPublicationMutexHold=
                       std::chrono::duration<double>(Clock::now()-lockBegin).count()-wait; }
                 if (enableProfile_) {
+                    // poll() can plan while waiting for FIFO space. Account for
+                    // its mutex and planning time before clearing cycle totals.
+                    latestProfile.mutexWaitSeconds=
+                        mutexWait+planMutexWait+previousBookkeepingWait;
+                    latestProfile.mutexHoldSeconds=
+                        historyHold+planMutexHold+previousBookkeepingHold;
                     latestProfile.endUnixNs=publishedUnix;
                     latestProfile.fullCycleWallSeconds=cycleSeconds;
                     latestProfile.fullCycleCpuSeconds=cycleCpu;
@@ -240,6 +260,14 @@ void Phase39PlaybackPipeline::start() {
                 const Phase39Speed target{targetMicros_.load(std::memory_order_relaxed)};
                 const Phase39Speed from{currentTailMicros_.load(std::memory_order_relaxed)};
                 const auto generation=generation_.load(std::memory_order_relaxed);
+                if (generation==1 && std::getenv("PHASE44_FORCE_NO_SAFE_FIRST")) {
+                    planOutcome_.store(Phase39Outcome::NoSafeInterval,
+                                       std::memory_order_relaxed);
+                    planNs_.store(nowNs(),std::memory_order_relaxed);
+                    state_.store(Phase39RequestState::Rejected,
+                                 std::memory_order_release);
+                    return;
+                }
                 const auto published=produced_.load(std::memory_order_acquire);
                 publishedAtPlan_.store(published,std::memory_order_relaxed);
                 preparedAtPlan_.store(committed,std::memory_order_relaxed);
@@ -274,20 +302,25 @@ void Phase39PlaybackPipeline::start() {
                 requestedInput_.store(requestInput,std::memory_order_relaxed);
                 const auto beginPlan=Clock::now();
                 const auto beginPlanCpu=workerCpuSeconds();
+                const auto reject=[&](Phase39Outcome outcome) {
+                    planOutcome_.store(outcome,std::memory_order_relaxed);
+                    planMilliseconds_.store(std::chrono::duration<double,std::milli>(
+                        Clock::now()-beginPlan).count(),std::memory_order_relaxed);
+                    planCpuMilliseconds_.store((workerCpuSeconds()-beginPlanCpu)*1000.0,
+                                                std::memory_order_relaxed);
+                    planNs_.store(nowNs(),std::memory_order_relaxed);
+                    state_.store(Phase39RequestState::Rejected,std::memory_order_release);
+                };
                 auto candidate=timeline;
                 const auto proposal=candidate.submit({generation,target,requestInput,
                     static_cast<long long>(fence),50.0});
                 planOutcome_.store(proposal.outcome,std::memory_order_relaxed);
                 if (!proposal.applied()) {
-                    planMilliseconds_.store(std::chrono::duration<double,std::milli>(
-                        Clock::now()-beginPlan).count(),std::memory_order_relaxed);
-                    planNs_.store(nowNs(),std::memory_order_relaxed);
-                    state_.store(Phase39RequestState::Rejected,std::memory_order_release);
+                    reject(proposal.outcome);
                     return;
                 }
                 if (!candidate.monotonic() || candidate.touchesProtected(proposal)) {
-                    planOutcome_.store(Phase39Outcome::NoSafeInterval,std::memory_order_relaxed);
-                    state_.store(Phase39RequestState::Rejected,std::memory_order_release);
+                    reject(Phase39Outcome::NoSafeInterval);
                     return;
                 }
                 const auto newLength=static_cast<std::size_t>(std::llround(
@@ -296,11 +329,7 @@ void Phase39PlaybackPipeline::start() {
                 if (newLength<=std::max({committed,
                         frontier.firstUnprocessedFirSource[0],
                         frontier.firstUnprocessedFirSource[1]})+blockFrames_) {
-                    planOutcome_.store(Phase39Outcome::Truncated,std::memory_order_relaxed);
-                    planMilliseconds_.store(std::chrono::duration<double,std::milli>(
-                        Clock::now()-beginPlan).count(),std::memory_order_relaxed);
-                    planNs_.store(nowNs(),std::memory_order_relaxed);
-                    state_.store(Phase39RequestState::Rejected,std::memory_order_release);
+                    reject(Phase39Outcome::Truncated);
                     return;
                 }
                 const bool changesDensity=(from.value()<0.50)!=(target.value()<0.50) &&
@@ -313,8 +342,7 @@ void Phase39PlaybackPipeline::start() {
                     if (!modeChanges.empty() &&
                         std::any_of(frontier.nextInput.begin(),frontier.nextInput.end(),
                             [&](std::size_t next) { return next<=modeChanges.back().first; })) {
-                        planOutcome_.store(Phase39Outcome::NoSafeInterval,std::memory_order_relaxed);
-                        state_.store(Phase39RequestState::Rejected,std::memory_order_release);
+                        reject(Phase39Outcome::NoSafeInterval);
                         return;
                     }
                     densityDecision=chooseSafeDensitySwitch(candidate.current(),proposal,
@@ -322,16 +350,14 @@ void Phase39PlaybackPipeline::start() {
                         fence,analysis_.inputFrames(),enableProfile_);
                     guardMetrics_.push_back({generation,fifo_.available(),densityDecision});
                     if (!densityDecision.safe) {
-                        planOutcome_.store(Phase39Outcome::NoSafeInterval,std::memory_order_relaxed);
-                        state_.store(Phase39RequestState::Rejected,std::memory_order_release);
+                        reject(Phase39Outcome::NoSafeInterval);
                         return;
                     }
                     modeInput=densityDecision.inputSample;
                 }
                 if (changesDensity && modeInput<=*std::max_element(
                         frontier.lastProcessedInput.begin(),frontier.lastProcessedInput.end())) {
-                    planOutcome_.store(Phase39Outcome::NoSafeInterval,std::memory_order_relaxed);
-                    state_.store(Phase39RequestState::Rejected,std::memory_order_release);
+                    reject(Phase39Outcome::NoSafeInterval);
                     return;
                 }
                 timeline=std::move(candidate);
@@ -375,6 +401,8 @@ void Phase39PlaybackPipeline::start() {
                     const Phase36StreamingSpeedEngine::WorkProfile& work) {
                     latestProfile.outputStart=start;
                     latestProfile.work=work;
+                    if (allBlockProfiles_.size()<allBlockProfiles_.capacity())
+                        allBlockProfiles_.push_back(latestProfile);
                     if (slowestBlocks_.size()<20) slowestBlocks_.push_back(latestProfile);
                     else {
                         const auto weakest=std::min_element(slowestBlocks_.begin(),
@@ -410,6 +438,11 @@ std::vector<Phase39BlockProfile> Phase39PlaybackPipeline::slowestBlocks() const 
         return a.fullCycleWallSeconds>b.fullCycleWallSeconds;
     });
     return result;
+}
+std::vector<Phase39BlockProfile> Phase39PlaybackPipeline::allBlockProfiles() const {
+    if (!finished_.load(std::memory_order_acquire))
+        throw std::logic_error("Profile is available after worker completion");
+    return allBlockProfiles_;
 }
 std::vector<Phase39GuardMetric> Phase39PlaybackPipeline::guardMetrics() const {
     if (!finished_.load(std::memory_order_acquire))
@@ -520,6 +553,7 @@ Phase39Snapshot Phase39PlaybackPipeline::snapshot() const noexcept {
     value.maxHistoryMutexWaitSeconds=maxHistoryMutexWaitSeconds_.load();
     value.fifoWaitNanoseconds=fifoWaitNanoseconds_.load();
     value.workerChunksOver100Ms=workerChunksOver100Ms_.load();
+    value.workerQosApplied=workerQosApplied_.load();
     value.planMilliseconds=planMilliseconds_.load();
     value.planCpuMilliseconds=planCpuMilliseconds_.load();
     const auto count=planCount_.load(std::memory_order_acquire);
