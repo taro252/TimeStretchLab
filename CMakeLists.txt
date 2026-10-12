@@ -119,6 +119,14 @@ target_link_libraries(phase30_playback_tests PRIVATE phase30_variable)
 add_executable(phase30_play src/platform/macos/Phase30MacPlayback.mm)
 target_link_libraries(phase30_play PRIVATE phase30_variable ${AVFOUNDATION_FRAMEWORK} ${FOUNDATION_FRAMEWORK})
 target_compile_options(phase30_play PRIVATE -fobjc-arc -Wall -Wextra -Wpedantic)
+add_executable(phase31_feasibility src/prototype/Phase31Feasibility.cpp)
+target_link_libraries(phase31_feasibility PRIVATE timestretch_core)
+target_compile_options(phase31_feasibility PRIVATE -Wall -Wextra -Wpedantic)
+add_executable(phase31_render
+    src/prototype/Phase31Render.cpp
+    src/prototype/Phase31ResearchEngine.cpp)
+target_link_libraries(phase31_render PRIVATE timestretch_core)
+target_compile_options(phase31_render PRIVATE -Wall -Wextra -Wpedantic)
 add_executable(phase24_sim src/phase24_sim_main.cpp)
 target_link_libraries(phase24_sim PRIVATE phase24_variable)
 add_executable(phase101_offline_events src/phase101_offline_events.cpp)
@@ -281,4 +289,7 @@ if(BUILD_TESTING)
     add_test(NAME phase30_playback COMMAND python3
         ${CMAKE_SOURCE_DIR}/tests/Phase30Smoke.py
         $<TARGET_FILE:phase30_playback_tests>)
+    add_test(NAME phase31_feasibility COMMAND python3
+        ${CMAKE_SOURCE_DIR}/tests/Phase31Smoke.py
+        $<TARGET_FILE:phase31_feasibility> $<TARGET_FILE:phase31_render>)
 endif()
