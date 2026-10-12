@@ -133,6 +133,11 @@ add_executable(phase37_render
     src/prototype/Phase37SynthesisEngine.cpp)
 target_link_libraries(phase37_render PRIVATE timestretch_core)
 target_compile_options(phase37_render PRIVATE -Wall -Wextra -Wpedantic)
+add_executable(phase38_events
+    src/prototype/Phase38EventDump.cpp
+    src/prototype/Phase37HighSpeedMap.cpp)
+target_link_libraries(phase38_events PRIVATE timestretch_core)
+target_compile_options(phase38_events PRIVATE -Wall -Wextra -Wpedantic)
 add_executable(phase35_render
     src/prototype/Phase35Render.cpp
     src/prototype/Phase35TimeMap.cpp
@@ -367,4 +372,7 @@ if(BUILD_TESTING)
     add_test(NAME phase37_high_speed COMMAND python3
         ${CMAKE_SOURCE_DIR}/tests/Phase37Smoke.py
         $<TARGET_FILE:phase37_render> $<TARGET_FILE:phase31_render>)
+    add_test(NAME phase38_noise_diagnostic COMMAND python3
+        ${CMAKE_SOURCE_DIR}/tests/Phase38Smoke.py
+        $<TARGET_FILE:phase37_render> $<TARGET_FILE:phase38_events>)
 endif()
