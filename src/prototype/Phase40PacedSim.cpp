@@ -24,9 +24,9 @@ struct LoadThreads {
 };
 }
 int main(int argc,char** argv) {
-    if (argc<7 || argc>12) {
+    if (argc<7 || argc>13) {
         std::cerr<<"phase40_paced_sim input.wav from to request_seconds A|B|C "
-                    "callback_frames [fifo lead dsp_block load_percent metrics.csv]\n";
+                    "callback_frames [fifo lead dsp_block load_percent metrics.csv delay-density]\n";
         return 2;
     }
     try {
@@ -47,7 +47,14 @@ int main(int argc,char** argv) {
         const auto dsp=argc>=10 ? std::stoull(argv[9]) : 2048;
         const auto load=argc>=11 ? std::stod(argv[10]) : 0.0;
         if (load<0 || load>100) throw std::invalid_argument("Load percent");
-        Phase39PlaybackPipeline pipeline(argv[1],from,fifo,dsp,lead,strategy);
+        const auto density=argc==13 && std::string(argv[12])=="delay-density" ?
+            Phase39DensityDiagnostic::AfterRamp : Phase39DensityDiagnostic::Immediate;
+        if (argc==13 && density==Phase39DensityDiagnostic::Immediate)
+            throw std::invalid_argument("Unknown density diagnostic");
+        if (density==Phase39DensityDiagnostic::AfterRamp &&
+            (from.value()>=0.50 || to.value()<0.50))
+            throw std::invalid_argument("delay-density supports low-to-high only");
+        Phase39PlaybackPipeline pipeline(argv[1],from,fifo,dsp,lead,strategy,density);
         pipeline.start();
         if (!pipeline.waitForPrefill(std::min<std::size_t>(lead,8192),
                                      std::chrono::seconds(60)))
@@ -154,7 +161,7 @@ int main(int argc,char** argv) {
                  <<"\npeak_rss_bytes="<<usage.ru_maxrss
                  <<"\nmajor_faults="<<usage.ru_majflt
                  <<"\nminor_faults="<<usage.ru_minflt<<'\n';
-        if (argc==12) {
+        if (argc>=12) {
             std::ofstream csv(argv[11]);
             csv<<"requested_output,requested_input,fence,published,prepared,"
                    "first_mutable,first_safe,next_event,protection_end,applied,"

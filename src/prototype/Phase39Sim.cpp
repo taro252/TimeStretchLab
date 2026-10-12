@@ -11,13 +11,31 @@
 #include <thread>
 #include <vector>
 #include <sys/resource.h>
+#include <cstdlib>
+#include <new>
+
+#ifdef PHASE41_ALLOC_COUNT
+namespace { thread_local std::uint64_t phase41NewCalls=0; }
+void* operator new(std::size_t size) {
+    if (void* ptr=std::malloc(size)) { ++phase41NewCalls; return ptr; }
+    throw std::bad_alloc();
+}
+void* operator new[](std::size_t size) {
+    if (void* ptr=std::malloc(size)) { ++phase41NewCalls; return ptr; }
+    throw std::bad_alloc();
+}
+void operator delete(void* ptr) noexcept { std::free(ptr); }
+void operator delete[](void* ptr) noexcept { std::free(ptr); }
+void operator delete(void* ptr,std::size_t) noexcept { std::free(ptr); }
+void operator delete[](void* ptr,std::size_t) noexcept { std::free(ptr); }
+#endif
 
 using namespace ts;
 using namespace ts::prototype;
 int main(int argc,char** argv) {
-    if (argc<5 || argc>9) {
+    if (argc<5 || argc>14 || argc==12 || argc==13) {
         std::cerr<<"Usage: phase39_sim input.wav output.wav initial_speed "
-                    "output_seconds:target_speed[,...] [callback_frames] [plans.csv] [dsp_block_frames] [A|B|C|C0]\n";
+                    "output_seconds:target_speed[,...] [callback_frames] [plans.csv] [dsp_block_frames] [A|B|C|C0] [hold-density|delay-density|normal] [profile.csv|-] [component.csv first last]\n";
         return 2;
     }
     try {
@@ -34,6 +52,15 @@ int main(int argc,char** argv) {
             strategy=="C" ? Phase39Planning::C :
             strategy=="C0" ? Phase39Planning::C0 :
             throw std::invalid_argument("Planning strategy must be A, B, C or C0");
+        const std::string densityOption=argc>=10 ? argv[9] : "";
+        const auto densityDiagnostic=densityOption=="hold-density" ?
+            Phase39DensityDiagnostic::HoldInitial : densityOption=="delay-density" ?
+            Phase39DensityDiagnostic::AfterRamp : Phase39DensityDiagnostic::Immediate;
+        if (argc>=10 && densityOption!="hold-density" && densityOption!="delay-density" &&
+            densityOption!="normal")
+            throw std::invalid_argument("Unknown diagnostic density option");
+        if (densityDiagnostic!=Phase39DensityDiagnostic::Immediate && initial.value()>=0.50)
+            throw std::invalid_argument("Density diagnostic requires initial speed below 0.50");
         struct Request { std::size_t output; Phase39Speed speed; };
         std::vector<Request> requests;
         WavStreamReader reader(argv[1]);
@@ -54,7 +81,20 @@ int main(int argc,char** argv) {
                 start=comma+1;
             }
         }
-        Phase39PlaybackPipeline pipeline(argv[1],initial,16384,dspBlock,12288,planning);
+        if (densityDiagnostic==Phase39DensityDiagnostic::AfterRamp &&
+            (requests.size()!=1 || requests[0].speed.value()<0.50))
+            throw std::invalid_argument("delay-density supports one low-to-high request only");
+        const bool profileEnabled=argc>=11 && std::string(argv[10])!="-";
+        std::function<std::uint64_t()> allocationCounter;
+#ifdef PHASE41_ALLOC_COUNT
+        if (profileEnabled) allocationCounter=[] { return phase41NewCalls; };
+#endif
+        Phase39PlaybackPipeline pipeline(argv[1],initial,16384,dspBlock,12288,
+            planning,densityDiagnostic,profileEnabled,
+            argc==14 ? std::filesystem::path(argv[11]) : std::filesystem::path{},
+            argc==14 ? std::stoull(argv[12]) : 0,
+            argc==14 ? std::stoull(argv[13]) : 0,
+            std::move(allocationCounter));
         pipeline.start();
         if (!pipeline.waitForPrefill(std::min<std::size_t>(8192,
             static_cast<std::size_t>(std::llround(reader.frames()*initial.timeRatio()))),
@@ -98,6 +138,20 @@ int main(int argc,char** argv) {
             presented+=count;
         }
         pipeline.rethrowWorkerError();
+        if (profileEnabled) {
+            std::ofstream profile(argv[10]);
+            profile<<"output_start,chunk_wall_s,chunk_thread_cpu_s,fifo_wait_s,cpp_new_calls,"
+                "wav_wall_s,wav_cpu_s,fft_wall_s,fft_cpu_s,phase_wall_s,phase_cpu_s,"
+                "ifft_ola_wall_s,ifft_ola_cpu_s,fir_wall_s,fir_cpu_s\n";
+            for (const auto& block:pipeline.slowestBlocks()) {
+                profile<<block.outputStart<<','<<block.chunkWallSeconds<<','
+                    <<block.chunkCpuSeconds<<','<<block.fifoWaitSeconds<<','
+                    <<block.cppNewCalls;
+                for (const auto& stage:block.work.stages)
+                    profile<<','<<stage.wallSeconds<<','<<stage.threadCpuSeconds;
+                profile<<'\n';
+            }
+        }
         const auto snapshot=pipeline.snapshot();
         if (presented!=snapshot.outputLength || next!=requests.size() ||
             pipeline.planMetrics().size()!=requests.size() ||
@@ -154,9 +208,13 @@ int main(int argc,char** argv) {
                  <<"\nmax_worker_chunk_seconds="<<snapshot.maxWorkerChunkSeconds
                  <<"\nmax_worker_cpu_seconds="<<snapshot.maxWorkerCpuSeconds
                  <<"\nmax_fifo_wait_seconds="<<snapshot.maxFifoWaitSeconds
+                 <<"\nmax_fifo_write_seconds="<<snapshot.maxFifoWriteSeconds
+                 <<"\nmax_history_mutex_wait_seconds="<<snapshot.maxHistoryMutexWaitSeconds
+                 <<"\nplan_cpu_ms="<<snapshot.planCpuMilliseconds
                  <<"\nfifo_wait_seconds="<<double(snapshot.fifoWaitNanoseconds)/1e9
                  <<"\nworker_chunks_over_100ms="<<snapshot.workerChunksOver100Ms
                  <<"\np95_worker_chunk_seconds="<<pipeline.workerChunkP95Seconds()
+                 <<"\np99_worker_chunk_seconds="<<pipeline.workerChunkP99Seconds()
                  <<"\nmax_callback_seconds="<<maxCallbackSeconds;
         rusage usageAfter{};getrusage(RUSAGE_SELF,&usageAfter);
         const auto seconds=[](const timeval& time) {

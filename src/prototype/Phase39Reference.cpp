@@ -13,8 +13,8 @@
 using namespace ts;
 using namespace ts::prototype;
 int main(int argc,char** argv) {
-    if (argc!=5 && argc!=6) {
-        std::cerr<<"Usage: phase39_reference input.wav output.wav initial_speed plans.csv [A|B|C|C0]\n";
+    if (argc<5 || argc>7) {
+        std::cerr<<"Usage: phase39_reference input.wav output.wav initial_speed plans.csv [A|B|C|C0] [hold-density|delay-density]\n";
         return 2;
     }
     try {
@@ -30,7 +30,10 @@ int main(int argc,char** argv) {
         config.enableStereoCoherence=true;
         auto analysisConfig=config;analysisConfig.timeRatio=2.0;
         const auto analysis=Phase13StreamingEngine(analysisConfig).analyzeTransientEvents(argv[1]);
-        const std::string strategy=argc==6 ? argv[5] : "A";
+        const std::string strategy=argc>=6 ? argv[5] : "A";
+        const std::string densityOption=argc==7 ? argv[6] : "";
+        if (densityOption!="" && densityOption!="hold-density" && densityOption!="delay-density")
+            throw std::invalid_argument("Unknown density diagnostic");
         const auto planning=strategy=="A" ? Phase39Planning::A :
             strategy=="B" ? Phase39Planning::B :
             strategy=="C" ? Phase39Planning::C :
@@ -54,8 +57,10 @@ int main(int argc,char** argv) {
             const auto plan=timeline.submit({generation,target,requestedInput,fence,50.0});
             if (!plan.applied() || plan.appliedFrame!=expectedFrame)
                 throw std::runtime_error("Offline TimeMap replay differs");
-            if ((target.value()<0.50)!=(previous.value()<0.50))
-                modes.emplace_back(plan.appliedFrame*1024,target.value()<0.50);
+            if ((target.value()<0.50)!=(previous.value()<0.50) &&
+                densityOption!="hold-density")
+                modes.emplace_back((densityOption=="delay-density" ?
+                    plan.rampEndFrame : plan.appliedFrame)*1024,target.value()<0.50);
             previous=target;
         }
         const auto outputFrames=static_cast<std::size_t>(std::llround(

@@ -18,6 +18,8 @@
 #include <memory>
 #include <cstring>
 #include <stdexcept>
+#include <chrono>
+#include <ctime>
 
 #include "dsp/TransientEventMap.h"
 
@@ -27,6 +29,31 @@ using ts::prototype::Phase35PhaseVocoder;
 using ts::prototype::Phase35StereoPhaseCoherence;
 constexpr std::size_t cacheSize = 65536;
 constexpr std::uint64_t hashSeed = 14695981039346656037ULL;
+using WorkProfile=Phase36StreamingSpeedEngine::WorkProfile;
+double threadCpuNow() {
+    timespec value{};
+    clock_gettime(CLOCK_THREAD_CPUTIME_ID,&value);
+    return double(value.tv_sec)+double(value.tv_nsec)*1e-9;
+}
+struct StageClock {
+    WorkProfile* profile;
+    std::size_t stage;
+    std::chrono::steady_clock::time_point wall;
+    double cpu;
+    bool finished=false;
+    StageClock(WorkProfile* target,std::size_t index)
+        : profile(target),stage(index),wall(target ? std::chrono::steady_clock::now() :
+          std::chrono::steady_clock::time_point{}),cpu(target ? threadCpuNow() : 0) {}
+    void finish() {
+        if (!profile || finished) return;
+        finished=true;
+        auto& item=profile->stages[stage];
+        item.wallSeconds+=std::chrono::duration<double>(
+            std::chrono::steady_clock::now()-wall).count();
+        item.threadCpuSeconds+=threadCpuNow()-cpu;
+    }
+    ~StageClock() { finish(); }
+};
 void hashFloat(std::uint64_t& hash, float value) {
     std::uint32_t bits;
     std::memcpy(&bits, &value, sizeof(bits));
@@ -52,11 +79,12 @@ struct Detection {
 // response, block order and accumulation order are identical to StreamingFIR.
 class LiveStreamingFIR {
 public:
-    LiveStreamingFIR(const MultiResolutionCrossover::Filter& filter,std::size_t length)
+    LiveStreamingFIR(const MultiResolutionCrossover::Filter& filter,std::size_t length,
+                     WorkProfile* profile)
         : taps_(filter.taps),center_(filter.taps/2),
           blockLength_(4096-filter.taps+1),length_(length),
           response_(filter.response),spectrum_(2049),block_(4096),
-          transformed_(4096),accum_(16384) {}
+          transformed_(4096),accum_(16384),profile_(profile) {}
     void setOutputLength(std::size_t length) {
         if (length==length_) return;
         if (length<base_ || length<nextBlock_)
@@ -71,9 +99,12 @@ public:
             std::fill(block_.begin(),block_.end(),0.0f);
             const auto count=std::min(blockLength_,length_-nextBlock_);
             for (std::size_t i=0;i<count;++i) block_[i]=source(nextBlock_+i);
-            fft_.forward(block_.data(),spectrum_.data());
-            for (std::size_t k=0;k<spectrum_.size();++k) spectrum_[k]*=response_[k];
-            fft_.inverse(spectrum_.data(),transformed_.data());
+            {
+                StageClock measure(profile_,4);
+                fft_.forward(block_.data(),spectrum_.data());
+                for (std::size_t k=0;k<spectrum_.size();++k) spectrum_[k]*=response_[k];
+                fft_.inverse(spectrum_.data(),transformed_.data());
+            }
             const auto valid=count+taps_-1;
             for (std::size_t i=0;i<valid;++i) {
                 const auto target=static_cast<long long>(nextBlock_+i)-
@@ -97,6 +128,7 @@ private:
     std::size_t taps_,center_,blockLength_,length_,nextBlock_=0,base_=0;
     std::vector<std::complex<float>> response_,spectrum_;
     std::vector<float> block_,transformed_,accum_;
+    WorkProfile* profile_;
 };
 
 Detection makeDetection(const Phase13TransientAnalysis& analysis,
@@ -136,7 +168,7 @@ public:
                      const std::vector<std::pair<std::size_t,bool>>& modeChanges,
                      Phase13StageDigests& digests,
                      std::size_t resolutionIndex,std::ostream* stageTrace,
-                     std::size_t probeInputSample)
+                     std::size_t probeInputSample,WorkProfile* profile)
         : reader_(path), config_(config), detection_(detection), mid_(mid),
           fftSize_(fftSize), hop_(hop), padding_(fftSize/2),
           length_(reader_.frames()), outputLength_(outputLength),
@@ -145,7 +177,7 @@ public:
           stageTrace_(stageTrace), probeInputSample_(probeInputSample), stft_(fftSize),
           coherence_(fftSize,config.sampleRate,config.stereoCoherenceStrength,
                      config.lowFrequencyCoherenceStrength), sharedPeaks_(fftSize),
-          frame_(fftSize), synthesized_(fftSize),
+          frame_(fftSize), synthesized_(fftSize),profile_(profile),
           inputSpectra_(reader_.channels(),std::vector<std::complex<float>>(fftSize/2+1)),
           outputSpectra_(reader_.channels(),std::vector<std::complex<float>>(fftSize/2+1)),
           combined_(fftSize/2+1), cache_(cacheSize) {
@@ -189,12 +221,14 @@ private:
     void analyze(std::size_t channel,std::size_t frameIndex) {
         (void)frameIndex;
         const auto start=position_;
+        { StageClock measure(profile_,0);
         for (std::size_t i=0; i<fftSize_; ++i) {
             const auto padded=start+i;
             frame_[i]=padded>=padding_ && padded-padding_<length_
                 ? reader_.sample(channel,padded-padding_) : 0.0f;
-        }
-        stft_.analyze(frame_.data(),inputSpectra_[channel].data());
+        } }
+        { StageClock measure(profile_,1);
+          stft_.analyze(frame_.data(),inputSpectra_[channel].data()); }
         hashSpectrum(digests_.fft[resolutionIndex_], inputSpectra_[channel]);
     }
     long long startAt(std::size_t frameIndex) const {
@@ -231,6 +265,7 @@ private:
         const int actualAnalysisHop=nextFrame_ ?
             static_cast<int>(position_-lastProcessed_) : hop_;
         for (std::size_t c=0; c<reader_.channels(); ++c) analyze(c,nextFrame_);
+        StageClock phaseMeasure(profile_,2);
         const bool shared=reader_.channels()==2 &&
             (config_.enableStereoCoherence || tracker_ || resynchronizer_);
         if (shared) {
@@ -290,7 +325,9 @@ private:
                 if (tracker_) throw std::logic_error("Partial tracking is outside Phase 36 scope");
             }
         }
+        phaseMeasure.finish();
         for (std::size_t c=0; c<reader_.channels(); ++c) {
+            StageClock synthesisMeasure(profile_,3);
             hashSpectrum(digests_.phase[resolutionIndex_], outputSpectra_[c]);
             stft_.synthesize(outputSpectra_[c].data(),synthesized_.data());
             for (const auto sample : synthesized_) hashFloat(digests_.ifft[resolutionIndex_], sample);
@@ -341,6 +378,7 @@ private:
     std::vector<Phase35PhaseVocoder> vocoders_;
     std::vector<RingOverlapAdd> olas_;
     std::vector<float> frame_,synthesized_;
+    WorkProfile* profile_;
     std::vector<std::vector<std::complex<float>>> inputSpectra_,outputSpectra_;
     std::vector<std::vector<std::complex<float>>> alignedSpectra_;
     std::vector<std::complex<float>> combined_;
@@ -366,7 +404,9 @@ Phase13Result Phase36StreamingSpeedEngine::process(
     const std::filesystem::path& input,const Phase13TransientAnalysis& analysis,
     TimeMap map,std::size_t outputFrames,std::size_t chunkSize,
     const PreparedSink& preparedSink,const UpdateHook& update,
-    std::vector<std::pair<std::size_t,bool>> modeChanges) {
+    std::vector<std::pair<std::size_t,bool>> modeChanges,
+    const ProfileHook& profileHook,std::ostream* componentCsv,
+    std::size_t probeFirst,std::size_t probeLast) {
     std::ostream* stageTrace=nullptr;
     std::size_t probeInputSample=0;
     if (!preparedSink || map.empty() || map.sourceHop()!=1024 ||
@@ -380,6 +420,8 @@ Phase13Result Phase36StreamingSpeedEngine::process(
     if (reader.frames()==0 || outputFrames==0)
         throw std::invalid_argument("Phase 24 requires nonempty audio");
     auto detection=makeDetection(analysis,config_,map);
+    WorkProfile workProfile;
+    WorkProfile* profile=profileHook ? &workProfile : nullptr;
     Phase13Result phase13;
     for (auto* group:{&phase13.stages.fft,&phase13.stages.phase,
                      &phase13.stages.ifft,&phase13.stages.ola}) group->fill(hashSeed);
@@ -404,19 +446,19 @@ Phase13Result Phase36StreamingSpeedEngine::process(
     // crossover filters likewise retain their overlap and FFT block position.
     std::array<std::unique_ptr<ResolutionStream>,3> resolution;
     resolution[1]=std::make_unique<ResolutionStream>(input,config_,4096,1024,
-        detection,true,outputFrames,modeChanges,phase13.stages,1,stageTrace,probeInputSample);
+        detection,true,outputFrames,modeChanges,phase13.stages,1,stageTrace,probeInputSample,profile);
     resolution[0]=std::make_unique<ResolutionStream>(input,config_,8192,2048,
-        detection,false,outputFrames,modeChanges,phase13.stages,0,stageTrace,probeInputSample);
+        detection,false,outputFrames,modeChanges,phase13.stages,0,stageTrace,probeInputSample,profile);
     resolution[2]=std::make_unique<ResolutionStream>(input,config_,1024,256,
-        detection,false,outputFrames,modeChanges,phase13.stages,2,stageTrace,probeInputSample);
+        detection,false,outputFrames,modeChanges,phase13.stages,2,stageTrace,probeInputSample,profile);
     for (const auto& item:resolution)
         result.olaRingSamples+=item->olaSize()*reader.channels();
     MultiResolutionCrossover filters(config_.sampleRate,config_.lowCrossoverHz,
                                      config_.highCrossoverHz);
     std::vector<std::unique_ptr<LiveStreamingFIR>> lowFilters,highFilters;
     for (std::size_t c=0;c<reader.channels();++c) {
-        lowFilters.emplace_back(std::make_unique<LiveStreamingFIR>(filters.lowFilter(),outputFrames));
-        highFilters.emplace_back(std::make_unique<LiveStreamingFIR>(filters.highFilter(),outputFrames));
+        lowFilters.emplace_back(std::make_unique<LiveStreamingFIR>(filters.lowFilter(),outputFrames,profile));
+        highFilters.emplace_back(std::make_unique<LiveStreamingFIR>(filters.highFilter(),outputFrames,profile));
     }
     result.firRingSamples=(lowFilters[0]->ringSize()+highFilters[0]->ringSize())*
         reader.channels();
@@ -424,6 +466,7 @@ Phase13Result Phase36StreamingSpeedEngine::process(
     std::vector<const float*> pointers(reader.channels());
     for (std::size_t c=0;c<reader.channels();++c) pointers[c]=chunk[c].data();
     for (std::size_t start=0;start<outputFrames;start+=chunkSize) {
+        if (profile) workProfile={};
         const auto count=std::min(chunkSize,outputFrames-start);
         for (std::size_t i=0;i<count;++i) for (std::size_t c=0;c<reader.channels();++c) {
             const auto high=resolution[2]->get(c,start+i);
@@ -439,6 +482,11 @@ Phase13Result Phase36StreamingSpeedEngine::process(
             value+=lowFiltered;
             value+=highFiltered;
             chunk[c][i]=value;
+            if (componentCsv && start+i>=probeFirst && start+i<probeLast)
+                *componentCsv<<start+i<<','<<c<<','
+                    <<resolution[0]->get(c,start+i)<<','
+                    <<resolution[1]->get(c,start+i)<<','<<high<<','
+                    <<lowFiltered<<','<<highFiltered<<','<<value<<'\n';
             hashFloat(phase13.stages.fir,value);
             result.peak=std::max(result.peak,std::abs(value));
             if (stageTrace && c+1==reader.channels() && (start+i)%256==0 &&
@@ -472,6 +520,7 @@ Phase13Result Phase36StreamingSpeedEngine::process(
             for (auto& item:highFilters) item->setOutputLength(outputFrames);
         };
         preparedSink(pointers.data(),count,poll);
+        if (profile) profileHook(start,workProfile);
     }
     result.outputFrames=outputFrames;
     result.timeMapHash=hashSeed;
