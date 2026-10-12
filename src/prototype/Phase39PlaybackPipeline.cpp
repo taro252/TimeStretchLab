@@ -1,4 +1,5 @@
 #include "prototype/Phase39PlaybackPipeline.h"
+#include "prototype/Phase42DensityGuard.h"
 #include "audio/WavStream.h"
 #include <algorithm>
 #include <cmath>
@@ -235,7 +236,26 @@ void Phase39PlaybackPipeline::start() {
                     densityDiagnostic_!=Phase39DensityDiagnostic::HoldInitial;
                 const auto modeFrame=densityDiagnostic_==Phase39DensityDiagnostic::AfterRamp ?
                     proposal.rampEndFrame : proposal.appliedFrame;
-                const auto modeInput=modeFrame*1024;
+                auto modeInput=modeFrame*1024;
+                Phase42DensityDecision densityDecision;
+                if (changesDensity && densityDiagnostic_==Phase39DensityDiagnostic::SafeGuarded) {
+                    if (!modeChanges.empty() &&
+                        std::any_of(frontier.nextInput.begin(),frontier.nextInput.end(),
+                            [&](std::size_t next) { return next<=modeChanges.back().first; })) {
+                        planOutcome_.store(Phase39Outcome::NoSafeInterval,std::memory_order_relaxed);
+                        state_.store(Phase39RequestState::Rejected,std::memory_order_release);
+                        return;
+                    }
+                    densityDecision=chooseSafeDensitySwitch(candidate.current(),proposal,
+                        frontier,modeChanges,from.value()<0.50,target.value()<0.50,
+                        fence,analysis_.inputFrames());
+                    if (!densityDecision.safe) {
+                        planOutcome_.store(Phase39Outcome::NoSafeInterval,std::memory_order_relaxed);
+                        state_.store(Phase39RequestState::Rejected,std::memory_order_release);
+                        return;
+                    }
+                    modeInput=densityDecision.inputSample;
+                }
                 if (changesDensity && modeInput<=*std::max_element(
                         frontier.lastProcessedInput.begin(),frontier.lastProcessedInput.end())) {
                     planOutcome_.store(Phase39Outcome::NoSafeInterval,std::memory_order_relaxed);
@@ -263,7 +283,10 @@ void Phase39PlaybackPipeline::start() {
                       asked,requestInput,fence,committed,published,firstInput,
                       frontier.nextInput,frontier.lastProcessedInput,
                       frontier.finalizedOla,frontier.firstUnprocessedFirSource,
-                      modeInput,timeline.fixedMapBytes(),milliseconds}); }
+                      modeInput,densityDecision.maximumHop,densityDecision.maximumHopStep,
+                      densityDecision.minimumWeight,densityDecision.minimumLocalSpeed,
+                      densityDecision.maximumLocalSpeed,
+                      densityDecision.candidatesTried,timeline.fixedMapBytes(),milliseconds}); }
                 appliedGeneration_.store(generation,std::memory_order_release);
                 planCount_.fetch_add(1,std::memory_order_release);
                 planNs_.store(nowNs(),std::memory_order_relaxed);

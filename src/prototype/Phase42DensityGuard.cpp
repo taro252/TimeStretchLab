@@ -1,0 +1,139 @@
+#include "prototype/Phase42DensityGuard.h"
+#include <algorithm>
+#include <cmath>
+#include <cstdlib>
+#include <numbers>
+
+namespace ts::prototype {
+namespace {
+constexpr std::array<std::size_t,3> fft={8192,4096,1024};
+constexpr std::array<std::size_t,3> hop={2048,1024,256};
+constexpr double minimumHannSquaredWeight=0.15;
+
+const std::vector<double>& hannSquared(std::size_t resolution) {
+    static const auto tables=[] {
+        std::array<std::vector<double>,3> result;
+        for (std::size_t r=0;r<3;++r) {
+            result[r].resize(fft[r]);
+            for (std::size_t n=0;n<fft[r];++n) {
+                const auto window=0.5*(1-std::cos(
+                    2*std::numbers::pi*double(n)/double(fft[r])));
+                result[r][n]=window*window;
+            }
+        }
+        return result;
+    }();
+    return tables[resolution];
+}
+
+bool protectedInput(const TimeMap& map,std::size_t input) {
+    const auto node=input/1024;
+    for (const auto& event:map.events()) {
+        const auto first=event.onsetFrame>2 ? event.onsetFrame-2 : 0;
+        const auto last=std::max(event.endFrame,event.peakFrame)+5;
+        if (node>=first && node<=last) return true;
+    }
+    return false;
+}
+
+bool probe(const TimeMap& map,const Phase39Plan& plan,
+           const Phase36StreamingSpeedEngine::Frontier& frontier,
+           std::size_t changeInput,bool currentHalf,bool targetHalf,
+           Phase42DensityDecision& result) {
+    for (std::size_t r=0;r<3;++r) {
+        const auto oldHop=hop[r]/(currentHalf ? 2 : 1);
+        const auto newHop=hop[r]/(targetHalf ? 2 : 1);
+        std::vector<long long> starts;
+        starts.reserve(256);
+        // Reconstruct a few already processed frames solely to evaluate the
+        // overlap around the new frame; no DSP history is modified.
+        for (int i=4;i>=1;--i) {
+            if (frontier.lastProcessedInput[r]<std::size_t(i)*oldHop) continue;
+            starts.push_back(std::llround(map.outputPositionForInputSample(
+                double(frontier.lastProcessedInput[r]-std::size_t(i)*oldHop))));
+        }
+        starts.push_back(std::llround(map.outputPositionForInputSample(
+            double(frontier.lastProcessedInput[r]))));
+        auto input=frontier.nextInput[r];
+        auto previousInput=frontier.lastProcessedInput[r];
+        auto previousStep=starts.size()>1 ? starts.back()-starts[starts.size()-2] : 0;
+        const auto end=changeInput+fft[r]*4;
+        long long firstChanged=-1;
+        while (input<=end && starts.size()<4096) {
+            const auto at=std::llround(map.outputPositionForInputSample(double(input)));
+            const auto step=at-starts.back();
+            if (step<=0 || step>=static_cast<long long>(fft[r])) return false;
+            result.maximumHop[r]=std::max(result.maximumHop[r],step);
+            if (previousStep>0) result.maximumHopStep[r]=std::max(
+                result.maximumHopStep[r],std::llabs(step-previousStep));
+            const auto speed=double(input-previousInput)/double(step);
+            if (result.minimumLocalSpeed[r]==0 || speed<result.minimumLocalSpeed[r])
+                result.minimumLocalSpeed[r]=speed;
+            result.maximumLocalSpeed[r]=std::max(result.maximumLocalSpeed[r],speed);
+            starts.push_back(at);
+            if (firstChanged<0 && input>=changeInput) firstChanged=at;
+            previousInput=input;
+            previousStep=step;
+            input+=input>=changeInput ? newHop : oldHop;
+        }
+        if (firstChanged<0 || starts.back()<firstChanged+static_cast<long long>(fft[r]))
+            return false;
+        double minimum=100;
+        // A delayed switch must also be safe before it takes effect. This is
+        // especially important when moving from normal to half density: the
+        // old sparse frames may become unsafe as the synthesis hops grow.
+        const auto firstSample=std::max<long long>(
+            plan.appliedOutputSample,starts.front()+static_cast<long long>(fft[r]));
+        if (firstSample>=firstChanged+static_cast<long long>(fft[r])) return false;
+        const auto& window=hannSquared(r);
+        for (long long sample=firstSample;
+             sample<firstChanged+static_cast<long long>(fft[r]);++sample) {
+            double weight=0;
+            const auto first=std::lower_bound(starts.begin(),starts.end(),
+                                             sample-static_cast<long long>(fft[r])+1);
+            const auto last=std::upper_bound(first,starts.end(),sample);
+            for (auto it=first;it!=last;++it) {
+                weight+=window[static_cast<std::size_t>(sample-*it)];
+            }
+            minimum=std::min(minimum,weight);
+        }
+        result.minimumWeight[r]=minimum;
+        if (minimum<minimumHannSquaredWeight) return false;
+    }
+    return true;
+}
+} // namespace
+
+Phase42DensityDecision chooseSafeDensitySwitch(
+    const TimeMap& map,const Phase39Plan& plan,
+    const Phase36StreamingSpeedEngine::Frontier& frontier,
+    const std::vector<std::pair<std::size_t,bool>>& earlierChanges,
+    bool currentHalf,bool targetHalf,std::size_t firstMutableOutput,
+    std::size_t inputFrames) {
+    Phase42DensityDecision decision;
+    if (currentHalf==targetHalf) {decision.safe=true;return decision;}
+    // Reducing frame density waits until the old, long output hops are over.
+    // Increasing density must precede the first large output hop.
+    auto candidate=(targetHalf ? plan.appliedFrame : plan.rampEndFrame)*1024;
+    candidate=std::max(candidate,*std::max_element(
+        frontier.nextInput.begin(),frontier.nextInput.end()));
+    if (!earlierChanges.empty()) candidate=std::max(candidate,earlierChanges.back().first+1);
+    candidate=(candidate+1023)/1024*1024;
+    for (std::size_t attempt=0;attempt<128 && candidate<inputFrames;++attempt,candidate+=1024) {
+        ++decision.candidatesTried;
+        if (candidate<=*std::max_element(frontier.lastProcessedInput.begin(),
+                                          frontier.lastProcessedInput.end()) ||
+            std::llround(map.outputPositionForInputSample(double(candidate)))<=
+                static_cast<long long>(firstMutableOutput) || protectedInput(map,candidate))
+            continue;
+        Phase42DensityDecision probeResult;
+        if (!probe(map,plan,frontier,candidate,currentHalf,targetHalf,probeResult)) continue;
+        decision=probeResult;
+        decision.safe=true;
+        decision.inputSample=candidate;
+        decision.candidatesTried=attempt+1;
+        return decision;
+    }
+    return decision;
+}
+} // namespace ts::prototype

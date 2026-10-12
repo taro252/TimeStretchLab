@@ -19,7 +19,7 @@ enum class Phase39RequestResult : std::uint8_t {
     Accepted, Busy, Duplicate, Stopped, Invalid, LimitReached
 };
 enum class Phase39DensityDiagnostic : std::uint8_t {
-    Immediate, HoldInitial, AfterRamp
+    Immediate, HoldInitial, AfterRamp, SafeGuarded
 };
 struct Phase39PlanMetric {
     Phase39Plan plan;
@@ -32,6 +32,12 @@ struct Phase39PlanMetric {
     std::array<std::size_t,3> finalizedOla{};
     std::array<std::size_t,2> firstUnprocessedFirSources{};
     std::size_t firstDensityChangedInput=0;
+    std::array<long long,3> densityMaximumHop{};
+    std::array<long long,3> densityMaximumHopStep{};
+    std::array<double,3> densityMinimumWeight{};
+    std::array<double,3> densityMinimumLocalSpeed{};
+    std::array<double,3> densityMaximumLocalSpeed{};
+    std::size_t densityCandidatesTried=0;
     std::size_t timeMapBytes=0;
     double planMilliseconds=0;
 };

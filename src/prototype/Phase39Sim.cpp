@@ -35,7 +35,7 @@ using namespace ts::prototype;
 int main(int argc,char** argv) {
     if (argc<5 || argc>14 || argc==12 || argc==13) {
         std::cerr<<"Usage: phase39_sim input.wav output.wav initial_speed "
-                    "output_seconds:target_speed[,...] [callback_frames] [plans.csv] [dsp_block_frames] [A|B|C|C0] [hold-density|delay-density|normal] [profile.csv|-] [component.csv first last]\n";
+                    "output_seconds:target_speed[,...] [callback_frames] [plans.csv] [dsp_block_frames] [A|B|C|C0] [hold-density|delay-density|safe-density|normal] [profile.csv|-] [component.csv first last]\n";
         return 2;
     }
     try {
@@ -55,11 +55,13 @@ int main(int argc,char** argv) {
         const std::string densityOption=argc>=10 ? argv[9] : "";
         const auto densityDiagnostic=densityOption=="hold-density" ?
             Phase39DensityDiagnostic::HoldInitial : densityOption=="delay-density" ?
-            Phase39DensityDiagnostic::AfterRamp : Phase39DensityDiagnostic::Immediate;
+            Phase39DensityDiagnostic::AfterRamp : densityOption=="safe-density" ?
+            Phase39DensityDiagnostic::SafeGuarded : Phase39DensityDiagnostic::Immediate;
         if (argc>=10 && densityOption!="hold-density" && densityOption!="delay-density" &&
-            densityOption!="normal")
+            densityOption!="safe-density" && densityOption!="normal")
             throw std::invalid_argument("Unknown diagnostic density option");
-        if (densityDiagnostic!=Phase39DensityDiagnostic::Immediate && initial.value()>=0.50)
+        if ((densityDiagnostic==Phase39DensityDiagnostic::HoldInitial ||
+             densityDiagnostic==Phase39DensityDiagnostic::AfterRamp) && initial.value()>=0.50)
             throw std::invalid_argument("Density diagnostic requires initial speed below 0.50");
         struct Request { std::size_t output; Phase39Speed speed; };
         std::vector<Request> requests;
@@ -175,7 +177,12 @@ int main(int argc,char** argv) {
                    "last_low,last_mid,last_high,ola_low,ola_mid,ola_high,fir_low,fir_high,"
                    "paused_at_protected_events,first_mutable_frame,first_safe_frame,"
                    "next_event_frame,protection_end_frame,safe_frames_used,held_frames,"
-                   "protected_events_skipped\n";
+                   "protected_events_skipped,density_candidates,density_hop_low,"
+                   "density_hop_mid,density_hop_high,density_weight_low,"
+                   "density_weight_mid,density_weight_high,hop_step_low,hop_step_mid,"
+                   "hop_step_high,local_speed_low_min,local_speed_mid_min,"
+                   "local_speed_high_min,local_speed_low_max,local_speed_mid_max,"
+                   "local_speed_high_max\n";
             for (const auto& metric:pipeline.planMetrics())
                 csv<<metric.generation<<','<<metric.requestedOutput<<','
                    <<metric.requestedInput<<','<<metric.from.value()<<','
@@ -199,7 +206,20 @@ int main(int argc,char** argv) {
                    <<metric.plan.firstMutableFrame<<','<<metric.plan.firstSafeFrame<<','
                    <<metric.plan.nextEventFrame<<','<<metric.plan.protectionEndFrame<<','
                    <<metric.plan.safeFramesUsed<<','<<metric.plan.heldFrames<<','
-                   <<metric.plan.protectedEventsSkipped<<'\n';
+                   <<metric.plan.protectedEventsSkipped<<','
+                   <<metric.densityCandidatesTried<<','
+                   <<metric.densityMaximumHop[0]<<','<<metric.densityMaximumHop[1]<<','
+                   <<metric.densityMaximumHop[2]<<','
+                   <<metric.densityMinimumWeight[0]<<','<<metric.densityMinimumWeight[1]<<','
+                   <<metric.densityMinimumWeight[2]<<','
+                   <<metric.densityMaximumHopStep[0]<<','<<metric.densityMaximumHopStep[1]<<','
+                   <<metric.densityMaximumHopStep[2]<<','
+                   <<metric.densityMinimumLocalSpeed[0]<<','
+                   <<metric.densityMinimumLocalSpeed[1]<<','
+                   <<metric.densityMinimumLocalSpeed[2]<<','
+                   <<metric.densityMaximumLocalSpeed[0]<<','
+                   <<metric.densityMaximumLocalSpeed[1]<<','
+                   <<metric.densityMaximumLocalSpeed[2]<<'\n';
         }
         std::cout<<"frames="<<presented<<"\nchanges="<<next
                  <<"\nunderrun="<<snapshot.underrunFrames

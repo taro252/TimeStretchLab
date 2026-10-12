@@ -175,7 +175,8 @@ target_compile_options(phase39_probe PRIVATE -Wall -Wextra -Wpedantic)
 add_library(phase39_variable
     src/prototype/Phase39TimeMap.cpp
     src/prototype/Phase37HighSpeedMap.cpp
-    src/prototype/Phase39PlaybackPipeline.cpp)
+    src/prototype/Phase39PlaybackPipeline.cpp
+    src/prototype/Phase42DensityGuard.cpp)
 target_link_libraries(phase39_variable PUBLIC phase36_variable)
 target_include_directories(phase39_variable PUBLIC src)
 target_compile_options(phase39_variable PRIVATE -Wall -Wextra -Wpedantic)
@@ -414,4 +415,6 @@ if(BUILD_TESTING)
         ${CMAKE_SOURCE_DIR}/tests/Phase40Smoke.py
         $<TARGET_FILE:phase39_sim> $<TARGET_FILE:phase39_reference>
         ${CMAKE_SOURCE_DIR}/results/phase31/input/mix.wav)
+    add_test(NAME phase42_safe_density COMMAND python3
+        ${CMAKE_SOURCE_DIR}/scripts/phase42_guard_test.py)
 endif()

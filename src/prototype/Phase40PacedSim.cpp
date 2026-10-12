@@ -26,7 +26,7 @@ struct LoadThreads {
 int main(int argc,char** argv) {
     if (argc<7 || argc>13) {
         std::cerr<<"phase40_paced_sim input.wav from to request_seconds A|B|C "
-                    "callback_frames [fifo lead dsp_block load_percent metrics.csv delay-density]\n";
+                    "callback_frames [fifo lead dsp_block load_percent metrics.csv delay-density|safe-density]\n";
         return 2;
     }
     try {
@@ -48,7 +48,9 @@ int main(int argc,char** argv) {
         const auto load=argc>=11 ? std::stod(argv[10]) : 0.0;
         if (load<0 || load>100) throw std::invalid_argument("Load percent");
         const auto density=argc==13 && std::string(argv[12])=="delay-density" ?
-            Phase39DensityDiagnostic::AfterRamp : Phase39DensityDiagnostic::Immediate;
+            Phase39DensityDiagnostic::AfterRamp : argc==13 &&
+            std::string(argv[12])=="safe-density" ?
+            Phase39DensityDiagnostic::SafeGuarded : Phase39DensityDiagnostic::Immediate;
         if (argc==13 && density==Phase39DensityDiagnostic::Immediate)
             throw std::invalid_argument("Unknown density diagnostic");
         if (density==Phase39DensityDiagnostic::AfterRamp &&
@@ -165,7 +167,8 @@ int main(int argc,char** argv) {
             std::ofstream csv(argv[11]);
             csv<<"requested_output,requested_input,fence,published,prepared,"
                    "first_mutable,first_safe,next_event,protection_end,applied,"
-                   "completion,safe_frames,held_frames,skipped_events,plan_ms\n";
+                   "completion,safe_frames,held_frames,skipped_events,plan_ms,"
+                   "density_input,density_candidates,weight_low,weight_mid,weight_high\n";
             for (const auto& metric:pipeline.planMetrics()) {
                 const auto& p=metric.plan;
                 csv<<metric.requestedOutput<<','<<metric.requestedInput<<','
@@ -175,7 +178,9 @@ int main(int argc,char** argv) {
                    <<p.protectionEndFrame<<','<<p.appliedOutputSample<<','
                    <<p.completionOutputSample<<','<<p.safeFramesUsed<<','
                    <<p.heldFrames<<','<<p.protectedEventsSkipped<<','
-                   <<metric.planMilliseconds<<'\n';
+                   <<metric.planMilliseconds<<','<<metric.firstDensityChangedInput<<','
+                   <<metric.densityCandidatesTried<<','<<metric.densityMinimumWeight[0]<<','
+                   <<metric.densityMinimumWeight[1]<<','<<metric.densityMinimumWeight[2]<<'\n';
             }
         }
         pipeline.stop();
