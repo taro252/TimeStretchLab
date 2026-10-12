@@ -152,6 +152,10 @@ int main(int argc,char** argv) {
                  <<"\ncallback_overruns="<<callbackOverruns
                  <<"\nmax_callback_seconds="<<maxCallbackSeconds
                  <<"\nmax_worker_wall_seconds="<<state.maxWorkerChunkSeconds
+                 <<"\nmax_worker_cycle_seconds="<<state.maxWorkerCycleSeconds
+                 <<"\nmax_worker_cycle_cpu_seconds="<<state.maxWorkerCycleCpuSeconds
+                 <<"\np95_worker_cycle_seconds="<<pipeline.workerCycleP95Seconds()
+                 <<"\np99_worker_cycle_seconds="<<pipeline.workerCycleP99Seconds()
                  <<"\nmax_worker_cpu_seconds="<<state.maxWorkerCpuSeconds
                  <<"\nmax_fifo_wait_seconds="<<state.maxFifoWaitSeconds
                  <<"\nfifo_wait_seconds="<<double(state.fifoWaitNanoseconds)/1e9

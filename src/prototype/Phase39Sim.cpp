@@ -91,6 +91,7 @@ int main(int argc,char** argv) {
 #ifdef PHASE41_ALLOC_COUNT
         if (profileEnabled) allocationCounter=[] { return phase41NewCalls; };
 #endif
+        const bool allocationCounterEnabled=bool(allocationCounter);
         Phase39PlaybackPipeline pipeline(argv[1],initial,16384,dspBlock,12288,
             planning,densityDiagnostic,profileEnabled,
             argc==14 ? std::filesystem::path(argv[11]) : std::filesystem::path{},
@@ -142,16 +143,62 @@ int main(int argc,char** argv) {
         pipeline.rethrowWorkerError();
         if (profileEnabled) {
             std::ofstream profile(argv[10]);
-            profile<<"output_start,chunk_wall_s,chunk_thread_cpu_s,fifo_wait_s,cpp_new_calls,"
+            profile<<"output_start,start_unix_ns,end_unix_ns,thread_id,"
+                "dsp_compute_wall_s,dsp_compute_cpu_s,fifo_wait_s,"
+                "worker_cycle_wall_s,worker_cycle_cpu_s,fifo_write_s,"
+                "mutex_wait_s,mutex_hold_s,plan_wall_s,plan_cpu_s,"
+                "publication_interval_s,allocation_counter_enabled,cpp_new_calls,"
                 "wav_wall_s,wav_cpu_s,fft_wall_s,fft_cpu_s,phase_wall_s,phase_cpu_s,"
                 "ifft_ola_wall_s,ifft_ola_cpu_s,fir_wall_s,fir_cpu_s\n";
             for (const auto& block:pipeline.slowestBlocks()) {
-                profile<<block.outputStart<<','<<block.chunkWallSeconds<<','
+                profile<<block.outputStart<<','<<block.startUnixNs<<','
+                    <<block.endUnixNs<<','<<block.threadId<<','
+                    <<block.chunkWallSeconds<<','
                     <<block.chunkCpuSeconds<<','<<block.fifoWaitSeconds<<','
-                    <<block.cppNewCalls;
+                    <<block.fullCycleWallSeconds<<','<<block.fullCycleCpuSeconds<<','
+                    <<block.fifoWriteSeconds<<','<<block.mutexWaitSeconds<<','
+                    <<block.mutexHoldSeconds<<','<<block.planWallSeconds<<','
+                    <<block.planCpuSeconds<<','<<block.publicationIntervalSeconds<<','
+                    <<block.allocationCounterEnabled<<',';
+                if (block.allocationCounterEnabled) profile<<block.cppNewCalls;
+                else profile<<"unmeasured";
                 for (const auto& stage:block.work.stages)
                     profile<<','<<stage.wallSeconds<<','<<stage.threadCpuSeconds;
                 profile<<'\n';
+            }
+            std::ofstream guard(std::string(argv[10])+".guard.csv");
+            guard<<"generation,safe,fifo_at_plan,candidates,guard_wall_s,guard_cpu_s,"
+                    "candidate_input,candidate_probed,candidate_accepted,candidate_wall_s,candidate_cpu_s,"
+                    "weight_low_s,weight_mid_s,weight_high_s,"
+                    "history_mismatch_low,history_mismatch_mid,history_mismatch_high,"
+                    "history_max_diff_low,history_max_diff_mid,history_max_diff_high,"
+                    "actual_weight_low,actual_weight_mid,actual_weight_high,"
+                    "predicted_weight_low,predicted_weight_mid,predicted_weight_high,"
+                    "weight_error_low,weight_error_mid,weight_error_high\n";
+            for (const auto& metric:pipeline.guardMetrics()) {
+                const auto& d=metric.decision;
+                const auto emit=[&](const Phase42CandidateTiming* candidate) {
+                    guard<<metric.generation<<','<<d.safe<<','<<metric.fifoAtPlan<<','
+                         <<d.candidatesTried<<','<<d.guardWallSeconds<<','
+                         <<d.guardThreadCpuSeconds<<','
+                         <<(candidate ? candidate->inputSample : 0)<<','
+                         <<(candidate && candidate->probed)<<','
+                         <<(candidate && candidate->accepted)<<','
+                         <<(candidate ? candidate->wallSeconds : 0)<<','
+                         <<(candidate ? candidate->threadCpuSeconds : 0);
+                    for (std::size_t r=0;r<3;++r)
+                        guard<<','<<(candidate ? candidate->weightCheckSeconds[r] : 0);
+                    for (const auto value:d.reconstructedHistoryMismatches)
+                        guard<<','<<value;
+                    for (const auto value:d.reconstructedHistoryMaxDifference)
+                        guard<<','<<value;
+                    for (const auto value:d.actualWeight) guard<<','<<value;
+                    for (const auto value:d.predictedActualWeight) guard<<','<<value;
+                    for (const auto value:d.weightPredictionAbsoluteError) guard<<','<<value;
+                    guard<<'\n';
+                };
+                if (d.candidateTimings.empty()) emit(nullptr);
+                else for (const auto& candidate:d.candidateTimings) emit(&candidate);
             }
         }
         const auto snapshot=pipeline.snapshot();
@@ -222,10 +269,15 @@ int main(int argc,char** argv) {
                    <<metric.densityMaximumLocalSpeed[2]<<'\n';
         }
         std::cout<<"frames="<<presented<<"\nchanges="<<next
+                 <<"\nallocation_counter_enabled="<<allocationCounterEnabled
                  <<"\nunderrun="<<snapshot.underrunFrames
                  <<"\nrejected_writes="<<snapshot.rejectedWrites
                  <<"\nfifo_high_water="<<snapshot.fifoHighWater
                  <<"\nmax_worker_chunk_seconds="<<snapshot.maxWorkerChunkSeconds
+                 <<"\nmax_worker_cycle_seconds="<<snapshot.maxWorkerCycleSeconds
+                 <<"\nmax_worker_cycle_cpu_seconds="<<snapshot.maxWorkerCycleCpuSeconds
+                 <<"\np95_worker_cycle_seconds="<<pipeline.workerCycleP95Seconds()
+                 <<"\np99_worker_cycle_seconds="<<pipeline.workerCycleP99Seconds()
                  <<"\nmax_worker_cpu_seconds="<<snapshot.maxWorkerCpuSeconds
                  <<"\nmax_fifo_wait_seconds="<<snapshot.maxFifoWaitSeconds
                  <<"\nmax_fifo_write_seconds="<<snapshot.maxFifoWriteSeconds

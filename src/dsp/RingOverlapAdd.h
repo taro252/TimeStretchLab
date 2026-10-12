@@ -11,6 +11,8 @@ public:
     void add(const float* frame, const float* window, std::size_t size, long long start);
     float pop();
     float preview(std::size_t absoluteSample) const;
+    // Read-only diagnostic: inspect the unnormalised Hann-squared accumulator.
+    float diagnosticWeight(std::size_t absoluteSample) const;
     std::size_t nextAbsoluteSample() const { return base_; }
     std::size_t capacity() const { return signal_.size(); }
 private:

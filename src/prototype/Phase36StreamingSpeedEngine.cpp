@@ -162,13 +162,15 @@ Detection makeDetection(const Phase13TransientAnalysis& analysis,
 }
 class ResolutionStream {
 public:
+    using Frontier=Phase36StreamingSpeedEngine::Frontier;
     ResolutionStream(const std::filesystem::path& path, const StretchConfig& config,
                      int fftSize, int hop, const Detection& detection,
                      bool mid, std::size_t outputLength,
                      const std::vector<std::pair<std::size_t,bool>>& modeChanges,
                      Phase13StageDigests& digests,
                      std::size_t resolutionIndex,std::ostream* stageTrace,
-                     std::size_t probeInputSample,WorkProfile* profile)
+                     std::size_t probeInputSample,WorkProfile* profile,
+                     bool recordFrameHistory)
         : reader_(path), config_(config), detection_(detection), mid_(mid),
           fftSize_(fftSize), hop_(hop), padding_(fftSize/2),
           length_(reader_.frames()), outputLength_(outputLength),
@@ -177,6 +179,7 @@ public:
           stageTrace_(stageTrace), probeInputSample_(probeInputSample), stft_(fftSize),
           coherence_(fftSize,config.sampleRate,config.stereoCoherenceStrength,
                      config.lowFrequencyCoherenceStrength), sharedPeaks_(fftSize),
+          recordFrameHistory_(recordFrameHistory),
           frame_(fftSize), synthesized_(fftSize),profile_(profile),
           inputSpectra_(reader_.channels(),std::vector<std::complex<float>>(fftSize/2+1)),
           outputSpectra_(reader_.channels(),std::vector<std::complex<float>>(fftSize/2+1)),
@@ -207,6 +210,16 @@ public:
     std::size_t firstUnprocessedInputSample() const { return position_; }
     std::size_t lastProcessedInputSample() const { return lastProcessed_; }
     std::size_t finalizedOlaSample() const { return olas_[0].nextAbsoluteSample(); }
+    float diagnosticOlaWeight() const {
+        return olas_[0].diagnosticWeight(olas_[0].nextAbsoluteSample());
+    }
+    void copyFrameHistory(std::array<std::size_t,Frontier::historySize>& input,
+                          std::array<long long,Frontier::historySize>& output,
+                          std::size_t& count) const {
+        input=recentInput_;
+        output=recentOutput_;
+        count=recentCount_;
+    }
     float get(std::size_t channel,std::size_t index) {
         if (index>=outputLength_) throw std::out_of_range("Resolution output index");
         while (produced_<=index) produce();
@@ -342,6 +355,16 @@ private:
                         <<digests_.ifft[resolutionIndex_]<<','
                         <<digests_.ola[resolutionIndex_]<<",,,\n";
         previousStart_=start;
+        if (recordFrameHistory_) {
+            if (recentCount_==Frontier::historySize) {
+                std::move(recentInput_.begin()+1,recentInput_.end(),recentInput_.begin());
+                std::move(recentOutput_.begin()+1,recentOutput_.end(),recentOutput_.begin());
+                --recentCount_;
+            }
+            recentInput_[recentCount_]=position_;
+            recentOutput_[recentCount_]=start;
+            ++recentCount_;
+        }
         if (position_>=length_+padding_) done_=true;
         lastProcessed_=position_;
         position_=following;
@@ -377,6 +400,10 @@ private:
     std::ofstream diagnostics_;
     std::vector<Phase35PhaseVocoder> vocoders_;
     std::vector<RingOverlapAdd> olas_;
+    bool recordFrameHistory_=false;
+    std::array<std::size_t,Frontier::historySize> recentInput_{};
+    std::array<long long,Frontier::historySize> recentOutput_{};
+    std::size_t recentCount_=0;
     std::vector<float> frame_,synthesized_;
     WorkProfile* profile_;
     std::vector<std::vector<std::complex<float>>> inputSpectra_,outputSpectra_;
@@ -406,7 +433,7 @@ Phase13Result Phase36StreamingSpeedEngine::process(
     const PreparedSink& preparedSink,const UpdateHook& update,
     std::vector<std::pair<std::size_t,bool>> modeChanges,
     const ProfileHook& profileHook,std::ostream* componentCsv,
-    std::size_t probeFirst,std::size_t probeLast) {
+    std::size_t probeFirst,std::size_t probeLast,bool recordFrameHistory) {
     std::ostream* stageTrace=nullptr;
     std::size_t probeInputSample=0;
     if (!preparedSink || map.empty() || map.sourceHop()!=1024 ||
@@ -446,11 +473,14 @@ Phase13Result Phase36StreamingSpeedEngine::process(
     // crossover filters likewise retain their overlap and FFT block position.
     std::array<std::unique_ptr<ResolutionStream>,3> resolution;
     resolution[1]=std::make_unique<ResolutionStream>(input,config_,4096,1024,
-        detection,true,outputFrames,modeChanges,phase13.stages,1,stageTrace,probeInputSample,profile);
+        detection,true,outputFrames,modeChanges,phase13.stages,1,stageTrace,probeInputSample,profile,
+        recordFrameHistory);
     resolution[0]=std::make_unique<ResolutionStream>(input,config_,8192,2048,
-        detection,false,outputFrames,modeChanges,phase13.stages,0,stageTrace,probeInputSample,profile);
+        detection,false,outputFrames,modeChanges,phase13.stages,0,stageTrace,probeInputSample,profile,
+        recordFrameHistory);
     resolution[2]=std::make_unique<ResolutionStream>(input,config_,1024,256,
-        detection,false,outputFrames,modeChanges,phase13.stages,2,stageTrace,probeInputSample,profile);
+        detection,false,outputFrames,modeChanges,phase13.stages,2,stageTrace,probeInputSample,profile,
+        recordFrameHistory);
     for (const auto& item:resolution)
         result.olaRingSamples+=item->olaSize()*reader.channels();
     MultiResolutionCrossover filters(config_.sampleRate,config_.lowCrossoverHz,
@@ -506,6 +536,12 @@ Phase13Result Phase36StreamingSpeedEngine::process(
                     frontier.nextInput[r]=resolution[r]->firstUnprocessedInputSample();
                     frontier.lastProcessedInput[r]=resolution[r]->lastProcessedInputSample();
                     frontier.finalizedOla[r]=resolution[r]->finalizedOlaSample();
+                    if (recordFrameHistory) {
+                        resolution[r]->copyFrameHistory(frontier.recentFrameInput[r],
+                            frontier.recentFrameOutput[r],frontier.recentFrameCount[r]);
+                        frontier.actualWeightSample[r]=frontier.finalizedOla[r];
+                        frontier.actualWeight[r]=resolution[r]->diagnosticOlaWeight();
+                    }
                 }
                 frontier.firstUnprocessedFirSource={
                     lowFilters[0]->firstUnprocessedSourceSample(),

@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include <ctime>
 #include <fstream>
+#include <pthread.h>
 
 namespace ts::prototype {
 namespace {
@@ -17,11 +18,25 @@ std::uint64_t nowNs() {
     return static_cast<std::uint64_t>(std::chrono::duration_cast<std::chrono::nanoseconds>(
         Clock::now().time_since_epoch()).count());
 }
+std::uint64_t unixNowNs() {
+    return static_cast<std::uint64_t>(std::chrono::duration_cast<std::chrono::nanoseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count());
+}
 double workerCpuSeconds() {
     timespec stamp{};
     if (clock_gettime(CLOCK_THREAD_CPUTIME_ID,&stamp)!=0) return 0;
     return double(stamp.tv_sec)+double(stamp.tv_nsec)*1e-9;
 }
+struct ScopedPlanTiming {
+    double& wall;
+    double& cpu;
+    Clock::time_point begin=Clock::now();
+    double cpuBegin=workerCpuSeconds();
+    ~ScopedPlanTiming() {
+        wall+=std::chrono::duration<double>(Clock::now()-begin).count();
+        cpu+=std::max(0.0,workerCpuSeconds()-cpuBegin);
+    }
+};
 StretchConfig frozen(const std::filesystem::path& file,Phase39Speed initial) {
     if (!initial.valid()) throw std::invalid_argument("Invalid initial speed");
     WavStreamReader reader(file);
@@ -79,6 +94,7 @@ void Phase39PlaybackPipeline::start() {
     workerSeenNs_=0;planNs_=0;requestedOutput_=0;requestedInput_=0;
     produced_=0;presented_=0;underrunFrames_=0;maxWorkerChunkSeconds_=0;
     maxWorkerCpuSeconds_=0;maxFifoWaitSeconds_=0;
+    maxWorkerCycleSeconds_=0;maxWorkerCycleCpuSeconds_=0;
     fifoWaitNanoseconds_=0;workerChunksOver100Ms_=0;
     planMilliseconds_=0;planCpuMilliseconds_=0;
     maxFifoWriteSeconds_=0;maxHistoryMutexWaitSeconds_=0;
@@ -87,10 +103,14 @@ void Phase39PlaybackPipeline::start() {
     appliedOutput_=0;completionOutput_=0;planCount_=0;appliedGeneration_=0;error_=nullptr;
     stageDigests_={};
     slowestBlocks_.clear();
+    guardMetrics_.clear();
+    guardMetrics_.reserve(64);
     if (enableProfile_) slowestBlocks_.reserve(20);
     { std::lock_guard lock(historyMutex_);
       plans_.clear(); plans_.reserve(64);
       workerChunkSeconds_.clear(); workerChunkSeconds_.reserve(65536); }
+    { std::lock_guard lock(historyMutex_);
+      workerCycleSeconds_.clear(); workerCycleSeconds_.reserve(65536); }
     outputLength_=static_cast<std::size_t>(std::llround(analysis_.inputFrames()*initial_.timeRatio()));
     worker_=std::thread([this] {
         try {
@@ -103,8 +123,15 @@ void Phase39PlaybackPipeline::start() {
                 componentOutput<<"sample,channel,low_raw,mid_raw,high_raw,lp250_diff,lp3500_diff,final\n";
             }
             auto previous=Clock::now();
+            auto previousUnix=unixNowNs();
+            std::uint64_t workerTid=0;
+            pthread_threadid_np(nullptr,&workerTid);
             auto previousCpu=workerCpuSeconds();
             auto previousNew=allocationCounter_ ? allocationCounter_() : 0;
+            bool hasPublished=false;
+            double planCycleWall=0,planCycleCpu=0;
+            double planMutexWait=0,planMutexHold=0;
+            double postPublicationMutexWait=0,postPublicationMutexHold=0;
             Phase39BlockProfile latestProfile;
             const auto publish=[&](const float* const* data,std::size_t frames,
                                    const std::function<void()>& poll) {
@@ -113,10 +140,12 @@ void Phase39PlaybackPipeline::start() {
                 const auto cpuNow=workerCpuSeconds();
                 const auto cpuSeconds=std::max(0.0,cpuNow-previousCpu);
                 if (enableProfile_) {
+                    latestProfile={};
+                    latestProfile.startUnixNs=previousUnix;
+                    latestProfile.threadId=workerTid;
                     latestProfile.chunkWallSeconds=seconds;
                     latestProfile.chunkCpuSeconds=cpuSeconds;
-                    const auto currentNew=allocationCounter_ ? allocationCounter_() : 0;
-                    latestProfile.cppNewCalls=currentNew-previousNew;
+                    latestProfile.allocationCounterEnabled=bool(allocationCounter_);
                 }
                 auto oldCpu=maxWorkerCpuSeconds_.load();
                 while (oldCpu<cpuSeconds &&
@@ -127,12 +156,17 @@ void Phase39PlaybackPipeline::start() {
                 const auto mutexStart=Clock::now();
                 std::unique_lock historyLock(historyMutex_);
                 const auto mutexWait=std::chrono::duration<double>(Clock::now()-mutexStart).count();
+                if (enableProfile_) latestProfile.mutexWaitSeconds=
+                    mutexWait+planMutexWait+postPublicationMutexWait;
                 auto oldMutex=maxHistoryMutexWaitSeconds_.load();
                 while (oldMutex<mutexWait &&
                        !maxHistoryMutexWaitSeconds_.compare_exchange_weak(oldMutex,mutexWait)) {}
                 if (workerChunkSeconds_.size()<65536)
                     workerChunkSeconds_.push_back(seconds);
                 historyLock.unlock();
+                if (enableProfile_) latestProfile.mutexHoldSeconds=
+                    std::chrono::duration<double>(Clock::now()-mutexStart).count()-mutexWait+
+                    planMutexHold+postPublicationMutexHold;
                 const auto waitBegin=Clock::now();
                 while (!stop_.load(std::memory_order_acquire) &&
                        (fifo_.free()<frames || fifo_.available()+frames>leadFrames_)) {
@@ -150,19 +184,56 @@ void Phase39PlaybackPipeline::start() {
                 const auto writeStart=Clock::now();
                 if (!fifo_.write(data,frames)) throw std::runtime_error("Phase 39 FIFO overflow");
                 const auto writeSeconds=std::chrono::duration<double>(Clock::now()-writeStart).count();
+                if (enableProfile_) latestProfile.fifoWriteSeconds=writeSeconds;
                 auto oldWrite=maxFifoWriteSeconds_.load();
                 while (oldWrite<writeSeconds &&
                        !maxFifoWriteSeconds_.compare_exchange_weak(oldWrite,writeSeconds)) {}
                 produced_.fetch_add(frames,std::memory_order_release);
-                previous=Clock::now();
-                previousCpu=workerCpuSeconds();
+                const auto publishedAt=Clock::now();
+                const auto publishedUnix=unixNowNs();
+                const auto publishedCpu=workerCpuSeconds();
+                const auto cycleSeconds=std::chrono::duration<double>(publishedAt-previous).count();
+                const auto cycleCpu=std::max(0.0,publishedCpu-previousCpu);
+                auto oldCycle=maxWorkerCycleSeconds_.load();
+                while (oldCycle<cycleSeconds &&
+                       !maxWorkerCycleSeconds_.compare_exchange_weak(oldCycle,cycleSeconds)) {}
+                auto oldCycleCpu=maxWorkerCycleCpuSeconds_.load();
+                while (oldCycleCpu<cycleCpu &&
+                       !maxWorkerCycleCpuSeconds_.compare_exchange_weak(oldCycleCpu,cycleCpu)) {}
+                { const auto lockBegin=Clock::now();
+                  std::unique_lock lock(historyMutex_);
+                  const auto wait=std::chrono::duration<double>(Clock::now()-lockBegin).count();
+                  if (workerCycleSeconds_.size()<65536)
+                      workerCycleSeconds_.push_back(cycleSeconds);
+                  lock.unlock();
+                  postPublicationMutexWait=wait;
+                  postPublicationMutexHold=
+                      std::chrono::duration<double>(Clock::now()-lockBegin).count()-wait; }
+                if (enableProfile_) {
+                    latestProfile.endUnixNs=publishedUnix;
+                    latestProfile.fullCycleWallSeconds=cycleSeconds;
+                    latestProfile.fullCycleCpuSeconds=cycleCpu;
+                    latestProfile.publicationIntervalSeconds=
+                        hasPublished ? latestProfile.fullCycleWallSeconds : -1.0;
+                    latestProfile.planWallSeconds=planCycleWall;
+                    latestProfile.planCpuSeconds=planCycleCpu;
+                    if (allocationCounter_)
+                        latestProfile.cppNewCalls=allocationCounter_()-previousNew;
+                }
+                previous=publishedAt;
+                hasPublished=true;
+                previousUnix=publishedUnix;
+                previousCpu=publishedCpu;
                 if (allocationCounter_) previousNew=allocationCounter_();
+                planCycleWall=planCycleCpu=0;
+                planMutexWait=planMutexHold=0;
             };
             const auto plan=[&](const Phase36StreamingSpeedEngine::Frontier& frontier,
                                  TimeMap& map,std::size_t& length,
                                  std::vector<std::pair<std::size_t,bool>>& modeChanges) {
                 if (state_.load(std::memory_order_acquire)!=Phase39RequestState::Requested)
                     return;
+                ScopedPlanTiming planTiming{planCycleWall,planCycleCpu};
                 workerSeenNs_.store(nowNs(),std::memory_order_relaxed);
                 const auto committed=frontier.preparedOutput;
                 const auto asked=requestedOutput_.load(std::memory_order_relaxed);
@@ -248,7 +319,8 @@ void Phase39PlaybackPipeline::start() {
                     }
                     densityDecision=chooseSafeDensitySwitch(candidate.current(),proposal,
                         frontier,modeChanges,from.value()<0.50,target.value()<0.50,
-                        fence,analysis_.inputFrames());
+                        fence,analysis_.inputFrames(),enableProfile_);
+                    guardMetrics_.push_back({generation,fifo_.available(),densityDecision});
                     if (!densityDecision.safe) {
                         planOutcome_.store(Phase39Outcome::NoSafeInterval,std::memory_order_relaxed);
                         state_.store(Phase39RequestState::Rejected,std::memory_order_release);
@@ -277,7 +349,10 @@ void Phase39PlaybackPipeline::start() {
                 planMilliseconds_.store(milliseconds,std::memory_order_relaxed);
                 planCpuMilliseconds_.store((workerCpuSeconds()-beginPlanCpu)*1000.0,
                                             std::memory_order_relaxed);
-                { std::lock_guard lock(historyMutex_);
+                { const auto lockBegin=Clock::now();
+                  std::unique_lock lock(historyMutex_);
+                  const auto lockWait=std::chrono::duration<double>(Clock::now()-lockBegin).count();
+                  planMutexWait+=lockWait;
                   plans_.push_back({proposal,from,target,generation,
                       requestNs_.load(std::memory_order_relaxed),nowNs(),
                       asked,requestInput,fence,committed,published,firstInput,
@@ -286,7 +361,10 @@ void Phase39PlaybackPipeline::start() {
                       modeInput,densityDecision.maximumHop,densityDecision.maximumHopStep,
                       densityDecision.minimumWeight,densityDecision.minimumLocalSpeed,
                       densityDecision.maximumLocalSpeed,
-                      densityDecision.candidatesTried,timeline.fixedMapBytes(),milliseconds}); }
+                      densityDecision.candidatesTried,timeline.fixedMapBytes(),milliseconds});
+                  lock.unlock();
+                  planMutexHold+=std::chrono::duration<double>(Clock::now()-lockBegin).count()-
+                      lockWait; }
                 appliedGeneration_.store(generation,std::memory_order_release);
                 planCount_.fetch_add(1,std::memory_order_release);
                 planNs_.store(nowNs(),std::memory_order_relaxed);
@@ -301,9 +379,9 @@ void Phase39PlaybackPipeline::start() {
                     else {
                         const auto weakest=std::min_element(slowestBlocks_.begin(),
                             slowestBlocks_.end(),[](const auto& a,const auto& b) {
-                                return a.chunkWallSeconds<b.chunkWallSeconds;
+                                return a.fullCycleWallSeconds<b.fullCycleWallSeconds;
                             });
-                        if (latestProfile.chunkWallSeconds>weakest->chunkWallSeconds)
+                        if (latestProfile.fullCycleWallSeconds>weakest->fullCycleWallSeconds)
                             *weakest=latestProfile;
                     }
                 }) : Phase36StreamingSpeedEngine::ProfileHook{};
@@ -312,7 +390,8 @@ void Phase39PlaybackPipeline::start() {
                                          const std::function<void()>& poll) {
                     publish(data,frames,poll);
                 },plan,{},profileHook,
-                componentOutput ? &componentOutput : nullptr,probeFirst_,probeLast_);
+                componentOutput ? &componentOutput : nullptr,probeFirst_,probeLast_,
+                densityDiagnostic_==Phase39DensityDiagnostic::SafeGuarded);
             stageDigests_=result.stages;
         } catch (const Stopped&) {
         } catch (...) { error_=std::current_exception(); }
@@ -328,9 +407,14 @@ std::vector<Phase39BlockProfile> Phase39PlaybackPipeline::slowestBlocks() const 
         throw std::logic_error("Profile is available after worker completion");
     auto result=slowestBlocks_;
     std::sort(result.begin(),result.end(),[](const auto& a,const auto& b) {
-        return a.chunkWallSeconds>b.chunkWallSeconds;
+        return a.fullCycleWallSeconds>b.fullCycleWallSeconds;
     });
     return result;
+}
+std::vector<Phase39GuardMetric> Phase39PlaybackPipeline::guardMetrics() const {
+    if (!finished_.load(std::memory_order_acquire))
+        throw std::logic_error("Guard metrics are available after worker completion");
+    return guardMetrics_;
 }
 void Phase39PlaybackPipeline::stop() {
     started_.store(false,std::memory_order_release);
@@ -429,6 +513,8 @@ Phase39Snapshot Phase39PlaybackPipeline::snapshot() const noexcept {
     value.rejectedWrites=fifo_.rejectedWrites();
     value.maxWorkerChunkSeconds=maxWorkerChunkSeconds_.load();
     value.maxWorkerCpuSeconds=maxWorkerCpuSeconds_.load();
+    value.maxWorkerCycleSeconds=maxWorkerCycleSeconds_.load();
+    value.maxWorkerCycleCpuSeconds=maxWorkerCycleCpuSeconds_.load();
     value.maxFifoWaitSeconds=maxFifoWaitSeconds_.load();
     value.maxFifoWriteSeconds=maxFifoWriteSeconds_.load();
     value.maxHistoryMutexWaitSeconds=maxHistoryMutexWaitSeconds_.load();
@@ -466,6 +552,22 @@ double Phase39PlaybackPipeline::workerChunkP95Seconds() const {
 double Phase39PlaybackPipeline::workerChunkP99Seconds() const {
     std::vector<double> durations;
     { std::lock_guard lock(historyMutex_); durations=workerChunkSeconds_; }
+    if (durations.empty()) return 0;
+    const auto index=static_cast<std::size_t>(std::ceil(durations.size()*0.99))-1;
+    std::nth_element(durations.begin(),durations.begin()+index,durations.end());
+    return durations[index];
+}
+double Phase39PlaybackPipeline::workerCycleP95Seconds() const {
+    std::vector<double> durations;
+    { std::lock_guard lock(historyMutex_); durations=workerCycleSeconds_; }
+    if (durations.empty()) return 0;
+    const auto index=static_cast<std::size_t>(std::ceil(durations.size()*0.95))-1;
+    std::nth_element(durations.begin(),durations.begin()+index,durations.end());
+    return durations[index];
+}
+double Phase39PlaybackPipeline::workerCycleP99Seconds() const {
+    std::vector<double> durations;
+    { std::lock_guard lock(historyMutex_); durations=workerCycleSeconds_; }
     if (durations.empty()) return 0;
     const auto index=static_cast<std::size_t>(std::ceil(durations.size()*0.99))-1;
     std::nth_element(durations.begin(),durations.begin()+index,durations.end());

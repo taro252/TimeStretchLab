@@ -3,12 +3,19 @@
 #include <cmath>
 #include <cstdlib>
 #include <numbers>
+#include <chrono>
+#include <ctime>
 
 namespace ts::prototype {
 namespace {
 constexpr std::array<std::size_t,3> fft={8192,4096,1024};
 constexpr std::array<std::size_t,3> hop={2048,1024,256};
 constexpr double minimumHannSquaredWeight=0.15;
+double threadCpuSeconds() {
+    timespec stamp{};
+    if (clock_gettime(CLOCK_THREAD_CPUTIME_ID,&stamp)!=0) return 0;
+    return double(stamp.tv_sec)+double(stamp.tv_nsec)*1e-9;
+}
 
 const std::vector<double>& hannSquared(std::size_t resolution) {
     static const auto tables=[] {
@@ -39,21 +46,40 @@ bool protectedInput(const TimeMap& map,std::size_t input) {
 bool probe(const TimeMap& map,const Phase39Plan& plan,
            const Phase36StreamingSpeedEngine::Frontier& frontier,
            std::size_t changeInput,bool currentHalf,bool targetHalf,
-           Phase42DensityDecision& result) {
+           Phase42DensityDecision& result,Phase42CandidateTiming* timing) {
     for (std::size_t r=0;r<3;++r) {
         const auto oldHop=hop[r]/(currentHalf ? 2 : 1);
         const auto newHop=hop[r]/(targetHalf ? 2 : 1);
         std::vector<long long> starts;
         starts.reserve(256);
-        // Reconstruct a few already processed frames solely to evaluate the
-        // overlap around the new frame; no DSP history is modified.
-        for (int i=4;i>=1;--i) {
-            if (frontier.lastProcessedInput[r]<std::size_t(i)*oldHop) continue;
-            starts.push_back(std::llround(map.outputPositionForInputSample(
-                double(frontier.lastProcessedInput[r]-std::size_t(i)*oldHop))));
+        // Use the frame positions actually consumed by the DSP. Earlier
+        // density switches can make a constant-hop reconstruction incorrect.
+        const auto count=frontier.recentFrameCount[r];
+        if (count==0) return false;
+        const auto first=count>5 ? count-5 : 0;
+        for (std::size_t i=first;i<count;++i) {
+            starts.push_back(frontier.recentFrameOutput[r][i]);
+            const auto framesBack=count-1-i;
+            if (frontier.lastProcessedInput[r]<framesBack*oldHop) continue;
+            const auto reconstructed=std::llround(map.outputPositionForInputSample(
+                double(frontier.lastProcessedInput[r]-framesBack*oldHop)));
+            const auto difference=std::llabs(reconstructed-starts.back());
+            if (difference) ++result.reconstructedHistoryMismatches[r];
+            result.reconstructedHistoryMaxDifference[r]=std::max(
+                result.reconstructedHistoryMaxDifference[r],difference);
         }
-        starts.push_back(std::llround(map.outputPositionForInputSample(
-            double(frontier.lastProcessedInput[r]))));
+        const auto sample=static_cast<long long>(frontier.actualWeightSample[r]);
+        const auto& actualWindow=hannSquared(r);
+        double predicted=0;
+        for (std::size_t i=0;i<count;++i) {
+            const auto delta=sample-frontier.recentFrameOutput[r][i];
+            if (delta>=0 && delta<static_cast<long long>(fft[r]))
+                predicted+=actualWindow[static_cast<std::size_t>(delta)];
+        }
+        result.actualWeight[r]=frontier.actualWeight[r];
+        result.predictedActualWeight[r]=predicted;
+        result.weightPredictionAbsoluteError[r]=std::abs(predicted-frontier.actualWeight[r]);
+        if (result.weightPredictionAbsoluteError[r]>1e-4) return false;
         auto input=frontier.nextInput[r];
         auto previousInput=frontier.lastProcessedInput[r];
         auto previousStep=starts.size()>1 ? starts.back()-starts[starts.size()-2] : 0;
@@ -86,6 +112,7 @@ bool probe(const TimeMap& map,const Phase39Plan& plan,
             plan.appliedOutputSample,starts.front()+static_cast<long long>(fft[r]));
         if (firstSample>=firstChanged+static_cast<long long>(fft[r])) return false;
         const auto& window=hannSquared(r);
+        const auto weightBegin=std::chrono::steady_clock::now();
         for (long long sample=firstSample;
              sample<firstChanged+static_cast<long long>(fft[r]);++sample) {
             double weight=0;
@@ -97,6 +124,8 @@ bool probe(const TimeMap& map,const Phase39Plan& plan,
             }
             minimum=std::min(minimum,weight);
         }
+        if (timing) timing->weightCheckSeconds[r]=std::chrono::duration<double>(
+            std::chrono::steady_clock::now()-weightBegin).count();
         result.minimumWeight[r]=minimum;
         if (minimum<minimumHannSquaredWeight) return false;
     }
@@ -109,9 +138,18 @@ Phase42DensityDecision chooseSafeDensitySwitch(
     const Phase36StreamingSpeedEngine::Frontier& frontier,
     const std::vector<std::pair<std::size_t,bool>>& earlierChanges,
     bool currentHalf,bool targetHalf,std::size_t firstMutableOutput,
-    std::size_t inputFrames) {
+    std::size_t inputFrames,bool profile) {
+    const auto guardBegin=std::chrono::steady_clock::now();
+    const auto guardCpuBegin=profile ? threadCpuSeconds() : 0.0;
     Phase42DensityDecision decision;
-    if (currentHalf==targetHalf) {decision.safe=true;return decision;}
+    const auto finish=[&] {
+        if (profile) {
+            decision.guardWallSeconds=std::chrono::duration<double>(
+                std::chrono::steady_clock::now()-guardBegin).count();
+            decision.guardThreadCpuSeconds=threadCpuSeconds()-guardCpuBegin;
+        }
+    };
+    if (currentHalf==targetHalf) {decision.safe=true;finish();return decision;}
     // Reducing frame density waits until the old, long output hops are over.
     // Increasing density must precede the first large output hop.
     auto candidate=(targetHalf ? plan.appliedFrame : plan.rampEndFrame)*1024;
@@ -121,19 +159,43 @@ Phase42DensityDecision chooseSafeDensitySwitch(
     candidate=(candidate+1023)/1024*1024;
     for (std::size_t attempt=0;attempt<128 && candidate<inputFrames;++attempt,candidate+=1024) {
         ++decision.candidatesTried;
+        Phase42CandidateTiming timing;
+        timing.inputSample=candidate;
+        const auto candidateBegin=std::chrono::steady_clock::now();
+        const auto candidateCpuBegin=profile ? threadCpuSeconds() : 0.0;
         if (candidate<=*std::max_element(frontier.lastProcessedInput.begin(),
                                           frontier.lastProcessedInput.end()) ||
             std::llround(map.outputPositionForInputSample(double(candidate)))<=
-                static_cast<long long>(firstMutableOutput) || protectedInput(map,candidate))
+                static_cast<long long>(firstMutableOutput) || protectedInput(map,candidate)) {
+            if (profile) {
+                timing.wallSeconds=std::chrono::duration<double>(
+                    std::chrono::steady_clock::now()-candidateBegin).count();
+                timing.threadCpuSeconds=threadCpuSeconds()-candidateCpuBegin;
+                decision.candidateTimings.push_back(timing);
+            }
             continue;
+        }
         Phase42DensityDecision probeResult;
-        if (!probe(map,plan,frontier,candidate,currentHalf,targetHalf,probeResult)) continue;
+        timing.probed=true;
+        const auto accepted=probe(map,plan,frontier,candidate,currentHalf,targetHalf,
+            probeResult,profile ? &timing : nullptr);
+        if (profile) {
+            timing.accepted=accepted;
+            timing.wallSeconds=std::chrono::duration<double>(
+                std::chrono::steady_clock::now()-candidateBegin).count();
+            timing.threadCpuSeconds=threadCpuSeconds()-candidateCpuBegin;
+            decision.candidateTimings.push_back(timing);
+        }
+        if (!accepted) continue;
+        probeResult.candidateTimings=std::move(decision.candidateTimings);
         decision=probeResult;
         decision.safe=true;
         decision.inputSample=candidate;
         decision.candidatesTried=attempt+1;
+        finish();
         return decision;
     }
+    finish();
     return decision;
 }
 } // namespace ts::prototype

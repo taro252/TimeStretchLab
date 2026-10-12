@@ -20,11 +20,18 @@ public:
         std::array<StageTime,5> stages{}; // WAV read, FFT, phase, IFFT/OLA, FIR
     };
     struct Frontier {
+        static constexpr std::size_t historySize=24;
         std::size_t preparedOutput=0;
         std::array<std::size_t,3> nextInput{};
         std::array<std::size_t,3> lastProcessedInput{};
         std::array<std::size_t,3> finalizedOla{};
         std::array<std::size_t,2> firstUnprocessedFirSource{};
+        // Read-only research telemetry. Old code paths leave counts at zero.
+        std::array<std::array<std::size_t,historySize>,3> recentFrameInput{};
+        std::array<std::array<long long,historySize>,3> recentFrameOutput{};
+        std::array<std::size_t,3> recentFrameCount{};
+        std::array<std::size_t,3> actualWeightSample{};
+        std::array<float,3> actualWeight{};
     };
     using PreparedSink=std::function<void(const float* const*,std::size_t,
         const std::function<void()>& poll)>;
@@ -38,7 +45,8 @@ public:
         const PreparedSink& sink,const UpdateHook& update,
         std::vector<std::pair<std::size_t,bool>> modeChanges={},
         const ProfileHook& profileHook={},std::ostream* componentCsv=nullptr,
-        std::size_t probeFirst=0,std::size_t probeLast=0);
+        std::size_t probeFirst=0,std::size_t probeLast=0,
+        bool recordFrameHistory=false);
 private:
     StretchConfig config_;
 };

@@ -2,6 +2,7 @@
 #include "dsp/Phase14PlaybackPipeline.h"
 #include "prototype/Phase39TimeMap.h"
 #include "prototype/Phase36StreamingSpeedEngine.h"
+#include "prototype/Phase42DensityGuard.h"
 #include <array>
 #include <atomic>
 #include <chrono>
@@ -55,6 +56,7 @@ struct Phase39Snapshot {
     double maxWorkerChunkSeconds=0,planMilliseconds=0,planCpuMilliseconds=0;
     double maxWorkerCpuSeconds=0,maxFifoWaitSeconds=0,maxFifoWriteSeconds=0;
     double maxHistoryMutexWaitSeconds=0;
+    double maxWorkerCycleSeconds=0,maxWorkerCycleCpuSeconds=0;
     std::uint64_t fifoWaitNanoseconds=0,workerChunksOver100Ms=0;
     std::size_t completedChanges=0;
 };
@@ -64,9 +66,19 @@ struct Phase39RealtimeMarkers {
 };
 struct Phase39BlockProfile {
     std::size_t outputStart=0;
+    std::uint64_t startUnixNs=0,endUnixNs=0,threadId=0;
     double chunkWallSeconds=0,chunkCpuSeconds=0,fifoWaitSeconds=0;
+    double fullCycleWallSeconds=0,fullCycleCpuSeconds=0;
+    double fifoWriteSeconds=0,mutexWaitSeconds=0,mutexHoldSeconds=0;
+    double planWallSeconds=0,planCpuSeconds=0,publicationIntervalSeconds=0;
+    bool allocationCounterEnabled=false;
     std::uint64_t cppNewCalls=0;
     Phase36StreamingSpeedEngine::WorkProfile work{};
+};
+struct Phase39GuardMetric {
+    std::uint64_t generation=0;
+    std::size_t fifoAtPlan=0;
+    Phase42DensityDecision decision;
 };
 
 // Worker owns the complete DSP and TimeMap. The render thread only reads a
@@ -96,8 +108,11 @@ public:
     Phase39RealtimeMarkers realtimeMarkers() const noexcept;
     std::vector<Phase39PlanMetric> planMetrics() const;
     std::vector<Phase39BlockProfile> slowestBlocks() const;
+    std::vector<Phase39GuardMetric> guardMetrics() const;
     double workerChunkP95Seconds() const;
     double workerChunkP99Seconds() const;
+    double workerCycleP95Seconds() const;
+    double workerCycleP99Seconds() const;
     Phase13StageDigests stageDigests() const;
     void rethrowWorkerError() const;
     std::uint32_t sampleRate() const noexcept { return sampleRate_; }
@@ -133,11 +148,14 @@ private:
     std::atomic<double> planCpuMilliseconds_{0};
     std::atomic<double> maxWorkerCpuSeconds_{0},maxFifoWaitSeconds_{0};
     std::atomic<double> maxFifoWriteSeconds_{0},maxHistoryMutexWaitSeconds_{0};
+    std::atomic<double> maxWorkerCycleSeconds_{0},maxWorkerCycleCpuSeconds_{0};
     std::atomic<std::uint64_t> fifoWaitNanoseconds_{0},workerChunksOver100Ms_{0};
     mutable std::mutex historyMutex_;
     std::vector<Phase39PlanMetric> plans_;
     std::vector<double> workerChunkSeconds_;
+    std::vector<double> workerCycleSeconds_;
     std::vector<Phase39BlockProfile> slowestBlocks_; // Worker-only until finished.
+    std::vector<Phase39GuardMetric> guardMetrics_; // Worker-only until finished.
     std::atomic<std::size_t> planCount_{0};
     std::atomic<std::uint64_t> appliedGeneration_{0};
     std::exception_ptr error_;
