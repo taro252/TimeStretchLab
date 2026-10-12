@@ -132,6 +132,14 @@ add_executable(phase32_render
     src/prototype/Phase32ResearchEngine.cpp)
 target_link_libraries(phase32_render PRIVATE timestretch_core)
 target_compile_options(phase32_render PRIVATE -Wall -Wextra -Wpedantic)
+add_executable(phase33_crossover src/prototype/Phase33Crossover.cpp)
+target_link_libraries(phase33_crossover PRIVATE timestretch_core)
+target_compile_options(phase33_crossover PRIVATE -Wall -Wextra -Wpedantic)
+add_executable(phase33_trace
+    src/prototype/Phase33TraceRender.cpp
+    src/prototype/Phase33TraceEngine.cpp)
+target_link_libraries(phase33_trace PRIVATE timestretch_core)
+target_compile_options(phase33_trace PRIVATE -Wall -Wextra -Wpedantic)
 add_executable(phase24_sim src/phase24_sim_main.cpp)
 target_link_libraries(phase24_sim PRIVATE phase24_variable)
 add_executable(phase101_offline_events src/phase101_offline_events.cpp)
@@ -300,4 +308,8 @@ if(BUILD_TESTING)
     add_test(NAME phase32_diagnostics COMMAND python3
         ${CMAKE_SOURCE_DIR}/tests/Phase32Smoke.py
         $<TARGET_FILE:phase31_render> $<TARGET_FILE:phase32_render>)
+    add_test(NAME phase33_diagnostics COMMAND python3
+        ${CMAKE_SOURCE_DIR}/tests/Phase33Smoke.py
+        $<TARGET_FILE:phase31_render> $<TARGET_FILE:phase32_render>
+        $<TARGET_FILE:phase33_trace> $<TARGET_FILE:phase33_crossover>)
 endif()
