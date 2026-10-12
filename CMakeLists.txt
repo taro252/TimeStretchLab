@@ -167,6 +167,28 @@ target_compile_options(phase36_variable PRIVATE -Wall -Wextra -Wpedantic)
 add_executable(phase36_sim src/prototype/Phase36Sim.cpp)
 target_link_libraries(phase36_sim PRIVATE phase36_variable)
 target_compile_options(phase36_sim PRIVATE -Wall -Wextra -Wpedantic)
+add_executable(phase39_probe src/prototype/Phase39Probe.cpp
+    src/prototype/Phase39TimeMap.cpp src/prototype/Phase37HighSpeedMap.cpp
+    src/prototype/Phase35TransitionEngine.cpp src/prototype/Phase37SynthesisEngine.cpp)
+target_link_libraries(phase39_probe PRIVATE phase36_variable)
+target_compile_options(phase39_probe PRIVATE -Wall -Wextra -Wpedantic)
+add_library(phase39_variable
+    src/prototype/Phase39TimeMap.cpp
+    src/prototype/Phase37HighSpeedMap.cpp
+    src/prototype/Phase39PlaybackPipeline.cpp)
+target_link_libraries(phase39_variable PUBLIC phase36_variable)
+target_include_directories(phase39_variable PUBLIC src)
+target_compile_options(phase39_variable PRIVATE -Wall -Wextra -Wpedantic)
+add_executable(phase39_sim src/prototype/Phase39Sim.cpp)
+target_link_libraries(phase39_sim PRIVATE phase39_variable)
+target_compile_options(phase39_sim PRIVATE -Wall -Wextra -Wpedantic)
+add_executable(phase39_paced_sim src/prototype/Phase39PacedSim.cpp)
+target_link_libraries(phase39_paced_sim PRIVATE phase39_variable)
+target_compile_options(phase39_paced_sim PRIVATE -Wall -Wextra -Wpedantic)
+add_executable(phase39_reference src/prototype/Phase39Reference.cpp
+    src/prototype/Phase35TransitionEngine.cpp)
+target_link_libraries(phase39_reference PRIVATE phase39_variable)
+target_compile_options(phase39_reference PRIVATE -Wall -Wextra -Wpedantic)
 add_executable(phase36_reference src/prototype/Phase36Reference.cpp
     src/prototype/Phase35TransitionEngine.cpp)
 target_link_libraries(phase36_reference PRIVATE phase36_variable)
@@ -375,4 +397,7 @@ if(BUILD_TESTING)
     add_test(NAME phase38_noise_diagnostic COMMAND python3
         ${CMAKE_SOURCE_DIR}/tests/Phase38Smoke.py
         $<TARGET_FILE:phase37_render> $<TARGET_FILE:phase38_events>)
+    add_test(NAME phase39_high_speed_streaming COMMAND python3
+        ${CMAKE_SOURCE_DIR}/tests/Phase39Smoke.py
+        $<TARGET_FILE:phase39_sim> $<TARGET_FILE:phase39_reference> ${CMAKE_SOURCE_DIR})
 endif()
