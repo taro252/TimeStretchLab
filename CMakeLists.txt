@@ -144,6 +144,28 @@ add_executable(phase35_density_control
     src/prototype/Phase35TransitionEngine.cpp)
 target_link_libraries(phase35_density_control PRIVATE timestretch_core)
 target_compile_options(phase35_density_control PRIVATE -Wall -Wextra -Wpedantic)
+add_library(phase36_variable
+    src/prototype/Phase35TimeMap.cpp
+    src/prototype/Phase35PhaseVocoder.cpp
+    src/prototype/Phase35StereoPhaseCoherence.cpp
+    src/prototype/Phase36StreamingSpeedEngine.cpp
+    src/prototype/Phase36PlaybackPipeline.cpp)
+target_link_libraries(phase36_variable PUBLIC phase24_variable)
+target_include_directories(phase36_variable PUBLIC src)
+target_compile_options(phase36_variable PRIVATE -Wall -Wextra -Wpedantic)
+add_executable(phase36_sim src/prototype/Phase36Sim.cpp)
+target_link_libraries(phase36_sim PRIVATE phase36_variable)
+target_compile_options(phase36_sim PRIVATE -Wall -Wextra -Wpedantic)
+add_executable(phase36_reference src/prototype/Phase36Reference.cpp
+    src/prototype/Phase35TransitionEngine.cpp)
+target_link_libraries(phase36_reference PRIVATE phase36_variable)
+target_compile_options(phase36_reference PRIVATE -Wall -Wextra -Wpedantic)
+add_executable(phase36_play src/platform/macos/Phase36MacPlayback.mm)
+target_link_libraries(phase36_play PRIVATE phase36_variable ${AVFOUNDATION_FRAMEWORK} ${FOUNDATION_FRAMEWORK})
+target_compile_options(phase36_play PRIVATE -fobjc-arc -Wall -Wextra -Wpedantic)
+add_executable(phase36_api_tests tests/Phase36ApiTests.cpp)
+target_link_libraries(phase36_api_tests PRIVATE phase36_variable)
+target_compile_options(phase36_api_tests PRIVATE -Wall -Wextra -Wpedantic)
 add_executable(phase32_render
     src/prototype/Phase32Render.cpp
     src/prototype/Phase32ResearchEngine.cpp)
@@ -332,4 +354,8 @@ if(BUILD_TESTING)
     add_test(NAME phase35_variable_hop COMMAND python3
         ${CMAKE_SOURCE_DIR}/tests/Phase35TransitionSmoke.py
         $<TARGET_FILE:phase35_render>)
+    add_test(NAME phase36_streaming COMMAND python3
+        ${CMAKE_SOURCE_DIR}/tests/Phase36Smoke.py
+        $<TARGET_FILE:phase36_sim> $<TARGET_FILE:phase36_reference>
+        $<TARGET_FILE:phase36_api_tests>)
 endif()
