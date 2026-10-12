@@ -43,7 +43,7 @@ ctest --test-dir build --output-on-failure
 
 Phase 3 は `--transient on` で、オフラインの過渡検出と左右共通タイミングの位相リセットを追加します。`--debug-csv directory` で `transients.csv` にスペクトル変化量、閾値、強度、検出・リセット位置を記録します。実録音の Phase 2/3 比較は `bash scripts/phase3_real_ab.sh mix.wav bass.wav guitar.wav piano.wav vocal.wav drums.wav` で生成できます。
 
-Phase 3.5 は `--transient on --adaptive-time-map on` で有効になります。過渡候補をイベントにまとめ、イベント前後の局所伸縮率を滑らかに 1.0 へ近づけます。イベント位置を元のテンポ上に保ちながら、間の持続区間で時間を補償します。左右でイベントと時間配置を共有します。`--debug-csv directory` で `event_map.csv` にイベント ID、局所伸縮率、合成開始位置を記録します。Mix/Bass の 3 方式比較は `bash scripts/phase35_real_ab.sh mix.wav bass.wav` で再生成できます。測定結果と制約は [Phase 3.5 レポート](results/phase35/REPORT.md) に記載しています。
+Phase 3.5 は `--transient on --adaptive-time-map on` で有効になります。過渡候補をイベントにまとめ、イベント前後の局所伸縮率を滑らかに 1.0 へ近づけます。イベント位置を元のテンポ上に保ちながら、間の持続区間で時間を補償します。左右でイベントと時間配置を共有します。`--debug-csv directory` で `event_map.csv` にイベント ID、局所伸縮率、合成開始位置を記録します。Mix/Bass の 3 方式比較は `bash scripts/phase35_real_ab.sh mix.wav bass.wav` で再生成できます。測定結果と制約は [Phase 3.5 レポート](results/phase35/PHASE3_5_REPORT.md) に記載しています。
 
 Phase 3.6 は `--transient on --adaptive-time-map on --selective-reset on` で有効になります。過渡イベントの開始から早い減衰までを保護し、位相リセットをスペクトル上昇の強い bin に絞ります。疎なクリックは入力サンプル位置を使ってイベント時刻を補正します。`--debug-csv directory` の `events.csv` に領域境界と時刻誤差を記録します。Mix/Bass の Phase 2／3.5／3.6 比較は `bash scripts/phase36_real_ab.sh mix.wav bass.wav` で再生成できます。**Phase 3.6 は実験的機能です。Bass のステレオ幅と人工ドラムの 0.50x アタック幅に未解決の退行があるため、既定では無効です。** 数値は [Phase 3.6 レポート](results/phase36/REPORT.md) を参照してください。
 

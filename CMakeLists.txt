@@ -127,6 +127,23 @@ add_executable(phase31_render
     src/prototype/Phase31ResearchEngine.cpp)
 target_link_libraries(phase31_render PRIVATE timestretch_core)
 target_compile_options(phase31_render PRIVATE -Wall -Wextra -Wpedantic)
+add_executable(phase35_render
+    src/prototype/Phase35Render.cpp
+    src/prototype/Phase35TimeMap.cpp
+    src/prototype/Phase35PhaseVocoder.cpp
+    src/prototype/Phase35StereoPhaseCoherence.cpp
+    src/prototype/Phase35TransitionEngine.cpp
+    src/prototype/Phase31ResearchEngine.cpp)
+target_link_libraries(phase35_render PRIVATE timestretch_core)
+target_compile_options(phase35_render PRIVATE -Wall -Wextra -Wpedantic)
+add_executable(phase35_density_control
+    src/prototype/Phase35DensityControl.cpp
+    src/prototype/Phase35TimeMap.cpp
+    src/prototype/Phase35PhaseVocoder.cpp
+    src/prototype/Phase35StereoPhaseCoherence.cpp
+    src/prototype/Phase35TransitionEngine.cpp)
+target_link_libraries(phase35_density_control PRIVATE timestretch_core)
+target_compile_options(phase35_density_control PRIVATE -Wall -Wextra -Wpedantic)
 add_executable(phase32_render
     src/prototype/Phase32Render.cpp
     src/prototype/Phase32ResearchEngine.cpp)
@@ -312,4 +329,7 @@ if(BUILD_TESTING)
         ${CMAKE_SOURCE_DIR}/tests/Phase33Smoke.py
         $<TARGET_FILE:phase31_render> $<TARGET_FILE:phase32_render>
         $<TARGET_FILE:phase33_trace> $<TARGET_FILE:phase33_crossover>)
+    add_test(NAME phase35_variable_hop COMMAND python3
+        ${CMAKE_SOURCE_DIR}/tests/Phase35TransitionSmoke.py
+        $<TARGET_FILE:phase35_render>)
 endif()
