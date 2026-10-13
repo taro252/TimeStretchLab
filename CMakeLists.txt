@@ -441,4 +441,9 @@ if(BUILD_TESTING)
     add_test(NAME phase46_host_clock COMMAND phase46_host_tests)
     add_test(NAME phase46_measurement_validation COMMAND python3
         ${CMAKE_SOURCE_DIR}/scripts/phase46_validation_test.py)
+    add_executable(phase47_evidence_tests tests/Phase47EvidenceFileTests.cpp)
+    target_link_libraries(phase47_evidence_tests PRIVATE timestretch_core)
+    add_test(NAME phase47_evidence_io COMMAND phase47_evidence_tests)
+    add_test(NAME phase47_evidence_validation COMMAND python3
+        ${CMAKE_SOURCE_DIR}/scripts/phase47_validation_test.py)
 endif()

@@ -153,6 +153,7 @@ void Phase39PlaybackPipeline::start() {
             auto previousCpu=workerCpuSeconds();
             auto previousNew=allocationCounter_ ? allocationCounter_() : 0;
             bool hasPublished=false;
+            std::uint64_t cycleSequence=0;
             double planCycleWall=0,planCycleCpu=0;
             double planMutexWait=0,planMutexHold=0;
             double postPublicationMutexWait=0,postPublicationMutexHold=0;
@@ -186,6 +187,7 @@ void Phase39PlaybackPipeline::start() {
                 const auto cpuSeconds=std::max(0.0,cpuNow-previousCpu);
                 if (enableProfile_) {
                     latestProfile={};
+                    latestProfile.cycleSequence=cycleSequence+1;
                     latestProfile.startUnixNs=previousUnix;
                     latestProfile.startMachNs=previousMach;
                     latestProfile.threadId=workerTid;
@@ -234,6 +236,7 @@ void Phase39PlaybackPipeline::start() {
                 while (oldWrite<writeSeconds &&
                        !maxFifoWriteSeconds_.compare_exchange_weak(oldWrite,writeSeconds)) {}
                 produced_.fetch_add(frames,std::memory_order_release);
+                ++cycleSequence;
                 const auto publishedAt=Clock::now();
                 const auto publishedUnix=unixNowNs();
                 const auto publishedMach=machNs();

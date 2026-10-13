@@ -3,6 +3,7 @@
 #include "prototype/Phase39PlaybackPipeline.h"
 #include "prototype/Phase46HostClock.h"
 #include "prototype/Phase46Statistics.h"
+#include "prototype/Phase47EvidenceFile.h"
 #include <iomanip>
 #include <algorithm>
 #include <array>
@@ -84,12 +85,13 @@ struct State {
     std::atomic<std::uint32_t> activeCallbacks{0};
     std::atomic<std::uint64_t> content{0},presentationFrames{0},calls{0},silence{0};
     std::atomic<std::uint64_t> maxCallbackNs{0},deadlineMisses{0},formatErrors{0};
+    std::atomic<std::uint64_t> tailMaxNs{0},tailDeadlineMisses{0},maxTelemetryNs{0};
     std::atomic<std::uint64_t> appliedPresentationNs{0},completionPresentationNs{0};
     std::atomic<std::uint64_t> appliedPresentationGeneration{0},
         completionPresentationGeneration{0};
     struct Event { std::uint64_t before=0,count=0,startNs=0,endNs=0,hostNs=0,renderFrames=0,
         available=0,lastPublicationUnixNs=0,threadId=0,wanted=0;
-        std::uint64_t sequence=0,epoch=0,generation=0,lastPublicationMachNs=0;
+        std::uint64_t sequence=0,epoch=0,generation=0,lastPublicationMachNs=0,ioCompleteNs=0,earlyEndNs=0;
         std::uint32_t timestampFlags=0;
         double sampleTime=0;
         ts::prototype::Phase46HostClock::Evidence evidence{}; };
@@ -176,6 +178,7 @@ OSStatus render(State* state,BOOL* isSilence,const AudioTimeStamp* timestamp,AVA
         const auto received=state->pipeline->pullAudio(channel,wanted);
         for (std::uint32_t c=0;c<state->channels;++c)
             std::memset(channel[c]+wanted,0,(frames-wanted)*sizeof(float));
+        const auto ioDone=mach_absolute_time();
         state->content.store(before+received,std::memory_order_release);
         state->presentationFrames.fetch_add(wanted,std::memory_order_relaxed);
         state->silence.fetch_add(wanted-received,std::memory_order_relaxed);
@@ -211,6 +214,7 @@ OSStatus render(State* state,BOOL* isSilence,const AudioTimeStamp* timestamp,AVA
             recordedEvent=&event;
             event={before,received,startNs,ns,hostNs,frames,
                 available,lastPublication,renderThreadId,wanted};
+            event.ioCompleteNs=static_cast<std::uint64_t>((static_cast<long double>(ioDone)*state->numer)/state->denom);
             event.sequence=index+1;event.epoch=state->epoch;event.generation=markers.generation;
             event.lastPublicationMachNs=state->pipeline->lastPublishedMachNs();
             event.timestampFlags=timestamp ? timestamp->mFlags : 0;
@@ -246,6 +250,25 @@ OSStatus render(State* state,BOOL* isSilence,const AudioTimeStamp* timestamp,AVA
     while (old<ns && !state->maxCallbackNs.compare_exchange_weak(old,ns,std::memory_order_relaxed)) {}
     if (ns>static_cast<std::uint64_t>(std::llround(frames*1e9/state->rate)))
         state->deadlineMisses.fetch_add(1,std::memory_order_relaxed);
+    // Tail includes the existing timestamp bookkeeping and atomic updates.
+    // Only its own final stores and the quiescence decrement remain after it.
+    const auto tail=mach_absolute_time();
+    const auto tailNs=static_cast<std::uint64_t>((static_cast<long double>(tail)*state->numer)/state->denom);
+    const auto totalNs=static_cast<std::uint64_t>((static_cast<long double>(tail-start)*state->numer)/state->denom);
+    if (recordedEvent) {
+        recordedEvent->earlyEndNs=recordedEvent->endNs;recordedEvent->endNs=tailNs;
+        const bool tailHalMiss=recordedEvent->hostNs && tailNs>
+            recordedEvent->hostNs+std::max(100000.0,2e9/state->rate);
+        if (tailHalMiss && !recordedEvent->evidence.halWindowMiss) ++state->halWindowMisses;
+        recordedEvent->evidence.halWindowMiss=tailHalMiss;
+        const auto overhead=tailNs-recordedEvent->ioCompleteNs;
+        auto prior=state->maxTelemetryNs.load(std::memory_order_relaxed);
+        while (prior<overhead && !state->maxTelemetryNs.compare_exchange_weak(prior,overhead,std::memory_order_relaxed)) {}
+    }
+    auto tailOld=state->tailMaxNs.load(std::memory_order_relaxed);
+    while (tailOld<totalNs && !state->tailMaxNs.compare_exchange_weak(tailOld,totalNs,std::memory_order_relaxed)) {}
+    if (totalNs>static_cast<std::uint64_t>(std::llround(frames*1e9/state->rate)))
+        state->tailDeadlineMisses.fetch_add(1,std::memory_order_relaxed);
     state->activeCallbacks.fetch_sub(1,std::memory_order_release);
     insideRender=false;
     return noErr;
@@ -575,8 +598,10 @@ int main(int argc,char** argv) {
                  <<"p95_worker_cycle_ms="<<pipeline.workerCycleP95Seconds()*1000<<'\n'
                  <<"p99_worker_cycle_ms="<<pipeline.workerCycleP99Seconds()*1000<<'\n'
                  <<"p95_worker_chunk_ms="<<pipeline.workerChunkP95Seconds()*1000<<'\n'
-                 <<"max_callback_ms="<<state.maxCallbackNs.load()/1e6<<'\n'
-                 <<"callback_deadline_misses="<<state.deadlineMisses.load()<<'\n'
+                 <<"max_callback_ms="<<state.tailMaxNs.load()/1e6
+                 <<"\nmax_callback_early_ms="<<state.maxCallbackNs.load()/1e6
+                 <<"\nmax_callback_telemetry_ms="<<state.maxTelemetryNs.load()/1e6<<'\n'
+                 <<"callback_deadline_misses="<<state.tailDeadlineMisses.load()<<'\n'
                  <<"callback_format_errors="<<state.formatErrors.load()<<'\n'
                  <<"max_callback_host_late_ms="<<std::max<std::int64_t>(0,state.maxStartMinusHost)/1e6<<'\n'
                  <<"host_timestamp_valid_callbacks="<<state.hostValidCalls.load()<<'\n'
@@ -613,10 +638,24 @@ int main(int argc,char** argv) {
                     ? (status.planNs-status.workerSeenNs)/1e6 : -1)<<'\n'
                  <<"plan_to_applied_callback_ms=per_change_below\n";
         const auto metrics=pipeline.planMetrics();
+        bool csvSaveFailed=false;
+        const auto callbackCount=state.eventIndex.load();
+        const auto callbackRetained=std::min<std::uint64_t>(callbackCount,state.events.size());
+        const auto workerRecords=pipeline.allBlockProfiles();
+        const auto guardRecords=pipeline.guardMetrics();
+        std::cout<<"callback_records_total="<<callbackCount
+                 <<"\ncallback_records_retained="<<callbackRetained
+                 <<"\ncallback_records_evicted="<<callbackCount-callbackRetained
+                 <<"\nworker_records_retained="<<workerRecords.size()
+                 <<"\nworker_records_total="<<workerRecords.size()+pipeline.profileRecordsDropped()
+                 <<"\nreplay_records_expected="<<metrics.size()
+                 <<"\nguard_records_expected="<<guardRecords.size()<<'\n';
+        try {
         if (const auto path=std::getenv("PHASE45_LIVE_EVENTS")) {
-            std::ofstream events(path);
+            ts::prototype::Phase47EvidenceFile eventsFile(path);
+            auto& events=eventsFile.stream();
             events<<std::setprecision(17);
-            events<<"pcm_before,received,callback_start_mach_ns,callback_end_mach_ns,host_mach_ns,render_requested_frames,available_before,last_publication_unix_ns,thread_id,callback_start_unix_ns,wanted,sequence,epoch,generation,last_publication_mach_ns,timestamp_flags,sample_time,start_minus_host_ns,host_delta_ns,host_progress_error_ns,sample_delta,sample_progress_error,host_missing,host_backwards,cadence_error,sample_error,hal_window_miss\n";
+            events<<"pcm_before,received,callback_start_mach_ns,callback_end_mach_ns,host_mach_ns,render_requested_frames,available_before,last_publication_unix_ns,thread_id,callback_start_unix_ns,wanted,sequence,epoch,generation,last_publication_mach_ns,timestamp_flags,sample_time,start_minus_host_ns,host_delta_ns,host_progress_error_ns,sample_delta,sample_progress_error,host_missing,host_backwards,cadence_error,sample_error,hal_window_miss,io_complete_mach_ns,early_end_mach_ns\n";
             const auto count=state.eventIndex.load();
             const auto retained=std::min<std::uint64_t>(count,state.events.size());
             for (std::uint64_t i=0;i<retained;++i) {
@@ -629,16 +668,17 @@ int main(int argc,char** argv) {
                       <<e.evidence.hostDeltaNs<<','<<e.evidence.hostProgressErrorNs<<','
                       <<e.evidence.sampleDelta<<','<<e.evidence.sampleProgressError<<','
                       <<e.evidence.hostMissing<<','<<e.evidence.hostBackwards<<','
-                      <<e.evidence.cadenceError<<','<<e.evidence.sampleError<<','<<e.evidence.halWindowMiss<<'\n';
+                      <<e.evidence.cadenceError<<','<<e.evidence.sampleError<<','<<e.evidence.halWindowMiss<<','
+                      <<e.ioCompleteNs<<','<<e.earlyEndNs<<'\n';
             }
-            std::cout<<"callback_records_retained="<<retained
-                     <<"\ncallback_records_evicted="<<count-retained<<'\n';
+            eventsFile.commit();
         }
         if (const auto path=std::getenv("PHASE45_LIVE_WORKERS")) {
-            std::ofstream csv(path);
+            ts::prototype::Phase47EvidenceFile csvFile(path);
+            auto& csv=csvFile.stream();
             csv<<std::setprecision(17);
-            csv<<"output_start,start_unix_ns,end_unix_ns,thread_id,cycle_wall_s,cycle_cpu_s,dsp_wall_s,dsp_cpu_s,fifo_wait_s,fifo_write_s,plan_wall_s,plan_cpu_s,mutex_wait_s,mutex_hold_s,allocation_counter_enabled,cpp_new_calls,wav_wall_s,wav_cpu_s,fft_wall_s,fft_cpu_s,phase_wall_s,phase_cpu_s,ola_wall_s,ola_cpu_s,fir_wall_s,fir_cpu_s,start_mach_ns,published_mach_ns,publication_frames,fifo_before_write,fifo_after_write,publication_interval_s\n";
-            for (const auto& b:pipeline.allBlockProfiles()) {
+            csv<<"output_start,start_unix_ns,end_unix_ns,thread_id,cycle_wall_s,cycle_cpu_s,dsp_wall_s,dsp_cpu_s,fifo_wait_s,fifo_write_s,plan_wall_s,plan_cpu_s,mutex_wait_s,mutex_hold_s,allocation_counter_enabled,cpp_new_calls,wav_wall_s,wav_cpu_s,fft_wall_s,fft_cpu_s,phase_wall_s,phase_cpu_s,ola_wall_s,ola_cpu_s,fir_wall_s,fir_cpu_s,start_mach_ns,published_mach_ns,publication_frames,fifo_before_write,fifo_after_write,publication_interval_s,cycle_sequence\n";
+            for (const auto& b:workerRecords) {
                 csv<<b.outputStart<<','<<b.startUnixNs<<','<<b.endUnixNs<<','<<b.threadId<<','
                    <<b.fullCycleWallSeconds<<','<<b.fullCycleCpuSeconds<<','<<b.chunkWallSeconds<<','
                    <<b.chunkCpuSeconds<<','<<b.fifoWaitSeconds<<','<<b.fifoWriteSeconds<<','
@@ -647,20 +687,24 @@ int main(int argc,char** argv) {
                 if (b.allocationCounterEnabled) csv<<b.cppNewCalls;else csv<<"unmeasured";
                 for (const auto& stage:b.work.stages) csv<<','<<stage.wallSeconds<<','<<stage.threadCpuSeconds;
                 csv<<','<<b.startMachNs<<','<<b.publishedMachNs<<','<<b.publicationFrames<<','
-                   <<b.fifoBeforeWrite<<','<<b.fifoAfterWrite<<','<<b.publicationIntervalSeconds<<'\n';
+                   <<b.fifoBeforeWrite<<','<<b.fifoAfterWrite<<','<<b.publicationIntervalSeconds<<','<<b.cycleSequence<<'\n';
             }
-            std::ofstream guards(std::string(path)+".guard.csv");
+            csvFile.commit();
+            ts::prototype::Phase47EvidenceFile guardsFile(std::string(path)+".guard.csv");
+            auto& guards=guardsFile.stream();
             guards<<"generation,fifo_at_plan,safe,candidates,guard_wall_s,guard_cpu_s,weight_error_low,weight_error_mid,weight_error_high\n";
-            for (const auto& m:pipeline.guardMetrics()) {
+            for (const auto& m:guardRecords) {
                 guards<<m.generation<<','<<m.fifoAtPlan<<','<<m.decision.safe<<','
                       <<m.decision.candidatesTried<<','<<m.decision.guardWallSeconds<<','
                       <<m.decision.guardThreadCpuSeconds;
                 for (const auto value:m.decision.weightPredictionAbsoluteError) guards<<','<<value;
                 guards<<'\n';
             }
+            guardsFile.commit();
         }
         if (const auto path=std::getenv("PHASE45_LIVE_PLAN_CSV")) {
-            std::ofstream replay(path);
+            ts::prototype::Phase47EvidenceFile replayFile(path);
+            auto& replay=replayFile.stream();
             replay<<"generation,requested_output,requested_input,from,target,fence,prepared,published,applied_frame,applied_output,completion_output,density_input,map_bytes,plan_ms\n";
             for (const auto& m:metrics)
                 replay<<m.generation<<','<<m.requestedOutput<<','<<m.requestedInput<<','
@@ -668,7 +712,13 @@ int main(int argc,char** argv) {
                       <<m.prepared<<','<<m.published<<','<<m.plan.appliedFrame<<','
                       <<m.plan.appliedOutputSample<<','<<m.plan.completionOutputSample<<','
                       <<m.firstDensityChangedInput<<','<<m.timeMapBytes<<','<<m.planMilliseconds<<'\n';
+            replayFile.commit();
         }
+        } catch (const std::exception& exception) {
+            csvSaveFailed=true;
+            std::cout<<"diagnostic_csv_error="<<exception.what()<<'\n';
+        }
+        std::cout<<"diagnostic_csv_save_ok="<<!csvSaveFailed<<'\n';
         const auto latencySummary=ts::prototype::phase46LatencySummary;
         const auto latency=latencySummary(applyLatencyMs);
         std::cout<<"apply_latency_median_ms="<<latency[0]<<'\n'
@@ -705,12 +755,13 @@ int main(int argc,char** argv) {
             std::cout<<"request_result="<<i+1<<" state="<<requestStates[i]
                      <<" generation="<<requestGenerations[i]
                      <<" scheduled_frame="<<schedule[i].outputFrame<<'\n';
+        if (csvSaveFailed) return 5;
         return strictFailure || cancelled || sent!=changeCount ||
             (!continueRejected && observed!=changeCount) ||
             (maxSeconds==0 && !reportEos) ||
             (changeCount && !continueRejected &&
              status.state!=ts::prototype::Phase39RequestState::Applied) ||
-            status.underrunFrames || status.rejectedWrites || state.deadlineMisses ||
+            status.underrunFrames || status.rejectedWrites || state.tailDeadlineMisses ||
             state.formatErrors || renderCppAllocations.load() || anyRouteChange ||
             state.hostMissingCalls || state.hostBackward || state.hostCadenceErrors ||
             state.hostOffsetOutliers ||

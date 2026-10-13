@@ -1,0 +1,66 @@
+{
+  "original_measurement_quality": "PASS",
+  "original_sample_timestamp_errors": "0",
+  "original_audio_quality": "FAIL",
+  "AUDIO_QUALITY": "FAIL",
+  "MEASUREMENT_QUALITY": "PASS",
+  "review_faults": [],
+  "csv_integrity": {
+    "CSV_INTEGRITY": "PASS",
+    "faults": [],
+    "files": {
+      "callbacks.csv": {
+        "rows": 9690,
+        "sha256": "4443f49b16495d54e1abccb66665cb0c4a3b4c97d5265681dc93a75623ff83aa",
+        "required_columns": [
+          "callback_end_mach_ns",
+          "callback_start_mach_ns",
+          "epoch",
+          "host_mach_ns",
+          "received",
+          "render_requested_frames",
+          "sample_time",
+          "sequence",
+          "timestamp_flags",
+          "wanted"
+        ]
+      },
+      "workers.csv": {
+        "rows": 2416,
+        "sha256": "f218dd885ea995c2e6f94df472d7c8276ac72d6ccb89dcb02917c47593385bf3",
+        "required_columns": [
+          "cycle_cpu_s",
+          "cycle_wall_s",
+          "output_start",
+          "publication_frames",
+          "published_mach_ns",
+          "start_mach_ns"
+        ]
+      },
+      "replay.csv": {
+        "rows": 4,
+        "sha256": "491c44c79a857e2be05439680073c8495991a3cc5d41dafa767b7c971d221a63",
+        "required_columns": [
+          "applied_frame",
+          "applied_output",
+          "completion_output",
+          "from",
+          "generation",
+          "target"
+        ]
+      },
+      "workers.csv.guard.csv": {
+        "rows": 3,
+        "sha256": "cd7c6f23addd45f37eea8279b64fd4a00dd69446f59f5ad0cbed9999648ae4ae",
+        "required_columns": [
+          "generation",
+          "guard_cpu_s",
+          "guard_wall_s",
+          "safe"
+        ]
+      }
+    },
+    "legacy": true
+  },
+  "policy": "Original FAIL is sticky. Promotions require a separate explicit correction with evidence."
+}

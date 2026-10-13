@@ -76,6 +76,7 @@ struct Phase39BlockProfile {
     std::uint64_t cppNewCalls=0;
     Phase36StreamingSpeedEngine::WorkProfile work{};
     std::uint64_t startMachNs=0,publishedMachNs=0;
+    std::uint64_t cycleSequence=0;
     std::size_t publicationFrames=0,fifoBeforeWrite=0,fifoAfterWrite=0;
 };
 struct Phase39GuardMetric {

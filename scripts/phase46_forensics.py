@@ -5,6 +5,7 @@ import math
 from bisect import bisect_right
 from pathlib import Path
 from statistics import median
+from phase47_evidence import validate
 
 
 def percentile(values,q):
@@ -13,6 +14,11 @@ def percentile(values,q):
 
 
 def investigate(path, values):
+    log=(path/'playback.log').read_text() if (path/'playback.log').exists() else ''
+    integrity,tables=validate(path,values,log,legacy='diagnostic_csv_save_ok' not in values)
+    (path/'csv_integrity.json').write_text(json.dumps(integrity,indent=2))
+    if integrity['CSV_INTEGRITY']!='PASS':
+        return dict(complete_record=False,CSV_INTEGRITY='FAIL',MEASUREMENT_QUALITY='FAIL',evidence_faults=';'.join(integrity['faults']))
     callbacks=list(csv.DictReader((path/'callbacks.csv').open()))
     workers=list(csv.DictReader((path/'workers.csv').open()))
     ends=[int(w['published_mach_ns']) for w in workers]

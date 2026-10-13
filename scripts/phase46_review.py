@@ -1,42 +1,69 @@
-"""Post-audit final host thresholds and fail-closed corrections without rewriting raw run records."""
-import csv,json
+#!/usr/bin/env python3
+"""Preserve original failures. A later review may add faults, never silently clear them."""
+import argparse
+import csv
+import json
+import math
 from pathlib import Path
-from statistics import median
-from phase46_forensics import percentile
-root=Path(__file__).resolve().parents[1]
-base=root/'results/phase46'
-output=[]
-for p in sorted((base/'native/runs').glob('*')):
-    if not (p/'result.json').exists():continue
-    r=json.loads((p/'result.json').read_text());events=list(csv.DictReader((p/'callbacks.csv').open()))
-    tolerance=float(r['host_continuity_tolerance_ns']);rate=float(r['dsp_sample_rate'])
-    faults=[];previous=None
-    for e in events:
-        start,end,host=int(e['callback_start_mach_ns']),int(e['callback_end_mach_ns']),int(e['host_mach_ns'])
-        flags=int(e['timestamp_flags'])
-        if not flags&2 or not host:faults.append('missing_host')
-        if end>host+tolerance:faults.append('hal_ready_deadline')
-        if abs(start-host)>1e9:faults.append('host_offset_outlier')
-        if end<start or end-start>int(e['render_requested_frames'])*1e9/rate:faults.append('callback_budget')
-        if previous and int(e['epoch'])==int(previous['epoch']):
-            delta=host-int(previous['host_mach_ns']);expected=int(previous['render_requested_frames'])*1e9/rate
-            if delta<=0 or abs(delta-expected)>tolerance:faults.append('host_progression')
-        previous=e
-    complete=(r.get('callback_records_evicted')=='0' and r.get('worker_profile_records_dropped')=='0' and len(events)==int(r['callback_records_retained']))
-    audio=r['AUDIO_QUALITY']
-    if int(r['underrun_frames'])>0:audio='FAIL'
-    review=dict(original_audio_quality=r['AUDIO_QUALITY'],AUDIO_QUALITY=audio,
-        MEASUREMENT_QUALITY='PASS' if not faults and complete else 'FAIL',
-        final_host_threshold_faults=sorted(set(faults)),complete_record=complete,
-        note='Final first-frame HAL deadline, 1-second local-route offset sanity limit; observed shortages always FAIL even when exit missing')
-    (p/'final_measurement_review.json').write_text(json.dumps(review,indent=2))
-    if audio!=r['AUDIO_QUALITY']:(p/'quality_correction.json').write_text(json.dumps(review,indent=2))
-    output.append(dict(run_id=r['run_id'],trace_requested=r['trace_requested'],attach_after=r.get('attach_after_seconds',0),
-        AUDIO_QUALITY=audio,MEASUREMENT_QUALITY=review['MEASUREMENT_QUALITY'],TRACE_CAPTURE=r['TRACE_CAPTURE'],TRACE_ANALYSIS=r['TRACE_ANALYSIS'],
-        PCM_CORRECTNESS=r['PCM_CORRECTNESS'],missing_frames=r['missing_frames'],missing_calls=r['underrun_calls'],
-        max_missing_ms=r['max_continuous_missing_ms'],fifo_minimum=r['fifo_minimum_active'],
-        publication_max_ms=r['publication_gap_max_ms'],publication_p95_ms=r['publication_gap_p95_ms'],publication_p99_ms=r['publication_gap_p99_ms'],
-        callback_max_ms=r['max_callback_ms'],cpu_user_s=r['cpu_user_seconds'],cpu_system_s=r['cpu_system_seconds'],rss_mib=r['peak_rss_mib']))
-with (base/'summary_reviewed.csv').open('w',newline='') as stream:
-    w=csv.DictWriter(stream,fieldnames=list(output[0]),lineterminator='\n');w.writeheader();w.writerows(output)
-print('Reviewed',len(output),'runs; audio failures',sum(r['AUDIO_QUALITY']=='FAIL' for r in output))
+from phase47_evidence import validate
+
+
+def review_run(path,result,log=''):
+    legacy='diagnostic_csv_save_ok' not in result
+    integrity,tables=validate(path,result,log,legacy=legacy)
+    faults=list(integrity['faults']);previous=None
+    try:
+        tolerance=float(result['host_continuity_tolerance_ns']);rate=float(result['dsp_sample_rate'])
+        if not math.isfinite(tolerance) or tolerance<=0 or not math.isfinite(rate) or rate<=0:raise ValueError('invalid_clock_config')
+        for e in tables.get('callbacks.csv',[]):
+            start,end,host=int(e['callback_start_mach_ns']),int(e['callback_end_mach_ns']),int(e['host_mach_ns'])
+            flags=int(e['timestamp_flags']);frames=int(e['render_requested_frames'])
+            if not legacy and not start<=int(e['io_complete_mach_ns'])<=int(e['early_end_mach_ns'])<=end:
+                faults.append('callback_timepoint_order')
+            if not flags&2 or not host:faults.append('missing_host')
+            if end>host+tolerance:faults.append('hal_ready_deadline')
+            if abs(start-host)>1e9:faults.append('host_offset_outlier')
+            if end<start or end-start>frames*1e9/rate:faults.append('callback_budget')
+            if flags&1:
+                sample=float(e['sample_time'])
+                if not math.isfinite(sample):faults.append('sample_nonfinite')
+                elif previous and int(e['epoch'])==int(previous['epoch']) and int(previous['timestamp_flags'])&1:
+                    old=float(previous['sample_time']);delta=sample-old
+                    if not math.isfinite(old) or delta<=0 or abs(delta-int(previous['render_requested_frames']))>2:faults.append('sample_progression')
+            if previous and int(e['epoch'])==int(previous['epoch']):
+                delta=host-int(previous['host_mach_ns']);expected=int(previous['render_requested_frames'])*1e9/rate
+                if delta<=0 or abs(delta-expected)>tolerance:faults.append('host_progression')
+            previous=e
+        for key in ('sample_timestamp_errors','host_timestamp_missing_callbacks','host_timestamp_backwards','host_timestamp_cadence_errors','hal_window_deadline_misses','callback_deadline_misses'):
+            if int(result[key])>0:faults.append('original_'+key)
+        if int(result['callback_records_evicted']) or int(result['worker_profile_records_dropped']):faults.append('capture_overflow')
+    except (KeyError,ValueError,TypeError):faults.append('invalid_or_missing_clock_evidence')
+    original=result.get('MEASUREMENT_QUALITY','UNMEASURED')
+    measurement='FAIL' if faults or original=='FAIL' else original
+    audio=result.get('AUDIO_QUALITY','INDETERMINATE')
+    try:
+        if int(result['underrun_frames'])>0:audio='FAIL'
+    except (KeyError,ValueError,TypeError):faults.append('underrun_count_missing');measurement='FAIL'
+    return dict(original_measurement_quality=original,original_sample_timestamp_errors=result.get('sample_timestamp_errors','unmeasured'),
+        original_audio_quality=result.get('AUDIO_QUALITY','unmeasured'),AUDIO_QUALITY=audio,
+        MEASUREMENT_QUALITY=measurement,review_faults=sorted(set(faults)),csv_integrity=integrity,
+        policy='Original FAIL is sticky. Promotions require a separate explicit correction with evidence.')
+
+
+def main():
+    parser=argparse.ArgumentParser();parser.add_argument('--input',type=Path,default=Path('results/phase46/native'))
+    parser.add_argument('--output',type=Path,default=Path('results/phase47/review'))
+    args=parser.parse_args();args.output.mkdir(parents=True,exist_ok=True);summaries=[]
+    for p in sorted((args.input/'runs').glob('*')):
+        if not (p/'result.json').exists():continue
+        result=json.loads((p/'result.json').read_text())
+        review=review_run(p,result,(p/'playback.log').read_text())
+        destination=args.output/p.name;destination.mkdir(exist_ok=True)
+        (destination/'original_result.json').write_text(json.dumps(result,indent=2))
+        (destination/'review.json').write_text(json.dumps(review,indent=2))
+        summaries.append(dict(run_id=p.name,original_measurement=review['original_measurement_quality'],MEASUREMENT_QUALITY=review['MEASUREMENT_QUALITY'],AUDIO_QUALITY=review['AUDIO_QUALITY']))
+    if summaries:
+        with (args.output/'summary.csv').open('w',newline='') as f:
+            w=csv.DictWriter(f,fieldnames=list(summaries[0]),lineterminator='\n');w.writeheader();w.writerows(summaries)
+    print('Reviewed',len(summaries),'runs; original FAILs retained')
+if __name__=='__main__':main()

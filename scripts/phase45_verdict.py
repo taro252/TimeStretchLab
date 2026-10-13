@@ -134,7 +134,10 @@ def native_verdict(values, process_exit):
     # Exit 4 reports measured quality/timing failures; exit 1 is a process error.
     if process_exit == 4 and (host_errors or budget_error):
         audio_errors = [e for e in audio_errors if e != 'exit=4']
+    if process_exit == 5 and values.get('diagnostic_csv_save_ok')=='0':
+        audio_errors=[e for e in audio_errors if e!='exit=5']
     measurement_errors=list(host_errors)
+    if values.get('diagnostic_csv_save_ok')=='0':measurement_errors.append('native_csv_io_failed')
     for key in ('callback_records_evicted','worker_profile_records_dropped'):
         try:
             if integer(values,key): measurement_errors.append(f'{key}={values[key]}')

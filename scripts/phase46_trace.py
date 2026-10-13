@@ -2,6 +2,9 @@
 import csv
 import json
 import subprocess
+import os
+import signal
+import time
 from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
@@ -20,10 +23,26 @@ def export(trace, output, xpath=None):
     command = XCTRACE + ['export', '--input', str(trace), '--output', str(output)]
     command += ['--xpath', xpath] if xpath else ['--toc']
     try:
-        result = subprocess.run(command, capture_output=True, text=True, timeout=240)
-        log=result.stdout+result.stderr
-        output.with_suffix(output.suffix + '.export.log').write_text(log)
-        return result.returncode if '[Error]' not in log else 65
+        log_path=output.with_suffix(output.suffix+'.export.log')
+        fs=os.statvfs(output.parent);reserve=int(fs.f_blocks*fs.f_frsize*.05)
+        start=time.monotonic();aborted=False
+        with log_path.open('w') as log:
+            process=subprocess.Popen(command,stdout=log,stderr=subprocess.STDOUT)
+            while process.poll() is None:
+                current=os.statvfs(output.parent)
+                if current.f_bavail*current.f_frsize<reserve or time.monotonic()-start>240:
+                    process.send_signal(signal.SIGINT);aborted=True
+                    try:process.wait(timeout=10)
+                    except subprocess.TimeoutExpired:
+                        process.terminate()
+                        try:process.wait(timeout=5)
+                        except subprocess.TimeoutExpired:process.kill();process.wait()
+                    break
+                time.sleep(.25)
+            code=process.wait()
+        if aborted:return 124
+        text=log_path.read_text()
+        return code if '[Error]' not in text else 65
     except (OSError,subprocess.TimeoutExpired) as error:
         output.with_suffix(output.suffix + '.export.log').write_text(str(error))
         return 124
@@ -140,4 +159,11 @@ def validate_run(path, record_exit, audio_exit, pid):
     ana,joined=analyze(toc,states,path/'workers.csv',pid,xml_exit)
     (path/'trace_validation.json').write_text(json.dumps(dict(cap,**ana),indent=2))
     (path/'thread_join.json').write_text(json.dumps(joined,indent=2))
+    if joined:
+        with (path/'thread_states.csv').open('w',newline='') as stream:
+            fields=['thread_id','output_start','trace_start_ns','trace_end_ns','coverage_fraction','known_fraction','unknown_ns','unrecorded_ns','states_ns']
+            writer=csv.DictWriter(stream,fieldnames=fields,lineterminator='\n')
+            writer.writeheader()
+            for row in joined:
+                writer.writerow({key:json.dumps(row[key]) if key=='states_ns' else row[key] for key in fields})
     return dict(cap,**ana)
