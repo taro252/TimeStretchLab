@@ -1,60 +1,75 @@
 #!/usr/bin/env python3
-"""Run independent macOS callback playback and fail closed on audio faults."""
+"""Independent macOS device checks with immutable runs and a cumulative summary."""
 import argparse
-import csv
 import os
 import subprocess
 from pathlib import Path
+from phase45_store import new_run, parse_log, save_result
+from phase45_verdict import live_failures
 
-root = Path(__file__).resolve().parents[1]
-parser = argparse.ArgumentParser()
-parser.add_argument("--source", choices=("mix", "drums"), default="mix")
-parser.add_argument("--minutes", default="3,5,10")
-parser.add_argument("--stress", action="store_true")
-parser.add_argument("--audible", action="store_true")
-parser.add_argument("--output", type=Path, default=root / "results/phase44/live")
-args = parser.parse_args()
-args.output.mkdir(parents=True, exist_ok=True)
-rows = []
-for minutes in (int(value) for value in args.minutes.split(",")):
-    source = (root / "results/phase14/benchmark" / f"mix_repeat_{minutes * 60}.wav"
-              if args.source == "mix" else root / "results/phase40/long_input" /
-              f"drums_repeat_{minutes * 60}.wav")
-    schedule = root / "results/phase43/smoke_schedule.csv"
-    command = [str(root / "build/phase43_play"), str(source), "0.4", str(schedule)]
-    environment = os.environ.copy()
-    if args.audible:
-        environment.pop("PHASE43_SILENT", None)
-    else:
-        environment["PHASE43_SILENT"] = "1"
-    if args.stress:
-        environment["PHASE43_STRESS"] = "1"
-    result = subprocess.run(command, cwd=root, capture_output=True, text=True,
-                            env=environment)
-    tag = f"{args.source}_{minutes}m_{'stress' if args.stress else 'normal'}"
-    (args.output / f"{tag}.log").write_text(result.stdout + result.stderr)
-    values = dict(line.split("=", 1) for line in result.stdout.splitlines()
-                  if line.count("=") == 1)
-    problems = []
-    if result.returncode:
-        problems.append(f"exit={result.returncode}")
-    for key in ("underrun_frames", "fifo_rejected_writes", "callback_deadline_misses",
-                "callback_cpp_allocations", "callback_format_errors"):
-        if values.get(key) != "0":
-            problems.append(f"{key}={values.get(key, 'unmeasured')}")
-    if values.get("eos_drained") != "1":
-        problems.append("eos_not_drained")
-    if values.get("observed_completions") != values.get("requested_changes"):
-        problems.append("speed_change_incomplete")
-    if values.get("presented_audio_timeline_frames") != values.get("output_length"):
-        problems.append("presentation_length_mismatch")
-    rows.append(dict(source=args.source, input_minutes=minutes, stress=int(args.stress),
-                     audible=int(args.audible), quality="FAIL" if problems else "PASS",
-                     failures=";".join(problems), exit_code=result.returncode, **values))
-    print(tag, rows[-1]["quality"], rows[-1]["failures"], flush=True)
-with (args.output / "summary.csv").open("w", newline="") as stream:
-    writer = csv.DictWriter(stream, fieldnames=sorted(set().union(*(row.keys() for row in rows))))
-    writer.writeheader()
-    writer.writerows(rows)
-if any(row["quality"] == "FAIL" for row in rows):
-    raise SystemExit("Mac callback audio quality FAIL; see live summary")
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--source', choices=('mix', 'drums', 'vocal', 'guitar', 'bass'), default='mix')
+    parser.add_argument('--minutes', default='3,5,10')
+    parser.add_argument('--stress', action='store_true')
+    parser.add_argument('--audible', action='store_true')
+    parser.add_argument('--initial', default='0.4')
+    parser.add_argument('--schedule', type=Path, default=ROOT / 'results/phase43/smoke_schedule.csv')
+    parser.add_argument('--repeat', type=int, default=1)
+    parser.add_argument('--input', type=Path)
+    parser.add_argument('--output', type=Path, default=ROOT / 'results/phase45/live')
+    args = parser.parse_args()
+    failed = False
+    for _ in range(args.repeat):
+        for minutes in (int(item) for item in args.minutes.split(',')):
+            if args.input:
+                source = args.input
+            elif args.source == 'mix':
+                source = ROOT / 'results/phase14/benchmark' / f'mix_repeat_{minutes*60}.wav'
+            elif args.source == 'drums':
+                source = ROOT / 'results/phase40/long_input' / f'drums_repeat_{minutes*60}.wav'
+            else:
+                source = ROOT / f'results/phase31/input/{args.source}.wav'
+            tag = f'{args.source}_manual_input' if args.input else f'{args.source}_{minutes}m'
+            path, identifier, at = new_run(args.output, tag)
+            environment = os.environ.copy()
+            environment.pop('PHASE43_STRESS', None)
+            if args.audible: environment.pop('PHASE43_SILENT', None)
+            else: environment['PHASE43_SILENT'] = '1'
+            if args.stress: environment['PHASE43_STRESS'] = '1'
+            environment['PHASE45_LIVE_EVENTS'] = str(path / 'callbacks.csv')
+            environment['PHASE45_LIVE_PLAN_CSV'] = str(path / 'replay.csv')
+            command = [ROOT / 'build/phase43_play', source, args.initial, args.schedule]
+            try:
+                result = subprocess.run(list(map(str, command)), cwd=ROOT,
+                    capture_output=True, text=True, env=environment, timeout=minutes*240+180)
+                text = result.stdout + result.stderr
+                code = result.returncode
+            except subprocess.TimeoutExpired as error:
+                text = (error.stdout or b'').decode() if isinstance(error.stdout, bytes) else error.stdout or ''
+                text += '\nvalidation_timeout=1\n'
+                code = 124
+            (path / 'playback.log').write_text(text)
+            values = parse_log(text)
+            problems = live_failures(values, code)
+            row = dict(run_id=identifier, run_time=at, source=args.source,
+                input_path=str(source), input_minutes=minutes, stress=int(args.stress),
+                audible=int(args.audible), initial_speed=args.initial, schedule=str(args.schedule),
+                exit_code=code, quality='FAIL' if problems else 'PASS', failures=';'.join(problems))
+            row.update(values)
+            row.update(exit_code=code, quality='FAIL' if problems else 'PASS', failures=';'.join(problems))
+            if 'input_frames' in values and 'dsp_sample_rate' in values:
+                try:
+                    row['requested_duration_label'] = minutes
+                    row['input_minutes'] = int(values['input_frames'])/float(values['dsp_sample_rate'])/60
+                except (ValueError, ZeroDivisionError): row['measured_input_minutes'] = 'invalid'
+            save_result(args.output, path, row)
+            failed |= bool(problems)
+            print(identifier, row['quality'], row['failures'], flush=True)
+    if failed: raise SystemExit('Mac callback validation FAIL; cumulative summary retained')
+
+
+if __name__ == '__main__': main()

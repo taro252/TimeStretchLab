@@ -1,4 +1,6 @@
 #include "prototype/Phase39PlaybackPipeline.h"
+#include "prototype/Phase45CallbackClock.h"
+#include "prototype/Phase45PcmDigest.h"
 #include "audio/WavStream.h"
 #include <algorithm>
 #include <chrono>
@@ -12,6 +14,9 @@
 #include <array>
 #include <cstdlib>
 #include <sys/resource.h>
+#include <pthread.h>
+#include <bit>
+#include <iomanip>
 
 using namespace ts;
 using namespace ts::prototype;
@@ -33,6 +38,8 @@ struct CallbackEvent {
     std::uint64_t unixNs=0,lastPublicationNs=0;
     std::size_t callback=0,available=0,wanted=0,received=0;
     double wakeLateSeconds=0,callbackSeconds=0;
+    std::uint64_t threadId=0,slot=0,expiredSlots=0,deviceFrames=0,pcmFrames=0;
+    std::int64_t scheduledNs=0,wakeNs=0,startNs=0,endNs=0;
 };
 }
 int main(int argc,char** argv) {
@@ -94,8 +101,30 @@ int main(int argc,char** argv) {
                 (void)counter;
             });
         const auto start=std::chrono::steady_clock::now();
-        auto deadline=start;
         const auto period=std::chrono::duration<double>(double(block)/reader.sampleRate());
+        const double lateLimit=std::getenv("PHASE45_LATE_PERIOD_LIMIT") ?
+            std::stod(std::getenv("PHASE45_LATE_PERIOD_LIMIT")) : 1.0;
+        if (!std::isfinite(lateLimit) || lateLimit<=0)
+            throw std::invalid_argument("Invalid lateness limit");
+        Phase45CallbackClock clock(block,reader.sampleRate(),lateLimit);
+        const auto unixStart=static_cast<std::uint64_t>(std::chrono::duration_cast<
+            std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count());
+        const auto elapsedNs=[&](auto at) {
+            return std::chrono::duration_cast<std::chrono::nanoseconds>(at-start).count();
+        };
+        std::uint64_t callbackTid=0;pthread_threadid_np(nullptr,&callbackTid);
+        std::uint64_t slot=1,expiredSlots=0,majorWakeups=0,completionMisses=0;
+        std::uint64_t late5ms=0,late10ms=0,late20ms=0;
+        std::uint64_t lateHalfPeriod=0,lateTwoPeriods=0;
+        double maxWakeSeconds=0;
+        std::size_t fifoMinimum=lead;
+        std::uint64_t pcmHash=14695981039346656037ULL,nonFinite=0;
+        Phase45PcmDigest pcmDigest;
+        std::vector<float> hashBuffer(block*reader.channels());
+        const double wakeDelayMs=std::getenv("PHASE45_WAKE_DELAY_MS") ?
+            std::stod(std::getenv("PHASE45_WAKE_DELAY_MS")) : 0;
+        if (!std::isfinite(wakeDelayMs) || wakeDelayMs<0)
+            throw std::invalid_argument("Invalid injected wake delay");
         const auto requestAt=std::chrono::duration<double>(requestSeconds);
         bool requested=false;
         std::size_t presentedTimeline=0,pcmConsumed=0,missing=0;
@@ -109,8 +138,25 @@ int main(int argc,char** argv) {
         if (traceEvents) callbackEvents.resize(65536);
         std::size_t eventCount=0,eventOverflow=0,callbackIndex=0;
         while (!pipeline.drained()) {
-            deadline+=std::chrono::duration_cast<std::chrono::steady_clock::duration>(period);
+            auto scheduled=clock.scheduledNs(slot);
+            auto deadline=start+std::chrono::nanoseconds(scheduled);
             std::this_thread::sleep_until(deadline);
+            if (wakeDelayMs>0 && callbackIndex==4)
+                std::this_thread::sleep_for(std::chrono::duration<double,std::milli>(wakeDelayMs));
+            const auto wake=std::chrono::steady_clock::now();
+            const auto timing=clock.wake(slot,elapsedNs(wake));
+            expiredSlots+=timing.expiredSlots;
+            presentedTimeline+=timing.expiredSlots*block;
+            if (timing.invalid) ++majorWakeups;
+            const auto wakeSeconds=double(timing.lateNs)/1e9;
+            maxWakeSeconds=std::max(maxWakeSeconds,wakeSeconds);
+            if (wakeSeconds>0.005) ++late5ms;
+            if (wakeSeconds>0.010) ++late10ms;
+            if (wakeSeconds>0.020) ++late20ms;
+            if (timing.lateNs>clock.periodNs()*0.5) ++lateHalfPeriod;
+            if (timing.lateNs>clock.periodNs()*2.0) ++lateTwoPeriods;
+            slot=timing.renderSlot;
+            const auto renderDeadline=start+std::chrono::nanoseconds(clock.scheduledNs(slot));
             // Control work is deliberately outside the measured render path.
             if (!requested && std::chrono::steady_clock::now()-start>=requestAt) {
                 if (pipeline.requestSpeed(to,pcmConsumed)!=Phase39RequestResult::Accepted)
@@ -121,16 +167,17 @@ int main(int argc,char** argv) {
             const auto state=pipeline.snapshot();
             const auto callbackStart=std::chrono::steady_clock::now();
             ++callbackIndex;
-            if (callbackStart-deadline>period) ++lateWakeups;
+            if (timing.lateNs>clock.periodNs()) ++lateWakeups;
             const auto need=state.outputLength>pcmConsumed ?
                 std::min(block,state.outputLength-pcmConsumed) : 0;
             if (!need && !pipeline.finished()) {
                 // A speed change may lengthen EOS; the worker will publish it.
-                continue;
+                ++slot;continue;
             }
             const bool skip=injectUnderrun && !injected && need>0;
             if (skip) injected=true;
             const auto availableBefore=pipeline.available();
+            fifoMinimum=std::min(fifoMinimum,availableBefore);
             const auto lastPublication=pipeline.lastPublishedUnixNs();
             const auto count=need && !skip ? pipeline.pullAudio(ptr.data(),need) : 0;
             if (count<need) {
@@ -145,8 +192,7 @@ int main(int argc,char** argv) {
                         event.available=availableBefore;
                         event.wanted=need;
                         event.received=count;
-                        event.wakeLateSeconds=std::chrono::duration<double>(
-                            callbackStart-deadline).count();
+                        event.wakeLateSeconds=wakeSeconds;
                     } else ++eventOverflow;
                 }
                 for (auto& channel:audio)
@@ -165,8 +211,20 @@ int main(int argc,char** argv) {
                 firstAudibleNs=static_cast<std::uint64_t>(
                     std::chrono::duration_cast<std::chrono::nanoseconds>(
                         callbackStart.time_since_epoch()).count());
-            const auto seconds=std::chrono::duration<double>(
-                std::chrono::steady_clock::now()-callbackStart).count();
+            const auto callbackEnd=std::chrono::steady_clock::now();
+            const auto seconds=std::chrono::duration<double>(callbackEnd-callbackStart).count();
+            if (callbackEnd>renderDeadline+std::chrono::duration_cast<std::chrono::steady_clock::duration>(period))
+                ++completionMisses;
+            // Raw PCM fingerprint is independent of partition, zero fill, and
+            // expired presentation slots. Offline replay verifies it after the run.
+            for (std::size_t i=0;i<count;++i) for (std::size_t c=0;c<audio.size();++c) {
+                const auto sample=audio[c][i];
+                hashBuffer[i*audio.size()+c]=sample;
+                if (!std::isfinite(sample)) ++nonFinite;
+                pcmHash^=std::bit_cast<std::uint32_t>(sample);
+                pcmHash*=1099511628211ULL;
+            }
+            pcmDigest.update(hashBuffer.data(),count*audio.size()*sizeof(float));
             if (traceEvents) {
                 auto& event=callbackEvents[(callbackIndex-1)%callbackEvents.size()];
                 event.unixNs=static_cast<std::uint64_t>(
@@ -177,15 +235,21 @@ int main(int argc,char** argv) {
                 event.available=availableBefore;
                 event.wanted=need;
                 event.received=count;
-                event.wakeLateSeconds=std::chrono::duration<double>(
-                    callbackStart-deadline).count();
+                event.wakeLateSeconds=wakeSeconds;
                 event.callbackSeconds=seconds;
+                event.threadId=callbackTid;event.slot=slot;
+                event.expiredSlots=timing.expiredSlots;
+                event.scheduledNs=scheduled;event.wakeNs=elapsedNs(wake);
+                event.startNs=elapsedNs(callbackStart);event.endNs=elapsedNs(callbackEnd);
+                event.deviceFrames=clock.deviceFrames(event.endNs);
+                event.pcmFrames=pcmConsumed;
             }
             if (traceEvents && count<need && eventCount)
                 underrunEvents[eventCount-1].callbackSeconds=seconds;
             maxCallbackSeconds=std::max(maxCallbackSeconds,seconds);
             if (seconds>period.count()) ++callbackOverruns;
-            if (presentedTimeline>reader.frames()*6+reader.sampleRate()*30)
+            ++slot;
+            if (clock.deviceFrames(elapsedNs(callbackEnd))>reader.frames()*6+reader.sampleRate()*30)
                 throw std::runtime_error("Paced EOS timeout");
         }
         pipeline.rethrowWorkerError();
@@ -205,6 +269,24 @@ int main(int argc,char** argv) {
                  <<"\nmax_consecutive_missing_frames="<<maxRun
                  <<"\nrejected_writes="<<state.rejectedWrites
                  <<"\nlate_wakeups="<<lateWakeups
+                 <<"\nmajor_wakeups="<<majorWakeups
+                 <<"\nexpired_callback_slots="<<expiredSlots
+                 <<"\nexpired_presentation_frames="<<expiredSlots*block
+                 <<"\ncompletion_deadline_misses="<<completionMisses
+                 <<"\nwake_over_5ms="<<late5ms<<"\nwake_over_10ms="<<late10ms
+                 <<"\nwake_over_20ms="<<late20ms
+                 <<"\nwake_over_halfperiod="<<lateHalfPeriod
+                 <<"\nwake_over_twoperiods="<<lateTwoPeriods
+                 <<"\nmax_wake_seconds="<<maxWakeSeconds
+                 <<"\nlate_period_limit="<<lateLimit
+                 <<"\ncallback_period_seconds="<<period.count()
+                 <<"\nstart_unix_ns="<<unixStart
+                 <<"\ncallback_thread_id="<<callbackTid
+                 <<"\ndevice_elapsed_frames="<<clock.deviceFrames(elapsedNs(std::chrono::steady_clock::now()))
+                 <<"\nfifo_minimum="<<fifoMinimum
+                 <<"\nnonfinite_samples="<<nonFinite
+                 <<"\npcm_fingerprint="<<std::hex<<pcmHash<<std::dec
+                 <<"\npcm_sha256="<<pcmDigest.finish()
                  <<"\ncallback_overruns="<<callbackOverruns
                  <<"\nmax_callback_seconds="<<maxCallbackSeconds
                  <<"\nmax_worker_wall_seconds="<<state.maxWorkerChunkSeconds
@@ -270,7 +352,9 @@ int main(int argc,char** argv) {
             }
             std::ofstream callbackCsv(std::string(argv[11])+".callbacks.csv");
             callbackCsv<<"callback,unix_ns,available,wanted,received,missing,"
-                           "last_publication_ns,wake_late_s,callback_s\n";
+                           "last_publication_ns,wake_late_s,callback_s,thread_id,slot,"
+                           "scheduled_elapsed_ns,wake_elapsed_ns,start_elapsed_ns,end_elapsed_ns,"
+                           "expired_slots,device_elapsed_frames,pcm_consumed\n";
             const auto retained=std::min(callbackIndex,callbackEvents.size());
             for (std::size_t i=0;i<retained;++i) {
                 const auto index=(callbackIndex-retained+i)%callbackEvents.size();
@@ -278,9 +362,23 @@ int main(int argc,char** argv) {
                 callbackCsv<<event.callback<<','<<event.unixNs<<','<<event.available
                            <<','<<event.wanted<<','<<event.received<<','
                            <<event.wanted-event.received<<','<<event.lastPublicationNs
-                           <<','<<event.wakeLateSeconds<<','<<event.callbackSeconds<<'\n';
+                           <<','<<event.wakeLateSeconds<<','<<event.callbackSeconds<<','
+                           <<event.threadId<<','<<event.slot<<','<<event.scheduledNs<<','
+                           <<event.wakeNs<<','<<event.startNs<<','<<event.endNs<<','
+                           <<event.expiredSlots<<','<<event.deviceFrames<<','<<event.pcmFrames<<'\n';
             }
             std::cout<<"underrun_event_overflow="<<eventOverflow<<'\n';
+            std::cout<<"callback_records_retained="<<retained
+                     <<"\ncallback_records_evicted="<<callbackIndex-retained<<'\n';
+            std::ofstream guardCsv(std::string(argv[11])+".guard.csv");
+            guardCsv<<"generation,fifo_at_plan,safe,candidates,guard_wall_s,guard_cpu_s,weight_error_low,weight_error_mid,weight_error_high\n";
+            for (const auto& metric:pipeline.guardMetrics()) {
+                const auto& d=metric.decision;
+                guardCsv<<metric.generation<<','<<metric.fifoAtPlan<<','<<d.safe<<','
+                        <<d.candidatesTried<<','<<d.guardWallSeconds<<','<<d.guardThreadCpuSeconds;
+                for (const auto value:d.weightPredictionAbsoluteError) guardCsv<<','<<value;
+                guardCsv<<'\n';
+            }
         }
         if (argc>=12) {
             std::ofstream csv(argv[11]);
@@ -302,11 +400,28 @@ int main(int argc,char** argv) {
                    <<metric.densityMinimumWeight[1]<<','<<metric.densityMinimumWeight[2]<<'\n';
             }
         }
+        // A separate replay-format plan is consumed by phase39_reference. It
+        // includes the actual request fence and density position for this run.
+        if (argc>=12) {
+            std::ofstream replay(std::string(argv[11])+".replay.csv");
+            replay<<"generation,requested_output,requested_input,from,target,fence,"
+                     "prepared,published,applied_frame,applied_output,completion_output,density_input,map_bytes,plan_ms\n";
+            for (const auto& m:pipeline.planMetrics())
+                replay<<m.generation<<','<<m.requestedOutput<<','<<m.requestedInput<<','
+                      <<m.from.value()<<','<<m.target.value()<<','<<m.planningFence<<','
+                      <<m.prepared<<','<<m.published<<','<<m.plan.appliedFrame<<','
+                      <<m.plan.appliedOutputSample<<','<<m.plan.completionOutputSample<<','
+                      <<m.firstDensityChangedInput<<','<<m.timeMapBytes<<','<<m.planMilliseconds<<'\n';
+        }
+        const bool timingValid=!majorWakeups && !expiredSlots && !completionMisses;
+        std::cout<<"CALLBACK_TIMING="<<(timingValid && !callbackOverruns ? "PASS" : "FAIL")
+                 <<"\nSIMULATION_VALIDITY="<<(timingValid ? "VALID" : "INVALID")<<'\n';
         pipeline.stop();
         if (!completed || !pipeline.drained() || missing || underrunCalls ||
             state.rejectedWrites || callbackOverruns ||
             pcmConsumed!=state.outputLength ||
-            presentedTimeline!=state.outputLength) return 1;
+            nonFinite || presentedTimeline!=state.outputLength) return 1;
+        if (!timingValid) return 3;
         return 0;
     } catch (const std::exception& error) {
         std::cerr<<"Phase 40 paced simulation: "<<error.what()<<'\n';

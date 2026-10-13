@@ -18,6 +18,10 @@ def failures(values, process_exit=0):
         problems.append(f"request_state={values.get('request_state', 'unmeasured')}")
     if values.get("eos_drained") != "1":
         problems.append(f"eos_drained={values.get('eos_drained', 'unmeasured')}")
+    if values.get("CALLBACK_TIMING") != "PASS":
+        problems.append("callback_timing_failed_or_unmeasured")
+    if values.get("SIMULATION_VALIDITY") != "VALID":
+        problems.append("simulation_invalid_or_unmeasured")
     try:
         expected = int(values["output_frames"])
         consumed = int(values["pcm_consumed"])

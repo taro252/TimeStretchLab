@@ -1,4 +1,5 @@
 #import <AVFoundation/AVFoundation.h>
+#include <CoreAudio/CoreAudio.h>
 #include "prototype/Phase39PlaybackPipeline.h"
 #include <algorithm>
 #include <array>
@@ -16,12 +17,16 @@
 #include <sys/resource.h>
 #include <thread>
 #include <vector>
+#include <memory>
+#include <pthread.h>
 
 namespace {
 thread_local bool insideRender=false;
+thread_local std::uint64_t renderThreadId=0,outsideRenderNewCalls=0;
 std::atomic<std::uint64_t> renderCppAllocations{0};
 void* countedNew(std::size_t bytes,std::size_t alignment=alignof(std::max_align_t)) {
     if (insideRender) renderCppAllocations.fetch_add(1,std::memory_order_relaxed);
+    else ++outsideRenderNewCalls;
     void* result=nullptr;
     if (posix_memalign(&result,alignment,bytes ? bytes : 1)!=0) throw std::bad_alloc();
     return result;
@@ -71,29 +76,42 @@ struct State {
     std::uint32_t channels=0;
     double rate=0;
     std::uint32_t numer=1,denom=1;
-    std::atomic<bool> active{false},routeChanged{false};
+    std::atomic<bool> active{false};
+    std::shared_ptr<std::atomic<bool>> routeChanged=std::make_shared<std::atomic<bool>>(false);
     std::atomic<std::uint32_t> activeCallbacks{0};
     std::atomic<std::uint64_t> content{0},presentationFrames{0},calls{0},silence{0};
     std::atomic<std::uint64_t> maxCallbackNs{0},deadlineMisses{0},formatErrors{0};
     std::atomic<std::uint64_t> appliedPresentationNs{0},completionPresentationNs{0};
     std::atomic<std::uint64_t> appliedPresentationGeneration{0},
         completionPresentationGeneration{0};
+    struct Event { std::uint64_t before=0,count=0,startNs=0,endNs=0,hostNs=0,renderFrames=0,
+        available=0,lastPublicationUnixNs=0,threadId=0,wanted=0; };
+    std::vector<Event> events; // Allocated before starting the audio engine.
+    std::uint64_t bridgeMachNs=0,bridgeUnixNs=0;
+    std::atomic<std::uint64_t> eventIndex{0},maxHostLateNs{0};
+    std::atomic<std::uint64_t> hostValidCalls{0},hostMissingCalls{0};
 };
 struct PlaybackGuard {
     AVAudioEngine* engine;
     State* state;
     ts::prototype::Phase39PlaybackPipeline* pipeline;
     id observer;
+    AVAudioSourceNode* source;
     bool cleaned=false;
-    void stop() noexcept {
-        if (cleaned) return;
-        cleaned=true;
+    void quiesceAudio() noexcept {
         state->active.store(false,std::memory_order_release);
+        if (observer) [[NSNotificationCenter defaultCenter] removeObserver:observer];
+        observer=nil;
         if (engine.isRunning) [engine stop];
         while (state->activeCallbacks.load(std::memory_order_acquire))
             std::this_thread::sleep_for(std::chrono::microseconds(100));
+        if (source) { [engine detachNode:source]; source=nil; }
+    }
+    void stop() noexcept {
+        if (cleaned) return;
+        cleaned=true;
+        quiesceAudio();
         pipeline->stop();
-        if (observer) [[NSNotificationCenter defaultCenter] removeObserver:observer];
     }
     ~PlaybackGuard() { stop(); }
 };
@@ -112,11 +130,12 @@ struct CpuStress {
         for (auto& thread:threads) thread.join();
     }
 };
-OSStatus render(State* state,BOOL* isSilence,AVAudioFrameCount frames,
+OSStatus render(State* state,BOOL* isSilence,const AudioTimeStamp* timestamp,AVAudioFrameCount frames,
                 AudioBufferList* buffers) noexcept {
     insideRender=true;
     state->activeCallbacks.fetch_add(1,std::memory_order_acq_rel);
     const auto start=mach_absolute_time();
+    if (!renderThreadId) pthread_threadid_np(nullptr,&renderThreadId);
     float* channel[2]={};
     bool valid=buffers->mNumberBuffers==state->channels;
     if (valid) for (std::uint32_t c=0;c<state->channels;++c) {
@@ -139,6 +158,8 @@ OSStatus render(State* state,BOOL* isSilence,AVAudioFrameCount frames,
         const auto markers=state->pipeline->realtimeMarkers();
         const auto length=markers.outputLength;
         const auto wanted=std::min<std::size_t>(frames,length>before ? length-before : 0);
+        const auto available=state->pipeline->available();
+        const auto lastPublication=state->pipeline->lastPublishedUnixNs();
         const auto received=state->pipeline->pullAudio(channel,wanted);
         for (std::uint32_t c=0;c<state->channels;++c)
             std::memset(channel[c]+wanted,0,(frames-wanted)*sizeof(float));
@@ -149,6 +170,25 @@ OSStatus render(State* state,BOOL* isSilence,AVAudioFrameCount frames,
         const auto now=mach_absolute_time();
         const auto ns=static_cast<std::uint64_t>(
             (static_cast<long double>(now)*state->numer)/state->denom);
+        std::uint64_t hostNs=0;
+        if (timestamp && (timestamp->mFlags & kAudioTimeStampHostTimeValid)) {
+            state->hostValidCalls.fetch_add(1,std::memory_order_relaxed);
+            hostNs=static_cast<std::uint64_t>((static_cast<long double>(timestamp->mHostTime)*
+                state->numer)/state->denom);
+            const auto startNs=static_cast<std::uint64_t>((static_cast<long double>(start)*
+                state->numer)/state->denom);
+            const auto late=startNs>hostNs ? startNs-hostNs : 0;
+            auto previous=state->maxHostLateNs.load(std::memory_order_relaxed);
+            while (previous<late && !state->maxHostLateNs.compare_exchange_weak(previous,late,
+                    std::memory_order_relaxed)) {}
+        } else state->hostMissingCalls.fetch_add(1,std::memory_order_relaxed);
+        if (!state->events.empty()) {
+            const auto index=state->eventIndex.fetch_add(1,std::memory_order_relaxed);
+            auto& event=state->events[index%state->events.size()];
+            event={before,received,static_cast<std::uint64_t>(
+                (static_cast<long double>(start)*state->numer)/state->denom),ns,hostNs,frames,
+                available,lastPublication,renderThreadId,wanted};
+        }
         if (markers.appliedOutput && before<=markers.appliedOutput &&
             before+received>markers.appliedOutput) {
             state->appliedPresentationNs.store(ns,std::memory_order_relaxed);
@@ -191,11 +231,14 @@ int main(int argc,char** argv) {
             throw std::invalid_argument("Invalid playback duration");
         constexpr std::size_t fifoFrames=16384,blockFrames=2048,leadLimit=12288;
         const auto prepareBegin=Clock::now();
+        const bool profileEnabled=std::getenv("PHASE43_PROFILE") || std::getenv("PHASE45_LIVE_WORKERS");
         ts::prototype::Phase39PlaybackPipeline pipeline(
             argv[1],initial,fifoFrames,blockFrames,leadLimit,
             ts::prototype::Phase39Planning::C,
             ts::prototype::Phase39DensityDiagnostic::SafeGuarded,
-            std::getenv("PHASE43_PROFILE")!=nullptr);
+            profileEnabled,{},0,0,profileEnabled ?
+                std::function<std::uint64_t()>([] { return outsideRenderNewCalls; }) :
+                std::function<std::uint64_t()>{});
         const auto schedule=readSchedule(argc>=4 ? argv[3] : "-",pipeline.sampleRate());
         const auto changeCount=schedule.size();
         const auto analysisSeconds=std::chrono::duration<double>(
@@ -207,14 +250,27 @@ int main(int argc,char** argv) {
         mach_timebase_info_data_t info{};
         mach_timebase_info(&info);
         state.numer=info.numer;state.denom=info.denom;
+        state.bridgeMachNs=static_cast<std::uint64_t>((static_cast<long double>(mach_absolute_time())*
+            state.numer)/state.denom);
+        state.bridgeUnixNs=static_cast<std::uint64_t>(std::chrono::duration_cast<std::chrono::nanoseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count());
+        if (std::getenv("PHASE45_LIVE_EVENTS")) state.events.resize(65536);
         AVAudioEngine* engine=nil;
         AVAudioFormat* hardware=nil;
         AVAudioFormat* format=nil;
         AVAudioSourceNode* source=nil;
         id observer=nil;
         State* pointer=&state;
+        const auto routeFlag=state.routeChanged;
+        AudioDeviceID device=0;
+        const auto configureAudio=[&] {
         @try {
             engine=[[AVAudioEngine alloc] init];
+            UInt32 bytes=sizeof(device);
+            AudioObjectPropertyAddress address{kAudioHardwarePropertyDefaultOutputDevice,
+                kAudioObjectPropertyScopeGlobal,kAudioObjectPropertyElementMain};
+            if (AudioObjectGetPropertyData(kAudioObjectSystemObject,&address,0,nullptr,&bytes,&device)!=noErr)
+                throw std::runtime_error("Cannot acquire default output device identity");
             hardware=[engine.outputNode outputFormatForBus:0];
             if (hardware.sampleRate<=0 || hardware.channelCount==0)
                 throw std::runtime_error("No audio output device");
@@ -222,9 +278,9 @@ int main(int argc,char** argv) {
                 initWithCommonFormat:AVAudioPCMFormatFloat32 sampleRate:pipeline.sampleRate()
                 channels:static_cast<AVAudioChannelCount>(pipeline.channels()) interleaved:NO];
             source=[[AVAudioSourceNode alloc] initWithFormat:format
-                renderBlock:^OSStatus(BOOL* silent,const AudioTimeStamp*,
+                renderBlock:^OSStatus(BOOL* silent,const AudioTimeStamp* timestamp,
                                       AVAudioFrameCount frames,AudioBufferList* data) {
-                    return render(pointer,silent,frames,data);
+                    return render(pointer,silent,timestamp,frames,data);
                 }];
             [engine attachNode:source];
             [engine connect:source to:engine.mainMixerNode format:format];
@@ -234,12 +290,14 @@ int main(int argc,char** argv) {
             observer=[[NSNotificationCenter defaultCenter]
                 addObserverForName:AVAudioEngineConfigurationChangeNotification object:engine
                 queue:nil usingBlock:^(NSNotification*) {
-                    pointer->routeChanged.store(true,std::memory_order_release);
+                    routeFlag->store(true,std::memory_order_release);
                 }];
         } @catch (NSException* exception) {
             throw std::runtime_error([[exception description] UTF8String]);
         }
-        PlaybackGuard guard{engine,&state,&pipeline,observer};
+        };
+        configureAudio();
+        PlaybackGuard guard{engine,&state,&pipeline,observer,source};
         const auto prefillBegin=Clock::now();
         pipeline.start();
         if (!pipeline.waitForPrefill(std::min<std::size_t>(
@@ -259,6 +317,12 @@ int main(int argc,char** argv) {
             throw std::runtime_error(error ? [[error description] UTF8String] : "Audio start failed");
         CpuStress stress(std::getenv("PHASE43_STRESS")!=nullptr);
         const auto playStart=Clock::now();
+        const double injectRouteAt=std::getenv("PHASE45_ROUTE_AFTER_SECONDS") ?
+            std::stod(std::getenv("PHASE45_ROUTE_AFTER_SECONDS")) : -1;
+        bool injectedRoute=false;
+        std::size_t routeChanges=0,resumes=0;
+        std::uint64_t savedOutput=0;
+        double savedTarget=initial.value();
         const bool continueRejected=std::getenv("PHASE43_REJECT_POLICY") &&
             std::strcmp(std::getenv("PHASE43_REJECT_POLICY"),"continue")==0;
         const bool forceRejectFirst=std::getenv("PHASE44_FORCE_REJECT_FIRST")!=nullptr;
@@ -270,7 +334,36 @@ int main(int argc,char** argv) {
         std::vector<std::string> requestStates(changeCount,"Scheduled");
         std::size_t checkpoint=0;
         constexpr double checkpoints[]={180,300,600};
-        while (!interrupted && !state.routeChanged.load()) {
+        while (!interrupted) {
+            if (!injectedRoute && injectRouteAt>=0 &&
+                Clock::now()-playStart>=std::chrono::duration<double>(injectRouteAt)) {
+                state.routeChanged->store(true,std::memory_order_release);injectedRoute=true;
+            }
+            if (state.routeChanged->load(std::memory_order_acquire)) {
+                ++routeChanges;
+                guard.quiesceAudio(); // Audio fully quiescent before any buffer/engine release.
+                savedOutput=state.content.load(std::memory_order_acquire);
+                savedTarget=pipeline.snapshot().target.value();
+                std::cout<<"route_pause_output="<<savedOutput<<" target="<<savedTarget<<std::endl;
+                if (!std::getenv("PHASE45_ROUTE_RESUME") &&
+                    !std::getenv("PHASE45_ROUTE_AUTO_RESUME_TEST")) break;
+                if (!std::getenv("PHASE45_ROUTE_AUTO_RESUME_TEST")) {
+                    std::cout<<"新しい出力装置で再開するにはEnter、終了するにはqを入力してください。"<<std::endl;
+                    std::string answer;std::getline(std::cin,answer);
+                    if (!std::cin || answer=="q") break;
+                }
+                // DSP, TimeMap and unread FIFO remain owned by the same worker.
+                configureAudio();
+                guard.engine=engine;guard.source=source;guard.observer=observer;
+                state.routeChanged->store(false,std::memory_order_release);
+                NSError* resumeError=nil;
+                state.active.store(true,std::memory_order_release);
+                if (![engine startAndReturnError:&resumeError]) {
+                    state.active.store(false,std::memory_order_release);
+                    throw std::runtime_error("Audio restart failed");
+                }
+                ++resumes;
+            }
             const auto played=state.content.load(std::memory_order_acquire);
             const auto snapshot=pipeline.snapshot();
             if (active<changeCount) {
@@ -352,7 +445,7 @@ int main(int argc,char** argv) {
         }
         for (std::size_t i=sent;i<changeCount;++i)
             requestStates[i]="Stopped";
-        const bool endDrained=pipeline.drained() &&
+        const bool endDrained=!state.routeChanged->load() && !interrupted && pipeline.drained() &&
             state.content.load(std::memory_order_acquire)>=pipeline.snapshot().outputLength;
         if (endDrained) {
             const auto latency=std::max(0.1,engine.outputNode.presentationLatency+0.1);
@@ -361,6 +454,8 @@ int main(int argc,char** argv) {
         guard.stop();
         pipeline.rethrowWorkerError();
         const auto status=pipeline.snapshot();
+        const bool reportEos=endDrained && !state.routeChanged->load() && !interrupted;
+        const bool anyRouteChange=routeChanges!=0 || state.routeChanged->load();
         rusage usage{};getrusage(RUSAGE_SELF,&usage);
         const auto userCpu=usage.ru_utime.tv_sec+usage.ru_utime.tv_usec/1e6;
         const auto systemCpu=usage.ru_stime.tv_sec+usage.ru_stime.tv_usec/1e6;
@@ -380,6 +475,18 @@ int main(int argc,char** argv) {
                  <<"prefill_seconds="<<prefill<<'\n'
                  <<"analysis_seconds="<<analysisSeconds<<'\n'
                  <<"output_device_rate="<<hardware.sampleRate<<'\n'
+                 <<"output_device_id="<<device<<'\n'
+                 <<"output_device_channels="<<hardware.channelCount<<'\n'
+                 <<"dsp_sample_rate="<<pipeline.sampleRate()<<'\n'
+                 <<"dsp_channels="<<pipeline.channels()<<'\n'
+                 <<"input_frames="<<pipeline.inputFrames()<<'\n'
+                 <<"format_acquired=1\ndevice_acquired=1\nworker_errors=0\n"
+                 <<"callback_allocation_counter_enabled=1\n"
+                 <<"clock_bridge_mach_ns="<<state.bridgeMachNs<<'\n'
+                 <<"clock_bridge_unix_ns="<<state.bridgeUnixNs<<'\n'
+                 <<"stop_reason="<<(anyRouteChange && !reportEos ? "RouteChanged" :
+                       interrupted ? "Interrupted" : reportEos ? "EOS" :
+                       strictFailure ? "Rejected" : "DurationLimit")<<'\n'
                  <<"wall_seconds="<<wall<<'\n'
                  <<"cpu_user_seconds="<<userCpu<<'\n'
                  <<"cpu_system_seconds="<<systemCpu<<'\n'
@@ -410,8 +517,12 @@ int main(int argc,char** argv) {
                  <<"presented_audio_timeline_frames="
                  <<state.presentationFrames.load()<<'\n'
                  <<"output_length="<<status.outputLength<<'\n'
-                 <<"eos_drained="<<endDrained<<'\n'
-                 <<"route_changed="<<state.routeChanged.load()<<'\n'
+                 <<"eos_drained="<<reportEos<<'\n'
+                 <<"route_changed="<<anyRouteChange<<'\n'
+                 <<"route_change_count="<<routeChanges<<"\nroute_resume_count="<<resumes<<'\n'
+                 <<"saved_output_frame="<<savedOutput<<"\nsaved_target_speed="<<savedTarget<<'\n'
+                 <<"active_callbacks_after_stop="<<state.activeCallbacks.load()<<'\n'
+                 <<"worker_stopped="<<pipeline.finished()<<'\n'
                  <<"interrupted="<<interrupted<<'\n'
                  <<"fifo_high_water="<<status.fifoHighWater<<'\n'
                  <<"fifo_rejected_writes="<<status.rejectedWrites<<'\n'
@@ -424,6 +535,9 @@ int main(int argc,char** argv) {
                  <<"max_callback_ms="<<state.maxCallbackNs.load()/1e6<<'\n'
                  <<"callback_deadline_misses="<<state.deadlineMisses.load()<<'\n'
                  <<"callback_format_errors="<<state.formatErrors.load()<<'\n'
+                 <<"max_callback_host_late_ms="<<state.maxHostLateNs.load()/1e6<<'\n'
+                 <<"host_timestamp_valid_callbacks="<<state.hostValidCalls.load()<<'\n'
+                 <<"host_timestamp_missing_callbacks="<<state.hostMissingCalls.load()<<'\n'
                  <<"callback_cpp_allocations="<<renderCppAllocations.load()<<'\n'
                  <<"peak_rss_mib="<<usage.ru_maxrss/1048576.0<<'\n'
                  <<"last_applied_callback_generation="
@@ -441,6 +555,53 @@ int main(int argc,char** argv) {
                     ? (status.planNs-status.workerSeenNs)/1e6 : -1)<<'\n'
                  <<"plan_to_applied_callback_ms=per_change_below\n";
         const auto metrics=pipeline.planMetrics();
+        if (const auto path=std::getenv("PHASE45_LIVE_EVENTS")) {
+            std::ofstream events(path);
+            events<<"pcm_before,received,callback_start_mach_ns,callback_end_mach_ns,host_mach_ns,render_requested_frames,available_before,last_publication_unix_ns,thread_id,callback_start_unix_ns,wanted\n";
+            const auto count=state.eventIndex.load();
+            const auto retained=std::min<std::uint64_t>(count,state.events.size());
+            for (std::uint64_t i=0;i<retained;++i) {
+                const auto& e=state.events[(count-retained+i)%state.events.size()];
+                events<<e.before<<','<<e.count<<','<<e.startNs<<','<<e.endNs<<','<<e.hostNs<<','<<e.renderFrames
+                      <<','<<e.available<<','<<e.lastPublicationUnixNs<<','<<e.threadId<<','
+                      <<state.bridgeUnixNs+(e.startNs-state.bridgeMachNs)<<','<<e.wanted<<'\n';
+            }
+            std::cout<<"callback_records_retained="<<retained
+                     <<"\ncallback_records_evicted="<<count-retained<<'\n';
+        }
+        if (const auto path=std::getenv("PHASE45_LIVE_WORKERS")) {
+            std::ofstream csv(path);
+            csv<<"output_start,start_unix_ns,end_unix_ns,thread_id,cycle_wall_s,cycle_cpu_s,dsp_wall_s,dsp_cpu_s,fifo_wait_s,fifo_write_s,plan_wall_s,plan_cpu_s,mutex_wait_s,mutex_hold_s,allocation_counter_enabled,cpp_new_calls,wav_wall_s,wav_cpu_s,fft_wall_s,fft_cpu_s,phase_wall_s,phase_cpu_s,ola_wall_s,ola_cpu_s,fir_wall_s,fir_cpu_s\n";
+            for (const auto& b:pipeline.allBlockProfiles()) {
+                csv<<b.outputStart<<','<<b.startUnixNs<<','<<b.endUnixNs<<','<<b.threadId<<','
+                   <<b.fullCycleWallSeconds<<','<<b.fullCycleCpuSeconds<<','<<b.chunkWallSeconds<<','
+                   <<b.chunkCpuSeconds<<','<<b.fifoWaitSeconds<<','<<b.fifoWriteSeconds<<','
+                   <<b.planWallSeconds<<','<<b.planCpuSeconds<<','<<b.mutexWaitSeconds<<','
+                   <<b.mutexHoldSeconds<<','<<b.allocationCounterEnabled<<',';
+                if (b.allocationCounterEnabled) csv<<b.cppNewCalls;else csv<<"unmeasured";
+                for (const auto& stage:b.work.stages) csv<<','<<stage.wallSeconds<<','<<stage.threadCpuSeconds;
+                csv<<'\n';
+            }
+            std::ofstream guards(std::string(path)+".guard.csv");
+            guards<<"generation,fifo_at_plan,safe,candidates,guard_wall_s,guard_cpu_s,weight_error_low,weight_error_mid,weight_error_high\n";
+            for (const auto& m:pipeline.guardMetrics()) {
+                guards<<m.generation<<','<<m.fifoAtPlan<<','<<m.decision.safe<<','
+                      <<m.decision.candidatesTried<<','<<m.decision.guardWallSeconds<<','
+                      <<m.decision.guardThreadCpuSeconds;
+                for (const auto value:m.decision.weightPredictionAbsoluteError) guards<<','<<value;
+                guards<<'\n';
+            }
+        }
+        if (const auto path=std::getenv("PHASE45_LIVE_PLAN_CSV")) {
+            std::ofstream replay(path);
+            replay<<"generation,requested_output,requested_input,from,target,fence,prepared,published,applied_frame,applied_output,completion_output,density_input,map_bytes,plan_ms\n";
+            for (const auto& m:metrics)
+                replay<<m.generation<<','<<m.requestedOutput<<','<<m.requestedInput<<','
+                      <<m.from.value()<<','<<m.target.value()<<','<<m.planningFence<<','
+                      <<m.prepared<<','<<m.published<<','<<m.plan.appliedFrame<<','
+                      <<m.plan.appliedOutputSample<<','<<m.plan.completionOutputSample<<','
+                      <<m.firstDensityChangedInput<<','<<m.timeMapBytes<<','<<m.planMilliseconds<<'\n';
+        }
         const auto latencySummary=[](std::vector<double> values) {
             values.erase(std::remove_if(values.begin(),values.end(),
                 [](double value){ return value<0; }),values.end());
@@ -473,8 +634,12 @@ int main(int argc,char** argv) {
                      <<" lp250_next_source="<<metrics[i].firstUnprocessedFirSources[0]
                      <<" lp3500_next_source="<<metrics[i].firstUnprocessedFirSources[1]
                      <<" plan_ms="<<metrics[i].planMilliseconds
+                     <<" operation_mach_ns="<<(requestIndex<changeCount ? requestMachNs[requestIndex] : 0)
+                     <<" worker_request_steady_ns="<<metrics[i].requestNs
                      <<" apply_callback_ms="<<(requestIndex<applyLatencyMs.size() ?
                         applyLatencyMs[requestIndex] : -1)
+                     <<" estimated_map_audible_ms="<<(requestIndex<applyLatencyMs.size() &&
+                         applyLatencyMs[requestIndex]>=0 ? applyLatencyMs[requestIndex]+deviceLatencyMs : -1)
                      <<" complete_callback_ms="
                      <<(requestIndex<completionLatencyMs.size() ?
                         completionLatencyMs[requestIndex] : -1)<<'\n';
@@ -485,11 +650,11 @@ int main(int argc,char** argv) {
                      <<" scheduled_frame="<<schedule[i].outputFrame<<'\n';
         return strictFailure || cancelled || sent!=changeCount ||
             (!continueRejected && observed!=changeCount) ||
-            (maxSeconds==0 && !endDrained) ||
+            (maxSeconds==0 && !reportEos) ||
             (changeCount && !continueRejected &&
              status.state!=ts::prototype::Phase39RequestState::Applied) ||
             status.underrunFrames || status.rejectedWrites || state.deadlineMisses ||
-            state.formatErrors || renderCppAllocations.load() || state.routeChanged ||
+            state.formatErrors || renderCppAllocations.load() || anyRouteChange ||
             (endDrained && state.presentationFrames.load()!=status.outputLength) ? 4 : 0;
     } catch (const std::exception& exception) {
         std::cerr<<"Phase 43: "<<exception.what()<<'\n';

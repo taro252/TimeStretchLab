@@ -145,8 +145,21 @@ void Phase39PlaybackPipeline::start() {
             double planMutexWait=0,planMutexHold=0;
             double postPublicationMutexWait=0,postPublicationMutexHold=0;
             Phase39BlockProfile latestProfile;
+            // Diagnostic producer stall, default disabled. Unlike a simulated
+            // short read, this lets the consumer actually drain the FIFO.
+            const double injectedStallMs=std::getenv("PHASE45_WORKER_STALL_MS") ?
+                std::stod(std::getenv("PHASE45_WORKER_STALL_MS")) : 0;
+            if (!std::isfinite(injectedStallMs) || injectedStallMs<0)
+                throw std::invalid_argument("Invalid diagnostic worker stall");
+            bool stalled=false;
             const auto publish=[&](const float* const* data,std::size_t frames,
                                    const std::function<void()>& poll) {
+                if (!stalled && injectedStallMs>0 && produced_.load()>=65536) {
+                    stalled=true;
+                    const auto until=Clock::now()+std::chrono::duration<double,std::milli>(injectedStallMs);
+                    while (!stop_.load(std::memory_order_acquire) && Clock::now()<until)
+                        std::this_thread::sleep_for(std::chrono::microseconds(100));
+                }
                 const auto previousBookkeepingWait=postPublicationMutexWait;
                 const auto previousBookkeepingHold=postPublicationMutexHold;
                 const auto now=Clock::now();

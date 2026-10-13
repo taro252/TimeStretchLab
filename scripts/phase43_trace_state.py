@@ -10,37 +10,52 @@ from bisect import bisect_right
 from datetime import datetime
 from pathlib import Path
 
-from lxml import etree
+try:
+    from lxml import etree
+    HAS_LXML = True
+except ImportError:
+    from xml.etree import ElementTree as etree
+    HAS_LXML = False
 
 
 def collect_states(xml: Path, target_tid: int):
     starts: dict[str, int] = {}
     states: dict[str, str] = {}
     threads: dict[str, int] = {}
+    numbers: dict[str, int] = {}
     rows = []
-    for _, row in etree.iterparse(str(xml), events=("end",), tag="row"):
+    iterator = etree.iterparse(str(xml), events=("end",), tag="row") if HAS_LXML else \
+        etree.iterparse(str(xml), events=("end",))
+    for _, row in iterator:
+        if row.tag != 'row': continue
         cells = list(row)
         if len(cells) < 4:
             row.clear()
             continue
         start, thread, state, duration = cells[:4]
+        for element in row.iter():
+            if element.get('id') and element.text and element.text.strip().isdigit():
+                numbers[element.get('id')] = int(element.text.strip())
         if start.get("id") and start.text:
             starts[start.get("id")] = int(start.text)
         if state.get("id") and state.text:
             states[state.get("id")] = state.text
         if thread.get("id"):
             tid = thread.find("tid")
-            if tid is not None and tid.text:
-                threads[thread.get("id")] = int(tid.text)
+            if tid is not None:
+                value = numbers.get(tid.get('ref') or tid.get('id'))
+                if value is not None: threads[thread.get('id')] = value
         tid = threads.get(thread.get("ref") or thread.get("id"))
         if tid == target_tid:
             at = starts.get(start.get("ref") or start.get("id"))
             name = states.get(state.get("ref") or state.get("id"))
-            if at is not None and name and duration.text:
-                rows.append((at, at + int(duration.text), name))
+            elapsed = numbers.get(duration.get('ref') or duration.get('id'))
+            if at is not None and name and elapsed is not None:
+                rows.append((at, at + elapsed, name))
         row.clear()
-        while row.getprevious() is not None:
-            del row.getparent()[0]
+        if HAS_LXML:
+            while row.getprevious() is not None:
+                del row.getparent()[0]
     return rows
 
 
@@ -88,6 +103,8 @@ def main():
                                                             block.get("dsp_cpu_s", 0))) * 1000,
                          trace_start_ms=first / 1e6, trace_end_ms=last / 1e6,
                          trace_coverage_ms=covered / 1e6,
+                         trace_coverage_fraction=covered / max(1,last-first),
+                         known_state_fraction=(covered-totals["Unknown"]) / max(1,last-first),
                          trace_unclassified_ms=max(0, last-first-covered) / 1e6,
                          **{f"{name.lower()}_ms": totals[name] / 1e6
                             for name in ("Running", "Runnable", "Preempted", "Interrupted",

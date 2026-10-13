@@ -1,0 +1,128 @@
+Start testing: Oct 13 10:51 JST
+----------------------------------------------------------
+50/53 Testing: phase44_quality_gate
+50/53 Test: phase44_quality_gate
+Command: "/usr/local/bin/python3" "/Users/taro252/Docker/TimeStretchLab/scripts/phase44_quality_test.py"
+Directory: /Users/taro252/Docker/TimeStretchLab/build
+"phase44_quality_gate" start time: Oct 13 10:51 JST
+Output:
+----------------------------------------------------------
+strategy=C
+callback_frames=512
+plan_outcome=0
+output_frames=365440
+pcm_consumed=365440
+presented_timeline=369536
+missing_frames=0
+underrun_calls=0
+max_consecutive_missing_frames=0
+rejected_writes=0
+late_wakeups=3
+major_wakeups=3
+expired_callback_slots=8
+expired_presentation_frames=4096
+completion_deadline_misses=0
+wake_over_5ms=6
+wake_over_10ms=3
+wake_over_20ms=2
+wake_over_halfperiod=5
+wake_over_twoperiods=2
+max_wake_seconds=0.0655828
+late_period_limit=1
+callback_period_seconds=0.01161
+start_unix_ns=1791856289536610000
+callback_thread_id=46380364
+device_elapsed_frames=369767
+fifo_minimum=384
+nonfinite_samples=0
+pcm_fingerprint=7159dd0d39d1edac
+pcm_sha256=95937d46fea3e6e60c8c7e83b397d28f524dd7929a43e78271a15a819822d4f2
+callback_overruns=0
+max_callback_seconds=9.667e-06
+max_worker_wall_seconds=0.0767239
+max_worker_cycle_seconds=0.102792
+max_worker_cycle_cpu_seconds=0.0261789
+p95_worker_cycle_seconds=0.0488713
+p99_worker_cycle_seconds=0.0767277
+max_worker_cpu_seconds=0.0261758
+max_fifo_wait_seconds=0.0950069
+fifo_wait_seconds=6.38442
+worker_chunks_over_100ms=0
+worker_qos_applied=0
+plan_ms=4.49925
+coordinate_delay_ms=1621
+applied_callback_delay_ms=1611.55
+fifo_high_water=12288
+peak_rss_bytes=18513920
+cpu_user_seconds=1.69405
+cpu_system_seconds=0.16699
+major_faults=3
+minor_faults=1559
+request_state=Completed
+eos_drained=1
+worker_errors=0
+CALLBACK_TIMING=FAIL
+SIMULATION_VALIDITY=INVALID
+ 
+quality gate failed injected=False: ['process_exit=1', 'callback_timing_failed_or_unmeasured', 'simulation_invalid_or_unmeasured', 'output_length=365440/365440/369536']
+<end of output>
+Test time =   9.09 sec
+----------------------------------------------------------
+Test Failed.
+"phase44_quality_gate" end time: Oct 13 10:51 JST
+"phase44_quality_gate" time elapsed: 00:00:09
+----------------------------------------------------------
+
+51/53 Testing: phase45_deadline_integrity
+51/53 Test: phase45_deadline_integrity
+Command: "/usr/local/bin/python3" "/Users/taro252/Docker/TimeStretchLab/scripts/phase45_deadline_test.py"
+Directory: /Users/taro252/Docker/TimeStretchLab/build
+"phase45_deadline_integrity" start time: Oct 13 10:51 JST
+Output:
+----------------------------------------------------------
+20261013T105138.084068+0900_wake0_underrun0_1b080ae2 PASS PASS VALID
+20261013T105148.492575+0900_wake100_underrun0_48666b64 INDETERMINATE INDETERMINATE INVALID
+20261013T105158.641294+0900_wake0_underrun1_fe52ce8e FAIL FAIL VALID
+20261013T105208.904308+0900_wake100_underrun1_24265c62 FAIL FAIL INVALID
+fault_detection=PASS; injected runs are quality FAIL/INDETERMINATE
+<end of output>
+Test time =  41.34 sec
+----------------------------------------------------------
+Test Passed.
+"phase45_deadline_integrity" end time: Oct 13 10:52 JST
+"phase45_deadline_integrity" time elapsed: 00:00:41
+----------------------------------------------------------
+
+52/53 Testing: phase45_callback_clock
+52/53 Test: phase45_callback_clock
+Command: "/Users/taro252/Docker/TimeStretchLab/build/phase45_clock_tests"
+Directory: /Users/taro252/Docker/TimeStretchLab/build
+"phase45_callback_clock" start time: Oct 13 10:52 JST
+Output:
+----------------------------------------------------------
+normal and expired-slot clock tests PASS (deterministic clock)
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"phase45_callback_clock" end time: Oct 13 10:52 JST
+"phase45_callback_clock" time elapsed: 00:00:00
+----------------------------------------------------------
+
+53/53 Testing: phase45_live_validation
+53/53 Test: phase45_live_validation
+Command: "/usr/local/bin/python3" "/Users/taro252/Docker/TimeStretchLab/scripts/phase45_live_test.py"
+Directory: /Users/taro252/Docker/TimeStretchLab/build
+"phase45_live_validation" start time: Oct 13 10:52 JST
+Output:
+----------------------------------------------------------
+missing fields, mismatch, route stop and retained summaries PASS
+<end of output>
+Test time =   0.20 sec
+----------------------------------------------------------
+Test Passed.
+"phase45_live_validation" end time: Oct 13 10:52 JST
+"phase45_live_validation" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 13 10:52 JST

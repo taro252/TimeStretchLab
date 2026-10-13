@@ -3,10 +3,11 @@
 import csv
 import hashlib
 import subprocess
+import os
 from pathlib import Path
 
 root = Path(__file__).resolve().parents[1]
-out = root / "results/phase43/measurement"
+out = Path(os.environ.get("PHASE45_MEASUREMENT_OUT", root / "results/phase43/measurement"))
 out.mkdir(parents=True, exist_ok=True)
 source = root / "results/phase31/input/mix.wav"
 rows = {}
