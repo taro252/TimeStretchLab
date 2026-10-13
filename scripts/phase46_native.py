@@ -18,6 +18,25 @@ import tempfile
 ROOT=Path(__file__).resolve().parents[1]
 
 
+def storage_fields(result):
+    samples=result.get('samples',[])
+    available=[v['free'] for v in samples]+[v['free'] for v in result.get('after',[])]
+    if not available:available=[v['free'] for v in result.get('plan',{}).get('groups',[])]
+    return dict(STORAGE_STATUS=result.get('STORAGE_STATUS','UNMEASURED'),
+        storage_stop_reason=result.get('stop_reason',result.get('reason','unmeasured')),
+        storage_stop_requested=result.get('stop_requested',False),
+        storage_record_exit=result.get('record_exit'),storage_minimum_free_bytes=min(available,default=None))
+
+
+def trace_batch_must_stop(row):
+    # Decodable partial traces are evidence, not permission for more recording.
+    return (row.get('STORAGE_STATUS')!='NORMAL_EXIT' or
+        row.get('storage_stop_requested') not in (False,0,'0') or
+        row.get('storage_record_exit')!=0 or
+        row.get('storage_stop_reason') in ('capacity_projection','insufficient_record_finish_export_budget') or
+        row.get('TRACE_CAPTURE')!='PASS' or row.get('TRACE_ANALYSIS')!='PASS')
+
+
 def run(output,source='drums',minutes=3,trace=False,stress=True,candidate='A',stall=0,attach_after=1,trace_seconds=5):
     calibration=ROOT/'results/phase47/calibration.json'
     # Native long-input/repeated trace trials require the short calibration,
@@ -28,8 +47,9 @@ def run(output,source='drums',minutes=3,trace=False,stress=True,candidate='A',st
     path,identifier,at=new_run(output,label)
     input_path=ROOT/('results/phase40/long_input' if source=='drums' else 'results/phase14/benchmark')/f'{source}_repeat_{minutes*60}.wav'
     env=os.environ.copy()
-    for key in ('PHASE44_WORKER_QOS','PHASE45_WORKER_STALL_MS','PHASE46_DSP_BLOCK','PHASE46_LEAD','PHASE45_ROUTE_AFTER_SECONDS'):
+    for key in ('PHASE44_WORKER_QOS','PHASE45_WORKER_STALL_MS','PHASE46_DSP_BLOCK','PHASE46_LEAD','PHASE46_FIFO','PHASE45_ROUTE_AFTER_SECONDS','PHASE47_IO_FAILURE_STAGE'):
         env.pop(key,None)
+    env.update(PHASE46_FIFO='16384',PHASE46_LEAD='12288',PHASE46_DSP_BLOCK='2048')
     env.update(PHASE43_SILENT='1',PHASE46_PCM_SHA='1',PHASE45_LIVE_EVENTS=str(path/'callbacks.csv'),
         PHASE45_LIVE_WORKERS=str(path/'workers.csv'),PHASE45_LIVE_PLAN_CSV=str(path/'replay.csv'))
     if stress:env['PHASE43_STRESS']='1'
@@ -40,6 +60,7 @@ def run(output,source='drums',minutes=3,trace=False,stress=True,candidate='A',st
     if stall:env['PHASE45_WORKER_STALL_MS']=str(stall)
     command=[str(ROOT/'build/phase43_play'),str(input_path),'0.4',str(ROOT/'results/phase45/repeated.csv')]
     trace_exit=-1
+    trace_result=dict(STORAGE_STATUS='NOT_REQUESTED',stop_reason='not_requested',stop_requested=False,record_exit=None)
     with (path/'playback.log').open('x') as log:
         process=subprocess.Popen(command,cwd=ROOT,env=env,stdout=log,stderr=subprocess.STDOUT)
         pid=process.pid
@@ -65,9 +86,14 @@ def run(output,source='drums',minutes=3,trace=False,stress=True,candidate='A',st
         candidate=candidate,stress=int(stress),trace_requested=int(trace),profile=1,process_pid=pid,
         stall_injected_ms=stall,attach_after_seconds=attach_after,exit_code=code)
     row.update(values);row.update(native_verdict(values,code))
-    if trace:row.update(validate_run(path,trace_exit,code,pid))
+    row.update(storage_fields(trace_result))
+    if trace:
+        row.update(validate_run(path,trace_exit,code,pid))
+        row['TRACE_SAVE_STATE']=('NORMAL_SAVED' if trace_result['STORAGE_STATUS']=='NORMAL_EXIT' else 'PARTIAL_SAVED') if row['TRACE_CAPTURE']=='PASS' else 'INVALID_OR_MISSING'
     else:row.update(TRACE_CAPTURE='NOT_REQUESTED',TRACE_ANALYSIS='NOT_REQUESTED')
-    if (path/'workers.csv').exists() and (path/'callbacks.csv').exists():row.update(investigate(path,values))
+    # investigate() always calls mandatory four-file validation, including when
+    # no CSV was saved. Missing evidence must never skip a quality verdict.
+    row.update(investigate(path,values))
     # No reference synthesis competes with the realtime workload: verify afterwards.
     reference=path/'reference.wav'
     ref=subprocess.run([str(ROOT/'build/phase39_reference'),str(input_path),str(reference),
@@ -103,9 +129,9 @@ def main(default_trace=False):
     for _ in range(args.repeat):
         row,_=run(args.output,args.source,args.minutes,args.trace,not args.no_stress,
             args.candidate,args.stall_ms,args.attach_after,args.trace_seconds)
-        if args.trace and (row['TRACE_CAPTURE']!='PASS' or row['TRACE_ANALYSIS']!='PASS'):
+        if args.trace and trace_batch_must_stop(row):
             failed=True
-            print('Trace save/analysis failed: subsequent trace trials cancelled',flush=True)
+            print('Trace storage stop or save/analysis failure: subsequent trace trials cancelled',flush=True)
             break
         failed|=row['AUDIO_QUALITY']!='PASS' or row['MEASUREMENT_QUALITY']!='PASS' or (
             args.trace and (row['TRACE_CAPTURE']!='PASS' or row['TRACE_ANALYSIS']!='PASS'))

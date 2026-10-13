@@ -1,0 +1,36 @@
+{
+  "base_commit": "f3d74aa0267191e7095a5acb88d0b1c009a494b1",
+  "build": "Release arm64",
+  "executable_sha256": "d09cad4737c2fd1870bc5a6946a2233b8519f4df9644d785137defde90eff5b7",
+  "input_path": "/Users/taro252/Docker/TimeStretchLab/results/phase40/long_input/drums_repeat_180.wav",
+  "input_sha256": "b0278663bd8dae2b644d95bbee147ea9f7bc4c84e3832f4d3d8b23f4d76190e5",
+  "schedule_sha256": "696341cac39185dc0d0d8b45a497d2754d5d2c39c6caa71f261a032136aea1a8",
+  "orders": [
+    "ABC",
+    "CBA",
+    "BCA",
+    "ACB"
+  ],
+  "system": "macOS-26.6.2-x86_64-i386-64bit-Mach-O",
+  "macos": [
+    "26.6.2",
+    [
+      "",
+      "",
+      ""
+    ],
+    "x86_64"
+  ],
+  "stress_threads": 2,
+  "trace": false,
+  "callback_target": 512,
+  "initial_speed": 0.4,
+  "schedule": "output 1/6/14/22 sec -> 2/.4/1/2",
+  "fifo": 16384,
+  "lead": 12288,
+  "qos_B": "USER_INITIATED, relative priority 0; render thread unchanged",
+  "block_A_B": 2048,
+  "block_C": 1024,
+  "logical_cpus": 8,
+  "note": "No CTest, reference synthesis, or trace runs concurrently with native playback. Reference synthesis only after each playback."
+}

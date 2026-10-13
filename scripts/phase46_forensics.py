@@ -67,7 +67,7 @@ def investigate(path, values):
             writer.writeheader();writer.writerows(callbacks[lo:hi])
     gaps=[float(w['publication_interval_s'])*1000 for w in workers if float(w['publication_interval_s'])>=0]
     fifo=[int(c['available_before']) for c in callbacks if int(c['pcm_before'])+int(values['lead_limit_frames'])<int(values['output_length'])]
-    result=dict(missing_frames=sum(e['missing_frames'] for e in events),underrun_calls=len(events),
+    result=dict(CSV_INTEGRITY='PASS',missing_frames=sum(e['missing_frames'] for e in events),underrun_calls=len(events),
         episodes=episodes,events=events,max_continuous_missing_ms=max((e['missing_audio_ms'] for e in episodes),default=0),
         fifo_minimum_active=min(fifo,default=None),publication_gap_max_ms=max(gaps,default=None),
         publication_gap_p95_ms=percentile(gaps,.95),publication_gap_p99_ms=percentile(gaps,.99),

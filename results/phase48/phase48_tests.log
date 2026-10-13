@@ -1,0 +1,24 @@
+Test project /Users/taro252/Docker/TimeStretchLab/build
+    Start 59: phase48_native_validation
+1/2 Test #59: phase48_native_validation ........   Passed    1.22 sec
+    Start 60: phase48_block_partition
+2/2 Test #60: phase48_block_partition ..........***Failed    2.13 sec
+Traceback (most recent call last):
+  File "/Users/taro252/Docker/TimeStretchLab/scripts/phase48_block_test.py", line 18, in <module>
+    subprocess.run([sys.argv[2],str(source),str(p/f'{block}.wav'),'.4',str(p/'replay.csv'),str(block)],check=True,capture_output=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 505, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 951, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 1821, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/taro252/Docker/TimeStretchLab/build/phase48_replay_blocks'
+
+
+50% tests passed, 1 tests failed out of 2
+
+Total Test time (real) =   3.37 sec
+
+The following tests FAILED:
+	 60 - phase48_block_partition (Failed)
+Errors while running CTest

@@ -1,0 +1,179 @@
+Test project /Users/taro252/Docker/TimeStretchLab/build
+      Start 35: phase27_repeated
+      Start 51: phase45_deadline_integrity
+      Start 20: phase10_stress
+      Start 50: phase44_quality_gate
+ 1/60 Test #50: phase44_quality_gate .............***Failed    9.27 sec
+strategy=C
+callback_frames=512
+plan_outcome=0
+output_frames=365440
+pcm_consumed=365440
+presented_timeline=369024
+missing_frames=0
+underrun_calls=0
+max_consecutive_missing_frames=0
+rejected_writes=0
+late_wakeups=1
+major_wakeups=1
+expired_callback_slots=7
+expired_presentation_frames=3584
+completion_deadline_misses=0
+wake_over_5ms=4
+wake_over_10ms=2
+wake_over_20ms=1
+wake_over_halfperiod=3
+wake_over_twoperiods=1
+max_wake_seconds=0.0908139
+late_period_limit=1
+callback_period_seconds=0.01161
+start_unix_ns=1791886191467316000
+callback_thread_id=278624
+device_elapsed_frames=369203
+fifo_minimum=384
+nonfinite_samples=0
+pcm_fingerprint=7159dd0d39d1edac
+pcm_sha256=95937d46fea3e6e60c8c7e83b397d28f524dd7929a43e78271a15a819822d4f2
+callback_overruns=0
+max_callback_seconds=3.3917e-05
+max_worker_wall_seconds=0.0455215
+max_worker_cycle_seconds=0.127422
+max_worker_cycle_cpu_seconds=0.0319802
+p95_worker_cycle_seconds=0.0490692
+p99_worker_cycle_seconds=0.0494386
+max_worker_cpu_seconds=0.0313185
+max_fifo_wait_seconds=0.121584
+fifo_wait_seconds=5.88146
+worker_chunks_over_100ms=0
+worker_qos_applied=0
+plan_ms=5.59858
+coordinate_delay_ms=1621
+applied_callback_delay_ms=1612.18
+fifo_high_water=12288
+peak_rss_bytes=18825216
+cpu_user_seconds=2.20518
+cpu_system_seconds=0.24379
+major_faults=1
+minor_faults=1759
+request_state=Completed
+eos_drained=1
+worker_errors=0
+CALLBACK_TIMING=FAIL
+SIMULATION_VALIDITY=INVALID
+ 
+quality gate failed injected=False: ['process_exit=1', 'callback_timing_failed_or_unmeasured', 'simulation_invalid_or_unmeasured', 'output_length=365440/365440/369024']
+
+      Start 36: phase27_synthetic
+ 2/60 Test #51: phase45_deadline_integrity .......   Passed   44.31 sec
+      Start 49: phase42_safe_density
+ 3/60 Test #36: phase27_synthetic ................   Passed   57.41 sec
+      Start 60: phase48_block_partition
+ 4/60 Test #49: phase42_safe_density .............   Passed   24.74 sec
+      Start 48: phase40_high_speed_planning
+ 5/60 Test #60: phase48_block_partition ..........   Passed    4.08 sec
+      Start 34: phase26_playback
+ 6/60 Test #48: phase40_high_speed_planning ......   Passed   24.59 sec
+      Start 39: phase30_playback
+ 7/60 Test #39: phase30_playback .................   Passed   24.84 sec
+      Start 32: phase24
+ 8/60 Test #34: phase26_playback .................   Passed   54.41 sec
+      Start 44: phase36_streaming
+ 9/60 Test #44: phase36_streaming ................   Passed   14.90 sec
+      Start 45: phase37_high_speed
+10/60 Test #32: phase24 ..........................   Passed   30.04 sec
+      Start 43: phase35_variable_hop
+11/60 Test #45: phase37_high_speed ...............   Passed   11.37 sec
+      Start 41: phase32_diagnostics
+12/60 Test #20: phase10_stress ...................   Passed  156.28 sec
+      Start 38: phase29_audio
+13/60 Test #41: phase32_diagnostics ..............   Passed    5.48 sec
+      Start 56: phase46_measurement_validation
+14/60 Test #56: phase46_measurement_validation ...   Passed    0.49 sec
+      Start 19: phase101
+15/60 Test #43: phase35_variable_hop .............   Passed   12.04 sec
+      Start 27: phase19
+16/60 Test #38: phase29_audio ....................   Passed    4.58 sec
+      Start 47: phase39_high_speed_streaming
+17/60 Test #47: phase39_high_speed_streaming .....   Passed    1.95 sec
+      Start 31: phase23
+18/60 Test #19: phase101 .........................   Passed    8.56 sec
+      Start 18: phase10
+19/60 Test #27: phase19 ..........................   Passed    5.94 sec
+      Start 59: phase48_native_validation
+20/60 Test #31: phase23 ..........................   Passed    4.13 sec
+      Start 58: phase47_evidence_validation
+21/60 Test #59: phase48_native_validation ........   Passed    0.88 sec
+      Start 42: phase33_diagnostics
+22/60 Test #58: phase47_evidence_validation ......   Passed    0.84 sec
+      Start 25: phase16
+23/60 Test #42: phase33_diagnostics ..............   Passed    1.62 sec
+      Start 40: phase31_feasibility
+24/60 Test #40: phase31_feasibility ..............   Passed    2.50 sec
+      Start 54: phase45_trace_parser
+25/60 Test #25: phase16 ..........................   Passed    3.89 sec
+      Start  9: phase5
+26/60 Test #18: phase10 ..........................   Passed    5.96 sec
+      Start 21: phase10_benchmark
+27/60 Test #54: phase45_trace_parser .............   Passed    0.50 sec
+      Start 46: phase38_noise_diagnostic
+28/60 Test #46: phase38_noise_diagnostic .........   Passed    0.97 sec
+      Start 12: phase53
+29/60 Test #21: phase10_benchmark ................   Passed    3.43 sec
+      Start 17: phase9c
+30/60 Test #12: phase53 ..........................   Passed    4.23 sec
+      Start 53: phase45_live_validation
+31/60 Test  #9: phase5 ...........................   Passed    5.98 sec
+      Start  8: phase4
+32/60 Test #53: phase45_live_validation ..........   Passed    0.60 sec
+      Start  3: phase2
+33/60 Test #17: phase9c ..........................   Passed    2.96 sec
+      Start 26: phase18
+34/60 Test #26: phase18 ..........................   Passed    1.53 sec
+      Start 11: phase52
+35/60 Test  #8: phase4 ...........................   Passed    3.80 sec
+      Start 24: phase14
+36/60 Test #11: phase52 ..........................   Passed    2.56 sec
+      Start 10: phase51
+37/60 Test  #3: phase2 ...........................   Passed    4.98 sec
+      Start  6: phase36
+38/60 Test #24: phase14 ..........................   Passed    1.73 sec
+      Start 37: phase28_map
+39/60 Test #37: phase28_map ......................   Passed    0.81 sec
+      Start 13: phase6
+40/60 Test #10: phase51 ..........................   Passed    2.69 sec
+      Start 23: phase21
+41/60 Test #13: phase6 ...........................   Passed    1.82 sec
+      Start 14: phase7
+42/60 Test  #6: phase36 ..........................   Passed    3.27 sec
+      Start  7: phase37
+43/60 Test #23: phase21 ..........................   Passed    1.05 sec
+      Start  4: phase3
+44/60 Test #14: phase7 ...........................   Passed    1.37 sec
+      Start  5: phase35
+45/60 Test  #7: phase37 ..........................   Passed    1.66 sec
+      Start  2: phase1_validation
+46/60 Test  #4: phase3 ...........................   Passed    1.92 sec
+      Start 22: phase13
+47/60 Test #22: phase13 ..........................   Passed    0.57 sec
+      Start 16: phase9a
+48/60 Test #16: phase9a ..........................   Passed    0.32 sec
+      Start  1: phase1
+49/60 Test  #5: phase35 ..........................   Passed    1.81 sec
+      Start 57: phase47_evidence_io
+50/60 Test #57: phase47_evidence_io ..............   Passed    0.01 sec
+      Start 33: phase26_timemap
+51/60 Test #33: phase26_timemap ..................   Passed    0.10 sec
+      Start 15: phase8a
+52/60 Test #15: phase8a ..........................   Passed    0.14 sec
+      Start 55: phase46_host_clock
+53/60 Test #55: phase46_host_clock ...............   Passed    0.01 sec
+      Start 30: phase22b
+54/60 Test #30: phase22b .........................   Passed    0.05 sec
+      Start 29: phase22_timemap
+55/60 Test #29: phase22_timemap ..................   Passed    0.05 sec
+      Start 52: phase45_callback_clock
+56/60 Test #52: phase45_callback_clock ...........   Passed    0.01 sec
+      Start 28: phase20_architecture
+57/60 Test #28: phase20_architecture .............   Passed    0.01 sec
+58/60 Test  #2: phase1_validation ................   Passed    1.82 sec
+59/60 Test  #1: phase1 ...........................   Passed    0.65 sec

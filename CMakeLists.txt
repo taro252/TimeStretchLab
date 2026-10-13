@@ -215,6 +215,9 @@ target_compile_options(phase36_play PRIVATE -fobjc-arc -Wall -Wextra -Wpedantic)
 add_executable(phase43_play src/platform/macos/Phase43MacPlayback.mm)
 target_link_libraries(phase43_play PRIVATE phase39_variable ${AVFOUNDATION_FRAMEWORK} ${FOUNDATION_FRAMEWORK} ${COREAUDIO_FRAMEWORK})
 target_compile_options(phase43_play PRIVATE -fobjc-arc -Wall -Wextra -Wpedantic)
+add_executable(phase48_replay_blocks src/prototype/Phase48ReplayBlocks.cpp)
+target_link_libraries(phase48_replay_blocks PRIVATE phase39_variable)
+target_compile_options(phase48_replay_blocks PRIVATE -Wall -Wextra -Wpedantic)
 add_executable(phase36_api_tests tests/Phase36ApiTests.cpp)
 target_link_libraries(phase36_api_tests PRIVATE phase36_variable)
 target_compile_options(phase36_api_tests PRIVATE -Wall -Wextra -Wpedantic)
@@ -446,4 +449,13 @@ if(BUILD_TESTING)
     add_test(NAME phase47_evidence_io COMMAND phase47_evidence_tests)
     add_test(NAME phase47_evidence_validation COMMAND python3
         ${CMAKE_SOURCE_DIR}/scripts/phase47_validation_test.py)
+    add_test(NAME phase48_native_validation COMMAND python3
+        ${CMAKE_SOURCE_DIR}/scripts/phase48_validation_test.py)
+    add_test(NAME phase48_block_partition COMMAND python3
+        ${CMAKE_SOURCE_DIR}/scripts/phase48_block_test.py
+        $<TARGET_FILE:phase39_sim> $<TARGET_FILE:phase48_replay_blocks> $<TARGET_FILE:phase45_pcm_hash>)
+    # Absolute-time normal-load integration trials must not compete with the
+    # other CTest DSP workloads. Their strict timing/failure criteria stay intact.
+    set_tests_properties(phase44_quality_gate phase45_deadline_integrity
+        PROPERTIES RUN_SERIAL TRUE)
 endif()
