@@ -101,7 +101,7 @@ void Phase39PlaybackPipeline::start() {
     maxWorkerChunkSeconds_=0;
     maxWorkerCpuSeconds_=0;maxFifoWaitSeconds_=0;
     maxWorkerCycleSeconds_=0;maxWorkerCycleCpuSeconds_=0;
-    fifoWaitNanoseconds_=0;workerChunksOver100Ms_=0;workerQosApplied_=false;
+    fifoWaitNanoseconds_=0;workerChunksOver100Ms_=0;workerQosApplied_=false;stallObservation_={};
     planMilliseconds_=0;planCpuMilliseconds_=0;
     maxFifoWriteSeconds_=0;maxHistoryMutexWaitSeconds_=0;
     preparedAtPlan_=0;publishedAtPlan_=0;fifoAtPlan_=0;processedInputAtPlan_=0;
@@ -157,6 +157,7 @@ void Phase39PlaybackPipeline::start() {
             double planCycleWall=0,planCycleCpu=0;
             double planMutexWait=0,planMutexHold=0;
             double postPublicationMutexWait=0,postPublicationMutexHold=0;
+            double postPauseWall=0,postPauseCpu=0;
             Phase39BlockProfile latestProfile;
             // Diagnostic producer stall, default disabled. Unlike a simulated
             // short read, this lets the consumer actually drain the FIFO.
@@ -164,6 +165,15 @@ void Phase39PlaybackPipeline::start() {
                 std::stod(std::getenv("PHASE45_WORKER_STALL_MS")) : 0;
             if (!std::isfinite(injectedStallMs) || injectedStallMs<0)
                 throw std::invalid_argument("Invalid diagnostic worker stall");
+            const double controlledMs=std::getenv("PHASE49_STALL_MS") ? std::stod(std::getenv("PHASE49_STALL_MS")) : 0;
+            if (!std::isfinite(controlledMs) || controlledMs<0 || controlledMs>2000 || (controlledMs>0 && injectedStallMs>0))
+                throw std::invalid_argument("Invalid controlled stall");
+            const auto controlledOutput=std::getenv("PHASE49_STALL_OUTPUT") ? std::stoull(std::getenv("PHASE49_STALL_OUTPUT")) : std::size_t(sampleRate_*4.5);
+            const auto controlledGoal=std::getenv("PHASE49_STALL_FIFO") ? std::stoull(std::getenv("PHASE49_STALL_FIFO")) : leadFrames_;
+            if (controlledMs>0 && (!controlledOutput || controlledOutput>outputLength_.load() || !controlledGoal || controlledGoal>leadFrames_))
+                throw std::invalid_argument("Invalid controlled stall frontier");
+            stallObservation_.configured=controlledMs>0;stallObservation_.requestedMs=controlledMs;
+            stallObservation_.outputThreshold=controlledOutput;stallObservation_.fifoGoal=controlledGoal;
             bool stalled=false;
             const auto publish=[&](const float* const* data,std::size_t frames,
                                    const std::function<void()>& poll) {
@@ -193,8 +203,11 @@ void Phase39PlaybackPipeline::start() {
                     latestProfile.threadId=workerTid;
                     latestProfile.chunkWallSeconds=seconds;
                     latestProfile.chunkCpuSeconds=cpuSeconds;
+                    latestProfile.injectedPauseWallSeconds=postPauseWall;
+                    latestProfile.injectedPauseCpuSeconds=postPauseCpu;
                     latestProfile.allocationCounterEnabled=bool(allocationCounter_);
                 }
+                postPauseWall=postPauseCpu=0;
                 auto oldCpu=maxWorkerCpuSeconds_.load();
                 while (oldCpu<cpuSeconds &&
                        !maxWorkerCpuSeconds_.compare_exchange_weak(oldCpu,cpuSeconds)) {}
@@ -291,6 +304,25 @@ void Phase39PlaybackPipeline::start() {
                 if (allocationCounter_) previousNew=allocationCounter_();
                 planCycleWall=planCycleCpu=0;
                 planMutexWait=planMutexHold=0;
+                // After a real publication, wait only when the requested stock
+                // is observed. No DSP/history is reset and the consumer runs.
+                if (controlledMs>0 && !stallObservation_.triggered &&
+                    produced_.load(std::memory_order_acquire)>=controlledOutput) {
+                    const auto sampledAt=machNs();const auto stock=fifo_.available();
+                    if (stock==controlledGoal) {
+                        auto& o=stallObservation_;o.triggered=true;o.startMachNs=sampledAt;
+                        o.measurementEndMachNs=machNs();o.fifoBefore=stock;o.threadId=workerTid;
+                        o.publishedFrames=produced_.load();o.cycleSequence=cycleSequence;
+                        const auto cpuStart=workerCpuSeconds();
+                        const auto until=Clock::now()+std::chrono::duration<double,std::milli>(controlledMs);
+                        while (!stop_.load(std::memory_order_acquire) && Clock::now()<until)
+                            std::this_thread::sleep_for(std::chrono::microseconds(100));
+                        o.endMachNs=machNs();o.fifoAfter=fifo_.available();o.cancelled=stop_.load();
+                        o.wallSeconds=(o.endMachNs-o.startMachNs)/1e9;
+                        o.cpuSeconds=std::max(0.0,workerCpuSeconds()-cpuStart);
+                        postPauseWall=o.wallSeconds;postPauseCpu=o.cpuSeconds;
+                    }
+                }
             };
             const auto plan=[&](const Phase36StreamingSpeedEngine::Frontier& frontier,
                                  TimeMap& map,std::size_t& length,
@@ -325,15 +357,18 @@ void Phase39PlaybackPipeline::start() {
                 // only at the following node. FIR source blocks already
                 // transformed are independently immutable.
                 auto fence=std::max(committed,published);
+                std::array<std::size_t,3> immutableOutputs{},densityOutputs{};
                 constexpr std::array<std::size_t,3> hops={2048,1024,256};
                 for (std::size_t r=0;r<3;++r) {
                     const auto firstMutableNode=frontier.lastProcessedInput[r]/1024+1;
                     const auto node=std::min(firstMutableNode,map.starts().size()-1);
-                    fence=std::max(fence,static_cast<std::size_t>(map.starts()[node]));
+                    immutableOutputs[r]=static_cast<std::size_t>(map.starts()[node]);
+                    fence=std::max(fence,immutableOutputs[r]);
                     const auto densityNode=std::min(
                         (frontier.nextInput[r]+hops[r]+1023)/1024,
                         map.starts().size()-1);
-                    fence=std::max(fence,static_cast<std::size_t>(map.starts()[densityNode]));
+                    densityOutputs[r]=static_cast<std::size_t>(map.starts()[densityNode]);
+                    fence=std::max(fence,densityOutputs[r]);
                     fence=std::max(fence,frontier.finalizedOla[r]);
                 }
                 // The 2049-tap low FIR may reference 1024 future samples.
@@ -404,6 +439,13 @@ void Phase39PlaybackPipeline::start() {
                     reject(Phase39Outcome::NoSafeInterval);
                     return;
                 }
+                std::array<std::size_t,4> holds{};
+                for (auto i=proposal.firstMutableFrame;i<proposal.appliedFrame;++i)
+                    if (timeline.diagnosticProtected(i) || !timeline.diagnosticSafeRun(i))
+                        holds[timeline.diagnosticProtected(i) ? 0 : 1]+=map.starts()[i+1]-map.starts()[i];
+                for (auto i=proposal.appliedFrame;i<proposal.rampEndFrame;++i)
+                    if (candidate.diagnosticProtected(i) || !candidate.diagnosticSafeRun(i))
+                        holds[candidate.diagnosticProtected(i) ? 2 : 3]+=candidate.current().starts()[i+1]-candidate.current().starts()[i];
                 timeline=std::move(candidate);
                 map=timeline.current();
                 if (changesDensity)
@@ -431,7 +473,9 @@ void Phase39PlaybackPipeline::start() {
                       modeInput,densityDecision.maximumHop,densityDecision.maximumHopStep,
                       densityDecision.minimumWeight,densityDecision.minimumLocalSpeed,
                       densityDecision.maximumLocalSpeed,
-                      densityDecision.candidatesTried,timeline.fixedMapBytes(),milliseconds});
+                      densityDecision.candidatesTried,timeline.fixedMapBytes(),milliseconds,
+                      immutableOutputs,densityOutputs,fifoAtPlan_.load(),
+                      changesDensity ? std::size_t(std::llround(map.outputPositionForInputSample(double(modeInput)))) : 0,holds});
                   lock.unlock();
                   planMutexHold+=std::chrono::duration<double>(Clock::now()-lockBegin).count()-
                       lockWait; }
@@ -499,6 +543,10 @@ std::vector<Phase39GuardMetric> Phase39PlaybackPipeline::guardMetrics() const {
     if (!finished_.load(std::memory_order_acquire))
         throw std::logic_error("Guard metrics are available after worker completion");
     return guardMetrics_;
+}
+Phase49StallObservation Phase39PlaybackPipeline::stallObservation() const {
+    if (!finished_.load(std::memory_order_acquire)) throw std::logic_error("Stall observation available after completion");
+    return stallObservation_;
 }
 void Phase39PlaybackPipeline::stop() {
     started_.store(false,std::memory_order_release);

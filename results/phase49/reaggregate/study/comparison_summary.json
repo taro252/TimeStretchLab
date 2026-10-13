@@ -1,0 +1,437 @@
+{
+  "candidates": {
+    "A": {
+      "runs": 4,
+      "valid_runs": 4,
+      "measurement_invalid_runs": 0,
+      "verdict_counts": {
+        "PASS": 4,
+        "FAIL": 0,
+        "INDETERMINATE": 0
+      },
+      "observed_underrun_runs": 0,
+      "observed_underrun_rate": 0.0,
+      "valid_underrun_runs": 0,
+      "valid_underrun_rate": 0.0,
+      "missing_frames_all": 0,
+      "max_continuous_missing_ms_all": 0.0,
+      "publication_gap_max_ms": {
+        "median": 111.1153545,
+        "min": 75.153125,
+        "max": 187.35575
+      },
+      "publication_gap_p50_ms": {
+        "median": 42.664187,
+        "min": 42.663958,
+        "max": 42.665084
+      },
+      "publication_gap_p95_ms": {
+        "median": 42.775312,
+        "min": 42.769917,
+        "max": 42.779875000000004
+      },
+      "publication_gap_p99_ms": {
+        "median": 42.8099795,
+        "min": 42.806667,
+        "max": 42.818916
+      },
+      "fifo_minimum_active": {
+        "median": 7680.0,
+        "min": 4096.0,
+        "max": 8704.0
+      },
+      "peak_rss_mib": {
+        "median": 41.8359375,
+        "min": 41.578125,
+        "max": 42.046875
+      },
+      "cpu_user_seconds": {
+        "median": 234.5158365,
+        "min": 234.193135,
+        "max": 235.508348
+      },
+      "cpu_system_seconds": {
+        "median": 2.4188175000000003,
+        "min": 2.369981,
+        "max": 2.641466
+      },
+      "max_callback_ms": {
+        "median": 0.018874500000000002,
+        "min": 0.015625,
+        "max": 0.027458
+      },
+      "dsp_wall_s_ms": {
+        "max": {
+          "median": 111.06204199999999,
+          "max": 187.351667
+        },
+        "p95": {
+          "median": 23.742832999999997,
+          "max": 26.331375
+        },
+        "p99": {
+          "median": 28.1457915,
+          "max": 33.183
+        }
+      },
+      "dsp_cpu_s_ms": {
+        "max": {
+          "median": 41.368874999999974,
+          "max": 41.50616700000009
+        },
+        "p95": {
+          "median": 23.57697950000137,
+          "max": 25.828958000001734
+        },
+        "p99": {
+          "median": 27.86541650000185,
+          "max": 31.039667000001714
+        }
+      },
+      "cycle_wall_s_ms": {
+        "max": {
+          "median": 111.1153545,
+          "max": 187.35575
+        },
+        "p95": {
+          "median": 42.775312,
+          "max": 42.779875000000004
+        },
+        "p99": {
+          "median": 42.8099795,
+          "max": 42.818916
+        }
+      },
+      "cycle_cpu_s_ms": {
+        "max": {
+          "median": 41.39804149999993,
+          "max": 41.53454200000017
+        },
+        "p95": {
+          "median": 24.005187500002023,
+          "max": 26.344416000000592
+        },
+        "p99": {
+          "median": 28.20997900000055,
+          "max": 31.414542000000267
+        }
+      },
+      "direction_latency": {
+        "0.40->1.00": {
+          "count": 4,
+          "median_ms": 1535.948749833496,
+          "p95_ms": 1536.4240003339844,
+          "max_ms": 1536.4240003339844
+        },
+        "0.40->2.00": {
+          "count": 4,
+          "median_ms": 1397.2633329999999,
+          "p95_ms": 1397.87675,
+          "max_ms": 1397.87675
+        },
+        "1.00->2.00": {
+          "count": 4,
+          "median_ms": 650.3097708339844,
+          "p95_ms": 650.3603753330078,
+          "max_ms": 650.3603753330078
+        },
+        "2.00->0.40": {
+          "count": 4,
+          "median_ms": 728.5421036665039,
+          "p95_ms": 728.8598746669921,
+          "max_ms": 728.8598746669921
+        }
+      }
+    },
+    "B": {
+      "runs": 4,
+      "valid_runs": 4,
+      "measurement_invalid_runs": 0,
+      "verdict_counts": {
+        "PASS": 4,
+        "FAIL": 0,
+        "INDETERMINATE": 0
+      },
+      "observed_underrun_runs": 0,
+      "observed_underrun_rate": 0.0,
+      "valid_underrun_runs": 0,
+      "valid_underrun_rate": 0.0,
+      "missing_frames_all": 0,
+      "max_continuous_missing_ms_all": 0.0,
+      "publication_gap_max_ms": {
+        "median": 88.555167,
+        "min": 61.282083,
+        "max": 111.173167
+      },
+      "publication_gap_p50_ms": {
+        "median": 42.663083,
+        "min": 42.662917,
+        "max": 42.665042
+      },
+      "publication_gap_p95_ms": {
+        "median": 42.77458299999999,
+        "min": 42.766916,
+        "max": 42.776834
+      },
+      "publication_gap_p99_ms": {
+        "median": 42.808082999999996,
+        "min": 42.802958000000004,
+        "max": 43.188833
+      },
+      "fifo_minimum_active": {
+        "median": 8704.0,
+        "min": 7680.0,
+        "max": 9728.0
+      },
+      "peak_rss_mib": {
+        "median": 41.734375,
+        "min": 41.4375,
+        "max": 42.03125
+      },
+      "cpu_user_seconds": {
+        "median": 234.41664400000002,
+        "min": 234.08366,
+        "max": 237.79357
+      },
+      "cpu_system_seconds": {
+        "median": 2.4458245,
+        "min": 2.398605,
+        "max": 3.767341
+      },
+      "max_callback_ms": {
+        "median": 0.0205415,
+        "min": 0.01325,
+        "max": 0.027041
+      },
+      "dsp_wall_s_ms": {
+        "max": {
+          "median": 70.2513335,
+          "max": 97.123583
+        },
+        "p95": {
+          "median": 23.768228999999998,
+          "max": 30.7675
+        },
+        "p99": {
+          "median": 28.137667,
+          "max": 40.126541
+        }
+      },
+      "dsp_cpu_s_ms": {
+        "max": {
+          "median": 41.15495849999995,
+          "max": 50.232041000000116
+        },
+        "p95": {
+          "median": 23.57597950000123,
+          "max": 29.747999999999664
+        },
+        "p99": {
+          "median": 27.89672949999833,
+          "max": 36.114624999999734
+        }
+      },
+      "cycle_wall_s_ms": {
+        "max": {
+          "median": 88.555167,
+          "max": 111.173167
+        },
+        "p95": {
+          "median": 42.77458299999999,
+          "max": 42.776834
+        },
+        "p99": {
+          "median": 42.808082999999996,
+          "max": 43.188833
+        }
+      },
+      "cycle_cpu_s_ms": {
+        "max": {
+          "median": 41.200479000000016,
+          "max": 50.23512500000016
+        },
+        "p95": {
+          "median": 24.025645999999234,
+          "max": 30.186458000002858
+        },
+        "p99": {
+          "median": 28.246291499999465,
+          "max": 36.24958300000003
+        }
+      },
+      "direction_latency": {
+        "0.40->1.00": {
+          "count": 4,
+          "median_ms": 1536.539124833008,
+          "p95_ms": 1536.6407923339843,
+          "max_ms": 1536.6407923339843
+        },
+        "0.40->2.00": {
+          "count": 4,
+          "median_ms": 1397.251292,
+          "p95_ms": 1397.467667,
+          "max_ms": 1397.467667
+        },
+        "1.00->2.00": {
+          "count": 4,
+          "median_ms": 650.2766663334961,
+          "p95_ms": 650.8446663330078,
+          "max_ms": 650.8446663330078
+        },
+        "2.00->0.40": {
+          "count": 4,
+          "median_ms": 728.3878536669922,
+          "p95_ms": 728.5023746669922,
+          "max_ms": 728.5023746669922
+        }
+      }
+    },
+    "C": {
+      "runs": 4,
+      "valid_runs": 4,
+      "measurement_invalid_runs": 0,
+      "verdict_counts": {
+        "PASS": 3,
+        "FAIL": 1,
+        "INDETERMINATE": 0
+      },
+      "observed_underrun_runs": 1,
+      "observed_underrun_rate": 0.25,
+      "valid_underrun_runs": 1,
+      "valid_underrun_rate": 0.25,
+      "missing_frames_all": 3072,
+      "max_continuous_missing_ms_all": 42.666666666666664,
+      "publication_gap_max_ms": {
+        "median": 104.04779200000002,
+        "min": 71.00379099999999,
+        "max": 196.422417
+      },
+      "publication_gap_p50_ms": {
+        "median": 21.3318955,
+        "min": 21.329,
+        "max": 21.335125
+      },
+      "publication_gap_p95_ms": {
+        "median": 21.459417,
+        "min": 21.446083,
+        "max": 24.51325
+      },
+      "publication_gap_p99_ms": {
+        "median": 26.476771499999998,
+        "min": 26.069416,
+        "max": 35.458458
+      },
+      "fifo_minimum_active": {
+        "median": 8192.0,
+        "min": 0.0,
+        "max": 9216.0
+      },
+      "peak_rss_mib": {
+        "median": 42.5703125,
+        "min": 41.359375,
+        "max": 42.609375
+      },
+      "cpu_user_seconds": {
+        "median": 234.510657,
+        "min": 234.457636,
+        "max": 235.467516
+      },
+      "cpu_system_seconds": {
+        "median": 2.6495309999999996,
+        "min": 2.387674,
+        "max": 3.017722
+      },
+      "max_callback_ms": {
+        "median": 0.012854,
+        "min": 0.012166,
+        "max": 0.030958
+      },
+      "dsp_wall_s_ms": {
+        "max": {
+          "median": 104.0445625,
+          "max": 196.418333
+        },
+        "p95": {
+          "median": 19.5126665,
+          "max": 24.359041
+        },
+        "p99": {
+          "median": 26.312645500000002,
+          "max": 34.979334
+        }
+      },
+      "dsp_cpu_s_ms": {
+        "max": {
+          "median": 41.375124999999954,
+          "max": 51.85620900000032
+        },
+        "p95": {
+          "median": 19.337917000001426,
+          "max": 23.082999999999743
+        },
+        "p99": {
+          "median": 26.13914550000196,
+          "max": 31.273374999999604
+        }
+      },
+      "cycle_wall_s_ms": {
+        "max": {
+          "median": 104.04779200000002,
+          "max": 196.422417
+        },
+        "p95": {
+          "median": 21.459417,
+          "max": 24.51325
+        },
+        "p99": {
+          "median": 26.476771499999998,
+          "max": 35.458458
+        }
+      },
+      "cycle_cpu_s_ms": {
+        "max": {
+          "median": 41.37720849999993,
+          "max": 51.86083400000019
+        },
+        "p95": {
+          "median": 19.389000000000323,
+          "max": 23.084540999999348
+        },
+        "p99": {
+          "median": 26.141375000001688,
+          "max": 31.278207999999807
+        }
+      },
+      "direction_latency": {
+        "0.40->1.00": {
+          "count": 4,
+          "median_ms": 1536.121791333496,
+          "p95_ms": 1536.2467083330077,
+          "max_ms": 1536.2467083330077
+        },
+        "0.40->2.00": {
+          "count": 4,
+          "median_ms": 1397.2726465,
+          "p95_ms": 1397.882792,
+          "max_ms": 1397.882792
+        },
+        "1.00->2.00": {
+          "count": 4,
+          "median_ms": 650.5838748334961,
+          "p95_ms": 650.8933753330078,
+          "max_ms": 650.8933753330078
+        },
+        "2.00->0.40": {
+          "count": 4,
+          "median_ms": 728.2898746665039,
+          "p95_ms": 728.5797086669921,
+          "max_ms": 728.5797086669921
+        }
+      }
+    }
+  },
+  "all_runs": 12,
+  "NATIVE_QUALITY": "FAIL",
+  "policy": "All measured runs retained; stability PASS requires valid measurement, CSV, configuration and PCM. Observed shortages remain FAIL even with invalid measurement.",
+  "percentile": "nearest rank ceil(q*N); median averages two middle values for even N"
+}

@@ -41,6 +41,15 @@ struct Phase39PlanMetric {
     std::size_t densityCandidatesTried=0;
     std::size_t timeMapBytes=0;
     double planMilliseconds=0;
+    std::array<std::size_t,3> immutableNodeOutputs{},densityHorizonOutputs{};
+    std::size_t fifoAtPlan=0,densityOutput=0;
+    std::array<std::size_t,4> heldOutputSamples{}; // defer event/gap, ramp event/gap
+};
+struct Phase49StallObservation {
+    bool configured=false,triggered=false,cancelled=false;
+    double requestedMs=0,wallSeconds=0,cpuSeconds=0;
+    std::size_t outputThreshold=0,fifoGoal=0,fifoBefore=0,fifoAfter=0,publishedFrames=0;
+    std::uint64_t startMachNs=0,endMachNs=0,measurementEndMachNs=0,threadId=0,cycleSequence=0;
 };
 struct Phase39Snapshot {
     Phase39RequestState state=Phase39RequestState::Idle;
@@ -78,6 +87,7 @@ struct Phase39BlockProfile {
     std::uint64_t startMachNs=0,publishedMachNs=0;
     std::uint64_t cycleSequence=0;
     std::size_t publicationFrames=0,fifoBeforeWrite=0,fifoAfterWrite=0;
+    double injectedPauseWallSeconds=0,injectedPauseCpuSeconds=0;
 };
 struct Phase39GuardMetric {
     std::uint64_t generation=0;
@@ -123,6 +133,7 @@ public:
     std::vector<Phase39BlockProfile> slowestBlocks() const;
     std::vector<Phase39BlockProfile> allBlockProfiles() const;
     std::vector<Phase39GuardMetric> guardMetrics() const;
+    Phase49StallObservation stallObservation() const;
     double workerChunkP95Seconds() const;
     double workerChunkP99Seconds() const;
     double workerCycleP95Seconds() const;
@@ -169,6 +180,7 @@ private:
     std::atomic<double> maxWorkerCycleSeconds_{0},maxWorkerCycleCpuSeconds_{0};
     std::atomic<std::uint64_t> fifoWaitNanoseconds_{0},workerChunksOver100Ms_{0};
     std::atomic<bool> workerQosApplied_{false};
+    Phase49StallObservation stallObservation_{};
     mutable std::mutex historyMutex_;
     std::vector<Phase39PlanMetric> plans_;
     std::vector<double> workerChunkSeconds_;

@@ -52,7 +52,7 @@ with tempfile.TemporaryDirectory() as directory:
 print('Missing CSV and decodable capacity-stop native driver injection PASS')
 from phase48_metrics import aggregate
 def metric(valid,missing,verdict):
-    r=dict(candidate='A',stability_evidence_valid=valid,observed_underrun=bool(missing),NATIVE_STABILITY_VERDICT=verdict,underrun_frames=missing,max_continuous_missing_ms=missing/48)
+    r=dict(candidate='A',METRIC_INTEGRITY='PASS',stability_evidence_valid=valid,observed_underrun=bool(missing),NATIVE_STABILITY_VERDICT=verdict,underrun_frames=missing,max_continuous_missing_ms=missing/48)
     for k in ('dsp_wall_s_ms','dsp_cpu_s_ms','cycle_wall_s_ms','cycle_cpu_s_ms'):r[k]=dict(max=1,p95=.8,p99=.9)
     return r
 outcome=aggregate([metric(True,512,'FAIL'),metric(True,0,'PASS'),metric(False,0,'INDETERMINATE'),metric(False,512,'FAIL')])

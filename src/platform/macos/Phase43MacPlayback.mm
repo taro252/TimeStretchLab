@@ -520,6 +520,10 @@ int main(int argc,char** argv) {
         guard.stop();
         pipeline.rethrowWorkerError();
         const auto status=pipeline.snapshot();
+        const auto stall=pipeline.stallObservation();
+        UInt32 deviceBufferFrames=0,bufferBytes=sizeof(deviceBufferFrames);
+        AudioObjectPropertyAddress bufferAddress{kAudioDevicePropertyBufferFrameSize,kAudioObjectPropertyScopeGlobal,kAudioObjectPropertyElementMain};
+        const auto bufferQuery=AudioObjectGetPropertyData(device,&bufferAddress,0,nullptr,&bufferBytes,&deviceBufferFrames);
         const bool reportEos=endDrained && !state.routeChanged->load() && !interrupted;
         const bool anyRouteChange=routeChanges!=0 || state.routeChanged->load();
         rusage usage{};getrusage(RUSAGE_SELF,&usage);
@@ -545,6 +549,8 @@ int main(int argc,char** argv) {
                  <<"prefill_seconds="<<prefill<<'\n'
                  <<"analysis_seconds="<<analysisSeconds<<'\n'
                  <<"output_device_rate="<<hardware.sampleRate<<'\n'
+                 <<"output_device_buffer_frames="<<(bufferQuery==noErr ? deviceBufferFrames : 0)<<'\n'
+                 <<"output_device_buffer_query_ok="<<(bufferQuery==noErr)<<'\n'
                  <<"output_device_id="<<device<<'\n'
                  <<"output_device_channels="<<hardware.channelCount<<'\n'
                  <<"dsp_sample_rate="<<pipeline.sampleRate()<<'\n'
@@ -560,6 +566,21 @@ int main(int argc,char** argv) {
                  <<"wall_seconds="<<wall<<'\n'
                  <<"cpu_user_seconds="<<userCpu<<'\n'
                  <<"cpu_system_seconds="<<systemCpu<<'\n'
+                 <<"controlled_stall_configured="<<stall.configured<<'\n'
+                 <<"controlled_stall_triggered="<<stall.triggered<<'\n'
+                 <<"controlled_stall_cancelled="<<stall.cancelled<<'\n'
+                 <<"controlled_stall_requested_ms="<<stall.requestedMs<<'\n'
+                 <<"controlled_stall_wall_s="<<stall.wallSeconds<<'\n'
+                 <<"controlled_stall_cpu_s="<<stall.cpuSeconds<<'\n'
+                 <<"controlled_stall_start_mach_ns="<<stall.startMachNs<<'\n'
+                 <<"controlled_stall_measurement_end_mach_ns="<<stall.measurementEndMachNs<<'\n'
+                 <<"controlled_stall_end_mach_ns="<<stall.endMachNs<<'\n'
+                 <<"controlled_stall_fifo_goal="<<stall.fifoGoal<<'\n'
+                 <<"controlled_stall_fifo_before="<<stall.fifoBefore<<'\n'
+                 <<"controlled_stall_fifo_after="<<stall.fifoAfter<<'\n'
+                 <<"controlled_stall_published_frames="<<stall.publishedFrames<<'\n'
+                 <<"controlled_stall_cycle="<<stall.cycleSequence<<'\n'
+                 <<"controlled_stall_worker_tid="<<stall.threadId<<'\n'
                  <<"device_presentation_latency_ms="<<deviceLatencyMs<<'\n'
                  <<"request_output="<<status.requestedOutput<<'\n'
                  <<"request_generation="<<status.generation<<'\n'
@@ -681,7 +702,7 @@ int main(int argc,char** argv) {
             ts::prototype::Phase47EvidenceFile csvFile(path);
             auto& csv=csvFile.stream();
             csv<<std::setprecision(17);
-            csv<<"output_start,start_unix_ns,end_unix_ns,thread_id,cycle_wall_s,cycle_cpu_s,dsp_wall_s,dsp_cpu_s,fifo_wait_s,fifo_write_s,plan_wall_s,plan_cpu_s,mutex_wait_s,mutex_hold_s,allocation_counter_enabled,cpp_new_calls,wav_wall_s,wav_cpu_s,fft_wall_s,fft_cpu_s,phase_wall_s,phase_cpu_s,ola_wall_s,ola_cpu_s,fir_wall_s,fir_cpu_s,start_mach_ns,published_mach_ns,publication_frames,fifo_before_write,fifo_after_write,publication_interval_s,cycle_sequence\n";
+            csv<<"output_start,start_unix_ns,end_unix_ns,thread_id,cycle_wall_s,cycle_cpu_s,dsp_wall_s,dsp_cpu_s,fifo_wait_s,fifo_write_s,plan_wall_s,plan_cpu_s,mutex_wait_s,mutex_hold_s,allocation_counter_enabled,cpp_new_calls,wav_wall_s,wav_cpu_s,fft_wall_s,fft_cpu_s,phase_wall_s,phase_cpu_s,ola_wall_s,ola_cpu_s,fir_wall_s,fir_cpu_s,start_mach_ns,published_mach_ns,publication_frames,fifo_before_write,fifo_after_write,publication_interval_s,cycle_sequence,injected_pause_wall_s,injected_pause_cpu_s\n";
             for (const auto& b:workerRecords) {
                 csv<<b.outputStart<<','<<b.startUnixNs<<','<<b.endUnixNs<<','<<b.threadId<<','
                    <<b.fullCycleWallSeconds<<','<<b.fullCycleCpuSeconds<<','<<b.chunkWallSeconds<<','
@@ -691,7 +712,7 @@ int main(int argc,char** argv) {
                 if (b.allocationCounterEnabled) csv<<b.cppNewCalls;else csv<<"unmeasured";
                 for (const auto& stage:b.work.stages) csv<<','<<stage.wallSeconds<<','<<stage.threadCpuSeconds;
                 csv<<','<<b.startMachNs<<','<<b.publishedMachNs<<','<<b.publicationFrames<<','
-                   <<b.fifoBeforeWrite<<','<<b.fifoAfterWrite<<','<<b.publicationIntervalSeconds<<','<<b.cycleSequence<<'\n';
+                   <<b.fifoBeforeWrite<<','<<b.fifoAfterWrite<<','<<b.publicationIntervalSeconds<<','<<b.cycleSequence<<','<<b.injectedPauseWallSeconds<<','<<b.injectedPauseCpuSeconds<<'\n';
             }
             csvFile.commit();
             ts::prototype::Phase47EvidenceFile guardsFile(std::string(path)+".guard.csv");
@@ -709,13 +730,22 @@ int main(int argc,char** argv) {
         if (const auto path=std::getenv("PHASE45_LIVE_PLAN_CSV")) {
             ts::prototype::Phase47EvidenceFile replayFile(path);
             auto& replay=replayFile.stream();
-            replay<<"generation,requested_output,requested_input,from,target,fence,prepared,published,applied_frame,applied_output,completion_output,density_input,map_bytes,plan_ms\n";
-            for (const auto& m:metrics)
+            replay<<"generation,requested_output,requested_input,from,target,fence,prepared,published,applied_frame,applied_output,completion_output,density_input,map_bytes,plan_ms,fifo_at_plan,immutable_low,immutable_mid,immutable_high,density_horizon_low,density_horizon_mid,density_horizon_high,ola_low,ola_mid,ola_high,fir250_fence,fir3500_fence,first_mutable_frame,first_safe_frame,next_event_frame,protection_end_frame,ramp_end_frame,held_frames,safe_frames_used,density_output,defer_event_samples,defer_gap_samples,ramp_event_samples,ramp_gap_samples\n";
+            for (const auto& m:metrics) {
                 replay<<m.generation<<','<<m.requestedOutput<<','<<m.requestedInput<<','
                       <<m.from.value()<<','<<m.target.value()<<','<<m.planningFence<<','
                       <<m.prepared<<','<<m.published<<','<<m.plan.appliedFrame<<','
                       <<m.plan.appliedOutputSample<<','<<m.plan.completionOutputSample<<','
-                      <<m.firstDensityChangedInput<<','<<m.timeMapBytes<<','<<m.planMilliseconds<<'\n';
+                      <<m.firstDensityChangedInput<<','<<m.timeMapBytes<<','<<m.planMilliseconds<<','<<m.fifoAtPlan;
+                for (auto v:m.immutableNodeOutputs) replay<<','<<v;
+                for (auto v:m.densityHorizonOutputs) replay<<','<<v;
+                for (auto v:m.finalizedOla) replay<<','<<v;
+                replay<<','<<m.firstUnprocessedFirSources[0]+4096<<','<<m.firstUnprocessedFirSources[1]+4096
+                      <<','<<m.plan.firstMutableFrame<<','<<m.plan.firstSafeFrame<<','<<m.plan.nextEventFrame<<','<<m.plan.protectionEndFrame
+                      <<','<<m.plan.rampEndFrame<<','<<m.plan.heldFrames<<','<<m.plan.safeFramesUsed<<','<<m.densityOutput;
+                for (auto v:m.heldOutputSamples) replay<<','<<v;
+                replay<<'\n';
+            }
             replayFile.commit();
         }
         } catch (const std::exception& exception) {

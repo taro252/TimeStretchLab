@@ -60,6 +60,13 @@ public:
     bool touchesProtected(const Phase39Plan& plan) const noexcept;
     std::array<HopRange,3> measureHops() const;
     std::size_t fixedMapBytes() const noexcept;
+    // Read-only diagnostics; planning and its safety tests remain unchanged.
+    bool diagnosticProtected(std::size_t frame) const noexcept {
+        return frame<protectedEndByFrame_.size() && protectedEndByFrame_[frame]!=static_cast<std::size_t>(-1);
+    }
+    bool diagnosticSafeRun(std::size_t frame) const noexcept {
+        return frame<safeRunEligible_.size() && safeRunEligible_[frame];
+    }
 private:
     std::size_t protectedEndAt(std::size_t frame) const noexcept;
     Phase13TransientAnalysis analysis_;

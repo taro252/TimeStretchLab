@@ -1,0 +1,294 @@
+{
+  "candidates": {
+    "A": {
+      "runs": 2,
+      "valid_runs": 2,
+      "measurement_invalid_runs": 0,
+      "verdict_counts": {
+        "PASS": 2,
+        "FAIL": 0,
+        "INDETERMINATE": 0
+      },
+      "observed_underrun_runs": 0,
+      "observed_underrun_rate": 0.0,
+      "valid_underrun_runs": 0,
+      "valid_underrun_rate": 0.0,
+      "missing_frames_all": 0,
+      "max_continuous_missing_ms_all": 0.0,
+      "publication_gap_max_ms": {
+        "median": 94.572625,
+        "min": 80.408333,
+        "max": 108.736917
+      },
+      "publication_gap_p50_ms": {
+        "median": 42.663875,
+        "min": 42.663458,
+        "max": 42.664291999999996
+      },
+      "publication_gap_p95_ms": {
+        "median": 42.7804585,
+        "min": 42.779167,
+        "max": 42.78175
+      },
+      "publication_gap_p99_ms": {
+        "median": 42.820583,
+        "min": 42.819833,
+        "max": 42.821333
+      },
+      "fifo_minimum_active": {
+        "median": 8448.0,
+        "min": 7680.0,
+        "max": 9216.0
+      },
+      "peak_rss_mib": {
+        "median": 46.2109375,
+        "min": 45.6875,
+        "max": 46.734375
+      },
+      "cpu_user_seconds": {
+        "median": 717.0518235,
+        "min": 715.712502,
+        "max": 718.391145
+      },
+      "cpu_system_seconds": {
+        "median": 7.3105715,
+        "min": 6.398205,
+        "max": 8.222938
+      },
+      "max_callback_ms": {
+        "median": 0.0408745,
+        "min": 0.023333,
+        "max": 0.058416
+      },
+      "dsp_wall_s_ms": {
+        "max": {
+          "median": 78.5222085,
+          "max": 108.731708
+        },
+        "p95": {
+          "median": 24.1280415,
+          "max": 24.349625
+        },
+        "p99": {
+          "median": 27.6944165,
+          "max": 27.98425
+        }
+      },
+      "dsp_cpu_s_ms": {
+        "max": {
+          "median": 41.11529149999993,
+          "max": 41.21583299999987
+        },
+        "p95": {
+          "median": 23.9940414999964,
+          "max": 24.153624999996737
+        },
+        "p99": {
+          "median": 27.465458499996487,
+          "max": 27.65287500000113
+        }
+      },
+      "cycle_wall_s_ms": {
+        "max": {
+          "median": 94.572625,
+          "max": 108.736917
+        },
+        "p95": {
+          "median": 42.7804585,
+          "max": 42.78175
+        },
+        "p99": {
+          "median": 42.820583,
+          "max": 42.821333
+        }
+      },
+      "cycle_cpu_s_ms": {
+        "max": {
+          "median": 41.15699999999989,
+          "max": 41.257624999999855
+        },
+        "p95": {
+          "median": 24.403978999995246,
+          "max": 24.572499999997888
+        },
+        "p99": {
+          "median": 27.7805625000056,
+          "max": 27.94775000000982
+        }
+      },
+      "direction_latency": {
+        "0.40->1.00": {
+          "count": 2,
+          "median_ms": 1535.9423333330078,
+          "p95_ms": 1536.0546253320313,
+          "max_ms": 1536.0546253320313
+        },
+        "0.40->2.00": {
+          "count": 2,
+          "median_ms": 1397.3513335,
+          "p95_ms": 1397.465167,
+          "max_ms": 1397.465167
+        },
+        "1.00->2.00": {
+          "count": 2,
+          "median_ms": 650.4022083330078,
+          "p95_ms": 650.7799583320312,
+          "max_ms": 650.7799583320312
+        },
+        "2.00->0.40": {
+          "count": 2,
+          "median_ms": 728.2356246669922,
+          "p95_ms": 728.2972076660157,
+          "max_ms": 728.2972076660157
+        }
+      }
+    },
+    "B": {
+      "runs": 2,
+      "valid_runs": 2,
+      "measurement_invalid_runs": 0,
+      "verdict_counts": {
+        "PASS": 2,
+        "FAIL": 0,
+        "INDETERMINATE": 0
+      },
+      "observed_underrun_runs": 0,
+      "observed_underrun_rate": 0.0,
+      "valid_underrun_runs": 0,
+      "valid_underrun_rate": 0.0,
+      "missing_frames_all": 0,
+      "max_continuous_missing_ms_all": 0.0,
+      "publication_gap_max_ms": {
+        "median": 124.4476665,
+        "min": 83.897625,
+        "max": 164.997708
+      },
+      "publication_gap_p50_ms": {
+        "median": 42.664312499999994,
+        "min": 42.663708,
+        "max": 42.664916999999996
+      },
+      "publication_gap_p95_ms": {
+        "median": 42.7720415,
+        "min": 42.763916,
+        "max": 42.780167
+      },
+      "publication_gap_p99_ms": {
+        "median": 42.810896,
+        "min": 42.805417,
+        "max": 42.816374999999994
+      },
+      "fifo_minimum_active": {
+        "median": 7168.0,
+        "min": 5120.0,
+        "max": 9216.0
+      },
+      "peak_rss_mib": {
+        "median": 45.03125,
+        "min": 44.71875,
+        "max": 45.34375
+      },
+      "cpu_user_seconds": {
+        "median": 716.7502420000001,
+        "min": 715.079071,
+        "max": 718.421413
+      },
+      "cpu_system_seconds": {
+        "median": 7.0604675,
+        "min": 6.380254,
+        "max": 7.740681
+      },
+      "max_callback_ms": {
+        "median": 0.037229,
+        "min": 0.030833,
+        "max": 0.043625
+      },
+      "dsp_wall_s_ms": {
+        "max": {
+          "median": 124.44470799999999,
+          "max": 164.99433299999998
+        },
+        "p95": {
+          "median": 24.0463745,
+          "max": 24.193666
+        },
+        "p99": {
+          "median": 27.8121455,
+          "max": 28.257958
+        }
+      },
+      "dsp_cpu_s_ms": {
+        "max": {
+          "median": 41.06874999999999,
+          "max": 41.42470800000009
+        },
+        "p95": {
+          "median": 23.902062499999488,
+          "max": 23.98600000000073
+        },
+        "p99": {
+          "median": 27.407750500003658,
+          "max": 27.567833999995628
+        }
+      },
+      "cycle_wall_s_ms": {
+        "max": {
+          "median": 124.4476665,
+          "max": 164.997708
+        },
+        "p95": {
+          "median": 42.7720415,
+          "max": 42.780167
+        },
+        "p99": {
+          "median": 42.810896,
+          "max": 42.816374999999994
+        }
+      },
+      "cycle_cpu_s_ms": {
+        "max": {
+          "median": 41.11181249999996,
+          "max": 41.462208000000004
+        },
+        "p95": {
+          "median": 24.342457999999567,
+          "max": 24.45795799999928
+        },
+        "p99": {
+          "median": 27.76829199999753,
+          "max": 27.95829199999389
+        }
+      },
+      "direction_latency": {
+        "0.40->1.00": {
+          "count": 2,
+          "median_ms": 1536.0805418330078,
+          "p95_ms": 1536.5681673320312,
+          "max_ms": 1536.5681673320312
+        },
+        "0.40->2.00": {
+          "count": 2,
+          "median_ms": 1397.26,
+          "p95_ms": 1397.550458,
+          "max_ms": 1397.550458
+        },
+        "1.00->2.00": {
+          "count": 2,
+          "median_ms": 649.8598543330079,
+          "p95_ms": 650.1148333339844,
+          "max_ms": 650.1148333339844
+        },
+        "2.00->0.40": {
+          "count": 2,
+          "median_ms": 728.5276041669922,
+          "p95_ms": 728.6176666660157,
+          "max_ms": 728.6176666660157
+        }
+      }
+    }
+  },
+  "all_runs": 4,
+  "NATIVE_QUALITY": "PASS",
+  "policy": "All measured runs retained; stability PASS requires valid measurement, CSV, configuration and PCM. Observed shortages remain FAIL even with invalid measurement.",
+  "percentile": "nearest rank ceil(q*N); median averages two middle values for even N"
+}

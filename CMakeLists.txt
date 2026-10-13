@@ -458,4 +458,9 @@ if(BUILD_TESTING)
     # other CTest DSP workloads. Their strict timing/failure criteria stay intact.
     set_tests_properties(phase44_quality_gate phase45_deadline_integrity
         PROPERTIES RUN_SERIAL TRUE)
+    add_test(NAME phase49_metric_integrity COMMAND python3
+        ${CMAKE_SOURCE_DIR}/scripts/phase49_metric_test.py)
+    add_executable(phase49_stall_tests tests/Phase49StallTests.cpp)
+    target_link_libraries(phase49_stall_tests PRIVATE phase39_variable)
+    add_test(NAME phase49_stall_controls COMMAND phase49_stall_tests)
 endif()

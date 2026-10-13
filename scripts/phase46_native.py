@@ -37,7 +37,8 @@ def trace_batch_must_stop(row):
         row.get('TRACE_CAPTURE')!='PASS' or row.get('TRACE_ANALYSIS')!='PASS')
 
 
-def run(output,source='drums',minutes=3,trace=False,stress=True,candidate='A',stall=0,attach_after=1,trace_seconds=5):
+def run(output,source='drums',minutes=3,trace=False,stress=True,candidate='A',stall=0,attach_after=1,trace_seconds=5,
+        fifo_frames=16384,lead_frames=None,stall_output=None,stall_fifo=None,input_override=None):
     calibration=ROOT/'results/phase47/calibration.json'
     # Native long-input/repeated trace trials require the short calibration,
     # even when each individual recording is only five seconds.
@@ -46,8 +47,9 @@ def run(output,source='drums',minutes=3,trace=False,stress=True,candidate='A',st
     label=f'{source}_{minutes}m_{candidate}_trace{int(trace)}'
     path,identifier,at=new_run(output,label)
     input_path=ROOT/('results/phase40/long_input' if source=='drums' else 'results/phase14/benchmark')/f'{source}_repeat_{minutes*60}.wav'
+    if input_override is not None:input_path=Path(input_override).resolve()
     env=os.environ.copy()
-    for key in ('PHASE44_WORKER_QOS','PHASE45_WORKER_STALL_MS','PHASE46_DSP_BLOCK','PHASE46_LEAD','PHASE46_FIFO','PHASE45_ROUTE_AFTER_SECONDS','PHASE47_IO_FAILURE_STAGE'):
+    for key in ('PHASE44_WORKER_QOS','PHASE45_WORKER_STALL_MS','PHASE46_DSP_BLOCK','PHASE46_LEAD','PHASE46_FIFO','PHASE45_ROUTE_AFTER_SECONDS','PHASE47_IO_FAILURE_STAGE','PHASE49_STALL_MS','PHASE49_STALL_OUTPUT','PHASE49_STALL_FIFO'):
         env.pop(key,None)
     env.update(PHASE46_FIFO='16384',PHASE46_LEAD='12288',PHASE46_DSP_BLOCK='2048')
     env.update(PHASE43_SILENT='1',PHASE46_PCM_SHA='1',PHASE45_LIVE_EVENTS=str(path/'callbacks.csv'),
@@ -57,7 +59,11 @@ def run(output,source='drums',minutes=3,trace=False,stress=True,candidate='A',st
     if candidate=='B':env['PHASE44_WORKER_QOS']='1'
     if candidate=='C':env['PHASE46_DSP_BLOCK']='1024'
     if candidate=='E':env['PHASE46_LEAD']='14336'
-    if stall:env['PHASE45_WORKER_STALL_MS']=str(stall)
+    env['PHASE46_FIFO']=str(fifo_frames)
+    if lead_frames is not None:env['PHASE46_LEAD']=str(lead_frames)
+    if stall and stall_output is not None:
+        env.update(PHASE49_STALL_MS=str(stall),PHASE49_STALL_OUTPUT=str(stall_output),PHASE49_STALL_FIFO=str(stall_fifo if stall_fifo is not None else env['PHASE46_LEAD']))
+    elif stall:env['PHASE45_WORKER_STALL_MS']=str(stall)
     command=[str(ROOT/'build/phase43_play'),str(input_path),'0.4',str(ROOT/'results/phase45/repeated.csv')]
     trace_exit=-1
     trace_result=dict(STORAGE_STATUS='NOT_REQUESTED',stop_reason='not_requested',stop_requested=False,record_exit=None)

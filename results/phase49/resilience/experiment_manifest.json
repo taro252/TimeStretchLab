@@ -1,0 +1,138 @@
+{
+  "matrix": [
+    {
+      "candidate": "A",
+      "dose": 100,
+      "lead": 12288,
+      "fifo": 16384,
+      "label": "standard"
+    },
+    {
+      "candidate": "B",
+      "dose": 100,
+      "lead": 12288,
+      "fifo": 16384,
+      "label": "standard"
+    },
+    {
+      "candidate": "A",
+      "dose": 150,
+      "lead": 12288,
+      "fifo": 16384,
+      "label": "standard"
+    },
+    {
+      "candidate": "B",
+      "dose": 150,
+      "lead": 12288,
+      "fifo": 16384,
+      "label": "standard"
+    },
+    {
+      "candidate": "A",
+      "dose": 200,
+      "lead": 12288,
+      "fifo": 16384,
+      "label": "standard"
+    },
+    {
+      "candidate": "B",
+      "dose": 200,
+      "lead": 12288,
+      "fifo": 16384,
+      "label": "standard"
+    },
+    {
+      "candidate": "A",
+      "dose": 250,
+      "lead": 12288,
+      "fifo": 16384,
+      "label": "standard"
+    },
+    {
+      "candidate": "B",
+      "dose": 250,
+      "lead": 12288,
+      "fifo": 16384,
+      "label": "standard"
+    },
+    {
+      "candidate": "A",
+      "dose": 300,
+      "lead": 12288,
+      "fifo": 16384,
+      "label": "standard"
+    },
+    {
+      "candidate": "B",
+      "dose": 300,
+      "lead": 12288,
+      "fifo": 16384,
+      "label": "standard"
+    },
+    {
+      "candidate": "A",
+      "dose": 350,
+      "lead": 12288,
+      "fifo": 16384,
+      "label": "standard"
+    },
+    {
+      "candidate": "B",
+      "dose": 350,
+      "lead": 12288,
+      "fifo": 16384,
+      "label": "standard"
+    },
+    {
+      "candidate": "A",
+      "dose": 250,
+      "lead": 14336,
+      "fifo": 16384,
+      "label": "lead14336"
+    },
+    {
+      "candidate": "A",
+      "dose": 300,
+      "lead": 14336,
+      "fifo": 16384,
+      "label": "lead14336"
+    },
+    {
+      "candidate": "A",
+      "dose": 350,
+      "lead": 14336,
+      "fifo": 16384,
+      "label": "lead14336"
+    },
+    {
+      "candidate": "A",
+      "dose": 300,
+      "lead": 16384,
+      "fifo": 16384,
+      "label": "lead16384"
+    },
+    {
+      "candidate": "A",
+      "dose": 350,
+      "lead": 16384,
+      "fifo": 16384,
+      "label": "lead16384"
+    },
+    {
+      "candidate": "A",
+      "dose": 300,
+      "lead": 12288,
+      "fifo": 32768,
+      "label": "capacity_only"
+    }
+  ],
+  "input": "results/phase49/input/drums30.wav",
+  "input_sha256": "9027c47a106c2d64c13f9405284357a25819210595f1cfa789b1a7423380e786",
+  "native_sha256": "7abdbdf56d356e03d951aff45b6ff8ed6285312f3a85119b0cdf1e8c89e1f6c7",
+  "source_rate": 48000,
+  "stall_output_threshold": 216000,
+  "load": "normal",
+  "nominal_callback": 512,
+  "note": "Controlled pause at exact FIFO stock, no concurrent DSP workload, no product default changes"
+}
