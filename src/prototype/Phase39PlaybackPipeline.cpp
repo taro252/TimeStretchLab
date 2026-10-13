@@ -1,5 +1,6 @@
 #include "prototype/Phase39PlaybackPipeline.h"
 #include "prototype/Phase42DensityGuard.h"
+#include "prototype/Phase45PcmDigest.h"
 #include "audio/WavStream.h"
 #include <algorithm>
 #include <cmath>
@@ -8,6 +9,7 @@
 #include <ctime>
 #include <fstream>
 #include <pthread.h>
+#include <mach/mach_time.h>
 
 namespace ts::prototype {
 namespace {
@@ -93,7 +95,9 @@ void Phase39PlaybackPipeline::start() {
     currentTailMicros_=initial_.micros;
     generation_=0;requestNs_=0;acceptedNs_=0;
     workerSeenNs_=0;planNs_=0;requestedOutput_=0;requestedInput_=0;
-    produced_=0;presented_=0;underrunFrames_=0;lastPublishedUnixNs_=0;
+    produced_=0;presented_=0;underrunFrames_=0;lastPublishedUnixNs_=0;lastPublishedMachNs_=0;
+    profileRecordsDropped_=0;workerPcmSha_.clear();
+    workerPcmHashEnabled_=std::getenv("PHASE46_PCM_SHA")!=nullptr;
     maxWorkerChunkSeconds_=0;
     maxWorkerCpuSeconds_=0;maxFifoWaitSeconds_=0;
     maxWorkerCycleSeconds_=0;maxWorkerCycleCpuSeconds_=0;
@@ -128,6 +132,13 @@ void Phase39PlaybackPipeline::start() {
                     std::memory_order_relaxed);
             Phase39TimeMap timeline(analysis_,sampleRate_,initial_,planning_);
             Phase36StreamingSpeedEngine engine(frozen(file_,initial_));
+            Phase45PcmDigest pcmDigest;
+            std::vector<float> interleaved(workerPcmHashEnabled_ ? blockFrames_*channels_ : 0);
+            mach_timebase_info_data_t timebase{};mach_timebase_info(&timebase);
+            const auto machNs=[&] {
+                return static_cast<std::uint64_t>((static_cast<long double>(mach_absolute_time())*
+                    timebase.numer)/timebase.denom);
+            };
             std::ofstream componentOutput;
             if (!componentCsv_.empty()) {
                 componentOutput.open(componentCsv_);
@@ -136,6 +147,7 @@ void Phase39PlaybackPipeline::start() {
             }
             auto previous=Clock::now();
             auto previousUnix=unixNowNs();
+            auto previousMach=machNs();
             std::uint64_t workerTid=0;
             pthread_threadid_np(nullptr,&workerTid);
             auto previousCpu=workerCpuSeconds();
@@ -160,6 +172,12 @@ void Phase39PlaybackPipeline::start() {
                     while (!stop_.load(std::memory_order_acquire) && Clock::now()<until)
                         std::this_thread::sleep_for(std::chrono::microseconds(100));
                 }
+                if (workerPcmHashEnabled_) {
+                    if (frames>blockFrames_) throw std::runtime_error("PCM digest block exceeds workspace");
+                    for (std::size_t i=0;i<frames;++i) for (std::size_t c=0;c<channels_;++c)
+                        interleaved[i*channels_+c]=data[c][i];
+                    pcmDigest.update(interleaved.data(),frames*channels_*sizeof(float));
+                }
                 const auto previousBookkeepingWait=postPublicationMutexWait;
                 const auto previousBookkeepingHold=postPublicationMutexHold;
                 const auto now=Clock::now();
@@ -169,6 +187,7 @@ void Phase39PlaybackPipeline::start() {
                 if (enableProfile_) {
                     latestProfile={};
                     latestProfile.startUnixNs=previousUnix;
+                    latestProfile.startMachNs=previousMach;
                     latestProfile.threadId=workerTid;
                     latestProfile.chunkWallSeconds=seconds;
                     latestProfile.chunkCpuSeconds=cpuSeconds;
@@ -206,7 +225,9 @@ void Phase39PlaybackPipeline::start() {
                        !maxFifoWaitSeconds_.compare_exchange_weak(oldWait,waited)) {}
                 poll();
                 const auto writeStart=Clock::now();
+                const auto fifoBefore=fifo_.available();
                 if (!fifo_.write(data,frames)) throw std::runtime_error("Phase 39 FIFO overflow");
+                const auto fifoAfter=fifo_.available();
                 const auto writeSeconds=std::chrono::duration<double>(Clock::now()-writeStart).count();
                 if (enableProfile_) latestProfile.fifoWriteSeconds=writeSeconds;
                 auto oldWrite=maxFifoWriteSeconds_.load();
@@ -215,7 +236,9 @@ void Phase39PlaybackPipeline::start() {
                 produced_.fetch_add(frames,std::memory_order_release);
                 const auto publishedAt=Clock::now();
                 const auto publishedUnix=unixNowNs();
+                const auto publishedMach=machNs();
                 lastPublishedUnixNs_.store(publishedUnix,std::memory_order_release);
+                lastPublishedMachNs_.store(publishedMach,std::memory_order_release);
                 const auto publishedCpu=workerCpuSeconds();
                 const auto cycleSeconds=std::chrono::duration<double>(publishedAt-previous).count();
                 const auto cycleCpu=std::max(0.0,publishedCpu-previousCpu);
@@ -244,6 +267,10 @@ void Phase39PlaybackPipeline::start() {
                     latestProfile.mutexHoldSeconds=
                         historyHold+planMutexHold+previousBookkeepingHold;
                     latestProfile.endUnixNs=publishedUnix;
+                    latestProfile.publishedMachNs=publishedMach;
+                    latestProfile.publicationFrames=frames;
+                    latestProfile.fifoBeforeWrite=fifoBefore;
+                    latestProfile.fifoAfterWrite=fifoAfter;
                     latestProfile.fullCycleWallSeconds=cycleSeconds;
                     latestProfile.fullCycleCpuSeconds=cycleCpu;
                     latestProfile.publicationIntervalSeconds=
@@ -256,6 +283,7 @@ void Phase39PlaybackPipeline::start() {
                 previous=publishedAt;
                 hasPublished=true;
                 previousUnix=publishedUnix;
+                previousMach=publishedMach;
                 previousCpu=publishedCpu;
                 if (allocationCounter_) previousNew=allocationCounter_();
                 planCycleWall=planCycleCpu=0;
@@ -416,6 +444,7 @@ void Phase39PlaybackPipeline::start() {
                     latestProfile.work=work;
                     if (allBlockProfiles_.size()<allBlockProfiles_.capacity())
                         allBlockProfiles_.push_back(latestProfile);
+                    else profileRecordsDropped_.fetch_add(1,std::memory_order_relaxed);
                     if (slowestBlocks_.size()<20) slowestBlocks_.push_back(latestProfile);
                     else {
                         const auto weakest=std::min_element(slowestBlocks_.begin(),
@@ -434,6 +463,7 @@ void Phase39PlaybackPipeline::start() {
                 componentOutput ? &componentOutput : nullptr,probeFirst_,probeLast_,
                 densityDiagnostic_==Phase39DensityDiagnostic::SafeGuarded);
             stageDigests_=result.stages;
+            if (workerPcmHashEnabled_) workerPcmSha_=pcmDigest.finish();
         } catch (const Stopped&) {
         } catch (...) { error_=std::current_exception(); }
         auto pending=Phase39RequestState::Requested;
@@ -442,6 +472,11 @@ void Phase39PlaybackPipeline::start() {
         finished_.store(true,std::memory_order_release);
     });
     started_.store(true,std::memory_order_release);
+}
+std::string Phase39PlaybackPipeline::workerPcmSha() const {
+    if (!finished_.load(std::memory_order_acquire))
+        throw std::logic_error("PCM digest available after worker completion");
+    return workerPcmHashEnabled_ ? workerPcmSha_ : "unmeasured";
 }
 std::vector<Phase39BlockProfile> Phase39PlaybackPipeline::slowestBlocks() const {
     if (!finished_.load(std::memory_order_acquire))

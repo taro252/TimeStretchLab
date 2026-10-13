@@ -1,6 +1,9 @@
 #import <AVFoundation/AVFoundation.h>
 #include <CoreAudio/CoreAudio.h>
 #include "prototype/Phase39PlaybackPipeline.h"
+#include "prototype/Phase46HostClock.h"
+#include "prototype/Phase46Statistics.h"
+#include <iomanip>
 #include <algorithm>
 #include <array>
 #include <atomic>
@@ -85,11 +88,20 @@ struct State {
     std::atomic<std::uint64_t> appliedPresentationGeneration{0},
         completionPresentationGeneration{0};
     struct Event { std::uint64_t before=0,count=0,startNs=0,endNs=0,hostNs=0,renderFrames=0,
-        available=0,lastPublicationUnixNs=0,threadId=0,wanted=0; };
+        available=0,lastPublicationUnixNs=0,threadId=0,wanted=0;
+        std::uint64_t sequence=0,epoch=0,generation=0,lastPublicationMachNs=0;
+        std::uint32_t timestampFlags=0;
+        double sampleTime=0;
+        ts::prototype::Phase46HostClock::Evidence evidence{}; };
     std::vector<Event> events; // Allocated before starting the audio engine.
     std::uint64_t bridgeMachNs=0,bridgeUnixNs=0;
-    std::atomic<std::uint64_t> eventIndex{0},maxHostLateNs{0};
+    std::atomic<std::uint64_t> eventIndex{0};
     std::atomic<std::uint64_t> hostValidCalls{0},hostMissingCalls{0};
+    ts::prototype::Phase46HostClock hostClock; // Serial source callback, read after quiescence.
+    std::uint64_t epoch=1,hostBackward=0,hostCadenceErrors=0,sampleErrors=0,halWindowMisses=0,hostOffsetOutliers=0;
+    double sourcePresentationLatencyMs=0;
+    std::int64_t minStartMinusHost=INT64_MAX,maxStartMinusHost=INT64_MIN;
+    std::uint64_t maxHostProgressError=0;
 };
 struct PlaybackGuard {
     AVAudioEngine* engine;
@@ -135,6 +147,7 @@ OSStatus render(State* state,BOOL* isSilence,const AudioTimeStamp* timestamp,AVA
     insideRender=true;
     state->activeCallbacks.fetch_add(1,std::memory_order_acq_rel);
     const auto start=mach_absolute_time();
+    State::Event* recordedEvent=nullptr;
     if (!renderThreadId) pthread_threadid_np(nullptr,&renderThreadId);
     float* channel[2]={};
     bool valid=buffers->mNumberBuffers==state->channels;
@@ -171,23 +184,38 @@ OSStatus render(State* state,BOOL* isSilence,const AudioTimeStamp* timestamp,AVA
         const auto ns=static_cast<std::uint64_t>(
             (static_cast<long double>(now)*state->numer)/state->denom);
         std::uint64_t hostNs=0;
-        if (timestamp && (timestamp->mFlags & kAudioTimeStampHostTimeValid)) {
+        const bool hostValid=timestamp && (timestamp->mFlags & kAudioTimeStampHostTimeValid);
+        const bool sampleValid=timestamp && (timestamp->mFlags & kAudioTimeStampSampleTimeValid);
+        if (hostValid) {
             state->hostValidCalls.fetch_add(1,std::memory_order_relaxed);
             hostNs=static_cast<std::uint64_t>((static_cast<long double>(timestamp->mHostTime)*
                 state->numer)/state->denom);
-            const auto startNs=static_cast<std::uint64_t>((static_cast<long double>(start)*
-                state->numer)/state->denom);
-            const auto late=startNs>hostNs ? startNs-hostNs : 0;
-            auto previous=state->maxHostLateNs.load(std::memory_order_relaxed);
-            while (previous<late && !state->maxHostLateNs.compare_exchange_weak(previous,late,
-                    std::memory_order_relaxed)) {}
         } else state->hostMissingCalls.fetch_add(1,std::memory_order_relaxed);
+        const auto startNs=static_cast<std::uint64_t>((static_cast<long double>(start)*state->numer)/state->denom);
+        const auto evidence=state->hostClock.observe(state->epoch,startNs,ns,hostValid,hostNs,
+            sampleValid,sampleValid ? timestamp->mSampleTime : 0,frames,state->rate);
+        state->hostBackward+=evidence.hostBackwards;
+        state->hostCadenceErrors+=evidence.cadenceError;
+        state->sampleErrors+=evidence.sampleError;
+        state->halWindowMisses+=evidence.halWindowMiss;
+        state->hostOffsetOutliers+=evidence.offsetOutlier;
+        if (hostValid) {
+            state->minStartMinusHost=std::min(state->minStartMinusHost,evidence.startMinusHostNs);
+            state->maxStartMinusHost=std::max(state->maxStartMinusHost,evidence.startMinusHostNs);
+            state->maxHostProgressError=std::max(state->maxHostProgressError,
+                static_cast<std::uint64_t>(std::abs(evidence.hostProgressErrorNs)));
+        }
         if (!state->events.empty()) {
             const auto index=state->eventIndex.fetch_add(1,std::memory_order_relaxed);
             auto& event=state->events[index%state->events.size()];
-            event={before,received,static_cast<std::uint64_t>(
-                (static_cast<long double>(start)*state->numer)/state->denom),ns,hostNs,frames,
+            recordedEvent=&event;
+            event={before,received,startNs,ns,hostNs,frames,
                 available,lastPublication,renderThreadId,wanted};
+            event.sequence=index+1;event.epoch=state->epoch;event.generation=markers.generation;
+            event.lastPublicationMachNs=state->pipeline->lastPublishedMachNs();
+            event.timestampFlags=timestamp ? timestamp->mFlags : 0;
+            event.sampleTime=sampleValid ? timestamp->mSampleTime : 0;
+            event.evidence=evidence;
         }
         if (markers.appliedOutput && before<=markers.appliedOutput &&
             before+received>markers.appliedOutput) {
@@ -206,6 +234,14 @@ OSStatus render(State* state,BOOL* isSilence,const AudioTimeStamp* timestamp,AVA
     const auto ticks=mach_absolute_time()-start;
     const auto ns=static_cast<std::uint64_t>(
         (static_cast<long double>(ticks)*state->numer)/state->denom);
+    if (recordedEvent) {
+        recordedEvent->endNs=static_cast<std::uint64_t>((static_cast<long double>(start+ticks)*
+            state->numer)/state->denom);
+        const bool missed=recordedEvent->hostNs && static_cast<long double>(recordedEvent->endNs)>
+            recordedEvent->hostNs+std::max(100000.0,2e9/state->rate);
+        if (missed && !recordedEvent->evidence.halWindowMiss) ++state->halWindowMisses;
+        recordedEvent->evidence.halWindowMiss=missed;
+    }
     auto old=state->maxCallbackNs.load(std::memory_order_relaxed);
     while (old<ns && !state->maxCallbackNs.compare_exchange_weak(old,ns,std::memory_order_relaxed)) {}
     if (ns>static_cast<std::uint64_t>(std::llround(frames*1e9/state->rate)))
@@ -229,7 +265,11 @@ int main(int argc,char** argv) {
         const double maxSeconds=argc>=5 ? std::stod(argv[4]) : 0.0;
         if (!std::isfinite(maxSeconds) || maxSeconds<0)
             throw std::invalid_argument("Invalid playback duration");
-        constexpr std::size_t fifoFrames=16384,blockFrames=2048,leadLimit=12288;
+        const auto configured=[](const char* key,std::size_t fallback) {
+            return std::getenv(key) ? static_cast<std::size_t>(std::stoull(std::getenv(key))) : fallback;
+        };
+        const std::size_t fifoFrames=configured("PHASE46_FIFO",16384),
+            blockFrames=configured("PHASE46_DSP_BLOCK",2048),leadLimit=configured("PHASE46_LEAD",12288);
         const auto prepareBegin=Clock::now();
         const bool profileEnabled=std::getenv("PHASE43_PROFILE") || std::getenv("PHASE45_LIVE_WORKERS");
         ts::prototype::Phase39PlaybackPipeline pipeline(
@@ -315,6 +355,7 @@ int main(int argc,char** argv) {
         }
         if (!started)
             throw std::runtime_error(error ? [[error description] UTF8String] : "Audio start failed");
+        state.sourcePresentationLatencyMs=source.outputPresentationLatency*1000;
         CpuStress stress(std::getenv("PHASE43_STRESS")!=nullptr);
         const auto playStart=Clock::now();
         const double injectRouteAt=std::getenv("PHASE45_ROUTE_AFTER_SECONDS") ?
@@ -357,12 +398,14 @@ int main(int argc,char** argv) {
                 guard.engine=engine;guard.source=source;guard.observer=observer;
                 state.routeChanged->store(false,std::memory_order_release);
                 NSError* resumeError=nil;
+                ++state.epoch;
                 state.active.store(true,std::memory_order_release);
                 if (![engine startAndReturnError:&resumeError]) {
                     state.active.store(false,std::memory_order_release);
                     throw std::runtime_error("Audio restart failed");
                 }
                 ++resumes;
+                state.sourcePresentationLatencyMs=source.outputPresentationLatency*1000;
             }
             const auto played=state.content.load(std::memory_order_acquire);
             const auto snapshot=pipeline.snapshot();
@@ -461,7 +504,7 @@ int main(int argc,char** argv) {
         const auto systemCpu=usage.ru_stime.tv_sec+usage.ru_stime.tv_usec/1e6;
         const auto wall=std::chrono::duration<double>(Clock::now()-playStart).count();
         const auto deviceLatencyMs=engine.outputNode.presentationLatency*1000;
-        std::cout<<"initial_speed="<<initialName<<'\n'
+        std::cout<<std::setprecision(17)<<"initial_speed="<<initialName<<'\n'
                  <<"profile=Phase43-safe-density-research\n"
                  <<"requested_changes="<<changeCount<<'\n'
                  <<"sent_changes="<<sent<<'\n'
@@ -535,9 +578,24 @@ int main(int argc,char** argv) {
                  <<"max_callback_ms="<<state.maxCallbackNs.load()/1e6<<'\n'
                  <<"callback_deadline_misses="<<state.deadlineMisses.load()<<'\n'
                  <<"callback_format_errors="<<state.formatErrors.load()<<'\n'
-                 <<"max_callback_host_late_ms="<<state.maxHostLateNs.load()/1e6<<'\n'
+                 <<"max_callback_host_late_ms="<<std::max<std::int64_t>(0,state.maxStartMinusHost)/1e6<<'\n'
                  <<"host_timestamp_valid_callbacks="<<state.hostValidCalls.load()<<'\n'
                  <<"host_timestamp_missing_callbacks="<<state.hostMissingCalls.load()<<'\n'
+                 <<"host_timestamp_backwards="<<state.hostBackward<<'\n'
+                 <<"host_timestamp_cadence_errors="<<state.hostCadenceErrors<<'\n'
+                 <<"host_timestamp_offset_outliers="<<state.hostOffsetOutliers<<'\n'
+                 <<"sample_timestamp_errors="<<state.sampleErrors<<'\n'
+                 <<"hal_window_deadline_misses="<<state.halWindowMisses<<'\n'
+                 <<"hal_ready_deadline_definition=host_first_frame_plus_tolerance\n"
+                 <<"host_continuity_tolerance_ns="<<std::max(100000.0,2e9/state.rate)<<'\n'
+                 <<"min_callback_start_minus_host_ns="<<state.minStartMinusHost<<'\n'
+                 <<"max_callback_start_minus_host_ns="<<state.maxStartMinusHost<<'\n'
+                 <<"max_host_progress_error_ns="<<state.maxHostProgressError<<'\n'
+                 <<"source_output_presentation_latency_ms="<<state.sourcePresentationLatencyMs<<'\n'
+                 <<"sample_rate_conversion="<<(state.rate!=hardware.sampleRate)<<'\n'
+                 <<"worker_pcm_sha256="<<pipeline.workerPcmSha()<<'\n'
+                 <<"worker_pcm_hash_enabled="<<pipeline.workerPcmHashEnabled()<<'\n'
+                 <<"worker_profile_records_dropped="<<pipeline.profileRecordsDropped()<<'\n'
                  <<"callback_cpp_allocations="<<renderCppAllocations.load()<<'\n'
                  <<"peak_rss_mib="<<usage.ru_maxrss/1048576.0<<'\n'
                  <<"last_applied_callback_generation="
@@ -557,21 +615,29 @@ int main(int argc,char** argv) {
         const auto metrics=pipeline.planMetrics();
         if (const auto path=std::getenv("PHASE45_LIVE_EVENTS")) {
             std::ofstream events(path);
-            events<<"pcm_before,received,callback_start_mach_ns,callback_end_mach_ns,host_mach_ns,render_requested_frames,available_before,last_publication_unix_ns,thread_id,callback_start_unix_ns,wanted\n";
+            events<<std::setprecision(17);
+            events<<"pcm_before,received,callback_start_mach_ns,callback_end_mach_ns,host_mach_ns,render_requested_frames,available_before,last_publication_unix_ns,thread_id,callback_start_unix_ns,wanted,sequence,epoch,generation,last_publication_mach_ns,timestamp_flags,sample_time,start_minus_host_ns,host_delta_ns,host_progress_error_ns,sample_delta,sample_progress_error,host_missing,host_backwards,cadence_error,sample_error,hal_window_miss\n";
             const auto count=state.eventIndex.load();
             const auto retained=std::min<std::uint64_t>(count,state.events.size());
             for (std::uint64_t i=0;i<retained;++i) {
                 const auto& e=state.events[(count-retained+i)%state.events.size()];
                 events<<e.before<<','<<e.count<<','<<e.startNs<<','<<e.endNs<<','<<e.hostNs<<','<<e.renderFrames
                       <<','<<e.available<<','<<e.lastPublicationUnixNs<<','<<e.threadId<<','
-                      <<state.bridgeUnixNs+(e.startNs-state.bridgeMachNs)<<','<<e.wanted<<'\n';
+                      <<state.bridgeUnixNs+(e.startNs-state.bridgeMachNs)<<','<<e.wanted<<','
+                      <<e.sequence<<','<<e.epoch<<','<<e.generation<<','<<e.lastPublicationMachNs<<','
+                      <<e.timestampFlags<<','<<e.sampleTime<<','<<e.evidence.startMinusHostNs<<','
+                      <<e.evidence.hostDeltaNs<<','<<e.evidence.hostProgressErrorNs<<','
+                      <<e.evidence.sampleDelta<<','<<e.evidence.sampleProgressError<<','
+                      <<e.evidence.hostMissing<<','<<e.evidence.hostBackwards<<','
+                      <<e.evidence.cadenceError<<','<<e.evidence.sampleError<<','<<e.evidence.halWindowMiss<<'\n';
             }
             std::cout<<"callback_records_retained="<<retained
                      <<"\ncallback_records_evicted="<<count-retained<<'\n';
         }
         if (const auto path=std::getenv("PHASE45_LIVE_WORKERS")) {
             std::ofstream csv(path);
-            csv<<"output_start,start_unix_ns,end_unix_ns,thread_id,cycle_wall_s,cycle_cpu_s,dsp_wall_s,dsp_cpu_s,fifo_wait_s,fifo_write_s,plan_wall_s,plan_cpu_s,mutex_wait_s,mutex_hold_s,allocation_counter_enabled,cpp_new_calls,wav_wall_s,wav_cpu_s,fft_wall_s,fft_cpu_s,phase_wall_s,phase_cpu_s,ola_wall_s,ola_cpu_s,fir_wall_s,fir_cpu_s\n";
+            csv<<std::setprecision(17);
+            csv<<"output_start,start_unix_ns,end_unix_ns,thread_id,cycle_wall_s,cycle_cpu_s,dsp_wall_s,dsp_cpu_s,fifo_wait_s,fifo_write_s,plan_wall_s,plan_cpu_s,mutex_wait_s,mutex_hold_s,allocation_counter_enabled,cpp_new_calls,wav_wall_s,wav_cpu_s,fft_wall_s,fft_cpu_s,phase_wall_s,phase_cpu_s,ola_wall_s,ola_cpu_s,fir_wall_s,fir_cpu_s,start_mach_ns,published_mach_ns,publication_frames,fifo_before_write,fifo_after_write,publication_interval_s\n";
             for (const auto& b:pipeline.allBlockProfiles()) {
                 csv<<b.outputStart<<','<<b.startUnixNs<<','<<b.endUnixNs<<','<<b.threadId<<','
                    <<b.fullCycleWallSeconds<<','<<b.fullCycleCpuSeconds<<','<<b.chunkWallSeconds<<','
@@ -580,7 +646,8 @@ int main(int argc,char** argv) {
                    <<b.mutexHoldSeconds<<','<<b.allocationCounterEnabled<<',';
                 if (b.allocationCounterEnabled) csv<<b.cppNewCalls;else csv<<"unmeasured";
                 for (const auto& stage:b.work.stages) csv<<','<<stage.wallSeconds<<','<<stage.threadCpuSeconds;
-                csv<<'\n';
+                csv<<','<<b.startMachNs<<','<<b.publishedMachNs<<','<<b.publicationFrames<<','
+                   <<b.fifoBeforeWrite<<','<<b.fifoAfterWrite<<','<<b.publicationIntervalSeconds<<'\n';
             }
             std::ofstream guards(std::string(path)+".guard.csv");
             guards<<"generation,fifo_at_plan,safe,candidates,guard_wall_s,guard_cpu_s,weight_error_low,weight_error_mid,weight_error_high\n";
@@ -602,17 +669,7 @@ int main(int argc,char** argv) {
                       <<m.plan.appliedOutputSample<<','<<m.plan.completionOutputSample<<','
                       <<m.firstDensityChangedInput<<','<<m.timeMapBytes<<','<<m.planMilliseconds<<'\n';
         }
-        const auto latencySummary=[](std::vector<double> values) {
-            values.erase(std::remove_if(values.begin(),values.end(),
-                [](double value){ return value<0; }),values.end());
-            if (values.empty()) return std::array<double,3>{-1,-1,-1};
-            std::sort(values.begin(),values.end());
-            const auto at=[&](double quantile) {
-                return values[static_cast<std::size_t>(std::ceil(
-                    quantile*values.size()))-1];
-            };
-            return std::array<double,3>{at(0.5),at(0.95),values.back()};
-        };
+        const auto latencySummary=ts::prototype::phase46LatencySummary;
         const auto latency=latencySummary(applyLatencyMs);
         std::cout<<"apply_latency_median_ms="<<latency[0]<<'\n'
                  <<"apply_latency_p95_ms="<<latency[1]<<'\n'
@@ -638,7 +695,7 @@ int main(int argc,char** argv) {
                      <<" worker_request_steady_ns="<<metrics[i].requestNs
                      <<" apply_callback_ms="<<(requestIndex<applyLatencyMs.size() ?
                         applyLatencyMs[requestIndex] : -1)
-                     <<" estimated_map_audible_ms="<<(requestIndex<applyLatencyMs.size() &&
+                     <<" legacy_entry_plus_device_ms="<<(requestIndex<applyLatencyMs.size() &&
                          applyLatencyMs[requestIndex]>=0 ? applyLatencyMs[requestIndex]+deviceLatencyMs : -1)
                      <<" complete_callback_ms="
                      <<(requestIndex<completionLatencyMs.size() ?
@@ -655,6 +712,9 @@ int main(int argc,char** argv) {
              status.state!=ts::prototype::Phase39RequestState::Applied) ||
             status.underrunFrames || status.rejectedWrites || state.deadlineMisses ||
             state.formatErrors || renderCppAllocations.load() || anyRouteChange ||
+            state.hostMissingCalls || state.hostBackward || state.hostCadenceErrors ||
+            state.hostOffsetOutliers ||
+            state.sampleErrors || state.halWindowMisses ||
             (endDrained && state.presentationFrames.load()!=status.outputLength) ? 4 : 0;
     } catch (const std::exception& exception) {
         std::cerr<<"Phase 43: "<<exception.what()<<'\n';

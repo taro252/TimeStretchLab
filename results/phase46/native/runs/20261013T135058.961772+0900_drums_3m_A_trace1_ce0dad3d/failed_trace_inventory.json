@@ -1,0 +1,31 @@
+{
+  "reason": "Invalid unopenable trace after record timeout; removed only Phase46-generated failed data to recover disk space",
+  "validation": {
+    "TRACE_CAPTURE": "FAIL",
+    "record_exit": -1,
+    "toc_exit": 10,
+    "trace_exists": true,
+    "trace_bytes": 4316392680,
+    "record_errors": [
+      "Recording failed: xctrace timeout"
+    ],
+    "process_match": false,
+    "toc_error": "invalid_or_missing_toc_or_target",
+    "TRACE_ANALYSIS": "FAIL",
+    "xml_exit": -1,
+    "worker_tid": null,
+    "target_rows": 0
+  },
+  "files": [
+    {
+      "path": "Trace1.run/RunIssues.storedata",
+      "bytes": 53248,
+      "first_4096_bytes_sha256": "39a7d4d856dd865080e5a2152e53c71b5793a32fbcb3b060afb15fc44be2cca1"
+    },
+    {
+      "path": "Trace1.run/Attachments/trace-data.atrc",
+      "bytes": 4316339432,
+      "first_4096_bytes_sha256": "d7de1683e6428050576c79162df1cbb0db991aa7ea7e7ca2dd1e98eb7c3539b1"
+    }
+  ]
+}

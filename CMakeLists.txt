@@ -436,4 +436,9 @@ if(BUILD_TESTING)
         ${CMAKE_SOURCE_DIR}/scripts/phase45_live_test.py)
     add_test(NAME phase45_trace_parser COMMAND python3
         ${CMAKE_SOURCE_DIR}/scripts/phase45_trace_parser_test.py)
+    add_executable(phase46_host_tests tests/Phase46HostClockTests.cpp)
+    target_link_libraries(phase46_host_tests PRIVATE timestretch_core)
+    add_test(NAME phase46_host_clock COMMAND phase46_host_tests)
+    add_test(NAME phase46_measurement_validation COMMAND python3
+        ${CMAKE_SOURCE_DIR}/scripts/phase46_validation_test.py)
 endif()

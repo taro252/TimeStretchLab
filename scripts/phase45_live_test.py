@@ -16,6 +16,12 @@ valid.update(eos_drained="1", stop_reason="EOS", requested_changes="2",
              dsp_sample_rate="44100", device_presentation_latency_ms="1.0",
              dsp_channels="2", input_frames="22050",
              format_acquired="1", device_acquired="1", callback_allocation_counter_enabled="1")
+valid.update(host_timestamp_valid_callbacks='20',host_timestamp_missing_callbacks='0',
+             host_timestamp_backwards='0',host_timestamp_cadence_errors='0',
+             host_timestamp_offset_outliers='0',
+             sample_timestamp_errors='0',hal_window_deadline_misses='0',
+             host_continuity_tolerance_ns='100000',
+             min_callback_start_minus_host_ns='-5000000',max_callback_start_minus_host_ns='-1000000')
 assert not live_failures(valid, 0)
 for key in valid:
     missing = dict(valid); missing.pop(key)

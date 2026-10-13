@@ -92,6 +92,58 @@ def live_failures(values, process_exit):
             failures.append("device_or_format_unacquired")
         if values["callback_allocation_counter_enabled"] != "1":
             failures.append("allocation_unmeasured")
+        host = host_failures(values)
+        failures.extend(host)
     except (KeyError, ValueError, TypeError):
         failures.append("required_measurement_missing_or_invalid")
     return failures
+
+
+def host_failures(values):
+    """Future HAL timestamps are legitimate; require continuity evidence."""
+    errors = []
+    try:
+        counts = {key: integer(values, key) for key in (
+            'host_timestamp_valid_callbacks', 'host_timestamp_missing_callbacks',
+            'host_timestamp_backwards', 'host_timestamp_cadence_errors',
+            'host_timestamp_offset_outliers',
+            'sample_timestamp_errors', 'hal_window_deadline_misses')}
+        if counts['host_timestamp_valid_callbacks'] == 0:
+            errors.append('host_timestamp_unmeasured')
+        errors.extend(f'{key}={value}' for key,value in counts.items()
+                      if key != 'host_timestamp_valid_callbacks' and value)
+        tolerance = float(values['host_continuity_tolerance_ns'])
+        if not math.isfinite(tolerance) or tolerance <= 0:
+            errors.append('invalid_host_tolerance')
+        for key in ('min_callback_start_minus_host_ns','max_callback_start_minus_host_ns'):
+            int(values[key]) # Signed values, including future host time, are evidence only.
+    except (KeyError, ValueError, TypeError):
+        errors.append('host_measurement_missing_or_invalid')
+    return errors
+
+
+def native_verdict(values, process_exit):
+    all_errors = live_failures(values, process_exit)
+    host_errors = host_failures(values)
+    try:budget_error=integer(values,'callback_deadline_misses')!=0
+    except (KeyError,ValueError,TypeError):budget_error=True
+    host_keys = ('host_timestamp_', 'sample_timestamp_', 'hal_window_',
+                 'host_measurement_', 'invalid_host_')
+    audio_errors = [e for e in all_errors if not e.startswith(host_keys) and
+                    not e.startswith('callback_deadline_misses=')]
+    # Exit 4 reports measured quality/timing failures; exit 1 is a process error.
+    if process_exit == 4 and (host_errors or budget_error):
+        audio_errors = [e for e in audio_errors if e != 'exit=4']
+    measurement_errors=list(host_errors)
+    for key in ('callback_records_evicted','worker_profile_records_dropped'):
+        try:
+            if integer(values,key): measurement_errors.append(f'{key}={values[key]}')
+        except (KeyError,ValueError,TypeError): measurement_errors.append(f'{key}=unmeasured')
+    return dict(AUDIO_QUALITY='FAIL' if audio_errors or budget_error else
+                    'INDETERMINATE' if host_errors else 'PASS',
+                SUPPLY_INTEGRITY='FAIL' if audio_errors else 'PASS',
+                CALLBACK_PROCESS_BUDGET='FAIL' if budget_error else 'PASS',
+                HOST_TIMESTAMP='FAIL' if host_errors else 'PASS',
+                MEASUREMENT_QUALITY='FAIL' if measurement_errors else 'PASS',
+                measurement_failures=';'.join(measurement_errors),
+                failures=';'.join(all_errors))

@@ -75,6 +75,8 @@ struct Phase39BlockProfile {
     bool allocationCounterEnabled=false;
     std::uint64_t cppNewCalls=0;
     Phase36StreamingSpeedEngine::WorkProfile work{};
+    std::uint64_t startMachNs=0,publishedMachNs=0;
+    std::size_t publicationFrames=0,fifoBeforeWrite=0,fifoAfterWrite=0;
 };
 struct Phase39GuardMetric {
     std::uint64_t generation=0;
@@ -108,6 +110,12 @@ public:
     std::uint64_t lastPublishedUnixNs() const noexcept {
         return lastPublishedUnixNs_.load(std::memory_order_acquire);
     }
+    std::uint64_t lastPublishedMachNs() const noexcept {
+        return lastPublishedMachNs_.load(std::memory_order_acquire);
+    }
+    bool workerPcmHashEnabled() const noexcept { return workerPcmHashEnabled_; }
+    std::string workerPcmSha() const;
+    std::uint64_t profileRecordsDropped() const noexcept { return profileRecordsDropped_.load(); }
     Phase39Snapshot snapshot() const noexcept;
     Phase39RealtimeMarkers realtimeMarkers() const noexcept;
     std::vector<Phase39PlanMetric> planMetrics() const;
@@ -150,6 +158,9 @@ private:
     std::atomic<std::size_t> appliedOutput_{0},completionOutput_{0};
     std::atomic<std::uint64_t> underrunFrames_{0};
     std::atomic<std::uint64_t> lastPublishedUnixNs_{0};
+    std::atomic<std::uint64_t> lastPublishedMachNs_{0},profileRecordsDropped_{0};
+    bool workerPcmHashEnabled_=false;
+    std::string workerPcmSha_; // Read only after finished_ / joining the worker.
     std::atomic<double> maxWorkerChunkSeconds_{0},planMilliseconds_{0};
     std::atomic<double> planCpuMilliseconds_{0};
     std::atomic<double> maxWorkerCpuSeconds_{0},maxFifoWaitSeconds_{0};

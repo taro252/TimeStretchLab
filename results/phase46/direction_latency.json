@@ -1,0 +1,622 @@
+{
+  "statistics": [
+    {
+      "direction": "0.40->1.00",
+      "count": 7,
+      "median_ms": 1536.4443335,
+      "p95_nearest_rank_ms": 1536.6712915,
+      "max_ms": 1536.6712915
+    },
+    {
+      "direction": "0.40->2.00",
+      "count": 7,
+      "median_ms": 1396.964167,
+      "p95_nearest_rank_ms": 1397.936583,
+      "max_ms": 1397.936583
+    },
+    {
+      "direction": "1.00->2.00",
+      "count": 7,
+      "median_ms": 650.1904995,
+      "p95_nearest_rank_ms": 650.6256245,
+      "max_ms": 650.6256245
+    },
+    {
+      "direction": "2.00->0.40",
+      "count": 7,
+      "median_ms": 728.5687495,
+      "p95_nearest_rank_ms": 728.9434585,
+      "max_ms": 728.9434585
+    }
+  ],
+  "changes": [
+    {
+      "run_id": "20261013T133852.499554+0900_drums_3m_A_trace0_837decca",
+      "generation": 1,
+      "direction": "0.40->2.00",
+      "map_node": {
+        "frame": 114030,
+        "callback_sequence": "223",
+        "callback_entry_ms": 1374.871333,
+        "callback_sample_offset_ms": 7.625,
+        "signed_entry_minus_host_ms": -12.961667,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 1395.458,
+        "estimated_hardware_presentation_ms": 1396.833,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    },
+    {
+      "run_id": "20261013T133852.499554+0900_drums_3m_A_trace0_837decca",
+      "generation": 2,
+      "direction": "2.00->0.40",
+      "map_node": {
+        "frame": 322050,
+        "callback_sequence": "630",
+        "callback_entry_ms": 713.919,
+        "callback_sample_offset_ms": 0.041666666666666664,
+        "signed_entry_minus_host_ms": -12.983625,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 726.9442915,
+        "estimated_hardware_presentation_ms": 728.3192915,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    },
+    {
+      "run_id": "20261013T133852.499554+0900_drums_3m_A_trace0_837decca",
+      "generation": 3,
+      "direction": "0.40->1.00",
+      "map_node": {
+        "frame": 744818,
+        "callback_sequence": "1455",
+        "callback_entry_ms": 1513.984916,
+        "callback_sample_offset_ms": 7.708333333333333,
+        "signed_entry_minus_host_ms": -12.956625,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 1534.6498745,
+        "estimated_hardware_presentation_ms": 1536.0248745,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    },
+    {
+      "run_id": "20261013T133852.499554+0900_drums_3m_A_trace0_837decca",
+      "generation": 4,
+      "direction": "1.00->2.00",
+      "map_node": {
+        "frame": 1086304,
+        "callback_sequence": "2122",
+        "callback_entry_ms": 628.638958,
+        "callback_sample_offset_ms": 7.333333333333333,
+        "signed_entry_minus_host_ms": -12.96025,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 648.9325415,
+        "estimated_hardware_presentation_ms": 650.3075415,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    },
+    {
+      "run_id": "20261013T134104.452098+0900_drums_3m_A_trace0_698a6b33",
+      "generation": 1,
+      "direction": "0.40->2.00",
+      "map_node": {
+        "frame": 114030,
+        "callback_sequence": "223",
+        "callback_entry_ms": 1375.986875,
+        "callback_sample_offset_ms": 7.625,
+        "signed_entry_minus_host_ms": -12.944167,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 1396.556042,
+        "estimated_hardware_presentation_ms": 1397.931042,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    },
+    {
+      "run_id": "20261013T134104.452098+0900_drums_3m_A_trace0_698a6b33",
+      "generation": 2,
+      "direction": "2.00->0.40",
+      "map_node": {
+        "frame": 322050,
+        "callback_sequence": "630",
+        "callback_entry_ms": 713.587416,
+        "callback_sample_offset_ms": 0.041666666666666664,
+        "signed_entry_minus_host_ms": -12.9715,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 726.6005825,
+        "estimated_hardware_presentation_ms": 727.9755825,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    },
+    {
+      "run_id": "20261013T134104.452098+0900_drums_3m_A_trace0_698a6b33",
+      "generation": 3,
+      "direction": "0.40->1.00",
+      "map_node": {
+        "frame": 744818,
+        "callback_sequence": "1455",
+        "callback_entry_ms": 1514.614376,
+        "callback_sample_offset_ms": 7.708333333333333,
+        "signed_entry_minus_host_ms": -12.973582,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 1535.2962915,
+        "estimated_hardware_presentation_ms": 1536.6712915,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    },
+    {
+      "run_id": "20261013T134104.452098+0900_drums_3m_A_trace0_698a6b33",
+      "generation": 4,
+      "direction": "1.00->2.00",
+      "map_node": {
+        "frame": 1086304,
+        "callback_sequence": "2122",
+        "callback_entry_ms": 628.429375,
+        "callback_sample_offset_ms": 7.333333333333333,
+        "signed_entry_minus_host_ms": -12.9705,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 648.7332085,
+        "estimated_hardware_presentation_ms": 650.1082085,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    },
+    {
+      "run_id": "20261013T134315.250905+0900_drums_3m_A_trace0_5e1d5971",
+      "generation": 1,
+      "direction": "0.40->2.00",
+      "map_node": {
+        "frame": 114030,
+        "callback_sequence": "223",
+        "callback_entry_ms": 1375.153251,
+        "callback_sample_offset_ms": 7.625,
+        "signed_entry_minus_host_ms": -12.977541,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 1395.755792,
+        "estimated_hardware_presentation_ms": 1397.130792,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    },
+    {
+      "run_id": "20261013T134315.250905+0900_drums_3m_A_trace0_5e1d5971",
+      "generation": 2,
+      "direction": "2.00->0.40",
+      "map_node": {
+        "frame": 322050,
+        "callback_sequence": "630",
+        "callback_entry_ms": 713.929167,
+        "callback_sample_offset_ms": 0.041666666666666664,
+        "signed_entry_minus_host_ms": -12.985042,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 726.9558755,
+        "estimated_hardware_presentation_ms": 728.3308755,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    },
+    {
+      "run_id": "20261013T134315.250905+0900_drums_3m_A_trace0_5e1d5971",
+      "generation": 3,
+      "direction": "0.40->1.00",
+      "map_node": {
+        "frame": 744818,
+        "callback_sequence": "1455",
+        "callback_entry_ms": 1514.408542,
+        "callback_sample_offset_ms": 7.708333333333333,
+        "signed_entry_minus_host_ms": -12.987417,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 1535.1042925,
+        "estimated_hardware_presentation_ms": 1536.4792925,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    },
+    {
+      "run_id": "20261013T134315.250905+0900_drums_3m_A_trace0_5e1d5971",
+      "generation": 4,
+      "direction": "1.00->2.00",
+      "map_node": {
+        "frame": 1086304,
+        "callback_sequence": "2122",
+        "callback_entry_ms": 628.498833,
+        "callback_sample_offset_ms": 7.333333333333333,
+        "signed_entry_minus_host_ms": -12.983333,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 648.8154995,
+        "estimated_hardware_presentation_ms": 650.1904995,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    },
+    {
+      "run_id": "20261013T134727.430527+0900_drums_3m_A_trace1_a592a15b",
+      "generation": 1,
+      "direction": "0.40->2.00",
+      "map_node": {
+        "frame": 114030,
+        "callback_sequence": "223",
+        "callback_entry_ms": 1375.951208,
+        "callback_sample_offset_ms": 7.625,
+        "signed_entry_minus_host_ms": -12.985375,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 1396.561583,
+        "estimated_hardware_presentation_ms": 1397.936583,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    },
+    {
+      "run_id": "20261013T134727.430527+0900_drums_3m_A_trace1_a592a15b",
+      "generation": 2,
+      "direction": "2.00->0.40",
+      "map_node": {
+        "frame": 322050,
+        "callback_sequence": "630",
+        "callback_entry_ms": 714.568667,
+        "callback_sample_offset_ms": 0.041666666666666664,
+        "signed_entry_minus_host_ms": -12.958125,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 727.5684585,
+        "estimated_hardware_presentation_ms": 728.9434585,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    },
+    {
+      "run_id": "20261013T134727.430527+0900_drums_3m_A_trace1_a592a15b",
+      "generation": 3,
+      "direction": "0.40->1.00",
+      "map_node": {
+        "frame": 744818,
+        "callback_sequence": "1455",
+        "callback_entry_ms": 1514.40525,
+        "callback_sample_offset_ms": 7.708333333333333,
+        "signed_entry_minus_host_ms": -12.95575,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 1535.0693335,
+        "estimated_hardware_presentation_ms": 1536.4443335,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    },
+    {
+      "run_id": "20261013T134727.430527+0900_drums_3m_A_trace1_a592a15b",
+      "generation": 4,
+      "direction": "1.00->2.00",
+      "map_node": {
+        "frame": 1086304,
+        "callback_sequence": "2122",
+        "callback_entry_ms": 628.664625,
+        "callback_sample_offset_ms": 7.333333333333333,
+        "signed_entry_minus_host_ms": -12.952167,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 648.9501255,
+        "estimated_hardware_presentation_ms": 650.3251255,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    },
+    {
+      "run_id": "20261013T135058.961772+0900_drums_3m_A_trace1_ce0dad3d",
+      "generation": 1,
+      "direction": "0.40->2.00",
+      "map_node": {
+        "frame": 114030,
+        "callback_sequence": "223",
+        "callback_entry_ms": 1374.921042,
+        "callback_sample_offset_ms": 7.625,
+        "signed_entry_minus_host_ms": -12.965667,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 1395.511709,
+        "estimated_hardware_presentation_ms": 1396.886709,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    },
+    {
+      "run_id": "20261013T135058.961772+0900_drums_3m_A_trace1_ce0dad3d",
+      "generation": 2,
+      "direction": "2.00->0.40",
+      "map_node": {
+        "frame": 322050,
+        "callback_sequence": "630",
+        "callback_entry_ms": 714.428542,
+        "callback_sample_offset_ms": 0.041666666666666664,
+        "signed_entry_minus_host_ms": -12.978125,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 727.4483335,
+        "estimated_hardware_presentation_ms": 728.8233335,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    },
+    {
+      "run_id": "20261013T135058.961772+0900_drums_3m_A_trace1_ce0dad3d",
+      "generation": 3,
+      "direction": "0.40->1.00",
+      "map_node": {
+        "frame": 744818,
+        "callback_sequence": "1455",
+        "callback_entry_ms": 1514.426042,
+        "callback_sample_offset_ms": 7.708333333333333,
+        "signed_entry_minus_host_ms": -12.964167,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 1535.0985425,
+        "estimated_hardware_presentation_ms": 1536.4735425,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    },
+    {
+      "run_id": "20261013T135058.961772+0900_drums_3m_A_trace1_ce0dad3d",
+      "generation": 4,
+      "direction": "1.00->2.00",
+      "map_node": {
+        "frame": 1086304,
+        "callback_sequence": "2122",
+        "callback_entry_ms": 628.345917,
+        "callback_sample_offset_ms": 7.333333333333333,
+        "signed_entry_minus_host_ms": -12.967917,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 648.6471675,
+        "estimated_hardware_presentation_ms": 650.0221675,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    },
+    {
+      "run_id": "20261013T135430.890924+0900_drums_3m_A_trace1_5a9d0168",
+      "generation": 1,
+      "direction": "0.40->2.00",
+      "map_node": {
+        "frame": 114030,
+        "callback_sequence": "223",
+        "callback_entry_ms": 1374.965834,
+        "callback_sample_offset_ms": 7.625,
+        "signed_entry_minus_host_ms": -12.998333,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 1395.589167,
+        "estimated_hardware_presentation_ms": 1396.964167,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    },
+    {
+      "run_id": "20261013T135430.890924+0900_drums_3m_A_trace1_5a9d0168",
+      "generation": 2,
+      "direction": "2.00->0.40",
+      "map_node": {
+        "frame": 322050,
+        "callback_sequence": "630",
+        "callback_entry_ms": 714.192958,
+        "callback_sample_offset_ms": 0.041666666666666664,
+        "signed_entry_minus_host_ms": -12.959125,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 727.1937495,
+        "estimated_hardware_presentation_ms": 728.5687495,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    },
+    {
+      "run_id": "20261013T135430.890924+0900_drums_3m_A_trace1_5a9d0168",
+      "generation": 3,
+      "direction": "0.40->1.00",
+      "map_node": {
+        "frame": 744818,
+        "callback_sequence": "1455",
+        "callback_entry_ms": 1513.615874,
+        "callback_sample_offset_ms": 7.708333333333333,
+        "signed_entry_minus_host_ms": -12.961876,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 1534.2860835,
+        "estimated_hardware_presentation_ms": 1535.6610835,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    },
+    {
+      "run_id": "20261013T135430.890924+0900_drums_3m_A_trace1_5a9d0168",
+      "generation": 4,
+      "direction": "1.00->2.00",
+      "map_node": {
+        "frame": 1086304,
+        "callback_sequence": "2122",
+        "callback_entry_ms": 628.928458,
+        "callback_sample_offset_ms": 7.333333333333333,
+        "signed_entry_minus_host_ms": -12.988833,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 649.2506245,
+        "estimated_hardware_presentation_ms": 650.6256245,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    },
+    {
+      "run_id": "20261013T135940.647340+0900_drums_3m_A_trace1_12a852ce",
+      "generation": 1,
+      "direction": "0.40->2.00",
+      "map_node": {
+        "frame": 114030,
+        "callback_sequence": "223",
+        "callback_entry_ms": 1374.917751,
+        "callback_sample_offset_ms": 7.625,
+        "signed_entry_minus_host_ms": -12.991333,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 1395.534084,
+        "estimated_hardware_presentation_ms": 1396.909084,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    },
+    {
+      "run_id": "20261013T135940.647340+0900_drums_3m_A_trace1_12a852ce",
+      "generation": 2,
+      "direction": "2.00->0.40",
+      "map_node": {
+        "frame": 322050,
+        "callback_sequence": "630",
+        "callback_entry_ms": 714.406376,
+        "callback_sample_offset_ms": 0.041666666666666664,
+        "signed_entry_minus_host_ms": -13.001042,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 727.4490845,
+        "estimated_hardware_presentation_ms": 728.8240845,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    },
+    {
+      "run_id": "20261013T135940.647340+0900_drums_3m_A_trace1_12a852ce",
+      "generation": 3,
+      "direction": "0.40->1.00",
+      "map_node": {
+        "frame": 744818,
+        "callback_sequence": "1455",
+        "callback_entry_ms": 1513.836833,
+        "callback_sample_offset_ms": 7.708333333333333,
+        "signed_entry_minus_host_ms": -12.988625,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 1534.5337915,
+        "estimated_hardware_presentation_ms": 1535.9087915,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    },
+    {
+      "run_id": "20261013T135940.647340+0900_drums_3m_A_trace1_12a852ce",
+      "generation": 4,
+      "direction": "1.00->2.00",
+      "map_node": {
+        "frame": 1086304,
+        "callback_sequence": "2122",
+        "callback_entry_ms": 628.044458,
+        "callback_sample_offset_ms": 7.333333333333333,
+        "signed_entry_minus_host_ms": -12.953958,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 648.3317495,
+        "estimated_hardware_presentation_ms": 649.7067495,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    }
+  ]
+}
