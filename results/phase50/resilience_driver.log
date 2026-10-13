@@ -1,0 +1,41 @@
+BEGIN 1 18 {'label': 'A', 'lead': 12288, 'stock': 12288, 'dose': 200, 'callback': 512, 'stress': False, 'at': 216000, 'drain': False}
+20261013T222727.335079+0900_drums_0.5m_A_trace0_ce726429 PASS PASS NOT_REQUESTED NOT_REQUESTED
+END 1 PASS 0 PASS
+BEGIN 2 18 {'label': 'B', 'lead': 14336, 'stock': 14336, 'dose': 200, 'callback': 512, 'stress': False, 'at': 216000, 'drain': False}
+20261013T222804.032230+0900_drums_0.5m_A_trace0_dee857d4 PASS PASS NOT_REQUESTED NOT_REQUESTED
+END 2 PASS 0 PASS
+BEGIN 3 18 {'label': 'C', 'lead': 16384, 'stock': 16384, 'dose': 200, 'callback': 512, 'stress': False, 'at': 216000, 'drain': False}
+20261013T222839.817245+0900_drums_0.5m_A_trace0_dab21d97 PASS PASS NOT_REQUESTED NOT_REQUESTED
+END 3 PASS 0 PASS
+BEGIN 4 18 {'label': 'A', 'lead': 12288, 'stock': 12288, 'dose': 250, 'callback': 512, 'stress': False, 'at': 216000, 'drain': False}
+20261013T222914.383280+0900_drums_0.5m_A_trace0_f70e5dfe PASS PASS NOT_REQUESTED NOT_REQUESTED
+END 4 PASS 0 PASS
+BEGIN 5 18 {'label': 'B', 'lead': 14336, 'stock': 14336, 'dose': 250, 'callback': 512, 'stress': False, 'at': 216000, 'drain': False}
+20261013T222948.980281+0900_drums_0.5m_A_trace0_057f1df6 PASS PASS NOT_REQUESTED NOT_REQUESTED
+END 5 PASS 0 PASS
+BEGIN 6 18 {'label': 'C', 'lead': 16384, 'stock': 16384, 'dose': 250, 'callback': 512, 'stress': False, 'at': 216000, 'drain': False}
+20261013T223023.507410+0900_drums_0.5m_A_trace0_0a2b5c18 PASS PASS NOT_REQUESTED NOT_REQUESTED
+END 6 PASS 0 PASS
+BEGIN 7 18 {'label': 'A', 'lead': 12288, 'stock': 12288, 'dose': 300, 'callback': 512, 'stress': False, 'at': 216000, 'drain': False}
+20261013T223058.231022+0900_drums_0.5m_A_trace0_4a567542 FAIL PASS NOT_REQUESTED NOT_REQUESTED
+END 7 FAIL 2560 PASS
+BEGIN 8 18 {'label': 'B', 'lead': 14336, 'stock': 14336, 'dose': 300, 'callback': 512, 'stress': False, 'at': 216000, 'drain': False}
+20261013T223132.843682+0900_drums_0.5m_A_trace0_c168ec5f FAIL PASS NOT_REQUESTED NOT_REQUESTED
+END 8 FAIL 512 PASS
+BEGIN 9 18 {'label': 'C', 'lead': 16384, 'stock': 16384, 'dose': 300, 'callback': 512, 'stress': False, 'at': 216000, 'drain': False}
+20261013T223207.409014+0900_drums_0.5m_A_trace0_b5e0a0f7 PASS PASS NOT_REQUESTED NOT_REQUESTED
+END 9 PASS 0 PASS
+BEGIN 10 18 {'label': 'A', 'lead': 12288, 'stock': 12288, 'dose': 350, 'callback': 512, 'stress': False, 'at': 216000, 'drain': False}
+20261013T223242.056825+0900_drums_0.5m_A_trace0_dcfa6dd8 FAIL PASS NOT_REQUESTED NOT_REQUESTED
+END 10 FAIL 4608 PASS
+BEGIN 11 18 {'label': 'B', 'lead': 14336, 'stock': 14336, 'dose': 350, 'callback': 512, 'stress': False, 'at': 216000, 'drain': False}
+20261013T223316.636997+0900_drums_0.5m_A_trace0_fadb85d5 FAIL PASS NOT_REQUESTED NOT_REQUESTED
+END 11 FAIL 2560 PASS
+BEGIN 12 18 {'label': 'C', 'lead': 16384, 'stock': 16384, 'dose': 350, 'callback': 512, 'stress': False, 'at': 216000, 'drain': False}
+20261013T223351.152227+0900_drums_0.5m_A_trace0_a603ea98 FAIL PASS NOT_REQUESTED NOT_REQUESTED
+END 12 FAIL 512 PASS
+BEGIN 13 18 {'label': 'C', 'lead': 16384, 'stock': 16384, 'dose': 300, 'callback': 64, 'stress': True, 'at': 648000, 'drain': False}
+Traceback (most recent call last):
+  File "/Users/taro252/Docker/TimeStretchLab/scripts/phase50_resilience.py", line 32, in <module>
+    if int(buffer()['buffer_frames'])!=case['callback']:raise RuntimeError('Device buffer request not applied')
+RuntimeError: Device buffer request not applied

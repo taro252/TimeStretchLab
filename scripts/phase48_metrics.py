@@ -35,7 +35,7 @@ def validated_values(records,key,scale=1.0):
 def stability_verdict(audio,valid,observed_shortage):
     return 'FAIL' if observed_shortage or audio=='FAIL' else 'PASS' if valid and audio=='PASS' else 'INDETERMINATE'
 
-def measure(row,path,context,expected_fifo=16384,expected_lead=12288):
+def measure(row,path,context,expected_fifo=16384,expected_lead=12288,expected_hardware_frames=512):
     path=Path(path);integrity=json.loads((path/'csv_integrity.json').read_text())
     result=dict(row,**context)
     result['disk_free_after_bytes']=__import__('os').statvfs(path).f_bavail*__import__('os').statvfs(path).f_frsize
@@ -51,7 +51,7 @@ def measure(row,path,context,expected_fifo=16384,expected_lead=12288):
         observed_frames=sorted({int(r['render_requested_frames']) for r in callbacks})
         hardware_frames=int(row.get('output_device_buffer_frames',512))
         expected_frames=math.ceil(hardware_frames*float(row['dsp_sample_rate'])/float(row['output_device_rate']))
-        if hardware_frames!=512 or observed_frames!=[expected_frames]:problems.append('callback_frames_not_expected_source_quantum')
+        if hardware_frames!=expected_hardware_frames or observed_frames!=[expected_frames]:problems.append('callback_frames_not_expected_source_quantum')
         for key in ('dsp_wall_s','dsp_cpu_s','cycle_wall_s','cycle_cpu_s','publication_interval_s'):
             values,audits[key]=validated_values(workers,key,1000)
             if audits[key]['invalid_count']:metric_faults.append(key)

@@ -44,6 +44,8 @@ struct Phase39PlanMetric {
     std::array<std::size_t,3> immutableNodeOutputs{},densityHorizonOutputs{};
     std::size_t fifoAtPlan=0,densityOutput=0;
     std::array<std::size_t,4> heldOutputSamples{}; // defer event/gap, ramp event/gap
+    std::size_t phase50PreciseFence=0,phase50LegacyFence=0;
+    bool phase50StatePreserved=false;
 };
 struct Phase49StallObservation {
     bool configured=false,triggered=false,cancelled=false;
@@ -107,7 +109,7 @@ public:
         bool enableProfile=false,
         std::filesystem::path componentCsv={},std::size_t probeFirst=0,
         std::size_t probeLast=0,
-        std::function<std::uint64_t()> allocationCounter={});
+        std::function<std::uint64_t()> allocationCounter={},bool phase50PreciseBoundary=false);
     ~Phase39PlaybackPipeline();
     void start();
     void stop(); // The audio consumer must first be quiescent.
@@ -154,6 +156,7 @@ private:
     const std::filesystem::path componentCsv_;
     const std::size_t probeFirst_,probeLast_;
     const std::function<std::uint64_t()> allocationCounter_;
+    const bool phase50PreciseBoundary_;
     Phase13TransientAnalysis analysis_;
     Phase14AudioFifo fifo_;
     std::thread worker_;

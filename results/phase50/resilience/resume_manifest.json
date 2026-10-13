@@ -1,0 +1,129 @@
+{
+  "reused_completed_ordinals": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "unsupported_ordinals": [
+    13,
+    14,
+    15,
+    16
+  ],
+  "supplemental_native_condition": {
+    "ordinal": 19,
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase50/resilience/runs/20261013T223947.385307+0900_drums_0.5m_A_trace0_f05b9892",
+    "native_sha256": "f175bd7c599adc248ced74103059966a81690315137bd02c3b2d7a729e580313",
+    "label": "C",
+    "lead": 16384,
+    "stock": 16384,
+    "dose": 300,
+    "callback": 512,
+    "stress": true,
+    "at": 648000,
+    "drain": false,
+    "FAULT_DETECTION": "PASS",
+    "AUDIO_QUALITY": "PASS",
+    "MEASUREMENT_QUALITY": "PASS",
+    "CONFIG_VALIDITY": "PASS",
+    "CSV_INTEGRITY": "PASS",
+    "METRIC_INTEGRITY": "PASS",
+    "PCM_CORRECTNESS": "PASS",
+    "missing_frames": 0,
+    "missing_calls": 0,
+    "max_continuous_missing_ms": 0.0,
+    "fifo_minimum_active": 2560,
+    "publication_ms": {
+      "count": 658,
+      "p50": 42.663604,
+      "max": 304.818791,
+      "p95": 42.762916999999995,
+      "p99": 42.789042
+    },
+    "dsp_ms": {
+      "count": 659,
+      "p50": 7.105667,
+      "max": 304.816916,
+      "p95": 20.175083,
+      "p99": 26.602459
+    },
+    "cycle_cpu_ms": {
+      "count": 659,
+      "p50": 7.965915999999851,
+      "max": 40.77654100000005,
+      "p95": 20.67774999999994,
+      "p99": 26.930166000000533
+    },
+    "callback_ms": {
+      "count": 2643,
+      "p50": 0.001959,
+      "max": 0.015917,
+      "p95": 0.002708,
+      "p99": 0.00425
+    },
+    "cpu": 62.590899,
+    "rss_mib": 39.6875,
+    "direction_latency": {
+      "2.00->0.40": {
+        "count": 1,
+        "median_ms": 728.2476246679687,
+        "p95_nearest_rank_ms": 728.2476246679687,
+        "max_ms": 728.2476246679687
+      },
+      "0.40->1.00": {
+        "count": 1,
+        "median_ms": 1535.6876663320313,
+        "p95_nearest_rank_ms": 1535.6876663320313,
+        "max_ms": 1535.6876663320313
+      },
+      "0.40->2.00": {
+        "count": 1,
+        "median_ms": 1397.9295,
+        "p95_nearest_rank_ms": 1397.9295,
+        "max_ms": 1397.9295
+      },
+      "1.00->2.00": {
+        "count": 1,
+        "median_ms": 650.3359163320313,
+        "p95_nearest_rank_ms": 650.3359163320313,
+        "max_ms": 650.3359163320313
+      }
+    },
+    "pause": {
+      "INJECTION_VALIDITY": "PASS",
+      "requested_ms": 300.0,
+      "measured_ms": 300.093792,
+      "stock_frames": 16384,
+      "theoretical_stock_ms": 341.3333333333333,
+      "stock_measurement_bracket_us": 0.042,
+      "first_publication_after_end_ms": 4.723375,
+      "effective_supply_stop_ms": 304.817167,
+      "first_missing_callback_ms": null,
+      "first_missing_hal_ms": null,
+      "affected_missing_frames": 0,
+      "natural_missing_frames": 0,
+      "predicted_missing_before_next_publication_range": [
+        0,
+        0
+      ],
+      "observed_missing_before_next_publication": 0,
+      "demand_balance_matches": true,
+      "shortage_recovery_after_end_ms": null,
+      "full_stock_recovery_after_end_ms": 41.304042,
+      "waveform_eos_match": true,
+      "note": "Injected window extends through 1s after next publication. Outside shortages are counted separately. Callback/FIFO snapshot overlaps produce a bounded demand interval.",
+      "target_lead_recovery_ms": 41.304042
+    }
+  },
+  "reason": "Device retains512 after requested64/128/256/1024; record unsupported, finish reduced-stock trials and test full-stock300ms at512 with stress and later trigger.",
+  "original_manifest_sha256": "c84057ccd2303c590a62a1c15a3960dc27854acd3bdb7339fa70dd0b48707ee3"
+}

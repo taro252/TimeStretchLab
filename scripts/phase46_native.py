@@ -38,7 +38,8 @@ def trace_batch_must_stop(row):
 
 
 def run(output,source='drums',minutes=3,trace=False,stress=True,candidate='A',stall=0,attach_after=1,trace_seconds=5,
-        fifo_frames=16384,lead_frames=None,stall_output=None,stall_fifo=None,input_override=None):
+        fifo_frames=16384,lead_frames=None,stall_output=None,stall_fifo=None,input_override=None,
+        initial_speed=.4,schedule_override=None,executable=None,precise_boundary=False,drain_stock=False):
     calibration=ROOT/'results/phase47/calibration.json'
     # Native long-input/repeated trace trials require the short calibration,
     # even when each individual recording is only five seconds.
@@ -60,11 +61,15 @@ def run(output,source='drums',minutes=3,trace=False,stress=True,candidate='A',st
     if candidate=='C':env['PHASE46_DSP_BLOCK']='1024'
     if candidate=='E':env['PHASE46_LEAD']='14336'
     env['PHASE46_FIFO']=str(fifo_frames)
+    env.pop('PHASE50_PRECISE_BOUNDARY',None)
+    env.pop('PHASE50_STALL_DRAIN',None)
+    if drain_stock:env['PHASE50_STALL_DRAIN']='1'
+    if precise_boundary:env['PHASE50_PRECISE_BOUNDARY']='1'
     if lead_frames is not None:env['PHASE46_LEAD']=str(lead_frames)
     if stall and stall_output is not None:
         env.update(PHASE49_STALL_MS=str(stall),PHASE49_STALL_OUTPUT=str(stall_output),PHASE49_STALL_FIFO=str(stall_fifo if stall_fifo is not None else env['PHASE46_LEAD']))
     elif stall:env['PHASE45_WORKER_STALL_MS']=str(stall)
-    command=[str(ROOT/'build/phase43_play'),str(input_path),'0.4',str(ROOT/'results/phase45/repeated.csv')]
+    command=[str(executable or ROOT/'build/phase43_play'),str(input_path),str(initial_speed),str(schedule_override or ROOT/'results/phase45/repeated.csv')]
     trace_exit=-1
     trace_result=dict(STORAGE_STATUS='NOT_REQUESTED',stop_reason='not_requested',stop_requested=False,record_exit=None)
     with (path/'playback.log').open('x') as log:
@@ -103,7 +108,7 @@ def run(output,source='drums',minutes=3,trace=False,stress=True,candidate='A',st
     # No reference synthesis competes with the realtime workload: verify afterwards.
     reference=path/'reference.wav'
     ref=subprocess.run([str(ROOT/'build/phase39_reference'),str(input_path),str(reference),
-        '0.4',str(path/'replay.csv'),'C','safe-density'],cwd=ROOT,capture_output=True,text=True,timeout=1800)
+        str(initial_speed),str(path/'replay.csv'),'C','safe-density'],cwd=ROOT,capture_output=True,text=True,timeout=1800)
     (path/'reference.log').write_text(ref.stdout+ref.stderr)
     checked={}
     if ref.returncode==0:

@@ -254,6 +254,11 @@ int main(int argc,char** argv) {
         }
         pipeline.rethrowWorkerError();
         const auto state=pipeline.snapshot();
+        const auto controlledPause=pipeline.stallObservation();
+        std::cout<<"controlled_stall_triggered="<<controlledPause.triggered
+                 <<"\ncontrolled_stall_fifo_before="<<controlledPause.fifoBefore
+                 <<"\ncontrolled_stall_wall_s="<<controlledPause.wallSeconds
+                 <<"\ncontrolled_stall_cpu_s="<<controlledPause.cpuSeconds<<'\n';
         const double appliedCallbackMs=firstAudibleNs>requestNs ?
             double(firstAudibleNs-requestNs)/1e6 : -1.0;
         const double coordinateMs=state.appliedOutput>state.requestedOutput ?

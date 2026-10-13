@@ -1,0 +1,184 @@
+{
+  "latency_dependency_budgets": [
+    {
+      "generation": 1,
+      "direction": "0.40->2.00",
+      "requested_output": 48128,
+      "forbidden_fence": 78383,
+      "raw_boundaries": {
+        "published": 61440,
+        "prepared": 63488,
+        "fft": 70936,
+        "ola": 69632,
+        "fir": 69632,
+        "density_horizon": 78383
+      },
+      "incremental_budget_ms": {
+        "published": 277.3333333333333,
+        "prepared": 42.666666666666664,
+        "fft": 155.16666666666666,
+        "ola": 0.0,
+        "fir": 0.0,
+        "density_horizon": 155.14583333333334
+      },
+      "forbidden_prefix_ms": 630.3125,
+      "fifo_at_plan_frames": 13312,
+      "fifo_at_plan_ms": 277.3333333333333,
+      "fence_to_apply_ms": 742.6458333333334,
+      "ramp_output_ms": 839.3541666666666,
+      "protection_holds_ms": {
+        "defer_event_samples": 742.6458333333334,
+        "defer_gap_samples": 0.0,
+        "ramp_event_samples": 464.7708333333333,
+        "ramp_gap_samples": 0.0
+      },
+      "held_frames": 10,
+      "safe_frames": 11,
+      "density_input": 67584,
+      "density_output": 154319,
+      "map_apply_to_density_ms": 839.3541666666666,
+      "note": "Boundary budgets use sequential max and overlap; they are not independent causal latencies. Ramp progress sums min(oldHop,targetHop)-1 in safe intervals, not a guaranteed 50ms audible ramp."
+    },
+    {
+      "generation": 2,
+      "direction": "2.00->0.40",
+      "requested_output": 288256,
+      "forbidden_fence": 312501,
+      "raw_boundaries": {
+        "published": 301056,
+        "prepared": 303104,
+        "fft": 310095,
+        "ola": 309248,
+        "fir": 309248,
+        "density_horizon": 312501
+      },
+      "incremental_budget_ms": {
+        "published": 266.6666666666667,
+        "prepared": 42.666666666666664,
+        "fft": 145.64583333333334,
+        "ola": 0.0,
+        "fir": 0.0,
+        "density_horizon": 50.125
+      },
+      "forbidden_prefix_ms": 505.1041666666667,
+      "fifo_at_plan_frames": 12800,
+      "fifo_at_plan_ms": 266.6666666666667,
+      "fence_to_apply_ms": 198.9375,
+      "ramp_output_ms": 487.6666666666667,
+      "protection_holds_ms": {
+        "defer_event_samples": 198.9375,
+        "defer_gap_samples": 0.0,
+        "ramp_event_samples": 270.2291666666667,
+        "ramp_gap_samples": 0.0
+      },
+      "held_frames": 24,
+      "safe_frames": 8,
+      "density_input": 399360,
+      "density_output": 322050,
+      "map_apply_to_density_ms": 0.0,
+      "note": "Boundary budgets use sequential max and overlap; they are not independent causal latencies. Ramp progress sums min(oldHop,targetHop)-1 in safe intervals, not a guaranteed 50ms audible ramp."
+    },
+    {
+      "generation": 3,
+      "direction": "0.40->1.00",
+      "requested_output": 672256,
+      "forbidden_fence": 698749,
+      "raw_boundaries": {
+        "published": 686080,
+        "prepared": 688128,
+        "fft": 694606,
+        "ola": 694272,
+        "fir": 695808,
+        "density_horizon": 698749
+      },
+      "incremental_budget_ms": {
+        "published": 288.0,
+        "prepared": 42.666666666666664,
+        "fft": 134.95833333333334,
+        "ola": 0.0,
+        "fir": 25.041666666666668,
+        "density_horizon": 61.270833333333336
+      },
+      "forbidden_prefix_ms": 551.9375,
+      "fifo_at_plan_frames": 13824,
+      "fifo_at_plan_ms": 288.0,
+      "fence_to_apply_ms": 959.7708333333334,
+      "ramp_output_ms": 138.29166666666666,
+      "protection_holds_ms": {
+        "defer_event_samples": 959.7708333333334,
+        "defer_gap_samples": 0.0,
+        "ramp_event_samples": 0.0,
+        "ramp_gap_samples": 0.0
+      },
+      "held_frames": 0,
+      "safe_frames": 4,
+      "density_input": 593920,
+      "density_output": 751456,
+      "map_apply_to_density_ms": 138.29166666666666,
+      "note": "Boundary budgets use sequential max and overlap; they are not independent causal latencies. Ramp progress sums min(oldHop,targetHop)-1 in safe intervals, not a guaranteed 50ms audible ramp."
+    },
+    {
+      "generation": 4,
+      "direction": "1.00->2.00",
+      "requested_output": 1056256,
+      "forbidden_fence": 1081184,
+      "raw_boundaries": {
+        "published": 1069056,
+        "prepared": 1071104,
+        "fft": 1078112,
+        "ola": 1077248,
+        "fir": 1077248,
+        "density_horizon": 1081184
+      },
+      "incremental_budget_ms": {
+        "published": 266.6666666666667,
+        "prepared": 42.666666666666664,
+        "fft": 146.0,
+        "ola": 0.0,
+        "fir": 0.0,
+        "density_horizon": 64.0
+      },
+      "forbidden_prefix_ms": 519.3333333333334,
+      "fifo_at_plan_frames": 12800,
+      "fifo_at_plan_ms": 266.6666666666667,
+      "fence_to_apply_ms": 106.66666666666667,
+      "ramp_output_ms": 320.1666666666667,
+      "protection_holds_ms": {
+        "defer_event_samples": 106.66666666666667,
+        "defer_gap_samples": 0.0,
+        "ramp_event_samples": 192.0,
+        "ramp_gap_samples": 0.0
+      },
+      "held_frames": 9,
+      "safe_frames": 9,
+      "density_input": 928768,
+      "density_output": 0,
+      "map_apply_to_density_ms": null,
+      "note": "Boundary budgets use sequential max and overlap; they are not independent causal latencies. Ramp progress sums min(oldHop,targetHop)-1 in safe intervals, not a guaranteed 50ms audible ramp."
+    }
+  ],
+  "controlled_pause": {
+    "INJECTION_VALIDITY": "PASS",
+    "requested_ms": 250.0,
+    "measured_ms": 250.035708,
+    "stock_frames": 14336,
+    "theoretical_stock_ms": 298.6666666666667,
+    "stock_measurement_bracket_us": 0.0,
+    "first_publication_after_end_ms": 9.678334,
+    "effective_supply_stop_ms": 259.714042,
+    "first_missing_callback_ms": null,
+    "first_missing_hal_ms": null,
+    "affected_missing_frames": 0,
+    "natural_missing_frames": 0,
+    "predicted_missing_before_next_publication_range": [
+      0,
+      0
+    ],
+    "observed_missing_before_next_publication": 0,
+    "demand_balance_matches": true,
+    "shortage_recovery_after_end_ms": null,
+    "full_stock_recovery_after_end_ms": 98.305584,
+    "waveform_eos_match": true,
+    "note": "Injected window extends through 1s after next publication. Outside shortages are counted separately. Callback/FIFO snapshot overlaps produce a bounded demand interval."
+  }
+}

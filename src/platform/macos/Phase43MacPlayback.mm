@@ -301,7 +301,11 @@ int main(int argc,char** argv) {
             ts::prototype::Phase39DensityDiagnostic::SafeGuarded,
             profileEnabled,{},0,0,profileEnabled ?
                 std::function<std::uint64_t()>([] { return outsideRenderNewCalls; }) :
-                std::function<std::uint64_t()>{});
+                std::function<std::uint64_t()>{}
+#ifdef PHASE50_RESEARCH
+                ,std::getenv("PHASE50_PRECISE_BOUNDARY")!=nullptr
+#endif
+                );
         const auto schedule=readSchedule(argc>=4 ? argv[3] : "-",pipeline.sampleRate());
         const auto changeCount=schedule.size();
         const auto analysisSeconds=std::chrono::duration<double>(
@@ -730,7 +734,7 @@ int main(int argc,char** argv) {
         if (const auto path=std::getenv("PHASE45_LIVE_PLAN_CSV")) {
             ts::prototype::Phase47EvidenceFile replayFile(path);
             auto& replay=replayFile.stream();
-            replay<<"generation,requested_output,requested_input,from,target,fence,prepared,published,applied_frame,applied_output,completion_output,density_input,map_bytes,plan_ms,fifo_at_plan,immutable_low,immutable_mid,immutable_high,density_horizon_low,density_horizon_mid,density_horizon_high,ola_low,ola_mid,ola_high,fir250_fence,fir3500_fence,first_mutable_frame,first_safe_frame,next_event_frame,protection_end_frame,ramp_end_frame,held_frames,safe_frames_used,density_output,defer_event_samples,defer_gap_samples,ramp_event_samples,ramp_gap_samples\n";
+            replay<<"generation,requested_output,requested_input,from,target,fence,prepared,published,applied_frame,applied_output,completion_output,density_input,map_bytes,plan_ms,fifo_at_plan,immutable_low,immutable_mid,immutable_high,density_horizon_low,density_horizon_mid,density_horizon_high,ola_low,ola_mid,ola_high,fir250_fence,fir3500_fence,first_mutable_frame,first_safe_frame,next_event_frame,protection_end_frame,ramp_end_frame,held_frames,safe_frames_used,density_output,defer_event_samples,defer_gap_samples,ramp_event_samples,ramp_gap_samples,phase50_precise_fence,phase50_legacy_fence,phase50_state_preserved,next_low_input,next_mid_input,next_high_input,last_low_input,last_mid_input,last_high_input\n";
             for (const auto& m:metrics) {
                 replay<<m.generation<<','<<m.requestedOutput<<','<<m.requestedInput<<','
                       <<m.from.value()<<','<<m.target.value()<<','<<m.planningFence<<','
@@ -744,6 +748,9 @@ int main(int argc,char** argv) {
                       <<','<<m.plan.firstMutableFrame<<','<<m.plan.firstSafeFrame<<','<<m.plan.nextEventFrame<<','<<m.plan.protectionEndFrame
                       <<','<<m.plan.rampEndFrame<<','<<m.plan.heldFrames<<','<<m.plan.safeFramesUsed<<','<<m.densityOutput;
                 for (auto v:m.heldOutputSamples) replay<<','<<v;
+                replay<<','<<m.phase50PreciseFence<<','<<m.phase50LegacyFence<<','<<m.phase50StatePreserved;
+                for (auto v:m.firstUnprocessedResolutionInputs) replay<<','<<v;
+                for (auto v:m.lastProcessedResolutionInputs) replay<<','<<v;
                 replay<<'\n';
             }
             replayFile.commit();

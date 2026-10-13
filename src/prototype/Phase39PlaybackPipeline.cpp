@@ -1,4 +1,5 @@
 #include "prototype/Phase39PlaybackPipeline.h"
+#include "prototype/Phase50Boundary.h"
 #include "prototype/Phase42DensityGuard.h"
 #include "prototype/Phase45PcmDigest.h"
 #include "audio/WavStream.h"
@@ -72,13 +73,14 @@ Phase39PlaybackPipeline::Phase39PlaybackPipeline(const std::filesystem::path& in
     Phase39Speed initial,std::size_t fifoFrames,std::size_t blockFrames,
     std::size_t leadFrames,Phase39Planning planning,Phase39DensityDiagnostic densityDiagnostic,
     bool enableProfile,std::filesystem::path componentCsv,std::size_t probeFirst,
-    std::size_t probeLast,std::function<std::uint64_t()> allocationCounter)
+    std::size_t probeLast,std::function<std::uint64_t()> allocationCounter,bool preciseBoundary)
     : file_(input),sampleRate_(WavStreamReader(input).sampleRate()),
       channels_(WavStreamReader(input).channels()),blockFrames_(blockFrames),
       leadFrames_(leadFrames ? leadFrames : fifoFrames),initial_(initial),planning_(planning),
       densityDiagnostic_(densityDiagnostic),enableProfile_(enableProfile),
       componentCsv_(std::move(componentCsv)),probeFirst_(probeFirst),probeLast_(probeLast),
       allocationCounter_(std::move(allocationCounter)),
+      phase50PreciseBoundary_(preciseBoundary),
       analysis_(Phase13StreamingEngine(frozen(input,{500000})).analyzeTransientEvents(input)),
       fifo_(channels_,fifoFrames) {
     if (blockFrames<1024 || blockFrames>65536 || blockFrames>fifoFrames ||
@@ -308,6 +310,12 @@ void Phase39PlaybackPipeline::start() {
                 // is observed. No DSP/history is reset and the consumer runs.
                 if (controlledMs>0 && !stallObservation_.triggered &&
                     produced_.load(std::memory_order_acquire)>=controlledOutput) {
+                    // Research-only stock control: drain to the requested
+                    // starting stock before the timed pause. This preparatory
+                    // supply gap is separately visible in publication times.
+                    if (std::getenv("PHASE50_STALL_DRAIN"))
+                        while (!stop_.load(std::memory_order_acquire) && fifo_.available()>controlledGoal)
+                            std::this_thread::sleep_for(std::chrono::microseconds(50));
                     const auto sampledAt=machNs();const auto stock=fifo_.available();
                     if (stock==controlledGoal) {
                         auto& o=stallObservation_;o.triggered=true;o.startMachNs=sampledAt;
@@ -376,6 +384,9 @@ void Phase39PlaybackPipeline::start() {
                 // blocks and the zero-phase contribution before the change.
                 for (const auto sourcePosition:frontier.firstUnprocessedFirSource)
                     fence=std::max(fence,sourcePosition+4096);
+                const auto boundaryAudit=phase50Boundary(frontier,map,published);
+                if (boundaryAudit.legacy!=fence) throw std::logic_error("Legacy boundary audit differs");
+                if (phase50PreciseBoundary_) fence=boundaryAudit.precise;
                 planningFence_.store(fence,std::memory_order_relaxed);
                 const auto requestInput=inverseInput(map,asked);
                 requestedInput_.store(requestInput,std::memory_order_relaxed);
@@ -399,6 +410,11 @@ void Phase39PlaybackPipeline::start() {
                     return;
                 }
                 if (!candidate.monotonic() || candidate.touchesProtected(proposal)) {
+                    reject(Phase39Outcome::NoSafeInterval);
+                    return;
+                }
+                const bool statePreserved=phase50PreservesState(frontier,map,candidate.current());
+                if (phase50PreciseBoundary_ && !statePreserved) {
                     reject(Phase39Outcome::NoSafeInterval);
                     return;
                 }
@@ -475,7 +491,8 @@ void Phase39PlaybackPipeline::start() {
                       densityDecision.maximumLocalSpeed,
                       densityDecision.candidatesTried,timeline.fixedMapBytes(),milliseconds,
                       immutableOutputs,densityOutputs,fifoAtPlan_.load(),
-                      changesDensity ? std::size_t(std::llround(map.outputPositionForInputSample(double(modeInput)))) : 0,holds});
+                      changesDensity ? std::size_t(std::llround(map.outputPositionForInputSample(double(modeInput)))) : 0,holds,
+                      boundaryAudit.precise,boundaryAudit.legacy,statePreserved});
                   lock.unlock();
                   planMutexHold+=std::chrono::duration<double>(Clock::now()-lockBegin).count()-
                       lockWait; }

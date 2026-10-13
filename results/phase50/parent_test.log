@@ -1,0 +1,31 @@
+CONDITION_BEGIN drums5_stress
+CONDITION_END {'condition': 'drums5_stress', 'process_exit': 0, 'quality': 'PASS', 'structural_errors': [], 'EXPERIMENT_EXECUTION': 'COMPLETE'}
+CONDITION_BEGIN drums10_stress
+CONDITION_END {'condition': 'drums10_stress', 'process_exit': 0, 'quality': 'PASS', 'structural_errors': [], 'EXPERIMENT_EXECUTION': 'COMPLETE'}
+CONDITION_BEGIN mix5_stress
+CONDITION_END {'condition': 'mix5_stress', 'process_exit': 0, 'quality': 'PASS', 'structural_errors': [], 'EXPERIMENT_EXECUTION': 'COMPLETE'}
+CONDITION_BEGIN drums5_stress
+CONDITION_END {'condition': 'drums5_stress', 'process_exit': 0, 'quality': 'PASS', 'structural_errors': [], 'EXPERIMENT_EXECUTION': 'COMPLETE'}
+CONDITION_BEGIN drums10_stress
+CONDITION_END {'condition': 'drums10_stress', 'process_exit': 2, 'quality': 'FAIL', 'structural_errors': [], 'EXPERIMENT_EXECUTION': 'COMPLETE'}
+CONDITION_BEGIN mix5_stress
+CONDITION_END {'condition': 'mix5_stress', 'process_exit': 0, 'quality': 'PASS', 'structural_errors': [], 'EXPERIMENT_EXECUTION': 'COMPLETE'}
+CONDITION_BEGIN drums5_stress
+CONDITION_END {'condition': 'drums5_stress', 'process_exit': 2, 'quality': 'FAIL', 'structural_errors': [], 'EXPERIMENT_EXECUTION': 'COMPLETE'}
+CONDITION_BEGIN drums10_stress
+CONDITION_END {'condition': 'drums10_stress', 'process_exit': 2, 'quality': 'FAIL', 'structural_errors': [], 'EXPERIMENT_EXECUTION': 'COMPLETE'}
+CONDITION_BEGIN mix5_stress
+CONDITION_END {'condition': 'mix5_stress', 'process_exit': 2, 'quality': 'FAIL', 'structural_errors': [], 'EXPERIMENT_EXECUTION': 'COMPLETE'}
+CONDITION_BEGIN drums5_stress
+CONDITION_END {'condition': 'drums5_stress', 'process_exit': 2, 'quality': 'INDETERMINATE', 'structural_errors': [], 'EXPERIMENT_EXECUTION': 'COMPLETE'}
+CONDITION_BEGIN drums10_stress
+CONDITION_END {'condition': 'drums10_stress', 'process_exit': 2, 'quality': 'INDETERMINATE', 'structural_errors': [], 'EXPERIMENT_EXECUTION': 'COMPLETE'}
+CONDITION_BEGIN mix5_stress
+CONDITION_END {'condition': 'mix5_stress', 'process_exit': 2, 'quality': 'INDETERMINATE', 'structural_errors': [], 'EXPERIMENT_EXECUTION': 'COMPLETE'}
+CONDITION_BEGIN drums5_stress
+CONDITION_END {'condition': 'drums5_stress', 'process_exit': -9, 'quality': 'INDETERMINATE', 'structural_errors': ['child_exit:-9', 'child_exit_disagrees_with_quality'], 'EXPERIMENT_EXECUTION': 'ERROR'}
+CONDITION_BEGIN drums5_stress
+CONDITION_END {'condition': 'drums5_stress', 'process_exit': 0, 'quality': 'INDETERMINATE', 'structural_errors': ["evidence_error:FileNotFoundError:[Errno 2] No such file or directory: '/var/folders/ft/xsqp1bg15lvcr2m90ynsllmr0000gn/T/tmpkpsx13v2/5/drums5_stress/comparison_summary.json'"], 'EXPERIMENT_EXECUTION': 'ERROR'}
+CONDITION_BEGIN drums5_stress
+CONDITION_END {'condition': 'drums5_stress', 'process_exit': 0, 'quality': 'INDETERMINATE', 'structural_errors': ['missing_csv:0'], 'EXPERIMENT_EXECUTION': 'ERROR'}
+Parent failure propagation / incomplete evidence injection PASS (not audio PASS)

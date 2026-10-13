@@ -1,0 +1,188 @@
+{
+  "matrix": [
+    {
+      "label": "A",
+      "lead": 12288,
+      "stock": 12288,
+      "dose": 200,
+      "callback": 512,
+      "stress": false,
+      "at": 216000,
+      "drain": false
+    },
+    {
+      "label": "B",
+      "lead": 14336,
+      "stock": 14336,
+      "dose": 200,
+      "callback": 512,
+      "stress": false,
+      "at": 216000,
+      "drain": false
+    },
+    {
+      "label": "C",
+      "lead": 16384,
+      "stock": 16384,
+      "dose": 200,
+      "callback": 512,
+      "stress": false,
+      "at": 216000,
+      "drain": false
+    },
+    {
+      "label": "A",
+      "lead": 12288,
+      "stock": 12288,
+      "dose": 250,
+      "callback": 512,
+      "stress": false,
+      "at": 216000,
+      "drain": false
+    },
+    {
+      "label": "B",
+      "lead": 14336,
+      "stock": 14336,
+      "dose": 250,
+      "callback": 512,
+      "stress": false,
+      "at": 216000,
+      "drain": false
+    },
+    {
+      "label": "C",
+      "lead": 16384,
+      "stock": 16384,
+      "dose": 250,
+      "callback": 512,
+      "stress": false,
+      "at": 216000,
+      "drain": false
+    },
+    {
+      "label": "A",
+      "lead": 12288,
+      "stock": 12288,
+      "dose": 300,
+      "callback": 512,
+      "stress": false,
+      "at": 216000,
+      "drain": false
+    },
+    {
+      "label": "B",
+      "lead": 14336,
+      "stock": 14336,
+      "dose": 300,
+      "callback": 512,
+      "stress": false,
+      "at": 216000,
+      "drain": false
+    },
+    {
+      "label": "C",
+      "lead": 16384,
+      "stock": 16384,
+      "dose": 300,
+      "callback": 512,
+      "stress": false,
+      "at": 216000,
+      "drain": false
+    },
+    {
+      "label": "A",
+      "lead": 12288,
+      "stock": 12288,
+      "dose": 350,
+      "callback": 512,
+      "stress": false,
+      "at": 216000,
+      "drain": false
+    },
+    {
+      "label": "B",
+      "lead": 14336,
+      "stock": 14336,
+      "dose": 350,
+      "callback": 512,
+      "stress": false,
+      "at": 216000,
+      "drain": false
+    },
+    {
+      "label": "C",
+      "lead": 16384,
+      "stock": 16384,
+      "dose": 350,
+      "callback": 512,
+      "stress": false,
+      "at": 216000,
+      "drain": false
+    },
+    {
+      "label": "C",
+      "lead": 16384,
+      "stock": 16384,
+      "dose": 300,
+      "callback": 64,
+      "stress": true,
+      "at": 648000,
+      "drain": false
+    },
+    {
+      "label": "C",
+      "lead": 16384,
+      "stock": 16384,
+      "dose": 300,
+      "callback": 128,
+      "stress": true,
+      "at": 648000,
+      "drain": false
+    },
+    {
+      "label": "C",
+      "lead": 16384,
+      "stock": 16384,
+      "dose": 300,
+      "callback": 256,
+      "stress": true,
+      "at": 648000,
+      "drain": false
+    },
+    {
+      "label": "C",
+      "lead": 16384,
+      "stock": 16384,
+      "dose": 300,
+      "callback": 1024,
+      "stress": true,
+      "at": 648000,
+      "drain": false
+    },
+    {
+      "label": "A",
+      "lead": 12288,
+      "stock": 8192,
+      "dose": 250,
+      "callback": 512,
+      "stress": true,
+      "at": 300000,
+      "drain": true
+    },
+    {
+      "label": "C",
+      "lead": 16384,
+      "stock": 12288,
+      "dose": 300,
+      "callback": 512,
+      "stress": true,
+      "at": 300000,
+      "drain": true
+    }
+  ],
+  "original_buffer": 512,
+  "input_sha256": "9027c47a106c2d64c13f9405284357a25819210595f1cfa789b1a7423380e786",
+  "native_sha256": "feb33cbcd3eb5416af4717ad3ab7616cec02cfdeab92f264fcaa75ed4e30632c",
+  "note": "A/B/C labels denote lead only; inherited QoS/block2048/FIFO16384 are unchanged. Two preparatory-drain trials have extra supply gaps and are identified separately."
+}

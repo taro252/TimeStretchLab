@@ -97,7 +97,11 @@ int main(int argc,char** argv) {
             argc==14 ? std::filesystem::path(argv[11]) : std::filesystem::path{},
             argc==14 ? std::stoull(argv[12]) : 0,
             argc==14 ? std::stoull(argv[13]) : 0,
-            std::move(allocationCounter));
+            std::move(allocationCounter)
+#ifdef PHASE50_RESEARCH
+            ,std::getenv("PHASE50_PRECISE_BOUNDARY")!=nullptr
+#endif
+            );
         pipeline.start();
         if (!pipeline.waitForPrefill(std::min<std::size_t>(8192,
             static_cast<std::size_t>(std::llround(reader.frames()*initial.timeRatio()))),
@@ -229,7 +233,7 @@ int main(int argc,char** argv) {
                    "density_weight_mid,density_weight_high,hop_step_low,hop_step_mid,"
                    "hop_step_high,local_speed_low_min,local_speed_mid_min,"
                    "local_speed_high_min,local_speed_low_max,local_speed_mid_max,"
-                   "local_speed_high_max\n";
+                   "local_speed_high_max,phase50_precise_fence,phase50_legacy_fence,state_preserved\n";
             for (const auto& metric:pipeline.planMetrics())
                 csv<<metric.generation<<','<<metric.requestedOutput<<','
                    <<metric.requestedInput<<','<<metric.from.value()<<','
@@ -266,7 +270,8 @@ int main(int argc,char** argv) {
                    <<metric.densityMinimumLocalSpeed[2]<<','
                    <<metric.densityMaximumLocalSpeed[0]<<','
                    <<metric.densityMaximumLocalSpeed[1]<<','
-                   <<metric.densityMaximumLocalSpeed[2]<<'\n';
+                   <<metric.densityMaximumLocalSpeed[2]<<','<<metric.phase50PreciseFence<<','
+                   <<metric.phase50LegacyFence<<','<<metric.phase50StatePreserved<<'\n';
         }
         std::cout<<"frames="<<presented<<"\nchanges="<<next
                  <<"\nallocation_counter_enabled="<<allocationCounterEnabled
