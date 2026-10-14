@@ -120,3 +120,5 @@ python3 -B scripts/phase53_validate.py review
 `review` は旧証拠の不合格を保持するため終了コード2になる。新規の再検証保存先を作り、過去結果を上書きしない。`golden` は既存の再生成ディレクトリへ上書きせず拒否する。通常/補正用スクリプトのキャプチャ工程と完全品質判定を分離している。
 
 `build_manifest.json` に最終ソース/バイナリSHA、ビルド設定、結果、完成refを保存する。完成コミットは `git rev-parse phase53-handoff^{commit}` で取得する。READMEと引き継ぎ仕様にsubmodule固定手順を記載した。
+
+捕捉したコンソールログ2本には出力由来の行末スペースがあるため、元バイトを保持したまま `.gitattributes` でこの2ファイルだけ行末スペースの書式判定から除外した。ソース・Markdown・CSVの検査は維持する。
