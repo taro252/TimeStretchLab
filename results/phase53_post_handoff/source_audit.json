@@ -1,0 +1,909 @@
+{
+  "baseline": "233c773bbc77e5824c36134915f68d6d3a0d581e",
+  "protected_source_count": 222,
+  "protected_sources": [
+    {
+      "path": "src/audio/WavFile.h",
+      "match": true
+    },
+    {
+      "path": "src/audio/WavReader.cpp",
+      "match": true
+    },
+    {
+      "path": "src/audio/WavReader.h",
+      "match": true
+    },
+    {
+      "path": "src/audio/WavStream.cpp",
+      "match": true
+    },
+    {
+      "path": "src/audio/WavStream.h",
+      "match": true
+    },
+    {
+      "path": "src/audio/WavWriter.cpp",
+      "match": true
+    },
+    {
+      "path": "src/audio/WavWriter.h",
+      "match": true
+    },
+    {
+      "path": "src/bass_pitch_metrics.cpp",
+      "match": true
+    },
+    {
+      "path": "src/dsp/ChunkedTimeStretchEngine.cpp",
+      "match": true
+    },
+    {
+      "path": "src/dsp/ChunkedTimeStretchEngine.h",
+      "match": true
+    },
+    {
+      "path": "src/dsp/FFTAccelerate.cpp",
+      "match": true
+    },
+    {
+      "path": "src/dsp/FFTAccelerate.h",
+      "match": true
+    },
+    {
+      "path": "src/dsp/MultiResolutionCrossover.cpp",
+      "match": true
+    },
+    {
+      "path": "src/dsp/MultiResolutionCrossover.h",
+      "match": true
+    },
+    {
+      "path": "src/dsp/OverlapAdd.cpp",
+      "match": true
+    },
+    {
+      "path": "src/dsp/OverlapAdd.h",
+      "match": true
+    },
+    {
+      "path": "src/dsp/PartialTracker.cpp",
+      "match": true
+    },
+    {
+      "path": "src/dsp/PartialTracker.h",
+      "match": true
+    },
+    {
+      "path": "src/dsp/PeriodicResynchronizer.cpp",
+      "match": true
+    },
+    {
+      "path": "src/dsp/PeriodicResynchronizer.h",
+      "match": true
+    },
+    {
+      "path": "src/dsp/Phase13StreamingEngine.cpp",
+      "match": true
+    },
+    {
+      "path": "src/dsp/Phase13StreamingEngine.h",
+      "match": true
+    },
+    {
+      "path": "src/dsp/Phase14PlaybackPipeline.cpp",
+      "match": true
+    },
+    {
+      "path": "src/dsp/Phase14PlaybackPipeline.h",
+      "match": true
+    },
+    {
+      "path": "src/dsp/Phase18PcmCache.cpp",
+      "match": true
+    },
+    {
+      "path": "src/dsp/Phase18PcmCache.h",
+      "match": true
+    },
+    {
+      "path": "src/dsp/Phase18SeekQueue.h",
+      "match": true
+    },
+    {
+      "path": "src/dsp/PhaseLocker.cpp",
+      "match": true
+    },
+    {
+      "path": "src/dsp/PhaseLocker.h",
+      "match": true
+    },
+    {
+      "path": "src/dsp/PhaseVocoder.cpp",
+      "match": true
+    },
+    {
+      "path": "src/dsp/PhaseVocoder.h",
+      "match": true
+    },
+    {
+      "path": "src/dsp/RingOverlapAdd.cpp",
+      "match": true
+    },
+    {
+      "path": "src/dsp/RingOverlapAdd.h",
+      "match": true
+    },
+    {
+      "path": "src/dsp/STFT.cpp",
+      "match": true
+    },
+    {
+      "path": "src/dsp/STFT.h",
+      "match": true
+    },
+    {
+      "path": "src/dsp/SinusoidalResidualEngine.cpp",
+      "match": true
+    },
+    {
+      "path": "src/dsp/SinusoidalResidualEngine.h",
+      "match": true
+    },
+    {
+      "path": "src/dsp/StereoPhaseCoherence.cpp",
+      "match": true
+    },
+    {
+      "path": "src/dsp/StereoPhaseCoherence.h",
+      "match": true
+    },
+    {
+      "path": "src/dsp/StreamingCrossover.cpp",
+      "match": true
+    },
+    {
+      "path": "src/dsp/StreamingCrossover.h",
+      "match": true
+    },
+    {
+      "path": "src/dsp/TimeMap.cpp",
+      "match": true
+    },
+    {
+      "path": "src/dsp/TimeMap.h",
+      "match": true
+    },
+    {
+      "path": "src/dsp/TimeStretchEngine.cpp",
+      "match": true
+    },
+    {
+      "path": "src/dsp/TimeStretchEngine.h",
+      "match": true
+    },
+    {
+      "path": "src/dsp/TimeStretchProcessor.cpp",
+      "match": true
+    },
+    {
+      "path": "src/dsp/TimeStretchProcessor.h",
+      "match": true
+    },
+    {
+      "path": "src/dsp/TonalResidualEngine.cpp",
+      "match": true
+    },
+    {
+      "path": "src/dsp/TonalResidualEngine.h",
+      "match": true
+    },
+    {
+      "path": "src/dsp/TransientAnchor.cpp",
+      "match": true
+    },
+    {
+      "path": "src/dsp/TransientAnchor.h",
+      "match": true
+    },
+    {
+      "path": "src/dsp/TransientDetector.cpp",
+      "match": true
+    },
+    {
+      "path": "src/dsp/TransientDetector.h",
+      "match": true
+    },
+    {
+      "path": "src/dsp/TransientEventMap.cpp",
+      "match": true
+    },
+    {
+      "path": "src/dsp/TransientEventMap.h",
+      "match": true
+    },
+    {
+      "path": "src/dsp/WSOLAEngine.cpp",
+      "match": true
+    },
+    {
+      "path": "src/dsp/WSOLAEngine.h",
+      "match": true
+    },
+    {
+      "path": "src/main.cpp",
+      "match": true
+    },
+    {
+      "path": "src/phase101_offline_events.cpp",
+      "match": true
+    },
+    {
+      "path": "src/phase13_main.cpp",
+      "match": true
+    },
+    {
+      "path": "src/phase14_main.cpp",
+      "match": true
+    },
+    {
+      "path": "src/phase17_cache_prefill_study.cpp",
+      "match": true
+    },
+    {
+      "path": "src/phase17_seek_study.cpp",
+      "match": true
+    },
+    {
+      "path": "src/phase23_main.cpp",
+      "match": true
+    },
+    {
+      "path": "src/phase24_sim_main.cpp",
+      "match": true
+    },
+    {
+      "path": "src/phase29_main.cpp",
+      "match": true
+    },
+    {
+      "path": "src/platform/macos/MacPlaybackEngine.h",
+      "match": true
+    },
+    {
+      "path": "src/platform/macos/MacPlaybackEngine.mm",
+      "match": true
+    },
+    {
+      "path": "src/platform/macos/Phase15MacPlayback.mm",
+      "match": true
+    },
+    {
+      "path": "src/platform/macos/Phase24MacPlayback.mm",
+      "match": true
+    },
+    {
+      "path": "src/platform/macos/Phase26MacPlayback.mm",
+      "match": true
+    },
+    {
+      "path": "src/platform/macos/Phase27MacPlayback.mm",
+      "match": true
+    },
+    {
+      "path": "src/platform/macos/Phase30MacPlayback.mm",
+      "match": true
+    },
+    {
+      "path": "src/platform/macos/Phase36MacPlayback.mm",
+      "match": true
+    },
+    {
+      "path": "src/platform/macos/Phase43MacPlayback.mm",
+      "match": true
+    },
+    {
+      "path": "src/playback/PlaybackDemo.cpp",
+      "match": true
+    },
+    {
+      "path": "src/playback/PlaybackEngine.cpp",
+      "match": true
+    },
+    {
+      "path": "src/playback/PlaybackEngine.h",
+      "match": true
+    },
+    {
+      "path": "src/playback/PlaybackReference.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase22BResponsiveMap.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase22BResponsiveMap.h",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase22VariableTimeMap.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase22VariableTimeMap.h",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase23VariableSpeedEngine.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase23VariableSpeedEngine.h",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase24PlaybackPipeline.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase24PlaybackPipeline.h",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase24StreamingSpeedEngine.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase24StreamingSpeedEngine.h",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase26BidirectionalTimeMap.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase26BidirectionalTimeMap.h",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase26PlaybackPipeline.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase26PlaybackPipeline.h",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase28ArbitraryTimeMap.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase28ArbitraryTimeMap.h",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase30PlaybackPipeline.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase30PlaybackPipeline.h",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase31Feasibility.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase31Render.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase31ResearchEngine.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase31ResearchEngine.h",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase32Render.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase32ResearchEngine.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase32ResearchEngine.h",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase33Crossover.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase33TraceEngine.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase33TraceEngine.h",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase33TraceRender.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase35DensityControl.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase35PhaseVocoder.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase35PhaseVocoder.h",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase35Render.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase35StereoPhaseCoherence.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase35StereoPhaseCoherence.h",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase35TimeMap.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase35TimeMap.h",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase35TransitionEngine.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase35TransitionEngine.h",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase36PlaybackPipeline.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase36PlaybackPipeline.h",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase36Reference.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase36Sim.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase36StreamingSpeedEngine.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase36StreamingSpeedEngine.h",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase37HighSpeedMap.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase37HighSpeedMap.h",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase37Render.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase37SynthesisEngine.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase37SynthesisEngine.h",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase38EventDump.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase39PacedSim.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase39PlaybackPipeline.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase39PlaybackPipeline.h",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase39Probe.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase39Reference.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase39Sim.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase39TimeMap.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase39TimeMap.h",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase40PacedSim.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase41MapTrace.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase42DensityGuard.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase42DensityGuard.h",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase45CallbackClock.h",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase45DeviceRate.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase45PcmDigest.h",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase45PcmHash.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase46HostClock.h",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase46Statistics.h",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase47EvidenceFile.h",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase48ReplayBlocks.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase50Boundary.h",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase50DeviceBuffer.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase51BusyStudy.cpp",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase51CommandControl.h",
+      "match": true
+    },
+    {
+      "path": "src/prototype/Phase51Counterfactual.cpp",
+      "match": true
+    },
+    {
+      "path": "src/realtime_main.cpp",
+      "match": true
+    },
+    {
+      "path": "src/sinusoidal_residual_main.cpp",
+      "match": true
+    },
+    {
+      "path": "src/stereo_spectral_metrics.cpp",
+      "match": true
+    },
+    {
+      "path": "src/tonal_residual_main.cpp",
+      "match": true
+    },
+    {
+      "path": "src/wav_compare.cpp",
+      "match": true
+    },
+    {
+      "path": "src/wav_metrics.cpp",
+      "match": true
+    },
+    {
+      "path": "src/wsola_main.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase10Tests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase13Tests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase14Tests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase16Tests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase18Tests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase19Tests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase1Tests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase1Validation.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase20ArchitectureStudy.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase21Tests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase22BStudy.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase22TimeMapStudy.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase23Audition.py",
+      "match": true
+    },
+    {
+      "path": "tests/Phase23Metrics.py",
+      "match": true
+    },
+    {
+      "path": "tests/Phase23Smoke.py",
+      "match": true
+    },
+    {
+      "path": "tests/Phase23Study.py",
+      "match": true
+    },
+    {
+      "path": "tests/Phase24LongInput.py",
+      "match": true
+    },
+    {
+      "path": "tests/Phase24Tests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase25RealtimeStudy.py",
+      "match": true
+    },
+    {
+      "path": "tests/Phase26PlaybackTests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase26RealtimeStudy.py",
+      "match": true
+    },
+    {
+      "path": "tests/Phase26TimeMapTests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase27RepeatedTests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase28MapStudy.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase29Smoke.py",
+      "match": true
+    },
+    {
+      "path": "tests/Phase2Tests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase30PlaybackTests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase30Smoke.py",
+      "match": true
+    },
+    {
+      "path": "tests/Phase31Smoke.py",
+      "match": true
+    },
+    {
+      "path": "tests/Phase32Smoke.py",
+      "match": true
+    },
+    {
+      "path": "tests/Phase33Smoke.py",
+      "match": true
+    },
+    {
+      "path": "tests/Phase35Tests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase35TransitionSmoke.py",
+      "match": true
+    },
+    {
+      "path": "tests/Phase36ApiTests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase36Smoke.py",
+      "match": true
+    },
+    {
+      "path": "tests/Phase36Tests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase37Smoke.py",
+      "match": true
+    },
+    {
+      "path": "tests/Phase37Tests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase38Smoke.py",
+      "match": true
+    },
+    {
+      "path": "tests/Phase39Smoke.py",
+      "match": true
+    },
+    {
+      "path": "tests/Phase3Tests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase40Smoke.py",
+      "match": true
+    },
+    {
+      "path": "tests/Phase45CallbackClockTests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase46HostClockTests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase47EvidenceFileTests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase49StallTests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase4Tests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase50BoundaryTests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase51CommandTests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase51Tests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase52Tests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase53CallbackExportTests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase53Tests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase5Tests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase6Tests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase7Tests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase8ATests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase9ATests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/Phase9CTests.cpp",
+      "match": true
+    },
+    {
+      "path": "tests/PlaybackEngineTests.cpp",
+      "match": true
+    }
+  ],
+  "tracked_changes": [
+    "CMakeLists.txt",
+    "scripts/phase52_recheck_controls.py",
+    "scripts/phase53_sessions.py"
+  ],
+  "tracked_scope_PASS": true,
+  "realtime_criteria_unchanged": true,
+  "source_sha256": {
+    "CMakeLists.txt": "dfc64b4195899192b71f0804aaaf3e9711683165fb7131fd111454217c3a5b86",
+    "scripts/phase52_recheck_controls.py": "0cc6a626f8cdc867061249ce223e0ba5899015373e2ec9252aa0a75fb13bff58",
+    "scripts/phase53_sessions.py": "fd840d02f88965e1b477d0db35f4e6dbb3e2e9ef02fb86748883189dd7c67660",
+    "scripts/phase53_post_handoff_test.py": "5f0c800658bb36af60866d85af03ce17b3329ff96347d610f02951d0d9383696",
+    "scripts/phase53_post_handoff_review.py": "f5bea6a52226fe855820051b3ca95b7a9754ff5d287fb519ca6f6de4bed31cbd"
+  },
+  "PASS": true
+}

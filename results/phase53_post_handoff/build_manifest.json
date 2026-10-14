@@ -1,0 +1,38 @@
+{
+  "baseline": "233c773bbc77e5824c36134915f68d6d3a0d581e",
+  "handoff_tag_commit": "233c773bbc77e5824c36134915f68d6d3a0d581e",
+  "completion_commit": "Commit containing this manifest; resolve with git log -- scripts/phase53_post_handoff_test.py",
+  "build_settings": {
+    "CMAKE_BUILD_TYPE": "Release",
+    "CMAKE_OSX_ARCHITECTURES": "arm64",
+    "TIMESTRETCH_ENABLE_REALTIME_TESTS": "OFF"
+  },
+  "source_sha256": {
+    "CMakeLists.txt": "dfc64b4195899192b71f0804aaaf3e9711683165fb7131fd111454217c3a5b86",
+    "scripts/phase52_recheck_controls.py": "0cc6a626f8cdc867061249ce223e0ba5899015373e2ec9252aa0a75fb13bff58",
+    "scripts/phase53_sessions.py": "fd840d02f88965e1b477d0db35f4e6dbb3e2e9ef02fb86748883189dd7c67660",
+    "scripts/phase53_post_handoff_test.py": "5f0c800658bb36af60866d85af03ce17b3329ff96347d610f02951d0d9383696",
+    "scripts/phase53_post_handoff_review.py": "f5bea6a52226fe855820051b3ca95b7a9754ff5d287fb519ca6f6de4bed31cbd"
+  },
+  "protected_cpp_source_count": 222,
+  "deterministic": {
+    "passed": 73,
+    "total": 73,
+    "wall_seconds": 344.56,
+    "exit_code": 0
+  },
+  "realtime": {
+    "passed": 2,
+    "total": 2,
+    "wall_seconds": 58.38,
+    "exit_code": 0,
+    "criteria_changed": false
+  },
+  "fault_injection": {
+    "test_methods": 20,
+    "passed": 20
+  },
+  "assets_review": "completion_revalidation/protected_assets.json",
+  "native_review": "completion_revalidation/saved_native_review.json",
+  "new_native_playback": false
+}
