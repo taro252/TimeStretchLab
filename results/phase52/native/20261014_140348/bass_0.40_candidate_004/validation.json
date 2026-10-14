@@ -1,0 +1,124 @@
+{
+  "case": "results/phase52/native/20261014_140348/bass_0.40_candidate_004",
+  "source": "bass",
+  "input_sha256": "37e6aec488ae3a838f67fc7cf8867588e2ca15cecc4dee0facd401a44890d3eb",
+  "seconds": 10,
+  "preset": "candidate",
+  "initial": "0.40000000000000002",
+  "stress": false,
+  "exit": 0,
+  "actions": [
+    [
+      1,
+      "speed",
+      2
+    ],
+    [
+      3,
+      "speed",
+      0.4
+    ],
+    [
+      5,
+      "pause",
+      0
+    ],
+    [
+      5.25,
+      "resume",
+      0
+    ]
+  ],
+  "intentional_stall": null,
+  "offline": "0",
+  "state": "Ended",
+  "reason": "EOS",
+  "AUDIO_QUALITY": "PASS",
+  "MEASUREMENT_QUALITY": "PASS",
+  "eos": "1",
+  "route_stopped": "0",
+  "output_frames": "832496",
+  "produced_frames": "832496",
+  "sample_rate": "48000",
+  "callback_calls": "1631",
+  "consumed_frames": "832496",
+  "presented_frames": "832496",
+  "missing_frames": "0",
+  "underrun_calls": "0",
+  "max_continuous_missing": "0",
+  "rejected_writes": "0",
+  "callback_allocations_measured": "1",
+  "callback_cpp_allocations": "0",
+  "callback_max_ns": "12459",
+  "callback_overruns": "0",
+  "host_missing": "0",
+  "host_backwards": "0",
+  "host_cadence_errors": "0",
+  "sample_errors": "0",
+  "hal_window_misses": "0",
+  "records_dropped": "0",
+  "device": "72",
+  "device_rate": "48000",
+  "device_buffer": "512",
+  "device_latency_ms": "1.375",
+  "bridge_steady_ns": "79372546401145",
+  "bridge_mach_ns": "59566483423458",
+  "bridge_uncertainty_ns": "41",
+  "source_latency_ms": "1.375",
+  "worker_max_wall_s": "0.020581708000000001",
+  "worker_max_cpu_s": "0.020581167000000011",
+  "prepare_s": "0.136019167",
+  "playback_wall_s": "17.641607916000002",
+  "cpu_seconds": "2.6551619999999998",
+  "max_rss": "58703872",
+  "raw_pcm_sha256": "f83e2e98317f0d5c92839c6a64360266a3ff0fc316d6b500c0ef9364306f90cf",
+  "VERDICT": "PASS",
+  "errors": [],
+  "PCM_CORRECTNESS": "PASS",
+  "reference_sha256": "aaab8efa2f2292aa0b10c2fb325540b027a47c82a21bad3879a26a72cf3c5c27",
+  "callback_rows": 1631,
+  "CSV_INTEGRITY": "PASS",
+  "fifo_minimum": 496,
+  "operations": [
+    {
+      "id": "1",
+      "session": "1",
+      "generation": "1",
+      "observed_ns": "79373633294583",
+      "sent_ns": "79373633323791",
+      "completed_ns": "79374240678875",
+      "target": "2",
+      "status": "Completed",
+      "apply_output": "74004",
+      "complete_output": "76918"
+    },
+    {
+      "id": "2",
+      "session": "1",
+      "generation": "2",
+      "observed_ns": "79375632306541",
+      "sent_ns": "79375632950166",
+      "completed_ns": "79376224318958",
+      "target": "0.40000000000000002",
+      "status": "Completed",
+      "apply_output": "169078",
+      "complete_output": "172393"
+    }
+  ],
+  "hal_operation_delays": [
+    {
+      "target": "2",
+      "scheduled_observation_ns": 59567570316896,
+      "sent_ns": 79373633323791,
+      "apply_hal_ms": 561.367187,
+      "completion_hal_ms": 622.0733123359375
+    },
+    {
+      "target": "0.40000000000000002",
+      "scheduled_observation_ns": 59569569328854,
+      "sent_ns": 79375632950166,
+      "apply_hal_ms": 542.9918123359375,
+      "completion_hal_ms": 612.0520623359375
+    }
+  ]
+}

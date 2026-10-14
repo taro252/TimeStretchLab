@@ -1,0 +1,121 @@
+{
+  "case": "results/phase52/native/20261014_135001/bass_2.00_candidate_013",
+  "source": "bass",
+  "input_sha256": "37e6aec488ae3a838f67fc7cf8867588e2ca15cecc4dee0facd401a44890d3eb",
+  "seconds": 10,
+  "preset": "candidate",
+  "initial": "2",
+  "stress": false,
+  "exit": 0,
+  "actions": [
+    [
+      0.5,
+      "speed",
+      0.4
+    ],
+    [
+      0.6,
+      "speed",
+      1
+    ],
+    [
+      0.7,
+      "speed",
+      0.4
+    ]
+  ],
+  "intentional_stall": null,
+  "offline": "0",
+  "state": "Ended",
+  "reason": "EOS",
+  "AUDIO_QUALITY": "PASS",
+  "MEASUREMENT_QUALITY": "PASS",
+  "eos": "1",
+  "route_stopped": "0",
+  "output_frames": "960890",
+  "produced_frames": "960890",
+  "sample_rate": "48000",
+  "callback_calls": "1877",
+  "consumed_frames": "960890",
+  "presented_frames": "960890",
+  "missing_frames": "0",
+  "underrun_calls": "0",
+  "max_continuous_missing": "0",
+  "rejected_writes": "0",
+  "callback_allocations_measured": "1",
+  "callback_cpp_allocations": "0",
+  "callback_max_ns": "11750",
+  "callback_overruns": "0",
+  "host_missing": "0",
+  "host_backwards": "0",
+  "host_cadence_errors": "0",
+  "sample_errors": "0",
+  "hal_window_misses": "0",
+  "records_dropped": "0",
+  "device": "72",
+  "device_rate": "48000",
+  "device_buffer": "512",
+  "device_latency_ms": "1.375",
+  "source_latency_ms": "1.375",
+  "worker_max_wall_s": "0.030945250000000001",
+  "worker_max_cpu_s": "0.030715834000000001",
+  "prepare_s": "0.120014042",
+  "playback_wall_s": "20.022817249999999",
+  "cpu_seconds": "2.8241780000000003",
+  "max_rss": "58720256",
+  "raw_pcm_sha256": "bb4b73fb2c01987a211199f580181198c0f50ef48b67dae5e019a37826dd6d76",
+  "VERDICT": "FAIL",
+  "errors": [],
+  "PCM_CORRECTNESS": "FAIL",
+  "reference_sha256": "f24952d7d30ec69e226fd89cc6623698d5703a9a33e72e2d89e4e64c17c7f416",
+  "callback_rows": 1877,
+  "CSV_INTEGRITY": "PASS",
+  "fifo_minimum": 378,
+  "operations": [
+    {
+      "id": "2",
+      "session": "1",
+      "generation": "0",
+      "observed_ns": "78755777731416",
+      "sent_ns": "0",
+      "completed_ns": "0",
+      "target": "1",
+      "status": "Replaced",
+      "apply_output": "0",
+      "complete_output": "0"
+    },
+    {
+      "id": "1",
+      "session": "1",
+      "generation": "1",
+      "observed_ns": "78755679147250",
+      "sent_ns": "78755679685333",
+      "completed_ns": "78756488154208",
+      "target": "0.40000000000000002",
+      "status": "Completed",
+      "apply_output": "59392",
+      "complete_output": "62707"
+    },
+    {
+      "id": "3",
+      "session": "1",
+      "generation": "0",
+      "observed_ns": "78755879121791",
+      "sent_ns": "0",
+      "completed_ns": "0",
+      "target": "0.40000000000000002",
+      "status": "Duplicate",
+      "apply_output": "0",
+      "complete_output": "0"
+    }
+  ],
+  "hal_operation_delays": [
+    {
+      "target": "0.40000000000000002",
+      "scheduled_observation_ns": 78755679147250,
+      "sent_ns": 78755679685333,
+      "apply_hal_ms": -19805305.622625,
+      "completion_hal_ms": -19805236.5625
+    }
+  ]
+}

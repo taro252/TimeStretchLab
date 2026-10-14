@@ -1,0 +1,173 @@
+{
+  "case": "results/phase52/native/20261014_141553/mix_0.40_candidate_000",
+  "source": "mix",
+  "input_sha256": "f23b532dd77b83d8c8fa0b7f74b5e4317e6ff7ced572a588ef8d63bf636aebc1",
+  "seconds": 180,
+  "preset": "candidate",
+  "initial": "0.40000000000000002",
+  "stress": true,
+  "exit": 0,
+  "actions": [
+    [
+      1,
+      "speed",
+      2
+    ],
+    [
+      5,
+      "speed",
+      0.4
+    ],
+    [
+      9,
+      "speed",
+      1
+    ],
+    [
+      13,
+      "speed",
+      2
+    ],
+    [
+      17,
+      "pause",
+      0
+    ],
+    [
+      17.25,
+      "resume",
+      0
+    ]
+  ],
+  "intentional_stall": null,
+  "session": "1",
+  "offline": "0",
+  "state": "Ended",
+  "reason": "EOS",
+  "AUDIO_QUALITY": "PASS",
+  "MEASUREMENT_QUALITY": "PASS",
+  "eos": "1",
+  "route_stopped": "0",
+  "output_frames": "4294362",
+  "produced_frames": "4294362",
+  "sample_rate": "44100",
+  "callback_calls": "9122",
+  "consumed_frames": "4294362",
+  "presented_frames": "4294362",
+  "missing_frames": "0",
+  "underrun_calls": "0",
+  "max_continuous_missing": "0",
+  "rejected_writes": "0",
+  "callback_allocations_measured": "1",
+  "callback_cpp_allocations": "0",
+  "callback_max_ns": "39417",
+  "callback_overruns": "0",
+  "host_missing": "0",
+  "host_backwards": "0",
+  "host_cadence_errors": "0",
+  "sample_errors": "0",
+  "hal_window_misses": "0",
+  "records_dropped": "0",
+  "device": "72",
+  "device_rate": "48000",
+  "device_buffer": "512",
+  "device_latency_ms": "1.375",
+  "bridge_steady_ns": "80007519072374",
+  "bridge_mach_ns": "60201456094708",
+  "bridge_uncertainty_ns": "83",
+  "source_latency_ms": "1.375",
+  "worker_max_wall_s": "0.15062862499999999",
+  "worker_max_cpu_s": "0.049753625000001023",
+  "prepare_s": "1.794368416",
+  "playback_wall_s": "97.653595582999998",
+  "cpu_seconds": "45.380622000000002",
+  "max_rss": "60669952",
+  "raw_pcm_sha256": "57876413805212c360dcf5002debe6c6f99cbaf11acc032dc5dccc7872c6f4e1",
+  "VERDICT": "PASS",
+  "errors": [],
+  "PCM_CORRECTNESS": "PASS",
+  "reference_sha256": "03952c3ed0acd5c98ced1885fd982e6af2e2ab42212e17819a5cbb67513e4a22",
+  "callback_rows": 9122,
+  "CSV_INTEGRITY": "PASS",
+  "fifo_minimum": 255,
+  "operations": [
+    {
+      "id": "1",
+      "session": "1",
+      "generation": "1",
+      "observed_ns": "80008814204208",
+      "sent_ns": "80008817642250",
+      "completed_ns": "80010497644666",
+      "target": "2",
+      "status": "Completed",
+      "apply_output": "115006",
+      "complete_output": "118042"
+    },
+    {
+      "id": "2",
+      "session": "1",
+      "generation": "2",
+      "observed_ns": "80012810032958",
+      "sent_ns": "80012810099250",
+      "completed_ns": "80013441421125",
+      "target": "0.40000000000000002",
+      "status": "Completed",
+      "apply_output": "243961",
+      "complete_output": "247944"
+    },
+    {
+      "id": "3",
+      "session": "1",
+      "generation": "3",
+      "observed_ns": "80016809583166",
+      "sent_ns": "80016810834583",
+      "completed_ns": "80017472841250",
+      "target": "1",
+      "status": "Completed",
+      "apply_output": "422748",
+      "complete_output": "425966"
+    },
+    {
+      "id": "4",
+      "session": "1",
+      "generation": "4",
+      "observed_ns": "80020811298125",
+      "sent_ns": "80020811313083",
+      "completed_ns": "80021442850416",
+      "target": "2",
+      "status": "Completed",
+      "apply_output": "599022",
+      "complete_output": "601349"
+    }
+  ],
+  "hal_operation_delays": [
+    {
+      "target": "2",
+      "scheduled_observation_ns": 60202751226542,
+      "sent_ns": 80008817642250,
+      "apply_hal_ms": 1633.9872844296874,
+      "completion_hal_ms": 1702.7463561953125
+    },
+    {
+      "target": "0.40000000000000002",
+      "scheduled_observation_ns": 60206747055292,
+      "sent_ns": 80012810099250,
+      "apply_hal_ms": 558.481200578125,
+      "completion_hal_ms": 648.671586921875
+    },
+    {
+      "target": "1",
+      "scheduled_observation_ns": 60210746605500,
+      "sent_ns": 80016810834583,
+      "apply_hal_ms": 607.70440834375,
+      "completion_hal_ms": 680.576484125
+    },
+    {
+      "target": "2",
+      "scheduled_observation_ns": 60214748320459,
+      "sent_ns": 80020811313083,
+      "apply_hal_ms": 597.84266278125,
+      "completion_hal_ms": 650.5384921484375
+    }
+  ]
+}

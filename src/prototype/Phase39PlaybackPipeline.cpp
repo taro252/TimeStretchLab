@@ -73,7 +73,8 @@ Phase39PlaybackPipeline::Phase39PlaybackPipeline(const std::filesystem::path& in
     Phase39Speed initial,std::size_t fifoFrames,std::size_t blockFrames,
     std::size_t leadFrames,Phase39Planning planning,Phase39DensityDiagnostic densityDiagnostic,
     bool enableProfile,std::filesystem::path componentCsv,std::size_t probeFirst,
-    std::size_t probeLast,std::function<std::uint64_t()> allocationCounter,bool preciseBoundary)
+    std::size_t probeLast,std::function<std::uint64_t()> allocationCounter,bool preciseBoundary,
+    std::optional<Phase52WorkerOptions> explicitOptions)
     : file_(input),sampleRate_(WavStreamReader(input).sampleRate()),
       channels_(WavStreamReader(input).channels()),blockFrames_(blockFrames),
       leadFrames_(leadFrames ? leadFrames : fifoFrames),initial_(initial),planning_(planning),
@@ -81,6 +82,7 @@ Phase39PlaybackPipeline::Phase39PlaybackPipeline(const std::filesystem::path& in
       componentCsv_(std::move(componentCsv)),probeFirst_(probeFirst),probeLast_(probeLast),
       allocationCounter_(std::move(allocationCounter)),
       phase50PreciseBoundary_(preciseBoundary),
+      explicitOptions_(std::move(explicitOptions)),
       analysis_(Phase13StreamingEngine(frozen(input,{500000})).analyzeTransientEvents(input)),
       fifo_(channels_,fifoFrames) {
     if (blockFrames<1024 || blockFrames>65536 || blockFrames>fifoFrames ||
@@ -99,7 +101,7 @@ void Phase39PlaybackPipeline::start() {
     workerSeenNs_=0;planNs_=0;requestedOutput_=0;requestedInput_=0;densityReady_=true;
     produced_=0;presented_=0;underrunFrames_=0;lastPublishedUnixNs_=0;lastPublishedMachNs_=0;
     profileRecordsDropped_=0;workerPcmSha_.clear();
-    workerPcmHashEnabled_=std::getenv("PHASE46_PCM_SHA")!=nullptr;
+    workerPcmHashEnabled_=explicitOptions_ ? explicitOptions_->pcmHash : std::getenv("PHASE46_PCM_SHA")!=nullptr;
     maxWorkerChunkSeconds_=0;
     maxWorkerCpuSeconds_=0;maxFifoWaitSeconds_=0;
     maxWorkerCycleSeconds_=0;maxWorkerCycleCpuSeconds_=0;
@@ -125,16 +127,21 @@ void Phase39PlaybackPipeline::start() {
       workerCycleSeconds_.clear(); workerCycleSeconds_.reserve(65536); }
     outputLength_=static_cast<std::size_t>(std::llround(analysis_.inputFrames()*initial_.timeRatio()));
     worker_=std::thread([this] {
+        std::optional<Phase45PcmDigest> partialDigest;
         try {
             // Research-only scheduling control. CoreAudio's render thread has
             // higher priority; the product default remains unchanged.
-            if (std::getenv("PHASE44_WORKER_QOS"))
+            if (explicitOptions_ ? explicitOptions_->userInitiatedQos : std::getenv("PHASE44_WORKER_QOS")!=nullptr)
                 workerQosApplied_.store(
                     pthread_set_qos_class_self_np(QOS_CLASS_USER_INITIATED,0)==0,
                     std::memory_order_relaxed);
             Phase39TimeMap timeline(analysis_,sampleRate_,initial_,planning_);
+            if(explicitOptions_ && explicitOptions_->publishPositionMap){
+                auto copy=std::make_shared<const TimeMap>(timeline.current());
+                std::lock_guard lock(historyMutex_);positionMap_=std::move(copy);
+            }
             Phase36StreamingSpeedEngine engine(frozen(file_,initial_));
-            Phase45PcmDigest pcmDigest;
+            auto& pcmDigest=partialDigest.emplace();
             std::vector<float> interleaved(workerPcmHashEnabled_ ? blockFrames_*channels_ : 0);
             mach_timebase_info_data_t timebase{};mach_timebase_info(&timebase);
             const auto machNs=[&] {
@@ -163,15 +170,15 @@ void Phase39PlaybackPipeline::start() {
             Phase39BlockProfile latestProfile;
             // Diagnostic producer stall, default disabled. Unlike a simulated
             // short read, this lets the consumer actually drain the FIFO.
-            const double injectedStallMs=std::getenv("PHASE45_WORKER_STALL_MS") ?
+            const double injectedStallMs=explicitOptions_ ? explicitOptions_->injectedStallMs : std::getenv("PHASE45_WORKER_STALL_MS") ?
                 std::stod(std::getenv("PHASE45_WORKER_STALL_MS")) : 0;
             if (!std::isfinite(injectedStallMs) || injectedStallMs<0)
                 throw std::invalid_argument("Invalid diagnostic worker stall");
-            const double controlledMs=std::getenv("PHASE49_STALL_MS") ? std::stod(std::getenv("PHASE49_STALL_MS")) : 0;
+            const double controlledMs=explicitOptions_ ? explicitOptions_->controlledStallMs : std::getenv("PHASE49_STALL_MS") ? std::stod(std::getenv("PHASE49_STALL_MS")) : 0;
             if (!std::isfinite(controlledMs) || controlledMs<0 || controlledMs>2000 || (controlledMs>0 && injectedStallMs>0))
                 throw std::invalid_argument("Invalid controlled stall");
-            const auto controlledOutput=std::getenv("PHASE49_STALL_OUTPUT") ? std::stoull(std::getenv("PHASE49_STALL_OUTPUT")) : std::size_t(sampleRate_*4.5);
-            const auto controlledGoal=std::getenv("PHASE49_STALL_FIFO") ? std::stoull(std::getenv("PHASE49_STALL_FIFO")) : leadFrames_;
+            const std::size_t controlledOutput=explicitOptions_ ? (explicitOptions_->controlledOutput ? explicitOptions_->controlledOutput : std::size_t(sampleRate_*4.5)) : std::getenv("PHASE49_STALL_OUTPUT") ? std::stoull(std::getenv("PHASE49_STALL_OUTPUT")) : std::size_t(sampleRate_*4.5);
+            const std::size_t controlledGoal=explicitOptions_ ? (explicitOptions_->controlledStock ? explicitOptions_->controlledStock : leadFrames_) : std::getenv("PHASE49_STALL_FIFO") ? std::stoull(std::getenv("PHASE49_STALL_FIFO")) : leadFrames_;
             if (controlledMs>0 && (!controlledOutput || controlledOutput>outputLength_.load() || !controlledGoal || controlledGoal>leadFrames_))
                 throw std::invalid_argument("Invalid controlled stall frontier");
             stallObservation_.configured=controlledMs>0;stallObservation_.requestedMs=controlledMs;
@@ -190,7 +197,7 @@ void Phase39PlaybackPipeline::start() {
                     if (frames>blockFrames_) throw std::runtime_error("PCM digest block exceeds workspace");
                     for (std::size_t i=0;i<frames;++i) for (std::size_t c=0;c<channels_;++c)
                         interleaved[i*channels_+c]=data[c][i];
-                    pcmDigest.update(interleaved.data(),frames*channels_*sizeof(float));
+                    if(!explicitOptions_)pcmDigest.update(interleaved.data(),frames*channels_*sizeof(float));
                 }
                 const auto previousBookkeepingWait=postPublicationMutexWait;
                 const auto previousBookkeepingHold=postPublicationMutexHold;
@@ -245,6 +252,8 @@ void Phase39PlaybackPipeline::start() {
                 const auto writeStart=Clock::now();
                 const auto fifoBefore=fifo_.available();
                 if (!fifo_.write(data,frames)) throw std::runtime_error("Phase 39 FIFO overflow");
+                if(explicitOptions_ && workerPcmHashEnabled_)
+                    pcmDigest.update(interleaved.data(),frames*channels_*sizeof(float));
                 const auto fifoAfter=fifo_.available();
                 const auto writeSeconds=std::chrono::duration<double>(Clock::now()-writeStart).count();
                 if (enableProfile_) latestProfile.fifoWriteSeconds=writeSeconds;
@@ -314,7 +323,7 @@ void Phase39PlaybackPipeline::start() {
                     // Research-only stock control: drain to the requested
                     // starting stock before the timed pause. This preparatory
                     // supply gap is separately visible in publication times.
-                    if (std::getenv("PHASE50_STALL_DRAIN"))
+                    if (explicitOptions_ ? explicitOptions_->drainStock : std::getenv("PHASE50_STALL_DRAIN")!=nullptr)
                         while (!stop_.load(std::memory_order_acquire) && fifo_.available()>controlledGoal)
                             std::this_thread::sleep_for(std::chrono::microseconds(50));
                     const auto sampledAt=machNs();const auto stock=fifo_.available();
@@ -348,7 +357,7 @@ void Phase39PlaybackPipeline::start() {
                 const Phase39Speed target{targetMicros_.load(std::memory_order_relaxed)};
                 const Phase39Speed from{currentTailMicros_.load(std::memory_order_relaxed)};
                 const auto generation=generation_.load(std::memory_order_relaxed);
-                if (generation==1 && std::getenv("PHASE44_FORCE_NO_SAFE_FIRST")) {
+                if (generation==1 && (explicitOptions_ ? explicitOptions_->forceRejectFirst : std::getenv("PHASE44_FORCE_NO_SAFE_FIRST")!=nullptr)) {
                     planOutcome_.store(Phase39Outcome::NoSafeInterval,
                                        std::memory_order_relaxed);
                     planNs_.store(nowNs(),std::memory_order_relaxed);
@@ -502,6 +511,10 @@ void Phase39PlaybackPipeline::start() {
                   planMutexHold+=std::chrono::duration<double>(Clock::now()-lockBegin).count()-
                       lockWait; }
                 appliedGeneration_.store(generation,std::memory_order_release);
+                if(explicitOptions_ && explicitOptions_->publishPositionMap){
+                    auto copy=std::make_shared<const TimeMap>(map);
+                    std::lock_guard lock(historyMutex_);positionMap_=std::move(copy);
+                }
                 planCount_.fetch_add(1,std::memory_order_release);
                 planNs_.store(nowNs(),std::memory_order_relaxed);
                 state_.store(Phase39RequestState::Applied,std::memory_order_release);
@@ -534,6 +547,8 @@ void Phase39PlaybackPipeline::start() {
             stageDigests_=result.stages;
             if (workerPcmHashEnabled_) workerPcmSha_=pcmDigest.finish();
         } catch (const Stopped&) {
+            if(explicitOptions_ && workerPcmHashEnabled_ && partialDigest)
+                workerPcmSha_=partialDigest->finish(); // Published prefix, never a full-EOS claim.
         } catch (...) { error_=std::current_exception(); }
         auto pending=Phase39RequestState::Requested;
         state_.compare_exchange_strong(pending,Phase39RequestState::Cancelled,
@@ -541,6 +556,11 @@ void Phase39PlaybackPipeline::start() {
         finished_.store(true,std::memory_order_release);
     });
     started_.store(true,std::memory_order_release);
+}
+std::size_t Phase39PlaybackPipeline::inputPositionForOutput(std::size_t output) const {
+    std::shared_ptr<const TimeMap> map;
+    { std::lock_guard lock(historyMutex_);map=positionMap_; }
+    return map ? std::min(analysis_.inputFrames(),inverseInput(*map,output)) : 0;
 }
 std::string Phase39PlaybackPipeline::workerPcmSha() const {
     if (!finished_.load(std::memory_order_acquire))

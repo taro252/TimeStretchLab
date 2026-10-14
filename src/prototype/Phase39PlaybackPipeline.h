@@ -10,6 +10,8 @@
 #include <mutex>
 #include <thread>
 #include <vector>
+#include <optional>
+#include <memory>
 
 namespace ts::prototype {
 
@@ -21,6 +23,14 @@ enum class Phase39RequestResult : std::uint8_t {
 };
 enum class Phase39DensityDiagnostic : std::uint8_t {
     Immediate, HoldInitial, AfterRamp, SafeGuarded
+};
+// Explicit application path. nullopt preserves the historical CLI environment
+// controls; passing this object ignores every research environment variable.
+struct Phase52WorkerOptions {
+    bool pcmHash=false,userInitiatedQos=false,forceRejectFirst=false,drainStock=false;
+    double injectedStallMs=0,controlledStallMs=0;
+    std::size_t controlledOutput=0,controlledStock=0;
+    bool publishPositionMap=true;
 };
 struct Phase39PlanMetric {
     Phase39Plan plan;
@@ -110,7 +120,8 @@ public:
         bool enableProfile=false,
         std::filesystem::path componentCsv={},std::size_t probeFirst=0,
         std::size_t probeLast=0,
-        std::function<std::uint64_t()> allocationCounter={},bool phase50PreciseBoundary=false);
+        std::function<std::uint64_t()> allocationCounter={},bool phase50PreciseBoundary=false,
+        std::optional<Phase52WorkerOptions> explicitOptions=std::nullopt);
     ~Phase39PlaybackPipeline();
     void start();
     void stop(); // The audio consumer must first be quiescent.
@@ -131,6 +142,7 @@ public:
     std::string workerPcmSha() const;
     std::uint64_t profileRecordsDropped() const noexcept { return profileRecordsDropped_.load(); }
     Phase39Snapshot snapshot() const noexcept;
+    std::size_t inputPositionForOutput(std::size_t output) const;
     bool researchTransitionComplete() const noexcept {
         return state_.load(std::memory_order_acquire)==Phase39RequestState::Applied &&
             densityReady_.load(std::memory_order_acquire) &&
@@ -169,6 +181,8 @@ private:
     const std::size_t probeFirst_,probeLast_;
     const std::function<std::uint64_t()> allocationCounter_;
     const bool phase50PreciseBoundary_;
+    const std::optional<Phase52WorkerOptions> explicitOptions_;
+    std::shared_ptr<const TimeMap> positionMap_; // Control reads; never render.
     Phase13TransientAnalysis analysis_;
     Phase14AudioFifo fifo_;
     std::thread worker_;

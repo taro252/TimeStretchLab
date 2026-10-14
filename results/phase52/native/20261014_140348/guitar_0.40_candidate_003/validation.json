@@ -1,0 +1,124 @@
+{
+  "case": "results/phase52/native/20261014_140348/guitar_0.40_candidate_003",
+  "source": "guitar",
+  "input_sha256": "3da0902bd133bfe71c61650cae3e3f7ba0864bd0deb375387a36b3b38ec2f87a",
+  "seconds": 10,
+  "preset": "candidate",
+  "initial": "0.40000000000000002",
+  "stress": false,
+  "exit": 0,
+  "actions": [
+    [
+      1,
+      "speed",
+      2
+    ],
+    [
+      3,
+      "speed",
+      0.4
+    ],
+    [
+      5,
+      "pause",
+      0
+    ],
+    [
+      5.25,
+      "resume",
+      0
+    ]
+  ],
+  "intentional_stall": null,
+  "offline": "0",
+  "state": "Ended",
+  "reason": "EOS",
+  "AUDIO_QUALITY": "PASS",
+  "MEASUREMENT_QUALITY": "PASS",
+  "eos": "1",
+  "route_stopped": "0",
+  "output_frames": "909182",
+  "produced_frames": "909182",
+  "sample_rate": "48000",
+  "callback_calls": "1780",
+  "consumed_frames": "909182",
+  "presented_frames": "909182",
+  "missing_frames": "0",
+  "underrun_calls": "0",
+  "max_continuous_missing": "0",
+  "rejected_writes": "0",
+  "callback_allocations_measured": "1",
+  "callback_cpp_allocations": "0",
+  "callback_max_ns": "15666",
+  "callback_overruns": "0",
+  "host_missing": "0",
+  "host_backwards": "0",
+  "host_cadence_errors": "0",
+  "sample_errors": "0",
+  "hal_window_misses": "0",
+  "records_dropped": "0",
+  "device": "72",
+  "device_rate": "48000",
+  "device_buffer": "512",
+  "device_latency_ms": "1.375",
+  "bridge_steady_ns": "79350457951229",
+  "bridge_mach_ns": "59544394973583",
+  "bridge_uncertainty_ns": "42",
+  "source_latency_ms": "1.375",
+  "worker_max_wall_s": "0.083648666999999996",
+  "worker_max_cpu_s": "0.026359165999999989",
+  "prepare_s": "0.124274833",
+  "playback_wall_s": "19.228887416999999",
+  "cpu_seconds": "3.0809129999999998",
+  "max_rss": "58900480",
+  "raw_pcm_sha256": "e770b81b5ca30283de267ac20f431f80934ca6c4e6dff722598e4240cc208054",
+  "VERDICT": "PASS",
+  "errors": [],
+  "PCM_CORRECTNESS": "PASS",
+  "reference_sha256": "271bedac487d2c3fc23df9bce365df160cc8aad43253446e466bee332d6b1d93",
+  "callback_rows": 1780,
+  "CSV_INTEGRITY": "PASS",
+  "fifo_minimum": 382,
+  "operations": [
+    {
+      "id": "1",
+      "session": "1",
+      "generation": "1",
+      "observed_ns": "79351712236916",
+      "sent_ns": "79351713285708",
+      "completed_ns": "79352874872333",
+      "target": "2",
+      "status": "Completed",
+      "apply_output": "100330",
+      "complete_output": "103491"
+    },
+    {
+      "id": "2",
+      "session": "1",
+      "generation": "2",
+      "observed_ns": "79353712939500",
+      "sent_ns": "79353712951666",
+      "completed_ns": "79354463719750",
+      "target": "0.40000000000000002",
+      "status": "Completed",
+      "apply_output": "176126",
+      "complete_output": "180118"
+    }
+  ],
+  "hal_operation_delays": [
+    {
+      "target": "2",
+      "scheduled_observation_ns": 59545649259270,
+      "sent_ns": 79351713285708,
+      "apply_hal_ms": 1110.3512713359376,
+      "completion_hal_ms": 1176.2029383359375
+    },
+    {
+      "target": "0.40000000000000002",
+      "scheduled_observation_ns": 59547649961854,
+      "sent_ns": 79353712951666,
+      "apply_hal_ms": 688.677229,
+      "completion_hal_ms": 771.8409373359375
+    }
+  ]
+}

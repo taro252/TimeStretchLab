@@ -1,0 +1,31 @@
+{
+  "base_sha": "313ceabcdf26da83d47a0b83e83ccea66c8931a9",
+  "configuration": "Release / C++20 / TIMESTRETCH_ENABLE_REALTIME_TESTS=OFF for deterministic suite",
+  "platform": "ProductName:\t\tmacOS\nProductVersion:\t\t26.6.2\nBuildVersion:\t\t25G83\n",
+  "clang": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
+  "binary_sha256": "8bc2cd795749552f3ec2f8936fe473a5c805e3d34804af87756f9f6e2eecb777",
+  "sources": {
+    "src/playback/PlaybackEngine.cpp": "8b607e9c5f522bda761dbb76baa3f08184736b7233e339a94037aee308f19522",
+    "src/playback/PlaybackEngine.h": "8300655b7c6a3ef25f91d03f1227f28864b2815a5c104d68da7e9ea5f9ed29f0",
+    "src/playback/PlaybackReference.cpp": "f0bdfdc988995cc3c0955ad9398c50b17e789fdd3f6efdd75f3f1f6fe4148122",
+    "src/playback/PlaybackDemo.cpp": "dbd837257bfaf8242de9e0ddc39cf6b24c27992cc1c9c66cc340e7feadc3366a",
+    "src/platform/macos/MacPlaybackEngine.h": "619c756c5108cb7787670970be005862db9805b65ef4ec68d3d1c45e2cc6c4a2",
+    "src/platform/macos/MacPlaybackEngine.mm": "bea2557f37cf262ebc4b2bd7eba0e6345b9dd70bdf68f123c1a289fecc4c45bd",
+    "src/prototype/Phase39PlaybackPipeline.cpp": "de7af7839b7ac99a2eabd5aa4f50d87066135d21b99e824e508eb5606b98bccf",
+    "src/prototype/Phase39PlaybackPipeline.h": "5191c9f89b75afe03f16a24a10b73cd9a7391f9c21286cf72dcaa27e24f58acc",
+    "CMakeLists.txt": "1c4fea4142d2c7ef2abfd2796e4ca36d93199062d28a22e37a97c5cf729e1950"
+  },
+  "final_deterministic": {
+    "passed": 70,
+    "total": 70,
+    "seconds": 347.38
+  },
+  "realtime_suite": {
+    "passed": 2,
+    "total": 2,
+    "seconds": 58.95
+  },
+  "final_route_test": "native/20261014_140348/drums_0.50_candidate_007",
+  "final_drain_test": "drain_guard_final",
+  "final_native_measurement": "FAIL: initial host/sample discontinuity; excluded from realtime PASS"
+}

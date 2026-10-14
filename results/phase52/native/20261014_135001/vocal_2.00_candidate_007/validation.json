@@ -1,0 +1,121 @@
+{
+  "case": "results/phase52/native/20261014_135001/vocal_2.00_candidate_007",
+  "source": "vocal",
+  "input_sha256": "2f7924d9b9c7cd2574d5c80a9cc98c59e02184cfda0676c5f5fa2c70793428ab",
+  "seconds": 10,
+  "preset": "candidate",
+  "initial": "2",
+  "stress": false,
+  "exit": 0,
+  "actions": [
+    [
+      0.5,
+      "speed",
+      0.4
+    ],
+    [
+      0.6,
+      "speed",
+      1
+    ],
+    [
+      0.7,
+      "speed",
+      0.4
+    ]
+  ],
+  "intentional_stall": null,
+  "offline": "0",
+  "state": "Ended",
+  "reason": "EOS",
+  "AUDIO_QUALITY": "PASS",
+  "MEASUREMENT_QUALITY": "PASS",
+  "eos": "1",
+  "route_stopped": "0",
+  "output_frames": "996473",
+  "produced_frames": "996473",
+  "sample_rate": "48000",
+  "callback_calls": "1947",
+  "consumed_frames": "996473",
+  "presented_frames": "996473",
+  "missing_frames": "0",
+  "underrun_calls": "0",
+  "max_continuous_missing": "0",
+  "rejected_writes": "0",
+  "callback_allocations_measured": "1",
+  "callback_cpp_allocations": "0",
+  "callback_max_ns": "10292",
+  "callback_overruns": "0",
+  "host_missing": "0",
+  "host_backwards": "0",
+  "host_cadence_errors": "0",
+  "sample_errors": "0",
+  "hal_window_misses": "0",
+  "records_dropped": "0",
+  "device": "72",
+  "device_rate": "48000",
+  "device_buffer": "512",
+  "device_latency_ms": "1.375",
+  "source_latency_ms": "1.375",
+  "worker_max_wall_s": "0.060830083",
+  "worker_max_cpu_s": "0.043990166000000004",
+  "prepare_s": "0.121644",
+  "playback_wall_s": "20.768642",
+  "cpu_seconds": "3.3632369999999998",
+  "max_rss": "58851328",
+  "raw_pcm_sha256": "cce0027c736e4416b69e139523f6f2738ae2adca1c91474f4cc85a2571073fdc",
+  "VERDICT": "FAIL",
+  "errors": [],
+  "PCM_CORRECTNESS": "FAIL",
+  "reference_sha256": "a3613b9ed24ffd0cf602279641d74a03df7a3c0fe7f776f001ff85a902cc8391",
+  "callback_rows": 1947,
+  "CSV_INTEGRITY": "PASS",
+  "fifo_minimum": 121,
+  "operations": [
+    {
+      "id": "2",
+      "session": "1",
+      "generation": "0",
+      "observed_ns": "78617281111041",
+      "sent_ns": "0",
+      "completed_ns": "0",
+      "target": "1",
+      "status": "Replaced",
+      "apply_output": "0",
+      "complete_output": "0"
+    },
+    {
+      "id": "1",
+      "session": "1",
+      "generation": "1",
+      "observed_ns": "78617181090500",
+      "sent_ns": "78617181379791",
+      "completed_ns": "78617809417125",
+      "target": "0.40000000000000002",
+      "status": "Completed",
+      "apply_output": "50859",
+      "complete_output": "54102"
+    },
+    {
+      "id": "3",
+      "session": "1",
+      "generation": "0",
+      "observed_ns": "78617382626041",
+      "sent_ns": "0",
+      "completed_ns": "0",
+      "target": "0.40000000000000002",
+      "status": "Duplicate",
+      "apply_output": "0",
+      "complete_output": "0"
+    }
+  ],
+  "hal_operation_delays": [
+    {
+      "target": "0.40000000000000002",
+      "scheduled_observation_ns": 78617181090500,
+      "sent_ns": 78617181379791,
+      "apply_hal_ms": -19805482.430084,
+      "completion_hal_ms": -19805414.869917
+    }
+  ]
+}

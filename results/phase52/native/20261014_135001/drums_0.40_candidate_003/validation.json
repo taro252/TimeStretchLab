@@ -1,0 +1,138 @@
+{
+  "case": "results/phase52/native/20261014_135001/drums_0.40_candidate_003",
+  "source": "drums",
+  "input_sha256": "d77f30cdc1b889227b7f3492791ca510be3ad3514aa7dc38be5f4f2d77297008",
+  "seconds": 10,
+  "preset": "candidate",
+  "initial": "0.40000000000000002",
+  "stress": false,
+  "exit": 0,
+  "actions": [
+    [
+      0.6,
+      "speed",
+      2
+    ],
+    [
+      0.7,
+      "speed",
+      0.75
+    ],
+    [
+      0.8,
+      "speed",
+      0.4
+    ],
+    [
+      3,
+      "pause",
+      0
+    ],
+    [
+      3.3,
+      "resume",
+      0
+    ]
+  ],
+  "intentional_stall": null,
+  "offline": "0",
+  "state": "Ended",
+  "reason": "EOS",
+  "AUDIO_QUALITY": "PASS",
+  "MEASUREMENT_QUALITY": "PASS",
+  "eos": "1",
+  "route_stopped": "0",
+  "output_frames": "1061738",
+  "produced_frames": "1061738",
+  "sample_rate": "48000",
+  "callback_calls": "2074",
+  "consumed_frames": "1061738",
+  "presented_frames": "1061738",
+  "missing_frames": "0",
+  "underrun_calls": "0",
+  "max_continuous_missing": "0",
+  "rejected_writes": "0",
+  "callback_allocations_measured": "1",
+  "callback_cpp_allocations": "0",
+  "callback_max_ns": "14666",
+  "callback_overruns": "0",
+  "host_missing": "0",
+  "host_backwards": "0",
+  "host_cadence_errors": "0",
+  "sample_errors": "0",
+  "hal_window_misses": "0",
+  "records_dropped": "0",
+  "device": "72",
+  "device_rate": "48000",
+  "device_buffer": "512",
+  "device_latency_ms": "1.375",
+  "source_latency_ms": "1.375",
+  "worker_max_wall_s": "0.056918415999999999",
+  "worker_max_cpu_s": "0.020711916999999969",
+  "prepare_s": "0.122788667",
+  "playback_wall_s": "22.434238790999999",
+  "cpu_seconds": "3.6381749999999999",
+  "max_rss": "58916864",
+  "raw_pcm_sha256": "368e166e1b1e3a214ffb90235fa2ef5f1b3fb507d45f8bc6e7513fc84cd472c1",
+  "VERDICT": "FAIL",
+  "errors": [],
+  "PCM_CORRECTNESS": "FAIL",
+  "reference_sha256": "3f994bfa69d55a0538e9621040f6482f22f76b3c9a7e2c3011c99456c095ce07",
+  "callback_rows": 2074,
+  "CSV_INTEGRITY": "PASS",
+  "fifo_minimum": 362,
+  "operations": [
+    {
+      "id": "2",
+      "session": "1",
+      "generation": "0",
+      "observed_ns": "78522796448541",
+      "sent_ns": "0",
+      "completed_ns": "0",
+      "target": "0.75",
+      "status": "Replaced",
+      "apply_output": "0",
+      "complete_output": "0"
+    },
+    {
+      "id": "1",
+      "session": "1",
+      "generation": "1",
+      "observed_ns": "78522695296583",
+      "sent_ns": "78522696334666",
+      "completed_ns": "78524471728875",
+      "target": "2",
+      "status": "Completed",
+      "apply_output": "54094",
+      "complete_output": "114030"
+    },
+    {
+      "id": "3",
+      "session": "1",
+      "generation": "2",
+      "observed_ns": "78522895662083",
+      "sent_ns": "78524471729125",
+      "completed_ns": "78525518443333",
+      "target": "0.40000000000000002",
+      "status": "Completed",
+      "apply_output": "145945",
+      "complete_output": "149188"
+    }
+  ],
+  "hal_operation_delays": [
+    {
+      "target": "2",
+      "scheduled_observation_ns": 78522695296583,
+      "sent_ns": 78522696334666,
+      "apply_hal_ms": -19805515.243583664,
+      "completion_hal_ms": -19804266.621792
+    },
+    {
+      "target": "0.40000000000000002",
+      "scheduled_observation_ns": 78522895662083,
+      "sent_ns": 78524471729125,
+      "apply_hal_ms": -19803491.873541664,
+      "completion_hal_ms": -19803424.311041664
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "functional_guard": "PASS",
+  "PCM_CORRECTNESS": "PASS",
+  "AUDIO_QUALITY": "PASS",
+  "MEASUREMENT_QUALITY": "FAIL",
+  "REALTIME_VERDICT": "FAIL",
+  "timestamp_discontinuities": [
+    {
+      "before": 1,
+      "after": 2,
+      "sample_progress_error": 514.0,
+      "host_progress_error_ns": 11653060.891156463
+    }
+  ],
+  "reference": "results/phase52/native/20261014_134247/mix_0.50_candidate_001/reference_round_eos.wav"
+}
