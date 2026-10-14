@@ -1,0 +1,14 @@
+mix None missing summary
+drums None missing summary
+mix None missing summary
+drums FAIL FileExistsError(17, 'File exists')
+mix FAIL FileExistsError(17, 'File exists')
+drums FAIL FileExistsError(17, 'File exists')
+mix None missing summary
+/Users/taro252/Docker/TimeStretchLab/results/phase53/native/20261014_165255
+Traceback (most recent call last):
+  File "/tmp/phase53_native.py", line 18, in <module>
+    raise SystemExit(0 if all(r['VERDICT']=='PASS' for r in rows) else 2)
+  File "/tmp/phase53_native.py", line 18, in <genexpr>
+    raise SystemExit(0 if all(r['VERDICT']=='PASS' for r in rows) else 2)
+KeyError: 'VERDICT'

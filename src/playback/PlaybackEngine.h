@@ -48,6 +48,9 @@ struct StateSnapshot {
     std::optional<SpeedOperation> pending,active,lastResult;
 };
 struct Diagnostics {
+    // Raw output chunks prepared by DSP, including a pending unpublished chunk.
+    std::uint64_t generatedFrames=0;
+    // producedFrames is the legacy name for FIFO-published frames.
     std::uint64_t session=0,renderCalls=0,producedFrames=0,consumedFrames=0,presentedFrames=0,missingFrames=0,underrunCalls=0;
     std::uint64_t maxContinuousMissingFrames=0,firstUnderrunNs=0,lastUnderrunNs=0,eventOverwrites=0,concurrentRenders=0;
     std::size_t fifoAvailable=0,fifoHighWater=0,outputLength=0;

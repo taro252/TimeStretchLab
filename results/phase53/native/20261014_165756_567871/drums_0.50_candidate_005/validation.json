@@ -1,0 +1,221 @@
+{
+  "case": "results/phase53/native/20261014_165756_567871/drums_0.50_candidate_005",
+  "source": "drums",
+  "input_sha256": "06691063a2507d6ebfae9ca27294a86cd8f40cc987992d63cb79669879043aad",
+  "seconds": 5,
+  "preset": "candidate",
+  "initial": "0.5",
+  "stress": false,
+  "exit": 0,
+  "actions": [
+    [
+      0.5,
+      "route",
+      0
+    ]
+  ],
+  "intentional_stall": null,
+  "session": "1",
+  "offline": "0",
+  "state": "Stopped",
+  "reason": "RouteChanged",
+  "AUDIO_QUALITY": "PASS",
+  "MEASUREMENT_QUALITY": "PASS",
+  "eos": "0",
+  "route_stopped": "1",
+  "output_frames": "480000",
+  "produced_frames": "38912",
+  "sample_rate": "48000",
+  "callback_calls": "47",
+  "consumed_frames": "24064",
+  "presented_frames": "24064",
+  "missing_frames": "0",
+  "underrun_calls": "0",
+  "max_continuous_missing": "0",
+  "rejected_writes": "0",
+  "callback_allocations_measured": "1",
+  "callback_cpp_allocations": "0",
+  "callback_max_ns": "6833",
+  "callback_overruns": "0",
+  "host_missing": "0",
+  "host_backwards": "0",
+  "host_cadence_errors": "0",
+  "sample_errors": "0",
+  "hal_window_misses": "0",
+  "records_dropped": "0",
+  "device": "72",
+  "device_rate": "48000",
+  "device_buffer": "512",
+  "device_latency_ms": "1.375",
+  "bridge_steady_ns": "89804052997520",
+  "bridge_mach_ns": "69997990019875",
+  "bridge_uncertainty_ns": "41",
+  "source_latency_ms": "1.375",
+  "worker_max_wall_s": "0.012896542",
+  "worker_max_cpu_s": "0.012382958000000001",
+  "prepare_s": "0.110373",
+  "playback_wall_s": "0.51380858399999996",
+  "cpu_seconds": "0.15539",
+  "max_rss": "58179584",
+  "raw_pcm_sha256": "50ff49b7fd93d658158612e02eaae77804623145dc76055c0e336c799897cf2c",
+  "channels": "2",
+  "generated_frames": "40960",
+  "published_frames": "38912",
+  "device_raw_frames": "24064",
+  "worker_error": "",
+  "native_error": "",
+  "concurrent_renders": "0",
+  "hash_scope": "fifo_published_raw_float32_interleaved_prefix",
+  "hash_frames": "38912",
+  "start_state": "Playing",
+  "callback_rows": 47,
+  "worker_rows": "19",
+  "plan_rows": "0",
+  "operation_rows": "0",
+  "last_pcm_target_end_ns": "69998594523416",
+  "output_stopped_mach_ns": "69998582299000",
+  "VERDICT": "PASS",
+  "errors": [],
+  "PCM_CORRECTNESS": "PASS",
+  "reference_pcm": {
+    "frames": 480000,
+    "compared_frames": 38912,
+    "channels": 2,
+    "sha256": "50ff49b7fd93d658158612e02eaae77804623145dc76055c0e336c799897cf2c",
+    "scope": "FIFO published prefix [0, produced_frames)"
+  },
+  "CSV_INTEGRITY": "PASS",
+  "evidence": {
+    "CSV_INTEGRITY": "PASS",
+    "faults": [],
+    "files": {
+      "callbacks.csv": {
+        "rows": 47,
+        "sha256": "8f1326166a76ad1ab588804fb4db92bb25281a5eb5cdf0576011e5befab7998d"
+      },
+      "workers.csv": {
+        "rows": 19,
+        "sha256": "189a27a45129186a6ef3de74f498d8f5fc3c9cd20841db35eb9633c19c823652"
+      },
+      "plans.csv": {
+        "rows": 0,
+        "sha256": "bc6b625d7a363efb7bb52d06e9952036c184c6ed7242b75c61100eb0a9f62418"
+      },
+      "operations.csv": {
+        "rows": 0,
+        "sha256": "805b5156a0e6f21499b23217a2507be41d3437cfd05b85dd9ef80b0cb1f96c80"
+      }
+    }
+  },
+  "sessions": [
+    {
+      "preset": "candidate",
+      "initial": "0.5",
+      "session": "1",
+      "offline": "0",
+      "state": "Stopped",
+      "reason": "RouteChanged",
+      "AUDIO_QUALITY": "PASS",
+      "MEASUREMENT_QUALITY": "PASS",
+      "eos": "0",
+      "route_stopped": "1",
+      "output_frames": "480000",
+      "produced_frames": "38912",
+      "sample_rate": "48000",
+      "callback_calls": "47",
+      "consumed_frames": "24064",
+      "presented_frames": "24064",
+      "missing_frames": "0",
+      "underrun_calls": "0",
+      "max_continuous_missing": "0",
+      "rejected_writes": "0",
+      "callback_allocations_measured": "1",
+      "callback_cpp_allocations": "0",
+      "callback_max_ns": "6833",
+      "callback_overruns": "0",
+      "host_missing": "0",
+      "host_backwards": "0",
+      "host_cadence_errors": "0",
+      "sample_errors": "0",
+      "hal_window_misses": "0",
+      "records_dropped": "0",
+      "device": "72",
+      "device_rate": "48000",
+      "device_buffer": "512",
+      "device_latency_ms": "1.375",
+      "bridge_steady_ns": "89804052997520",
+      "bridge_mach_ns": "69997990019875",
+      "bridge_uncertainty_ns": "41",
+      "source_latency_ms": "1.375",
+      "worker_max_wall_s": "0.012896542",
+      "worker_max_cpu_s": "0.012382958000000001",
+      "prepare_s": "0.110373",
+      "playback_wall_s": "0.51380858399999996",
+      "cpu_seconds": "0.15539",
+      "max_rss": "58179584",
+      "raw_pcm_sha256": "50ff49b7fd93d658158612e02eaae77804623145dc76055c0e336c799897cf2c",
+      "channels": "2",
+      "generated_frames": "40960",
+      "published_frames": "38912",
+      "device_raw_frames": "24064",
+      "worker_error": "",
+      "native_error": "",
+      "concurrent_renders": "0",
+      "hash_scope": "fifo_published_raw_float32_interleaved_prefix",
+      "hash_frames": "38912",
+      "start_state": "Playing",
+      "callback_rows": "47",
+      "worker_rows": "19",
+      "plan_rows": "0",
+      "operation_rows": "0",
+      "last_pcm_target_end_ns": "69998594523416",
+      "output_stopped_mach_ns": "69998582299000",
+      "PCM_CORRECTNESS": "PASS",
+      "reference_pcm": {
+        "frames": 480000,
+        "compared_frames": 38912,
+        "channels": 2,
+        "sha256": "50ff49b7fd93d658158612e02eaae77804623145dc76055c0e336c799897cf2c",
+        "scope": "FIFO published prefix [0, produced_frames)"
+      },
+      "VERDICT": "PASS",
+      "errors": [],
+      "CSV_INTEGRITY": "PASS",
+      "evidence": {
+        "CSV_INTEGRITY": "PASS",
+        "faults": [],
+        "files": {
+          "callbacks.csv": {
+            "rows": 47,
+            "sha256": "8f1326166a76ad1ab588804fb4db92bb25281a5eb5cdf0576011e5befab7998d"
+          },
+          "workers.csv": {
+            "rows": 19,
+            "sha256": "189a27a45129186a6ef3de74f498d8f5fc3c9cd20841db35eb9633c19c823652"
+          },
+          "plans.csv": {
+            "rows": 0,
+            "sha256": "bc6b625d7a363efb7bb52d06e9952036c184c6ed7242b75c61100eb0a9f62418"
+          },
+          "operations.csv": {
+            "rows": 0,
+            "sha256": "805b5156a0e6f21499b23217a2507be41d3437cfd05b85dd9ef80b0cb1f96c80"
+          }
+        }
+      },
+      "sessions": [
+        {
+          "VERDICT": "PASS"
+        }
+      ],
+      "SESSION_INTEGRITY": "PASS",
+      "folder": "."
+    }
+  ],
+  "SESSION_INTEGRITY": "PASS",
+  "folder": ".",
+  "manifest_faults": [],
+  "fifo_minimum": 14848,
+  "operations": [],
+  "hal_operation_delays": []
+}

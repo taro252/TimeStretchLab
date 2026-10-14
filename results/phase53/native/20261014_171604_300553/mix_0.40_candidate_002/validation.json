@@ -1,0 +1,286 @@
+{
+  "case": "results/phase53/native/20261014_171604_300553/mix_0.40_candidate_002",
+  "source": "mix",
+  "input_sha256": "789d4c159e35b4c133a17913ad5a9c47b85970185e5d86b074d146afc1bb311e",
+  "seconds": 10,
+  "preset": "candidate",
+  "initial": "0.40000000000000002",
+  "stress": false,
+  "exit": 0,
+  "actions": [
+    [
+      1,
+      "speed",
+      2
+    ],
+    [
+      3,
+      "speed",
+      0.4
+    ],
+    [
+      5,
+      "pause",
+      0
+    ],
+    [
+      5.25,
+      "resume",
+      0
+    ]
+  ],
+  "intentional_stall": null,
+  "session": "1",
+  "offline": "0",
+  "state": "Ended",
+  "reason": "EOS",
+  "AUDIO_QUALITY": "PASS",
+  "MEASUREMENT_QUALITY": "PASS",
+  "eos": "1",
+  "route_stopped": "0",
+  "output_frames": "926924",
+  "produced_frames": "926924",
+  "sample_rate": "44100",
+  "callback_calls": "1975",
+  "consumed_frames": "926924",
+  "presented_frames": "926924",
+  "missing_frames": "0",
+  "underrun_calls": "0",
+  "max_continuous_missing": "0",
+  "rejected_writes": "0",
+  "callback_allocations_measured": "1",
+  "callback_cpp_allocations": "0",
+  "callback_max_ns": "16459",
+  "callback_overruns": "0",
+  "host_missing": "0",
+  "host_backwards": "0",
+  "host_cadence_errors": "0",
+  "sample_errors": "0",
+  "hal_window_misses": "0",
+  "records_dropped": "0",
+  "device": "72",
+  "device_rate": "48000",
+  "device_buffer": "512",
+  "device_latency_ms": "1.375",
+  "bridge_steady_ns": "90839092020145",
+  "bridge_mach_ns": "71033029042458",
+  "bridge_uncertainty_ns": "41",
+  "source_latency_ms": "1.375",
+  "worker_max_wall_s": "0.02669875",
+  "worker_max_cpu_s": "0.026637874999999922",
+  "prepare_s": "0.136419875",
+  "playback_wall_s": "21.314557125",
+  "cpu_seconds": "3.323785",
+  "max_rss": "58720256",
+  "raw_pcm_sha256": "9043c170fa7ddf4985948f4290af257421e17d121d3890f658bac9598556b2da",
+  "channels": "2",
+  "generated_frames": "926924",
+  "published_frames": "926924",
+  "device_raw_frames": "926924",
+  "worker_error": "",
+  "native_error": "",
+  "concurrent_renders": "0",
+  "hash_scope": "fifo_published_raw_float32_interleaved_prefix",
+  "hash_frames": "926924",
+  "fifo_frames": "16384",
+  "lead_frames": "16384",
+  "block_frames": "2048",
+  "qos": "inherited",
+  "PCM_CORRECTNESS": "PASS",
+  "CSV_INTEGRITY": "PASS",
+  "SESSION_VERDICT": "INDETERMINATE",
+  "start_state": "Playing",
+  "callback_rows": 1975,
+  "worker_rows": "453",
+  "plan_rows": "2",
+  "operation_rows": "2",
+  "last_pcm_target_end_ns": "71054419585506",
+  "output_stopped_mach_ns": "71054434509416",
+  "VERDICT": "PASS",
+  "errors": [],
+  "reference_pcm": {
+    "frames": 926924,
+    "compared_frames": 926924,
+    "channels": 2,
+    "sha256": "9043c170fa7ddf4985948f4290af257421e17d121d3890f658bac9598556b2da",
+    "scope": "FIFO published prefix [0, produced_frames)"
+  },
+  "evidence": {
+    "CSV_INTEGRITY": "PASS",
+    "faults": [],
+    "files": {
+      "callbacks.csv": {
+        "rows": 1975,
+        "sha256": "042dc102f51a13e10aaceacd58d4ee01c302accff961165a10a922ea6116c756"
+      },
+      "workers.csv": {
+        "rows": 453,
+        "sha256": "24fe0dc6b225fa718651714562e8cd11e1c8668952ed27066d21e74511ed5975"
+      },
+      "plans.csv": {
+        "rows": 2,
+        "sha256": "c266318a9305d2c632eeaa168377a254c0a4f03c22ca51e42ca574f1cd11a770"
+      },
+      "operations.csv": {
+        "rows": 2,
+        "sha256": "8c5d242b3647ab94089ed98bb8cb374d83bb70fb68471cd1c7b2fe7db31a2bc4"
+      }
+    }
+  },
+  "sessions": [
+    {
+      "preset": "candidate",
+      "initial": "0.40000000000000002",
+      "session": "1",
+      "offline": "0",
+      "state": "Ended",
+      "reason": "EOS",
+      "AUDIO_QUALITY": "PASS",
+      "MEASUREMENT_QUALITY": "PASS",
+      "eos": "1",
+      "route_stopped": "0",
+      "output_frames": "926924",
+      "produced_frames": "926924",
+      "sample_rate": "44100",
+      "callback_calls": "1975",
+      "consumed_frames": "926924",
+      "presented_frames": "926924",
+      "missing_frames": "0",
+      "underrun_calls": "0",
+      "max_continuous_missing": "0",
+      "rejected_writes": "0",
+      "callback_allocations_measured": "1",
+      "callback_cpp_allocations": "0",
+      "callback_max_ns": "16459",
+      "callback_overruns": "0",
+      "host_missing": "0",
+      "host_backwards": "0",
+      "host_cadence_errors": "0",
+      "sample_errors": "0",
+      "hal_window_misses": "0",
+      "records_dropped": "0",
+      "device": "72",
+      "device_rate": "48000",
+      "device_buffer": "512",
+      "device_latency_ms": "1.375",
+      "bridge_steady_ns": "90839092020145",
+      "bridge_mach_ns": "71033029042458",
+      "bridge_uncertainty_ns": "41",
+      "source_latency_ms": "1.375",
+      "worker_max_wall_s": "0.02669875",
+      "worker_max_cpu_s": "0.026637874999999922",
+      "prepare_s": "0.136419875",
+      "playback_wall_s": "21.314557125",
+      "cpu_seconds": "3.323785",
+      "max_rss": "58720256",
+      "raw_pcm_sha256": "9043c170fa7ddf4985948f4290af257421e17d121d3890f658bac9598556b2da",
+      "channels": "2",
+      "generated_frames": "926924",
+      "published_frames": "926924",
+      "device_raw_frames": "926924",
+      "worker_error": "",
+      "native_error": "",
+      "concurrent_renders": "0",
+      "hash_scope": "fifo_published_raw_float32_interleaved_prefix",
+      "hash_frames": "926924",
+      "fifo_frames": "16384",
+      "lead_frames": "16384",
+      "block_frames": "2048",
+      "qos": "inherited",
+      "PCM_CORRECTNESS": "PASS",
+      "CSV_INTEGRITY": "PASS",
+      "SESSION_VERDICT": "INDETERMINATE",
+      "start_state": "Playing",
+      "callback_rows": "1975",
+      "worker_rows": "453",
+      "plan_rows": "2",
+      "operation_rows": "2",
+      "last_pcm_target_end_ns": "71054419585506",
+      "output_stopped_mach_ns": "71054434509416",
+      "reference_pcm": {
+        "frames": 926924,
+        "compared_frames": 926924,
+        "channels": 2,
+        "sha256": "9043c170fa7ddf4985948f4290af257421e17d121d3890f658bac9598556b2da",
+        "scope": "FIFO published prefix [0, produced_frames)"
+      },
+      "VERDICT": "PASS",
+      "errors": [],
+      "evidence": {
+        "CSV_INTEGRITY": "PASS",
+        "faults": [],
+        "files": {
+          "callbacks.csv": {
+            "rows": 1975,
+            "sha256": "042dc102f51a13e10aaceacd58d4ee01c302accff961165a10a922ea6116c756"
+          },
+          "workers.csv": {
+            "rows": 453,
+            "sha256": "24fe0dc6b225fa718651714562e8cd11e1c8668952ed27066d21e74511ed5975"
+          },
+          "plans.csv": {
+            "rows": 2,
+            "sha256": "c266318a9305d2c632eeaa168377a254c0a4f03c22ca51e42ca574f1cd11a770"
+          },
+          "operations.csv": {
+            "rows": 2,
+            "sha256": "8c5d242b3647ab94089ed98bb8cb374d83bb70fb68471cd1c7b2fe7db31a2bc4"
+          }
+        }
+      },
+      "sessions": [
+        {
+          "VERDICT": "PASS"
+        }
+      ],
+      "SESSION_INTEGRITY": "PASS",
+      "folder": "."
+    }
+  ],
+  "SESSION_INTEGRITY": "PASS",
+  "folder": ".",
+  "manifest_faults": [],
+  "fifo_minimum": 235,
+  "operations": [
+    {
+      "id": "1",
+      "session": "1",
+      "generation": "1",
+      "observed_ns": "90840189771833",
+      "sent_ns": "90840190630291",
+      "completed_ns": "90841862861291",
+      "target": "2",
+      "status": "Completed",
+      "apply_output": "115006",
+      "complete_output": "118042"
+    },
+    {
+      "id": "2",
+      "session": "1",
+      "generation": "2",
+      "observed_ns": "90842188121708",
+      "sent_ns": "90842189204791",
+      "completed_ns": "90842939923125",
+      "target": "0.40000000000000002",
+      "status": "Completed",
+      "apply_output": "155812",
+      "complete_output": "165322"
+    }
+  ],
+  "hal_operation_delays": [
+    {
+      "target": "2",
+      "scheduled_observation_ns": 71034126794146,
+      "sent_ns": 90840190630291,
+      "apply_hal_ms": 1627.32113003125,
+      "completion_hal_ms": 1696.170904734375
+    },
+    {
+      "target": "0.40000000000000002",
+      "scheduled_observation_ns": 71036125144021,
+      "sent_ns": 90842189204791,
+      "apply_hal_ms": 554.233259328125,
+      "completion_hal_ms": 769.8704755
+    }
+  ]
+}

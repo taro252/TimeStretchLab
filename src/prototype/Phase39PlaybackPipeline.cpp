@@ -99,7 +99,7 @@ void Phase39PlaybackPipeline::start() {
     currentTailMicros_=initial_.micros;
     generation_=0;requestNs_=0;acceptedNs_=0;
     workerSeenNs_=0;planNs_=0;requestedOutput_=0;requestedInput_=0;densityReady_=true;
-    produced_=0;presented_=0;underrunFrames_=0;lastPublishedUnixNs_=0;lastPublishedMachNs_=0;
+    produced_=0;generatedPcmFrames_=0;presented_=0;underrunFrames_=0;lastPublishedUnixNs_=0;lastPublishedMachNs_=0;
     profileRecordsDropped_=0;workerPcmSha_.clear();
     workerPcmHashEnabled_=explicitOptions_ ? explicitOptions_->pcmHash : std::getenv("PHASE46_PCM_SHA")!=nullptr;
     maxWorkerChunkSeconds_=0;
@@ -187,6 +187,7 @@ void Phase39PlaybackPipeline::start() {
             std::array<std::size_t,3> controlledNextInput{};
             const auto publish=[&](const float* const* data,std::size_t frames,
                                    const std::function<void()>& poll) {
+                generatedPcmFrames_.fetch_add(frames);
                 if (!stalled && injectedStallMs>0 && produced_.load()>=65536) {
                     stalled=true;
                     const auto until=Clock::now()+std::chrono::duration<double,std::milli>(injectedStallMs);
@@ -674,7 +675,7 @@ Phase39Snapshot Phase39PlaybackPipeline::snapshot() const noexcept {
     value.workerSeenNs=workerSeenNs_.load();value.planNs=planNs_.load();
     value.requestedOutput=requestedOutput_.load();
     value.requestedInput=requestedInput_.load();
-    value.produced=produced_.load();value.presented=presented_.load();
+    value.generatedPcmFrames=generatedPcmFrames_.load();value.produced=produced_.load();value.presented=presented_.load();
     value.preparedAtPlan=preparedAtPlan_.load();
     value.publishedAtPlan=publishedAtPlan_.load();value.fifoAtPlan=fifoAtPlan_.load();
     value.processedInputAtPlan=processedInputAtPlan_.load();

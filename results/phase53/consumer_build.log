@@ -1,0 +1,73 @@
+[  0%] Building CXX object TimeStretchLab/CMakeFiles/timestretch_core.dir/src/audio/WavWriter.cpp.o
+[  8%] Building CXX object TimeStretchLab/CMakeFiles/timestretch_core.dir/src/audio/WavReader.cpp.o
+[  8%] Building CXX object TimeStretchLab/CMakeFiles/timestretch_core.dir/src/audio/WavStream.cpp.o
+[  8%] Building CXX object TimeStretchLab/CMakeFiles/timestretch_core.dir/src/dsp/FFTAccelerate.cpp.o
+[ 12%] Building CXX object TimeStretchLab/CMakeFiles/timestretch_core.dir/src/dsp/OverlapAdd.cpp.o
+[ 12%] Building CXX object TimeStretchLab/CMakeFiles/timestretch_core.dir/src/dsp/STFT.cpp.o
+[ 12%] Building CXX object TimeStretchLab/CMakeFiles/timestretch_core.dir/src/dsp/RingOverlapAdd.cpp.o
+[ 16%] Building CXX object TimeStretchLab/CMakeFiles/timestretch_core.dir/src/dsp/PhaseVocoder.cpp.o
+[ 16%] Building CXX object TimeStretchLab/CMakeFiles/timestretch_core.dir/src/dsp/PhaseLocker.cpp.o
+[ 20%] Building CXX object TimeStretchLab/CMakeFiles/timestretch_core.dir/src/dsp/PartialTracker.cpp.o
+[ 20%] Building CXX object TimeStretchLab/CMakeFiles/timestretch_core.dir/src/dsp/PeriodicResynchronizer.cpp.o
+[ 25%] Building CXX object TimeStretchLab/CMakeFiles/timestretch_core.dir/src/dsp/TransientDetector.cpp.o
+[ 25%] Building CXX object TimeStretchLab/CMakeFiles/timestretch_core.dir/src/dsp/TransientEventMap.cpp.o
+[ 29%] Building CXX object TimeStretchLab/CMakeFiles/timestretch_core.dir/src/dsp/TransientAnchor.cpp.o
+[ 29%] Building CXX object TimeStretchLab/CMakeFiles/timestretch_core.dir/src/dsp/StereoPhaseCoherence.cpp.o
+[ 33%] Building CXX object TimeStretchLab/CMakeFiles/timestretch_core.dir/src/dsp/TimeMap.cpp.o
+[ 33%] Building CXX object TimeStretchLab/CMakeFiles/timestretch_core.dir/src/dsp/MultiResolutionCrossover.cpp.o
+[ 37%] Building CXX object TimeStretchLab/CMakeFiles/timestretch_core.dir/src/dsp/StreamingCrossover.cpp.o
+[ 37%] Building CXX object TimeStretchLab/CMakeFiles/timestretch_core.dir/src/dsp/ChunkedTimeStretchEngine.cpp.o
+[ 41%] Building CXX object TimeStretchLab/CMakeFiles/timestretch_core.dir/src/dsp/Phase13StreamingEngine.cpp.o
+[ 41%] Building CXX object TimeStretchLab/CMakeFiles/timestretch_core.dir/src/dsp/Phase14PlaybackPipeline.cpp.o
+[ 45%] Building CXX object TimeStretchLab/CMakeFiles/timestretch_core.dir/src/dsp/Phase18PcmCache.cpp.o
+[ 45%] Building CXX object TimeStretchLab/CMakeFiles/timestretch_core.dir/src/dsp/TimeStretchEngine.cpp.o
+[ 50%] Building CXX object TimeStretchLab/CMakeFiles/timestretch_core.dir/src/dsp/TimeStretchProcessor.cpp.o
+[ 50%] Building CXX object TimeStretchLab/CMakeFiles/timestretch_core.dir/src/dsp/WSOLAEngine.cpp.o
+[ 54%] Building CXX object TimeStretchLab/CMakeFiles/timestretch_core.dir/src/dsp/TonalResidualEngine.cpp.o
+[ 54%] Building CXX object TimeStretchLab/CMakeFiles/timestretch_core.dir/src/dsp/SinusoidalResidualEngine.cpp.o
+[ 58%] Linking CXX static library libtimestretch_core.a
+[ 58%] Built target timestretch_core
+[ 58%] Building CXX object TimeStretchLab/CMakeFiles/phase24_variable.dir/src/prototype/Phase24PlaybackPipeline.cpp.o
+[ 66%] Building CXX object TimeStretchLab/CMakeFiles/phase24_variable.dir/src/prototype/Phase22VariableTimeMap.cpp.o
+[ 66%] Building CXX object TimeStretchLab/CMakeFiles/phase24_variable.dir/src/prototype/Phase24StreamingSpeedEngine.cpp.o
+[ 66%] Linking CXX static library libphase24_variable.a
+[ 66%] Built target phase24_variable
+[ 75%] Building CXX object TimeStretchLab/CMakeFiles/phase36_variable.dir/src/prototype/Phase35PhaseVocoder.cpp.o
+[ 75%] Building CXX object TimeStretchLab/CMakeFiles/phase36_variable.dir/src/prototype/Phase35StereoPhaseCoherence.cpp.o
+[ 75%] Building CXX object TimeStretchLab/CMakeFiles/phase36_variable.dir/src/prototype/Phase35TimeMap.cpp.o
+[ 75%] Building CXX object TimeStretchLab/CMakeFiles/phase36_variable.dir/src/prototype/Phase36StreamingSpeedEngine.cpp.o
+[ 79%] Building CXX object TimeStretchLab/CMakeFiles/phase36_variable.dir/src/prototype/Phase36PlaybackPipeline.cpp.o
+[ 79%] Linking CXX static library libphase36_variable.a
+[ 79%] Built target phase36_variable
+[ 79%] Building CXX object TimeStretchLab/CMakeFiles/phase39_variable.dir/src/prototype/Phase37HighSpeedMap.cpp.o
+[ 87%] Building CXX object TimeStretchLab/CMakeFiles/phase39_variable.dir/src/prototype/Phase39PlaybackPipeline.cpp.o
+[ 87%] Building CXX object TimeStretchLab/CMakeFiles/phase39_variable.dir/src/prototype/Phase39TimeMap.cpp.o
+/Users/taro252/Docker/TimeStretchLab/src/prototype/Phase39PlaybackPipeline.cpp:483:21: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
+  483 |                     densityReady_.store(false,std::memory_order_release);
+      |                     ^
+/Users/taro252/Docker/TimeStretchLab/src/prototype/Phase39PlaybackPipeline.cpp:481:17: note: previous statement is here
+  481 |                 if (changesDensity)
+      |                 ^
+[ 87%] Building CXX object TimeStretchLab/CMakeFiles/phase39_variable.dir/src/prototype/Phase42DensityGuard.cpp.o
+1 warning generated.
+[ 87%] Linking CXX static library libphase39_variable.a
+[ 87%] Built target phase39_variable
+[ 87%] Building CXX object TimeStretchLab/CMakeFiles/playback_engine.dir/src/playback/PlaybackEngine.cpp.o
+[ 91%] Linking CXX static library libplayback_engine.a
+[ 91%] Built target playback_engine
+[ 95%] Building OBJCXX object TimeStretchLab/CMakeFiles/macos_playback_engine.dir/src/platform/macos/MacPlaybackEngine.mm.o
+[ 95%] Linking CXX static library libmacos_playback_engine.a
+[ 95%] Built target macos_playback_engine
+[100%] Building CXX object CMakeFiles/handoff_consumer.dir/Users/taro252/Docker/TimeStretchLab/examples/mac_playback_handoff.cpp.o
+[100%] Linking CXX executable handoff_consumer
+[100%] Built target handoff_consumer
+[ 58%] Built target timestretch_core
+[ 66%] Built target phase24_variable
+[ 79%] Built target phase36_variable
+[ 87%] Built target phase39_variable
+[ 91%] Built target playback_engine
+[ 95%] Building OBJCXX object TimeStretchLab/CMakeFiles/macos_playback_engine.dir/src/platform/macos/MacPlaybackEngine.mm.o
+[ 95%] Linking CXX static library libmacos_playback_engine.a
+[ 95%] Built target macos_playback_engine
+[ 95%] Linking CXX executable handoff_consumer
+[100%] Built target handoff_consumer

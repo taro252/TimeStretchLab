@@ -2,7 +2,13 @@
 
 音程を保った速度変更を研究する、macOS向けC++20のデジタル音声処理（DSP）・再生エンジンです。Apple Accelerateによる音声合成、オフラインWAV生成、AVAudioEngineによる実機再生を扱います。DSP内部はチャンネルごとに分けたfloat32サンプルを使用します。
 
-## 現在の開発状況：Phase 52
+## 現在の開発状況：Phase 53
+
+Phase 52で統合した再生APIを補強しました。Draining中の診断取得は音声出力を停止せず、stop/restartを含む全セッションのPCM・計測・CSV品質を共通判定で検証します。参照PCMの訂正によって音声・計測・CSVのFAILをPASSへ変更しません。
+
+アプリ本体は別リポジトリ **merodoa** で開発し、`external/TimeStretchLab/` をsubmoduleとして固定する方針です。取得・固定SHA・ビルド・Swift側ブリッジの契約・入力所有権は [アプリ統合引き継ぎ仕様](docs/APP_INTEGRATION_HANDOFF.md) を参照してください。完成版は `phase53-handoff` タグで識別します。修正・実機・全回帰の結果は [Phase 53 REPORT](results/phase53/REPORT.md) に保存しています。
+
+## Phase 52で統合した再生エンジン
 
 **0.40〜2.00倍速の開発版再生エンジンを、アプリから使えるライブラリ/APIとして統合しました。** 再生、速度変更、一時停止・再開、停止・再起動、EOS（音源末尾までの排出）、出力装置変更時の安全停止に対応します。GUIはまだありません。
 
@@ -185,7 +191,7 @@ Phase 5.1 の逐次処理は `--chunked on` で有効になります。既定の
 
 ### Phase 5.3 品質モード
 
-`--quality normal|high|experimental` を指定できます。Normal は中4096/1024のみ、High は低8192/2048＋中4096/1024で LP250 により合成、Experimental は旧3経路です。`--multiresolution on` の既定は High に変更しました。品質モードを指定しない `--multiresolution off` は Normal、`--multiresolution on` は High です。逐次処理でも全長処理でも同じ品質モードを選べます。比較実験用に `--low-crossover-hz 200|250|300` を指定できますが、既定は250 Hzのままです。[Phase 5.3 レポート](results/phase53/REPORT.md) に回帰・音質・負荷の結果を記録しています。
+`--quality normal|high|experimental` を指定できます。Normal は中4096/1024のみ、High は低8192/2048＋中4096/1024で LP250 により合成、Experimental は旧3経路です。`--multiresolution on` の既定は High に変更しました。品質モードを指定しない `--multiresolution off` は Normal、`--multiresolution on` は High です。逐次処理でも全長処理でも同じ品質モードを選べます。比較実験用に `--low-crossover-hz 200|250|300` を指定できますが、既定は250 Hzのままです。[Phase 5.3 レポート](results/phase53/PHASE5_3_REPORT.md) に回帰・音質・負荷の結果を記録しています。
 
 ### Phase 6 部分音ピーク追跡
 

@@ -1,0 +1,101 @@
+[
+  {
+    "case": "results/phase53/native/20261014_165255/mix_0.50_candidate_000",
+    "source": "mix",
+    "input_sha256": "a14603c04a16b83b141dcd817148a3d7a928843bd6ab0af341a9b98e65716caf",
+    "seconds": 5,
+    "preset": "candidate",
+    "initial": 0.5,
+    "stress": false,
+    "exit": 1,
+    "actions": [],
+    "intentional_stall": null,
+    "AUDIO_QUALITY": "FAIL",
+    "MEASUREMENT_QUALITY": "FAIL",
+    "error": "missing summary"
+  },
+  {
+    "case": "results/phase53/native/20261014_165255/drums_0.50_candidate_000",
+    "source": "drums",
+    "input_sha256": "06691063a2507d6ebfae9ca27294a86cd8f40cc987992d63cb79669879043aad",
+    "seconds": 5,
+    "preset": "candidate",
+    "initial": 0.5,
+    "stress": false,
+    "exit": 1,
+    "actions": [],
+    "intentional_stall": null,
+    "AUDIO_QUALITY": "FAIL",
+    "MEASUREMENT_QUALITY": "FAIL",
+    "error": "missing summary"
+  },
+  {
+    "case": "results/phase53/native/20261014_165255/mix_0.40_candidate_000",
+    "source": "mix",
+    "input_sha256": "789d4c159e35b4c133a17913ad5a9c47b85970185e5d86b074d146afc1bb311e",
+    "seconds": 10,
+    "preset": "candidate",
+    "initial": 0.4,
+    "stress": false,
+    "exit": 1,
+    "actions": [
+      [
+        1,
+        "speed",
+        2
+      ],
+      [
+        3,
+        "speed",
+        0.4
+      ],
+      [
+        5,
+        "pause",
+        0
+      ],
+      [
+        5.25,
+        "resume",
+        0
+      ]
+    ],
+    "intentional_stall": null,
+    "AUDIO_QUALITY": "FAIL",
+    "MEASUREMENT_QUALITY": "FAIL",
+    "error": "missing summary"
+  },
+  {
+    "source": "drums",
+    "initial": 0.5,
+    "VERDICT": "FAIL",
+    "error": "FileExistsError(17, 'File exists')"
+  },
+  {
+    "source": "mix",
+    "initial": 0.5,
+    "VERDICT": "FAIL",
+    "error": "FileExistsError(17, 'File exists')"
+  },
+  {
+    "source": "drums",
+    "initial": 0.5,
+    "VERDICT": "FAIL",
+    "error": "FileExistsError(17, 'File exists')"
+  },
+  {
+    "case": "results/phase53/native/20261014_165255/mix_0.50_baseline_000",
+    "source": "mix",
+    "input_sha256": "a14603c04a16b83b141dcd817148a3d7a928843bd6ab0af341a9b98e65716caf",
+    "seconds": 5,
+    "preset": "baseline",
+    "initial": 0.5,
+    "stress": false,
+    "exit": 1,
+    "actions": [],
+    "intentional_stall": null,
+    "AUDIO_QUALITY": "FAIL",
+    "MEASUREMENT_QUALITY": "FAIL",
+    "error": "missing summary"
+  }
+]

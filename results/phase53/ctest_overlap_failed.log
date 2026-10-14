@@ -1,0 +1,170 @@
+Test project /Users/taro252/Docker/TimeStretchLab/build
+      Start 35: phase27_repeated
+      Start 66: phase51_l2_pcm
+      Start 20: phase10_stress
+ 1/72 Test #66: phase51_l2_pcm ...................   Passed   30.42 sec
+      Start 36: phase27_synthetic
+ 2/72 Test #36: phase27_synthetic ................   Passed   81.25 sec
+      Start 63: phase50_l1_pcm
+ 3/72 Test #63: phase50_l1_pcm ...................   Passed   16.38 sec
+      Start 34: phase26_playback
+ 4/72 Test #34: phase26_playback .................   Passed   74.39 sec
+      Start 70: phase52_fixed_pcm
+ 5/72 Test #70: phase52_fixed_pcm ................   Passed   10.77 sec
+      Start 49: phase42_safe_density
+ 6/72 Test #20: phase10_stress ...................   Passed  216.26 sec
+      Start 68: phase52_playback_api
+ 7/72 Test #68: phase52_playback_api .............   Passed    8.83 sec
+      Start 48: phase40_high_speed_planning
+ 8/72 Test #49: phase42_safe_density .............   Passed   34.80 sec
+      Start 39: phase30_playback
+ 9/72 Test #48: phase40_high_speed_planning ......   Passed   34.20 sec
+      Start 32: phase24
+10/72 Test #39: phase30_playback .................   Passed   33.92 sec
+      Start 44: phase36_streaming
+11/72 Test #32: phase24 ..........................   Passed   39.41 sec
+      Start 58: phase48_block_partition
+12/72 Test #44: phase36_streaming ................   Passed   20.21 sec
+      Start 45: phase37_high_speed
+13/72 Test #58: phase48_block_partition ..........   Passed    5.66 sec
+      Start 43: phase35_variable_hop
+14/72 Test #35: phase27_repeated .................***Failed  305.96 sec
+mix.wav commands=2 output_frames=3949466 plan_median_ms=0.0435 plan_p95_ms=0.0435 plan_max_ms=0.0435 max_worker_ms=28.1792 rss_mib=111.969 peak=1.42631 transition_step=0.0976367 exact_pcm=1
+mix.wav commands=5 output_frames=2755807 plan_median_ms=0.017167 plan_p95_ms=0.02875 plan_max_ms=0.02875 max_worker_ms=22.4067 rss_mib=111.969 peak=1.41262 transition_step=0.118467 exact_pcm=1
+mix.wav commands=10 output_frames=3857709 plan_median_ms=0.01775 plan_p95_ms=0.020083 plan_max_ms=0.020083 max_worker_ms=20.4676 rss_mib=112.125 peak=1.42631 transition_step=0.213881 exact_pcm=1
+mix.wav commands=30 output_frames=3554516 plan_median_ms=0.0175 plan_p95_ms=0.028458 plan_max_ms=0.0345 max_worker_ms=197.145 rss_mib=112.125 peak=1.42631 transition_step=0.578725 exact_pcm=1
+vocal.wav commands=2 output_frames=4280521 plan_median_ms=0.033709 plan_p95_ms=0.033709 plan_max_ms=0.033709 max_worker_ms=20.6952 rss_mib=139.016 peak=0.988933 transition_step=0.0934516 exact_pcm=1
+vocal.wav commands=5 output_frames=2970903 plan_median_ms=0.016083 plan_p95_ms=0.021292 plan_max_ms=0.021292 max_worker_ms=20.1834 rss_mib=139.031 peak=1.01844 transition_step=0.109923 exact_pcm=1
+vocal.wav commands=10 output_frames=4151462 plan_median_ms=0.016125 plan_p95_ms=0.021625 plan_max_ms=0.021625 max_worker_ms=22.7906 rss_mib=139.031 peak=0.988933 transition_step=0.150473 exact_pcm=1
+vocal.wav commands=30 output_frames=3786360 plan_median_ms=0.015625 plan_p95_ms=0.022959 plan_max_ms=0.026167 max_worker_ms=18.9337 rss_mib=139.031 peak=0.988933 transition_step=0.172913 exact_pcm=1
+bass.wav commands=2 output_frames=4276398 plan_median_ms=0.0305 plan_p95_ms=0.0305 plan_max_ms=0.0305 max_worker_ms=67.6622 rss_mib=139.031 peak=0.878249 transition_step=0.00625259 exact_pcm=1
+bass.wav commands=5 output_frames=2979497 plan_median_ms=0.020458 plan_p95_ms=0.038792 plan_max_ms=0.038792 max_worker_ms=17.812 rss_mib=139.031 peak=0.973402 transition_step=0.00625259 exact_pcm=1
+bass.wav commands=10 output_frames=4163138 plan_median_ms=0.0175 plan_p95_ms=0.029 plan_max_ms=0.029 max_worker_ms=17.3174 rss_mib=139.031 peak=0.878249 transition_step=0.00625259 exact_pcm=1
+bass.wav commands=30 output_frames=3833650 plan_median_ms=0.018209 plan_p95_ms=0.029875 plan_max_ms=0.037459 max_worker_ms=18.3112 rss_mib=139.031 peak=0.881754 transition_step=0.00672129 exact_pcm=1
+Phase 27 repeated: Cannot create WAV: /var/folders/ft/xsqp1bg15lvcr2m90ynsllmr0000gn/T/phase27_repeated_sources/drums_repeated.wav
+
+      Start 41: phase32_diagnostics
+15/72 Test #41: phase32_diagnostics ..............   Passed    7.16 sec
+      Start 38: phase29_audio
+16/72 Test #45: phase37_high_speed ...............   Passed   13.16 sec
+      Start 19: phase101
+17/72 Test #38: phase29_audio ....................   Passed    6.05 sec
+      Start 27: phase19
+18/72 Test #43: phase35_variable_hop .............   Passed   15.28 sec
+      Start 60: phase49_stall_controls
+19/72 Test #60: phase49_stall_controls ...........   Passed    0.96 sec
+      Start 72: phase53_session_integrity
+20/72 Test #72: phase53_session_integrity ........   Passed    0.78 sec
+      Start 31: phase23
+21/72 Test #31: phase23 ..........................   Passed    5.14 sec
+      Start 18: phase10
+22/72 Test #19: phase101 .........................   Passed   11.36 sec
+      Start 47: phase39_high_speed_streaming
+23/72 Test #27: phase19 ..........................   Passed    7.86 sec
+      Start 25: phase16
+24/72 Test #47: phase39_high_speed_streaming .....   Passed    2.24 sec
+      Start 61: phase50_parent_verdict
+25/72 Test #61: phase50_parent_verdict ...........   Passed    0.65 sec
+      Start  9: phase5
+26/72 Test #25: phase16 ..........................   Passed    4.69 sec
+      Start 56: phase47_evidence_validation
+27/72 Test #56: phase47_evidence_validation ......   Passed    0.83 sec
+      Start 40: phase31_feasibility
+28/72 Test #18: phase10 ..........................   Passed    7.59 sec
+      Start 42: phase33_diagnostics
+29/72 Test #40: phase31_feasibility ..............   Passed    2.38 sec
+      Start 71: phase53_callback_export
+30/72 Test #71: phase53_callback_export ..........   Passed    0.01 sec
+      Start 12: phase53
+31/72 Test #42: phase33_diagnostics ..............   Passed    1.94 sec
+      Start 21: phase10_benchmark
+32/72 Test  #9: phase5 ...........................   Passed    7.87 sec
+      Start 67: phase51_timeline_integrity
+33/72 Test #67: phase51_timeline_integrity .......   Passed    0.30 sec
+      Start 17: phase9c
+34/72 Test #12: phase53 ..........................   Passed    5.58 sec
+      Start  3: phase2
+35/72 Test #21: phase10_benchmark ................   Passed    4.45 sec
+      Start  8: phase4
+36/72 Test #17: phase9c ..........................   Passed    4.07 sec
+      Start 57: phase48_native_validation
+37/72 Test #57: phase48_native_validation ........   Passed    0.72 sec
+      Start 64: phase51_resume_integrity
+38/72 Test #64: phase51_resume_integrity .........   Passed    0.27 sec
+      Start 11: phase52
+39/72 Test  #8: phase4 ...........................   Passed    5.16 sec
+      Start 26: phase18
+40/72 Test #11: phase52 ..........................   Passed    3.49 sec
+      Start 24: phase14
+41/72 Test  #3: phase2 ...........................   Passed    6.73 sec
+      Start 46: phase38_noise_diagnostic
+42/72 Test #26: phase18 ..........................   Passed    1.97 sec
+      Start 10: phase51
+43/72 Test #46: phase38_noise_diagnostic .........   Passed    0.88 sec
+      Start  6: phase36
+44/72 Test #24: phase14 ..........................   Passed    2.29 sec
+      Start 62: phase50_boundary_state
+45/72 Test #62: phase50_boundary_state ...........   Passed    0.01 sec
+      Start 69: phase52_player_verdict
+46/72 Test #69: phase52_player_verdict ...........   Passed    0.20 sec
+      Start 59: phase49_metric_integrity
+47/72 Test #59: phase49_metric_integrity .........   Passed    0.33 sec
+      Start 13: phase6
+48/72 Test #10: phase51 ..........................   Passed    3.52 sec
+      Start 37: phase28_map
+49/72 Test #13: phase6 ...........................   Passed    2.22 sec
+      Start 54: phase46_measurement_validation
+50/72 Test #54: phase46_measurement_validation ...   Passed    0.32 sec
+      Start 14: phase7
+51/72 Test  #6: phase36 ..........................   Passed    3.92 sec
+      Start 23: phase21
+52/72 Test #37: phase28_map ......................   Passed    1.08 sec
+      Start 65: phase51_busy_control
+53/72 Test #65: phase51_busy_control .............   Passed    0.01 sec
+      Start  5: phase35
+54/72 Test #23: phase21 ..........................   Passed    1.09 sec
+      Start  4: phase3
+55/72 Test #14: phase7 ...........................   Passed    1.79 sec
+      Start  7: phase37
+56/72 Test  #5: phase35 ..........................   Passed    2.44 sec
+      Start  2: phase1_validation
+57/72 Test  #7: phase37 ..........................   Passed    2.27 sec
+      Start 51: phase45_live_validation
+58/72 Test  #4: phase3 ...........................   Passed    2.63 sec
+      Start 52: phase45_trace_parser
+59/72 Test #51: phase45_live_validation ..........   Passed    0.29 sec
+      Start 22: phase13
+60/72 Test #52: phase45_trace_parser .............   Passed    0.26 sec
+      Start 55: phase47_evidence_io
+61/72 Test #55: phase47_evidence_io ..............   Passed    0.02 sec
+      Start 53: phase46_host_clock
+62/72 Test #53: phase46_host_clock ...............   Passed    0.01 sec
+      Start 50: phase45_callback_clock
+63/72 Test #50: phase45_callback_clock ...........   Passed    0.01 sec
+      Start 16: phase9a
+64/72 Test #16: phase9a ..........................   Passed    0.44 sec
+      Start  1: phase1
+65/72 Test #22: phase13 ..........................   Passed    0.89 sec
+      Start 33: phase26_timemap
+66/72 Test #33: phase26_timemap ..................   Passed    0.14 sec
+      Start 15: phase8a
+67/72 Test #15: phase8a ..........................   Passed    0.21 sec
+      Start 29: phase22_timemap
+68/72 Test  #2: phase1_validation ................   Passed    2.61 sec
+      Start 30: phase22b
+69/72 Test #29: phase22_timemap ..................   Passed    0.08 sec
+      Start 28: phase20_architecture
+70/72 Test #28: phase20_architecture .............   Passed    0.01 sec
+71/72 Test #30: phase22b .........................   Passed    0.07 sec
+72/72 Test  #1: phase1 ...........................   Passed    0.95 sec
+
+99% tests passed, 1 tests failed out of 72
+
+Label Time Summary:
+deterministic    = 1072.10 sec*proc (72 tests)
+
+Total Test time (real) = 357.52 sec
+
+The following tests FAILED:
+	 35 - phase27_repeated (Failed)                         deterministic
+Errors while running CTest

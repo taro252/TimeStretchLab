@@ -70,6 +70,7 @@ struct Phase39Snapshot {
     Phase39Speed initial{},from{},target{},currentAudible{};
     std::uint64_t generation=0,requestNs=0,acceptedNs=0,workerSeenNs=0,planNs=0;
     std::size_t requestedOutput=0,requestedInput=0,produced=0,presented=0;
+    std::size_t generatedPcmFrames=0;
     std::size_t preparedAtPlan=0,publishedAtPlan=0,fifoAtPlan=0;
     std::size_t processedInputAtPlan=0,planningFence=0;
     std::size_t appliedOutput=0,completionOutput=0,outputLength=0;
@@ -194,7 +195,7 @@ private:
     std::atomic<std::uint64_t> generation_{0},requestNs_{0},acceptedNs_{0};
     std::atomic<std::uint64_t> workerSeenNs_{0},planNs_{0};
     std::atomic<std::size_t> requestedOutput_{0},requestedInput_{0};
-    std::atomic<std::size_t> produced_{0},presented_{0},outputLength_{0};
+    std::atomic<std::size_t> produced_{0},presented_{0},outputLength_{0},generatedPcmFrames_{0};
     std::atomic<std::size_t> preparedAtPlan_{0},publishedAtPlan_{0},fifoAtPlan_{0};
     std::atomic<std::size_t> processedInputAtPlan_{0},planningFence_{0};
     std::atomic<std::size_t> appliedOutput_{0},completionOutput_{0};

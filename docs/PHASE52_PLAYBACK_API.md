@@ -105,3 +105,9 @@ build/playback_demo results/phase31/input/mix.wav results/phase52/manual_001 can
 `python3 -B scripts/phase52_validate.py fixed|controls|long|audible|golden|audit` で独立検証できます。実機試験は他のDSP回帰と同時実行しないでください。速度変更の計画完了後も、先行PCMと過渡音保護により操作応答が遅れる場合があります。残る制限はREPORTを参照してください。
 
 アプリ側CMakeでは `add_subdirectory(TimeStretchLab)` と `target_link_libraries(MyApp PRIVATE macos_playback_engine)` でリンクします。速度スライダーの値は小数6桁へ量子化して渡し、不正値の例外を処理してください。
+
+## Phase 53で補強した診断・引き継ぎ
+
+`callbackRecords()` は再生状態を変更しない読取り専用APIです。Draining/実行中は `std::logic_error` を返し、詳細記録はcallback静止後に取得します。末尾PCMのHAL目標と5ms余裕を待つEOS管理は、ライフサイクル側が所有します。
+
+別リポジトリmerodoaからのsubmodule利用、公開APIの戻り値・例外・スレッド契約は [APP_INTEGRATION_HANDOFF.md](APP_INTEGRATION_HANDOFF.md) に整理しています。stop/restartを含む全セッションとCSV完全性の共通判定はPhase 53で補強しました。旧Phase 52の結果は保存し、厳密再検証の結果を別に管理します。

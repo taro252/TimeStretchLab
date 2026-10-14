@@ -1,65 +1,122 @@
-# Phase 5.3 — High Quality 基準の統合
+# Phase 53 — Playback Engine Hardening & Application Integration Handoff
 
-## 構成と既定値
+## 位置付け
 
-`QualityMode` を Normal / High / Experimental として内部定義した。コマンドラインでは `--quality normal|high|experimental`。Normal は中4096/1024のみ、High は低8192/2048＋中4096/1024を従来の2049タップ・線形位相 LP250 で `mid + LP250(low-mid)` と合成する。Experimental は従来の低＋中＋高1024/256と、LP250/LP3500による3経路のまま。`--multiresolution on` の既定を High に変更し、`--multiresolution off` は Normal。比較用の `--ablation a|b|c` は維持した。全長処理と逐次処理に同じ選択を適用し、位相・TimeMap・ゲイン・WAV形式・FIR境界処理は変更していない。Phase 5/5.1 の歴史的な再生成スクリプトは明示的に Experimental を選ぶよう更新した。
+Phase 52基準 `65a875907437e410517db22d80e402d6fed93069`、作業開始HEAD `5570672`。変更はTimeStretchLabだけで、merodoaへは変更していない。凍結Experimental 3500、TimeMap/L1/L2/safe-density、位相・OLA・FIR、Phase30/36、キャッシュ・シークを変更していない。
 
-高1024点経路を High の既定から外した理由は [Phase 5.2 レポート](../phase52/REPORT.md) のとおり。Bass のピッチ改善がなく、短いバーストの初期20 msエネルギー低下、シンバル状信号の先行漏れ・減衰尾の増加、CPU負荷増大があり、明確な聴感改善は未確認である。Experimental としては引き続き選択できる。
+再生ライブラリの残存3件を修正し、別リポジトリからの引き継ぎ仕様を作成した。開発版APIの利用準備を整えたもので、一般公開向けの実時間安定性保証ではない。
 
-## 回帰・出力長
+## 1. 修正内容
 
-`cmake --build build -j 8` 成功、`ctest --test-dir build --output-on-failure` **12/12件成功**。品質モードの新しい単体試験では人工ステレオの0.75/0.50xについて、Normal=A、High=B、Experimental=Cがサンプル単位で完全一致し、各逐次出力と対応する全長処理の最大差は10⁻⁵未満だった。
+### Drainingと診断取得
 
-Bass / Mix / 女性 Vocal / 男性 Vocal の入力90〜135秒の同一45秒区間を、同一ゲイン・float32で Normal/High の両速度へ書き出した（合計16 WAV）。保存済み Phase 5.2 の A/B と16件すべて完全一致し、差分サンプル数0。全組で Normal/High のTimeMapハッシュ・イベント数・出力長が一致した。[回帰 CSV](real/phase52_regression.csv)と[試聴 WAV 一覧](real/manifest.csv)を参照。Experimental も Mix 0.50x と Bass 0.75x で Phase 5.2 C と全サンプル一致した。`--multiresolution on` のモード無指定出力は Bass 0.50x の High と全サンプル一致した。
+`MacPlaybackEngine::callbackRecords()` が内部Ended/Failedを契機に `quiesce(false)` を呼んでいた。内部EOSはデバイス側の末尾排出完了を意味しないため、診断取得で音声出力を早期停止できた。
 
-全16 WAVの `finite=yes`。Bass と男女 Vocal は48 kHzで0.75x 2880000、0.50x 4320000サンプル、Mixは44.1 kHzで2646000/3969000サンプル。いずれも入力45秒に対する期待値と一致し、NaN/Infなし。ゲイン正規化はしていない。
+停止の副作用を除去した。Draining/active/in-flight中はlogic_errorで詳細履歴取得を拒否し、callback静止後にコピーする。通常の状態・診断照会もライフサイクルを変更しない。末尾HAL目標＋既存5msを待つ停止は監視・ライフサイクル側が所有する。Failed、User Stop、RouteChangedはEOSと別理由のまま。
 
-## Bass とステレオ
+読取り専用ポリシーの決定論的試験は1,000回反復。実機 `--verify-draining` はDraining中に8回診断取得を試み、play/prepare拒否、早期停止なし、正常Ended後の記録取得、末尾HAL期限を確認する。失敗状態での履歴取得はCLI制御側で静止を最大1秒待ち、診断APIから強制停止しない。
 
-Bass の実区間のピッチ指標は Phase 5.2 B を維持した。隣接フレームの変化量（中央値 / 90%値、単位 cents）は0.75xで Normal 4.714 / 72.036 → High **4.347 / 59.824**、0.50xで Normal 5.208 / 65.215 → High **4.065 / 63.968**。中央周波数は0.75x 56.430→57.187 Hz、0.50x 58.276→57.689 Hz。曲の実際の基音を正解ラベルとしていないため中央周波数差を精度改善とは解釈しない。
+ネイティブ診断へ `lastPcmTargetEndNs` と `outputStoppedMachNs` を追加した。C++確保計数はRenderState構築時の基準との差分にし、前セッションの累積値を新セッションの実測件数と混同しない。
 
-ステレオ指標（詳細は [全16件の測定 CSV](real/metrics.csv)）：
+### 全セッションの品質・PCM
 
-| 音源・速度 | Normal→High Side/Mid | Normal→High L/R相関 | 全帯域 IPD RMS ° | 低域 IPD RMS ° | ILD RMS dB |
-|---|---|---|---|---|---|
-| Bass 0.75 | 0.1066→0.1078 | 0.9974→0.9969 | 1.307→1.264 | 0.744→0.704 | 0.118→0.123 |
-| Bass 0.50 | 0.1087→0.1098 | 0.9966→0.9961 | 3.865→3.798 | 2.278→1.631 | 0.197→0.255 |
-| Mix 0.75 | 0.2251→0.2262 | 0.9036→0.9027 | 12.800→13.033 | 3.212→4.680 | 1.178→1.200 |
-| Mix 0.50 | 0.2773→0.2728 | 0.8572→0.8615 | 29.520→29.790 | 12.264→8.931 | 2.467→2.470 |
-| 女性 Vocal 0.75 | 0.2255→0.2254 | 0.9037→0.9038 | 28.318→28.320 | 88.434→80.688 | 1.308→1.313 |
-| 女性 Vocal 0.50 | 0.2721→0.2721 | 0.8625→0.8626 | 44.077→44.106 | 81.209→92.886 | 2.432→2.428 |
-| 男性 Vocal 0.75 | 0.1660→0.1670 | 0.9465→0.9459 | 17.630→17.719 | 22.278→27.358 | 1.151→1.177 |
-| 男性 Vocal 0.50 | 0.1904→0.1929 | 0.9302→0.9284 | 30.042→30.715 | 17.340→92.018 | 1.817→1.895 |
+従来のclosed-session記録は一部カウンターしか保存せず、親判定が最終セッションのPCM照合しか見ていなかった。書込み拒否・ワーカーエラー等の伝搬も不足していた。
 
-Bass、Mix、Vocal の全体的な Side/Mid と相関には大きな変化がない。ただし男性 Vocal 0.50x の局所低域 IPD は、次節のとおり注意が必要であり、全体値だけで無害とは言えない。
+`PlaybackDemo` は各User Stopで完全なsummary、callback/worker/plan/operation CSVを保存する。最終セッションと終了済みセッションを `sessions.csv` で列挙し、ID・一覧の欠落や重複を検証する。過去のFIFO拒否、ワーカーエラー、同時消費、計測異常を親へ伝搬する。
 
-## 男性 Vocal 低域 IPD の標本数
+| 範囲 | 記録・意味 |
+| --- | --- |
+| DSPが生成したPCM | `generated_frames`：出力ブロックとして準備済み。未公開の待機ブロックを含む |
+| FIFO公開済みPCM | `published_frames`（旧名produced_framesと一致）。SHAの対象 `[0, published_frames)` |
+| callback消費 | `consumed_frames`：FIFOから取得した実PCM。ゼロ埋めを含まない |
+| SourceNodeへ渡したraw | `device_raw_frames`：消費した実PCM、入力サンプルレートでのフレーム数。SRC後の物理装置フレーム数ではない |
+| 要求提示時間軸 | `presented_frames`：不足ゼロ埋めを含む要求フレーム数 |
 
-入力と出力を各1秒間隔の4096点 Hann窓で解析し、40〜150 Hzの有調波局所ピークを採用した。条件は入力の全帯域最大振幅の3%以上、左右・入出力の各スペクトル振幅が10⁻⁵以上など、既存 IPD 指標と同一。`有効ビン数` は採用ピーク数の総和、`重み付き有効ビン数` は重みの二乗和を用いる `(Σw)²/Σw²`。これは少数の強いビンに支配されると小さくなる標本数の目安である。各1秒窓の詳細は [低域窓 CSV](real/low_ipd_windows.csv)。
+SHAは無加工float32をサンプル順・チャンネル順に並べた接頭部。各セッション自身の開始速度・計画・安全密度履歴から独立参照を再生成し、同じ長さだけを比較する。EOSでは参照全長とも一致させる。初回セッションを最終セッションの別TimeMapや別prefix長で代用しない。
 
-| 音源・速度 | Normal / High 有効ビン数 | Normal→High重み付き有効ビン数 | 0ビンの窓 / 総窓 |
-|---|---:|---:|---:|
-| Bass 0.50 | 96 / 96 | 73.58→74.20 | 0 / 44 |
-| Mix 0.50 | 107 / 107 | 65.47→68.32 | 0 / 44 |
-| 女性 Vocal 0.50 | 9 / 9 | 7.10→7.85 | 41 / 44 |
-| 男性 Vocal 0.75 | 5 / 5 | 1.94→2.28 | 39 / 44 |
-| 男性 Vocal 0.50 | **5 / 5** | **2.05→2.15** | **39 / 44** |
+C++捕捉プロセスの終了コード0は、独立参照検証の完了ではない。summaryのPCM/CSV/SESSION_VERDICTは照合前INDETERMINATE。共通検証後のvalidation JSONで各セッションと全体を確定し、検証不能はPASSにしない。故意の供給停止は音声FAILと障害検出PASSを区別する。
 
-男性 Vocal 0.50x は残り5窓にも各1ビンしかなく、窓当たり有効ビン数の10/50/90%値はすべて0、最大1。High の大きな IPD RMS は特に入力秒6と41の各1ビン（誤差152.5°、149.9°、重み2.12、2.03）に依存する。秒8の1ビンは重み7.07と大きいが誤差6.0°。Normal の秒6と41は38.4°と9.1°。したがって **92°という集計値は標本不足で不安定だが、少数の測定窓で実際に大きな左右位相差が起きている**。0.50x試聴では出力12秒付近と82秒付近の低音・中央像を重点確認する。短時間窓の相関・Side/Midも秒6付近で Normal 0.912 / 0.215、High 0.709 / 0.413 と変化しており、局所的な音像差の可能性を残す。これは全体的なステレオ破綻とは別に、今後の音質課題として扱う。
+### 共通最終判定と補正
 
-## クロスオーバー追加調査
+`scripts/phase53_sessions.py` がCSV完全性とセッション別参照を検証し、`phase52_verdict.finalize()` が最終判定を所有する。通常検証、固定参照EOS補正、replay単位補正は同じ関数を使用する。
 
-既定250 Hzを変えずに、Bassと男性 Vocalの同一区間・両速度を200/250/300 Hzで比較した（[全条件 CSV](real/crossover_study.csv)）。男性 Vocal 0.50xの低域 IPD RMSは **91.69 / 92.02 / 92.02°**、有効ビン数は全条件5、0ビン窓は39/44。250 Hzの問題はカットオフを前後50 Hz動かしても解消しない。Bass 0.50xの低域 IPD RMSは1.630/1.631/1.631°、ピッチ変動90%値は64.631/63.968/63.968 cents。既定値は250 Hzのままとする。
+必要条件はAUDIO_QUALITY、MEASUREMENT_QUALITY、PCM_CORRECTNESS、CSV_INTEGRITY、SESSION_INTEGRITYのすべてPASS、整合する終了理由、終了コード0。CSVヘッダー・最終改行・列・通番・行数・フレーム合計・世代・有限値、capture件数、manifest、操作/lifecycleファイルを検査する。CSV不備は計測FAILにもする。
 
-## CPU・メモリと試聴
+参照訂正ではPCM判定だけを再計算し、訂正理由・前後の証拠を保存する。元の音声/計測/CSV FAIL、供給不足、拒否書込み、時刻異常は保持する。再確認スクリプトは `--output` に新規の保存先を要求し、過去データを上書きしない。
 
-同一45秒区間の4音源×2速度、8件平均。最大3プロセス同時実行。CPU時間はプロセスの user＋system、壁時計時間は WAV の書込を含む。
+捕捉に失敗したケースの番号は保存済みsummary件数ではなく試行ディレクトリで進める。summary欠損は必ずFAILにし、後続試験との名前衝突で証拠を失わない。
 
-| 品質 | CPU秒平均 | 壁時計秒平均 | 最大常駐メモリ平均 MiB | 観測最大 MiB |
-|---|---:|---:|---:|---:|
-| Normal | 2.517 | 2.581 | 9.45 | 10.02 |
-| High | 4.804 | 4.901 | 13.88 | 13.94 |
+## 2. 障害注入
 
-High の追加 CPU はあるが、Mac 上では45秒音源を約5秒で処理し、常駐メモリは約14 MiBだった。300秒の Bass を0.50xで逐次処理しても出力28800000サンプル、CPU26.94秒、壁時計27.22秒、最大RSS **14.16 MiB**（[計測ログ](real/high_300s_memory.txt)）。iPhone候補としてメモリ規模は現実的だが、実機 CPU 性能・熱・電力は未測定である。
+`phase53_session_integrity`：26個の保存データfixtureと参照補正試験。正常2セッション、初回PCM prefix不一致、書込み拒否、ワーカーエラー、アンダーラン、計測FAIL、CSV欠損、初回FAIL/再起動PASS、RouteChanged、通番欠落、行数不一致、最終行切断、manifest欠落、prefix範囲不一致、未完了操作、NaN、設定不一致、終了コード不整合等を確認する。
 
-[試聴 WAV 一覧](real/manifest.csv) の Normal/High を音量補正なしで切り替え、Bass は音程安定・周期的揺れ・アタック・低音の太さ、Vocal は水っぽさ・金属音・子音・母音の輪郭・中央定位、Mix はキック・スネア・ベース・中央 Vocal・シンバル・残響の広がりを確認する。男性 Vocal 0.50xの12秒/82秒付近を優先する。主観試聴は未実施。Pitch Shift、リアルタイム再生、Swift連携は実装していない。
+故意の不良を検出すれば回帰テスト成功であり、その音声が品質PASSになった意味ではない。補正だけでCSV/計測/音声FAILがPASSになるケースを禁止する。既存Phase52の必須値・NaN/Inf・期限・route試験も維持した。
+
+## 3. 実機
+
+最終ソースの保存先：`native/20261014_171604_300553/`。7試行、10セッションを独立検証した。
+
+| 試行 | 対象 | 結果 |
+| --- | --- | --- |
+| EOS/Draining診断反復 | MIX 0.50、Drums 0.50、Baseline MIX 0.50 | PASS。末尾HAL＋5msを維持 |
+| 双方向・pause/resume | MIX 0.40→2.00→0.40 | PASS。予定5.00〜5.25秒の一時停止 |
+| stop/restart | Drums：2セッション、MIX：3セッション | 全セッションPASS。先頭から再開始、各停止prefix一致 |
+| route変更 | Drums：模擬通知 | PASS。Stopped/RouteChanged、EOS=false、prefix一致 |
+
+出力装置ID72、48kHz、512フレーム。MIXの入力44.1kHzはSRCを含む。全10セッションで不足・書込み拒否・callback期限超過・C++確保・host/sample異常0。callback最大16.459μs、最大RSS56.55MiB。正常EOSの停止は末尾HAL目標から14.134〜16.594ms後（既存5ms余裕以上）。RouteChangedは意図的停止で、このEOS余裕の判定対象外。集計は `native_final_summary.json`。
+
+有音再生を含むが、新たなユーザー主観評価は取得していない。今回の音質アルゴリズム変更はなく、過去の試聴を包括的な製品保証へ読み替えない。物理装置変更・長尺高負荷反復・音響ループバックは今回未実施。
+
+最初の制限内実行は「No default audio device」で不成立。ログを保持し、CoreAudioへアクセスできる実行方式で再試験した。計測不成立を音声安定性PASSに含めない。途中の実機7/7成功記録も最終ソースの記録とは別管理する。
+
+## 4. 過去Phase52の再検証
+
+元の64試行を読取り専用で検証した。57件PASS、7件FAIL。FAILの内訳は、終了済みセッションの必須記録不足4件、故意450ms停止2件、旧route試行の部分SHA未計測1件。旧記録から測定不能な値を推定で補完しない。
+
+単一セッションの旧summaryにsession IDがない場合、保存済みoperations CSVに一意のIDが存在するときだけ、その証拠に基づいて照合する。これは計測値の追加やnative音声の変更ではない。複数セッションの欠損はこれで救済しない。
+
+旧判定と元CSV/WAVは変更していない。参照EOS/単位訂正の理由を保持し、他の不良をPASSへ昇格しない。旧最終EOSガードのhost/sample不連続による計測FAILも保護対象で、今回の64件に混入させない。
+
+## 5. ビルド・回帰・資産
+
+Release/arm64、Apple C++20/Objective-C++、CMake、Accelerate/AVFoundation/Foundation/CoreAudio。独立consumer構成でも `add_subdirectory(... EXCLUDE_FROM_ALL)` と `macos_playback_engine` へのリンクで利用例をビルドできた。merodoaやSwiftアプリは作成していない。
+
+最終ソースでの検証結果：
+
+- 決定論的CTest **72/72 PASS、380.56秒**。最終コード・全件実行。診断OFFでの不足検出、mono/stereo、ブロック分割、既存PCM回帰も含む。
+- 独立OS期限CTest **2/2 PASS、58.93秒**。既存のFAIL/INVALID・障害注入判定を維持。
+- 新規Golden再生成照合 **25/25バイト一致**。出力WAVはGit対象外、ハッシュは `golden_audit.json`。
+- 保存済みGolden25本、過去保護WAV202本、追跡済み成果物5,139ファイルは監査時点で一致。旧Phase5.3 REPORTは `PHASE5_3_REPORT.md` へバイト保持し、READMEの旧参照先を修正。
+
+検証工程中に全CTestの再実行が先行試験と重なり、固定一時ディレクトリ `phase27_repeated_sources` の削除が競合してphase27_repeatedが1件失敗した。失敗ログ `ctest_overlap_failed.log` を保持し、先行試験が終了した後に全件を単独で再実行した。DSP/PCM不一致とは扱わず、失敗をPASSへ読み替えない。
+
+ソース変更は再生制御、ネイティブアダプター、診断・検証スクリプト、CMake、テスト、文書に限定。Phase39のワーカー変更は生成/公開範囲の計測追加で、DSP演算順・時間写像・位相・OLA・FIRへ変更はない。正式DSP、Phase30/36、Phase18/19のソースは変更していない。
+
+## 6. 引き継ぎ
+
+正式仕様：`docs/APP_INTEGRATION_HANDOFF.md`。submodule取得・特定SHA固定・更新運用、ターゲット依存、WAV形式/RIFF制限/所有権、API戻り値/例外/状態/制御キュー、Swift側ブリッジ契約、最小C++例、将来機能の責務を整理した。`examples/mac_playback_handoff.cpp` と外部consumerでビルドを確認した。
+
+`playback_engine` と `macos_playback_engine`、Candidate/Baseline、Latest-Winsを維持する。アプリは要求速度・実行中目標・保留/拒否・原曲位置を分離する。制御APIをcallbackへ持ち込まない。詳細履歴取得は静止後、ライフサイクル操作は直列の作業キューへ置く。
+
+完成コミットを `phase53-handoff` タグで固定し、merodoaはその完全SHAをsubmoduleとして記録する。TimeStretchLabを更新しただけではアプリ参照は変わらない。
+
+## 7. 残る制限・判定
+
+開発版のアプリ引き継ぎは可能。一般公開向けの実時間品質保証は未完了。約1.4〜1.6秒等の操作反映遅延、Busy待ち、高負荷/OS停止による不足、host/sample時刻不連続、iOS/iPadOS未検証、シーク未対応を残す。安全密度条件や過渡音保護は緩めていない。
+
+SwiftUI、デコード、ピッチシフト、Demucs、Stemミキサー、iOSアダプター、シーク、L1/L2最適化、0.25倍研究、長時間System Traceは実装していない。アプリ側は薄いObjective-C++ブリッジと媒体管理を別途実装する。
+
+## 8. 再現と完成版の識別
+
+```sh
+python3 -B scripts/phase53_verdict_test.py
+python3 -B scripts/phase53_validate.py native
+python3 -B scripts/phase53_validate.py native_review
+python3 -B scripts/phase53_validate.py golden
+python3 -B scripts/phase53_validate.py audit
+python3 -B scripts/phase53_validate.py review
+```
+
+`review` は旧証拠の不合格を保持するため終了コード2になる。新規の再検証保存先を作り、過去結果を上書きしない。`golden` は既存の再生成ディレクトリへ上書きせず拒否する。通常/補正用スクリプトのキャプチャ工程と完全品質判定を分離している。
+
+`build_manifest.json` に最終ソース/バイナリSHA、ビルド設定、結果、完成refを保存する。完成コミットは `git rev-parse phase53-handoff^{commit}` で取得する。READMEと引き継ぎ仕様にsubmodule固定手順を記載した。

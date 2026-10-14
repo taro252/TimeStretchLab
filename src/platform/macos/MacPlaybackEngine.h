@@ -11,9 +11,16 @@ struct MacDiagnostics {
     std::uint64_t hostMissing=0,hostBackwards=0,hostCadenceErrors=0,sampleErrors=0,halWindowMisses=0;
     std::uint64_t routeChanges=0,callbackCppAllocations=0;
     std::uint64_t bridgeSteadyNs=0,bridgeMachNs=0,bridgeUncertaintyNs=0;
+    std::uint64_t lastPcmTargetEndNs=0,outputStoppedMachNs=0;
     bool allocationMeasured=false;
     std::string error;
 };
+namespace detail {
+// Read-only export policy. Lifecycle transitions belong to the adapter monitor.
+constexpr bool callbackHistoryReadable(PlaybackState state,bool active,unsigned inRender) noexcept {
+    return state!=PlaybackState::Draining && !active && inRender==0;
+}
+}
 struct MacCallbackRecord {
     std::uint64_t sequence=0,epoch=0,startNs=0,endNs=0,ioEndNs=0,hostNs=0;
     double sampleTime=0;
@@ -35,6 +42,7 @@ public:
     StateSnapshot getStateSnapshot()const;
     Diagnostics getPlaybackDiagnostics()const;
     MacDiagnostics getNativeDiagnostics()const;
+    // Throws logic_error while rendering/draining; never stops audio output.
     std::vector<MacCallbackRecord> callbackRecords()const;
     std::vector<SpeedOperation> operationHistory()const;
     std::vector<prototype::Phase39PlanMetric> plans()const;

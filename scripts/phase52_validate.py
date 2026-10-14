@@ -41,10 +41,11 @@ def source(name,seconds):
  else:p.write_bytes(content)
  return p
 
-def run_case(root,name,speed,preset='candidate',seconds=5,actions=(),silent=True,stall=None,stress=False):
- inp=source(name,seconds);tag=f'{name}_{speed:.2f}_{preset}_{len(list(root.glob("*/summary.txt"))):03d}';out=root/tag;out.mkdir()
+def run_case(root,name,speed,preset='candidate',seconds=5,actions=(),silent=True,stall=None,stress=False,verify_draining=False):
+ inp=source(name,seconds);tag=f'{name}_{speed:.2f}_{preset}_{len([p for p in root.iterdir() if p.is_dir()]):03d}';out=root/tag;out.mkdir()
  command=[BUILD/'playback_demo',inp,out,preset,speed]
  if silent:command+=['--silent']
+ if verify_draining:command+=['--verify-draining']
  if actions:
   schedule=out/'schedule.csv'
   with schedule.open('w') as f:
@@ -61,33 +62,21 @@ def run_case(root,name,speed,preset='candidate',seconds=5,actions=(),silent=True
   for p in load:p.terminate()
   for p in load:p.wait()
  row=dict(case=str(out.relative_to(ROOT)),source=name,input_sha256=sha(inp),seconds=seconds,preset=preset,initial=speed,stress=stress,exit=r.returncode,actions=list(actions),intentional_stall=stall)
- if not (out/'summary.txt').exists():row.update(AUDIO_QUALITY='FAIL',MEASUREMENT_QUALITY='FAIL',error='missing summary');return row
+ if not (out/'summary.txt').exists():
+  row.update(AUDIO_QUALITY='INDETERMINATE',MEASUREMENT_QUALITY='FAIL',CSV_INTEGRITY='FAIL',PCM_CORRECTNESS='INDETERMINATE',VERDICT='FAIL',error='missing summary')
+  (out/'validation.json').write_text(json.dumps(row,indent=2));return row
  row.update(kv(out/'summary.txt'))
  from phase52_verdict import classify
  life=kv(out/'lifecycle.txt')
  row.update(classify(row,r.returncode,expected_route=any(a[1]=='route' for a in actions),remaining_actions=int(life['remaining_actions'])))
- # Same actual request positions/fences/density history, not nominal wall times.
- ref=out/'reference_round_eos.wav';strategy='L2' if preset=='candidate' else 'C'
- reference=subprocess.run(list(map(str,[BUILD/'playback_reference',inp,ref,row['initial'],out/'plans.csv',strategy,'safe-density'])),text=True,capture_output=True,timeout=180)
- (out/'reference.log').write_text(reference.stdout+reference.stderr)
- if reference.returncode==0:
-  digest=subprocess.check_output([str(BUILD/'phase45_pcm_hash'),str(ref)],text=True);values=dict(line.split('=',1) for line in digest.splitlines() if '=' in line)
-  if row['reason']=='RouteChanged':
-   body=ref.read_bytes();at=12
-   while body[at:at+4]!=b'data':at+=8+struct.unpack_from('<I',body,at+4)[0]
-   expected=hashlib.sha256(body[at+8:at+8+int(row['produced_frames'])*8]).hexdigest()
-   row['PCM_CORRECTNESS']='PASS' if expected==row['raw_pcm_sha256'] else 'FAIL'
-   row['pcm_scope']='worker-produced prefix, intentional route stop; no EOS claim'
-  else:row['PCM_CORRECTNESS']='PASS' if values['pcm_sha256']==row['raw_pcm_sha256'] and int(values['frames'])==int(row['output_frames']) else 'FAIL'
-  row['reference_sha256']=sha(ref)
- else:row['PCM_CORRECTNESS']='FAIL';row['reference_error']=reference.stderr
- rows=list(csv.DictReader((out/'callbacks.csv').open()));row['callback_rows']=len(rows)
- cursor=0;presented=0;continuous=True
- for b in rows:
-  if int(b['wanted']):continuous&=int(b['output'])==cursor
-  cursor+=int(b['received']);presented+=int(b['wanted'])
- continuous&=cursor==int(row['consumed_frames']) and presented==int(row['presented_frames'])
- row['CSV_INTEGRITY']='PASS' if continuous and len(rows)==int(row['callback_calls']) and all(int(b['sequence'])==i+1 for i,b in enumerate(rows)) else 'FAIL'
+ # One strict gate includes EVERY closed session and the final session.
+ from phase53_sessions import verify_run
+ verification=verify_run(out,inp,r.returncode,reference_dir=out/'reference_sessions')
+ row.update(verification)
+ if row['CSV_INTEGRITY']!='PASS':
+  (out/'validation.json').write_text(json.dumps(row,indent=2));return row
+ rows=list(csv.DictReader((out/'callbacks.csv').open()))
+ row['callback_rows']=len(rows)
  row['fifo_minimum']=min((int(b['fifo_before']) for b in rows if int(b['wanted'])),default=0)
  # Independent timing model: host first-frame target already includes the source
  # route's downstream latency; never add output latency twice. No loopback.
@@ -100,7 +89,7 @@ def run_case(root,name,speed,preset='candidate',seconds=5,actions=(),silent=True
    found.append(None if match is None else (int(match['host_ns'])+(coordinate-int(match['output']))*1e9/float(row['sample_rate'])))
   latencies.append(dict(target=op['target'],scheduled_observation_ns=observed,sent_ns=sent,apply_hal_ms=None if found[0] is None else (found[0]-observed)/1e6,completion_hal_ms=None if found[1] is None else (found[1]-observed)/1e6))
  row['operations']=operations;row['hal_operation_delays']=latencies
- row['VERDICT']='PASS' if r.returncode==0 and all(row[k]=='PASS' for k in ('AUDIO_QUALITY','MEASUREMENT_QUALITY','PCM_CORRECTNESS','CSV_INTEGRITY')) else 'FAIL'
+ # VERDICT is owned by the shared all-session gate above.
  # Intentional supply failure: retain AUDIO FAIL, classify fault detection separately.
  if stall:row['FAULT_DETECTION']='PASS' if int(row.get('missing_frames',0))>0 and row['AUDIO_QUALITY']=='FAIL' and r.returncode==2 else 'FAIL'
  (out/'validation.json').write_text(json.dumps(row,indent=2));print(tag,row['VERDICT'],'missing',row.get('missing_frames'),'PCM',row['PCM_CORRECTNESS'],flush=True);return row

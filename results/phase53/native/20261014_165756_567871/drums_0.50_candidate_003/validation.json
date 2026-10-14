@@ -1,0 +1,329 @@
+{
+  "case": "results/phase53/native/20261014_165756_567871/drums_0.50_candidate_003",
+  "source": "drums",
+  "input_sha256": "06691063a2507d6ebfae9ca27294a86cd8f40cc987992d63cb79669879043aad",
+  "seconds": 5,
+  "preset": "candidate",
+  "initial": "0.5",
+  "stress": false,
+  "exit": 0,
+  "actions": [
+    [
+      0.8,
+      "stop",
+      0
+    ],
+    [
+      1,
+      "play",
+      0
+    ]
+  ],
+  "intentional_stall": null,
+  "session": "2",
+  "offline": "0",
+  "state": "Ended",
+  "reason": "EOS",
+  "AUDIO_QUALITY": "PASS",
+  "MEASUREMENT_QUALITY": "PASS",
+  "eos": "1",
+  "route_stopped": "0",
+  "output_frames": "480000",
+  "produced_frames": "480000",
+  "sample_rate": "48000",
+  "callback_calls": "940",
+  "consumed_frames": "480000",
+  "presented_frames": "480000",
+  "missing_frames": "0",
+  "underrun_calls": "0",
+  "max_continuous_missing": "0",
+  "rejected_writes": "0",
+  "callback_allocations_measured": "1",
+  "callback_cpp_allocations": "0",
+  "callback_max_ns": "7916",
+  "callback_overruns": "0",
+  "host_missing": "0",
+  "host_backwards": "0",
+  "host_cadence_errors": "0",
+  "sample_errors": "0",
+  "hal_window_misses": "0",
+  "records_dropped": "0",
+  "device": "72",
+  "device_rate": "48000",
+  "device_buffer": "512",
+  "device_latency_ms": "1.375",
+  "bridge_steady_ns": "89777255153437",
+  "bridge_mach_ns": "69971192175791",
+  "bridge_uncertainty_ns": "42",
+  "source_latency_ms": "1.375",
+  "worker_max_wall_s": "0.016407292",
+  "worker_max_cpu_s": "0.016071625000000003",
+  "prepare_s": "0.10778312499999999",
+  "playback_wall_s": "11.137201083000001",
+  "cpu_seconds": "1.3629120000000001",
+  "max_rss": "58589184",
+  "raw_pcm_sha256": "e6e266072f667aca959016d1f8c6050ec31ca6d05b1b2baa0516f0eb1bc4e3e2",
+  "channels": "2",
+  "generated_frames": "480000",
+  "published_frames": "480000",
+  "device_raw_frames": "480000",
+  "worker_error": "",
+  "native_error": "",
+  "concurrent_renders": "0",
+  "hash_scope": "fifo_published_raw_float32_interleaved_prefix",
+  "hash_frames": "480000",
+  "start_state": "Playing",
+  "callback_rows": 940,
+  "worker_rows": "235",
+  "plan_rows": "0",
+  "operation_rows": "0",
+  "last_pcm_target_end_ns": "69981224273791",
+  "output_stopped_mach_ns": "69981239270875",
+  "VERDICT": "PASS",
+  "errors": [],
+  "PCM_CORRECTNESS": "PASS",
+  "reference_pcm": {
+    "frames": 480000,
+    "compared_frames": 480000,
+    "channels": 2,
+    "sha256": "e6e266072f667aca959016d1f8c6050ec31ca6d05b1b2baa0516f0eb1bc4e3e2",
+    "scope": "FIFO published prefix [0, produced_frames)"
+  },
+  "CSV_INTEGRITY": "PASS",
+  "evidence": {
+    "CSV_INTEGRITY": "PASS",
+    "faults": [],
+    "files": {
+      "callbacks.csv": {
+        "rows": 940,
+        "sha256": "7d0f720a8d7f660cd5a116b6134ca21990f18d6c95b05f4b9ab75cce025532ef"
+      },
+      "workers.csv": {
+        "rows": 235,
+        "sha256": "6803cbfb8da6a19e5f5ecdce17f1ff4a4e64d7fd467e18cba286b20f506b2a80"
+      },
+      "plans.csv": {
+        "rows": 0,
+        "sha256": "bc6b625d7a363efb7bb52d06e9952036c184c6ed7242b75c61100eb0a9f62418"
+      },
+      "operations.csv": {
+        "rows": 0,
+        "sha256": "805b5156a0e6f21499b23217a2507be41d3437cfd05b85dd9ef80b0cb1f96c80"
+      }
+    }
+  },
+  "sessions": [
+    {
+      "preset": "candidate",
+      "initial": "0.5",
+      "session": "1",
+      "offline": "0",
+      "state": "Stopped",
+      "reason": "User",
+      "AUDIO_QUALITY": "PASS",
+      "MEASUREMENT_QUALITY": "PASS",
+      "eos": "0",
+      "route_stopped": "0",
+      "output_frames": "480000",
+      "produced_frames": "53248",
+      "sample_rate": "48000",
+      "callback_calls": "75",
+      "consumed_frames": "38400",
+      "presented_frames": "38400",
+      "missing_frames": "0",
+      "underrun_calls": "0",
+      "max_continuous_missing": "0",
+      "rejected_writes": "0",
+      "callback_allocations_measured": "1",
+      "callback_cpp_allocations": "0",
+      "callback_max_ns": "6666",
+      "callback_overruns": "0",
+      "host_missing": "0",
+      "host_backwards": "0",
+      "host_cadence_errors": "0",
+      "sample_errors": "0",
+      "hal_window_misses": "0",
+      "records_dropped": "0",
+      "device": "72",
+      "device_rate": "48000",
+      "device_buffer": "512",
+      "device_latency_ms": "1.375",
+      "bridge_steady_ns": "89776086912354",
+      "bridge_mach_ns": "69970023934666",
+      "bridge_uncertainty_ns": "42",
+      "source_latency_ms": "1.375",
+      "worker_max_wall_s": "0.012354458",
+      "worker_max_cpu_s": "0.012200208000000001",
+      "prepare_s": "0.10778312499999999",
+      "playback_wall_s": "0.81299229100000003",
+      "cpu_seconds": "0.18791099999999999",
+      "max_rss": "58212352",
+      "raw_pcm_sha256": "2463dab60efbeccafb4950ae91f55be612fdf3a3c680610ab3baf4920cc64369",
+      "channels": "2",
+      "generated_frames": "55296",
+      "published_frames": "53248",
+      "device_raw_frames": "38400",
+      "worker_error": "",
+      "native_error": "",
+      "concurrent_renders": "0",
+      "hash_scope": "fifo_published_raw_float32_interleaved_prefix",
+      "hash_frames": "53248",
+      "start_state": "Playing",
+      "callback_rows": "75",
+      "worker_rows": "26",
+      "plan_rows": "0",
+      "operation_rows": "0",
+      "last_pcm_target_end_ns": "69970925830207",
+      "output_stopped_mach_ns": "69970913248041",
+      "PCM_CORRECTNESS": "PASS",
+      "reference_pcm": {
+        "frames": 480000,
+        "compared_frames": 53248,
+        "channels": 2,
+        "sha256": "2463dab60efbeccafb4950ae91f55be612fdf3a3c680610ab3baf4920cc64369",
+        "scope": "FIFO published prefix [0, produced_frames)"
+      },
+      "VERDICT": "PASS",
+      "errors": [],
+      "CSV_INTEGRITY": "PASS",
+      "evidence": {
+        "CSV_INTEGRITY": "PASS",
+        "faults": [],
+        "files": {
+          "callbacks.csv": {
+            "rows": 75,
+            "sha256": "576bd9ddc40511fb6260ccafc93a340e2d95bd04f52b2d02fc231a8e306a3ff5"
+          },
+          "workers.csv": {
+            "rows": 26,
+            "sha256": "fe29569f20cf4768551bdf6bbd3943265e43eb2d771c0321b7167014cb9c415d"
+          },
+          "plans.csv": {
+            "rows": 0,
+            "sha256": "bc6b625d7a363efb7bb52d06e9952036c184c6ed7242b75c61100eb0a9f62418"
+          },
+          "operations.csv": {
+            "rows": 0,
+            "sha256": "805b5156a0e6f21499b23217a2507be41d3437cfd05b85dd9ef80b0cb1f96c80"
+          }
+        }
+      },
+      "sessions": [
+        {
+          "VERDICT": "PASS"
+        }
+      ],
+      "SESSION_INTEGRITY": "PASS",
+      "folder": "closed_session_1"
+    },
+    {
+      "preset": "candidate",
+      "initial": "0.5",
+      "session": "2",
+      "offline": "0",
+      "state": "Ended",
+      "reason": "EOS",
+      "AUDIO_QUALITY": "PASS",
+      "MEASUREMENT_QUALITY": "PASS",
+      "eos": "1",
+      "route_stopped": "0",
+      "output_frames": "480000",
+      "produced_frames": "480000",
+      "sample_rate": "48000",
+      "callback_calls": "940",
+      "consumed_frames": "480000",
+      "presented_frames": "480000",
+      "missing_frames": "0",
+      "underrun_calls": "0",
+      "max_continuous_missing": "0",
+      "rejected_writes": "0",
+      "callback_allocations_measured": "1",
+      "callback_cpp_allocations": "0",
+      "callback_max_ns": "7916",
+      "callback_overruns": "0",
+      "host_missing": "0",
+      "host_backwards": "0",
+      "host_cadence_errors": "0",
+      "sample_errors": "0",
+      "hal_window_misses": "0",
+      "records_dropped": "0",
+      "device": "72",
+      "device_rate": "48000",
+      "device_buffer": "512",
+      "device_latency_ms": "1.375",
+      "bridge_steady_ns": "89777255153437",
+      "bridge_mach_ns": "69971192175791",
+      "bridge_uncertainty_ns": "42",
+      "source_latency_ms": "1.375",
+      "worker_max_wall_s": "0.016407292",
+      "worker_max_cpu_s": "0.016071625000000003",
+      "prepare_s": "0.10778312499999999",
+      "playback_wall_s": "11.137201083000001",
+      "cpu_seconds": "1.3629120000000001",
+      "max_rss": "58589184",
+      "raw_pcm_sha256": "e6e266072f667aca959016d1f8c6050ec31ca6d05b1b2baa0516f0eb1bc4e3e2",
+      "channels": "2",
+      "generated_frames": "480000",
+      "published_frames": "480000",
+      "device_raw_frames": "480000",
+      "worker_error": "",
+      "native_error": "",
+      "concurrent_renders": "0",
+      "hash_scope": "fifo_published_raw_float32_interleaved_prefix",
+      "hash_frames": "480000",
+      "start_state": "Playing",
+      "callback_rows": "940",
+      "worker_rows": "235",
+      "plan_rows": "0",
+      "operation_rows": "0",
+      "last_pcm_target_end_ns": "69981224273791",
+      "output_stopped_mach_ns": "69981239270875",
+      "PCM_CORRECTNESS": "PASS",
+      "reference_pcm": {
+        "frames": 480000,
+        "compared_frames": 480000,
+        "channels": 2,
+        "sha256": "e6e266072f667aca959016d1f8c6050ec31ca6d05b1b2baa0516f0eb1bc4e3e2",
+        "scope": "FIFO published prefix [0, produced_frames)"
+      },
+      "VERDICT": "PASS",
+      "errors": [],
+      "CSV_INTEGRITY": "PASS",
+      "evidence": {
+        "CSV_INTEGRITY": "PASS",
+        "faults": [],
+        "files": {
+          "callbacks.csv": {
+            "rows": 940,
+            "sha256": "7d0f720a8d7f660cd5a116b6134ca21990f18d6c95b05f4b9ab75cce025532ef"
+          },
+          "workers.csv": {
+            "rows": 235,
+            "sha256": "6803cbfb8da6a19e5f5ecdce17f1ff4a4e64d7fd467e18cba286b20f506b2a80"
+          },
+          "plans.csv": {
+            "rows": 0,
+            "sha256": "bc6b625d7a363efb7bb52d06e9952036c184c6ed7242b75c61100eb0a9f62418"
+          },
+          "operations.csv": {
+            "rows": 0,
+            "sha256": "805b5156a0e6f21499b23217a2507be41d3437cfd05b85dd9ef80b0cb1f96c80"
+          }
+        }
+      },
+      "sessions": [
+        {
+          "VERDICT": "PASS"
+        }
+      ],
+      "SESSION_INTEGRITY": "PASS",
+      "folder": "."
+    }
+  ],
+  "SESSION_INTEGRITY": "PASS",
+  "folder": ".",
+  "manifest_faults": [],
+  "fifo_minimum": 256,
+  "operations": [],
+  "hal_operation_delays": []
+}

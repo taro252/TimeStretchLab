@@ -19,7 +19,7 @@ struct RenderState {
     std::atomic<std::uint64_t> missingHost{0},backwards{0},cadence{0},sampleErrors{0},halMisses{0};
     std::atomic<std::uint64_t> lastPcmTargetEndNs{0};
     prototype::Phase46HostClock hostClock;
-    RenderAllocationHooks hooks;
+    RenderAllocationHooks hooks;std::uint64_t allocationBase=0;
     std::uint64_t ns()const noexcept{return static_cast<std::uint64_t>(static_cast<long double>(mach_absolute_time())*numer/denom);}
 };
 OSStatus render(RenderState* s,BOOL* silent,const AudioTimeStamp* stamp,AVAudioFrameCount frames,AudioBufferList* buffers)noexcept{
@@ -77,10 +77,12 @@ struct MacPlaybackEngine::Impl {
     void drainRenderedTail(){const auto limit=renderState->ns()+1000000000;while(renderState->ns()<drainDeadline()){if(renderState->ns()>limit){device.error="Invalid render-tail deadline";break;}std::this_thread::sleep_for(std::chrono::milliseconds(1));}}
     ~Impl(){exit=true;if(monitor.joinable())monitor.join();std::lock_guard lock(mutex);quiesce(true);core.stop();}
     void quiesce(bool destroy){
+        const bool wasActive=outputActive.load();
         if(renderState)renderState->active.store(false,std::memory_order_seq_cst);
         if(engine&&engine.isRunning){[engine stop];}
         if(renderState)while(renderState->inRender.load(std::memory_order_seq_cst))std::this_thread::sleep_for(std::chrono::microseconds(100));
         outputActive=false;
+        if(renderState&&wasActive)device.outputStoppedMachNs=renderState->ns();
         if(destroy){if(observer)[[NSNotificationCenter defaultCenter]removeObserver:observer];observer=nil;if(source&&engine)[engine detachNode:source];source=nil;engine=nil;}
     }
     void configure(){
@@ -89,7 +91,7 @@ struct MacPlaybackEngine::Impl {
         if(!device.deviceRate||!device.deviceChannels)throw std::runtime_error("Invalid device format");
         device.deviceBufferFrames=deviceProperty(device.deviceId,kAudioDevicePropertyBufferFrameSize);
         device.devicePresentationLatencyMs=engine.outputNode.presentationLatency*1000;
-        renderState=std::make_shared<RenderState>();renderState->core=&core;renderState->channels=static_cast<unsigned>(core.channels());renderState->rate=core.sampleRate();renderState->hooks=options.allocationHooks;
+        renderState=std::make_shared<RenderState>();renderState->core=&core;renderState->channels=static_cast<unsigned>(core.channels());renderState->rate=core.sampleRate();renderState->hooks=options.allocationHooks;renderState->allocationBase=options.allocationHooks.count?options.allocationHooks.count():0;
         mach_timebase_info_data_t tb{};mach_timebase_info(&tb);renderState->numer=tb.numer;renderState->denom=tb.denom;
         const auto steady=[](){return std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();};
         auto before=steady();device.bridgeMachNs=renderState->ns();auto after=steady();
@@ -130,7 +132,14 @@ std::vector<prototype::Phase39BlockProfile> MacPlaybackEngine::workerProfiles()c
 std::string MacPlaybackEngine::rawPcmSha()const{return impl_->core.rawPcmSha();}
 std::uint32_t MacPlaybackEngine::sampleRate()const{return impl_->core.sampleRate();}
 std::size_t MacPlaybackEngine::channels()const{return impl_->core.channels();}
-MacDiagnostics MacPlaybackEngine::getNativeDiagnostics()const{std::lock_guard lock(impl_->mutex);auto d=impl_->device;if(auto s=impl_->renderState){d.callbackCalls=s->calls;d.maxCallbackNs=s->maximum;d.deadlineMisses=s->overruns;d.formatErrors=s->formats;d.callbackRecordsDropped=s->dropped;d.hostMissing=s->missingHost;d.hostBackwards=s->backwards;d.hostCadenceErrors=s->cadence;d.sampleErrors=s->sampleErrors;d.halWindowMisses=s->halMisses;d.allocationMeasured=s->hooks.count!=nullptr;d.callbackCppAllocations=s->hooks.count?s->hooks.count():0;}return d;}
-std::vector<MacCallbackRecord> MacPlaybackEngine::callbackRecords()const{std::lock_guard lock(impl_->mutex);if(impl_->core.getPlaybackState()==PlaybackState::Ended||impl_->core.getPlaybackState()==PlaybackState::Failed)impl_->quiesce(false);auto s=impl_->renderState;if(!s)return {};if(s->active||s->inRender)throw std::logic_error("Quiesce callback before export");return {s->records.begin(),s->records.begin()+std::min<std::size_t>(s->records.size(),s->recordCount)};}
+MacDiagnostics MacPlaybackEngine::getNativeDiagnostics()const{std::lock_guard lock(impl_->mutex);auto d=impl_->device;if(auto s=impl_->renderState){d.lastPcmTargetEndNs=s->lastPcmTargetEndNs;d.callbackCalls=s->calls;d.maxCallbackNs=s->maximum;d.deadlineMisses=s->overruns;d.formatErrors=s->formats;d.callbackRecordsDropped=s->dropped;d.hostMissing=s->missingHost;d.hostBackwards=s->backwards;d.hostCadenceErrors=s->cadence;d.sampleErrors=s->sampleErrors;d.halWindowMisses=s->halMisses;d.allocationMeasured=s->hooks.count!=nullptr;if(s->hooks.count){const auto total=s->hooks.count();if(total<s->allocationBase)d.error="Allocation counter moved backwards";else d.callbackCppAllocations=total-s->allocationBase;}}return d;}
+std::vector<MacCallbackRecord> MacPlaybackEngine::callbackRecords()const{
+    std::lock_guard lock(impl_->mutex);auto s=impl_->renderState;if(!s)return {};
+    auto state=impl_->core.getPlaybackState();
+    if(state==PlaybackState::Ended&&impl_->outputActive)state=PlaybackState::Draining;
+    if(!detail::callbackHistoryReadable(state,s->active.load(),s->inRender.load()))
+        throw std::logic_error("Callback history is unavailable while rendering or draining");
+    return {s->records.begin(),s->records.begin()+std::min<std::size_t>(s->records.size(),s->recordCount)};
+}
 void MacPlaybackEngine::simulateDeviceChangeForTest(){std::lock_guard lock(impl_->mutex);impl_->forced=true;if(impl_->renderState)impl_->renderState->forcedRoute=true;}
 }

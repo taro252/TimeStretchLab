@@ -1,0 +1,60 @@
+{
+  "base_commit": "55706729d4940eddd92ef4e57c59c6fec8d8c319",
+  "completion_ref": "phase53-handoff",
+  "build_type": "Release",
+  "architecture": "arm64",
+  "source_sha256": {
+    "CMakeLists.txt": "b282a1a2ee505b6c0f1f3838a0d19a9db9f28729871a2aa873754c8b60b38f30",
+    "README.md": "8a29bb1b716983d6679768316a4dede19542ea6ab9602c10ee50aa7324f8b2e9",
+    "docs/PHASE52_PLAYBACK_API.md": "0ba5f12b5e3ec241368a55e44f09d3188b640aec9d553cf6da39963c842018c1",
+    "scripts/phase52_recheck_controls.py": "3a662774591ccbc1a80098f772b32e98a38883bc412729d70fa0110a66fc6b83",
+    "scripts/phase52_recheck_fixed.py": "5c4077fcf7ed3215d95e493f48f9155fe723861e7212353c5920c05997236b44",
+    "scripts/phase52_validate.py": "bfd88af3225561b7abbd6dc85c6f280c4525cc406b4c0f699c4def793407cc66",
+    "scripts/phase52_verdict.py": "be0516bed09cc8f2f091927e8011a25e29b71f63607996cac7c83edd6c76d5b0",
+    "src/platform/macos/MacPlaybackEngine.h": "9e674681d38ddf51e830cfd41513c5ab4c53b291aa366122eeccb92cdba0dccc",
+    "src/platform/macos/MacPlaybackEngine.mm": "37e845e98578c97f9954eff3e353b16f49bc5b027050d6afe99f40454cc9d52f",
+    "src/playback/PlaybackDemo.cpp": "1242dead554d716091fb77608e619c66b2cf3856a3e4b68a2e1c07b041826694",
+    "src/playback/PlaybackEngine.cpp": "e8b73afd5a747c6db2e374d5ce4695cee123107d701e50851b755a9dc0547df9",
+    "src/playback/PlaybackEngine.h": "e9ff7954f66570ee4ee08e841f31191ff65efa3254ca3ec74e8ac84d782f288a",
+    "src/prototype/Phase39PlaybackPipeline.cpp": "2388359cab512ed7aaa6e1d71c9e9a964c3349460f33258bd77c7937bff18072",
+    "src/prototype/Phase39PlaybackPipeline.h": "29a2de104ba6eda87faac556ea45d9f7223e606a4988faa85f977afa146c7058",
+    "scripts/phase53_sessions.py": "9038770217e9dbc3e64fb4eeacbe9a366c8da2f10a2c3eeedc5674a2b109b4a6",
+    "scripts/phase53_validate.py": "0599df3a5a52ade59826ad85dd618ec77e45b86e49e5b9ba93bf731217ef6234",
+    "scripts/phase53_verdict_test.py": "afa1ddc20b24b72a25bde8ad10535a9c9b802c7eaf9386e0af18200d2d13207d",
+    "tests/Phase53CallbackExportTests.cpp": "ca588a520519ebdd7094c1d7dd2eeef810272aef5587df7ed82e89bf2819630c",
+    "examples/mac_playback_handoff.cpp": "524b6005bd534cde5c8c8d188bb335aa9c4ce915efa4084ce9a66d8c089215d2",
+    "docs/APP_INTEGRATION_HANDOFF.md": "d4a0ef5366b2e305a7cc9911f8c33a96461bb0cf912a3280d555f46330e839e6"
+  },
+  "binary_sha256": {
+    "playback_demo": "978981761c7a60b657f6e2a145045e4b3a38a0a6417d820d67f23e868a1f54fd",
+    "playback_reference": "dbdc5d8f7f7ddaad3b867a90f183276a4ef5cfe231943031b0598a466b526bde",
+    "playback_handoff_example": "2d8d0726101e093877db803f9322cd09b1e13e89d11f70e08940262d670cabde",
+    "phase53_callback_export_tests": "48da35b5c7672d277445173ba5a5c1d77386b744c7ca35cdc626679c39446456"
+  },
+  "deterministic_ctest": {
+    "passed": 72,
+    "total": 72,
+    "seconds": 380.56
+  },
+  "realtime_ctest": {
+    "passed": 2,
+    "total": 2,
+    "seconds": 58.93
+  },
+  "golden": {
+    "matched": 25,
+    "total": 25
+  },
+  "native": {
+    "runs": 7,
+    "sessions": 10,
+    "passed_runs": 7
+  },
+  "known_legacy_review": {
+    "PASS": 57,
+    "FAIL": 7
+  },
+  "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
+  "fault_fixtures": 26,
+  "artifact_summary": "Final schema gate: 72/72 solo run; earlier overlapping fixture failure retained separately."
+}
