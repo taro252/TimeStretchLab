@@ -1,0 +1,590 @@
+{
+  "OPERATION_TIMING_INTEGRITY": "PASS",
+  "operations": [
+    {
+      "operation": "1",
+      "target": "2",
+      "scheduled_mach_ns": "50791467411750",
+      "observed_mach_ns": "50791468367083",
+      "sent_mach_ns": "50791468367458",
+      "accepted_mach_ns": "50791468367666",
+      "worker_seen_mach_ns": "50791468462250",
+      "ready_observed_mach_ns": "50792069451125",
+      "generation": "1",
+      "busy_ns": "0",
+      "busy_polls": "0",
+      "state": "Completed",
+      "clock_bridge_error_ns": "41",
+      "scheduled_to_observed_ms": 0.955333,
+      "scheduled_to_send_ms": 0.955708,
+      "send_to_api_accepted_ms": 0.000208,
+      "api_accepted_to_worker_seen_ms": 0.094584,
+      "busy_wait_ms": 0.0,
+      "E_ready_status": "OBSERVED",
+      "plan": {
+        "generation": "1",
+        "requested_output": "88576",
+        "requested_input": "35601",
+        "from": "0.4",
+        "target": "2",
+        "fence": "112640",
+        "prepared": "106496",
+        "published": "104448",
+        "applied_frame": "46",
+        "applied_output": "114030",
+        "completion_output": "117248",
+        "density_input": "48128",
+        "map_bytes": "33840",
+        "plan_ms": "0.438625",
+        "fifo_at_plan": "15872",
+        "immutable_low": "114030",
+        "immutable_mid": "110958",
+        "immutable_high": "108289",
+        "density_horizon_low": "120466",
+        "density_horizon_mid": "114030",
+        "density_horizon_high": "110958",
+        "ola_low": "112640",
+        "ola_mid": "110592",
+        "ola_high": "108032",
+        "fir250_fence": "112640",
+        "fir3500_fence": "111616",
+        "first_mutable_frame": "46",
+        "first_safe_frame": "46",
+        "next_event_frame": "55",
+        "protection_end_frame": "46",
+        "ramp_end_frame": "47",
+        "held_frames": "0",
+        "safe_frames_used": "2",
+        "density_output": "117248",
+        "defer_event_samples": "0",
+        "defer_gap_samples": "0",
+        "ramp_event_samples": "0",
+        "ramp_gap_samples": "0",
+        "phase50_precise_fence": "112640",
+        "phase50_legacy_fence": "120466",
+        "phase50_state_preserved": "1",
+        "next_low_input": "47104",
+        "next_mid_input": "46080",
+        "next_high_input": "45056",
+        "last_low_input": "46080",
+        "last_mid_input": "45568",
+        "last_high_input": "44928"
+      },
+      "direction": "0.40->2.00",
+      "map_start": {
+        "frame": 114030,
+        "callback_sequence": "223",
+        "callback_entry_ms": 525.34175,
+        "callback_sample_offset_ms": 7.625,
+        "signed_entry_minus_host_ms": -12.973584,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 545.940334,
+        "estimated_hardware_presentation_ms": 547.315334,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again.",
+        "estimated_mach_ns": 50792015683000,
+        "scheduled_to_estimated_ms": 548.27125,
+        "worker_seen_to_estimated_ms": 547.22075
+      },
+      "ramp_complete": {
+        "frame": 117248,
+        "callback_sequence": "230",
+        "callback_entry_ms": 600.007292,
+        "callback_sample_offset_ms": 0.0,
+        "signed_entry_minus_host_ms": -12.970167,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 612.977459,
+        "estimated_hardware_presentation_ms": 614.352459,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again.",
+        "estimated_mach_ns": 50792082720125,
+        "scheduled_to_estimated_ms": 615.308375,
+        "worker_seen_to_estimated_ms": 614.257875
+      },
+      "map_start_to_ramp_complete_ms": 67.04166666666667,
+      "E_callback_completion_bracket_ns": [
+        50792068374958,
+        50792068376291
+      ],
+      "accepted_to_ready_observed_ms": 601.083459,
+      "scheduled_to_ready_observed_ms": 602.039375,
+      "hal_completion_to_ready_observed_ms": -13.269
+    },
+    {
+      "operation": "2",
+      "target": "0.75",
+      "scheduled_mach_ns": "50791667411750",
+      "observed_mach_ns": "50791667940916",
+      "sent_mach_ns": "50792069451250",
+      "accepted_mach_ns": "50792069451500",
+      "worker_seen_mach_ns": "50792076072792",
+      "ready_observed_mach_ns": "50792784035416",
+      "generation": "2",
+      "busy_ns": "401510334",
+      "busy_polls": "248",
+      "state": "Completed",
+      "clock_bridge_error_ns": "41",
+      "scheduled_to_observed_ms": 0.529166,
+      "scheduled_to_send_ms": 402.0395,
+      "send_to_api_accepted_ms": 0.00025,
+      "api_accepted_to_worker_seen_ms": 6.621292,
+      "busy_wait_ms": 401.510334,
+      "E_ready_status": "OBSERVED",
+      "plan": {
+        "generation": "2",
+        "requested_output": "117760",
+        "requested_input": "50176",
+        "from": "2",
+        "target": "0.75",
+        "fence": "141312",
+        "prepared": "135168",
+        "published": "133120",
+        "applied_frame": "108",
+        "applied_output": "148907",
+        "completion_output": "151811",
+        "density_input": "110592",
+        "map_bytes": "45120",
+        "plan_ms": "0.055708",
+        "fifo_at_plan": "15360",
+        "immutable_low": "141568",
+        "immutable_mid": "139351",
+        "immutable_high": "136960",
+        "density_horizon_low": "143176",
+        "density_horizon_mid": "139739",
+        "density_horizon_high": "136960",
+        "ola_low": "141312",
+        "ola_mid": "139264",
+        "ola_high": "136704",
+        "fir250_fence": "141312",
+        "fir3500_fence": "140288",
+        "first_mutable_frame": "96",
+        "first_safe_frame": "108",
+        "next_event_frame": "102",
+        "protection_end_frame": "102",
+        "ramp_end_frame": "113",
+        "held_frames": "0",
+        "safe_frames_used": "6",
+        "density_output": "0",
+        "defer_event_samples": "7339",
+        "defer_gap_samples": "0",
+        "ramp_event_samples": "0",
+        "ramp_gap_samples": "0",
+        "phase50_precise_fence": "141312",
+        "phase50_legacy_fence": "143176",
+        "phase50_state_preserved": "1",
+        "next_low_input": "99328",
+        "next_mid_input": "93184",
+        "next_high_input": "88832",
+        "last_low_input": "97280",
+        "last_mid_input": "92160",
+        "last_high_input": "88576"
+      },
+      "direction": "2.00->0.75",
+      "map_start": {
+        "frame": 148907,
+        "callback_sequence": "291",
+        "callback_entry_ms": 649.560083,
+        "callback_sample_offset_ms": 8.895833333333334,
+        "signed_entry_minus_host_ms": -12.960958,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 671.4168743359375,
+        "estimated_hardware_presentation_ms": 672.7918743359375,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again.",
+        "estimated_mach_ns": 50792742243374,
+        "scheduled_to_estimated_ms": 1074.831624,
+        "worker_seen_to_estimated_ms": 666.170582
+      },
+      "ramp_complete": {
+        "frame": 151811,
+        "callback_sequence": "297",
+        "callback_entry_ms": 713.53375,
+        "callback_sample_offset_ms": 5.395833333333333,
+        "signed_entry_minus_host_ms": -12.983375,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 731.9129583359374,
+        "estimated_hardware_presentation_ms": 733.2879583359374,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again.",
+        "estimated_mach_ns": 50792802739458,
+        "scheduled_to_estimated_ms": 1135.327708,
+        "worker_seen_to_estimated_ms": 726.666666
+      },
+      "map_start_to_ramp_complete_ms": 60.5,
+      "E_callback_completion_bracket_ns": [
+        50792782985250,
+        50792782986583
+      ],
+      "accepted_to_ready_observed_ms": 714.583916,
+      "scheduled_to_ready_observed_ms": 1116.623666,
+      "hal_completion_to_ready_observed_ms": -18.704042
+    },
+    {
+      "operation": "3",
+      "target": "1.5",
+      "scheduled_mach_ns": "50791867411750",
+      "observed_mach_ns": "50791868254916",
+      "sent_mach_ns": "50792784035583",
+      "accepted_mach_ns": "50792784035916",
+      "worker_seen_mach_ns": "50792784052334",
+      "ready_observed_mach_ns": "50793562283375",
+      "generation": "3",
+      "busy_ns": "915780667",
+      "busy_polls": "682",
+      "state": "Completed",
+      "clock_bridge_error_ns": "41",
+      "scheduled_to_observed_ms": 0.843166,
+      "scheduled_to_send_ms": 916.623833,
+      "send_to_api_accepted_ms": 0.000333,
+      "api_accepted_to_worker_seen_ms": 0.016418,
+      "busy_wait_ms": 915.780667,
+      "E_ready_status": "OBSERVED",
+      "plan": {
+        "generation": "3",
+        "requested_output": "152064",
+        "requested_input": "115885",
+        "from": "0.75",
+        "target": "1.5",
+        "fence": "176128",
+        "prepared": "169984",
+        "published": "167936",
+        "applied_frame": "139",
+        "applied_output": "186642",
+        "completion_output": "189425",
+        "density_input": "142336",
+        "map_bytes": "56400",
+        "plan_ms": "0.057042",
+        "fifo_at_plan": "15872",
+        "immutable_low": "175263",
+        "immutable_mid": "175263",
+        "immutable_high": "173751",
+        "density_horizon_low": "179310",
+        "density_horizon_mid": "176775",
+        "density_horizon_high": "173751",
+        "ola_low": "176128",
+        "ola_mid": "174080",
+        "ola_high": "172544",
+        "fir250_fence": "176128",
+        "fir3500_fence": "176128",
+        "first_mutable_frame": "131",
+        "first_safe_frame": "139",
+        "next_event_frame": "133",
+        "protection_end_frame": "138",
+        "ramp_end_frame": "142",
+        "held_frames": "0",
+        "safe_frames_used": "4",
+        "density_output": "0",
+        "defer_event_samples": "9867",
+        "defer_gap_samples": "0",
+        "ramp_event_samples": "0",
+        "ramp_gap_samples": "0",
+        "phase50_precise_fence": "176128",
+        "phase50_legacy_fence": "179310",
+        "phase50_state_preserved": "1",
+        "next_low_input": "134144",
+        "next_mid_input": "133120",
+        "next_high_input": "131328",
+        "last_low_input": "132096",
+        "last_mid_input": "132096",
+        "last_high_input": "131072"
+      },
+      "direction": "0.75->1.50",
+      "map_start": {
+        "frame": 186642,
+        "callback_sequence": "365",
+        "callback_entry_ms": 724.241709,
+        "callback_sample_offset_ms": 5.708333333333333,
+        "signed_entry_minus_host_ms": -12.980875,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 742.9309173359375,
+        "estimated_hardware_presentation_ms": 744.3059173359375,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again.",
+        "estimated_mach_ns": 50793528341833,
+        "scheduled_to_estimated_ms": 1660.930083,
+        "worker_seen_to_estimated_ms": 744.289499
+      },
+      "ramp_complete": {
+        "frame": 189425,
+        "callback_sequence": "370",
+        "callback_entry_ms": 777.566459,
+        "callback_sample_offset_ms": 10.354166666666666,
+        "signed_entry_minus_host_ms": -12.98625,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 800.9068756640625,
+        "estimated_hardware_presentation_ms": 802.2818756640625,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again.",
+        "estimated_mach_ns": 50793586317792,
+        "scheduled_to_estimated_ms": 1718.906042,
+        "worker_seen_to_estimated_ms": 802.265458
+      },
+      "map_start_to_ramp_complete_ms": 57.979166666666664,
+      "E_callback_completion_bracket_ns": [
+        50793561602375,
+        50793561603791
+      ],
+      "accepted_to_ready_observed_ms": 778.247459,
+      "scheduled_to_ready_observed_ms": 1694.871625,
+      "hal_completion_to_ready_observed_ms": -24.034417
+    }
+  ],
+  "direction_stats": {
+    "0.40->2.00": {
+      "scheduled_to_send_ms": {
+        "count": 1,
+        "median": 0.955708,
+        "p95": 0.955708,
+        "max": 0.955708
+      },
+      "api_accepted_to_worker_seen_ms": {
+        "count": 1,
+        "median": 0.094584,
+        "p95": 0.094584,
+        "max": 0.094584
+      },
+      "map_start_to_ramp_complete_ms": {
+        "count": 1,
+        "median": 67.04166666666667,
+        "p95": 67.04166666666667,
+        "max": 67.04166666666667
+      },
+      "accepted_to_ready_observed_ms": {
+        "count": 1,
+        "median": 601.083459,
+        "p95": 601.083459,
+        "max": 601.083459
+      },
+      "scheduled_to_ready_observed_ms": {
+        "count": 1,
+        "median": 602.039375,
+        "p95": 602.039375,
+        "max": 602.039375
+      },
+      "busy_wait_ms": {
+        "count": 1,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "map_start_accepted_ms": {
+        "count": 1,
+        "median": 547.315334,
+        "p95": 547.315334,
+        "max": 547.315334
+      },
+      "map_start_scheduled_ms": {
+        "count": 1,
+        "median": 548.27125,
+        "p95": 548.27125,
+        "max": 548.27125
+      },
+      "ramp_complete_accepted_ms": {
+        "count": 1,
+        "median": 614.352459,
+        "p95": 614.352459,
+        "max": 614.352459
+      },
+      "ramp_complete_scheduled_ms": {
+        "count": 1,
+        "median": 615.308375,
+        "p95": 615.308375,
+        "max": 615.308375
+      },
+      "first_raw_difference_accepted_ms": {
+        "count": 0,
+        "median": null,
+        "p95": null,
+        "max": null
+      },
+      "first_raw_difference_scheduled_ms": {
+        "count": 0,
+        "median": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    "0.75->1.50": {
+      "scheduled_to_send_ms": {
+        "count": 1,
+        "median": 916.623833,
+        "p95": 916.623833,
+        "max": 916.623833
+      },
+      "api_accepted_to_worker_seen_ms": {
+        "count": 1,
+        "median": 0.016418,
+        "p95": 0.016418,
+        "max": 0.016418
+      },
+      "map_start_to_ramp_complete_ms": {
+        "count": 1,
+        "median": 57.979166666666664,
+        "p95": 57.979166666666664,
+        "max": 57.979166666666664
+      },
+      "accepted_to_ready_observed_ms": {
+        "count": 1,
+        "median": 778.247459,
+        "p95": 778.247459,
+        "max": 778.247459
+      },
+      "scheduled_to_ready_observed_ms": {
+        "count": 1,
+        "median": 1694.871625,
+        "p95": 1694.871625,
+        "max": 1694.871625
+      },
+      "busy_wait_ms": {
+        "count": 1,
+        "median": 915.780667,
+        "p95": 915.780667,
+        "max": 915.780667
+      },
+      "map_start_accepted_ms": {
+        "count": 1,
+        "median": 744.3059173359375,
+        "p95": 744.3059173359375,
+        "max": 744.3059173359375
+      },
+      "map_start_scheduled_ms": {
+        "count": 1,
+        "median": 1660.930083,
+        "p95": 1660.930083,
+        "max": 1660.930083
+      },
+      "ramp_complete_accepted_ms": {
+        "count": 1,
+        "median": 802.2818756640625,
+        "p95": 802.2818756640625,
+        "max": 802.2818756640625
+      },
+      "ramp_complete_scheduled_ms": {
+        "count": 1,
+        "median": 1718.906042,
+        "p95": 1718.906042,
+        "max": 1718.906042
+      },
+      "first_raw_difference_accepted_ms": {
+        "count": 0,
+        "median": null,
+        "p95": null,
+        "max": null
+      },
+      "first_raw_difference_scheduled_ms": {
+        "count": 0,
+        "median": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    "2.00->0.75": {
+      "scheduled_to_send_ms": {
+        "count": 1,
+        "median": 402.0395,
+        "p95": 402.0395,
+        "max": 402.0395
+      },
+      "api_accepted_to_worker_seen_ms": {
+        "count": 1,
+        "median": 6.621292,
+        "p95": 6.621292,
+        "max": 6.621292
+      },
+      "map_start_to_ramp_complete_ms": {
+        "count": 1,
+        "median": 60.5,
+        "p95": 60.5,
+        "max": 60.5
+      },
+      "accepted_to_ready_observed_ms": {
+        "count": 1,
+        "median": 714.583916,
+        "p95": 714.583916,
+        "max": 714.583916
+      },
+      "scheduled_to_ready_observed_ms": {
+        "count": 1,
+        "median": 1116.623666,
+        "p95": 1116.623666,
+        "max": 1116.623666
+      },
+      "busy_wait_ms": {
+        "count": 1,
+        "median": 401.510334,
+        "p95": 401.510334,
+        "max": 401.510334
+      },
+      "map_start_accepted_ms": {
+        "count": 1,
+        "median": 672.7918743359375,
+        "p95": 672.7918743359375,
+        "max": 672.7918743359375
+      },
+      "map_start_scheduled_ms": {
+        "count": 1,
+        "median": 1074.831624,
+        "p95": 1074.831624,
+        "max": 1074.831624
+      },
+      "ramp_complete_accepted_ms": {
+        "count": 1,
+        "median": 733.2879583359374,
+        "p95": 733.2879583359374,
+        "max": 733.2879583359374
+      },
+      "ramp_complete_scheduled_ms": {
+        "count": 1,
+        "median": 1135.327708,
+        "p95": 1135.327708,
+        "max": 1135.327708
+      },
+      "first_raw_difference_accepted_ms": {
+        "count": 0,
+        "median": null,
+        "p95": null,
+        "max": null
+      },
+      "first_raw_difference_scheduled_ms": {
+        "count": 0,
+        "median": null,
+        "p95": null,
+        "max": null
+      }
+    }
+  },
+  "states": {
+    "Completed": 3
+  },
+  "busy_active_total_ms": 2093.914834,
+  "busy_wait_sum_ms": 1317.291001,
+  "measurement_model": "A=scheduled wall mach; B=worker steady clock converted by recorded clock bridge; C/D=HAL host+source offset+device-only presentationLatency; E=first control observation of readiness (10ms polling upper bound). Busy active includes accepted through observed ready. Per-operation waiting overlaps and must not be added as elapsed busy time.",
+  "acoustic_loopback": false,
+  "ready_may_precede_hal_presentation": true,
+  "percentile": "usual median; nearest rank p95 ceil(.95*N)",
+  "planning": "L2"
+}

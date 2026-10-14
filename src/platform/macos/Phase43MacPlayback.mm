@@ -1,3 +1,6 @@
+#ifdef PHASE51_RESEARCH
+#include "prototype/Phase51CommandControl.h"
+#endif
 #import <AVFoundation/AVFoundation.h>
 #include <CoreAudio/CoreAudio.h>
 #include "prototype/Phase39PlaybackPipeline.h"
@@ -297,7 +300,11 @@ int main(int argc,char** argv) {
         const bool profileEnabled=std::getenv("PHASE43_PROFILE") || std::getenv("PHASE45_LIVE_WORKERS");
         ts::prototype::Phase39PlaybackPipeline pipeline(
             argv[1],initial,fifoFrames,blockFrames,leadLimit,
+#ifdef PHASE51_RESEARCH
+            std::getenv("PHASE51_L2") ? ts::prototype::Phase39Planning::L2 : ts::prototype::Phase39Planning::C,
+#else
             ts::prototype::Phase39Planning::C,
+#endif
             ts::prototype::Phase39DensityDiagnostic::SafeGuarded,
             profileEnabled,{},0,0,profileEnabled ?
                 std::function<std::uint64_t()>([] { return outsideRenderNewCalls; }) :
@@ -400,6 +407,23 @@ int main(int argc,char** argv) {
         std::vector<std::uint64_t> requestMachNs(changeCount,0),
             requestGenerations(changeCount,0);
         std::vector<std::string> requestStates(changeCount,"Scheduled");
+#ifdef PHASE51_RESEARCH
+        using Commands=ts::prototype::Phase51CommandControl;
+        const std::string policyName=std::getenv("PHASE51_POLICY") ? std::getenv("PHASE51_POLICY") : "defer";
+        const auto policy=policyName=="latest" ? Commands::Policy::Latest : policyName=="strict" ? Commands::Policy::Strict :
+            policyName=="continue" ? Commands::Policy::Continue : policyName=="defer" ? Commands::Policy::Defer :
+            throw std::invalid_argument("Unknown research control policy");
+        Commands commands(changeCount,policy);
+        const auto machNow=[&](){return static_cast<std::uint64_t>(static_cast<long double>(mach_absolute_time())*state.numer/state.denom);};
+        const auto anchorMach=machNow();
+        const auto anchorSteady=std::chrono::duration_cast<std::chrono::nanoseconds>(Clock::now().time_since_epoch()).count();
+        const auto clockOffset=static_cast<std::int64_t>(anchorMach)-anchorSteady;
+        const auto bridgeClockErrorNs=machNow()-anchorMach;
+        for(std::size_t i=0;i<changeCount;++i) commands.operations[i].scheduled=anchorMach+
+            static_cast<std::uint64_t>(schedule[i].outputFrame*1e9/state.rate);
+        std::size_t arrivals=0,acceptedOperations=0;
+        const bool wallSchedule=std::getenv("PHASE51_WALL_SCHEDULE")!=nullptr;
+#endif
         std::size_t checkpoint=0;
         constexpr double checkpoints[]={180,300,600};
         while (!interrupted) {
@@ -436,6 +460,49 @@ int main(int argc,char** argv) {
             }
             const auto played=state.content.load(std::memory_order_acquire);
             const auto snapshot=pipeline.snapshot();
+#ifdef PHASE51_RESEARCH
+            const auto controlNow=machNow();
+            if(active<changeCount){
+                auto& op=commands.operations[active];
+                if(snapshot.generation!=op.generation)throw std::runtime_error("Control generation mismatch");
+                if(snapshot.workerSeenNs)op.workerSeen=static_cast<std::uint64_t>(static_cast<std::int64_t>(snapshot.workerSeenNs)+clockOffset);
+                if(snapshot.state==ts::prototype::Phase39RequestState::Rejected || snapshot.state==ts::prototype::Phase39RequestState::Cancelled){
+                    op.state=snapshot.state==ts::prototype::Phase39RequestState::Rejected ? "Rejected" : "Cancelled";
+                    if(op.state=="Rejected")++rejected;else ++cancelled;
+                    requestStates[active]=op.state;active=changeCount;
+                    if(policy==Commands::Policy::Strict)strictFailure=true;
+                }else if(snapshot.state==ts::prototype::Phase39RequestState::Applied){
+                    op.state="Applied";requestStates[active]="Applied";
+                    if(pipeline.researchTransitionComplete() && state.completionPresentationGeneration.load()==op.generation){
+                        op.ready=pipeline.researchCommandReady() ? controlNow : 0;op.state="Completed";requestStates[active]="Completed";
+                        const auto apply=state.appliedPresentationGeneration.load()==op.generation ? state.appliedPresentationNs.load() : 0;
+                        applyLatencyMs[active]=apply>=op.sent ? (apply-op.sent)/1e6 : -1;
+                        completionLatencyMs[active]=(state.completionPresentationNs.load()-op.sent)/1e6;
+                        ++observed;active=changeCount;
+                    }
+                }
+            }
+            bool ready=active==changeCount && pipeline.researchCommandReady();
+            while(arrivals<changeCount && (wallSchedule ? controlNow>=commands.operations[arrivals].scheduled : played>=schedule[arrivals].outputFrame)){
+                commands.arrive(arrivals,controlNow,!ready);
+                requestStates[arrivals]=commands.operations[arrivals].state;++arrivals;
+            }
+            if(commands.failed)strictFailure=true;
+            const auto index=commands.next(ready,controlNow);
+            if(!strictFailure && index!=Commands::none){
+                const auto send=machNow();const auto result=forceRejectFirst && index==0 ? ts::prototype::Phase39RequestResult::Invalid : pipeline.requestSpeed(schedule[index].speed,played);
+                if(result==ts::prototype::Phase39RequestResult::Accepted){
+                    commands.dispatch(index,send);auto& op=commands.operations[index];op.accepted=machNow();
+                    op.generation=pipeline.snapshot().generation;
+                    requestMachNs[index]=send;requestGenerations[index]=op.generation;requestStates[index]="Requested";
+                    active=index;++acceptedOperations;
+                }else if(result==ts::prototype::Phase39RequestResult::Busy){++commands.operations[index].busyPolls;}
+                else {commands.dispatch(index,send);commands.operations[index].state=result==ts::prototype::Phase39RequestResult::Duplicate ? "Duplicate":"Rejected";
+                    requestStates[index]=commands.operations[index].state;if(commands.operations[index].state=="Rejected"){++rejected;if(policy==Commands::Policy::Strict)strictFailure=true;}}
+            }
+            sent=arrivals;
+            if(strictFailure)break;
+#else
             if (active<changeCount) {
                 if (snapshot.generation!=requestGenerations[active])
                     throw std::runtime_error("Speed request generation changed unexpectedly");
@@ -491,6 +558,7 @@ int main(int argc,char** argv) {
                     if (!continueRejected) strictFailure=true;
                 }
             }
+#endif
             if (pipeline.finished()) pipeline.rethrowWorkerError();
             if (pipeline.drained() && played>=pipeline.snapshot().outputLength) break;
             const auto elapsed=std::chrono::duration<double>(Clock::now()-playStart).count();
@@ -584,6 +652,9 @@ int main(int argc,char** argv) {
                  <<"controlled_stall_fifo_after="<<stall.fifoAfter<<'\n'
                  <<"controlled_stall_published_frames="<<stall.publishedFrames<<'\n'
                  <<"controlled_stall_cycle="<<stall.cycleSequence<<'\n'
+                 <<"controlled_stall_input_low="<<stall.nextInput[0]<<'\n'
+                 <<"controlled_stall_input_mid="<<stall.nextInput[1]<<'\n'
+                 <<"controlled_stall_input_high="<<stall.nextInput[2]<<'\n'
                  <<"controlled_stall_worker_tid="<<stall.threadId<<'\n'
                  <<"device_presentation_latency_ms="<<deviceLatencyMs<<'\n'
                  <<"request_output="<<status.requestedOutput<<'\n'
@@ -796,7 +867,25 @@ int main(int argc,char** argv) {
             std::cout<<"request_result="<<i+1<<" state="<<requestStates[i]
                      <<" generation="<<requestGenerations[i]
                      <<" scheduled_frame="<<schedule[i].outputFrame<<'\n';
+#ifdef PHASE51_RESEARCH
+        commands.stop(machNow());
+        if(const auto path=std::getenv("PHASE51_OPERATIONS")){
+            ts::prototype::Phase47EvidenceFile file(path);auto& csv=file.stream();
+            csv<<"operation,target,scheduled_mach_ns,observed_mach_ns,sent_mach_ns,accepted_mach_ns,worker_seen_mach_ns,ready_observed_mach_ns,generation,busy_ns,busy_polls,state,clock_bridge_error_ns\n";
+            for(std::size_t i=0;i<changeCount;++i){const auto& op=commands.operations[i];
+                csv<<i+1<<','<<schedule[i].speed.value()<<','<<op.scheduled<<','<<op.arrived<<','<<op.sent<<','<<op.accepted<<','<<op.workerSeen<<','<<op.ready<<','<<op.generation<<','<<op.busyNs<<','<<op.busyPolls<<','<<op.state<<','<<bridgeClockErrorNs<<'\n';}
+            file.commit();
+        }
+        std::cout<<"research_control_policy="<<policyName<<"\nresearch_accepted_operations="<<acceptedOperations<<"\nresearch_observed_operations="<<arrivals<<'\n';
+#endif
         if (csvSaveFailed) return 5;
+#ifdef PHASE51_RESEARCH
+        return strictFailure || cancelled || observed!=acceptedOperations ||
+            (maxSeconds==0 && !reportEos) || status.underrunFrames || status.rejectedWrites || state.tailDeadlineMisses ||
+            state.formatErrors || renderCppAllocations.load() || anyRouteChange || state.hostMissingCalls || state.hostBackward ||
+            state.hostCadenceErrors || state.hostOffsetOutliers || state.sampleErrors || state.halWindowMisses ||
+            (endDrained && state.presentationFrames.load()!=status.outputLength) ? 4 : 0;
+#else
         return strictFailure || cancelled || sent!=changeCount ||
             (!continueRejected && observed!=changeCount) ||
             (maxSeconds==0 && !reportEos) ||
@@ -808,6 +897,7 @@ int main(int argc,char** argv) {
             state.hostOffsetOutliers ||
             state.sampleErrors || state.halWindowMisses ||
             (endDrained && state.presentationFrames.load()!=status.outputLength) ? 4 : 0;
+#endif
     } catch (const std::exception& exception) {
         std::cerr<<"Phase 43: "<<exception.what()<<'\n';
         return 1;

@@ -1,0 +1,60 @@
+{
+  "CSV_INTEGRITY": "PASS",
+  "faults": [],
+  "files": {
+    "callbacks.csv": {
+      "rows": 2621,
+      "sha256": "98afe4e4c77c4f42e1f570e2f16fb4fcbc51af39012e895798742c4fb2020840",
+      "required_columns": [
+        "callback_end_mach_ns",
+        "callback_start_mach_ns",
+        "early_end_mach_ns",
+        "epoch",
+        "host_mach_ns",
+        "io_complete_mach_ns",
+        "received",
+        "render_requested_frames",
+        "sample_time",
+        "sequence",
+        "timestamp_flags",
+        "wanted"
+      ]
+    },
+    "workers.csv": {
+      "rows": 653,
+      "sha256": "357de74ea565e73870c454682358c2c59e3857e650898d6bbffc9e81b34139a5",
+      "required_columns": [
+        "cycle_cpu_s",
+        "cycle_sequence",
+        "cycle_wall_s",
+        "output_start",
+        "publication_frames",
+        "published_mach_ns",
+        "start_mach_ns"
+      ]
+    },
+    "replay.csv": {
+      "rows": 4,
+      "sha256": "cec14fee14d243828c59865f93ad7cbe345e210bae5474b58867f51c405ade39",
+      "required_columns": [
+        "applied_frame",
+        "applied_output",
+        "completion_output",
+        "from",
+        "generation",
+        "target"
+      ]
+    },
+    "workers.csv.guard.csv": {
+      "rows": 3,
+      "sha256": "a80d07a6d25252c6f74ab630e895e255021e0b4299e4f19030fd1cba31a25e0e",
+      "required_columns": [
+        "generation",
+        "guard_cpu_s",
+        "guard_wall_s",
+        "safe"
+      ]
+    }
+  },
+  "legacy": false
+}

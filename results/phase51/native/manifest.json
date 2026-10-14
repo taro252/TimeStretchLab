@@ -1,0 +1,146 @@
+{
+  "cases": [
+    {
+      "label": "C",
+      "precise": false,
+      "planning": "C",
+      "stress": false,
+      "dose": 0,
+      "policy": "defer",
+      "kind": "t1p85"
+    },
+    {
+      "label": "C_L1",
+      "precise": true,
+      "planning": "C",
+      "stress": false,
+      "dose": 0,
+      "policy": "defer",
+      "kind": "t1p85"
+    },
+    {
+      "label": "C_L1_L2",
+      "precise": true,
+      "planning": "L2",
+      "stress": false,
+      "dose": 0,
+      "policy": "defer",
+      "kind": "t1p85"
+    },
+    {
+      "label": "C",
+      "precise": false,
+      "planning": "C",
+      "stress": true,
+      "dose": 200,
+      "policy": "latest",
+      "kind": "busy_stall",
+      "at": 4.5
+    },
+    {
+      "label": "C_L1",
+      "precise": true,
+      "planning": "C",
+      "stress": true,
+      "dose": 200,
+      "policy": "latest",
+      "kind": "busy_stall",
+      "at": 4.5
+    },
+    {
+      "label": "C_L1_L2",
+      "precise": true,
+      "planning": "L2",
+      "stress": true,
+      "dose": 200,
+      "policy": "latest",
+      "kind": "busy_stall",
+      "at": 4.5
+    },
+    {
+      "label": "C",
+      "precise": false,
+      "planning": "C",
+      "stress": true,
+      "dose": 250,
+      "policy": "latest",
+      "kind": "busy_stall",
+      "at": 6.25
+    },
+    {
+      "label": "C_L1",
+      "precise": true,
+      "planning": "C",
+      "stress": true,
+      "dose": 250,
+      "policy": "latest",
+      "kind": "busy_stall",
+      "at": 6.25
+    },
+    {
+      "label": "C_L1_L2",
+      "precise": true,
+      "planning": "L2",
+      "stress": true,
+      "dose": 250,
+      "policy": "latest",
+      "kind": "busy_stall",
+      "at": 6.25
+    },
+    {
+      "label": "C",
+      "precise": false,
+      "planning": "C",
+      "stress": true,
+      "dose": 300,
+      "policy": "latest",
+      "kind": "busy_stall",
+      "at": 13.5
+    },
+    {
+      "label": "C_L1",
+      "precise": true,
+      "planning": "C",
+      "stress": true,
+      "dose": 300,
+      "policy": "latest",
+      "kind": "busy_stall",
+      "at": 13.5
+    },
+    {
+      "label": "C_L1_L2",
+      "precise": true,
+      "planning": "L2",
+      "stress": true,
+      "dose": 300,
+      "policy": "latest",
+      "kind": "busy_stall",
+      "at": 13.5
+    },
+    {
+      "label": "C_L1_L2",
+      "precise": true,
+      "planning": "L2",
+      "stress": false,
+      "dose": 0,
+      "policy": "latest",
+      "kind": "short200"
+    },
+    {
+      "label": "C_L1_L2",
+      "precise": true,
+      "planning": "L2",
+      "stress": false,
+      "dose": 0,
+      "policy": "defer",
+      "kind": "short200"
+    }
+  ],
+  "input_sha256": "9027c47a106c2d64c13f9405284357a25819210595f1cfa789b1a7423380e786",
+  "binary_sha256": "31aaa64960293ee067d6ff5a81e36c9b2cf636c8095a6ccc080ae9fe905a09fa",
+  "lead": 16384,
+  "fifo": 16384,
+  "block": 2048,
+  "trace": false,
+  "device_quantum": 512
+}

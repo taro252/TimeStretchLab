@@ -38,6 +38,9 @@ int main(int argc,char** argv) {
             strategy=="B" ? Phase39Planning::B :
             strategy=="C" ? Phase39Planning::C :
             strategy=="C0" ? Phase39Planning::C0 :
+#ifdef PHASE51_RESEARCH
+            strategy=="L2" ? Phase39Planning::L2 :
+#endif
             throw std::invalid_argument("Planning strategy must be A, B, C or C0");
         Phase39TimeMap timeline(analysis,reader.sampleRate(),initial,planning);
         std::vector<std::pair<std::size_t,bool>> modes;

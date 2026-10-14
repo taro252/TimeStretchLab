@@ -1,0 +1,36 @@
+[ 61%] Built target timestretch_core
+[ 66%] Built target phase24_variable
+[ 83%] Built target phase36_variable
+[ 83%] Building CXX object CMakeFiles/phase39_variable.dir/src/prototype/Phase39PlaybackPipeline.cpp.o
+/Users/taro252/Docker/TimeStretchLab/src/prototype/Phase39PlaybackPipeline.cpp:473:21: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
+  473 |                     densityReady_.store(false,std::memory_order_release);
+      |                     ^
+/Users/taro252/Docker/TimeStretchLab/src/prototype/Phase39PlaybackPipeline.cpp:471:17: note: previous statement is here
+  471 |                 if (changesDensity)
+      |                 ^
+1 warning generated.
+[ 88%] Linking CXX static library libphase39_variable.a
+[ 94%] Built target phase39_variable
+[ 94%] Building OBJCXX object CMakeFiles/phase51_play.dir/src/platform/macos/Phase43MacPlayback.mm.o
+[100%] Linking CXX executable phase51_play
+[100%] Built target phase51_play
+[ 61%] Built target timestretch_core
+[ 66%] Built target phase24_variable
+[ 83%] Built target phase36_variable
+[ 94%] Built target phase39_variable
+[ 94%] Building CXX object CMakeFiles/phase51_sim.dir/src/prototype/Phase39Sim.cpp.o
+[100%] Linking CXX executable phase51_sim
+[100%] Built target phase51_sim
+[ 61%] Built target timestretch_core
+[ 66%] Built target phase24_variable
+[ 83%] Built target phase36_variable
+[ 94%] Built target phase39_variable
+[ 94%] Linking CXX executable phase51_reference
+[100%] Built target phase51_reference
+[ 61%] Built target timestretch_core
+[ 66%] Built target phase24_variable
+[ 83%] Built target phase36_variable
+[ 94%] Built target phase39_variable
+[ 94%] Linking CXX executable phase51_counterfactual
+[100%] Built target phase51_counterfactual
+[100%] Built target phase51_command_tests

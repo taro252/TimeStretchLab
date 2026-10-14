@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/Users/taro252/Docker/TimeStretchLab/scripts/phase51_busy.py", line 23, in <module>
+    if __name__=='__main__':main()
+  File "/Users/taro252/Docker/TimeStretchLab/scripts/phase51_busy.py", line 16, in main
+    result=subprocess.run(list(map(str,args)),capture_output=True,text=True,timeout=180);(path/'study.log').write_text(result.stdout+result.stderr);assert result.returncode==0
+AssertionError

@@ -39,7 +39,7 @@ def trace_batch_must_stop(row):
 
 def run(output,source='drums',minutes=3,trace=False,stress=True,candidate='A',stall=0,attach_after=1,trace_seconds=5,
         fifo_frames=16384,lead_frames=None,stall_output=None,stall_fifo=None,input_override=None,
-        initial_speed=.4,schedule_override=None,executable=None,precise_boundary=False,drain_stock=False):
+        initial_speed=.4,schedule_override=None,executable=None,precise_boundary=False,drain_stock=False,planning="C",control_policy=None,wall_schedule=False):
     calibration=ROOT/'results/phase47/calibration.json'
     # Native long-input/repeated trace trials require the short calibration,
     # even when each individual recording is only five seconds.
@@ -61,6 +61,11 @@ def run(output,source='drums',minutes=3,trace=False,stress=True,candidate='A',st
     if candidate=='C':env['PHASE46_DSP_BLOCK']='1024'
     if candidate=='E':env['PHASE46_LEAD']='14336'
     env['PHASE46_FIFO']=str(fifo_frames)
+    for key in ('PHASE51_L2','PHASE51_POLICY','PHASE51_WALL_SCHEDULE','PHASE51_OPERATIONS'):env.pop(key,None)
+    if planning=='L2':env['PHASE51_L2']='1'
+    if control_policy is not None:
+        env.update(PHASE51_POLICY=control_policy,PHASE51_OPERATIONS=str(path/'operations.csv'))
+    if wall_schedule:env['PHASE51_WALL_SCHEDULE']='1'
     env.pop('PHASE50_PRECISE_BOUNDARY',None)
     env.pop('PHASE50_STALL_DRAIN',None)
     if drain_stock:env['PHASE50_STALL_DRAIN']='1'
@@ -96,7 +101,12 @@ def run(output,source='drums',minutes=3,trace=False,stress=True,candidate='A',st
     row=dict(run_id=identifier,run_time=at,source=source,input_minutes=minutes,input_path=str(input_path),
         candidate=candidate,stress=int(stress),trace_requested=int(trace),profile=1,process_pid=pid,
         stall_injected_ms=stall,attach_after_seconds=attach_after,exit_code=code)
-    row.update(values);row.update(native_verdict(values,code))
+    row.update(values)
+    verdict_values=dict(values)
+    if control_policy is not None and 'research_accepted_operations' in values:
+        verdict_values['requested_changes']=values['research_accepted_operations']
+        row['quality_expected_completed']=values['research_accepted_operations']
+    row.update(native_verdict(verdict_values,code))
     row.update(storage_fields(trace_result))
     if trace:
         row.update(validate_run(path,trace_exit,code,pid))
@@ -107,8 +117,8 @@ def run(output,source='drums',minutes=3,trace=False,stress=True,candidate='A',st
     row.update(investigate(path,values))
     # No reference synthesis competes with the realtime workload: verify afterwards.
     reference=path/'reference.wav'
-    ref=subprocess.run([str(ROOT/'build/phase39_reference'),str(input_path),str(reference),
-        str(initial_speed),str(path/'replay.csv'),'C','safe-density'],cwd=ROOT,capture_output=True,text=True,timeout=1800)
+    ref=subprocess.run([str(ROOT/('build/phase51_reference' if planning=='L2' else 'build/phase39_reference')),str(input_path),str(reference),
+        str(initial_speed),str(path/'replay.csv'),planning,'safe-density'],cwd=ROOT,capture_output=True,text=True,timeout=1800)
     (path/'reference.log').write_text(ref.stdout+ref.stderr)
     checked={}
     if ref.returncode==0:

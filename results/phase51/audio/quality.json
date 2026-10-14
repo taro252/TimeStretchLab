@@ -1,0 +1,718 @@
+[
+  {
+    "source": "mix",
+    "label": "L1",
+    "frames": 365440,
+    "finite": true,
+    "peak": 1.4125714302062988,
+    "transition": {
+      "peak": 1.3518331050872803,
+      "rms": 0.22174274784488796,
+      "max_step": 0.8260568380355835,
+      "side_mid": 0.23212786429305876,
+      "lr_correlation": 0.8988434916885878,
+      "spectral_log_variation": 0.27288274206433355,
+      "near_zero_run": 0
+    },
+    "ramp_ms": 1585.6916099773243,
+    "density_weights": {
+      "low": 0.810722,
+      "mid": 0.810722,
+      "high": 0.809783
+    },
+    "map_monotonic": true,
+    "reference_eos_frames": 365440,
+    "whole_synthesis_hops": [
+      {
+        "band": "low",
+        "min": 257,
+        "max": 3817
+      },
+      {
+        "band": "mid",
+        "min": 128,
+        "max": 1909
+      },
+      {
+        "band": "high",
+        "min": 32,
+        "max": 478
+      }
+    ],
+    "input_mapped_regions": {
+      "overlap": {
+        "input_seconds": [
+          2.9,
+          4.2
+        ],
+        "output_frames": [
+          208033,
+          237245
+        ],
+        "metrics": {
+          "peak": 1.0785746574401855,
+          "rms": 0.21593878003192934,
+          "max_step": 0.7462429404258728,
+          "side_mid": 0.19335569294353255,
+          "lr_correlation": 0.9279346278839553,
+          "spectral_log_variation": 0.38078886518635047,
+          "near_zero_run": 0
+        }
+      },
+      "quiet": {
+        "input_seconds": [
+          4.2,
+          4.8
+        ],
+        "output_frames": [
+          237245,
+          250297
+        ],
+        "metrics": {
+          "peak": 1.2054778337478638,
+          "rms": 0.16489361825067925,
+          "max_step": 0.673473060131073,
+          "side_mid": 0.2772562248368232,
+          "lr_correlation": 0.8574008511523459,
+          "spectral_log_variation": 0.38638500020437433,
+          "near_zero_run": 0
+        }
+      }
+    }
+  },
+  {
+    "source": "mix",
+    "label": "L1_L2",
+    "frames": 314216,
+    "finite": true,
+    "peak": 1.4125714302062988,
+    "transition": {
+      "peak": 1.2020227909088135,
+      "rms": 0.25918920052795413,
+      "max_step": 0.8286635279655457,
+      "side_mid": 0.2096531162040814,
+      "lr_correlation": 0.9168145367807541,
+      "spectral_log_variation": 0.29986417286159717,
+      "near_zero_run": 0
+    },
+    "ramp_ms": 68.84353741496598,
+    "density_weights": {
+      "low": 0.973081,
+      "mid": 0.973573,
+      "high": 0.971607
+    },
+    "map_monotonic": true,
+    "reference_eos_frames": 314216,
+    "whole_synthesis_hops": [
+      {
+        "band": "low",
+        "min": 512,
+        "max": 3817
+      },
+      {
+        "band": "mid",
+        "min": 256,
+        "max": 1909
+      },
+      {
+        "band": "high",
+        "min": 64,
+        "max": 478
+      }
+    ],
+    "input_mapped_regions": {
+      "overlap": {
+        "input_seconds": [
+          2.9,
+          4.2
+        ],
+        "output_frames": [
+          156809,
+          186021
+        ],
+        "metrics": {
+          "peak": 1.1186410188674927,
+          "rms": 0.22484244445652912,
+          "max_step": 0.7425378561019897,
+          "side_mid": 0.16684253765736934,
+          "lr_correlation": 0.9461070392159335,
+          "spectral_log_variation": 0.3748440815902305,
+          "near_zero_run": 0
+        }
+      },
+      "quiet": {
+        "input_seconds": [
+          4.2,
+          4.8
+        ],
+        "output_frames": [
+          186021,
+          199073
+        ],
+        "metrics": {
+          "peak": 1.1584023237228394,
+          "rms": 0.16798055389505404,
+          "max_step": 0.678251326084137,
+          "side_mid": 0.27794210808661235,
+          "lr_correlation": 0.8567357463866653,
+          "spectral_log_variation": 0.3846522495794344,
+          "near_zero_run": 0
+        }
+      }
+    }
+  },
+  {
+    "source": "drums",
+    "label": "L1",
+    "frames": 361359,
+    "finite": true,
+    "peak": 1.1565601825714111,
+    "transition": {
+      "peak": 1.0646257400512695,
+      "rms": 0.1688014113050985,
+      "max_step": 0.7689539790153503,
+      "side_mid": 0.09141459562503995,
+      "lr_correlation": 0.9920277682473804,
+      "spectral_log_variation": 0.3859008747251491,
+      "near_zero_run": 0
+    },
+    "ramp_ms": 839.3541666666666,
+    "density_weights": {
+      "low": 0.884959,
+      "mid": 0.884959,
+      "high": 0.882073
+    },
+    "map_monotonic": true,
+    "reference_eos_frames": 361359,
+    "whole_synthesis_hops": [
+      {
+        "band": "low",
+        "min": 273,
+        "max": 3817
+      },
+      {
+        "band": "mid",
+        "min": 136,
+        "max": 1909
+      },
+      {
+        "band": "high",
+        "min": 34,
+        "max": 478
+      }
+    ],
+    "input_mapped_regions": {
+      "attack": {
+        "input_seconds": [
+          3.77,
+          4.02
+        ],
+        "output_frames": [
+          210823,
+          217834
+        ],
+        "metrics": {
+          "peak": 0.970357358455658,
+          "rms": 0.21696687227953707,
+          "max_step": 0.3911062180995941,
+          "side_mid": 0.07752836815140761,
+          "lr_correlation": 0.9966764278453564,
+          "spectral_log_variation": 0.4564127710680696,
+          "near_zero_run": 0
+        }
+      },
+      "tail": {
+        "input_seconds": [
+          4.05,
+          4.35
+        ],
+        "output_frames": [
+          218194,
+          226599
+        ],
+        "metrics": {
+          "peak": 0.921291172504425,
+          "rms": 0.1444775318188271,
+          "max_step": 0.507742166519165,
+          "side_mid": 0.1471830085894466,
+          "lr_correlation": 0.96789479414212,
+          "spectral_log_variation": 0.4124894615741332,
+          "near_zero_run": 0
+        }
+      }
+    },
+    "attack": {
+      "input_peak_frame": 186148,
+      "mapped_expected_frame": 214618.4765625,
+      "peak": 0.9324055910110474,
+      "offset_ms": -0.78076171875,
+      "half_amplitude_width_ms": 2.2083333333333335,
+      "pre_5_to_40ms_rms": 0.13087569177150726,
+      "secondary_peak_ratio": 0.8382563124993208
+    },
+    "tail_envelope_centered_error_db": 4.744967863586769
+  },
+  {
+    "source": "drums",
+    "label": "L1_L2",
+    "frames": 332992,
+    "finite": true,
+    "peak": 1.1195698976516724,
+    "transition": {
+      "peak": 1.007960557937622,
+      "rms": 0.20071269248237014,
+      "max_step": 0.3430759906768799,
+      "side_mid": 0.07976102832372703,
+      "lr_correlation": 0.9952891641039324,
+      "spectral_log_variation": 0.38557527242829787,
+      "near_zero_run": 0
+    },
+    "ramp_ms": 67.04166666666667,
+    "density_weights": {
+      "low": 0.955907,
+      "mid": 0.884959,
+      "high": 0.882073
+    },
+    "map_monotonic": true,
+    "reference_eos_frames": 332992,
+    "whole_synthesis_hops": [
+      {
+        "band": "low",
+        "min": 512,
+        "max": 3817
+      },
+      {
+        "band": "mid",
+        "min": 256,
+        "max": 1909
+      },
+      {
+        "band": "high",
+        "min": 64,
+        "max": 478
+      }
+    ],
+    "input_mapped_regions": {
+      "attack": {
+        "input_seconds": [
+          3.77,
+          4.02
+        ],
+        "output_frames": [
+          182456,
+          189467
+        ],
+        "metrics": {
+          "peak": 0.9688065052032471,
+          "rms": 0.20925496019812115,
+          "max_step": 0.3858882188796997,
+          "side_mid": 0.08439538678169063,
+          "lr_correlation": 0.9953143563921731,
+          "spectral_log_variation": 0.4407116419546109,
+          "near_zero_run": 0
+        }
+      },
+      "tail": {
+        "input_seconds": [
+          4.05,
+          4.35
+        ],
+        "output_frames": [
+          189827,
+          198232
+        ],
+        "metrics": {
+          "peak": 0.9303769469261169,
+          "rms": 0.14387877527195914,
+          "max_step": 0.5083001255989075,
+          "side_mid": 0.14653387500118153,
+          "lr_correlation": 0.9673910405455999,
+          "spectral_log_variation": 0.4126364185613942,
+          "near_zero_run": 0
+        }
+      }
+    },
+    "attack": {
+      "input_peak_frame": 186148,
+      "mapped_expected_frame": 186251.4765625,
+      "peak": 0.9144716262817383,
+      "offset_ms": -5.759928385416667,
+      "half_amplitude_width_ms": 1.7083333333333333,
+      "pre_5_to_40ms_rms": 0.05212176591157913,
+      "secondary_peak_ratio": 0.9771305296837082
+    },
+    "tail_envelope_centered_error_db": 4.14421487341667
+  },
+  {
+    "source": "vocal",
+    "label": "L1",
+    "frames": 340340,
+    "finite": true,
+    "peak": 0.7603248357772827,
+    "transition": {
+      "peak": 0.5554887056350708,
+      "rms": 0.11217350030621723,
+      "max_step": 0.299580842256546,
+      "side_mid": 0.22386235299428717,
+      "lr_correlation": 0.9094574812354838,
+      "spectral_log_variation": 0.24059307715343878,
+      "near_zero_run": 0
+    },
+    "ramp_ms": 616.875,
+    "density_weights": {
+      "low": 0.85142,
+      "mid": 0.85142,
+      "high": 0.851423
+    },
+    "map_monotonic": true,
+    "reference_eos_frames": 340340,
+    "whole_synthesis_hops": [
+      {
+        "band": "low",
+        "min": 348,
+        "max": 3482
+      },
+      {
+        "band": "mid",
+        "min": 174,
+        "max": 1741
+      },
+      {
+        "band": "high",
+        "min": 43,
+        "max": 436
+      }
+    ],
+    "input_mapped_regions": {
+      "sustain": {
+        "input_seconds": [
+          2.9,
+          4.2
+        ],
+        "output_frames": [
+          170635,
+          201820
+        ],
+        "metrics": {
+          "peak": 0.4758487045764923,
+          "rms": 0.12838406265652277,
+          "max_step": 0.17416530847549438,
+          "side_mid": 0.17326957050920092,
+          "lr_correlation": 0.942552462047446,
+          "spectral_log_variation": 0.2899582000909737,
+          "near_zero_run": 0
+        }
+      }
+    }
+  },
+  {
+    "source": "vocal",
+    "label": "L1_L2",
+    "frames": 322637,
+    "finite": true,
+    "peak": 0.759996235370636,
+    "transition": {
+      "peak": 0.5116866827011108,
+      "rms": 0.09769862724732906,
+      "max_step": 0.2990003526210785,
+      "side_mid": 0.21723095871069825,
+      "lr_correlation": 0.9163279746922546,
+      "spectral_log_variation": 0.28866742354454167,
+      "near_zero_run": 0
+    },
+    "ramp_ms": 68.5,
+    "density_weights": {
+      "low": 0.851897,
+      "mid": 0.85142,
+      "high": 0.851423
+    },
+    "map_monotonic": true,
+    "reference_eos_frames": 322637,
+    "whole_synthesis_hops": [
+      {
+        "band": "low",
+        "min": 512,
+        "max": 3482
+      },
+      {
+        "band": "mid",
+        "min": 256,
+        "max": 1741
+      },
+      {
+        "band": "high",
+        "min": 64,
+        "max": 436
+      }
+    ],
+    "input_mapped_regions": {
+      "sustain": {
+        "input_seconds": [
+          2.9,
+          4.2
+        ],
+        "output_frames": [
+          152932,
+          184117
+        ],
+        "metrics": {
+          "peak": 0.47585323452949524,
+          "rms": 0.12837384137438484,
+          "max_step": 0.17416536808013916,
+          "side_mid": 0.173314812361487,
+          "lr_correlation": 0.942511666088691,
+          "spectral_log_variation": 0.2899674042063853,
+          "near_zero_run": 0
+        }
+      }
+    }
+  },
+  {
+    "source": "guitar",
+    "label": "L1",
+    "frames": 359349,
+    "finite": true,
+    "peak": 0.7158748507499695,
+    "transition": {
+      "peak": 0.7158748507499695,
+      "rms": 0.10322504500403451,
+      "max_step": 0.13825707137584686,
+      "side_mid": 0.12385179644789943,
+      "lr_correlation": 0.9721125856069573,
+      "spectral_log_variation": 0.16222208973098373,
+      "near_zero_run": 0
+    },
+    "ramp_ms": 1114.8333333333333,
+    "density_weights": {
+      "low": 0.912511,
+      "mid": 0.885922,
+      "high": 0.885922
+    },
+    "map_monotonic": true,
+    "reference_eos_frames": 359349,
+    "whole_synthesis_hops": [
+      {
+        "band": "low",
+        "min": 422,
+        "max": 3374
+      },
+      {
+        "band": "mid",
+        "min": 211,
+        "max": 1687
+      },
+      {
+        "band": "high",
+        "min": 52,
+        "max": 422
+      }
+    ],
+    "input_mapped_regions": {
+      "sustain": {
+        "input_seconds": [
+          2.9,
+          4.2
+        ],
+        "output_frames": [
+          188471,
+          220135
+        ],
+        "metrics": {
+          "peak": 0.3200507164001465,
+          "rms": 0.08630722203612298,
+          "max_step": 0.07541614770889282,
+          "side_mid": 0.35773014707112344,
+          "lr_correlation": 0.7846940367313959,
+          "spectral_log_variation": 0.2563885781436376,
+          "near_zero_run": 0
+        }
+      }
+    }
+  },
+  {
+    "source": "guitar",
+    "label": "L1_L2",
+    "frames": 322822,
+    "finite": true,
+    "peak": 0.7158748507499695,
+    "transition": {
+      "peak": 0.31596484780311584,
+      "rms": 0.11212771628743706,
+      "max_step": 0.1449711173772812,
+      "side_mid": 0.1163355137462337,
+      "lr_correlation": 0.9775457506190152,
+      "spectral_log_variation": 0.14814044670489215,
+      "near_zero_run": 0
+    },
+    "ramp_ms": 65.85416666666667,
+    "density_weights": {
+      "low": 0.912511,
+      "mid": 0.912026,
+      "high": 0.909116
+    },
+    "map_monotonic": true,
+    "reference_eos_frames": 322822,
+    "whole_synthesis_hops": [
+      {
+        "band": "low",
+        "min": 512,
+        "max": 3374
+      },
+      {
+        "band": "mid",
+        "min": 256,
+        "max": 1687
+      },
+      {
+        "band": "high",
+        "min": 64,
+        "max": 422
+      }
+    ],
+    "input_mapped_regions": {
+      "sustain": {
+        "input_seconds": [
+          2.9,
+          4.2
+        ],
+        "output_frames": [
+          151944,
+          183608
+        ],
+        "metrics": {
+          "peak": 0.3200507164001465,
+          "rms": 0.08630722218198852,
+          "max_step": 0.07541613280773163,
+          "side_mid": 0.3577301530855803,
+          "lr_correlation": 0.784694031063919,
+          "spectral_log_variation": 0.2563885672289444,
+          "near_zero_run": 0
+        }
+      }
+    }
+  },
+  {
+    "source": "bass",
+    "label": "L1",
+    "frames": 367780,
+    "finite": true,
+    "peak": 0.7881201505661011,
+    "transition": {
+      "peak": 0.4023589491844177,
+      "rms": 0.10813355533527406,
+      "max_step": 0.008308976888656616,
+      "side_mid": 0.10185707006384179,
+      "lr_correlation": 0.998749512988013,
+      "spectral_log_variation": 0.2697542643604774,
+      "near_zero_run": 0
+    },
+    "ramp_ms": 753.5625,
+    "density_weights": {
+      "low": 0.935863,
+      "mid": 0.884959,
+      "high": 0.882073
+    },
+    "map_monotonic": true,
+    "reference_eos_frames": 367780,
+    "whole_synthesis_hops": [
+      {
+        "band": "low",
+        "min": 302,
+        "max": 3840
+      },
+      {
+        "band": "mid",
+        "min": 151,
+        "max": 1920
+      },
+      {
+        "band": "high",
+        "min": 37,
+        "max": 480
+      }
+    ],
+    "input_mapped_regions": {
+      "sustain": {
+        "input_seconds": [
+          2.9,
+          4.2
+        ],
+        "output_frames": [
+          196469,
+          227498
+        ],
+        "metrics": {
+          "peak": 0.47198736667633057,
+          "rms": 0.14095511047913867,
+          "max_step": 0.009854301810264587,
+          "side_mid": 0.10509876050707558,
+          "lr_correlation": 0.9968840509408082,
+          "spectral_log_variation": 0.3748120293819814,
+          "near_zero_run": 0
+        }
+      }
+    }
+  },
+  {
+    "source": "bass",
+    "label": "L1_L2",
+    "frames": 343085,
+    "finite": true,
+    "peak": 0.7881201505661011,
+    "transition": {
+      "peak": 0.4023589491844177,
+      "rms": 0.11952290227765261,
+      "max_step": 0.008308976888656616,
+      "side_mid": 0.10318479531750181,
+      "lr_correlation": 0.9987137155056829,
+      "spectral_log_variation": 0.2698051872051758,
+      "near_zero_run": 0
+    },
+    "ramp_ms": 64.85416666666667,
+    "density_weights": {
+      "low": 0.935863,
+      "mid": 0.935375,
+      "high": 0.932449
+    },
+    "map_monotonic": true,
+    "reference_eos_frames": 343085,
+    "whole_synthesis_hops": [
+      {
+        "band": "low",
+        "min": 512,
+        "max": 3840
+      },
+      {
+        "band": "mid",
+        "min": 256,
+        "max": 1920
+      },
+      {
+        "band": "high",
+        "min": 64,
+        "max": 480
+      }
+    ],
+    "input_mapped_regions": {
+      "sustain": {
+        "input_seconds": [
+          2.9,
+          4.2
+        ],
+        "output_frames": [
+          171774,
+          202803
+        ],
+        "metrics": {
+          "peak": 0.4960927665233612,
+          "rms": 0.13705731558171255,
+          "max_step": 0.007532663643360138,
+          "side_mid": 0.10982500382646251,
+          "lr_correlation": 0.9951247496237244,
+          "spectral_log_variation": 0.36030082492977356,
+          "near_zero_run": 0
+        }
+      }
+    }
+  }
+]

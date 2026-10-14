@@ -1,0 +1,29 @@
+[ 61%] Built target timestretch_core
+[ 66%] Built target phase24_variable
+[ 83%] Built target phase36_variable
+[ 83%] Building CXX object CMakeFiles/phase39_variable.dir/src/prototype/Phase39PlaybackPipeline.cpp.o
+[ 88%] Linking CXX static library libphase39_variable.a
+[ 94%] Built target phase39_variable
+[ 94%] Building OBJCXX object CMakeFiles/phase51_play.dir/src/platform/macos/Phase43MacPlayback.mm.o
+/Users/taro252/Docker/TimeStretchLab/src/platform/macos/Phase43MacPlayback.mm:403:20: warning: unused variable 'forceRejectFirst' [-Wunused-variable]
+  403 |         const bool forceRejectFirst=std::getenv("PHASE44_FORCE_REJECT_FIRST")!=nullptr;
+      |                    ^~~~~~~~~~~~~~~~
+1 warning generated.
+[100%] Linking CXX executable phase51_play
+[100%] Built target phase51_play
+[100%] Building CXX object CMakeFiles/phase51_command_tests.dir/tests/Phase51CommandTests.cpp.o
+[100%] Linking CXX executable phase51_command_tests
+[100%] Built target phase51_command_tests
+[ 61%] Built target timestretch_core
+[ 66%] Built target phase24_variable
+[ 83%] Built target phase36_variable
+[ 94%] Built target phase39_variable
+[ 94%] Building CXX object CMakeFiles/phase51_sim.dir/src/prototype/Phase39Sim.cpp.o
+[100%] Linking CXX executable phase51_sim
+[100%] Built target phase51_sim
+[ 61%] Built target timestretch_core
+[ 66%] Built target phase24_variable
+[ 83%] Built target phase36_variable
+[ 94%] Built target phase39_variable
+[ 94%] Linking CXX executable phase51_reference
+[100%] Built target phase51_reference

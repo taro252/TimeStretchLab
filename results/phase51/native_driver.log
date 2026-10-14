@@ -1,0 +1,43 @@
+BEGIN 1 {'label': 'C', 'precise': False, 'planning': 'C', 'stress': False, 'dose': 0, 'policy': 'defer', 'kind': 't1p85'}
+20261014T112535.369106+0900_drums_0.5m_A_trace0_5a36a682 PASS PASS NOT_REQUESTED NOT_REQUESTED
+END 1 PASS {'Completed': 4} 0
+BEGIN 2 {'label': 'C_L1', 'precise': True, 'planning': 'C', 'stress': False, 'dose': 0, 'policy': 'defer', 'kind': 't1p85'}
+20261014T112639.496596+0900_drums_0.5m_A_trace0_31498310 PASS PASS NOT_REQUESTED NOT_REQUESTED
+END 2 PASS {'Completed': 4} 0
+BEGIN 3 {'label': 'C_L1_L2', 'precise': True, 'planning': 'L2', 'stress': False, 'dose': 0, 'policy': 'defer', 'kind': 't1p85'}
+20261014T112742.201306+0900_drums_0.5m_A_trace0_f612d625 PASS PASS NOT_REQUESTED NOT_REQUESTED
+END 3 PASS {'Completed': 4} 0
+BEGIN 4 {'label': 'C', 'precise': False, 'planning': 'C', 'stress': True, 'dose': 200, 'policy': 'latest', 'kind': 'busy_stall', 'at': 4.5}
+20261014T112841.618944+0900_drums_0.5m_A_trace0_b9153a65 PASS PASS NOT_REQUESTED NOT_REQUESTED
+END 4 PASS {'Completed': 4} 0
+BEGIN 5 {'label': 'C_L1', 'precise': True, 'planning': 'C', 'stress': True, 'dose': 200, 'policy': 'latest', 'kind': 'busy_stall', 'at': 4.5}
+20261014T112944.201385+0900_drums_0.5m_A_trace0_979bf1f3 PASS PASS NOT_REQUESTED NOT_REQUESTED
+END 5 PASS {'Completed': 4} 0
+BEGIN 6 {'label': 'C_L1_L2', 'precise': True, 'planning': 'L2', 'stress': True, 'dose': 200, 'policy': 'latest', 'kind': 'busy_stall', 'at': 4.5}
+20261014T113047.424769+0900_drums_0.5m_A_trace0_22fe9af8 PASS PASS NOT_REQUESTED NOT_REQUESTED
+END 6 PASS {'Completed': 4} 0
+BEGIN 7 {'label': 'C', 'precise': False, 'planning': 'C', 'stress': True, 'dose': 250, 'policy': 'latest', 'kind': 'busy_stall', 'at': 6.25}
+20261014T113150.676053+0900_drums_0.5m_A_trace0_8c956c28 PASS PASS NOT_REQUESTED NOT_REQUESTED
+END 7 PASS {'Completed': 4} 0
+BEGIN 8 {'label': 'C_L1', 'precise': True, 'planning': 'C', 'stress': True, 'dose': 250, 'policy': 'latest', 'kind': 'busy_stall', 'at': 6.25}
+20261014T113255.299517+0900_drums_0.5m_A_trace0_a0da10ec PASS PASS NOT_REQUESTED NOT_REQUESTED
+END 8 PASS {'Completed': 4} 0
+BEGIN 9 {'label': 'C_L1_L2', 'precise': True, 'planning': 'L2', 'stress': True, 'dose': 250, 'policy': 'latest', 'kind': 'busy_stall', 'at': 6.25}
+20261014T113359.441691+0900_drums_0.5m_A_trace0_4cae24f7 PASS PASS NOT_REQUESTED NOT_REQUESTED
+END 9 PASS {'Completed': 4} 0
+BEGIN 10 {'label': 'C', 'precise': False, 'planning': 'C', 'stress': True, 'dose': 300, 'policy': 'latest', 'kind': 'busy_stall', 'at': 13.5}
+20261014T113503.453210+0900_drums_0.5m_A_trace0_03d16667 PASS PASS NOT_REQUESTED NOT_REQUESTED
+END 10 PASS {'Completed': 4} 0
+BEGIN 11 {'label': 'C_L1', 'precise': True, 'planning': 'C', 'stress': True, 'dose': 300, 'policy': 'latest', 'kind': 'busy_stall', 'at': 13.5}
+20261014T113608.448316+0900_drums_0.5m_A_trace0_2fefeb85 PASS PASS NOT_REQUESTED NOT_REQUESTED
+END 11 PASS {'Completed': 4} 0
+BEGIN 12 {'label': 'C_L1_L2', 'precise': True, 'planning': 'L2', 'stress': True, 'dose': 300, 'policy': 'latest', 'kind': 'busy_stall', 'at': 13.5}
+20261014T113715.491924+0900_drums_0.5m_A_trace0_305ce006 PASS PASS NOT_REQUESTED NOT_REQUESTED
+END 12 PASS {'Completed': 4} 0
+BEGIN 13 {'label': 'C_L1_L2', 'precise': True, 'planning': 'L2', 'stress': False, 'dose': 0, 'policy': 'latest', 'kind': 'short200'}
+20261014T113823.191950+0900_drums_0.5m_A_trace0_611ca649 PASS PASS NOT_REQUESTED NOT_REQUESTED
+END 13 PASS {'Completed': 2, 'Replaced': 1} 0
+BEGIN 14 {'label': 'C_L1_L2', 'precise': True, 'planning': 'L2', 'stress': False, 'dose': 0, 'policy': 'defer', 'kind': 'short200'}
+20261014T113903.664104+0900_drums_0.5m_A_trace0_63d363da PASS PASS NOT_REQUESTED NOT_REQUESTED
+END 14 PASS {'Completed': 3} 0
+EXPERIMENT_COMPLETE; all trial qualities saved

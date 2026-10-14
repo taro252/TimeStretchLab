@@ -51,6 +51,9 @@ int main(int argc,char** argv) {
             strategy=="B" ? Phase39Planning::B :
             strategy=="C" ? Phase39Planning::C :
             strategy=="C0" ? Phase39Planning::C0 :
+#ifdef PHASE51_RESEARCH
+            strategy=="L2" ? Phase39Planning::L2 :
+#endif
             throw std::invalid_argument("Planning strategy must be A, B, C or C0");
         const std::string densityOption=argc>=10 ? argv[9] : "";
         const auto densityDiagnostic=densityOption=="hold-density" ?

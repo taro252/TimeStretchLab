@@ -25,7 +25,7 @@ enum class Phase39Outcome { Applied, Duplicate, Busy, Stale, Invalid, NoSafeInte
 // A preserves the Phase 39 behaviour. B starts in the first complete safe
 // interval; C accumulates the ramp across safe intervals and holds protected
 // hops at their previously committed values.
-enum class Phase39Planning { A, B, C, C0 }; // C0 retains the initial unguarded diagnostic.
+enum class Phase39Planning { A, B, C, C0, L2 }; // C0 retains the initial unguarded diagnostic.
 struct Phase39Request {
     std::uint64_t generation=0;
     Phase39Speed target;
@@ -56,6 +56,10 @@ public:
     const TimeMap& current() const noexcept { return current_; }
     const std::vector<Phase39Plan>& history() const noexcept { return history_; }
     Phase39Plan submit(const Phase39Request& request);
+    // Research clone only. Identical coordinates/history/cache; no live state mutation.
+    Phase39TimeMap researchWithPlanning(Phase39Planning mode) const {
+        auto copy=*this;copy.planning_=mode;return copy;
+    }
     bool monotonic() const noexcept;
     bool touchesProtected(const Phase39Plan& plan) const noexcept;
     std::array<HopRange,3> measureHops() const;

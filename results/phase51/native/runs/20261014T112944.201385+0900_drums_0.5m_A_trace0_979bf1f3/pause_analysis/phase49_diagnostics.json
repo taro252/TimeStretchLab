@@ -1,0 +1,27 @@
+{
+  "latency_dependency_budgets": [],
+  "controlled_pause": {
+    "INJECTION_VALIDITY": "PASS",
+    "requested_ms": 200.0,
+    "measured_ms": 200.062542,
+    "stock_frames": 16384,
+    "theoretical_stock_ms": 341.3333333333333,
+    "stock_measurement_bracket_us": 0.084,
+    "first_publication_after_end_ms": 7.429708,
+    "effective_supply_stop_ms": 207.49225,
+    "first_missing_callback_ms": null,
+    "first_missing_hal_ms": null,
+    "affected_missing_frames": 0,
+    "natural_missing_frames": 0,
+    "predicted_missing_before_next_publication_range": [
+      0,
+      0
+    ],
+    "observed_missing_before_next_publication": 0,
+    "demand_balance_matches": true,
+    "shortage_recovery_after_end_ms": null,
+    "full_stock_recovery_after_end_ms": 55.975375,
+    "waveform_eos_match": true,
+    "note": "Injected window extends through 1s after next publication. Outside shortages are counted separately. Callback/FIFO snapshot overlaps produce a bounded demand interval."
+  }
+}

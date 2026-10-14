@@ -1,0 +1,38 @@
+{
+  "base_commit": "9933773e14cdd1c9cc4edb8ee4391031c358bb4c",
+  "source_fingerprint": "2a04dfa2e4286b53a312b072a17a5c0c811efcc901c2b0afa9f30219a8a6ee14",
+  "source_unchanged_during_final_tests": true,
+  "build_type": "Release",
+  "architecture": "arm64",
+  "native_binary_sha256": "31aaa64960293ee067d6ff5a81e36c9b2cf636c8095a6ccc080ae9fe905a09fa",
+  "native_same_binary_as_measured": true,
+  "ctest_final_full": {
+    "tests": 69,
+    "passed": 68,
+    "failed": 1,
+    "exit_code": 8,
+    "seconds": 458.86,
+    "failed_test": "phase44_quality_gate",
+    "reason": "Consumer timing INVALID; major_wakeups3/max42.6605ms, six expired slots/3072 expired presentation frames; DSP missing_frames0"
+  },
+  "ctest_failed_gate_recheck": {
+    "tests": 1,
+    "passed": 1,
+    "exit_code": 0,
+    "seconds": 17.08,
+    "interpretation": "Unchanged isolated run passes; does not erase full-suite timing invalid evidence or prove realtime stability"
+  },
+  "preliminary_full": {
+    "tests": 69,
+    "passed": 69,
+    "seconds": 903.18,
+    "note": "Final timing-model wording corrected during this earlier run; final source was rerun afterwards"
+  },
+  "golden25": true,
+  "offline_audio10": true,
+  "counterfactual8": true,
+  "virtual_busy22": true,
+  "native14": true,
+  "formal_integration": "WITHHELD",
+  "disk_free_bytes": 38250860544
+}

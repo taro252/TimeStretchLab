@@ -96,7 +96,7 @@ void Phase39PlaybackPipeline::start() {
     fromMicros_=initial_.micros;targetMicros_=initial_.micros;
     currentTailMicros_=initial_.micros;
     generation_=0;requestNs_=0;acceptedNs_=0;
-    workerSeenNs_=0;planNs_=0;requestedOutput_=0;requestedInput_=0;
+    workerSeenNs_=0;planNs_=0;requestedOutput_=0;requestedInput_=0;densityReady_=true;
     produced_=0;presented_=0;underrunFrames_=0;lastPublishedUnixNs_=0;lastPublishedMachNs_=0;
     profileRecordsDropped_=0;workerPcmSha_.clear();
     workerPcmHashEnabled_=std::getenv("PHASE46_PCM_SHA")!=nullptr;
@@ -177,6 +177,7 @@ void Phase39PlaybackPipeline::start() {
             stallObservation_.configured=controlledMs>0;stallObservation_.requestedMs=controlledMs;
             stallObservation_.outputThreshold=controlledOutput;stallObservation_.fifoGoal=controlledGoal;
             bool stalled=false;
+            std::array<std::size_t,3> controlledNextInput{};
             const auto publish=[&](const float* const* data,std::size_t frames,
                                    const std::function<void()>& poll) {
                 if (!stalled && injectedStallMs>0 && produced_.load()>=65536) {
@@ -320,7 +321,7 @@ void Phase39PlaybackPipeline::start() {
                     if (stock==controlledGoal) {
                         auto& o=stallObservation_;o.triggered=true;o.startMachNs=sampledAt;
                         o.measurementEndMachNs=machNs();o.fifoBefore=stock;o.threadId=workerTid;
-                        o.publishedFrames=produced_.load();o.cycleSequence=cycleSequence;
+                        o.publishedFrames=produced_.load();o.cycleSequence=cycleSequence;o.nextInput=controlledNextInput;
                         const auto cpuStart=workerCpuSeconds();
                         const auto until=Clock::now()+std::chrono::duration<double,std::milli>(controlledMs);
                         while (!stop_.load(std::memory_order_acquire) && Clock::now()<until)
@@ -335,6 +336,9 @@ void Phase39PlaybackPipeline::start() {
             const auto plan=[&](const Phase36StreamingSpeedEngine::Frontier& frontier,
                                  TimeMap& map,std::size_t& length,
                                  std::vector<std::pair<std::size_t,bool>>& modeChanges) {
+                if(controlledMs>0)controlledNextInput=frontier.nextInput;
+                densityReady_.store(modeChanges.empty() || std::all_of(frontier.nextInput.begin(),frontier.nextInput.end(),
+                    [&](auto p){return p>modeChanges.back().first;}),std::memory_order_release);
                 if (state_.load(std::memory_order_acquire)!=Phase39RequestState::Requested)
                     return;
                 ScopedPlanTiming planTiming{planCycleWall,planCycleCpu};
@@ -466,6 +470,7 @@ void Phase39PlaybackPipeline::start() {
                 map=timeline.current();
                 if (changesDensity)
                     modeChanges.emplace_back(modeInput,target.value()<0.50);
+                    densityReady_.store(false,std::memory_order_release);
                 length=newLength;
                 outputLength_.store(newLength,std::memory_order_release);
                 appliedOutput_.store(proposal.appliedOutputSample,std::memory_order_relaxed);

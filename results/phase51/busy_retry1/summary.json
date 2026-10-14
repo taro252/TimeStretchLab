@@ -1,0 +1,827 @@
+[
+  {
+    "ordinal": 1,
+    "interval_ms": 100,
+    "initial": 0.4,
+    "targets": "2,.4",
+    "policy": "latest",
+    "operations": [
+      {
+        "operation": "1",
+        "target": "2",
+        "scheduled_virtual_ns": "1500000000",
+        "arrived_virtual_ns": "1501333333",
+        "sent_virtual_ns": "1501333333",
+        "ready_virtual_ns": "1800000000",
+        "generation": "1",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      },
+      {
+        "operation": "2",
+        "target": "0.4",
+        "scheduled_virtual_ns": "1600000000",
+        "arrived_virtual_ns": "1608000000",
+        "sent_virtual_ns": "1800000000",
+        "ready_virtual_ns": "2194666666",
+        "generation": "2",
+        "state": "Completed",
+        "busy_virtual_ms": "192"
+      }
+    ],
+    "PCM_CORRECTNESS": "PASS",
+    "sha256": "f0100bc1703a329f43fd4cff2af040eda66609ba2b59cee4ed67212522c91ec1",
+    "REALTIME": "NOT_TESTED"
+  },
+  {
+    "ordinal": 2,
+    "interval_ms": 100,
+    "initial": 0.4,
+    "targets": "1,2",
+    "policy": "latest",
+    "operations": [
+      {
+        "operation": "1",
+        "target": "1",
+        "scheduled_virtual_ns": "1500000000",
+        "arrived_virtual_ns": "1501333333",
+        "sent_virtual_ns": "1501333333",
+        "ready_virtual_ns": "1800000000",
+        "generation": "1",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      },
+      {
+        "operation": "2",
+        "target": "2",
+        "scheduled_virtual_ns": "1600000000",
+        "arrived_virtual_ns": "1608000000",
+        "sent_virtual_ns": "1800000000",
+        "ready_virtual_ns": "2493333333",
+        "generation": "2",
+        "state": "Completed",
+        "busy_virtual_ms": "192"
+      }
+    ],
+    "PCM_CORRECTNESS": "PASS",
+    "sha256": "00b8578e95343ea49fdbbcf36b80f19f582382e94fc65788e387af11397b4371",
+    "REALTIME": "NOT_TESTED"
+  },
+  {
+    "ordinal": 3,
+    "interval_ms": 100,
+    "initial": 2,
+    "targets": ".4,1.5",
+    "policy": "latest",
+    "operations": [
+      {
+        "operation": "1",
+        "target": "0.4",
+        "scheduled_virtual_ns": "1500000000",
+        "arrived_virtual_ns": "1501333333",
+        "sent_virtual_ns": "1501333333",
+        "ready_virtual_ns": "1757333333",
+        "generation": "1",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      },
+      {
+        "operation": "2",
+        "target": "1.5",
+        "scheduled_virtual_ns": "1600000000",
+        "arrived_virtual_ns": "1608000000",
+        "sent_virtual_ns": "1757333333",
+        "ready_virtual_ns": "2280000000",
+        "generation": "2",
+        "state": "Completed",
+        "busy_virtual_ms": "149.333"
+      }
+    ],
+    "PCM_CORRECTNESS": "PASS",
+    "sha256": "d78d4c60bedfca6bad20589c89f430037bce78676fb8b46ceb483e8e6af2e78a",
+    "REALTIME": "NOT_TESTED"
+  },
+  {
+    "ordinal": 4,
+    "interval_ms": 100,
+    "initial": 0.4,
+    "targets": "2,.75,1.5",
+    "policy": "latest",
+    "operations": [
+      {
+        "operation": "1",
+        "target": "2",
+        "scheduled_virtual_ns": "1500000000",
+        "arrived_virtual_ns": "1501333333",
+        "sent_virtual_ns": "1501333333",
+        "ready_virtual_ns": "1800000000",
+        "generation": "1",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      },
+      {
+        "operation": "2",
+        "target": "0.75",
+        "scheduled_virtual_ns": "1600000000",
+        "arrived_virtual_ns": "1608000000",
+        "sent_virtual_ns": "0",
+        "ready_virtual_ns": "0",
+        "generation": "0",
+        "state": "Replaced",
+        "busy_virtual_ms": "96"
+      },
+      {
+        "operation": "3",
+        "target": "1.5",
+        "scheduled_virtual_ns": "1700000000",
+        "arrived_virtual_ns": "1704000000",
+        "sent_virtual_ns": "1800000000",
+        "ready_virtual_ns": "2322666666",
+        "generation": "2",
+        "state": "Completed",
+        "busy_virtual_ms": "96"
+      }
+    ],
+    "PCM_CORRECTNESS": "PASS",
+    "sha256": "5e0f369b707655bda37b5ea4bde428c532969d7109a2b714eddb293e46a5b4a3",
+    "REALTIME": "NOT_TESTED"
+  },
+  {
+    "ordinal": 5,
+    "interval_ms": 200,
+    "initial": 0.4,
+    "targets": "2,.4",
+    "policy": "latest",
+    "operations": [
+      {
+        "operation": "1",
+        "target": "2",
+        "scheduled_virtual_ns": "1500000000",
+        "arrived_virtual_ns": "1501333333",
+        "sent_virtual_ns": "1501333333",
+        "ready_virtual_ns": "1800000000",
+        "generation": "1",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      },
+      {
+        "operation": "2",
+        "target": "0.4",
+        "scheduled_virtual_ns": "1700000000",
+        "arrived_virtual_ns": "1704000000",
+        "sent_virtual_ns": "1800000000",
+        "ready_virtual_ns": "2194666666",
+        "generation": "2",
+        "state": "Completed",
+        "busy_virtual_ms": "96"
+      }
+    ],
+    "PCM_CORRECTNESS": "PASS",
+    "sha256": "f0100bc1703a329f43fd4cff2af040eda66609ba2b59cee4ed67212522c91ec1",
+    "REALTIME": "NOT_TESTED"
+  },
+  {
+    "ordinal": 6,
+    "interval_ms": 200,
+    "initial": 0.4,
+    "targets": "1,2",
+    "policy": "latest",
+    "operations": [
+      {
+        "operation": "1",
+        "target": "1",
+        "scheduled_virtual_ns": "1500000000",
+        "arrived_virtual_ns": "1501333333",
+        "sent_virtual_ns": "1501333333",
+        "ready_virtual_ns": "1800000000",
+        "generation": "1",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      },
+      {
+        "operation": "2",
+        "target": "2",
+        "scheduled_virtual_ns": "1700000000",
+        "arrived_virtual_ns": "1704000000",
+        "sent_virtual_ns": "1800000000",
+        "ready_virtual_ns": "2493333333",
+        "generation": "2",
+        "state": "Completed",
+        "busy_virtual_ms": "96"
+      }
+    ],
+    "PCM_CORRECTNESS": "PASS",
+    "sha256": "00b8578e95343ea49fdbbcf36b80f19f582382e94fc65788e387af11397b4371",
+    "REALTIME": "NOT_TESTED"
+  },
+  {
+    "ordinal": 7,
+    "interval_ms": 200,
+    "initial": 2,
+    "targets": ".4,1.5",
+    "policy": "latest",
+    "operations": [
+      {
+        "operation": "1",
+        "target": "0.4",
+        "scheduled_virtual_ns": "1500000000",
+        "arrived_virtual_ns": "1501333333",
+        "sent_virtual_ns": "1501333333",
+        "ready_virtual_ns": "1757333333",
+        "generation": "1",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      },
+      {
+        "operation": "2",
+        "target": "1.5",
+        "scheduled_virtual_ns": "1700000000",
+        "arrived_virtual_ns": "1704000000",
+        "sent_virtual_ns": "1757333333",
+        "ready_virtual_ns": "2280000000",
+        "generation": "2",
+        "state": "Completed",
+        "busy_virtual_ms": "53.3333"
+      }
+    ],
+    "PCM_CORRECTNESS": "PASS",
+    "sha256": "d78d4c60bedfca6bad20589c89f430037bce78676fb8b46ceb483e8e6af2e78a",
+    "REALTIME": "NOT_TESTED"
+  },
+  {
+    "ordinal": 8,
+    "interval_ms": 200,
+    "initial": 0.4,
+    "targets": "2,.75,1.5",
+    "policy": "latest",
+    "operations": [
+      {
+        "operation": "1",
+        "target": "2",
+        "scheduled_virtual_ns": "1500000000",
+        "arrived_virtual_ns": "1501333333",
+        "sent_virtual_ns": "1501333333",
+        "ready_virtual_ns": "1800000000",
+        "generation": "1",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      },
+      {
+        "operation": "2",
+        "target": "0.75",
+        "scheduled_virtual_ns": "1700000000",
+        "arrived_virtual_ns": "1704000000",
+        "sent_virtual_ns": "1800000000",
+        "ready_virtual_ns": "2194666666",
+        "generation": "2",
+        "state": "Completed",
+        "busy_virtual_ms": "96"
+      },
+      {
+        "operation": "3",
+        "target": "1.5",
+        "scheduled_virtual_ns": "1900000000",
+        "arrived_virtual_ns": "1906666666",
+        "sent_virtual_ns": "2194666666",
+        "ready_virtual_ns": "2546666666",
+        "generation": "3",
+        "state": "Completed",
+        "busy_virtual_ms": "288"
+      }
+    ],
+    "PCM_CORRECTNESS": "PASS",
+    "sha256": "b9d18f6a3778a16bbebb047ad6628569e9fcdd981ee01bd09c8f49cd770d3b0d",
+    "REALTIME": "NOT_TESTED"
+  },
+  {
+    "ordinal": 9,
+    "interval_ms": 400,
+    "initial": 0.4,
+    "targets": "2,.4",
+    "policy": "latest",
+    "operations": [
+      {
+        "operation": "1",
+        "target": "2",
+        "scheduled_virtual_ns": "1500000000",
+        "arrived_virtual_ns": "1501333333",
+        "sent_virtual_ns": "1501333333",
+        "ready_virtual_ns": "1800000000",
+        "generation": "1",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      },
+      {
+        "operation": "2",
+        "target": "0.4",
+        "scheduled_virtual_ns": "1900000000",
+        "arrived_virtual_ns": "1906666666",
+        "sent_virtual_ns": "1906666666",
+        "ready_virtual_ns": "2194666666",
+        "generation": "2",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      }
+    ],
+    "PCM_CORRECTNESS": "PASS",
+    "sha256": "f0100bc1703a329f43fd4cff2af040eda66609ba2b59cee4ed67212522c91ec1",
+    "REALTIME": "NOT_TESTED"
+  },
+  {
+    "ordinal": 10,
+    "interval_ms": 400,
+    "initial": 0.4,
+    "targets": "1,2",
+    "policy": "latest",
+    "operations": [
+      {
+        "operation": "1",
+        "target": "1",
+        "scheduled_virtual_ns": "1500000000",
+        "arrived_virtual_ns": "1501333333",
+        "sent_virtual_ns": "1501333333",
+        "ready_virtual_ns": "1800000000",
+        "generation": "1",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      },
+      {
+        "operation": "2",
+        "target": "2",
+        "scheduled_virtual_ns": "1900000000",
+        "arrived_virtual_ns": "1906666666",
+        "sent_virtual_ns": "1906666666",
+        "ready_virtual_ns": "2493333333",
+        "generation": "2",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      }
+    ],
+    "PCM_CORRECTNESS": "PASS",
+    "sha256": "00b8578e95343ea49fdbbcf36b80f19f582382e94fc65788e387af11397b4371",
+    "REALTIME": "NOT_TESTED"
+  },
+  {
+    "ordinal": 11,
+    "interval_ms": 400,
+    "initial": 2,
+    "targets": ".4,1.5",
+    "policy": "latest",
+    "operations": [
+      {
+        "operation": "1",
+        "target": "0.4",
+        "scheduled_virtual_ns": "1500000000",
+        "arrived_virtual_ns": "1501333333",
+        "sent_virtual_ns": "1501333333",
+        "ready_virtual_ns": "1757333333",
+        "generation": "1",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      },
+      {
+        "operation": "2",
+        "target": "1.5",
+        "scheduled_virtual_ns": "1900000000",
+        "arrived_virtual_ns": "1906666666",
+        "sent_virtual_ns": "1906666666",
+        "ready_virtual_ns": "2280000000",
+        "generation": "2",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      }
+    ],
+    "PCM_CORRECTNESS": "PASS",
+    "sha256": "d78d4c60bedfca6bad20589c89f430037bce78676fb8b46ceb483e8e6af2e78a",
+    "REALTIME": "NOT_TESTED"
+  },
+  {
+    "ordinal": 12,
+    "interval_ms": 400,
+    "initial": 0.4,
+    "targets": "2,.75,1.5",
+    "policy": "latest",
+    "operations": [
+      {
+        "operation": "1",
+        "target": "2",
+        "scheduled_virtual_ns": "1500000000",
+        "arrived_virtual_ns": "1501333333",
+        "sent_virtual_ns": "1501333333",
+        "ready_virtual_ns": "1800000000",
+        "generation": "1",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      },
+      {
+        "operation": "2",
+        "target": "0.75",
+        "scheduled_virtual_ns": "1900000000",
+        "arrived_virtual_ns": "1906666666",
+        "sent_virtual_ns": "1906666666",
+        "ready_virtual_ns": "2194666666",
+        "generation": "2",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      },
+      {
+        "operation": "3",
+        "target": "1.5",
+        "scheduled_virtual_ns": "2300000000",
+        "arrived_virtual_ns": "2301333333",
+        "sent_virtual_ns": "2301333333",
+        "ready_virtual_ns": "2578666666",
+        "generation": "3",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      }
+    ],
+    "PCM_CORRECTNESS": "PASS",
+    "sha256": "c01899988eda6d677f31ef493dd2d5968086f1dbeeff33c66ea890f71eafe4e0",
+    "REALTIME": "NOT_TESTED"
+  },
+  {
+    "ordinal": 13,
+    "interval_ms": 800,
+    "initial": 0.4,
+    "targets": "2,.4",
+    "policy": "latest",
+    "operations": [
+      {
+        "operation": "1",
+        "target": "2",
+        "scheduled_virtual_ns": "1500000000",
+        "arrived_virtual_ns": "1501333333",
+        "sent_virtual_ns": "1501333333",
+        "ready_virtual_ns": "1800000000",
+        "generation": "1",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      },
+      {
+        "operation": "2",
+        "target": "0.4",
+        "scheduled_virtual_ns": "2300000000",
+        "arrived_virtual_ns": "2301333333",
+        "sent_virtual_ns": "2301333333",
+        "ready_virtual_ns": "2866666666",
+        "generation": "2",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      }
+    ],
+    "PCM_CORRECTNESS": "PASS",
+    "sha256": "187ee3ea49b477acdb7d8eee9160f099ee03436ba167b5dc697180a9dad7fda5",
+    "REALTIME": "NOT_TESTED"
+  },
+  {
+    "ordinal": 14,
+    "interval_ms": 800,
+    "initial": 0.4,
+    "targets": "1,2",
+    "policy": "latest",
+    "operations": [
+      {
+        "operation": "1",
+        "target": "1",
+        "scheduled_virtual_ns": "1500000000",
+        "arrived_virtual_ns": "1501333333",
+        "sent_virtual_ns": "1501333333",
+        "ready_virtual_ns": "1800000000",
+        "generation": "1",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      },
+      {
+        "operation": "2",
+        "target": "2",
+        "scheduled_virtual_ns": "2300000000",
+        "arrived_virtual_ns": "2301333333",
+        "sent_virtual_ns": "2301333333",
+        "ready_virtual_ns": "2770666666",
+        "generation": "2",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      }
+    ],
+    "PCM_CORRECTNESS": "PASS",
+    "sha256": "afd5b85f8d092a220d5dc9428b7219721ead8b10ff9a1ebc25b466d9c3ef1371",
+    "REALTIME": "NOT_TESTED"
+  },
+  {
+    "ordinal": 15,
+    "interval_ms": 800,
+    "initial": 2,
+    "targets": ".4,1.5",
+    "policy": "latest",
+    "operations": [
+      {
+        "operation": "1",
+        "target": "0.4",
+        "scheduled_virtual_ns": "1500000000",
+        "arrived_virtual_ns": "1501333333",
+        "sent_virtual_ns": "1501333333",
+        "ready_virtual_ns": "1757333333",
+        "generation": "1",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      },
+      {
+        "operation": "2",
+        "target": "1.5",
+        "scheduled_virtual_ns": "2300000000",
+        "arrived_virtual_ns": "2301333333",
+        "sent_virtual_ns": "2301333333",
+        "ready_virtual_ns": "2600000000",
+        "generation": "2",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      }
+    ],
+    "PCM_CORRECTNESS": "PASS",
+    "sha256": "9dd791586a6a37a3ba44f0664aec987865a9f72d46c501af4203c55862b20aea",
+    "REALTIME": "NOT_TESTED"
+  },
+  {
+    "ordinal": 16,
+    "interval_ms": 800,
+    "initial": 0.4,
+    "targets": "2,.75,1.5",
+    "policy": "latest",
+    "operations": [
+      {
+        "operation": "1",
+        "target": "2",
+        "scheduled_virtual_ns": "1500000000",
+        "arrived_virtual_ns": "1501333333",
+        "sent_virtual_ns": "1501333333",
+        "ready_virtual_ns": "1800000000",
+        "generation": "1",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      },
+      {
+        "operation": "2",
+        "target": "0.75",
+        "scheduled_virtual_ns": "2300000000",
+        "arrived_virtual_ns": "2301333333",
+        "sent_virtual_ns": "2301333333",
+        "ready_virtual_ns": "2856000000",
+        "generation": "2",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      },
+      {
+        "operation": "3",
+        "target": "1.5",
+        "scheduled_virtual_ns": "3100000000",
+        "arrived_virtual_ns": "3101333333",
+        "sent_virtual_ns": "3101333333",
+        "ready_virtual_ns": "3602666666",
+        "generation": "3",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      }
+    ],
+    "PCM_CORRECTNESS": "PASS",
+    "sha256": "4fde4c7c04e3b17db1942be27df94506e23f90689fd84879f1992e36a50f2a77",
+    "REALTIME": "NOT_TESTED"
+  },
+  {
+    "ordinal": 17,
+    "interval_ms": 1500,
+    "initial": 0.4,
+    "targets": "2,.4",
+    "policy": "latest",
+    "operations": [
+      {
+        "operation": "1",
+        "target": "2",
+        "scheduled_virtual_ns": "1500000000",
+        "arrived_virtual_ns": "1501333333",
+        "sent_virtual_ns": "1501333333",
+        "ready_virtual_ns": "1800000000",
+        "generation": "1",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      },
+      {
+        "operation": "2",
+        "target": "0.4",
+        "scheduled_virtual_ns": "3000000000",
+        "arrived_virtual_ns": "3005333333",
+        "sent_virtual_ns": "3005333333",
+        "ready_virtual_ns": "3528000000",
+        "generation": "2",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      }
+    ],
+    "PCM_CORRECTNESS": "PASS",
+    "sha256": "44a73673d8aae752bb2f9464d5508d6cee76f3b0ffc1fca9b583925d0924e5d4",
+    "REALTIME": "NOT_TESTED"
+  },
+  {
+    "ordinal": 18,
+    "interval_ms": 1500,
+    "initial": 0.4,
+    "targets": "1,2",
+    "policy": "latest",
+    "operations": [
+      {
+        "operation": "1",
+        "target": "1",
+        "scheduled_virtual_ns": "1500000000",
+        "arrived_virtual_ns": "1501333333",
+        "sent_virtual_ns": "1501333333",
+        "ready_virtual_ns": "1800000000",
+        "generation": "1",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      },
+      {
+        "operation": "2",
+        "target": "2",
+        "scheduled_virtual_ns": "3000000000",
+        "arrived_virtual_ns": "3005333333",
+        "sent_virtual_ns": "3005333333",
+        "ready_virtual_ns": "3752000000",
+        "generation": "2",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      }
+    ],
+    "PCM_CORRECTNESS": "PASS",
+    "sha256": "ade855f17e6af7e8ce1a8d27feeccf26dcbfa2c3671e232fdaab242f76281d77",
+    "REALTIME": "NOT_TESTED"
+  },
+  {
+    "ordinal": 19,
+    "interval_ms": 1500,
+    "initial": 2,
+    "targets": ".4,1.5",
+    "policy": "latest",
+    "operations": [
+      {
+        "operation": "1",
+        "target": "0.4",
+        "scheduled_virtual_ns": "1500000000",
+        "arrived_virtual_ns": "1501333333",
+        "sent_virtual_ns": "1501333333",
+        "ready_virtual_ns": "1757333333",
+        "generation": "1",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      },
+      {
+        "operation": "2",
+        "target": "1.5",
+        "scheduled_virtual_ns": "3000000000",
+        "arrived_virtual_ns": "3005333333",
+        "sent_virtual_ns": "3005333333",
+        "ready_virtual_ns": "3922666666",
+        "generation": "2",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      }
+    ],
+    "PCM_CORRECTNESS": "PASS",
+    "sha256": "b97a821a229251f07cb8d65ccca84ab42e60b30ef3dd67380ace15d3a2b0063e",
+    "REALTIME": "NOT_TESTED"
+  },
+  {
+    "ordinal": 20,
+    "interval_ms": 1500,
+    "initial": 0.4,
+    "targets": "2,.75,1.5",
+    "policy": "latest",
+    "operations": [
+      {
+        "operation": "1",
+        "target": "2",
+        "scheduled_virtual_ns": "1500000000",
+        "arrived_virtual_ns": "1501333333",
+        "sent_virtual_ns": "1501333333",
+        "ready_virtual_ns": "1800000000",
+        "generation": "1",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      },
+      {
+        "operation": "2",
+        "target": "0.75",
+        "scheduled_virtual_ns": "3000000000",
+        "arrived_virtual_ns": "3005333333",
+        "sent_virtual_ns": "3005333333",
+        "ready_virtual_ns": "3528000000",
+        "generation": "2",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      },
+      {
+        "operation": "3",
+        "target": "1.5",
+        "scheduled_virtual_ns": "4500000000",
+        "arrived_virtual_ns": "4509333333",
+        "sent_virtual_ns": "4509333333",
+        "ready_virtual_ns": "5224000000",
+        "generation": "3",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      }
+    ],
+    "PCM_CORRECTNESS": "PASS",
+    "sha256": "424938071e868550a6c0d13631bb5f9b035bae5b44b9d89100a233733b72862c",
+    "REALTIME": "NOT_TESTED"
+  },
+  {
+    "ordinal": 21,
+    "interval_ms": 200,
+    "initial": 0.4,
+    "targets": "2,.75,1.5",
+    "policy": "defer",
+    "operations": [
+      {
+        "operation": "1",
+        "target": "2",
+        "scheduled_virtual_ns": "1500000000",
+        "arrived_virtual_ns": "1501333333",
+        "sent_virtual_ns": "1501333333",
+        "ready_virtual_ns": "1800000000",
+        "generation": "1",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      },
+      {
+        "operation": "2",
+        "target": "0.75",
+        "scheduled_virtual_ns": "1700000000",
+        "arrived_virtual_ns": "1704000000",
+        "sent_virtual_ns": "1800000000",
+        "ready_virtual_ns": "2194666666",
+        "generation": "2",
+        "state": "Completed",
+        "busy_virtual_ms": "96"
+      },
+      {
+        "operation": "3",
+        "target": "1.5",
+        "scheduled_virtual_ns": "1900000000",
+        "arrived_virtual_ns": "1906666666",
+        "sent_virtual_ns": "2194666666",
+        "ready_virtual_ns": "2546666666",
+        "generation": "3",
+        "state": "Completed",
+        "busy_virtual_ms": "288"
+      }
+    ],
+    "PCM_CORRECTNESS": "PASS",
+    "sha256": "b9d18f6a3778a16bbebb047ad6628569e9fcdd981ee01bd09c8f49cd770d3b0d",
+    "REALTIME": "NOT_TESTED"
+  },
+  {
+    "ordinal": 22,
+    "interval_ms": 200,
+    "initial": 0.4,
+    "targets": "2,.75,1.5",
+    "policy": "continue",
+    "operations": [
+      {
+        "operation": "1",
+        "target": "2",
+        "scheduled_virtual_ns": "1500000000",
+        "arrived_virtual_ns": "1501333333",
+        "sent_virtual_ns": "1501333333",
+        "ready_virtual_ns": "1800000000",
+        "generation": "1",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      },
+      {
+        "operation": "2",
+        "target": "0.75",
+        "scheduled_virtual_ns": "1700000000",
+        "arrived_virtual_ns": "1704000000",
+        "sent_virtual_ns": "0",
+        "ready_virtual_ns": "0",
+        "generation": "0",
+        "state": "BusyRejected",
+        "busy_virtual_ms": "0"
+      },
+      {
+        "operation": "3",
+        "target": "1.5",
+        "scheduled_virtual_ns": "1900000000",
+        "arrived_virtual_ns": "1906666666",
+        "sent_virtual_ns": "1906666666",
+        "ready_virtual_ns": "2322666666",
+        "generation": "2",
+        "state": "Completed",
+        "busy_virtual_ms": "0"
+      }
+    ],
+    "PCM_CORRECTNESS": "PASS",
+    "sha256": "5e0f369b707655bda37b5ea4bde428c532969d7109a2b714eddb293e46a5b4a3",
+    "REALTIME": "NOT_TESTED"
+  }
+]

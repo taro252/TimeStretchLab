@@ -51,6 +51,7 @@ struct Phase49StallObservation {
     bool configured=false,triggered=false,cancelled=false;
     double requestedMs=0,wallSeconds=0,cpuSeconds=0;
     std::size_t outputThreshold=0,fifoGoal=0,fifoBefore=0,fifoAfter=0,publishedFrames=0;
+    std::array<std::size_t,3> nextInput{};
     std::uint64_t startMachNs=0,endMachNs=0,measurementEndMachNs=0,threadId=0,cycleSequence=0;
 };
 struct Phase39Snapshot {
@@ -130,6 +131,17 @@ public:
     std::string workerPcmSha() const;
     std::uint64_t profileRecordsDropped() const noexcept { return profileRecordsDropped_.load(); }
     Phase39Snapshot snapshot() const noexcept;
+    bool researchTransitionComplete() const noexcept {
+        return state_.load(std::memory_order_acquire)==Phase39RequestState::Applied &&
+            densityReady_.load(std::memory_order_acquire) &&
+            presented_.load(std::memory_order_acquire)>=completionOutput_.load(std::memory_order_acquire);
+    }
+    bool researchCommandReady() const noexcept {
+        const auto s=state_.load(std::memory_order_acquire);
+        return !finished_.load(std::memory_order_acquire) && densityReady_.load(std::memory_order_acquire) &&
+            (s==Phase39RequestState::Idle || s==Phase39RequestState::Rejected ||
+             (s==Phase39RequestState::Applied && presented_.load(std::memory_order_acquire)>=completionOutput_.load(std::memory_order_acquire)));
+    }
     Phase39RealtimeMarkers realtimeMarkers() const noexcept;
     std::vector<Phase39PlanMetric> planMetrics() const;
     std::vector<Phase39BlockProfile> slowestBlocks() const;
@@ -161,6 +173,7 @@ private:
     Phase14AudioFifo fifo_;
     std::thread worker_;
     std::atomic<bool> stop_{false},finished_{false},started_{false};
+    std::atomic<bool> densityReady_{true};
     std::atomic<Phase39RequestState> state_{Phase39RequestState::Idle};
     std::atomic<Phase39Outcome> planOutcome_{Phase39Outcome::NoSafeInterval};
     std::atomic<std::uint32_t> fromMicros_{0},targetMicros_{0},currentTailMicros_{0};

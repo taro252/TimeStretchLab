@@ -10,7 +10,11 @@
 using namespace ts;
 using namespace ts::prototype;
 int main(int argc,char** argv) {
+#ifdef PHASE51_RESEARCH
+    if (argc!=6 && argc!=7) { std::cerr<<"input.wav output.wav initial_speed replay.csv block_frames [C|L2]\n";return 2; }
+#else
     if (argc!=6) { std::cerr<<"input.wav output.wav initial_speed replay.csv block_frames\n";return 2; }
+#endif
     try {
         WavStreamReader reader(argv[1]);
         auto initial=Phase39Speed::fromDouble(std::stod(argv[3]));
@@ -23,7 +27,11 @@ int main(int argc,char** argv) {
         config.enablePreciseTransientAnchoring=true;config.enableStereoCoherence=true;
         auto ac=config;ac.timeRatio=2.0;
         auto analysis=Phase13StreamingEngine(ac).analyzeTransientEvents(argv[1]);
-        Phase39TimeMap timeline(analysis,reader.sampleRate(),initial,Phase39Planning::C);
+        auto planning=Phase39Planning::C;
+#ifdef PHASE51_RESEARCH
+        if(argc==7){const std::string mode=argv[6];if(mode=="L2")planning=Phase39Planning::L2;else if(mode!="C")throw std::invalid_argument("Planning mode");}
+#endif
+        Phase39TimeMap timeline(analysis,reader.sampleRate(),initial,planning);
         std::vector<std::pair<std::size_t,bool>> density;
         std::ifstream csv(argv[4]);if (!csv) throw std::runtime_error("Missing replay CSV");
         std::string line;std::getline(csv,line);auto previous=initial;

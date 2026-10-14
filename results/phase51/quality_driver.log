@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/Users/taro252/Docker/TimeStretchLab/scripts/phase51_quality.py", line 49, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/Users/taro252/Docker/TimeStretchLab/scripts/phase51_quality.py", line 44, in main
+    assert item['finite'] and item['map_monotonic'] and item['frames']==item['reference_eos_frames']
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

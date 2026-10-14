@@ -1,0 +1,114 @@
+{
+  "changes": [
+    {
+      "generation": 1,
+      "direction": "0.40->2.00",
+      "map_node": {
+        "frame": 120466,
+        "callback_sequence": "236",
+        "callback_entry_ms": 660.88,
+        "callback_sample_offset_ms": 3.0416666666666665,
+        "signed_entry_minus_host_ms": -12.964416,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 676.8860826640625,
+        "estimated_hardware_presentation_ms": 678.2610826640625,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    },
+    {
+      "generation": 2,
+      "direction": "2.00->0.40",
+      "map_node": {
+        "frame": 355851,
+        "callback_sequence": "696",
+        "callback_entry_ms": 568.512584,
+        "callback_sample_offset_ms": 0.22916666666666666,
+        "signed_entry_minus_host_ms": -12.997875,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 581.7396256640625,
+        "estimated_hardware_presentation_ms": 583.1146256640625,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    },
+    {
+      "generation": 3,
+      "direction": "0.40->1.00",
+      "map_node": {
+        "frame": 768686,
+        "callback_sequence": "1502",
+        "callback_entry_ms": 1164.398916,
+        "callback_sample_offset_ms": 3.625,
+        "signed_entry_minus_host_ms": -13.006459,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 1181.030375,
+        "estimated_hardware_presentation_ms": 1182.405375,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    },
+    {
+      "generation": 4,
+      "direction": "1.00->2.00",
+      "map_node": {
+        "frame": 1138940,
+        "callback_sequence": "2225",
+        "callback_entry_ms": 877.163125,
+        "callback_sample_offset_ms": 5.25,
+        "signed_entry_minus_host_ms": -12.984084,
+        "timestamp_flags": 7,
+        "source_rate": 48000.0,
+        "device_presentation_latency_ms": 1.375,
+        "source_output_presentation_latency_ms": 1.375,
+        "hal_frame_time_ms": 895.397209,
+        "estimated_hardware_presentation_ms": 896.772209,
+        "acoustic_loopback_measured": false,
+        "model": "HAL host + source-frame offset + device-only presentationLatency; assumes host is hardware transfer time",
+        "limitations": "SourceNode is upstream, not a directly observed AudioDeviceIOProc. SRC timing is approximate; source total latency is not added again."
+      }
+    }
+  ],
+  "direction_stats": {
+    "0.40->2.00": {
+      "count": 1,
+      "median_ms": 678.2610826640625,
+      "p95_nearest_rank_ms": 678.2610826640625,
+      "max_ms": 678.2610826640625
+    },
+    "1.00->2.00": {
+      "count": 1,
+      "median_ms": 896.772209,
+      "p95_nearest_rank_ms": 896.772209,
+      "max_ms": 896.772209
+    },
+    "0.40->1.00": {
+      "count": 1,
+      "median_ms": 1182.405375,
+      "p95_nearest_rank_ms": 1182.405375,
+      "max_ms": 1182.405375
+    },
+    "2.00->0.40": {
+      "count": 1,
+      "median_ms": 583.1146256640625,
+      "p95_nearest_rank_ms": 583.1146256640625,
+      "max_ms": 583.1146256640625
+    }
+  },
+  "ordinary_median_definition": "average of central two values for even sample count",
+  "p95_definition": "nearest rank ceil(0.95*N), sorted ascending",
+  "audible_time_measured": false,
+  "old_entry_plus_device_model": "underestimates HAL lead; retained only in old Phase45 results"
+}

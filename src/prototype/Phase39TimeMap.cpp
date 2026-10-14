@@ -147,7 +147,7 @@ Phase39Plan Phase39TimeMap::submit(const Phase39Request& request) {
     const auto fallbackStart=candidate;
     if (planning_!=Phase39Planning::A) {
         while (candidate<count-1 &&
-               (planning_==Phase39Planning::C ? !safeRunEligible_[candidate] :
+               ((planning_==Phase39Planning::C || planning_==Phase39Planning::L2) ? !safeRunEligible_[candidate] :
                 protectedEndAt(candidate)!=std::numeric_limits<std::size_t>::max())) {
             const auto end=protectedEndAt(candidate);
             candidate=end==std::numeric_limits<std::size_t>::max() ?
@@ -156,7 +156,7 @@ Phase39Plan Phase39TimeMap::submit(const Phase39Request& request) {
         }
     }
     result.firstSafeFrame=candidate;
-    while (candidate<count-1 && planning_!=Phase39Planning::C &&
+    while (candidate<count-1 && planning_!=Phase39Planning::C && planning_!=Phase39Planning::L2 &&
            planning_!=Phase39Planning::C0) {
         auto end=candidate;
         long long minimumElapsed=0;
@@ -178,7 +178,7 @@ Phase39Plan Phase39TimeMap::submit(const Phase39Request& request) {
         candidate=conflictEnd+1;
     }
     bool pausedFallback=candidate>=count-1;
-    if (planning_==Phase39Planning::C || planning_==Phase39Planning::C0)
+    if (planning_==Phase39Planning::C || planning_==Phase39Planning::C0 || planning_==Phase39Planning::L2)
         pausedFallback=true;
     if (planning_==Phase39Planning::B && pausedFallback) {
         result.outcome=Phase39Outcome::NoSafeInterval;
@@ -201,7 +201,7 @@ Phase39Plan Phase39TimeMap::submit(const Phase39Request& request) {
             const auto oldHop=before[i+1]-before[i];
             const auto newHop=target[i+1]-target[i];
             const bool protectedNow=pausedFallback &&
-                (planning_==Phase39Planning::C ? !safeRunEligible_[i] :
+                ((planning_==Phase39Planning::C || planning_==Phase39Planning::L2) ? !safeRunEligible_[i] :
                  protectedEndAt(i)!=std::numeric_limits<std::size_t>::max());
             const auto elapsed=pausedFallback ? safeElapsed : output[i]-start;
             const auto weight=smooth(double(elapsed)/double(duration));
@@ -212,7 +212,8 @@ Phase39Plan Phase39TimeMap::submit(const Phase39Request& request) {
             if (protectedNow) ++result.heldFrames;
             else ++result.safeFramesUsed;
             if (pausedFallback && !protectedNow)
-                safeElapsed+=std::max(1LL,std::min(oldHop,newHop)-1);
+                safeElapsed+=planning_==Phase39Planning::L2 ? hop :
+                    std::max(1LL,std::min(oldHop,newHop)-1);
             if (elapsed>=duration && !protectedNow) { end=i;break; }
         }
         if (end<count-1 || pausedFallback) break;
