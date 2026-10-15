@@ -1,0 +1,55 @@
+[ 50%] Built target timestretch_core
+[ 61%] Built target phase24_variable
+[ 72%] Built target phase36_variable
+[ 72%] Building CXX object CMakeFiles/phase39_variable.dir/src/prototype/Phase39PlaybackPipeline.cpp.o
+/Users/taro252/Docker/TimeStretchLab/src/prototype/Phase39PlaybackPipeline.cpp:504:21: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
+  504 |                     densityReady_.store(false,std::memory_order_release);
+      |                     ^
+/Users/taro252/Docker/TimeStretchLab/src/prototype/Phase39PlaybackPipeline.cpp:502:17: note: previous statement is here
+  502 |                 if (changesDensity)
+      |                 ^
+1 warning generated.
+[ 72%] Linking CXX static library libphase39_variable.a
+[ 83%] Built target phase39_variable
+[ 88%] Building CXX object CMakeFiles/playback_engine.dir/src/playback/PlaybackEngine.cpp.o
+[ 88%] Linking CXX static library libplayback_engine.a
+[ 88%] Built target playback_engine
+[ 88%] Building OBJCXX object CMakeFiles/macos_playback_engine.dir/src/platform/macos/MacPlaybackEngine.mm.o
+[ 94%] Linking CXX static library libmacos_playback_engine.a
+[ 94%] Built target macos_playback_engine
+[100%] Building CXX object CMakeFiles/phase54_native.dir/src/playback/Phase54NativeStudy.cpp.o
+[100%] Linking CXX executable phase54_native
+[100%] Built target phase54_native
+[ 50%] Built target timestretch_core
+[ 61%] Built target phase24_variable
+[ 72%] Built target phase36_variable
+[ 83%] Built target phase39_variable
+[ 88%] Built target playback_engine
+[ 94%] Built target macos_playback_engine
+[100%] Building CXX object CMakeFiles/phase54_startup_probe.dir/src/playback/Phase54StartupProbe.cpp.o
+[100%] Linking CXX executable phase54_startup_probe
+[100%] Built target phase54_startup_probe
+[ 52%] Built target timestretch_core
+[ 64%] Built target phase24_variable
+[ 76%] Built target phase36_variable
+[ 88%] Built target phase39_variable
+[ 94%] Built target playback_engine
+[100%] Building CXX object CMakeFiles/phase54_seek_tests.dir/tests/Phase54SeekTests.cpp.o
+[100%] Linking CXX executable phase54_seek_tests
+[100%] Built target phase54_seek_tests
+[ 52%] Built target timestretch_core
+[ 64%] Built target phase24_variable
+[ 76%] Built target phase36_variable
+[ 88%] Built target phase39_variable
+[ 94%] Built target playback_engine
+[ 94%] Building CXX object CMakeFiles/phase54_analysis_tests.dir/tests/Phase54AnalysisCacheTests.cpp.o
+[100%] Linking CXX executable phase54_analysis_tests
+[100%] Built target phase54_analysis_tests
+[ 56%] Built target timestretch_core
+[ 68%] Built target phase24_variable
+[ 81%] Built target phase36_variable
+[ 93%] Built target phase39_variable
+[100%] Built target playback_engine
+[100%] Building CXX object CMakeFiles/phase54_core_probe.dir/src/playback/Phase54CoreProbe.cpp.o
+[100%] Linking CXX executable phase54_core_probe
+[100%] Built target phase54_core_probe

@@ -14,10 +14,11 @@ struct RenderState {
     std::atomic<unsigned> inRender{0};
     unsigned channels=0,numer=1,denom=1;double rate=0;
     std::uint64_t epoch=1;
+    std::uint32_t seekFadeFrames=0;std::atomic<std::uint64_t> segmentSession{0},fadePosition{0};
     std::vector<MacCallbackRecord> records; // Prepared once, export after quiescence.
     std::atomic<std::uint64_t> calls{0},recordCount{0},dropped{0},maximum{0},overruns{0},formats{0};
     std::atomic<std::uint64_t> missingHost{0},backwards{0},cadence{0},sampleErrors{0},halMisses{0};
-    std::atomic<std::uint64_t> lastPcmTargetEndNs{0};
+    std::atomic<std::uint64_t> lastPcmTargetEndNs{0},firstPcmNs{0};
     prototype::Phase46HostClock hostClock;
     RenderAllocationHooks hooks;std::uint64_t allocationBase=0;
     std::uint64_t ns()const noexcept{return static_cast<std::uint64_t>(static_cast<long double>(mach_absolute_time())*numer/denom);}
@@ -31,7 +32,14 @@ OSStatus render(RenderState* s,BOOL* silent,const AudioTimeStamp* stamp,AVAudioF
     bool running=s->active.load(std::memory_order_seq_cst);
     if(running&&valid)raw=s->core->renderAudio(pointers,frames,start);
     else {for(unsigned c=0;c<buffers->mNumberBuffers;++c)if(buffers->mBuffers[c].mData)std::memset(buffers->mBuffers[c].mData,0,buffers->mBuffers[c].mDataByteSize);if(running&&!valid)s->formats.fetch_add(1);}
+    if(raw.received&&raw.session!=s->segmentSession.load(std::memory_order_relaxed)){
+        s->segmentSession.store(raw.session,std::memory_order_relaxed);s->fadePosition=0;
+    }
+    if(raw.received&&s->seekFadeFrames){auto offset=s->fadePosition.fetch_add(raw.received);
+        for(std::size_t i=0;i<raw.received&&offset+i<s->seekFadeFrames;++i){const auto gain=static_cast<float>(offset+i)/s->seekFadeFrames;
+            for(unsigned c=0;c<s->channels;++c)pointers[c][i]*=gain;}}
     const auto io=s->ns();
+    if(raw.received){std::uint64_t zero=0;s->firstPcmNs.compare_exchange_strong(zero,start,std::memory_order_relaxed);}
     *silent=raw.received==0;
     if(running){
         const auto seq=s->calls.fetch_add(1)+1;
@@ -86,12 +94,14 @@ struct MacPlaybackEngine::Impl {
         if(destroy){if(observer)[[NSNotificationCenter defaultCenter]removeObserver:observer];observer=nil;if(source&&engine)[engine detachNode:source];source=nil;engine=nil;}
     }
     void configure(){
+        StageClock clock;
         quiesce(true);engine=[[AVAudioEngine alloc]init];device={};device.deviceId=defaultDevice();
         auto f=[engine.outputNode outputFormatForBus:0];device.deviceRate=f.sampleRate;device.deviceChannels=f.channelCount;
         if(!device.deviceRate||!device.deviceChannels)throw std::runtime_error("Invalid device format");
         device.deviceBufferFrames=deviceProperty(device.deviceId,kAudioDevicePropertyBufferFrameSize);
         device.devicePresentationLatencyMs=engine.outputNode.presentationLatency*1000;
-        renderState=std::make_shared<RenderState>();renderState->core=&core;renderState->channels=static_cast<unsigned>(core.channels());renderState->rate=core.sampleRate();renderState->hooks=options.allocationHooks;renderState->allocationBase=options.allocationHooks.count?options.allocationHooks.count():0;
+        renderState=std::make_shared<RenderState>();renderState->core=&core;renderState->channels=static_cast<unsigned>(core.channels());renderState->rate=core.sampleRate();renderState->hooks=options.allocationHooks;renderState->seekFadeFrames=options.seekFadeFrames;
+        renderState->segmentSession=core.getPlaybackDiagnostics().session;renderState->fadePosition=options.seekFadeFrames;renderState->allocationBase=options.allocationHooks.count?options.allocationHooks.count():0;
         mach_timebase_info_data_t tb{};mach_timebase_info(&tb);renderState->numer=tb.numer;renderState->denom=tb.denom;
         const auto steady=[](){return std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();};
         auto before=steady();device.bridgeMachNs=renderState->ns();auto after=steady();
@@ -101,22 +111,30 @@ struct MacPlaybackEngine::Impl {
         auto format=[[AVAudioFormat alloc]initWithCommonFormat:AVAudioPCMFormatFloat32 sampleRate:core.sampleRate() channels:static_cast<AVAudioChannelCount>(core.channels()) interleaved:NO];
         source=[[AVAudioSourceNode alloc]initWithFormat:format renderBlock:^OSStatus(BOOL* silent,const AudioTimeStamp* ts,AVAudioFrameCount frames,AudioBufferList* buffers){return render(state.get(),silent,ts,frames,buffers);}];
         [engine attachNode:source];[engine connect:source to:engine.mainMixerNode format:format];engine.mainMixerNode.outputVolume=options.playbackGain;[engine prepare];
+        device.avConstruction=clock.elapsed();
         observer=[[NSNotificationCenter defaultCenter]addObserverForName:AVAudioEngineConfigurationChangeNotification object:engine queue:nil usingBlock:^(NSNotification*){state->routeNotification.store(true);}];
     }
-    bool startAudio(){NSError* error=nil;renderState->active=true;outputActive=true;if(![engine startAndReturnError:&error]){renderState->active=false;outputActive=false;core.pause();device.error=error?[[error description]UTF8String]:"Audio start failed";return false;}device.sourcePresentationLatencyMs=source.outputPresentationLatency*1000;return true;}
+    bool startAudio(){StageClock clock;NSError* error=nil;renderState->active=true;outputActive=true;if(![engine startAndReturnError:&error]){renderState->active=false;outputActive=false;core.pause();device.error=error?[[error description]UTF8String]:"Audio start failed";return false;}device.sourcePresentationLatencyMs=source.outputPresentationLatency*1000;device.avStart=clock.elapsed();return true;}
 };
 MacPlaybackEngine::MacPlaybackEngine():impl_(std::make_unique<Impl>()){}
 MacPlaybackEngine::~MacPlaybackEngine()=default;
 bool MacPlaybackEngine::prepare(const std::filesystem::path& p,Configuration c,MacOptions o){
+    if(o.seekFadeFrames!=0&&o.seekFadeFrames!=64&&o.seekFadeFrames!=128&&o.seekFadeFrames!=256)throw std::invalid_argument("Seek fade must be 0/64/128/256 frames");
     if(!std::isfinite(o.playbackGain)||o.playbackGain<0||o.playbackGain>1)throw std::invalid_argument("Playback gain");
+    const auto called=std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();
     std::lock_guard lock(impl_->mutex);if(impl_->core.getPlaybackState()==PlaybackState::Playing||impl_->core.getPlaybackState()==PlaybackState::Paused||(impl_->core.getPlaybackState()==PlaybackState::Ended&&impl_->outputActive))throw std::logic_error("Stop before prepare; rendered tail may still be draining");
     impl_->quiesce(true);impl_->options=o;if(!impl_->core.prepare(p,c))return false;
-    try{impl_->configure();return true;}catch(const std::exception&e){impl_->device.error=e.what();impl_->core.stop();return false;}
+    try{impl_->configure();impl_->device.prepareCalledSteadyNs=called;return true;}catch(const std::exception&e){impl_->device.error=e.what();impl_->core.stop();return false;}
 }
-bool MacPlaybackEngine::play(){std::lock_guard lock(impl_->mutex);auto old=impl_->core.getPlaybackState();if(old==PlaybackState::Playing)return true;if(old==PlaybackState::Ended&&impl_->outputActive)return false;if(!impl_->core.play())return false;try{if(old==PlaybackState::Stopped||old==PlaybackState::Ended)impl_->configure();return impl_->startAudio();}catch(const std::exception&e){impl_->device.error=e.what();impl_->quiesce(false);impl_->core.stop();return false;}}
+bool MacPlaybackEngine::play(){const auto called=std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();std::lock_guard lock(impl_->mutex);auto old=impl_->core.getPlaybackState();if(old==PlaybackState::Playing)return true;if(old==PlaybackState::Ended&&impl_->outputActive)return false;if(!impl_->core.play())return false;try{if(old==PlaybackState::Stopped||old==PlaybackState::Ended)impl_->configure();impl_->device.playCalledSteadyNs=called;return impl_->startAudio();}catch(const std::exception&e){impl_->device.error=e.what();impl_->quiesce(false);impl_->core.stop();return false;}}
 bool MacPlaybackEngine::pause(){std::lock_guard lock(impl_->mutex);if(!impl_->core.pause())return false;while(impl_->renderState->inRender.load())std::this_thread::sleep_for(std::chrono::microseconds(100));impl_->drainRenderedTail();impl_->renderState->active=false;[impl_->engine pause];while(impl_->renderState->inRender.load())std::this_thread::sleep_for(std::chrono::microseconds(100));return true;}
 bool MacPlaybackEngine::resume(){std::lock_guard lock(impl_->mutex);if(!impl_->core.resume())return false;++impl_->renderState->epoch;return impl_->startAudio();}
 void MacPlaybackEngine::stop(){std::lock_guard lock(impl_->mutex);impl_->core.pause();impl_->quiesce(false);impl_->core.stop();}
+std::uint64_t MacPlaybackEngine::seekToInputSeconds(double s){return impl_->core.seekToInputSeconds(s);}
+std::uint64_t MacPlaybackEngine::seekToInputFrame(std::uint64_t f){return impl_->core.seekToInputFrame(f);}
+SeekSnapshot MacPlaybackEngine::getSeekSnapshot()const{return impl_->core.getSeekSnapshot();}
+std::vector<SegmentEvidence> MacPlaybackEngine::closedSegmentEvidence()const{return impl_->core.closedSegmentEvidence();}
+std::vector<SeekSnapshot> MacPlaybackEngine::seekHistory()const{return impl_->core.seekHistory();}
 std::uint64_t MacPlaybackEngine::setSpeed(double s){return impl_->core.setSpeed(s);}
 PlaybackState MacPlaybackEngine::getPlaybackState()const noexcept{auto state=impl_->core.getPlaybackState();return state==PlaybackState::Ended&&impl_->outputActive?PlaybackState::Draining:state;}
 double MacPlaybackEngine::getRequestedSpeed()const{return impl_->core.getRequestedSpeed();}
@@ -132,7 +150,8 @@ std::vector<prototype::Phase39BlockProfile> MacPlaybackEngine::workerProfiles()c
 std::string MacPlaybackEngine::rawPcmSha()const{return impl_->core.rawPcmSha();}
 std::uint32_t MacPlaybackEngine::sampleRate()const{return impl_->core.sampleRate();}
 std::size_t MacPlaybackEngine::channels()const{return impl_->core.channels();}
-MacDiagnostics MacPlaybackEngine::getNativeDiagnostics()const{std::lock_guard lock(impl_->mutex);auto d=impl_->device;if(auto s=impl_->renderState){d.lastPcmTargetEndNs=s->lastPcmTargetEndNs;d.callbackCalls=s->calls;d.maxCallbackNs=s->maximum;d.deadlineMisses=s->overruns;d.formatErrors=s->formats;d.callbackRecordsDropped=s->dropped;d.hostMissing=s->missingHost;d.hostBackwards=s->backwards;d.hostCadenceErrors=s->cadence;d.sampleErrors=s->sampleErrors;d.halWindowMisses=s->halMisses;d.allocationMeasured=s->hooks.count!=nullptr;if(s->hooks.count){const auto total=s->hooks.count();if(total<s->allocationBase)d.error="Allocation counter moved backwards";else d.callbackCppAllocations=total-s->allocationBase;}}return d;}
+StartupDiagnostics MacPlaybackEngine::getStartupDiagnostics()const{return impl_->core.getStartupDiagnostics();}
+MacDiagnostics MacPlaybackEngine::getNativeDiagnostics()const{std::lock_guard lock(impl_->mutex);auto d=impl_->device;if(auto s=impl_->renderState){d.firstPcmMachNs=s->firstPcmNs;d.lastPcmTargetEndNs=s->lastPcmTargetEndNs;d.callbackCalls=s->calls;d.maxCallbackNs=s->maximum;d.deadlineMisses=s->overruns;d.formatErrors=s->formats;d.callbackRecordsDropped=s->dropped;d.hostMissing=s->missingHost;d.hostBackwards=s->backwards;d.hostCadenceErrors=s->cadence;d.sampleErrors=s->sampleErrors;d.halWindowMisses=s->halMisses;d.allocationMeasured=s->hooks.count!=nullptr;if(s->hooks.count){const auto total=s->hooks.count();if(total<s->allocationBase)d.error="Allocation counter moved backwards";else d.callbackCppAllocations=total-s->allocationBase;}}return d;}
 std::vector<MacCallbackRecord> MacPlaybackEngine::callbackRecords()const{
     std::lock_guard lock(impl_->mutex);auto s=impl_->renderState;if(!s)return {};
     auto state=impl_->core.getPlaybackState();

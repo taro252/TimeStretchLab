@@ -3,7 +3,7 @@
 #include <memory>
 namespace ts::playback {
 struct RenderAllocationHooks {void(*enter)()noexcept=nullptr;void(*leave)()noexcept=nullptr;std::uint64_t(*count)()noexcept=nullptr;};
-struct MacOptions {float playbackGain=.5f;bool recordCallbacks=false;RenderAllocationHooks allocationHooks{};};
+struct MacOptions {float playbackGain=.5f;bool recordCallbacks=false;RenderAllocationHooks allocationHooks{};std::uint32_t seekFadeFrames=64;};
 struct MacDiagnostics {
     unsigned deviceId=0,deviceChannels=0,deviceBufferFrames=0;
     double deviceRate=0,devicePresentationLatencyMs=0,sourcePresentationLatencyMs=0;
@@ -13,6 +13,8 @@ struct MacDiagnostics {
     std::uint64_t bridgeSteadyNs=0,bridgeMachNs=0,bridgeUncertaintyNs=0;
     std::uint64_t lastPcmTargetEndNs=0,outputStoppedMachNs=0;
     bool allocationMeasured=false;
+    StageTiming avConstruction,avStart;
+    std::uint64_t prepareCalledSteadyNs=0,playCalledSteadyNs=0,firstPcmMachNs=0;
     std::string error;
 };
 namespace detail {
@@ -34,6 +36,9 @@ public:
     bool prepare(const std::filesystem::path&,Configuration=Configuration::candidate(),MacOptions={});
     bool play();bool pause();bool resume();void stop();
     std::uint64_t setSpeed(double speed);
+    std::uint64_t seekToInputSeconds(double seconds);std::uint64_t seekToInputFrame(std::uint64_t frame);
+    SeekSnapshot getSeekSnapshot()const;std::vector<SeekSnapshot> seekHistory()const;
+    std::vector<SegmentEvidence> closedSegmentEvidence()const;
     PlaybackState getPlaybackState() const noexcept;
     double getRequestedSpeed()const;double getAppliedTargetSpeed()const;
     Position getCurrentPlaybackPosition()const;
@@ -42,6 +47,7 @@ public:
     StateSnapshot getStateSnapshot()const;
     Diagnostics getPlaybackDiagnostics()const;
     MacDiagnostics getNativeDiagnostics()const;
+    StartupDiagnostics getStartupDiagnostics()const;
     // Throws logic_error while rendering/draining; never stops audio output.
     std::vector<MacCallbackRecord> callbackRecords()const;
     std::vector<SpeedOperation> operationHistory()const;

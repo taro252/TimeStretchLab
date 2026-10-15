@@ -1,0 +1,38 @@
+[
+  {
+    "name": "ctest_deterministic_release_final",
+    "command": [
+      "/usr/local/bin/ctest",
+      "--test-dir",
+      "build",
+      "-L",
+      "deterministic",
+      "--output-on-failure",
+      "-j",
+      "3"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "golden_release_final",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase54_golden.py",
+      "--output",
+      "results/phase54/golden_release_final"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "asset_audit_release_final",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase54_asset_audit.py",
+      "--output",
+      "results/phase54/protected_assets_release_final.json"
+    ],
+    "exit": 0
+  }
+]

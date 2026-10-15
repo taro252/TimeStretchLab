@@ -2,11 +2,11 @@
 
 音程を保った速度変更を研究する、macOS向けC++20のデジタル音声処理（DSP）・再生エンジンです。Apple Accelerateによる音声合成、オフラインWAV生成、AVAudioEngineによる実機再生を扱います。DSP内部はチャンネルごとに分けたfloat32サンプルを使用します。
 
-## 現在の開発状況：Phase 53
+## 現在の開発状況：Phase 54
 
-Phase 52で統合した再生APIを補強しました。Draining中の診断取得は音声出力を停止せず、stop/restartを含む全セッションのPCM・計測・CSV品質を共通判定で検証します。参照PCMの訂正によって音声・計測・CSVのFAILをPASSへ変更しません。
+同一音源のトランジェント解析をメモリ上で再利用し、Stop→Play/EOS→Playの全曲再解析を省きます。Candidate/Baselineの0.40〜2.00倍速へ原曲座標の非同期シークAPIを追加しました。位相・OLA・FIRを先頭から正確に再構築し、全曲の伸縮済みPCMをディスクへキャッシュしません。深いシークの待ち時間と高負荷の制限は残ります。
 
-アプリ本体は別リポジトリ **merodoa** で開発し、`external/TimeStretchLab/` をsubmoduleとして固定する方針です。取得・固定SHA・ビルド・Swift側ブリッジの契約・入力所有権は [アプリ統合引き継ぎ仕様](docs/APP_INTEGRATION_HANDOFF.md) を参照してください。完成版は `phase53-handoff` タグで識別します。修正・実機・全回帰の結果は [Phase 53 REPORT](results/phase53/REPORT.md) に保存しています。
+利用方法は [Phase 54 API](docs/PHASE54_SEEK_API.md)、実測と回帰は [Phase 54 REPORT](results/phase54/REPORT.md)。アプリ本体 **Merodoa** は別リポジトリで、[引き継ぎ仕様](docs/APP_INTEGRATION_HANDOFF.md) に従ってsubmoduleを新しい完成SHAへ更新します。`phase53-handoff` タグは既存233c773の切戻し先として維持します。前段の [Phase 53](results/phase53/REPORT.md) と [検証修正](results/phase53_post_handoff/REPORT.md) の結果も保持しています。
 
 ## Phase 52で統合した再生エンジン
 

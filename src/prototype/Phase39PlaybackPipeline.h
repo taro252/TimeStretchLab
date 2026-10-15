@@ -12,7 +12,9 @@
 #include <vector>
 #include <optional>
 #include <memory>
+#include "playback/StartupDiagnostics.h"
 
+namespace ts::playback {class PlaybackEngine;}
 namespace ts::prototype {
 
 enum class Phase39RequestState : std::uint8_t {
@@ -31,6 +33,21 @@ struct Phase52WorkerOptions {
     double injectedStallMs=0,controlledStallMs=0;
     std::size_t controlledOutput=0,controlledStock=0;
     bool publishPositionMap=true;
+    std::optional<std::size_t> startInputFrame; // Phase54: exact reconstruction/discard only.
+};
+// Optional immutable analysis, owned independently of a DSP session.
+class Phase54PreparedInput {
+public:
+    Phase54PreparedInput(const Phase54PreparedInput&)=default;
+    Phase54PreparedInput(Phase54PreparedInput&&)=default;
+private:
+    friend class Phase39PlaybackPipeline;
+    friend class ts::playback::PlaybackEngine;
+    Phase54PreparedInput(Phase13TransientAnalysis a,std::shared_ptr<const void> owner,std::function<void()> check)
+        :analysis(std::move(a)),lifetime(std::move(owner)),validate(std::move(check)){}
+    Phase13TransientAnalysis analysis;
+    std::shared_ptr<const void> lifetime;
+    std::function<void()> validate;
 };
 struct Phase39PlanMetric {
     Phase39Plan plan;
@@ -122,14 +139,18 @@ public:
         std::filesystem::path componentCsv={},std::size_t probeFirst=0,
         std::size_t probeLast=0,
         std::function<std::uint64_t()> allocationCounter={},bool phase50PreciseBoundary=false,
-        std::optional<Phase52WorkerOptions> explicitOptions=std::nullopt);
+        std::optional<Phase52WorkerOptions> explicitOptions=std::nullopt,
+        std::optional<Phase54PreparedInput> preparedInput=std::nullopt);
     ~Phase39PlaybackPipeline();
+    ts::playback::StartupDiagnostics startupDiagnostics() const;
     void start();
     void stop(); // The audio consumer must first be quiescent.
     Phase39RequestResult requestSpeed(Phase39Speed target,
         std::size_t presentedOutputFrame) noexcept;
     std::size_t pullAudio(float* const* output,std::size_t frames) noexcept;
     bool waitForPrefill(std::size_t frames,std::chrono::milliseconds timeout);
+    bool startPositionReady() const noexcept{return startPositionReady_.load(std::memory_order_acquire);}
+    std::size_t outputStartFrame() const noexcept{return outputStartFrame_.load(std::memory_order_acquire);}
     bool finished() const noexcept { return finished_.load(std::memory_order_acquire); }
     bool drained() const noexcept { return finished() && fifo_.available()==0; }
     std::size_t available() const noexcept { return fifo_.available(); }
@@ -171,6 +192,9 @@ public:
     std::size_t channels() const noexcept { return channels_; }
     std::size_t inputFrames() const noexcept { return analysis_.inputFrames(); }
 private:
+    ts::playback::StageClock constructorClock_;
+    mutable std::mutex startupMutex_;
+    ts::playback::StartupDiagnostics startup_;
     std::filesystem::path file_;
     const std::uint32_t sampleRate_;
     const std::size_t channels_,blockFrames_,leadFrames_;
@@ -184,9 +208,12 @@ private:
     const bool phase50PreciseBoundary_;
     const std::optional<Phase52WorkerOptions> explicitOptions_;
     std::shared_ptr<const TimeMap> positionMap_; // Control reads; never render.
+    const std::optional<Phase54PreparedInput> preparedInput_;
     Phase13TransientAnalysis analysis_;
     Phase14AudioFifo fifo_;
     std::thread worker_;
+    std::atomic<std::size_t> outputStartFrame_{0};
+    std::atomic<bool> startPositionReady_{false};
     std::atomic<bool> stop_{false},finished_{false},started_{false};
     std::atomic<bool> densityReady_{true};
     std::atomic<Phase39RequestState> state_{Phase39RequestState::Idle};

@@ -433,7 +433,7 @@ Phase13Result Phase36StreamingSpeedEngine::process(
     const PreparedSink& preparedSink,const UpdateHook& update,
     std::vector<std::pair<std::size_t,bool>> modeChanges,
     const ProfileHook& profileHook,std::ostream* componentCsv,
-    std::size_t probeFirst,std::size_t probeLast,bool recordFrameHistory) {
+    std::size_t probeFirst,std::size_t probeLast,bool recordFrameHistory,const std::function<void()>& initialized) {
     std::ostream* stageTrace=nullptr;
     std::size_t probeInputSample=0;
     if (!preparedSink || map.empty() || map.sourceHop()!=1024 ||
@@ -495,6 +495,7 @@ Phase13Result Phase36StreamingSpeedEngine::process(
     std::vector<std::vector<float>> chunk(reader.channels(),std::vector<float>(chunkSize));
     std::vector<const float*> pointers(reader.channels());
     for (std::size_t c=0;c<reader.channels();++c) pointers[c]=chunk[c].data();
+    if(initialized)initialized();
     for (std::size_t start=0;start<outputFrames;start+=chunkSize) {
         if (profile) workProfile={};
         const auto count=std::min(chunkSize,outputFrames-start);

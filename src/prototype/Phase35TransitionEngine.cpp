@@ -350,7 +350,7 @@ Phase35TransitionEngine::Phase35TransitionEngine(StretchConfig config):config_(s
 ChunkedResult Phase35TransitionEngine::processWav(const std::filesystem::path& input,
     const std::filesystem::path& output,const TimeMap& map,
     const std::vector<std::pair<std::size_t,bool>>& modeChanges,
-    std::size_t outputFrames,std::size_t chunkSize,std::ostream* frameTrace) {
+    std::size_t outputFrames,std::size_t chunkSize,std::ostream* frameTrace,const std::function<void(const float*const*,std::size_t)>& sampleSink) {
     constexpr auto requestedMode=std::optional<AblationMode>{AblationMode::Full};
     const auto mode=requestedMode.value_or(!config_.enableMultiResolution ||
         config_.qualityMode==QualityMode::Normal ? AblationMode::MidOnly :
@@ -367,7 +367,8 @@ ChunkedResult Phase35TransitionEngine::processWav(const std::filesystem::path& i
         throw std::invalid_argument("Invalid Phase 35 timeline");
     result.outputFrames=outputFrames;
     result.chunkSize=chunkSize;
-    WavStreamWriter writer(output,reader.sampleRate(),reader.channels(),result.outputFrames);
+    std::unique_ptr<WavStreamWriter> writer;
+    if(!sampleSink)writer=std::make_unique<WavStreamWriter>(output,reader.sampleRate(),reader.channels(),result.outputFrames);
     std::vector<std::vector<float>> chunk(reader.channels(),std::vector<float>(chunkSize));
     std::vector<const float*> pointers(reader.channels());
     for (std::size_t c=0; c<reader.channels(); ++c) pointers[c]=chunk[c].data();
@@ -379,9 +380,9 @@ ChunkedResult Phase35TransitionEngine::processWav(const std::filesystem::path& i
                 chunk[c][i]=value;
                 result.peak=std::max(result.peak,std::abs(value));
             }
-            writer.write(pointers.data(),count);
+            if(sampleSink)sampleSink(pointers.data(),count);else writer->write(pointers.data(),count);
         }
-        writer.finish();
+        if(writer)writer->finish();
         return result;
     }
     auto detection=detect(input,config_,reader.frames(),reader.channels());
@@ -438,9 +439,9 @@ ChunkedResult Phase35TransitionEngine::processWav(const std::filesystem::path& i
             chunk[c][i]=value;
             result.peak=std::max(result.peak,std::abs(value));
         }
-        writer.write(pointers.data(),count);
+        if(sampleSink)sampleSink(pointers.data(),count);else writer->write(pointers.data(),count);
     }
-    writer.finish();
+    if(writer)writer->finish();
     result.averageCoherenceWeight=resolution[1]->averageCoherenceWeight();
     if (const auto* tracker=resolution[1]->tracker()) {
         const auto& stats=tracker->stats();

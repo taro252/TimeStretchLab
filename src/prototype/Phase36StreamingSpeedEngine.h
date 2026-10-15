@@ -46,7 +46,7 @@ public:
         std::vector<std::pair<std::size_t,bool>> modeChanges={},
         const ProfileHook& profileHook={},std::ostream* componentCsv=nullptr,
         std::size_t probeFirst=0,std::size_t probeLast=0,
-        bool recordFrameHistory=false);
+        bool recordFrameHistory=false,const std::function<void()>& initialized={});
 private:
     StretchConfig config_;
 };

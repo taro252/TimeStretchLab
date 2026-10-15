@@ -1,0 +1,87 @@
+[
+  {
+    "name": "fade",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase54_fade.py",
+      "--output",
+      "results/phase54/audition"
+    ],
+    "exit": 1
+  },
+  {
+    "name": "enable_realtime",
+    "command": [
+      "/usr/local/bin/cmake",
+      "-S",
+      ".",
+      "-B",
+      "build",
+      "-DCMAKE_BUILD_TYPE=Release",
+      "-DTIMESTRETCH_ENABLE_REALTIME_TESTS=ON"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "ctest_realtime",
+    "command": [
+      "/usr/local/bin/ctest",
+      "--test-dir",
+      "build",
+      "-L",
+      "realtime",
+      "--output-on-failure"
+    ],
+    "exit": 8
+  },
+  {
+    "name": "restore_deterministic",
+    "command": [
+      "/usr/local/bin/cmake",
+      "-S",
+      ".",
+      "-B",
+      "build",
+      "-DCMAKE_BUILD_TYPE=Release",
+      "-DTIMESTRETCH_ENABLE_REALTIME_TESTS=OFF"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "ctest_deterministic",
+    "command": [
+      "/usr/local/bin/ctest",
+      "--test-dir",
+      "build",
+      "-L",
+      "deterministic",
+      "--output-on-failure",
+      "-j",
+      "2"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "golden_final",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase54_golden.py",
+      "--output",
+      "results/phase54/golden_final"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "asset_audit_final",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase54_asset_audit.py",
+      "--output",
+      "results/phase54/protected_assets_final.json"
+    ],
+    "exit": 0
+  }
+]

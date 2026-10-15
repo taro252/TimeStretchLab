@@ -1,0 +1,83 @@
+-- Configuring done (0.4s)
+-- Generating done (1.0s)
+-- Build files have been written to: /Users/taro252/Docker/TimeStretchLab/build
+[  6%] Building CXX object CMakeFiles/timestretch_core.dir/src/audio/WavReader.cpp.o
+[  6%] Building CXX object CMakeFiles/timestretch_core.dir/src/audio/WavStream.cpp.o
+[  6%] Building CXX object CMakeFiles/timestretch_core.dir/src/audio/WavWriter.cpp.o
+[ 12%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/FFTAccelerate.cpp.o
+[ 12%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/STFT.cpp.o
+[ 12%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/OverlapAdd.cpp.o
+[ 18%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/RingOverlapAdd.cpp.o
+[ 18%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/PhaseVocoder.cpp.o
+[ 18%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/PhaseLocker.cpp.o
+[ 25%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/PartialTracker.cpp.o
+[ 25%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/PeriodicResynchronizer.cpp.o
+[ 25%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/TransientDetector.cpp.o
+[ 31%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/TransientEventMap.cpp.o
+[ 31%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/TransientAnchor.cpp.o
+[ 31%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/StereoPhaseCoherence.cpp.o
+[ 37%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/TimeMap.cpp.o
+[ 37%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/MultiResolutionCrossover.cpp.o
+[ 37%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/StreamingCrossover.cpp.o
+[ 43%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/ChunkedTimeStretchEngine.cpp.o
+[ 43%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/Phase13StreamingEngine.cpp.o
+[ 43%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/Phase14PlaybackPipeline.cpp.o
+[ 50%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/Phase18PcmCache.cpp.o
+[ 50%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/TimeStretchEngine.cpp.o
+[ 50%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/TimeStretchProcessor.cpp.o
+[ 56%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/WSOLAEngine.cpp.o
+[ 56%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/SinusoidalResidualEngine.cpp.o
+[ 56%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/TonalResidualEngine.cpp.o
+[ 62%] Linking CXX static library libtimestretch_core.a
+[ 62%] Built target timestretch_core
+[ 62%] Building CXX object CMakeFiles/phase24_variable.dir/src/prototype/Phase24StreamingSpeedEngine.cpp.o
+[ 62%] Building CXX object CMakeFiles/phase24_variable.dir/src/prototype/Phase24PlaybackPipeline.cpp.o
+[ 62%] Linking CXX static library libphase24_variable.a
+[ 68%] Built target phase24_variable
+[ 75%] Building CXX object CMakeFiles/phase36_variable.dir/src/prototype/Phase36PlaybackPipeline.cpp.o
+[ 75%] Building CXX object CMakeFiles/phase36_variable.dir/src/prototype/Phase36StreamingSpeedEngine.cpp.o
+[ 75%] Linking CXX static library libphase36_variable.a
+[ 81%] Built target phase36_variable
+[ 87%] Building CXX object CMakeFiles/phase39_variable.dir/src/prototype/Phase39PlaybackPipeline.cpp.o
+/Users/taro252/Docker/TimeStretchLab/src/prototype/Phase39PlaybackPipeline.cpp:495:21: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
+  495 |                     densityReady_.store(false,std::memory_order_release);
+      |                     ^
+/Users/taro252/Docker/TimeStretchLab/src/prototype/Phase39PlaybackPipeline.cpp:493:17: note: previous statement is here
+  493 |                 if (changesDensity)
+      |                 ^
+1 warning generated.
+[ 87%] Linking CXX static library libphase39_variable.a
+[ 87%] Built target phase39_variable
+[ 93%] Building CXX object CMakeFiles/playback_engine.dir/src/playback/PlaybackAnalysisCache.cpp.o
+[ 93%] Linking CXX static library libplayback_engine.a
+[ 93%] Built target playback_engine
+[ 93%] Building CXX object CMakeFiles/phase54_analysis_tests.dir/tests/Phase54AnalysisCacheTests.cpp.o
+[100%] Linking CXX executable phase54_analysis_tests
+[100%] Built target phase54_analysis_tests
+[ 66%] Built target timestretch_core
+[ 73%] Built target phase24_variable
+[ 86%] Built target phase36_variable
+[ 93%] Built target phase39_variable
+[100%] Built target playback_engine
+[100%] Building CXX object CMakeFiles/playback_api_tests.dir/tests/PlaybackEngineTests.cpp.o
+[100%] Linking CXX executable playback_api_tests
+[100%] Built target playback_api_tests
+[ 62%] Built target timestretch_core
+[ 68%] Built target phase24_variable
+[ 81%] Built target phase36_variable
+[ 87%] Built target phase39_variable
+[ 93%] Built target playback_engine
+[100%] Building OBJCXX object CMakeFiles/macos_playback_engine.dir/src/platform/macos/MacPlaybackEngine.mm.o
+[100%] Linking CXX static library libmacos_playback_engine.a
+[100%] Built target macos_playback_engine
+[100%] Building CXX object CMakeFiles/phase54_startup_probe.dir/src/playback/Phase54StartupProbe.cpp.o
+[100%] Linking CXX executable phase54_startup_probe
+[100%] Built target phase54_startup_probe
+[ 66%] Built target timestretch_core
+[ 73%] Built target phase24_variable
+[ 86%] Built target phase36_variable
+[ 93%] Built target phase39_variable
+[ 93%] Building CXX object CMakeFiles/playback_reference.dir/src/playback/PlaybackReference.cpp.o
+[ 93%] Building CXX object CMakeFiles/playback_reference.dir/src/prototype/Phase35TransitionEngine.cpp.o
+[100%] Linking CXX executable playback_reference
+[100%] Built target playback_reference

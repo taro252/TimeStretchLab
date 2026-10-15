@@ -74,7 +74,8 @@ Phase39PlaybackPipeline::Phase39PlaybackPipeline(const std::filesystem::path& in
     std::size_t leadFrames,Phase39Planning planning,Phase39DensityDiagnostic densityDiagnostic,
     bool enableProfile,std::filesystem::path componentCsv,std::size_t probeFirst,
     std::size_t probeLast,std::function<std::uint64_t()> allocationCounter,bool preciseBoundary,
-    std::optional<Phase52WorkerOptions> explicitOptions)
+    std::optional<Phase52WorkerOptions> explicitOptions,
+    std::optional<Phase54PreparedInput> preparedInput)
     : file_(input),sampleRate_(WavStreamReader(input).sampleRate()),
       channels_(WavStreamReader(input).channels()),blockFrames_(blockFrames),
       leadFrames_(leadFrames ? leadFrames : fifoFrames),initial_(initial),planning_(planning),
@@ -83,16 +84,24 @@ Phase39PlaybackPipeline::Phase39PlaybackPipeline(const std::filesystem::path& in
       allocationCounter_(std::move(allocationCounter)),
       phase50PreciseBoundary_(preciseBoundary),
       explicitOptions_(std::move(explicitOptions)),
-      analysis_(Phase13StreamingEngine(frozen(input,{500000})).analyzeTransientEvents(input)),
+      preparedInput_(std::move(preparedInput)),
+      analysis_([&]{startup_.metadata=constructorClock_.elapsed();ts::playback::StageClock clock;
+        auto a=preparedInput_ ? preparedInput_->analysis : Phase13StreamingEngine(frozen(input,{500000})).analyzeTransientEvents(input);
+        startup_.analysis=clock.elapsed();return a;}()),
       fifo_(channels_,fifoFrames) {
     if (blockFrames<1024 || blockFrames>65536 || blockFrames>fifoFrames ||
         leadFrames_<blockFrames || leadFrames_>fifoFrames)
         throw std::invalid_argument("Phase 39 block/FIFO size");
+    if(preparedInput_){if(analysis_.inputFrames()!=WavStreamReader(input).frames())throw std::invalid_argument("Analysis input length differs");if(preparedInput_->validate)preparedInput_->validate();}
+    startup_.pipeline=constructorClock_.elapsed();
+}
+ts::playback::StartupDiagnostics Phase39PlaybackPipeline::startupDiagnostics() const {
+    std::lock_guard lock(startupMutex_);return startup_;
 }
 Phase39PlaybackPipeline::~Phase39PlaybackPipeline() { stop(); }
 void Phase39PlaybackPipeline::start() {
     if (worker_.joinable()) throw std::logic_error("Phase 39 already started");
-    fifo_.clearQuiescent();
+    fifo_.clearQuiescent();outputStartFrame_=0;startPositionReady_=false;
     stop_=false;finished_=false;state_=Phase39RequestState::Idle;
     planOutcome_=Phase39Outcome::NoSafeInterval;
     fromMicros_=initial_.micros;targetMicros_=initial_.micros;
@@ -135,11 +144,22 @@ void Phase39PlaybackPipeline::start() {
                 workerQosApplied_.store(
                     pthread_set_qos_class_self_np(QOS_CLASS_USER_INITIATED,0)==0,
                     std::memory_order_relaxed);
+            ts::playback::StageClock initializationClock,mapClock;
             Phase39TimeMap timeline(analysis_,sampleRate_,initial_,planning_);
+            {std::lock_guard lock(startupMutex_);startup_.timeMap=mapClock.elapsed();}
             if(explicitOptions_ && explicitOptions_->publishPositionMap){
                 auto copy=std::make_shared<const TimeMap>(timeline.current());
                 std::lock_guard lock(historyMutex_);positionMap_=std::move(copy);
             }
+            if(explicitOptions_&&explicitOptions_->startInputFrame){
+                const auto input=*explicitOptions_->startInputFrame;
+                if(input>analysis_.inputFrames())throw std::out_of_range("Seek beyond input");
+                const auto total=outputLength_.load();
+                const auto mapped=input==analysis_.inputFrames()?total:static_cast<std::size_t>(std::clamp(
+                    std::llround(timeline.current().outputPositionForInputSample(double(input))),0LL,static_cast<long long>(total?total-1:0)));
+                outputStartFrame_=mapped;produced_=mapped;presented_=mapped;
+            }
+            startPositionReady_.store(true,std::memory_order_release);
             Phase36StreamingSpeedEngine engine(frozen(file_,initial_));
             auto& pcmDigest=partialDigest.emplace();
             std::vector<float> interleaved(workerPcmHashEnabled_ ? blockFrames_*channels_ : 0);
@@ -187,7 +207,8 @@ void Phase39PlaybackPipeline::start() {
             std::array<std::size_t,3> controlledNextInput{};
             const auto publish=[&](const float* const* data,std::size_t frames,
                                    const std::function<void()>& poll) {
-                generatedPcmFrames_.fetch_add(frames);
+                if(preparedInput_&&preparedInput_->validate)preparedInput_->validate();
+                if(stop_.load(std::memory_order_acquire))throw Stopped{};
                 if (!stalled && injectedStallMs>0 && produced_.load()>=65536) {
                     stalled=true;
                     const auto until=Clock::now()+std::chrono::duration<double,std::milli>(injectedStallMs);
@@ -538,13 +559,36 @@ void Phase39PlaybackPipeline::start() {
                             *weakest=latestProfile;
                     }
                 }) : Phase36StreamingSpeedEngine::ProfileHook{};
+            // A mid-block seek suffix is repacked into full producer blocks.
+            // Otherwise lead=capacity prefill can deadlock below the target.
+            const auto offset=outputStartFrame_.load();std::size_t suffixCount=0;
+            std::vector<std::vector<float>> suffixChunk;
+            if(offset)suffixChunk.resize(channels_,std::vector<float>(blockFrames_));
+            std::array<const float*,2> suffixPointers{};
+            for(std::size_t c=0;c<suffixChunk.size();++c)suffixPointers[c]=suffixChunk[c].data();
+            const auto feed=[&](const float*const* data,std::size_t frames,const std::function<void()>& poll){
+                if(stop_.load(std::memory_order_acquire))throw Stopped{};
+                if(preparedInput_&&preparedInput_->validate)preparedInput_->validate();
+                const auto start=generatedPcmFrames_.fetch_add(frames);
+                if(!offset){publish(data,frames,poll);return;}
+                auto skip=start<offset?std::min(frames,offset-start):0;
+                while(skip<frames){auto count=std::min(frames-skip,blockFrames_-suffixCount);
+                    for(std::size_t c=0;c<channels_;++c)std::copy_n(data[c]+skip,count,suffixChunk[c].data()+suffixCount);
+                    suffixCount+=count;skip+=count;
+                    if(suffixCount==blockFrames_){publish(suffixPointers.data(),suffixCount,poll);suffixCount=0;}
+                }
+            };
             const auto result=engine.process(file_,analysis_,timeline.current(),outputLength_.load(),
                 blockFrames_,[&](const float* const* data,std::size_t frames,
                                          const std::function<void()>& poll) {
-                    publish(data,frames,poll);
+                    feed(data,frames,poll);
                 },plan,{},profileHook,
                 componentOutput ? &componentOutput : nullptr,probeFirst_,probeLast_,
-                densityDiagnostic_==Phase39DensityDiagnostic::SafeGuarded);
+                densityDiagnostic_==Phase39DensityDiagnostic::SafeGuarded,[&]{
+                    std::lock_guard lock(startupMutex_);auto t=initializationClock.elapsed();
+                    startup_.workerInitialization={t.wallSeconds-startup_.timeMap.wallSeconds,t.threadCpuSeconds-startup_.timeMap.threadCpuSeconds};
+                });
+            if(suffixCount)publish(suffixPointers.data(),suffixCount,[]{});
             stageDigests_=result.stages;
             if (workerPcmHashEnabled_) workerPcmSha_=pcmDigest.finish();
         } catch (const Stopped&) {

@@ -1,8 +1,8 @@
-# merodoa向け再生エンジン引き継ぎ仕様（Phase 53）
+# merodoa向け再生エンジン引き継ぎ仕様（Phase 54）
 
 ## 1. 適用範囲と固定版
 
-TimeStretchLabは、音程を保って再生速度を変更するC++の音声処理ライブラリです。アプリは別リポジトリ `https://github.com/taro252/merodoa` で開発し、`external/TimeStretchLab/` にGit submoduleとして配置します。この文書に対応する完成コミットは **`phase53-handoff` タグ** で識別します。アプリではタグ名だけでなく、解決した完全なコミットSHAをsubmoduleの参照として固定してください。
+TimeStretchLabは、音程を保って再生速度を変更するC++の音声処理ライブラリです。アプリは別リポジトリ `https://github.com/taro252/merodoa` で開発し、`external/TimeStretchLab/` にGit submoduleとして配置します。Phase 53の固定版は **`phase53-handoff` タグ（233c773）** で識別し、移動しません。Phase 54の解析再利用・シークは新しい完成コミットSHAへ明示更新して利用します。アプリではタグ名だけでなく、解決した完全なコミットSHAをsubmoduleの参照として固定してください。
 
 音質基準は凍結済みPhase 5.3 Experimental 3500です。Phase 12/28の25本の参照WAV、低速B、高速B、位相・重ね合わせ（OLA）・周波数分割フィルター（FIR）の状態継続を保持します。開発版の統合が可能ですが、一般公開向けの音切れ・高負荷保証は完了していません。
 
@@ -19,9 +19,15 @@ TimeStretchLabは、音程を保って再生速度を変更するC++の音声処
 
 **対応実績はmacOS arm64のみ。iOS/iPadOSは未検証で、出力アダプターも未実装です。** C++コアはAppleのUIフレームワークへ依存しませんが、FFTにはApple Accelerateを使用します。現在のCMake構成全体はmacOS専用です。
 
+### Phase 54追加
+
+[再生開始・解析再利用・シークAPI](PHASE54_SEEK_API.md) に設定と寿命契約を記載する。Stop/EOS後は不変な解析を再利用し、DSP/FIFOは新しいセッションとして作る。標準はメモリ解析キャッシュと必要なPCMの逐次生成で、全曲PCMディスクキャッシュに依存しない。Candidate/Baseline、L1/L2、安全密度、先行量は維持する。
+
+シークは原曲座標で非同期に受付。最新要求を優先し、完成した区間FIFOへ切り替える。頭からの正確な再構築なので、深いシークのCPU時間は残る。UIではsnapshotの要求/完了と実際の原曲再生位置を区別する。性能と合否は [Phase 54 REPORT](../results/phase54/REPORT.md)。
+
 ## 2. submoduleの取得・固定・更新
 
-以下は **merodoa側で実行する手順** です。Phase 53ではmerodoa自体を変更していません。
+以下は **merodoa側で実行する手順** です。TimeStretchLab側の作業でmerodoa自体は変更していません。
 
 ```sh
 # 初回追加（すでに登録済みならsubmodule updateを使う）
@@ -194,7 +200,7 @@ cmake --build build --target playback_handoff_example -j 3
 - 0.40倍速には多少の水っぽさが残ります。0.25倍速は初回リリース対象外。
 - 実機でhost/sample時刻不連続が観測されています。計測FAILを無条件にPASSへ変更しません。
 - 物理装置変更・幅広い装置/負荷の反復、iOS実機は未検証。macOS実績をiOS保証に流用しません。
-- シーク、DRM取り込み、MP3/M4Aデコード、Swiftブリッジは現行統合APIの対象外。
+- Phase 54でシークAPIを追加。深い位置は先頭からDSP再構築するため待ち時間が残る。DRM取り込み、MP3/M4Aデコード、Swiftブリッジは対象外。
 
 rawにはピーク1.0超えがあり得ます。再生段の独立ゲイン（既定0.5）でヘッドルームを管理し、Goldenやrawキャッシュを正規化しません。C++ callback確保計数0も、Objective-Cランタイム/malloc全体の証明とは区別します。
 
@@ -207,3 +213,17 @@ iOS対応時はmacOS固有のCoreAudio装置プロパティ、route監視、HAL�
 Stem分離の候補は `ssmall256/demucs-mlx-swift`、Vocals/Drums/Bass/Other、キャッシュ済みStem再生と各音量/Mute/Soloです。モデルの採用・デコード・キャッシュ・ミキサー・各Stem同期はアプリ側で別検証し、現行の単一再生サービスが既に対応すると仮定しません。
 
 TimeStretchLabはタイムストレッチDSPの責務を維持します。Phase 53でピッチ・分離・Stemミキサー・デコード・iOS出力を追加していません。最終検証結果と保留項目は [`results/phase53/REPORT.md`](../results/phase53/REPORT.md) を参照してください。
+
+## Phase 54への更新
+
+`phase53-handoff` は切戻し用に固定したまま、新しい完成SHAへsubmoduleを更新する。ライブラリ名・リンク方法は維持する。アプリのブリッジで新しいseek/getStartupDiagnosticsを公開し、コールバックへ制御APIを持ち込まない。
+
+```sh
+git -C external/TimeStretchLab fetch origin
+git -C external/TimeStretchLab checkout --detach <レビュー済みPhase54完成SHA>
+# アプリのビルド・再生・pause/resume・シーク回帰を確認
+git add external/TimeStretchLab
+git commit -m "Update TimeStretchLab playback and seek engine"
+```
+
+[Phase 54 API](PHASE54_SEEK_API.md) の速度/位置/拒否/保留・raw範囲・フェードをブリッジへ対応付ける。アプリ側のデコードWAV寿命、作業キュー、UI、security-scoped URLなど媒体アクセスの管理はアプリの責務。実機の安定性・品質の制限を確認し、全面的な公開品質保証とは読み替えない。

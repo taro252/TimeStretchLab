@@ -1,0 +1,23 @@
+[ 62%] Built target timestretch_core
+[ 68%] Built target phase24_variable
+[ 81%] Built target phase36_variable
+[ 87%] Built target phase39_variable
+[ 87%] Building CXX object CMakeFiles/playback_engine.dir/src/playback/PlaybackEngine.cpp.o
+[ 93%] Building CXX object CMakeFiles/playback_engine.dir/src/playback/PlaybackAnalysisCache.cpp.o
+[ 93%] Linking CXX static library libplayback_engine.a
+[ 93%] Built target playback_engine
+[ 93%] Building CXX object CMakeFiles/phase54_analysis_tests.dir/tests/Phase54AnalysisCacheTests.cpp.o
+/Users/taro252/Docker/TimeStretchLab/tests/Phase54AnalysisCacheTests.cpp:12:141: error: no member named 'frames' in 'ts::AudioBuffer'
+   12 | AudioBuffer audio(float gain=.1f){AudioBuffer a;a.sampleRate=48000;a.channels.resize(2,std::vector<float>(48000*3));for(std::size_t i=0;i<a.frames();++i)for(unsigned c=0;c<2;++c)a.channels[c][i]=gain*std::sin(2*3.141592653589793*437.3*i/48000+c*.2);return a;}
+      |                                                                                                                                           ~ ^
+/Users/taro252/Docker/TimeStretchLab/tests/Phase54AnalysisCacheTests.cpp:23:46: error: implicit instantiation of undefined template 'std::basic_ofstream<char>'
+   23 |  auto broken=dir/"broken.wav";{std::ofstream f(broken);f<<"not a WAV";}bool refused=false;try{StartupDiagnostics t;cache.acquire(broken,t);}catch(...){refused=true;}check(refused,"corrupt source");std::filesystem::remove_all(dir);std::cout<<"immutable reuse, spoofed mtime/replacement/symlink invalidation, memory LRU, disabled cache, single flight PASS\n";return 0;
+      |                                              ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__fwd/fstream.h:26:7: note: template is declared here
+   26 | class basic_ofstream;
+      |       ^
+2 errors generated.
+make[3]: *** [CMakeFiles/phase54_analysis_tests.dir/tests/Phase54AnalysisCacheTests.cpp.o] Error 1
+make[2]: *** [CMakeFiles/phase54_analysis_tests.dir/all] Error 2
+make[1]: *** [CMakeFiles/phase54_analysis_tests.dir/rule] Error 2
+make: *** [phase54_analysis_tests] Error 2

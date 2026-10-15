@@ -391,6 +391,12 @@ std::size_t Phase13TransientAnalysis::activeFrameCount() const {
     return impl_ ? impl_->activeFrames : 0;
 }
 
+std::size_t Phase13TransientAnalysis::memoryBytes() const {
+    return impl_ ? sizeof(Phase13TransientData)+impl_->detectorFrames.capacity()*sizeof(TransientFrame)+
+        impl_->events.capacity()*sizeof(TransientEvent)+impl_->anchors.capacity()*sizeof(TransientAnchor)+
+        impl_->input.native().capacity()*sizeof(std::filesystem::path::value_type) : 0;
+}
+
 std::size_t Phase13PreparedFile::inputFrames() const {
     return impl_ ? impl_->inputFrames : 0;
 }

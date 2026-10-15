@@ -1,0 +1,79 @@
+Test project /Users/taro252/Docker/TimeStretchLab/build
+    Start 50: phase44_quality_gate
+1/2 Test #50: phase44_quality_gate .............***Failed    8.89 sec
+controlled_stall_triggered=0
+controlled_stall_fifo_before=0
+controlled_stall_wall_s=0
+controlled_stall_cpu_s=0
+strategy=C
+callback_frames=512
+plan_outcome=0
+output_frames=365440
+pcm_consumed=365440
+presented_timeline=368000
+missing_frames=0
+underrun_calls=0
+max_consecutive_missing_frames=0
+rejected_writes=0
+late_wakeups=2
+major_wakeups=2
+expired_callback_slots=5
+expired_presentation_frames=2560
+completion_deadline_misses=0
+wake_over_5ms=6
+wake_over_10ms=2
+wake_over_20ms=2
+wake_over_halfperiod=5
+wake_over_twoperiods=2
+max_wake_seconds=0.0421952
+late_period_limit=1
+callback_period_seconds=0.01161
+start_unix_ns=1792032577157255000
+callback_thread_id=2617955
+device_elapsed_frames=368149
+fifo_minimum=384
+nonfinite_samples=0
+pcm_fingerprint=7159dd0d39d1edac
+pcm_sha256=95937d46fea3e6e60c8c7e83b397d28f524dd7929a43e78271a15a819822d4f2
+callback_overruns=0
+max_callback_seconds=8.1791e-05
+max_worker_wall_seconds=0.139626
+max_worker_cycle_seconds=0.13963
+max_worker_cycle_cpu_seconds=0.0318493
+p95_worker_cycle_seconds=0.0487965
+p99_worker_cycle_seconds=0.0728017
+max_worker_cpu_seconds=0.0318466
+max_fifo_wait_seconds=0.0569984
+fifo_wait_seconds=6.06783
+worker_chunks_over_100ms=1
+worker_qos_applied=0
+plan_ms=4.71329
+coordinate_delay_ms=1621
+applied_callback_delay_ms=1611.47
+fifo_high_water=12288
+peak_rss_bytes=19152896
+cpu_user_seconds=1.85903
+cpu_system_seconds=0.177774
+major_faults=1
+minor_faults=1754
+request_state=Completed
+eos_drained=1
+worker_errors=0
+CALLBACK_TIMING=FAIL
+SIMULATION_VALIDITY=INVALID
+ 
+quality gate failed injected=False: ['process_exit=1', 'callback_timing_failed_or_unmeasured', 'simulation_invalid_or_unmeasured', 'output_length=365440/365440/368000']
+
+    Start 51: phase45_deadline_integrity
+2/2 Test #51: phase45_deadline_integrity .......   Passed   42.34 sec
+
+50% tests passed, 1 tests failed out of 2
+
+Label Time Summary:
+realtime    =  51.23 sec*proc (2 tests)
+
+Total Test time (real) =  51.24 sec
+
+The following tests FAILED:
+	 50 - phase44_quality_gate (Failed)                     realtime
+Errors while running CTest

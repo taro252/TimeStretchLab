@@ -1,0 +1,44 @@
+-- Configuring done (0.5s)
+-- Generating done (1.1s)
+-- Build files have been written to: /Users/taro252/Docker/TimeStretchLab/build
+[ 62%] Built target timestretch_core
+[ 68%] Built target phase24_variable
+[ 81%] Built target phase36_variable
+[ 87%] Built target phase39_variable
+[ 93%] Built target playback_engine
+[100%] Building OBJCXX object CMakeFiles/macos_playback_engine.dir/src/platform/macos/MacPlaybackEngine.mm.o
+[100%] Linking CXX static library libmacos_playback_engine.a
+[100%] Built target macos_playback_engine
+[100%] Building CXX object CMakeFiles/phase54_startup_probe.dir/src/playback/Phase54StartupProbe.cpp.o
+/Users/taro252/Docker/TimeStretchLab/src/playback/Phase54StartupProbe.cpp:21:2: error: reference to 'detail' is ambiguous
+   21 |  detail(e.getStartupDiagnostics());std::cout<<"av_construction,"<<n.avConstruction.wallSeconds<<','<<n.avConstruction.threadCpuSeconds<<",0,0,0,0\nav_start,"<<n.avStart.wallSeconds<<','<<n.avStart.threadCpuSeconds<<",0,0,0,0\nfirst_pcm_mach_ns="<<n.firstPcmMachNs<<"\nplay_called_steady_ns="<<n.playCalledSteadyNs<<'\n';
+      |  ^
+/Users/taro252/Docker/TimeStretchLab/src/playback/Phase54StartupProbe.cpp:16:6: note: candidate found by name lookup is 'detail'
+   16 | void detail(const StartupDiagnostics& s){for(auto [label,t]:{std::pair{"internal_prepare",s.prepare},{"pipeline_constructor",s.pipeline},{"wav_metadata",s.metadata},{"identity_validation",s.identity},{"transient_analysis",s.analysis},{"time_map",s.timeMap},{"worker_initialization",s.workerInitialization},{"fifo_prefill",s.prefill}})std::cout<<label<<','<<t.wallSeconds<<','<<t.threadCpuSeconds<<",0,0,0,0\n";std::cout<<"analysis_hit="<<s.analysisHit<<"\nanalysis_runs="<<s.analysisRuns<<"\ncache_hits="<<s.cacheHits<<"\nanalysis_bytes="<<s.analysisBytes<<"\ncache_resident_bytes="<<s.cacheResidentBytes<<"\nbytes_hashed="<<s.bytesHashed<<'\n';}
+      |      ^
+/Users/taro252/Docker/TimeStretchLab/src/platform/macos/MacPlaybackEngine.h:20:11: note: candidate found by name lookup is 'ts::playback::detail'
+   20 | namespace detail {
+      |           ^
+/Users/taro252/Docker/TimeStretchLab/src/playback/Phase54StartupProbe.cpp:26:2: error: reference to 'detail' is ambiguous
+   26 |  detail(e.getStartupDiagnostics());
+      |  ^
+/Users/taro252/Docker/TimeStretchLab/src/playback/Phase54StartupProbe.cpp:16:6: note: candidate found by name lookup is 'detail'
+   16 | void detail(const StartupDiagnostics& s){for(auto [label,t]:{std::pair{"internal_prepare",s.prepare},{"pipeline_constructor",s.pipeline},{"wav_metadata",s.metadata},{"identity_validation",s.identity},{"transient_analysis",s.analysis},{"time_map",s.timeMap},{"worker_initialization",s.workerInitialization},{"fifo_prefill",s.prefill}})std::cout<<label<<','<<t.wallSeconds<<','<<t.threadCpuSeconds<<",0,0,0,0\n";std::cout<<"analysis_hit="<<s.analysisHit<<"\nanalysis_runs="<<s.analysisRuns<<"\ncache_hits="<<s.cacheHits<<"\nanalysis_bytes="<<s.analysisBytes<<"\ncache_resident_bytes="<<s.cacheResidentBytes<<"\nbytes_hashed="<<s.bytesHashed<<'\n';}
+      |      ^
+/Users/taro252/Docker/TimeStretchLab/src/platform/macos/MacPlaybackEngine.h:20:11: note: candidate found by name lookup is 'ts::playback::detail'
+   20 | namespace detail {
+      |           ^
+/Users/taro252/Docker/TimeStretchLab/src/playback/Phase54StartupProbe.cpp:30:2: error: reference to 'detail' is ambiguous
+   30 |  detail(e.getStartupDiagnostics());
+      |  ^
+/Users/taro252/Docker/TimeStretchLab/src/playback/Phase54StartupProbe.cpp:16:6: note: candidate found by name lookup is 'detail'
+   16 | void detail(const StartupDiagnostics& s){for(auto [label,t]:{std::pair{"internal_prepare",s.prepare},{"pipeline_constructor",s.pipeline},{"wav_metadata",s.metadata},{"identity_validation",s.identity},{"transient_analysis",s.analysis},{"time_map",s.timeMap},{"worker_initialization",s.workerInitialization},{"fifo_prefill",s.prefill}})std::cout<<label<<','<<t.wallSeconds<<','<<t.threadCpuSeconds<<",0,0,0,0\n";std::cout<<"analysis_hit="<<s.analysisHit<<"\nanalysis_runs="<<s.analysisRuns<<"\ncache_hits="<<s.cacheHits<<"\nanalysis_bytes="<<s.analysisBytes<<"\ncache_resident_bytes="<<s.cacheResidentBytes<<"\nbytes_hashed="<<s.bytesHashed<<'\n';}
+      |      ^
+/Users/taro252/Docker/TimeStretchLab/src/platform/macos/MacPlaybackEngine.h:20:11: note: candidate found by name lookup is 'ts::playback::detail'
+   20 | namespace detail {
+      |           ^
+3 errors generated.
+make[3]: *** [CMakeFiles/phase54_startup_probe.dir/src/playback/Phase54StartupProbe.cpp.o] Error 1
+make[2]: *** [CMakeFiles/phase54_startup_probe.dir/all] Error 2
+make[1]: *** [CMakeFiles/phase54_startup_probe.dir/rule] Error 2
+make: *** [phase54_startup_probe] Error 2

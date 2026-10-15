@@ -9,6 +9,7 @@ namespace ts {
 class WavStreamReader {
 public:
     explicit WavStreamReader(const std::filesystem::path& path);
+    ~WavStreamReader();
     std::uint32_t sampleRate() const { return sampleRate_; }
     std::size_t channels() const { return channels_; }
     std::size_t frames() const { return frames_; }
@@ -16,6 +17,8 @@ public:
 private:
     static constexpr std::size_t cacheFrames_ = 65536;
     std::ifstream input_;
+    int descriptor_=-1; // Pinned input uses offset-independent pread on Darwin.
+    bool readPinned(void*,std::size_t,std::streamoff);
     std::streamoff dataOffset_ = 0;
     std::uint32_t sampleRate_ = 0;
     std::size_t channels_ = 0, frames_ = 0, bytesPerSample_ = 0, blockAlign_ = 0;

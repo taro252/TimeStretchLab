@@ -22,6 +22,7 @@ public:
     const std::vector<TransientAnchor>& anchors() const;
     const std::vector<TransientFrame>& detectorFrames() const;
     std::size_t activeFrameCount() const;
+    std::size_t memoryBytes() const; // Read-only capacity accounting; no DSP change.
 private:
     std::shared_ptr<const Phase13TransientData> impl_;
     friend class Phase13StreamingEngine;
