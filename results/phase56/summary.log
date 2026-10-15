@@ -1,0 +1,32 @@
+{
+  "verdict": "A",
+  "scope": "継続状態を持つ解析と、要求した固定速度TimeMap。製品統合とPCM継続合成は対象外。",
+  "inputs": 78,
+  "chunk_modes": 7,
+  "exact_sessions": 546,
+  "speed_maps_per_session": 7,
+  "exact_fixed_map_comparisons": 3822,
+  "intermediate_and_final_exact": true,
+  "frozen_reference_sha256": "d60cc4b6bcd30e94fcb6931122f71d50c62a669447151b3277a4ea9e2c4a4aa4",
+  "checked_binary_sha256": "a9d0374dd62eb5af15d1cbac7aa6d542bf2ce3206698d76aaa1dd0c090aea6b4",
+  "golden_pcm_passed": 25,
+  "protected_files": 6770,
+  "golden_files": 30,
+  "performance_sessions": 70,
+  "legacy_whole_runs": 10,
+  "product_api_changed": false,
+  "production_incremental_integration": false,
+  "pcm_startup_improvement_proven": false,
+  "realtime_dsp_competition_verified": false,
+  "historical_realtime_failures_preserved": true,
+  "same_input_request_coalescing": false,
+  "fixed_speed_values": [
+    0.4,
+    0.5,
+    0.75,
+    1.0,
+    1.25,
+    1.5,
+    2.0
+  ]
+}

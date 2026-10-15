@@ -1,0 +1,28 @@
+[ 81%] Built target timestretch_core
+[ 81%] Building CXX object CMakeFiles/phase56_incremental.dir/src/prototype/Phase56ProgressiveAnalysis.cpp.o
+[ 90%] Linking CXX static library libphase56_incremental.a
+[ 90%] Built target phase56_incremental
+[100%] Building CXX object CMakeFiles/phase56_check.dir/src/prototype/Phase56Check.cpp.o
+/Users/taro252/Docker/TimeStretchLab/src/prototype/Phase56Check.cpp:71:5: error: no matching function for call to 'equal'
+   71 |     equal(final->receivedInputFrames,ref.input,"finalInput",0);equal(final->activeFrameCount,ref.active,"active",0);
+      |     ^~~~~
+/Users/taro252/Docker/TimeStretchLab/src/prototype/Phase56Check.cpp:13:23: note: candidate template ignored: deduced conflicting types for parameter 'T' ('std::size_t' (aka 'unsigned long') vs. 'std::uint64_t' (aka 'unsigned long long'))
+   13 | template<class T>void equal(T a,T b,const char* field,std::size_t i){
+      |                       ^
+/Users/taro252/Docker/TimeStretchLab/src/prototype/Phase56Check.cpp:71:64: error: no matching function for call to 'equal'
+   71 |     equal(final->receivedInputFrames,ref.input,"finalInput",0);equal(final->activeFrameCount,ref.active,"active",0);
+      |                                                                ^~~~~
+/Users/taro252/Docker/TimeStretchLab/src/prototype/Phase56Check.cpp:13:23: note: candidate template ignored: deduced conflicting types for parameter 'T' ('std::size_t' (aka 'unsigned long') vs. 'std::uint64_t' (aka 'unsigned long long'))
+   13 | template<class T>void equal(T a,T b,const char* field,std::size_t i){
+      |                       ^
+/Users/taro252/Docker/TimeStretchLab/src/prototype/Phase56Check.cpp:72:5: error: no matching function for call to 'equal'
+   72 |     equal(final->transientCount,ref.transients,"transientCount",0);equal(final->detectorThrough,ref.frames.size(),"finalFrames",0);
+      |     ^~~~~
+/Users/taro252/Docker/TimeStretchLab/src/prototype/Phase56Check.cpp:13:23: note: candidate template ignored: deduced conflicting types for parameter 'T' ('std::size_t' (aka 'unsigned long') vs. 'std::uint64_t' (aka 'unsigned long long'))
+   13 | template<class T>void equal(T a,T b,const char* field,std::size_t i){
+      |                       ^
+3 errors generated.
+make[3]: *** [CMakeFiles/phase56_check.dir/src/prototype/Phase56Check.cpp.o] Error 1
+make[2]: *** [CMakeFiles/phase56_check.dir/all] Error 2
+make[1]: *** [CMakeFiles/phase56_check.dir/rule] Error 2
+make: *** [phase56_check] Error 2

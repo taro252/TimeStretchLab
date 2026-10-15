@@ -1,0 +1,33 @@
+[ 90%] Built target timestretch_core
+[ 90%] Building CXX object CMakeFiles/phase56_incremental.dir/src/prototype/Phase56ProgressiveAnalysis.cpp.o
+In file included from /Users/taro252/Docker/TimeStretchLab/src/prototype/Phase56ProgressiveAnalysis.cpp:1:
+In file included from /Users/taro252/Docker/TimeStretchLab/src/prototype/Phase56ProgressiveAnalysis.h:2:
+In file included from /Users/taro252/Docker/TimeStretchLab/src/prototype/Phase56ImmutableSeries.h:2:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/algorithm:2057:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/atomic:605:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__atomic/aliases.h:12:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__atomic/atomic.h:238:17: error: static assertion failed due to requirement 'is_trivially_copyable<std::shared_ptr<const ts::prototype::phase56::AnalysisSnapshot>>::value': std::atomic<T> requires that 'T' be a trivially copyable type
+  238 |   static_assert(is_trivially_copyable<_Tp>::value, "std::atomic<T> requires that 'T' be a trivially copyable type");
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__atomic/atomic.h:242:47: note: in instantiation of template class 'std::__check_atomic_mandates<std::shared_ptr<const ts::prototype::phase56::AnalysisSnapshot>>' requested here
+  242 | struct atomic : public __atomic_base<typename __check_atomic_mandates<_Tp>::type> {
+      |                                               ^
+/Users/taro252/Docker/TimeStretchLab/src/prototype/Phase56ProgressiveAnalysis.cpp:117:58: note: in instantiation of template class 'std::atomic<std::shared_ptr<const ts::prototype::phase56::AnalysisSnapshot>>' requested here
+  117 |     std::atomic<std::shared_ptr<const AnalysisSnapshot>> published;
+      |                                                          ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__atomic/atomic.h:238:17: note: 'std::shared_ptr<const ts::prototype::phase56::AnalysisSnapshot>' is not trivially copyable
+  238 |   static_assert(is_trivially_copyable<_Tp>::value, "std::atomic<T> requires that 'T' be a trivially copyable type");
+      |                 ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__atomic/atomic.h:238:17: note: because it has a user-provided destructor
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__atomic/atomic.h:238:17: note: because it has a user provided copy constructor
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__atomic/atomic.h:238:17: note: because it has a user provided move constructor
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__atomic/atomic.h:238:17: note: because it has a user provided copy assignment operator
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__atomic/atomic.h:238:17: note: because it has a user provided move assignment operator
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__memory/shared_ptr.h:306:38: note: 'shared_ptr<const ts::prototype::phase56::AnalysisSnapshot>' defined here
+  306 | class _LIBCPP_SHARED_PTR_TRIVIAL_ABI shared_ptr {
+      |                                      ^
+1 error generated.
+make[3]: *** [CMakeFiles/phase56_incremental.dir/src/prototype/Phase56ProgressiveAnalysis.cpp.o] Error 1
+make[2]: *** [CMakeFiles/phase56_incremental.dir/all] Error 2
+make[1]: *** [CMakeFiles/phase56_incremental.dir/rule] Error 2
+make: *** [phase56_incremental] Error 2
