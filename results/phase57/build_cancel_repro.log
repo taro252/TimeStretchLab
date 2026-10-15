@@ -1,0 +1,15 @@
+-- Configuring done (0.7s)
+-- Generating done (1.6s)
+-- Build files have been written to: /Users/taro252/Docker/TimeStretchLab/build
+[ 66%] Built target timestretch_core
+[ 66%] Built target phase56_incremental
+[ 75%] Built target phase24_variable
+[ 91%] Built target phase36_variable
+[ 91%] Built target phase57_synthesis
+[100%] Building CXX object CMakeFiles/phase57_tests.dir/tests/Phase57Tests.cpp.o
+/Users/taro252/Docker/TimeStretchLab/tests/Phase57Tests.cpp:27:531: warning: ignoring return value of function declared with 'nodiscard' attribute [-Wunused-result]
+   27 |     {std::atomic<bool> entered{false},release{false};ProgressiveSynthesisEngine* ptr=nullptr;unsigned calls=0;ProgressiveSynthesisEngine cancelling(path,500000,10,[&]{if(ptr&&++calls==2){entered.store(true);while(!release.load())std::this_thread::yield();}});ptr=&cancelling;cancelling.supplySnapshot(final);auto worker=std::async(std::launch::async,[&]{return cancelling.advance(sink);});while(!entered.load()&&worker.wait_for(std::chrono::milliseconds(0))!=std::future_status::ready)std::this_thread::yield();if(!entered.load())worker.get();check(entered.load(),"DSP failed before cancellation barrier");cancelling.cancel();release.store(true);check(worker.get()==SynthesisState::Cancelled&&cancelling.frontier().generated>0&&cancelling.frontier().published==0,"Cross-thread cancel before commit published PCM");}
+      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ^~~~~~~~~~
+1 warning generated.
+[100%] Linking CXX executable phase57_tests
+[100%] Built target phase57_tests

@@ -1,0 +1,61 @@
+{
+  "driver_source_sha256": "b6582c8be4ea744ec1cbf251de7bd07d3bac986a5ae6ccf826c850abb1fb740a",
+  "baseline": "ec087019626d9ff0d9f157245729b74ddb6847d7",
+  "suite": "natural",
+  "reference": "/Users/taro252/Docker/TimeStretchLab/build/phase57_frozen/reference",
+  "reference_binary_sha256": "461c26d10b0fd8a781cbffcbbab49072f501e02172e2a7c2f26e3e49a0253a1e",
+  "incremental_binary": "/Users/taro252/Docker/TimeStretchLab/build/phase57_check",
+  "incremental_binary_sha256": "f4723c40c6ba1236cc2835c89aa368f06807bf644169f5be803a95bdb18857df",
+  "speeds": [
+    400000,
+    500000,
+    750000,
+    1000000,
+    1250000,
+    1500000,
+    2000000
+  ],
+  "chunks": [
+    "7168",
+    "131072",
+    "5003"
+  ],
+  "inputs": [
+    {
+      "name": "mix",
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+      "kind": "existing natural excerpt 10s",
+      "seconds": 10,
+      "input_sha256": "789d4c159e35b4c133a17913ad5a9c47b85970185e5d86b074d146afc1bb311e"
+    },
+    {
+      "name": "drums",
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/drums.wav",
+      "kind": "existing natural excerpt 10s",
+      "seconds": 10,
+      "input_sha256": "d77f30cdc1b889227b7f3492791ca510be3ad3514aa7dc38be5f4f2d77297008"
+    },
+    {
+      "name": "vocal",
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/vocal.wav",
+      "kind": "existing natural excerpt 10s",
+      "seconds": 10,
+      "input_sha256": "2f7924d9b9c7cd2574d5c80a9cc98c59e02184cfda0676c5f5fa2c70793428ab"
+    },
+    {
+      "name": "bass",
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/bass.wav",
+      "kind": "existing natural excerpt 10s",
+      "seconds": 10,
+      "input_sha256": "37e6aec488ae3a838f67fc7cf8867588e2ca15cecc4dee0facd401a44890d3eb"
+    },
+    {
+      "name": "guitar",
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/guitar.wav",
+      "kind": "existing natural excerpt 10s",
+      "seconds": 10,
+      "input_sha256": "3da0902bd133bfe71c61650cae3e3f7ba0864bd0deb375387a36b3b38ec2f87a"
+    }
+  ],
+  "started_utc": "2026-10-15T09:51:26Z"
+}

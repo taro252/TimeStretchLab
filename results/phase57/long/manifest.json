@@ -1,0 +1,46 @@
+{
+  "driver_source_sha256": "b6582c8be4ea744ec1cbf251de7bd07d3bac986a5ae6ccf826c850abb1fb740a",
+  "baseline": "ec087019626d9ff0d9f157245729b74ddb6847d7",
+  "suite": "long",
+  "reference": "/Users/taro252/Docker/TimeStretchLab/build/phase57_frozen/reference",
+  "reference_binary_sha256": "461c26d10b0fd8a781cbffcbbab49072f501e02172e2a7c2f26e3e49a0253a1e",
+  "incremental_binary": "/Users/taro252/Docker/TimeStretchLab/build/phase57_check",
+  "incremental_binary_sha256": "f4723c40c6ba1236cc2835c89aa368f06807bf644169f5be803a95bdb18857df",
+  "speeds": [
+    400000,
+    410000,
+    500000,
+    990000,
+    1000000,
+    1010000,
+    1500000,
+    1990000,
+    2000000
+  ],
+  "chunks": [
+    "131072"
+  ],
+  "inputs": [
+    {
+      "name": "boundary_180s",
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase55/long/boundary_1_2_44100_180/full.wav",
+      "rate": 44100,
+      "channels": 2,
+      "encoding": 1,
+      "kind": "synthetic boundary pattern repeated 180s",
+      "seconds": 180,
+      "input_sha256": "e5a589ce9e3ea436c53aadda233c96a8246e7a58466718600c82b68b47dd05ac"
+    },
+    {
+      "name": "chain_300s",
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+      "rate": 48000,
+      "channels": 1,
+      "encoding": 3,
+      "kind": "synthetic event chain 300s",
+      "seconds": 300,
+      "input_sha256": "13c957e5c0f5e3d64c4973ac27117930bcc541ac67f4d21459417d8f5a4e0bd0"
+    }
+  ],
+  "started_utc": "2026-10-15T09:16:13Z"
+}

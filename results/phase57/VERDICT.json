@@ -1,0 +1,88 @@
+{
+  "verdict": "A",
+  "progressive_pcm_exact": true,
+  "all_161_speeds_verified": true,
+  "all_8_formats_verified": true,
+  "candidate_verified": true,
+  "baseline_verified": true,
+  "long_track_pcm_verified": true,
+  "non_eos_pcm_produced": true,
+  "early_pcm_before_full_analysis": true,
+  "product_path_modified": true,
+  "product_api_modified": false,
+  "shared_legacy_dsp_refactored": true,
+  "production_progressive_integration": false,
+  "realtime_verified": false,
+  "phase58_ready": true,
+  "long_all_161_speeds_verified": false,
+  "long_all_8_formats_verified": false,
+  "long_speed_micros": [
+    400000,
+    410000,
+    500000,
+    990000,
+    1000000,
+    1010000,
+    1500000,
+    1990000,
+    2000000
+  ],
+  "exact_pcm_sessions": 51344,
+  "matched_rejection_cases": 2,
+  "matched_rejection_runs": 14,
+  "non_eos_pcm_sessions": 1024,
+  "early_pcm_sessions": 1024,
+  "early_lead_sessions": 1024,
+  "golden_pcm_passed": 25,
+  "protected_files": 15383,
+  "golden_files": 30,
+  "performance_sessions": 110,
+  "performance_full_bit_validation_sessions": 22,
+  "whole_performance_runs": 30,
+  "early_pcm_before_all_input_received": true,
+  "performance_early_pcm_runs": 90,
+  "performance_early_lead_runs": 90,
+  "verification_build": "Release",
+  "debug_verification_scope": "Phase13/56/57関連6CTestと、独立した変更前Debug DSPによる36 PCMセッション",
+  "reference_binary_sha256": "461c26d10b0fd8a781cbffcbbab49072f501e02172e2a7c2f26e3e49a0253a1e",
+  "incremental_binary_sha256": "f4723c40c6ba1236cc2835c89aa368f06807bf644169f5be803a95bdb18857df",
+  "historical_realtime_failures_preserved": true,
+  "product_path_modified_detail": "Phase36内部の共通化のみ。公開API・品質算術・FIFO・ゲインは維持。増分経路の製品接続なし。",
+  "matrix": [
+    {
+      "suite": "stage1_final",
+      "inputs": 48,
+      "reference_cases": 672,
+      "exact_pcm_sessions": 4704,
+      "matched_rejection_cases": 0
+    },
+    {
+      "suite": "stage2",
+      "inputs": 48,
+      "reference_cases": 15456,
+      "exact_pcm_sessions": 46368,
+      "matched_rejection_cases": 0
+    },
+    {
+      "suite": "long",
+      "inputs": 2,
+      "reference_cases": 36,
+      "exact_pcm_sessions": 48,
+      "matched_rejection_cases": 0
+    },
+    {
+      "suite": "natural",
+      "inputs": 5,
+      "reference_cases": 70,
+      "exact_pcm_sessions": 210,
+      "matched_rejection_cases": 0
+    },
+    {
+      "suite": "rejections",
+      "inputs": 1,
+      "reference_cases": 4,
+      "exact_pcm_sessions": 14,
+      "matched_rejection_cases": 2
+    }
+  ]
+}

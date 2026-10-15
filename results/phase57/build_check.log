@@ -1,0 +1,16 @@
+[ 57%] Built target timestretch_core
+[ 64%] Built target phase56_incremental
+[ 71%] Built target phase24_variable
+[ 85%] Built target phase36_variable
+[ 92%] Built target phase57_synthesis
+[ 92%] Building CXX object CMakeFiles/phase57_check.dir/src/prototype/Phase57Check.cpp.o
+[100%] Linking CXX executable phase57_check
+duplicate symbol 'ts::prototype::synthesis_detail::makeDetection(ts::Phase13TransientAnalysis const&, ts::StretchConfig const&, ts::TimeMap const&)' in:
+    /Users/taro252/Docker/TimeStretchLab/build/libphase57_synthesis.a[2](Phase57ProgressiveSynthesis.cpp.o)
+    /Users/taro252/Docker/TimeStretchLab/build/libphase36_variable.a[5](Phase36StreamingSpeedEngine.cpp.o)
+ld: 1 duplicate symbols
+clang++: error: linker command failed with exit code 1 (use -v to see invocation)
+make[3]: *** [phase57_check] Error 1
+make[2]: *** [CMakeFiles/phase57_check.dir/all] Error 2
+make[1]: *** [CMakeFiles/phase57_check.dir/rule] Error 2
+make: *** [phase57_check] Error 2

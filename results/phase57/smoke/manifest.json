@@ -1,0 +1,41 @@
+{
+  "baseline": "ec087019626d9ff0d9f157245729b74ddb6847d7",
+  "suite": "smoke",
+  "reference": "/Users/taro252/Docker/TimeStretchLab/build/phase57_frozen/reference",
+  "reference_binary_sha256": "461c26d10b0fd8a781cbffcbbab49072f501e02172e2a7c2f26e3e49a0253a1e",
+  "incremental_binary": "/Users/taro252/Docker/TimeStretchLab/build/phase57_check",
+  "incremental_binary_sha256": "aed07d6f2de98ba4e2a9d54d0062a4d10ff7bd3a4c83f8960f4afba3d761418f",
+  "speeds": [
+    400000,
+    1000000,
+    2000000
+  ],
+  "chunks": [
+    "1024",
+    "5003",
+    "irregular"
+  ],
+  "inputs": [
+    {
+      "name": "boundary_3_2_48000",
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase57/smoke/inputs/boundary_3_2_48000.wav",
+      "rate": 48000,
+      "channels": 2,
+      "encoding": 3,
+      "kind": "synthetic boundary",
+      "seconds": 0.5,
+      "input_sha256": "e8770201e2637362ccc6bf1f14d6e9ab8c450110bcea646a502e77bdf0ecb2e0"
+    },
+    {
+      "name": "chain_3_2_48000",
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase57/smoke/inputs/chain_3_2_48000.wav",
+      "rate": 48000,
+      "channels": 2,
+      "encoding": 3,
+      "kind": "synthetic chain",
+      "seconds": 0.5,
+      "input_sha256": "1761cd8f3cbd8229742f039edea41f0d5f32318a39b44a0698aa3c1b6399514f"
+    }
+  ],
+  "started_utc": "2026-10-15T07:47:10Z"
+}

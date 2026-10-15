@@ -1,0 +1,35 @@
+{
+  "driver_source_sha256": "b6582c8be4ea744ec1cbf251de7bd07d3bac986a5ae6ccf826c850abb1fb740a",
+  "baseline": "ec087019626d9ff0d9f157245729b74ddb6847d7",
+  "suite": "rejections",
+  "reference": "/Users/taro252/Docker/TimeStretchLab/build/phase57_frozen/reference",
+  "reference_binary_sha256": "461c26d10b0fd8a781cbffcbbab49072f501e02172e2a7c2f26e3e49a0253a1e",
+  "incremental_binary": "/Users/taro252/Docker/TimeStretchLab/build/phase57_check",
+  "incremental_binary_sha256": "f4723c40c6ba1236cc2835c89aa368f06807bf644169f5be803a95bdb18857df",
+  "speeds": [
+    500000,
+    2000000
+  ],
+  "chunks": [
+    "1024",
+    "7168",
+    "8192",
+    "32768",
+    "131072",
+    "5003",
+    "irregular"
+  ],
+  "inputs": [
+    {
+      "name": "early_impulse",
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase57/rejections/inputs/early_impulse.wav",
+      "rate": 48000,
+      "channels": 1,
+      "encoding": 3,
+      "kind": "synthetic frozen Phase37 rejection",
+      "seconds": 0.6826666666666666,
+      "input_sha256": "c8b5aefa14a7eb253f6f981f75fcf2165848cd7c3fea1e3c7edfe3d8475877d4"
+    }
+  ],
+  "started_utc": "2026-10-15T09:16:12Z"
+}

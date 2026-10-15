@@ -1,0 +1,33 @@
+{
+  "driver_source_sha256": "b6582c8be4ea744ec1cbf251de7bd07d3bac986a5ae6ccf826c850abb1fb740a",
+  "baseline": "ec087019626d9ff0d9f157245729b74ddb6847d7",
+  "suite": "performance",
+  "reference": "/Users/taro252/Docker/TimeStretchLab/build/phase57_frozen/reference_timing",
+  "reference_binary_sha256": "06ab95111fb84dd2283e85b340b591157086e78a4027f18c0bc6a37666ab9653",
+  "incremental_binary": "/Users/taro252/Docker/TimeStretchLab/build/phase57_check",
+  "incremental_binary_sha256": "f4723c40c6ba1236cc2835c89aa368f06807bf644169f5be803a95bdb18857df",
+  "speeds": [
+    500000
+  ],
+  "chunks": [
+    "32768",
+    "131072"
+  ],
+  "inputs": [
+    {
+      "name": "mix_290s",
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase55/input/mix_290_pcm16.wav",
+      "kind": "repeated natural excerpt PCM16 stereo 44.1kHz 290s",
+      "seconds": 290,
+      "input_sha256": "cff073c03e7d93c668eb9625e491a2f34722f90f40c7ed7066441c74cb5ea2de"
+    },
+    {
+      "name": "chain_300s",
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+      "kind": "synthetic event chain float mono 48kHz 300s",
+      "seconds": 300,
+      "input_sha256": "13c957e5c0f5e3d64c4973ac27117930bcc541ac67f4d21459417d8f5a4e0bd0"
+    }
+  ],
+  "started_utc": "2026-10-15T10:21:32Z"
+}
