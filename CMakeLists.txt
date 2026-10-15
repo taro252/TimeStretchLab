@@ -559,3 +559,19 @@ add_executable(phase54_seek_study src/playback/Phase54SeekStudy.cpp src/prototyp
 target_link_libraries(phase54_seek_study PRIVATE playback_engine)
 add_executable(phase54_fade_study src/playback/Phase54FadeStudy.cpp src/prototype/Phase35TransitionEngine.cpp)
 target_link_libraries(phase54_fade_study PRIVATE playback_engine)
+
+# Phase55 experiments are executables only: no new code in playback/DSP libraries.
+add_executable(phase55_analysis_probe src/prototype/Phase55AnalysisProbe.cpp)
+target_link_libraries(phase55_analysis_probe PRIVATE playback_engine)
+target_compile_options(phase55_analysis_probe PRIVATE -Wall -Wextra -Wpedantic)
+add_executable(phase55_startup_study src/prototype/Phase55StartupStudy.cpp)
+target_link_libraries(phase55_startup_study PRIVATE playback_engine)
+target_compile_options(phase55_startup_study PRIVATE -Wall -Wextra -Wpedantic)
+if(BUILD_TESTING)
+    add_executable(phase55_dependency_tests tests/Phase55DependencyTests.cpp)
+    target_link_libraries(phase55_dependency_tests PRIVATE timestretch_core)
+    add_test(NAME phase55_dependency_counterexamples COMMAND phase55_dependency_tests)
+    add_test(NAME phase55_prefix_dependencies COMMAND python3 -B
+        ${CMAKE_SOURCE_DIR}/tests/Phase55Smoke.py $<TARGET_FILE:phase55_analysis_probe>)
+    set_tests_properties(phase55_prefix_dependencies phase55_dependency_counterexamples PROPERTIES LABELS deterministic)
+endif()

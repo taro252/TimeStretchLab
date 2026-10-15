@@ -1,0 +1,55 @@
+{
+  "verdict": "B",
+  "product_adoption": false,
+  "progressive_product_path_changed": false,
+  "scopes": {
+    "short": {
+      "cases": 8,
+      "snapshot_speed_preset_rows": 448,
+      "unique_analysis_snapshots": 32,
+      "PASS": true,
+      "naive_map_counterexamples": 288,
+      "measured_pcm": true,
+      "pcm_comparisons": 448,
+      "partial_pcm_counterexamples": 336,
+      "nonempty_sealed_pcm_matches": 336,
+      "eof_snapshot_rows": 112
+    },
+    "special": {
+      "cases": 3,
+      "snapshot_speed_preset_rows": 168,
+      "unique_analysis_snapshots": 12,
+      "PASS": true,
+      "naive_map_counterexamples": 72,
+      "measured_pcm": true,
+      "pcm_comparisons": 168,
+      "partial_pcm_counterexamples": 78,
+      "nonempty_sealed_pcm_matches": 48,
+      "eof_snapshot_rows": 42
+    },
+    "long": {
+      "cases": 16,
+      "snapshot_speed_preset_rows": 560,
+      "unique_analysis_snapshots": 80,
+      "PASS": true,
+      "naive_map_counterexamples": 324,
+      "measured_pcm": false,
+      "pcm_comparisons": 0,
+      "partial_pcm_counterexamples": null,
+      "nonempty_sealed_pcm_matches": null,
+      "eof_snapshot_rows": 112
+    }
+  },
+  "live_incremental_render_verified": false,
+  "unique_map_comparisons": 868,
+  "pcm_comparisons": 616,
+  "long_track_pcm_verified": false,
+  "progressive_speed_change_verified": false,
+  "progressive_realtime_verified": false,
+  "historical_phase54_realtime_failure_preserved": true,
+  "reason": "閉鎖イベントまでのmapと非空の保守的PCM切り戻し領域は試験範囲で完全一致。固定長部分再生には反例があり、増分処理の全ライフサイクルは未検証。",
+  "golden_pcm_passed": 25,
+  "golden_pcm_total": 25,
+  "protected_audit_passed": true,
+  "current_realtime_ctest_exit": 0
+}

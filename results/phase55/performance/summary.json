@@ -1,0 +1,610 @@
+[
+  {
+    "preset": "candidate",
+    "mode": "sync",
+    "warm_analysis_cache": 0,
+    "n": 5,
+    "dispatch_seconds": {
+      "median": 0.74473025,
+      "maximum": 0.766453541,
+      "population_stddev": 0.011393429058748227
+    },
+    "playable_seconds": {
+      "median": 0.744730417,
+      "maximum": 0.766453958,
+      "population_stddev": 0.011393483202873565
+    },
+    "prepare_seconds": {
+      "median": 0.704932208,
+      "maximum": 0.726123875,
+      "population_stddev": 0.01099841745108901
+    },
+    "analysis_seconds": {
+      "median": 0.679398167,
+      "maximum": 0.689453209,
+      "population_stddev": 0.007330580849956105
+    },
+    "identity_seconds": {
+      "median": 0.025243208,
+      "maximum": 0.038521125,
+      "population_stddev": 0.005312272448315227
+    },
+    "analysis_completed_by_prepare_seconds": {
+      "median": 0.704940792,
+      "maximum": 0.726159625,
+      "population_stddev": 0.01100599459341987
+    },
+    "identity_analysis_stages_seconds": {
+      "median": 0.704641375,
+      "maximum": 0.725884792,
+      "population_stddev": 0.010987950288968384
+    },
+    "first_offline_pull_seconds": {
+      "median": 0.744731917,
+      "maximum": 0.7664555,
+      "population_stddev": 0.011393482283894543
+    },
+    "prefill_seconds": {
+      "median": 0.039001417,
+      "maximum": 0.040277125,
+      "population_stddev": 0.0005829694421485227
+    },
+    "process_cpu_seconds": {
+      "median": 0.744134,
+      "maximum": 0.7613139999999999,
+      "population_stddev": 0.009402334008106705
+    },
+    "peak_rss_bytes": {
+      "median": 18628608,
+      "maximum": 18677760,
+      "population_stddev": 50125.40142642251
+    },
+    "analysis_bytes": {
+      "median": 579995,
+      "maximum": 579995,
+      "population_stddev": 0.0
+    },
+    "cache_resident_bytes": {
+      "median": 579995,
+      "maximum": 579995,
+      "population_stddev": 0.0
+    },
+    "worker_max_seconds": {
+      "median": 0.012492,
+      "maximum": 0.013215666,
+      "population_stddev": 0.00032733453756766923
+    }
+  },
+  {
+    "preset": "candidate",
+    "mode": "sync",
+    "warm_analysis_cache": 1,
+    "n": 5,
+    "dispatch_seconds": {
+      "median": 0.038656125,
+      "maximum": 0.039756042,
+      "population_stddev": 0.00047558671954527916
+    },
+    "playable_seconds": {
+      "median": 0.038656334,
+      "maximum": 0.039756209,
+      "population_stddev": 0.0004755784609355645
+    },
+    "prepare_seconds": {
+      "median": 0.000363792,
+      "maximum": 0.000554416,
+      "population_stddev": 9.641970799665387e-05
+    },
+    "analysis_seconds": {
+      "median": 0,
+      "maximum": 0,
+      "population_stddev": 0.0
+    },
+    "identity_seconds": {
+      "median": 0.00031925,
+      "maximum": 0.000338958,
+      "population_stddev": 4.581080205104468e-05
+    },
+    "analysis_completed_by_prepare_seconds": {
+      "median": 0.00036625,
+      "maximum": 0.000558458,
+      "population_stddev": 9.704155446735176e-05
+    },
+    "identity_analysis_stages_seconds": {
+      "median": 0.00031925,
+      "maximum": 0.000338958,
+      "population_stddev": 4.581080205104468e-05
+    },
+    "first_offline_pull_seconds": {
+      "median": 0.038657584,
+      "maximum": 0.03975775,
+      "population_stddev": 0.00047573726185212804
+    },
+    "prefill_seconds": {
+      "median": 0.038286375,
+      "maximum": 0.039491334,
+      "population_stddev": 0.0004927982097822206
+    },
+    "process_cpu_seconds": {
+      "median": 0.03944000000000003,
+      "maximum": 0.040609999999999924,
+      "population_stddev": 0.0005108956840686448
+    },
+    "peak_rss_bytes": {
+      "median": 18874368,
+      "maximum": 19480576,
+      "population_stddev": 254115.78718245742
+    },
+    "analysis_bytes": {
+      "median": 579995,
+      "maximum": 579995,
+      "population_stddev": 0.0
+    },
+    "cache_resident_bytes": {
+      "median": 579995,
+      "maximum": 579995,
+      "population_stddev": 0.0
+    },
+    "worker_max_seconds": {
+      "median": 0.011927167,
+      "maximum": 0.012086208,
+      "population_stddev": 9.429247156883713e-05
+    }
+  },
+  {
+    "preset": "candidate",
+    "mode": "async",
+    "warm_analysis_cache": 0,
+    "n": 5,
+    "dispatch_seconds": {
+      "median": 1.2875e-05,
+      "maximum": 1.3875e-05,
+      "population_stddev": 1.820046416990512e-06
+    },
+    "playable_seconds": {
+      "median": 0.7386125,
+      "maximum": 0.744325625,
+      "population_stddev": 0.0032786290679184715
+    },
+    "prepare_seconds": {
+      "median": 0.699636292,
+      "maximum": 0.70542375,
+      "population_stddev": 0.0033712297653769176
+    },
+    "analysis_seconds": {
+      "median": 0.673500375,
+      "maximum": 0.67996825,
+      "population_stddev": 0.003447521617665713
+    },
+    "identity_seconds": {
+      "median": 0.025630375,
+      "maximum": 0.025921,
+      "population_stddev": 0.00028302868943723636
+    },
+    "analysis_completed_by_prepare_seconds": {
+      "median": 0.699653792,
+      "maximum": 0.705458292,
+      "population_stddev": 0.0033728952853906004
+    },
+    "identity_analysis_stages_seconds": {
+      "median": 0.699421375,
+      "maximum": 0.7051503330000001,
+      "population_stddev": 0.003368678544875724
+    },
+    "first_offline_pull_seconds": {
+      "median": 0.738614042,
+      "maximum": 0.744327333,
+      "population_stddev": 0.0032786125098429922
+    },
+    "prefill_seconds": {
+      "median": 0.038899167,
+      "maximum": 0.039152958,
+      "population_stddev": 0.00013651910966806089
+    },
+    "process_cpu_seconds": {
+      "median": 0.739235,
+      "maximum": 0.744582,
+      "population_stddev": 0.0029798146519540596
+    },
+    "peak_rss_bytes": {
+      "median": 18644992,
+      "maximum": 18726912,
+      "population_stddev": 34367.36833683953
+    },
+    "analysis_bytes": {
+      "median": 579995,
+      "maximum": 579995,
+      "population_stddev": 0.0
+    },
+    "cache_resident_bytes": {
+      "median": 579995,
+      "maximum": 579995,
+      "population_stddev": 0.0
+    },
+    "worker_max_seconds": {
+      "median": 0.012337208,
+      "maximum": 0.012664917,
+      "population_stddev": 0.00013437024709570168
+    }
+  },
+  {
+    "preset": "candidate",
+    "mode": "async",
+    "warm_analysis_cache": 1,
+    "n": 5,
+    "dispatch_seconds": {
+      "median": 1.475e-05,
+      "maximum": 1.7083e-05,
+      "population_stddev": 1.1749458881157034e-06
+    },
+    "playable_seconds": {
+      "median": 0.038607916,
+      "maximum": 0.038940334,
+      "population_stddev": 0.00014897297046108832
+    },
+    "prepare_seconds": {
+      "median": 0.000353708,
+      "maximum": 0.000381834,
+      "population_stddev": 1.9028416329269224e-05
+    },
+    "analysis_seconds": {
+      "median": 0,
+      "maximum": 0,
+      "population_stddev": 0.0
+    },
+    "identity_seconds": {
+      "median": 0.000305083,
+      "maximum": 0.000336375,
+      "population_stddev": 1.7418332234746236e-05
+    },
+    "analysis_completed_by_prepare_seconds": {
+      "median": 0.00037325,
+      "maximum": 0.000403083,
+      "population_stddev": 1.9860932898532238e-05
+    },
+    "identity_analysis_stages_seconds": {
+      "median": 0.000305083,
+      "maximum": 0.000336375,
+      "population_stddev": 1.7418332234746236e-05
+    },
+    "first_offline_pull_seconds": {
+      "median": 0.038609583,
+      "maximum": 0.038941542,
+      "population_stddev": 0.00014895230989628858
+    },
+    "prefill_seconds": {
+      "median": 0.038245041,
+      "maximum": 0.038533083,
+      "population_stddev": 0.00014244232638004924
+    },
+    "process_cpu_seconds": {
+      "median": 0.03943300000000005,
+      "maximum": 0.03977299999999995,
+      "population_stddev": 0.00016953701660698045
+    },
+    "peak_rss_bytes": {
+      "median": 18841600,
+      "maximum": 18874368,
+      "population_stddev": 33736.7208459862
+    },
+    "analysis_bytes": {
+      "median": 579995,
+      "maximum": 579995,
+      "population_stddev": 0.0
+    },
+    "cache_resident_bytes": {
+      "median": 579995,
+      "maximum": 579995,
+      "population_stddev": 0.0
+    },
+    "worker_max_seconds": {
+      "median": 0.011815584,
+      "maximum": 0.01201225,
+      "population_stddev": 9.389966066179376e-05
+    }
+  },
+  {
+    "preset": "baseline",
+    "mode": "sync",
+    "warm_analysis_cache": 0,
+    "n": 5,
+    "dispatch_seconds": {
+      "median": 0.738479875,
+      "maximum": 0.752985792,
+      "population_stddev": 0.008904560575218079
+    },
+    "playable_seconds": {
+      "median": 0.738480208,
+      "maximum": 0.752985958,
+      "population_stddev": 0.008904522950299922
+    },
+    "prepare_seconds": {
+      "median": 0.706229875,
+      "maximum": 0.718331458,
+      "population_stddev": 0.008222572853653118
+    },
+    "analysis_seconds": {
+      "median": 0.680351458,
+      "maximum": 0.692823458,
+      "population_stddev": 0.008337149278306321
+    },
+    "identity_seconds": {
+      "median": 0.02530975,
+      "maximum": 0.025841959,
+      "population_stddev": 0.00023575446397589234
+    },
+    "analysis_completed_by_prepare_seconds": {
+      "median": 0.706238833,
+      "maximum": 0.718345542,
+      "population_stddev": 0.008223666006206578
+    },
+    "identity_analysis_stages_seconds": {
+      "median": 0.705947083,
+      "maximum": 0.718085416,
+      "population_stddev": 0.008246719834551821
+    },
+    "first_offline_pull_seconds": {
+      "median": 0.738481625,
+      "maximum": 0.752987875,
+      "population_stddev": 0.008904723368777522
+    },
+    "prefill_seconds": {
+      "median": 0.032305375,
+      "maximum": 0.034631625,
+      "population_stddev": 0.0009201067966625178
+    },
+    "process_cpu_seconds": {
+      "median": 0.7380859999999999,
+      "maximum": 0.7520699999999999,
+      "population_stddev": 0.008492251965173867
+    },
+    "peak_rss_bytes": {
+      "median": 18595840,
+      "maximum": 18612224,
+      "population_stddev": 17947.772764329282
+    },
+    "analysis_bytes": {
+      "median": 579995,
+      "maximum": 579995,
+      "population_stddev": 0.0
+    },
+    "cache_resident_bytes": {
+      "median": 579995,
+      "maximum": 579995,
+      "population_stddev": 0.0
+    },
+    "worker_max_seconds": {
+      "median": 0.012416916,
+      "maximum": 0.012920958,
+      "population_stddev": 0.00021479172952010967
+    }
+  },
+  {
+    "preset": "baseline",
+    "mode": "sync",
+    "warm_analysis_cache": 1,
+    "n": 5,
+    "dispatch_seconds": {
+      "median": 0.032213667,
+      "maximum": 0.033967291,
+      "population_stddev": 0.0007663613713024413
+    },
+    "playable_seconds": {
+      "median": 0.032213833,
+      "maximum": 0.033967458,
+      "population_stddev": 0.00076635696440951
+    },
+    "prepare_seconds": {
+      "median": 0.00034625,
+      "maximum": 0.00042,
+      "population_stddev": 3.101590452396965e-05
+    },
+    "analysis_seconds": {
+      "median": 0,
+      "maximum": 0,
+      "population_stddev": 0.0
+    },
+    "identity_seconds": {
+      "median": 0.000303,
+      "maximum": 0.000343458,
+      "population_stddev": 1.8305922479897047e-05
+    },
+    "analysis_completed_by_prepare_seconds": {
+      "median": 0.0003485,
+      "maximum": 0.000423375,
+      "population_stddev": 3.1237137352836915e-05
+    },
+    "identity_analysis_stages_seconds": {
+      "median": 0.000303,
+      "maximum": 0.000343458,
+      "population_stddev": 1.8305922479897047e-05
+    },
+    "first_offline_pull_seconds": {
+      "median": 0.032215,
+      "maximum": 0.033969958,
+      "population_stddev": 0.0007668188241806806
+    },
+    "prefill_seconds": {
+      "median": 0.031874917,
+      "maximum": 0.033537375,
+      "population_stddev": 0.0007358592601329146
+    },
+    "process_cpu_seconds": {
+      "median": 0.032810000000000006,
+      "maximum": 0.03460799999999997,
+      "population_stddev": 0.000772549700666547
+    },
+    "peak_rss_bytes": {
+      "median": 18841600,
+      "maximum": 18874368,
+      "population_stddev": 32105.95195660767
+    },
+    "analysis_bytes": {
+      "median": 579995,
+      "maximum": 579995,
+      "population_stddev": 0.0
+    },
+    "cache_resident_bytes": {
+      "median": 579995,
+      "maximum": 579995,
+      "population_stddev": 0.0
+    },
+    "worker_max_seconds": {
+      "median": 0.011808834,
+      "maximum": 0.012788542,
+      "population_stddev": 0.0003951300498010242
+    }
+  },
+  {
+    "preset": "baseline",
+    "mode": "async",
+    "warm_analysis_cache": 0,
+    "n": 5,
+    "dispatch_seconds": {
+      "median": 1.075e-05,
+      "maximum": 1.4834e-05,
+      "population_stddev": 2.253178785627097e-06
+    },
+    "playable_seconds": {
+      "median": 0.737151042,
+      "maximum": 0.738482792,
+      "population_stddev": 0.0022177633546170516
+    },
+    "prepare_seconds": {
+      "median": 0.704832708,
+      "maximum": 0.705837208,
+      "population_stddev": 0.002138961172495233
+    },
+    "analysis_seconds": {
+      "median": 0.679147208,
+      "maximum": 0.680417125,
+      "population_stddev": 0.0020929730941579446
+    },
+    "identity_seconds": {
+      "median": 0.025249625,
+      "maximum": 0.026216625,
+      "population_stddev": 0.0003927122123416078
+    },
+    "analysis_completed_by_prepare_seconds": {
+      "median": 0.704855042,
+      "maximum": 0.705863458,
+      "population_stddev": 0.00213392313539981
+    },
+    "identity_analysis_stages_seconds": {
+      "median": 0.704595542,
+      "maximum": 0.70564025,
+      "population_stddev": 0.002145271269491262
+    },
+    "first_offline_pull_seconds": {
+      "median": 0.737152417,
+      "maximum": 0.738484542,
+      "population_stddev": 0.002217646782535273
+    },
+    "prefill_seconds": {
+      "median": 0.032377208,
+      "maximum": 0.032601833,
+      "population_stddev": 0.00012644739759662792
+    },
+    "process_cpu_seconds": {
+      "median": 0.7370889999999999,
+      "maximum": 0.737332,
+      "population_stddev": 0.0018516363141826441
+    },
+    "peak_rss_bytes": {
+      "median": 18612224,
+      "maximum": 18661376,
+      "population_stddev": 31769.754713563652
+    },
+    "analysis_bytes": {
+      "median": 579995,
+      "maximum": 579995,
+      "population_stddev": 0.0
+    },
+    "cache_resident_bytes": {
+      "median": 579995,
+      "maximum": 579995,
+      "population_stddev": 0.0
+    },
+    "worker_max_seconds": {
+      "median": 0.01242875,
+      "maximum": 0.012579208,
+      "population_stddev": 8.009314185521724e-05
+    }
+  },
+  {
+    "preset": "baseline",
+    "mode": "async",
+    "warm_analysis_cache": 1,
+    "n": 5,
+    "dispatch_seconds": {
+      "median": 1.575e-05,
+      "maximum": 1.675e-05,
+      "population_stddev": 9.278230434732693e-07
+    },
+    "playable_seconds": {
+      "median": 0.032054458,
+      "maximum": 0.03257525,
+      "population_stddev": 0.00024299208401394446
+    },
+    "prepare_seconds": {
+      "median": 0.000343333,
+      "maximum": 0.000379,
+      "population_stddev": 4.779740813642514e-05
+    },
+    "analysis_seconds": {
+      "median": 0,
+      "maximum": 0,
+      "population_stddev": 0.0
+    },
+    "identity_seconds": {
+      "median": 0.000299916,
+      "maximum": 0.000335333,
+      "population_stddev": 4.749926196226632e-05
+    },
+    "analysis_completed_by_prepare_seconds": {
+      "median": 0.000362125,
+      "maximum": 0.000398417,
+      "population_stddev": 4.8062353436343494e-05
+    },
+    "identity_analysis_stages_seconds": {
+      "median": 0.000299916,
+      "maximum": 0.000335333,
+      "population_stddev": 4.749926196226632e-05
+    },
+    "first_offline_pull_seconds": {
+      "median": 0.032056208,
+      "maximum": 0.032578083,
+      "population_stddev": 0.00024074933325182951
+    },
+    "prefill_seconds": {
+      "median": 0.031780042,
+      "maximum": 0.032174334,
+      "population_stddev": 0.00021973246871102089
+    },
+    "process_cpu_seconds": {
+      "median": 0.03278800000000004,
+      "maximum": 0.03321700000000005,
+      "population_stddev": 0.0002120647071061206
+    },
+    "peak_rss_bytes": {
+      "median": 18825216,
+      "maximum": 18939904,
+      "population_stddev": 50339.15677323171
+    },
+    "analysis_bytes": {
+      "median": 579995,
+      "maximum": 579995,
+      "population_stddev": 0.0
+    },
+    "cache_resident_bytes": {
+      "median": 579995,
+      "maximum": 579995,
+      "population_stddev": 0.0
+    },
+    "worker_max_seconds": {
+      "median": 0.01181975,
+      "maximum": 0.011935042,
+      "population_stddev": 4.985082357594511e-05
+    }
+  }
+]

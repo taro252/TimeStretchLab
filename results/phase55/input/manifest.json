@@ -1,0 +1,12 @@
+{
+  "path": "results/phase55/input/mix_290_pcm16.wav",
+  "source": "results/phase31/input/mix.wav",
+  "source_sha256": "789d4c159e35b4c133a17913ad5a9c47b85970185e5d86b074d146afc1bb311e",
+  "sha256": "cff073c03e7d93c668eb9625e491a2f34722f90f40c7ed7066441c74cb5ea2de",
+  "seconds": 290,
+  "channels": 2,
+  "rate": 44100,
+  "encoding": 1,
+  "recipe": "repeat source float32 samples after round(sample * 0.25 * 32767) PCM16 quantization; no clipping",
+  "natural_290_second_recording": false
+}

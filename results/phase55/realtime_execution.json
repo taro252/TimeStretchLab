@@ -1,0 +1,35 @@
+{
+  "configure_realtime": {
+    "command": [
+      "cmake",
+      "-S",
+      ".",
+      "-B",
+      "build",
+      "-DTIMESTRETCH_ENABLE_REALTIME_TESTS=ON"
+    ],
+    "exit": 0
+  },
+  "ctest_realtime": {
+    "command": [
+      "ctest",
+      "--test-dir",
+      "build",
+      "-L",
+      "realtime",
+      "--output-on-failure"
+    ],
+    "exit": 0
+  },
+  "restore_deterministic": {
+    "command": [
+      "cmake",
+      "-S",
+      ".",
+      "-B",
+      "build",
+      "-DTIMESTRETCH_ENABLE_REALTIME_TESTS=OFF"
+    ],
+    "exit": 0
+  }
+}
