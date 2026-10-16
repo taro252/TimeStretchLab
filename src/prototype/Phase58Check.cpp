@@ -6,9 +6,16 @@
 #include <sys/resource.h>
 using namespace ts::prototype;
 int main(int argc,char** argv){try{
-    if(argc!=8)throw std::invalid_argument("input speed_micros preset reference.f32 frames sha chunk");
+    if(argc<8)throw std::invalid_argument("input speed_micros preset reference.f32 frames sha chunk [--worker=workgroup --resident-input=on]");
     phase58::Configuration config;config.speedMicros=std::stoul(argv[2]);const std::string preset=argv[3];
     if(preset!="candidate"&&preset!="baseline")throw std::invalid_argument("preset");config.candidate=preset=="candidate";config.analysisChunk=std::stoul(argv[7]);
+    for(int i=8;i<argc;++i){const std::string flag=argv[i];
+        if(flag=="--worker=workgroup")config.scheduling=phase58::WorkerScheduling::AudioWorkgroup;
+        else if(flag=="--worker=standard")config.scheduling=phase58::WorkerScheduling::Standard;
+        else if(flag=="--resident-input=on")config.residentInput=true;
+        else if(flag=="--resident-input=off")config.residentInput=false;
+        else throw std::invalid_argument("Unknown verification option: "+flag);
+    }
     phase58::RealtimePipeline engine(argv[1],config);std::ifstream ref(argv[4],std::ios::binary);if(!ref)throw std::runtime_error("Missing independent raw reference");
     std::array<std::vector<float>,2> data;std::array<float*,2> p{};for(std::size_t c=0;c<engine.channels();++c){data[c].resize(4096);p[c]=data[c].data();}
     std::vector<float> packed(4096*engine.channels());Phase45PcmDigest hash;std::size_t frames=0,iteration=0;

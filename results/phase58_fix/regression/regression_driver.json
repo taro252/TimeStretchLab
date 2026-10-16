@@ -1,0 +1,42 @@
+[
+  {
+    "name": "release_configure",
+    "command": [
+      "cmake",
+      "-S",
+      ".",
+      "-B",
+      "build",
+      "-DCMAKE_BUILD_TYPE=Release",
+      "-DCMAKE_OSX_ARCHITECTURES=arm64",
+      "-DTIMESTRETCH_ENABLE_REALTIME_TESTS=ON"
+    ],
+    "exit": 0,
+    "wall_s": 2.803205966949463,
+    "started_utc": "2026-10-16T04:02:38Z"
+  },
+  {
+    "name": "release_all_build",
+    "command": [
+      "cmake",
+      "--build",
+      "build",
+      "-j3"
+    ],
+    "exit": 0,
+    "wall_s": 120.44237613677979,
+    "started_utc": "2026-10-16T04:02:41Z"
+  },
+  {
+    "name": "ready_stress",
+    "command": [
+      "python3",
+      "scripts/phase58_ready_stress.py",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58_fix/regression/ready_stress"
+    ],
+    "exit": 0,
+    "wall_s": 59.99959588050842,
+    "started_utc": "2026-10-16T04:04:42Z"
+  }
+]

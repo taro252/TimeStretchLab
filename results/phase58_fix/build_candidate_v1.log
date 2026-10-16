@@ -1,0 +1,79 @@
+-- Configuring done (0.5s)
+-- Generating done (1.0s)
+-- Build files have been written to: /Users/taro252/Docker/TimeStretchLab/build
+[ 61%] Built target timestretch_core
+[ 69%] Built target phase56_incremental
+[ 76%] Built target phase24_variable
+[ 84%] Built target phase36_variable
+[ 92%] Built target phase57_synthesis
+[ 92%] Building CXX object CMakeFiles/phase58_realtime.dir/src/prototype/Phase58RealtimePipeline.cpp.o
+[ 92%] Building CXX object CMakeFiles/phase58_realtime.dir/src/prototype/Phase58FixRealtimeWorker.cpp.o
+[100%] Linking CXX static library libphase58_realtime.a
+[100%] Built target phase58_realtime
+[100%] Building OBJCXX object CMakeFiles/phase58_native.dir/src/prototype/Phase58Native.mm.o
+[100%] Linking CXX executable phase58_native
+[100%] Built target phase58_native
+[ 57%] Built target timestretch_core
+[ 64%] Built target phase56_incremental
+[ 71%] Built target phase24_variable
+[ 78%] Built target phase36_variable
+[ 85%] Built target phase57_synthesis
+[ 92%] Built target phase58_realtime
+[100%] Building CXX object CMakeFiles/phase58_check.dir/src/prototype/Phase58Check.cpp.o
+[100%] Linking CXX executable phase58_check
+[100%] Built target phase58_check
+[ 61%] Built target timestretch_core
+[ 69%] Built target phase56_incremental
+[ 76%] Built target phase24_variable
+[ 84%] Built target phase36_variable
+[ 92%] Built target phase57_synthesis
+[100%] Built target phase58_realtime
+[100%] Building CXX object CMakeFiles/phase58_tests.dir/tests/Phase58Tests.cpp.o
+[100%] Linking CXX executable phase58_tests
+[100%] Built target phase58_tests
+[ 57%] Built target timestretch_core
+[ 64%] Built target phase56_incremental
+[ 71%] Built target phase24_variable
+[ 78%] Built target phase36_variable
+[ 85%] Built target phase57_synthesis
+[ 92%] Built target phase58_realtime
+[ 92%] Building CXX object CMakeFiles/phase58_fix_tests.dir/tests/Phase58FixTests.cpp.o
+[100%] Linking CXX executable phase58_fix_tests
+[100%] Built target phase58_fix_tests
+[ 61%] Built target timestretch_core
+[ 76%] Built target phase56_incremental
+[ 76%] Built target phase24_variable
+[ 84%] Built target phase36_variable
+[ 92%] Built target phase57_synthesis
+[100%] Built target phase58_realtime
+[100%] Linking CXX executable phase58_fix_mailbox_tests
+[100%] Built target phase58_fix_mailbox_tests
+[ 61%] Built target timestretch_core
+[ 69%] Built target phase56_incremental
+[ 76%] Built target phase24_variable
+[ 84%] Built target phase36_variable
+[ 92%] Built target phase57_synthesis
+[100%] Built target phase58_realtime
+[100%] Building CXX object CMakeFiles/phase58_fix_worker_tests.dir/tests/Phase58FixWorkerTests.cpp.o
+[100%] Linking CXX executable phase58_fix_worker_tests
+[100%] Built target phase58_fix_worker_tests
+Test project /Users/taro252/Docker/TimeStretchLab/build
+    Start 83: phase58_state_safety
+1/6 Test #83: phase58_state_safety .............   Passed    1.12 sec
+    Start 84: phase58_fifo_pcm
+2/6 Test #84: phase58_fifo_pcm .................   Passed    5.10 sec
+    Start 85: phase58_fix_diagnostics
+3/6 Test #85: phase58_fix_diagnostics ..........   Passed    0.69 sec
+    Start 86: phase58_fix_trace_analysis
+4/6 Test #86: phase58_fix_trace_analysis .......   Passed    0.24 sec
+    Start 87: phase58_fix_mailbox
+5/6 Test #87: phase58_fix_mailbox ..............   Passed    0.37 sec
+    Start 88: phase58_fix_worker_lifecycle
+6/6 Test #88: phase58_fix_worker_lifecycle .....   Passed    0.36 sec
+
+100% tests passed, 0 tests failed out of 6
+
+Label Time Summary:
+deterministic    =   7.89 sec*proc (6 tests)
+
+Total Test time (real) =   7.91 sec

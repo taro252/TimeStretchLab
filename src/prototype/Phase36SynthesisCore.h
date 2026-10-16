@@ -40,17 +40,23 @@ struct StageClock {
     std::size_t stage;
     std::chrono::steady_clock::time_point wall;
     double cpu;
+    std::size_t scope;
     bool finished=false;
-    StageClock(WorkProfile* target,std::size_t index)
+    StageClock(WorkProfile* target,std::size_t index,std::size_t source=3)
         : profile(target),stage(index),wall(target ? std::chrono::steady_clock::now() :
-          std::chrono::steady_clock::time_point{}),cpu(target ? threadCpuNow() : 0) {}
+          std::chrono::steady_clock::time_point{}),cpu(target ? threadCpuNow() : 0),scope(source) {
+        if(profile&&profile->observer)profile->observer(profile->observerContext,stage,scope,true,
+            std::chrono::duration_cast<std::chrono::nanoseconds>(wall.time_since_epoch()).count(),cpu);
+    }
     void finish() {
         if (!profile || finished) return;
         finished=true;
+        const auto end=std::chrono::steady_clock::now();const auto endCpu=threadCpuNow();
         auto& item=profile->stages[stage];
-        item.wallSeconds+=std::chrono::duration<double>(
-            std::chrono::steady_clock::now()-wall).count();
-        item.threadCpuSeconds+=threadCpuNow()-cpu;
+        item.wallSeconds+=std::chrono::duration<double>(end-wall).count();
+        item.threadCpuSeconds+=endCpu-cpu;
+        if(profile->observer)profile->observer(profile->observerContext,stage,scope,false,
+            std::chrono::duration_cast<std::chrono::nanoseconds>(end.time_since_epoch()).count(),endCpu);
     }
     ~StageClock() { finish(); }
 };
@@ -191,8 +197,8 @@ public:
                      Phase13StageDigests& digests,
                      std::size_t resolutionIndex,std::ostream* stageTrace,
                      std::size_t probeInputSample,WorkProfile* profile,
-                     bool recordFrameHistory)
-        : reader_(path), config_(config), detection_(detection), mid_(mid),
+                     bool recordFrameHistory,std::span<const unsigned char> pinnedBytes={})
+        : reader_(path,pinnedBytes), config_(config), detection_(detection), mid_(mid),
           fftSize_(fftSize), hop_(hop), padding_(fftSize/2),
           length_(reader_.frames()), outputLength_(outputLength),
           modeChanges_(modeChanges),
@@ -271,13 +277,13 @@ private:
     void analyze(std::size_t channel,std::size_t frameIndex) {
         (void)frameIndex;
         const auto start=position_;
-        { StageClock measure(profile_,0);
+        { StageClock measure(profile_,0,resolutionIndex_);
         for (std::size_t i=0; i<fftSize_; ++i) {
             const auto padded=start+i;
             frame_[i]=padded>=padding_ && padded-padding_<length_
                 ? reader_.sample(channel,padded-padding_) : 0.0f;
         } }
-        { StageClock measure(profile_,1);
+        { StageClock measure(profile_,1,resolutionIndex_);
           stft_.analyze(frame_.data(),inputSpectra_[channel].data()); }
         hashSpectrum(digests_.fft[resolutionIndex_], inputSpectra_[channel]);
     }
@@ -315,7 +321,7 @@ private:
         const int actualAnalysisHop=nextFrame_ ?
             static_cast<int>(position_-lastProcessed_) : hop_;
         for (std::size_t c=0; c<reader_.channels(); ++c) analyze(c,nextFrame_);
-        StageClock phaseMeasure(profile_,2);
+        StageClock phaseMeasure(profile_,2,resolutionIndex_);
         const bool shared=reader_.channels()==2 &&
             (config_.enableStereoCoherence || tracker_ || resynchronizer_);
         if (shared) {
@@ -377,7 +383,7 @@ private:
         }
         phaseMeasure.finish();
         for (std::size_t c=0; c<reader_.channels(); ++c) {
-            StageClock synthesisMeasure(profile_,3);
+            StageClock synthesisMeasure(profile_,3,resolutionIndex_);
             hashSpectrum(digests_.phase[resolutionIndex_], outputSpectra_[c]);
             stft_.synthesize(outputSpectra_[c].data(),synthesized_.data());
             for (const auto sample : synthesized_) hashFloat(digests_.ifft[resolutionIndex_], sample);

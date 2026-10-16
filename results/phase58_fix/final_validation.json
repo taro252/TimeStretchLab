@@ -1,0 +1,230 @@
+[
+  {
+    "name": "v3_trace3_analysis",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase58_fix_trace_analyze.py",
+      "--trace",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase58_fix_frozen/v3_trace3.trace",
+      "--sessions",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58_fix/v3_trace3/sessions",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58_fix/v3_trace3_analysis"
+    ],
+    "exit": 0,
+    "elapsed_s": 37.860109250003006,
+    "binary_sha256": "daacdb21463fd2ebe002109758db7d6109d24a6925cae17b2476f53296213e7a",
+    "end_utc": "2026-10-16T04:11:09.470547+00:00"
+  },
+  {
+    "name": "v3_normal300",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase58_fix_repeat.py",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58_fix/v3_normal300",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase58_fix_frozen/candidate_v3_native",
+      "--repeats",
+      "300",
+      "--extra=--worker=workgroup",
+      "--extra=--resident-input=on",
+      "--extra=--profile=block",
+      "--extra=--sample-thread=on"
+    ],
+    "exit": 0,
+    "elapsed_s": 683.6564816250175,
+    "binary_sha256": "daacdb21463fd2ebe002109758db7d6109d24a6925cae17b2476f53296213e7a",
+    "end_utc": "2026-10-16T04:22:33.463707+00:00"
+  },
+  {
+    "name": "v3_cpu100",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase58_fix_repeat.py",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58_fix/v3_cpu100",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase58_fix_frozen/candidate_v3_native",
+      "--repeats",
+      "100",
+      "--extra=--worker=workgroup",
+      "--extra=--resident-input=on",
+      "--cpu",
+      "2",
+      "--memory",
+      "128",
+      "--extra=--profile=block",
+      "--extra=--sample-thread=on"
+    ],
+    "exit": 0,
+    "elapsed_s": 229.0114845839853,
+    "binary_sha256": "daacdb21463fd2ebe002109758db7d6109d24a6925cae17b2476f53296213e7a",
+    "end_utc": "2026-10-16T04:26:22.490539+00:00"
+  },
+  {
+    "name": "v3_profile_off20",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase58_fix_repeat.py",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58_fix/v3_profile_off20",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase58_fix_frozen/candidate_v3_native",
+      "--repeats",
+      "20",
+      "--extra=--worker=workgroup",
+      "--extra=--resident-input=on",
+      "--extra=--profile=off",
+      "--extra=--sample-thread=off"
+    ],
+    "exit": 0,
+    "elapsed_s": 46.12488554100855,
+    "binary_sha256": "daacdb21463fd2ebe002109758db7d6109d24a6925cae17b2476f53296213e7a",
+    "end_utc": "2026-10-16T04:27:08.621172+00:00"
+  },
+  {
+    "name": "v3_grid",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase58_fix_native_validation.py",
+      "--suite",
+      "grid",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58_fix/v3_grid",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase58_fix_frozen/candidate_v3_native"
+    ],
+    "exit": 0,
+    "elapsed_s": 568.9342384159972,
+    "binary_sha256": "daacdb21463fd2ebe002109758db7d6109d24a6925cae17b2476f53296213e7a",
+    "end_utc": "2026-10-16T04:36:37.530337+00:00"
+  },
+  {
+    "name": "v3_lifecycle_load",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase58_fix_native_validation.py",
+      "--suite",
+      "lifecycle_load",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58_fix/v3_lifecycle_load",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase58_fix_frozen/candidate_v3_native"
+    ],
+    "exit": 0,
+    "elapsed_s": 237.65035508401343,
+    "binary_sha256": "daacdb21463fd2ebe002109758db7d6109d24a6925cae17b2476f53296213e7a",
+    "end_utc": "2026-10-16T04:40:35.186067+00:00"
+  },
+  {
+    "name": "v3_long",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase58_fix_native_validation.py",
+      "--suite",
+      "long",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58_fix/v3_long",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase58_fix_frozen/candidate_v3_native"
+    ],
+    "exit": 0,
+    "elapsed_s": 1082.4090884169855,
+    "binary_sha256": "daacdb21463fd2ebe002109758db7d6109d24a6925cae17b2476f53296213e7a",
+    "end_utc": "2026-10-16T04:58:37.602049+00:00"
+  },
+  {
+    "name": "v3_startup",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase58_fix_native_validation.py",
+      "--suite",
+      "startup",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58_fix/v3_startup",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase58_fix_frozen/candidate_v3_native"
+    ],
+    "exit": 0,
+    "elapsed_s": 301.72792491700966,
+    "binary_sha256": "daacdb21463fd2ebe002109758db7d6109d24a6925cae17b2476f53296213e7a",
+    "end_utc": "2026-10-16T05:03:39.335341+00:00"
+  },
+  {
+    "name": "v3_regression",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase58_fix_regression.py",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58_fix/regression_v3"
+    ],
+    "exit": 0,
+    "elapsed_s": 5104.215256791998,
+    "binary_sha256": "daacdb21463fd2ebe002109758db7d6109d24a6925cae17b2476f53296213e7a",
+    "end_utc": "2026-10-16T06:28:43.870540+00:00"
+  },
+  {
+    "name": "legacy_device",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase58_fix_legacy_device.py"
+    ],
+    "exit": 0,
+    "elapsed_s": 86.09869858401362,
+    "binary_sha256": "daacdb21463fd2ebe002109758db7d6109d24a6925cae17b2476f53296213e7a",
+    "end_utc": "2026-10-16T06:30:10.171913+00:00"
+  },
+  {
+    "name": "legacy_realtime_ctest",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "build",
+      "-L",
+      "realtime",
+      "--output-on-failure",
+      "-j1"
+    ],
+    "exit": 0,
+    "elapsed_s": 59.738679415982915,
+    "binary_sha256": "daacdb21463fd2ebe002109758db7d6109d24a6925cae17b2476f53296213e7a",
+    "end_utc": "2026-10-16T06:31:09.916263+00:00"
+  },
+  {
+    "name": "native_statistics",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase58_fix_statistics.py"
+    ],
+    "exit": 0,
+    "elapsed_s": 24.273862749978434,
+    "binary_sha256": "daacdb21463fd2ebe002109758db7d6109d24a6925cae17b2476f53296213e7a",
+    "end_utc": "2026-10-16T06:31:34.194182+00:00"
+  },
+  {
+    "name": "measurement_audit",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase58_fix_measurement_audit.py",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58_fix/measurement_audit.json"
+    ],
+    "exit": 0,
+    "elapsed_s": 9.199876041006064,
+    "binary_sha256": "daacdb21463fd2ebe002109758db7d6109d24a6925cae17b2476f53296213e7a",
+    "end_utc": "2026-10-16T06:31:43.398139+00:00"
+  }
+]

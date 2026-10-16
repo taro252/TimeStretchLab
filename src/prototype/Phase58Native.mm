@@ -3,6 +3,7 @@
 #include "prototype/Phase58Diagnostics.h"
 #include "prototype/Phase46HostClock.h"
 #include "prototype/Phase45PcmDigest.h"
+#include "prototype/Phase58FixAllocationProbe.h"
 #include "audio/WavStream.h"
 #include <mach/mach_time.h>
 #include <bit>
@@ -14,11 +15,11 @@
 // Verification executable only: all C++ allocation entry points are counted.
 thread_local bool phase58InCallback=false;
 std::atomic<std::uint64_t> phase58Allocations{0};
-void* operator new(std::size_t n){if(phase58InCallback)++phase58Allocations;if(auto p=std::malloc(n?n:1))return p;throw std::bad_alloc();}
+void* operator new(std::size_t n){ts::prototype::phase58::noteDspAllocation();if(phase58InCallback)++phase58Allocations;if(auto p=std::malloc(n?n:1))return p;throw std::bad_alloc();}
 void* operator new[](std::size_t n){return ::operator new(n);}
 void operator delete(void* p)noexcept{std::free(p);}void operator delete[](void* p)noexcept{std::free(p);}
 void operator delete(void* p,std::size_t)noexcept{std::free(p);}void operator delete[](void* p,std::size_t)noexcept{std::free(p);}
-void* operator new(std::size_t n,std::align_val_t a){if(phase58InCallback)++phase58Allocations;void* p=nullptr;if(posix_memalign(&p,std::size_t(a),n?n:1))throw std::bad_alloc();return p;}
+void* operator new(std::size_t n,std::align_val_t a){ts::prototype::phase58::noteDspAllocation();if(phase58InCallback)++phase58Allocations;void* p=nullptr;if(posix_memalign(&p,std::size_t(a),n?n:1))throw std::bad_alloc();return p;}
 void* operator new[](std::size_t n,std::align_val_t a){return ::operator new(n,a);}
 void operator delete(void* p,std::align_val_t)noexcept{std::free(p);}void operator delete[](void* p,std::align_val_t)noexcept{std::free(p);}
 void operator delete(void* p,std::size_t,std::align_val_t)noexcept{std::free(p);}void operator delete[](void* p,std::size_t,std::align_val_t)noexcept{std::free(p);}
@@ -79,6 +80,7 @@ struct OutputLifetime {
     Context* context;AVAudioEngine* audio=nil;AVAudioSourceNode* source=nil;id observer=nil;
     explicit OutputLifetime(Context* c):context(c){}
     void stop(){context->active=false;if(audio)[audio stop];while(context->inRender.load())std::this_thread::sleep_for(std::chrono::microseconds(100));
+        if(context->pipeline)context->pipeline->setRealtimeRendering(false);
         if(observer)[[NSNotificationCenter defaultCenter]removeObserver:observer];observer=nil;
         if(audio&&source)[audio detachNode:source];source=nil;audio=nil;}
     ~OutputLifetime(){stop();}
@@ -92,6 +94,18 @@ int runOne(int argc,char** argv){@autoreleasepool{try{
     const auto expectedFrames=std::stoull(argv[5]);const double window=std::stod(argv[9]);const unsigned cpu=argc>10?std::stoul(argv[10]):0,memory=argc>11?std::stoul(argv[11]):0;
     if(cpu>8||memory>512||window<0||!std::isfinite(window))throw std::invalid_argument("Bounded probe load/window required");
     if(argc>12)config.analysisDelayMs=std::stod(argv[12]);if(argc>13)config.dspDelayMs=std::stod(argv[13]);
+    std::string profileMode="block";
+    for(int i=14;i<argc;++i){const std::string flag=argv[i];
+        if(flag.starts_with("--profile=")){profileMode=flag.substr(10);if(profileMode!="off"&&profileMode!="block"&&profileMode!="detail")throw std::invalid_argument("profile mode");}
+        else if(flag=="--sample-thread=on")config.sampleDspThread=true;
+        else if(flag=="--sample-thread=off")config.sampleDspThread=false;
+        else if(flag=="--worker=workgroup")config.scheduling=phase58::WorkerScheduling::AudioWorkgroup;
+        else if(flag=="--worker=standard")config.scheduling=phase58::WorkerScheduling::Standard;
+        else if(flag=="--resident-input=on")config.residentInput=true;
+        else if(flag=="--resident-input=off")config.residentInput=false;
+        else if(!flag.starts_with("--sessions="))throw std::invalid_argument("Unknown native probe option");
+    }
+    config.recordWorkerProfile=profileMode!="off";config.detailedDiagnostics=profileMode=="detail";
     ts::WavStreamReader metadata(argv[1]);std::vector<float> reference(expectedFrames*metadata.channels());
     std::ifstream raw(argv[4],std::ios::binary);if(!raw.read(reinterpret_cast<char*>(reference.data()),reference.size()*sizeof(float))||raw.peek()!=EOF)throw std::runtime_error("Reference size mismatch");
     Phase45PcmDigest digest;digest.update(reference.data(),reference.size()*sizeof(float));if(digest.finish()!=argv[6])throw std::runtime_error("Reference SHA differs");
@@ -108,11 +122,13 @@ int runOne(int argc,char** argv){@autoreleasepool{try{
     id observer=[[NSNotificationCenter defaultCenter]addObserverForName:AVAudioEngineConfigurationChangeNotification object:audio queue:nil usingBlock:^(NSNotification*){routeSignal->store(true);}];
     lifetime.observer=observer;
     const auto configured=pipeline.elapsedSeconds();if(!pipeline.waitUntilReady(std::chrono::seconds(60)))throw std::runtime_error("Preparation failed: "+pipeline.diagnostics().error);
-    const auto playRequested=pipeline.elapsedSeconds();ctx.active=true;NSError* error=nil;if(![audio startAndReturnError:&error])throw std::runtime_error(error?[[error description]UTF8String]:"Audio start failed");const auto audioStarted=pipeline.elapsedSeconds();
+    const auto playRequested=pipeline.elapsedSeconds();const bool realtimeNeeded=!pipeline.finished();
+    if(!pipeline.setRealtimeRendering(true))throw std::runtime_error("Realtime worker arming failed");
+    const auto realtimeArmed=pipeline.elapsedSeconds();ctx.active=true;NSError* error=nil;if(![audio startAndReturnError:&error])throw std::runtime_error(error?[[error description]UTF8String]:"Audio start failed");const auto audioStarted=pipeline.elapsedSeconds();
     const auto playbackStart=ctx.now();bool paused=false,resumed=false,routeStopped=false,timedOut=false,windowed=false;
     while(true){const double elapsed=double(ctx.now()-playbackStart)*1e-9;
         if(pipeline.failed())break;
-        if(mode=="pause"&&!paused&&elapsed>=.5){ctx.active=false;[audio pause];while(ctx.inRender.load())std::this_thread::sleep_for(std::chrono::microseconds(100));paused=true;std::this_thread::sleep_for(std::chrono::milliseconds(200));++ctx.epoch;ctx.active=true;if(![audio startAndReturnError:&error])throw std::runtime_error("Resume failed");resumed=true;}
+        if(mode=="pause"&&!paused&&elapsed>=.5){ctx.active=false;[audio pause];while(ctx.inRender.load())std::this_thread::sleep_for(std::chrono::microseconds(100));pipeline.setRealtimeRendering(false);paused=true;std::this_thread::sleep_for(std::chrono::milliseconds(200));++ctx.epoch;if(!pipeline.setRealtimeRendering(true))throw std::runtime_error("Realtime resume arming failed");ctx.active=true;if(![audio startAndReturnError:&error])throw std::runtime_error("Resume failed");resumed=true;}
         if(mode=="route"&&elapsed>=.5){[[NSNotificationCenter defaultCenter]postNotificationName:AVAudioEngineConfigurationChangeNotification object:audio];routeStopped=true;break;}
         if(routeSignal->exchange(false)){auto f=[audio.outputNode outputFormatForBus:0];if(defaultDevice()!=device||f.sampleRate!=deviceRate||f.channelCount!=deviceChannels){routeStopped=true;break;}}
         if(pipeline.drained()&&ctx.now()>=ctx.lastTarget.load()+5000000)break;
@@ -121,27 +137,43 @@ int runOne(int argc,char** argv){@autoreleasepool{try{
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
     lifetime.stop();pipeline.stop();const auto captureEnded=pipeline.elapsedSeconds();const auto d=pipeline.diagnostics();const auto callbackAllocations=phase58Allocations.load()-allocationBase;
-    std::ofstream workerCsv(out/"worker.csv");workerCsv<<"output_start,output_end,fifo_before,fifo_after,received_input,snapshot_version,final_snapshot,start_s,published_s,wall_s,cpu_s,publication_gap_s,wav_wall_s,wav_cpu_s,fft_wall_s,fft_cpu_s,phase_wall_s,phase_cpu_s,ola_wall_s,ola_cpu_s,fir_wall_s,fir_cpu_s\n"<<std::setprecision(17);
-    for(const auto& r:pipeline.workerRecords()){workerCsv<<r.outputStart<<','<<r.outputEnd<<','<<r.fifoBefore<<','<<r.fifoAfter<<','<<r.receivedInput<<','<<r.snapshotVersion<<','<<r.finalSnapshot<<','<<r.startedS<<','<<r.publishedS<<','<<r.wallS<<','<<r.cpuS<<','<<r.publicationGapS;for(const auto& t:r.work.stages)workerCsv<<','<<t.wallSeconds<<','<<t.threadCpuSeconds;workerCsv<<'\n';}
+    std::ofstream detailCsv(out/"detail.csv");detailCsv<<"stage,scope,begin,at_s,cpu_s,cpp_new_calls\n"<<std::setprecision(17);
+    for(const auto& e:pipeline.detailEvents())detailCsv<<e.stage<<','<<e.scope<<','<<e.begin<<','<<e.atS<<','<<e.cpuS<<','<<e.newCalls<<'\n';
+    std::ofstream sampleCsv(out/"thread_samples.csv");sampleCsv<<"before_s,after_s,stage_before,stage_after,result,user_ns,system_ns,run_state,policy,current_priority,base_priority,max_priority\n"<<std::setprecision(17);
+    for(const auto& s:pipeline.threadSamples()){
+        sampleCsv<<s.beforeS<<','<<s.afterS<<','<<s.stageBefore<<','<<s.stageAfter<<','<<s.result<<',';
+        if(s.result==KERN_SUCCESS)sampleCsv<<s.userNs<<','<<s.systemNs;else sampleCsv<<"null,null";
+        sampleCsv<<','<<s.state<<','<<s.policy<<','<<s.currentPriority<<','<<s.basePriority<<','<<s.maxPriority<<'\n';
+    }
+    std::ofstream workerCsv(out/"worker.csv");workerCsv<<"output_start,output_end,fifo_before,fifo_after,received_input,snapshot_version,final_snapshot,start_s,published_s,wall_s,cpu_s,publication_gap_s,wav_wall_s,wav_cpu_s,fft_wall_s,fft_cpu_s,phase_wall_s,phase_cpu_s,ola_wall_s,ola_cpu_s,fir_wall_s,fir_cpu_s,realtime\n"<<std::setprecision(17);
+    for(const auto& r:pipeline.workerRecords()){workerCsv<<r.outputStart<<','<<r.outputEnd<<','<<r.fifoBefore<<','<<r.fifoAfter<<','<<r.receivedInput<<','<<r.snapshotVersion<<','<<r.finalSnapshot<<','<<r.startedS<<','<<r.publishedS<<','<<r.wallS<<','<<r.cpuS<<','<<r.publicationGapS;for(const auto& t:r.work.stages)workerCsv<<','<<t.wallSeconds<<','<<t.threadCpuSeconds;workerCsv<<','<<r.realtime<<'\n';}
     std::ofstream csv(out/"callbacks.csv");csv<<"sequence,epoch,start_ns,end_ns,host_ns,sample_time,flags,requested,wanted,received,output_before,fifo_before\n"<<std::setprecision(17);std::vector<std::uint64_t> durations;
     for(std::size_t i=0;i<std::min<std::size_t>(ctx.calls,ctx.records.size());++i){const auto& r=ctx.records[i];durations.push_back(r.end-r.start);csv<<i+1<<','<<r.epoch<<','<<r.start<<','<<r.end<<','<<r.host<<','<<r.sample<<','<<r.flags<<','<<r.frames<<','<<r.raw.wanted<<','<<r.raw.received<<','<<r.raw.outputBefore<<','<<r.raw.fifoBefore<<'\n';}
     std::sort(durations.begin(),durations.end());const auto percentile=[&](double q){return durations.empty()?0:durations[std::min(durations.size()-1,std::size_t(std::ceil(q*durations.size())-1))];};
     const bool eos=d.dspDone&&d.consumed==expectedFrames,pcm=ctx.calls&&!ctx.mismatches&&d.consumed>0;
     const bool measured=ctx.calls>1&&!ctx.dropped&&ctx.sampleValid==ctx.calls&&!ctx.hostMissing&&!ctx.hostBackwards&&!ctx.hostCadence&&!ctx.sampleErrors&&!ctx.halMisses;
     const bool audioPass=pcm&&!d.missingFrames&&!d.missingCalls&&!d.rejectedWrites&&!ctx.deadlines&&!ctx.formats&&!callbackAllocations&&!d.failed&&!timedOut;
-    const bool pass=audioPass&&measured&&(eos||windowed||routeStopped)&&(mode!="pause"||(paused&&resumed));
+    const auto& rt=d.scheduling;const bool schedulingValid=!rt.enabled||((!realtimeNeeded||rt.policyMeasured)&&!rt.policyErrors&&!rt.joinErrors&&!rt.restoreErrors&&!rt.intervalErrors&&!rt.queryErrors&&!rt.waitErrors&&!rt.wakeErrors&&rt.promotions==rt.joins&&rt.joins==rt.leaves&&rt.leaves==rt.restores&&rt.intervalStarts==rt.intervalFinishes&&!rt.active);
+    const bool realtimeAllocationValid=!rt.enabled||!realtimeNeeded||(d.realtimeAllocationsMeasured&&!d.realtimeNewCalls);
+    const bool pass=audioPass&&measured&&schedulingValid&&realtimeAllocationValid&&(eos||windowed||routeStopped)&&(mode!="pause"||(paused&&resumed));
     rusage usage{};getrusage(RUSAGE_SELF,&usage);std::ofstream result(out/"summary.json");result<<std::setprecision(17)<<"{\"PASS\":"<<(pass?"true":"false")<<",\"audio_pass\":"<<audioPass<<",\"measurement_valid\":"<<measured<<",\"pcm_prefix_exact\":"<<pcm<<",\"pcm_complete_exact\":"<<(pcm&&eos&&d.pcmSha256==argv[6])<<",\"eos\":"<<eos<<",\"windowed\":"<<windowed<<",\"route_stopped\":"<<routeStopped<<",\"route_simulated\":"<<(mode=="route")<<",\"paused_resumed\":"<<(paused&&resumed)
         <<",\"preset\":"<<phase58::jsonString(preset)<<",\"speed_micros\":"<<config.speedMicros<<",\"device_id\":"<<device<<",\"device_rate\":"<<deviceRate<<",\"device_channels\":"<<deviceChannels<<",\"device_buffer_frames\":"<<buffer<<",\"input_rate\":"<<ctx.rate<<",\"channels\":"<<ctx.channels<<",\"cpu_load_threads\":"<<cpu<<",\"memory_load_mib\":"<<memory
         <<",\"callback_calls\":"<<ctx.calls<<",\"callback_max_ns\":"<<ctx.maximum<<",\"callback_p95_ns\":"<<percentile(.95)<<",\"callback_p99_ns\":"<<percentile(.99)<<",\"callback_deadlines\":"<<ctx.deadlines<<",\"callback_formats\":"<<ctx.formats<<",\"callback_records_dropped\":"<<ctx.dropped<<",\"callback_cpp_allocations\":"<<callbackAllocations<<",\"allocation_measured\":true,\"host_missing\":"<<ctx.hostMissing<<",\"host_backwards\":"<<ctx.hostBackwards<<",\"host_cadence_errors\":"<<ctx.hostCadence<<",\"sample_errors\":"<<ctx.sampleErrors<<",\"sample_valid_calls\":"<<ctx.sampleValid<<",\"hal_misses\":"<<ctx.halMisses
         <<",\"pcm_mismatches\":"<<ctx.mismatches<<",\"first_mismatch_frame\":"<<ctx.firstMismatch<<",\"actual_bits\":"<<ctx.actualBits<<",\"expected_bits\":"<<ctx.expectedBits<<",\"av_configured_s\":"<<configured<<",\"play_requested_s\":"<<playRequested<<",\"audio_started_s\":"<<audioStarted<<",\"first_callback_s\":"<<(ctx.firstPcm?bridgeElapsed+double(ctx.firstPcm-bridgeMach)*1e-9:-1)<<",\"bridge_uncertainty_s\":"<<bridgeUncertainty<<",\"startup_timing_valid\":"<<(ctx.firstPcm&&bridgeUncertainty<=.001)<<",\"wall_s\":"<<captureEnded<<",\"process_cpu_s\":"<<processCpu()-cpuStart<<",\"analysis_cache_hit\":false,\"peak_rss_bytes\":"<<usage.ru_maxrss<<",\"reference_bytes\":"<<reference.size()*sizeof(float);
+    result<<",\"profile_mode\":"<<phase58::jsonString(profileMode)<<",\"clock_mach_ns\":"<<bridgeMach<<",\"clock_pipeline_s\":"<<bridgeElapsed<<",\"realtime_armed_s\":"<<realtimeArmed<<",\"realtime_needed\":"<<realtimeNeeded<<",\"scheduling_valid\":"<<schedulingValid<<",\"realtime_allocation_valid\":"<<realtimeAllocationValid;
     phase58::writeDiagnostics(result,d);result<<"}\n";std::cout<<(pass?"PASS":"FAIL")<<" callback="<<ctx.calls<<" underrun="<<d.missingFrames<<" hal="<<ctx.halMisses<<" pcm="<<ctx.mismatches<<'\n';return pass?0:2;
 }catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}}}
 int main(int argc,char** argv){try{
-    if(argc>9&&std::string(argv[8])=="restart"){
-        const std::filesystem::path root=argv[7];if(std::filesystem::exists(root))throw std::runtime_error("Fresh restart output required");std::filesystem::create_directories(root);
-        int status=0;for(const auto* scope:{"cold","restart"}){
+    if(argc>9&&(std::string(argv[8])=="restart"||std::string(argv[8])=="repeat")){
+        const bool repeat=std::string(argv[8])=="repeat";
+        std::size_t count=repeat?20:2;
+        for(int i=14;i<argc;++i)if(std::string(argv[i]).starts_with("--sessions="))count=std::stoul(std::string(argv[i]).substr(11));
+        if(!count||count>1000||(!repeat&&count!=2))throw std::invalid_argument("Bounded repeated session count required");
+        const std::filesystem::path root=argv[7];if(std::filesystem::exists(root))throw std::runtime_error("Fresh repeated output required");std::filesystem::create_directories(root);
+        int status=0;for(std::size_t i=0;i<count;++i){
+            const auto scope=repeat?"session_"+std::to_string(i):(i?std::string("restart"):std::string("cold"));
             std::vector<std::string> arguments(argv,argv+argc);arguments[7]=(root/scope).string();arguments[8]="normal";std::vector<char*> pointers;for(auto& a:arguments)pointers.push_back(a.data());pointers.push_back(nullptr);
-            status=std::max(status,runOne(argc,pointers.data()));
+            const auto result=runOne(argc,pointers.data());status=std::max(status,result);std::cout<<"SESSION "<<i<<" status="<<result<<std::endl;
         }return status;
     }
     return runOne(argc,argv);

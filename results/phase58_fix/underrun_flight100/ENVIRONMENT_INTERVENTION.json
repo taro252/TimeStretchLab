@@ -1,0 +1,11 @@
+{
+  "at_utc": "2026-10-16T01:43:06.117695+00:00",
+  "action": "Stop collection before disk cleanup; do not use this interrupted cohort as final normal-load validation",
+  "signalled_pids": [
+    64497
+  ],
+  "native_sessions_completed_before_interruption": 23,
+  "last_native_completed_utc": "2026-10-16T01:43:02.861540+00:00",
+  "cleanup_utc": "2026-10-16T01:43:18.776419+00:00",
+  "scope_correction": "All 23 native sessions completed before SIGINT/cleanup; the interrupted controller was waiting for trace save. Preserve native results. Trace completeness must be checked separately."
+}

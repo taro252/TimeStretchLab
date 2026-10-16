@@ -1,0 +1,4754 @@
+{
+  "cohorts": {
+    "before_repeat20": {
+      "name": "before_repeat20",
+      "sessions": 20,
+      "passed": 20,
+      "failed": 0,
+      "audio_pass": 20,
+      "measurement_valid": 20,
+      "workgroup_sessions": 0,
+      "workgroup_policy_measured_sessions": 0,
+      "realtime_cpp_allocations_measured_sessions": 0,
+      "callback_cpp_allocations_measured_sessions": 20,
+      "pcm_prefix_exact": 20,
+      "pcm_complete_exact": 20,
+      "failures": [],
+      "counter_totals": {
+        "missing_frames": 0,
+        "missing_calls": 0,
+        "rejected_writes": 0,
+        "callback_deadlines": 0,
+        "hal_misses": 0,
+        "host_missing": 0,
+        "host_backwards": 0,
+        "host_cadence_errors": 0,
+        "sample_errors": 0,
+        "callback_formats": 0,
+        "pcm_mismatches": 0,
+        "callback_cpp_allocations": 0,
+        "realtime_cpp_new_calls": null,
+        "workgroup_deadline_misses": null,
+        "workgroup_policy_errors": null,
+        "workgroup_join_errors": null,
+        "workgroup_restore_errors": null,
+        "workgroup_interval_errors": null,
+        "workgroup_query_errors": null,
+        "workgroup_wait_errors": null,
+        "workgroup_wake_errors": null,
+        "worker_profile_dropped": 0,
+        "detail_dropped": null,
+        "thread_samples_dropped": null,
+        "thread_sample_errors": null
+      },
+      "metric_distributions": {
+        "max_consecutive_missing": {
+          "n": 20,
+          "min": 0,
+          "median": 0.0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        },
+        "fifo_high_water": {
+          "n": 20,
+          "min": 16384,
+          "median": 16384.0,
+          "p95": 16384,
+          "p99": 16384,
+          "max": 16384
+        },
+        "max_dsp_wall_s": {
+          "n": 20,
+          "min": 0.025882208,
+          "median": 0.0283511455,
+          "p95": 0.080560375,
+          "p99": 0.11948225,
+          "max": 0.11948225
+        },
+        "max_dsp_cpu_s": {
+          "n": 20,
+          "min": 0.025689375,
+          "median": 0.028120541,
+          "p95": 0.029244625,
+          "p99": 0.030987792000000004,
+          "max": 0.030987792000000004
+        },
+        "max_publication_gap_s": {
+          "n": 20,
+          "min": 0.062636125,
+          "median": 0.06356991649999999,
+          "p95": 0.14860045899999996,
+          "p99": 0.8363941669999999,
+          "max": 0.8363941669999999
+        },
+        "analysis_wait_s": {
+          "n": 20,
+          "min": 0.001356166,
+          "median": 0.0040814785,
+          "p95": 0.005302791,
+          "p99": 0.005591708,
+          "max": 0.005591708
+        },
+        "backpressure_wait_s": {
+          "n": 20,
+          "min": 1.0822667970000004,
+          "median": 1.2012600394999988,
+          "p95": 1.2111758400000006,
+          "p99": 1.9601297030000027,
+          "max": 1.9601297030000027
+        },
+        "analysis_worker_cpu_s": {
+          "n": 20,
+          "min": 0.021672709000000002,
+          "median": 0.0231713125,
+          "p95": 0.028696417000000002,
+          "p99": 0.0296835,
+          "max": 0.0296835
+        },
+        "dsp_worker_cpu_s": {
+          "n": 20,
+          "min": 0.565883459,
+          "median": 0.5761598539999999,
+          "p95": 0.5865614170000001,
+          "p99": 0.594095042,
+          "max": 0.594095042
+        },
+        "process_cpu_s": {
+          "n": 20,
+          "min": 0.637012,
+          "median": 0.6502215,
+          "p95": 0.6755419999999999,
+          "p99": 0.684132,
+          "max": 0.684132
+        },
+        "peak_rss_bytes": {
+          "n": 20,
+          "min": 50102272,
+          "median": 50421760.0,
+          "p95": 50659328,
+          "p99": 50675712,
+          "max": 50675712
+        },
+        "ready_s": {
+          "n": 20,
+          "min": 0.111557708,
+          "median": 0.1184596245,
+          "p95": 0.122782042,
+          "p99": 0.125416208,
+          "max": 0.125416208
+        },
+        "resident_ready_s": null,
+        "first_callback_s": {
+          "n": 20,
+          "min": 0.127367396,
+          "median": 0.13278367675000002,
+          "p95": 0.14031102150000002,
+          "p99": 0.8983735,
+          "max": 0.8983735
+        }
+      },
+      "active_block_thread_samples": 0,
+      "active_block_sample_policy_priority": {},
+      "scheduling_delay_per_session_s": null,
+      "unknown_wait_per_session_s": null,
+      "scheduling_delay_scope": "Continuous state available only in OS trace cohorts; samples do not fill gaps",
+      "all_blocks": {
+        "count": 940,
+        "wall_s": {
+          "n": 940,
+          "min": 6.425e-05,
+          "median": 0.0102864165,
+          "p95": 0.020914125,
+          "p99": 0.02856675,
+          "max": 0.11948225
+        },
+        "cpu_s": {
+          "n": 940,
+          "min": 6.420800000006555e-05,
+          "median": 0.010206708499999995,
+          "p95": 0.020236332999999995,
+          "p99": 0.028142916,
+          "max": 0.030987792000000004
+        },
+        "non_cpu_s": {
+          "n": 940,
+          "min": -4.3000000015530615e-08,
+          "median": 4.200000003643997e-08,
+          "p95": 0.0007237919999999974,
+          "p99": 0.0018293750000000098,
+          "max": 0.09538904199999997
+        },
+        "publication_gap_s": {
+          "n": 940,
+          "min": 0.0,
+          "median": 0.03794612500000005,
+          "p95": 0.05608908300000004,
+          "p99": 0.06360433299999999,
+          "max": 0.8363941669999999
+        }
+      },
+      "realtime_blocks": {
+        "count": 0,
+        "wall_s": null,
+        "cpu_s": null,
+        "non_cpu_s": null,
+        "publication_gap_s": null
+      }
+    },
+    "before_repeat100": {
+      "name": "before_repeat100",
+      "sessions": 100,
+      "passed": 99,
+      "failed": 1,
+      "audio_pass": 100,
+      "measurement_valid": 99,
+      "workgroup_sessions": 0,
+      "workgroup_policy_measured_sessions": 0,
+      "realtime_cpp_allocations_measured_sessions": 0,
+      "callback_cpp_allocations_measured_sessions": 100,
+      "pcm_prefix_exact": 100,
+      "pcm_complete_exact": 100,
+      "failures": [
+        {
+          "path": "results/phase58_fix/before_repeat100/run_000/summary.json",
+          "summary": {
+            "PASS": false,
+            "audio_pass": 1,
+            "measurement_valid": 0,
+            "pcm_prefix_exact": 1,
+            "pcm_complete_exact": 1,
+            "eos": 1,
+            "windowed": 0,
+            "route_stopped": 0,
+            "route_simulated": 0,
+            "paused_resumed": 0,
+            "preset": "candidate",
+            "speed_micros": 2000000,
+            "device_id": 72,
+            "device_rate": 48000,
+            "device_channels": 2,
+            "device_buffer_frames": 512,
+            "input_rate": 48000,
+            "channels": 2,
+            "cpu_load_threads": 0,
+            "memory_load_mib": 0,
+            "callback_calls": 190,
+            "callback_max_ns": 18833,
+            "callback_p95_ns": 10959,
+            "callback_p99_ns": 15708,
+            "callback_deadlines": 0,
+            "callback_formats": 0,
+            "callback_records_dropped": 0,
+            "callback_cpp_allocations": 0,
+            "allocation_measured": true,
+            "host_missing": 0,
+            "host_backwards": 0,
+            "host_cadence_errors": 1,
+            "sample_errors": 1,
+            "sample_valid_calls": 190,
+            "hal_misses": 0,
+            "pcm_mismatches": 0,
+            "first_mismatch_frame": 0,
+            "actual_bits": 0,
+            "expected_bits": 0,
+            "av_configured_s": 1.264507292,
+            "play_requested_s": 1.264507875,
+            "audio_started_s": 1.300352042,
+            "first_callback_s": 1.303765375,
+            "bridge_uncertainty_s": 2.4999999999981634e-07,
+            "startup_timing_valid": 1,
+            "wall_s": 3.344211625,
+            "process_cpu_s": 0.68389,
+            "analysis_cache_hit": false,
+            "peak_rss_bytes": 50102272,
+            "reference_bytes": 768000,
+            "session": 1,
+            "analysis_thread": 4814638,
+            "dsp_thread": 4814639,
+            "snapshot_version": 7,
+            "input_frames": 192000,
+            "received_input": 192000,
+            "generated_frames": 96000,
+            "published_frames": 96000,
+            "consumed_frames": 96000,
+            "output_frames": 96000,
+            "input_at_first_pcm": 192000,
+            "input_at_ready": 192000,
+            "non_eos_published": 0,
+            "source_snapshot_bytes": 768044,
+            "analysis_worker_cpu_s": 0.025481541,
+            "fifo_high_water": 16384,
+            "analysis_storage_measured": 1,
+            "snapshot_peak_bytes": 54208,
+            "snapshot_copy_bytes": 102736,
+            "missing_frames": 0,
+            "missing_calls": 0,
+            "max_consecutive_missing": 0,
+            "rejected_writes": 0,
+            "analysis_waits": 2,
+            "verified_s": 0.000178625,
+            "identified_s": 0.001353375,
+            "analysis_start_s": 0.002852209,
+            "first_event_s": 0.005549542,
+            "first_map_s": 0.005560292,
+            "first_generated_s": 0.032852,
+            "first_published_s": 0.032863875,
+            "ready_s": 0.109182042,
+            "analysis_done_s": 0.014748917,
+            "analysis_cpu_measured": 1,
+            "analysis_cpu_s": 0.010233792,
+            "dsp_cpu_s": 0.5785484139999998,
+            "max_dsp_wall_s": 0.025320333,
+            "analysis_wait_s": 0.001202041,
+            "backpressure_wait_s": 2.3781235470000017,
+            "dsp_worker_cpu_s": 0.588670791,
+            "max_dsp_cpu_s": 0.02531525,
+            "max_publication_gap_s": 1.256286083,
+            "worker_profile_records": 47,
+            "worker_profile_dropped": 0,
+            "dsp_original_path_validation": 0,
+            "max_dsp_validation_wall_s": null,
+            "max_dsp_validation_cpu_s": null,
+            "analysis_qos": 1,
+            "dsp_qos": 1,
+            "analysis_done": 1,
+            "dsp_done": 1,
+            "cancelled": 0,
+            "failed": 0,
+            "input_sha256": "5e60e5f416b0d1f83c728887253421e06a2b6114ccb8be427a8bcb892b35f584",
+            "pcm_sha256": "1c844edec768048482590db17c240e5e6b00f2a86fc3f9741a196b277d0fd3f0",
+            "error": ""
+          }
+        }
+      ],
+      "counter_totals": {
+        "missing_frames": 0,
+        "missing_calls": 0,
+        "rejected_writes": 0,
+        "callback_deadlines": 0,
+        "hal_misses": 0,
+        "host_missing": 0,
+        "host_backwards": 0,
+        "host_cadence_errors": 1,
+        "sample_errors": 1,
+        "callback_formats": 0,
+        "pcm_mismatches": 0,
+        "callback_cpp_allocations": 0,
+        "realtime_cpp_new_calls": null,
+        "workgroup_deadline_misses": null,
+        "workgroup_policy_errors": null,
+        "workgroup_join_errors": null,
+        "workgroup_restore_errors": null,
+        "workgroup_interval_errors": null,
+        "workgroup_query_errors": null,
+        "workgroup_wait_errors": null,
+        "workgroup_wake_errors": null,
+        "worker_profile_dropped": 0,
+        "detail_dropped": null,
+        "thread_samples_dropped": null,
+        "thread_sample_errors": null
+      },
+      "metric_distributions": {
+        "max_consecutive_missing": {
+          "n": 100,
+          "min": 0,
+          "median": 0.0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        },
+        "fifo_high_water": {
+          "n": 100,
+          "min": 16384,
+          "median": 16384.0,
+          "p95": 16384,
+          "p99": 16384,
+          "max": 16384
+        },
+        "max_dsp_wall_s": {
+          "n": 100,
+          "min": 0.025175417,
+          "median": 0.0281696045,
+          "p95": 0.041316708,
+          "p99": 0.0636005,
+          "max": 0.0800865
+        },
+        "max_dsp_cpu_s": {
+          "n": 100,
+          "min": 0.025055709000000002,
+          "median": 0.0280257915,
+          "p95": 0.030386208000000005,
+          "p99": 0.030605750000000004,
+          "max": 0.030890333
+        },
+        "max_publication_gap_s": {
+          "n": 100,
+          "min": 0.060741333999999994,
+          "median": 0.06353118699999999,
+          "p95": 0.0823653339999999,
+          "p99": 0.14081154099999998,
+          "max": 1.256286083
+        },
+        "analysis_wait_s": {
+          "n": 100,
+          "min": 0.001202041,
+          "median": 0.004171,
+          "p95": 0.005225583000000001,
+          "p99": 0.006111917,
+          "max": 0.010831709
+        },
+        "backpressure_wait_s": {
+          "n": 100,
+          "min": 1.0719190520000008,
+          "median": 1.199362432,
+          "p95": 1.2111071379999994,
+          "p99": 1.2124589510000006,
+          "max": 2.3781235470000017
+        },
+        "analysis_worker_cpu_s": {
+          "n": 100,
+          "min": 0.018551667,
+          "median": 0.023861792,
+          "p95": 0.029874500000000002,
+          "p99": 0.032449000000000006,
+          "max": 0.033355584
+        },
+        "dsp_worker_cpu_s": {
+          "n": 100,
+          "min": 0.554966209,
+          "median": 0.578883146,
+          "p95": 0.5846090420000001,
+          "p99": 0.5958777500000001,
+          "max": 0.599747875
+        },
+        "process_cpu_s": {
+          "n": 100,
+          "min": 0.630123,
+          "median": 0.6521509999999999,
+          "p95": 0.671082,
+          "p99": 0.679667,
+          "max": 0.68389
+        },
+        "peak_rss_bytes": {
+          "n": 100,
+          "min": 50020352,
+          "median": 50380800.0,
+          "p95": 50593792,
+          "p99": 50659328,
+          "max": 50675712
+        },
+        "ready_s": {
+          "n": 100,
+          "min": 0.109182042,
+          "median": 0.11856320849999999,
+          "p95": 0.130369625,
+          "p99": 0.135542584,
+          "max": 0.137592042
+        },
+        "resident_ready_s": null,
+        "first_callback_s": {
+          "n": 100,
+          "min": 0.125184334,
+          "median": 0.13270628075000002,
+          "p95": 0.1448237085,
+          "p99": 0.179094105,
+          "max": 1.303765375
+        }
+      },
+      "active_block_thread_samples": 0,
+      "active_block_sample_policy_priority": {},
+      "scheduling_delay_per_session_s": null,
+      "unknown_wait_per_session_s": null,
+      "scheduling_delay_scope": "Continuous state available only in OS trace cohorts; samples do not fill gaps",
+      "all_blocks": {
+        "count": 4700,
+        "wall_s": {
+          "n": 4700,
+          "min": 4.9709e-05,
+          "median": 0.0102596875,
+          "p95": 0.020982917,
+          "p99": 0.028467125,
+          "max": 0.0800865
+        },
+        "cpu_s": {
+          "n": 4700,
+          "min": 4.970899999989786e-05,
+          "median": 0.010210604000000012,
+          "p95": 0.020555667,
+          "p99": 0.028031208000000002,
+          "max": 0.030890333
+        },
+        "non_cpu_s": {
+          "n": 4700,
+          "min": -1.166999999992896e-06,
+          "median": 4.1999999988301395e-08,
+          "p95": 0.0007280839999999813,
+          "p99": 0.002696001,
+          "max": 0.06013191699999998
+        },
+        "publication_gap_s": {
+          "n": 4700,
+          "min": 0.0,
+          "median": 0.03817506249999986,
+          "p95": 0.05617424999999998,
+          "p99": 0.063559375,
+          "max": 1.256286083
+        }
+      },
+      "realtime_blocks": {
+        "count": 0,
+        "wall_s": null,
+        "cpu_s": null,
+        "non_cpu_s": null,
+        "publication_gap_s": null
+      }
+    },
+    "candidate_v2_smoke20": {
+      "name": "candidate_v2_smoke20",
+      "sessions": 20,
+      "passed": 20,
+      "failed": 0,
+      "audio_pass": 20,
+      "measurement_valid": 20,
+      "workgroup_sessions": 20,
+      "workgroup_policy_measured_sessions": 20,
+      "realtime_cpp_allocations_measured_sessions": 20,
+      "callback_cpp_allocations_measured_sessions": 20,
+      "pcm_prefix_exact": 20,
+      "pcm_complete_exact": 20,
+      "failures": [],
+      "counter_totals": {
+        "missing_frames": 0,
+        "missing_calls": 0,
+        "rejected_writes": 0,
+        "callback_deadlines": 0,
+        "hal_misses": 0,
+        "host_missing": 0,
+        "host_backwards": 0,
+        "host_cadence_errors": 0,
+        "sample_errors": 0,
+        "callback_formats": 0,
+        "pcm_mismatches": 0,
+        "callback_cpp_allocations": 0,
+        "realtime_cpp_new_calls": 0,
+        "workgroup_deadline_misses": 0,
+        "workgroup_policy_errors": 0,
+        "workgroup_join_errors": 0,
+        "workgroup_restore_errors": 0,
+        "workgroup_interval_errors": 0,
+        "workgroup_query_errors": 0,
+        "workgroup_wait_errors": 0,
+        "workgroup_wake_errors": 0,
+        "worker_profile_dropped": 0,
+        "detail_dropped": 0,
+        "thread_samples_dropped": 0,
+        "thread_sample_errors": 0
+      },
+      "metric_distributions": {
+        "max_consecutive_missing": {
+          "n": 20,
+          "min": 0,
+          "median": 0.0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        },
+        "fifo_high_water": {
+          "n": 20,
+          "min": 16384,
+          "median": 16384.0,
+          "p95": 16384,
+          "p99": 16384,
+          "max": 16384
+        },
+        "max_dsp_wall_s": {
+          "n": 20,
+          "min": 0.026800375,
+          "median": 0.029615396,
+          "p95": 0.0355665,
+          "p99": 0.036373875,
+          "max": 0.036373875
+        },
+        "max_dsp_cpu_s": {
+          "n": 20,
+          "min": 0.026133334000000008,
+          "median": 0.028661000499999985,
+          "p95": 0.032293916,
+          "p99": 0.032433458,
+          "max": 0.032433458
+        },
+        "max_publication_gap_s": {
+          "n": 20,
+          "min": 0.073806333,
+          "median": 0.0765254165,
+          "p95": 0.08020462499999997,
+          "p99": 0.8400686669999999,
+          "max": 0.8400686669999999
+        },
+        "analysis_wait_s": {
+          "n": 20,
+          "min": 0.0024980000000000002,
+          "median": 0.0038336665,
+          "p95": 0.009022332999999999,
+          "p99": 0.009647418000000001,
+          "max": 0.009647418000000001
+        },
+        "backpressure_wait_s": {
+          "n": 20,
+          "min": 1.2158631660000017,
+          "median": 1.2298101249999993,
+          "p95": 1.2492737129999998,
+          "p99": 1.9971165749999986,
+          "max": 1.9971165749999986
+        },
+        "analysis_worker_cpu_s": {
+          "n": 20,
+          "min": 0.0279995,
+          "median": 0.030888292000000005,
+          "p95": 0.037078708,
+          "p99": 0.0372545,
+          "max": 0.0372545
+        },
+        "dsp_worker_cpu_s": {
+          "n": 20,
+          "min": 0.5245814580000001,
+          "median": 0.5455000000000001,
+          "p95": 0.555054292,
+          "p99": 0.556651667,
+          "max": 0.556651667
+        },
+        "process_cpu_s": {
+          "n": 20,
+          "min": 0.6365259999999999,
+          "median": 0.6703279999999999,
+          "p95": 0.6930059999999999,
+          "p99": 0.6994199999999999,
+          "max": 0.6994199999999999
+        },
+        "peak_rss_bytes": {
+          "n": 20,
+          "min": 51757056,
+          "median": 52248576.0,
+          "p95": 52559872,
+          "p99": 52838400,
+          "max": 52838400
+        },
+        "ready_s": {
+          "n": 20,
+          "min": 0.159538042,
+          "median": 0.170489375,
+          "p95": 0.186000708,
+          "p99": 0.188150042,
+          "max": 0.188150042
+        },
+        "resident_ready_s": {
+          "n": 20,
+          "min": 0.00106575,
+          "median": 0.00187825,
+          "p95": 0.002293458,
+          "p99": 0.002583666,
+          "max": 0.002583666
+        },
+        "first_callback_s": {
+          "n": 20,
+          "min": 0.174385542,
+          "median": 0.18506373925000003,
+          "p95": 0.20274254200000003,
+          "p99": 0.9648105210000001,
+          "max": 0.9648105210000001
+        }
+      },
+      "active_block_thread_samples": 2676,
+      "active_block_sample_policy_priority": {
+        "(0, 2, 97)": 2676
+      },
+      "scheduling_delay_per_session_s": null,
+      "unknown_wait_per_session_s": null,
+      "scheduling_delay_scope": "Continuous state available only in OS trace cohorts; samples do not fill gaps",
+      "all_blocks": {
+        "count": 940,
+        "wall_s": {
+          "n": 940,
+          "min": 4.6875e-05,
+          "median": 0.0099890625,
+          "p95": 0.025694167,
+          "p99": 0.03030875,
+          "max": 0.036373875
+        },
+        "cpu_s": {
+          "n": 940,
+          "min": 4.6875000000001776e-05,
+          "median": 0.009989083500000003,
+          "p95": 0.02569416599999999,
+          "p99": 0.029748834000000016,
+          "max": 0.032433458
+        },
+        "non_cpu_s": {
+          "n": 940,
+          "min": -8.399999999395003e-08,
+          "median": 9.16489648929153e-18,
+          "p95": 7.245899999999694e-05,
+          "p99": 0.0014085830000000014,
+          "max": 0.003940417000000002
+        },
+        "publication_gap_s": {
+          "n": 940,
+          "min": 0.0,
+          "median": 0.038675166999999955,
+          "p95": 0.054423416999999974,
+          "p99": 0.07681625,
+          "max": 0.8400686669999999
+        }
+      },
+      "realtime_blocks": {
+        "count": 780,
+        "wall_s": {
+          "n": 780,
+          "min": 4.6875e-05,
+          "median": 0.0101294165,
+          "p95": 0.024277333,
+          "p99": 0.028664792,
+          "max": 0.031778125
+        },
+        "cpu_s": {
+          "n": 780,
+          "min": 4.6875000000001776e-05,
+          "median": 0.010129437499999977,
+          "p95": 0.024266833000000015,
+          "p99": 0.028659458999999984,
+          "max": 0.03177220800000001
+        },
+        "non_cpu_s": {
+          "n": 780,
+          "min": -8.399999999395003e-08,
+          "median": 3.469446951953614e-18,
+          "p95": 5.416999999997146e-06,
+          "p99": 2.7125999999988437e-05,
+          "max": 9.212499999994989e-05
+        },
+        "publication_gap_s": {
+          "n": 780,
+          "min": 0.018738500000000047,
+          "median": 0.04403956249999996,
+          "p95": 0.055429916999999995,
+          "p99": 0.07706333400000001,
+          "max": 0.8400686669999999
+        }
+      }
+    },
+    "candidate_v2_evaluation100": {
+      "name": "candidate_v2_evaluation100",
+      "sessions": 100,
+      "passed": 100,
+      "failed": 0,
+      "audio_pass": 100,
+      "measurement_valid": 100,
+      "workgroup_sessions": 100,
+      "workgroup_policy_measured_sessions": 100,
+      "realtime_cpp_allocations_measured_sessions": 100,
+      "callback_cpp_allocations_measured_sessions": 100,
+      "pcm_prefix_exact": 100,
+      "pcm_complete_exact": 100,
+      "failures": [],
+      "counter_totals": {
+        "missing_frames": 0,
+        "missing_calls": 0,
+        "rejected_writes": 0,
+        "callback_deadlines": 0,
+        "hal_misses": 0,
+        "host_missing": 0,
+        "host_backwards": 0,
+        "host_cadence_errors": 0,
+        "sample_errors": 0,
+        "callback_formats": 0,
+        "pcm_mismatches": 0,
+        "callback_cpp_allocations": 0,
+        "realtime_cpp_new_calls": 0,
+        "workgroup_deadline_misses": 0,
+        "workgroup_policy_errors": 0,
+        "workgroup_join_errors": 0,
+        "workgroup_restore_errors": 0,
+        "workgroup_interval_errors": 0,
+        "workgroup_query_errors": 0,
+        "workgroup_wait_errors": 0,
+        "workgroup_wake_errors": 0,
+        "worker_profile_dropped": 0,
+        "detail_dropped": 0,
+        "thread_samples_dropped": 0,
+        "thread_sample_errors": 0
+      },
+      "metric_distributions": {
+        "max_consecutive_missing": {
+          "n": 100,
+          "min": 0,
+          "median": 0.0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        },
+        "fifo_high_water": {
+          "n": 100,
+          "min": 16384,
+          "median": 16384.0,
+          "p95": 16384,
+          "p99": 16384,
+          "max": 16384
+        },
+        "max_dsp_wall_s": {
+          "n": 100,
+          "min": 0.027163875,
+          "median": 0.030896667,
+          "p95": 0.041778125,
+          "p99": 0.082607959,
+          "max": 0.095355875
+        },
+        "max_dsp_cpu_s": {
+          "n": 100,
+          "min": 0.026454042000000004,
+          "median": 0.029373478999999997,
+          "p95": 0.036258333000000004,
+          "p99": 0.037862334,
+          "max": 0.041231000000000004
+        },
+        "max_publication_gap_s": {
+          "n": 100,
+          "min": 0.070041084,
+          "median": 0.07694845799999998,
+          "p95": 0.08058399999999999,
+          "p99": 0.08360795800000001,
+          "max": 0.09535641700000003
+        },
+        "analysis_wait_s": {
+          "n": 100,
+          "min": 0,
+          "median": 0.004793021,
+          "p95": 0.010102708,
+          "p99": 0.040944749,
+          "max": 0.11139462699999998
+        },
+        "backpressure_wait_s": {
+          "n": 100,
+          "min": 1.1845991209999998,
+          "median": 1.2437205825,
+          "p95": 1.2532772949999993,
+          "p99": 1.2572374910000008,
+          "max": 1.2592832549999993
+        },
+        "analysis_worker_cpu_s": {
+          "n": 100,
+          "min": 0.024602083,
+          "median": 0.0298197085,
+          "p95": 0.036904584000000004,
+          "p99": 0.039123834,
+          "max": 0.039246917
+        },
+        "dsp_worker_cpu_s": {
+          "n": 100,
+          "min": 0.516678708,
+          "median": 0.5369914585,
+          "p95": 0.565770458,
+          "p99": 0.5782255000000001,
+          "max": 0.62367525
+        },
+        "process_cpu_s": {
+          "n": 100,
+          "min": 0.615745,
+          "median": 0.6386115,
+          "p95": 0.6729919999999999,
+          "p99": 0.677707,
+          "max": 0.7299309999999999
+        },
+        "peak_rss_bytes": {
+          "n": 100,
+          "min": 51003392,
+          "median": 51396608.0,
+          "p95": 51576832,
+          "p99": 51609600,
+          "max": 51642368
+        },
+        "ready_s": {
+          "n": 100,
+          "min": 0.159921334,
+          "median": 0.1711676255,
+          "p95": 0.260648416,
+          "p99": 0.303167708,
+          "max": 0.612232
+        },
+        "resident_ready_s": {
+          "n": 100,
+          "min": 0.001102167,
+          "median": 0.0016776044999999998,
+          "p95": 0.00287075,
+          "p99": 0.007528,
+          "max": 0.009506416
+        },
+        "first_callback_s": {
+          "n": 100,
+          "min": 0.17368587600000002,
+          "median": 0.1881746045,
+          "p95": 0.2819966245,
+          "p99": 0.3243800625,
+          "max": 0.627399708
+        }
+      },
+      "active_block_thread_samples": 13546,
+      "active_block_sample_policy_priority": {
+        "(0, 2, 97)": 13546
+      },
+      "scheduling_delay_per_session_s": null,
+      "unknown_wait_per_session_s": null,
+      "scheduling_delay_scope": "Continuous state available only in OS trace cohorts; samples do not fill gaps",
+      "all_blocks": {
+        "count": 4700,
+        "wall_s": {
+          "n": 4700,
+          "min": 5.15e-05,
+          "median": 0.0100989995,
+          "p95": 0.025095,
+          "p99": 0.031372583,
+          "max": 0.095355875
+        },
+        "cpu_s": {
+          "n": 4700,
+          "min": 5.150000000009314e-05,
+          "median": 0.010040708499999995,
+          "p95": 0.025004417000000015,
+          "p99": 0.029596542000000003,
+          "max": 0.041231000000000004
+        },
+        "non_cpu_s": {
+          "n": 4700,
+          "min": -1.6700000001618198e-07,
+          "median": 1.3877787807814457e-17,
+          "p95": 8.620800000000255e-05,
+          "p99": 0.0023460409999999966,
+          "max": 0.07250112500000001
+        },
+        "publication_gap_s": {
+          "n": 4700,
+          "min": 0.0,
+          "median": 0.03871764600000005,
+          "p95": 0.054529958000000045,
+          "p99": 0.077405792,
+          "max": 0.09535641700000003
+        }
+      },
+      "realtime_blocks": {
+        "count": 3900,
+        "wall_s": {
+          "n": 3900,
+          "min": 5.15e-05,
+          "median": 0.010086896,
+          "p95": 0.023661375,
+          "p99": 0.027139834,
+          "max": 0.030839125
+        },
+        "cpu_s": {
+          "n": 3900,
+          "min": 5.150000000009314e-05,
+          "median": 0.010073853999999993,
+          "p95": 0.023655584000000007,
+          "p99": 0.027134583000000004,
+          "max": 0.030827875000000005
+        },
+        "non_cpu_s": {
+          "n": 3900,
+          "min": -1.6700000001618198e-07,
+          "median": 5.204170427930421e-18,
+          "p95": 5.49899999998521e-06,
+          "p99": 2.6833000000005616e-05,
+          "max": 0.00020137500000000277
+        },
+        "publication_gap_s": {
+          "n": 3900,
+          "min": 0.019346417000000005,
+          "median": 0.04462781249999992,
+          "p95": 0.05522912499999999,
+          "p99": 0.077789667,
+          "max": 0.08456745800000004
+        }
+      }
+    },
+    "final_normal300": {
+      "name": "final_normal300",
+      "sessions": 300,
+      "passed": 300,
+      "failed": 0,
+      "audio_pass": 300,
+      "measurement_valid": 300,
+      "workgroup_sessions": 300,
+      "workgroup_policy_measured_sessions": 300,
+      "realtime_cpp_allocations_measured_sessions": 300,
+      "callback_cpp_allocations_measured_sessions": 300,
+      "pcm_prefix_exact": 300,
+      "pcm_complete_exact": 300,
+      "failures": [],
+      "counter_totals": {
+        "missing_frames": 0,
+        "missing_calls": 0,
+        "rejected_writes": 0,
+        "callback_deadlines": 0,
+        "hal_misses": 0,
+        "host_missing": 0,
+        "host_backwards": 0,
+        "host_cadence_errors": 0,
+        "sample_errors": 0,
+        "callback_formats": 0,
+        "pcm_mismatches": 0,
+        "callback_cpp_allocations": 0,
+        "realtime_cpp_new_calls": 0,
+        "workgroup_deadline_misses": 0,
+        "workgroup_policy_errors": 0,
+        "workgroup_join_errors": 0,
+        "workgroup_restore_errors": 0,
+        "workgroup_interval_errors": 0,
+        "workgroup_query_errors": 0,
+        "workgroup_wait_errors": 0,
+        "workgroup_wake_errors": 0,
+        "worker_profile_dropped": 0,
+        "detail_dropped": 0,
+        "thread_samples_dropped": 0,
+        "thread_sample_errors": 0
+      },
+      "metric_distributions": {
+        "max_consecutive_missing": {
+          "n": 300,
+          "min": 0,
+          "median": 0.0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        },
+        "fifo_high_water": {
+          "n": 300,
+          "min": 16384,
+          "median": 16384.0,
+          "p95": 16384,
+          "p99": 16384,
+          "max": 16384
+        },
+        "max_dsp_wall_s": {
+          "n": 300,
+          "min": 0.025759125,
+          "median": 0.030592749500000002,
+          "p95": 0.036002708,
+          "p99": 0.072030791,
+          "max": 0.222676375
+        },
+        "max_dsp_cpu_s": {
+          "n": 300,
+          "min": 0.02569129199999999,
+          "median": 0.028963208500000004,
+          "p95": 0.032484458,
+          "p99": 0.035851333,
+          "max": 0.037771791
+        },
+        "max_publication_gap_s": {
+          "n": 300,
+          "min": 0.069031375,
+          "median": 0.07640289600000001,
+          "p95": 0.08144541599999999,
+          "p99": 0.08485829200000003,
+          "max": 0.22267750000000003
+        },
+        "analysis_wait_s": {
+          "n": 300,
+          "min": 0.0018160840000000001,
+          "median": 0.004647062,
+          "p95": 0.009970082999999998,
+          "p99": 0.023215749,
+          "max": 0.0953125
+        },
+        "backpressure_wait_s": {
+          "n": 300,
+          "min": 1.2116448160000002,
+          "median": 1.2470984829999998,
+          "p95": 1.2534227109999998,
+          "p99": 1.2555585280000008,
+          "max": 1.2573136480000024
+        },
+        "analysis_worker_cpu_s": {
+          "n": 300,
+          "min": 0.022158208000000002,
+          "median": 0.0300177085,
+          "p95": 0.037624792000000004,
+          "p99": 0.03915825,
+          "max": 0.039725334
+        },
+        "dsp_worker_cpu_s": {
+          "n": 300,
+          "min": 0.520315583,
+          "median": 0.5301109795000001,
+          "p95": 0.553643625,
+          "p99": 0.559033167,
+          "max": 0.5709709580000001
+        },
+        "process_cpu_s": {
+          "n": 300,
+          "min": 0.613971,
+          "median": 0.6270814999999998,
+          "p95": 0.657557,
+          "p99": 0.6700090000000001,
+          "max": 0.679803
+        },
+        "peak_rss_bytes": {
+          "n": 300,
+          "min": 50200576,
+          "median": 51331072.0,
+          "p95": 51593216,
+          "p99": 51691520,
+          "max": 51757056
+        },
+        "ready_s": {
+          "n": 300,
+          "min": 0.157612667,
+          "median": 0.168979,
+          "p95": 0.206297042,
+          "p99": 0.315803459,
+          "max": 0.630218834
+        },
+        "resident_ready_s": {
+          "n": 300,
+          "min": 0.00105075,
+          "median": 0.0015725420000000001,
+          "p95": 0.002537458,
+          "p99": 0.003623417,
+          "max": 0.012632333
+        },
+        "first_callback_s": {
+          "n": 300,
+          "min": 0.172312979,
+          "median": 0.18530125,
+          "p95": 0.227128687,
+          "p99": 0.33497014700000005,
+          "max": 0.64644848
+        }
+      },
+      "active_block_thread_samples": 41344,
+      "active_block_sample_policy_priority": {
+        "(0, 2, 97)": 41344
+      },
+      "scheduling_delay_per_session_s": null,
+      "unknown_wait_per_session_s": null,
+      "scheduling_delay_scope": "Continuous state available only in OS trace cohorts; samples do not fill gaps",
+      "all_blocks": {
+        "count": 14100,
+        "wall_s": {
+          "n": 14100,
+          "min": 4.3667e-05,
+          "median": 0.010029729000000001,
+          "p95": 0.024989375,
+          "p99": 0.030789833,
+          "max": 0.222676375
+        },
+        "cpu_s": {
+          "n": 14100,
+          "min": 4.366600000005327e-05,
+          "median": 0.010018166500000009,
+          "p95": 0.024963249999999992,
+          "p99": 0.02916325,
+          "max": 0.037771791
+        },
+        "non_cpu_s": {
+          "n": 14100,
+          "min": -3.7599999994590284e-07,
+          "median": 1.1275702593849246e-17,
+          "p95": 4.908399999998918e-05,
+          "p99": 0.0018724580000000005,
+          "max": 0.21125825
+        },
+        "publication_gap_s": {
+          "n": 14100,
+          "min": 0.0,
+          "median": 0.03871679199999989,
+          "p95": 0.053823374999999896,
+          "p99": 0.07679708300000002,
+          "max": 0.22267750000000003
+        }
+      },
+      "realtime_blocks": {
+        "count": 11700,
+        "wall_s": {
+          "n": 11700,
+          "min": 4.3667e-05,
+          "median": 0.0100866045,
+          "p95": 0.023548916,
+          "p99": 0.026601875,
+          "max": 0.032119666
+        },
+        "cpu_s": {
+          "n": 11700,
+          "min": 4.366600000005327e-05,
+          "median": 0.010085916500000014,
+          "p95": 0.023543082999999992,
+          "p99": 0.026597167000000005,
+          "max": 0.032108374999999995
+        },
+        "non_cpu_s": {
+          "n": 11700,
+          "min": -3.7599999994590284e-07,
+          "median": 5.204170427930421e-18,
+          "p95": 5.458999999997591e-06,
+          "p99": 2.666700000000452e-05,
+          "max": 0.0006007090000000014
+        },
+        "publication_gap_s": {
+          "n": 11700,
+          "min": 0.01926091699999999,
+          "median": 0.04458145850000006,
+          "p95": 0.05492116700000005,
+          "p99": 0.077230666,
+          "max": 0.08535424999999999
+        }
+      }
+    },
+    "cpu_load100": {
+      "name": "cpu_load100",
+      "sessions": 100,
+      "passed": 100,
+      "failed": 0,
+      "audio_pass": 100,
+      "measurement_valid": 100,
+      "workgroup_sessions": 100,
+      "workgroup_policy_measured_sessions": 100,
+      "realtime_cpp_allocations_measured_sessions": 100,
+      "callback_cpp_allocations_measured_sessions": 100,
+      "pcm_prefix_exact": 100,
+      "pcm_complete_exact": 100,
+      "failures": [],
+      "counter_totals": {
+        "missing_frames": 0,
+        "missing_calls": 0,
+        "rejected_writes": 0,
+        "callback_deadlines": 0,
+        "hal_misses": 0,
+        "host_missing": 0,
+        "host_backwards": 0,
+        "host_cadence_errors": 0,
+        "sample_errors": 0,
+        "callback_formats": 0,
+        "pcm_mismatches": 0,
+        "callback_cpp_allocations": 0,
+        "realtime_cpp_new_calls": 0,
+        "workgroup_deadline_misses": 0,
+        "workgroup_policy_errors": 0,
+        "workgroup_join_errors": 0,
+        "workgroup_restore_errors": 0,
+        "workgroup_interval_errors": 0,
+        "workgroup_query_errors": 0,
+        "workgroup_wait_errors": 0,
+        "workgroup_wake_errors": 0,
+        "worker_profile_dropped": 0,
+        "detail_dropped": 0,
+        "thread_samples_dropped": 0,
+        "thread_sample_errors": 0
+      },
+      "metric_distributions": {
+        "max_consecutive_missing": {
+          "n": 100,
+          "min": 0,
+          "median": 0.0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        },
+        "fifo_high_water": {
+          "n": 100,
+          "min": 16384,
+          "median": 16384.0,
+          "p95": 16384,
+          "p99": 16384,
+          "max": 16384
+        },
+        "max_dsp_wall_s": {
+          "n": 100,
+          "min": 0.030229,
+          "median": 0.038260687,
+          "p95": 0.042101458,
+          "p99": 0.050336333,
+          "max": 0.086177583
+        },
+        "max_dsp_cpu_s": {
+          "n": 100,
+          "min": 0.029259625,
+          "median": 0.03547808350000001,
+          "p95": 0.038737125000000004,
+          "p99": 0.039634,
+          "max": 0.040666
+        },
+        "max_publication_gap_s": {
+          "n": 100,
+          "min": 0.07021833399999997,
+          "median": 0.07585375000000001,
+          "p95": 0.08062508300000001,
+          "p99": 0.09631004199999998,
+          "max": 0.09633825000000001
+        },
+        "analysis_wait_s": {
+          "n": 100,
+          "min": 0,
+          "median": 0.0032209585,
+          "p95": 0.007896083,
+          "p99": 0.010697418,
+          "max": 0.019102248999999998
+        },
+        "backpressure_wait_s": {
+          "n": 100,
+          "min": 1.1912264249999993,
+          "median": 1.2031835114999994,
+          "p95": 1.2433846259999999,
+          "p99": 1.2454308839999997,
+          "max": 1.2639360840000005
+        },
+        "analysis_worker_cpu_s": {
+          "n": 100,
+          "min": 0.023127833,
+          "median": 0.027453396,
+          "p95": 0.030824792000000004,
+          "p99": 0.031901834000000004,
+          "max": 0.033315167
+        },
+        "dsp_worker_cpu_s": {
+          "n": 100,
+          "min": 0.53697375,
+          "median": 0.5952347085,
+          "p95": 0.601144125,
+          "p99": 0.605310959,
+          "max": 0.606783666
+        },
+        "process_cpu_s": {
+          "n": 100,
+          "min": 4.630146,
+          "median": 5.121855,
+          "p95": 5.151927000000001,
+          "p99": 5.1659049999999995,
+          "max": 5.183491999999999
+        },
+        "peak_rss_bytes": {
+          "n": 100,
+          "min": 185401344,
+          "median": 185761792.0,
+          "p95": 185991168,
+          "p99": 186089472,
+          "max": 186105856
+        },
+        "ready_s": {
+          "n": 100,
+          "min": 0.170066833,
+          "median": 0.19210431249999999,
+          "p95": 0.2075415,
+          "p99": 0.251234084,
+          "max": 0.299916583
+        },
+        "resident_ready_s": {
+          "n": 100,
+          "min": 0.001281041,
+          "median": 0.0020380625,
+          "p95": 0.002595333,
+          "p99": 0.003745709,
+          "max": 0.013100125
+        },
+        "first_callback_s": {
+          "n": 100,
+          "min": 0.18460739550000002,
+          "median": 0.20843626,
+          "p95": 0.226974271,
+          "p99": 0.26445314600000003,
+          "max": 0.338896937
+        }
+      },
+      "active_block_thread_samples": 14782,
+      "active_block_sample_policy_priority": {
+        "(0, 2, 97)": 14782
+      },
+      "scheduling_delay_per_session_s": null,
+      "unknown_wait_per_session_s": null,
+      "scheduling_delay_scope": "Continuous state available only in OS trace cohorts; samples do not fill gaps",
+      "all_blocks": {
+        "count": 4700,
+        "wall_s": {
+          "n": 4700,
+          "min": 4.9625e-05,
+          "median": 0.010478771,
+          "p95": 0.024745375,
+          "p99": 0.038490792,
+          "max": 0.086177583
+        },
+        "cpu_s": {
+          "n": 4700,
+          "min": 4.966699999997548e-05,
+          "median": 0.010451479000000007,
+          "p95": 0.024642333000000016,
+          "p99": 0.035650958,
+          "max": 0.040666
+        },
+        "non_cpu_s": {
+          "n": 4700,
+          "min": -1.2500000000532918e-07,
+          "median": 2.0816681711721685e-17,
+          "p95": 9.904099999999937e-05,
+          "p99": 0.002828334000000002,
+          "max": 0.08079908300000001
+        },
+        "publication_gap_s": {
+          "n": 4700,
+          "min": 0.0,
+          "median": 0.03887714549999999,
+          "p95": 0.05554999999999999,
+          "p99": 0.07609079200000002,
+          "max": 0.09633825000000001
+        }
+      },
+      "realtime_blocks": {
+        "count": 3900,
+        "wall_s": {
+          "n": 3900,
+          "min": 4.9625e-05,
+          "median": 0.0102496045,
+          "p95": 0.023185583,
+          "p99": 0.026411292,
+          "max": 0.029328625
+        },
+        "cpu_s": {
+          "n": 3900,
+          "min": 4.966699999997548e-05,
+          "median": 0.010247812499999981,
+          "p95": 0.023181167000000003,
+          "p99": 0.026406,
+          "max": 0.029323792000000015
+        },
+        "non_cpu_s": {
+          "n": 3900,
+          "min": -1.2500000000532918e-07,
+          "median": 5.204170427930421e-18,
+          "p95": 4.8339999999917616e-06,
+          "p99": 9.416999999997677e-06,
+          "max": 3.466700000000038e-05
+        },
+        "publication_gap_s": {
+          "n": 3900,
+          "min": 0.02170708299999996,
+          "median": 0.04515595800000005,
+          "p95": 0.0558186249999999,
+          "p99": 0.07668645799999999,
+          "max": 0.09633825000000001
+        }
+      }
+    },
+    "profile_off20": {
+      "name": "profile_off20",
+      "sessions": 20,
+      "passed": 20,
+      "failed": 0,
+      "audio_pass": 20,
+      "measurement_valid": 20,
+      "workgroup_sessions": 20,
+      "workgroup_policy_measured_sessions": 20,
+      "realtime_cpp_allocations_measured_sessions": 20,
+      "callback_cpp_allocations_measured_sessions": 20,
+      "pcm_prefix_exact": 20,
+      "pcm_complete_exact": 20,
+      "failures": [],
+      "counter_totals": {
+        "missing_frames": 0,
+        "missing_calls": 0,
+        "rejected_writes": 0,
+        "callback_deadlines": 0,
+        "hal_misses": 0,
+        "host_missing": 0,
+        "host_backwards": 0,
+        "host_cadence_errors": 0,
+        "sample_errors": 0,
+        "callback_formats": 0,
+        "pcm_mismatches": 0,
+        "callback_cpp_allocations": 0,
+        "realtime_cpp_new_calls": 0,
+        "workgroup_deadline_misses": 0,
+        "workgroup_policy_errors": 0,
+        "workgroup_join_errors": 0,
+        "workgroup_restore_errors": 0,
+        "workgroup_interval_errors": 0,
+        "workgroup_query_errors": 0,
+        "workgroup_wait_errors": 0,
+        "workgroup_wake_errors": 0,
+        "worker_profile_dropped": 0,
+        "detail_dropped": 0,
+        "thread_samples_dropped": 0,
+        "thread_sample_errors": 0
+      },
+      "metric_distributions": {
+        "max_consecutive_missing": {
+          "n": 20,
+          "min": 0,
+          "median": 0.0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        },
+        "fifo_high_water": {
+          "n": 20,
+          "min": 16384,
+          "median": 16384.0,
+          "p95": 16384,
+          "p99": 16384,
+          "max": 16384
+        },
+        "max_dsp_wall_s": {
+          "n": 20,
+          "min": 0.026209792,
+          "median": 0.030041979,
+          "p95": 0.0322525,
+          "p99": 0.032558792,
+          "max": 0.032558792
+        },
+        "max_dsp_cpu_s": {
+          "n": 20,
+          "min": 0.026017667,
+          "median": 0.029135688,
+          "p95": 0.030763040999999998,
+          "p99": 0.03137637500000001,
+          "max": 0.03137637500000001
+        },
+        "max_publication_gap_s": {
+          "n": 20,
+          "min": 0.071177458,
+          "median": 0.07952679150000001,
+          "p95": 0.08443562500000001,
+          "p99": 0.08444912499999999,
+          "max": 0.08444912499999999
+        },
+        "analysis_wait_s": {
+          "n": 20,
+          "min": 0.003360834,
+          "median": 0.006397896,
+          "p95": 0.009514625,
+          "p99": 0.009567958,
+          "max": 0.009567958
+        },
+        "backpressure_wait_s": {
+          "n": 20,
+          "min": 1.2216564199999993,
+          "median": 1.2423746854999993,
+          "p95": 1.2550239049999985,
+          "p99": 1.2552782019999997,
+          "max": 1.2552782019999997
+        },
+        "analysis_worker_cpu_s": {
+          "n": 20,
+          "min": 0.027895541000000003,
+          "median": 0.030352041500000003,
+          "p95": 0.036772291,
+          "p99": 0.03714566700000001,
+          "max": 0.03714566700000001
+        },
+        "dsp_worker_cpu_s": {
+          "n": 20,
+          "min": 0.5215756250000001,
+          "median": 0.5403298545,
+          "p95": 0.5576202499999999,
+          "p99": 0.55874425,
+          "max": 0.55874425
+        },
+        "process_cpu_s": {
+          "n": 20,
+          "min": 0.607262,
+          "median": 0.627571,
+          "p95": 0.650126,
+          "p99": 0.653469,
+          "max": 0.653469
+        },
+        "peak_rss_bytes": {
+          "n": 20,
+          "min": 51019776,
+          "median": 51249152.0,
+          "p95": 51445760,
+          "p99": 51478528,
+          "max": 51478528
+        },
+        "ready_s": {
+          "n": 20,
+          "min": 0.161760375,
+          "median": 0.16812966699999998,
+          "p95": 0.175623291,
+          "p99": 0.177097417,
+          "max": 0.177097417
+        },
+        "resident_ready_s": {
+          "n": 20,
+          "min": 0.001062292,
+          "median": 0.0014044790000000001,
+          "p95": 0.001527125,
+          "p99": 0.001558708,
+          "max": 0.001558708
+        },
+        "first_callback_s": {
+          "n": 20,
+          "min": 0.176527646,
+          "median": 0.1883331145,
+          "p95": 0.1935472085,
+          "p99": 0.1960294165,
+          "max": 0.1960294165
+        }
+      },
+      "active_block_thread_samples": 0,
+      "active_block_sample_policy_priority": {},
+      "scheduling_delay_per_session_s": null,
+      "unknown_wait_per_session_s": null,
+      "scheduling_delay_scope": "Continuous state available only in OS trace cohorts; samples do not fill gaps",
+      "all_blocks": {
+        "count": 0,
+        "wall_s": null,
+        "cpu_s": null,
+        "non_cpu_s": null,
+        "publication_gap_s": null
+      },
+      "realtime_blocks": {
+        "count": 0,
+        "wall_s": null,
+        "cpu_s": null,
+        "non_cpu_s": null,
+        "publication_gap_s": null
+      }
+    },
+    "resident_standard20": {
+      "name": "resident_standard20",
+      "sessions": 20,
+      "passed": 20,
+      "failed": 0,
+      "audio_pass": 20,
+      "measurement_valid": 20,
+      "workgroup_sessions": 0,
+      "workgroup_policy_measured_sessions": 0,
+      "realtime_cpp_allocations_measured_sessions": 0,
+      "callback_cpp_allocations_measured_sessions": 20,
+      "pcm_prefix_exact": 20,
+      "pcm_complete_exact": 20,
+      "failures": [],
+      "counter_totals": {
+        "missing_frames": 0,
+        "missing_calls": 0,
+        "rejected_writes": 0,
+        "callback_deadlines": 0,
+        "hal_misses": 0,
+        "host_missing": 0,
+        "host_backwards": 0,
+        "host_cadence_errors": 0,
+        "sample_errors": 0,
+        "callback_formats": 0,
+        "pcm_mismatches": 0,
+        "callback_cpp_allocations": 0,
+        "realtime_cpp_new_calls": null,
+        "workgroup_deadline_misses": null,
+        "workgroup_policy_errors": null,
+        "workgroup_join_errors": null,
+        "workgroup_restore_errors": null,
+        "workgroup_interval_errors": null,
+        "workgroup_query_errors": null,
+        "workgroup_wait_errors": null,
+        "workgroup_wake_errors": null,
+        "worker_profile_dropped": 0,
+        "detail_dropped": 0,
+        "thread_samples_dropped": 0,
+        "thread_sample_errors": 0
+      },
+      "metric_distributions": {
+        "max_consecutive_missing": {
+          "n": 20,
+          "min": 0,
+          "median": 0.0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        },
+        "fifo_high_water": {
+          "n": 20,
+          "min": 16384,
+          "median": 16384.0,
+          "p95": 16384,
+          "p99": 16384,
+          "max": 16384
+        },
+        "max_dsp_wall_s": {
+          "n": 20,
+          "min": 0.025109041,
+          "median": 0.0255709375,
+          "p95": 0.034580833,
+          "p99": 0.08396675,
+          "max": 0.08396675
+        },
+        "max_dsp_cpu_s": {
+          "n": 20,
+          "min": 0.024386083000000003,
+          "median": 0.025418000000000003,
+          "p95": 0.026471166000000004,
+          "p99": 0.027125750000000004,
+          "max": 0.027125750000000004
+        },
+        "max_publication_gap_s": {
+          "n": 20,
+          "min": 0.05860737499999999,
+          "median": 0.06656827099999996,
+          "p95": 0.07114779100000002,
+          "p99": 0.12354741699999994,
+          "max": 0.12354741699999994
+        },
+        "analysis_wait_s": {
+          "n": 20,
+          "min": 0.002082375,
+          "median": 0.0046755215,
+          "p95": 0.007966875,
+          "p99": 0.010614167,
+          "max": 0.010614167
+        },
+        "backpressure_wait_s": {
+          "n": 20,
+          "min": 1.1572908500000005,
+          "median": 1.2688819835,
+          "p95": 1.276300588,
+          "p99": 1.279629385000001,
+          "max": 1.279629385000001
+        },
+        "analysis_worker_cpu_s": {
+          "n": 20,
+          "min": 0.022086958,
+          "median": 0.025596521500000004,
+          "p95": 0.035918958,
+          "p99": 0.036554375,
+          "max": 0.036554375
+        },
+        "dsp_worker_cpu_s": {
+          "n": 20,
+          "min": 0.503568292,
+          "median": 0.5094556665000001,
+          "p95": 0.5335795000000001,
+          "p99": 0.548268792,
+          "max": 0.548268792
+        },
+        "process_cpu_s": {
+          "n": 20,
+          "min": 0.583211,
+          "median": 0.5934294999999999,
+          "p95": 0.6282409999999999,
+          "p99": 0.639948,
+          "max": 0.639948
+        },
+        "peak_rss_bytes": {
+          "n": 20,
+          "min": 50954240,
+          "median": 51191808.0,
+          "p95": 51445760,
+          "p99": 51544064,
+          "max": 51544064
+        },
+        "ready_s": {
+          "n": 20,
+          "min": 0.114992958,
+          "median": 0.118602229,
+          "p95": 0.130306042,
+          "p99": 0.138410875,
+          "max": 0.138410875
+        },
+        "resident_ready_s": {
+          "n": 20,
+          "min": 0.001200125,
+          "median": 0.001415146,
+          "p95": 0.001563708,
+          "p99": 0.001763417,
+          "max": 0.001763417
+        },
+        "first_callback_s": {
+          "n": 20,
+          "min": 0.1301168125,
+          "median": 0.13825912475000002,
+          "p95": 0.1498210835,
+          "p99": 0.1515411465,
+          "max": 0.1515411465
+        }
+      },
+      "active_block_thread_samples": 0,
+      "active_block_sample_policy_priority": {},
+      "scheduling_delay_per_session_s": null,
+      "unknown_wait_per_session_s": null,
+      "scheduling_delay_scope": "Continuous state available only in OS trace cohorts; samples do not fill gaps",
+      "all_blocks": {
+        "count": 940,
+        "wall_s": {
+          "n": 940,
+          "min": 4.5417e-05,
+          "median": 0.010078061999999999,
+          "p95": 0.021544541,
+          "p99": 0.026772833,
+          "max": 0.08396675
+        },
+        "cpu_s": {
+          "n": 940,
+          "min": 4.541700000004756e-05,
+          "median": 0.009916354500000002,
+          "p95": 0.019399458000000036,
+          "p99": 0.025458792,
+          "max": 0.027125750000000004
+        },
+        "non_cpu_s": {
+          "n": 940,
+          "min": -8.399999995925556e-08,
+          "median": 4.1999999968352075e-08,
+          "p95": 0.0009824159999999998,
+          "p99": 0.004990291999999966,
+          "max": 0.059756417000000034
+        },
+        "publication_gap_s": {
+          "n": 940,
+          "min": 0.0,
+          "median": 0.038851271000000076,
+          "p95": 0.05374166700000005,
+          "p99": 0.067147167,
+          "max": 0.12354741699999994
+        }
+      },
+      "realtime_blocks": {
+        "count": 0,
+        "wall_s": null,
+        "cpu_s": null,
+        "non_cpu_s": null,
+        "publication_gap_s": null
+      }
+    },
+    "v3_normal300": {
+      "name": "v3_normal300",
+      "sessions": 300,
+      "passed": 300,
+      "failed": 0,
+      "audio_pass": 300,
+      "measurement_valid": 300,
+      "workgroup_sessions": 300,
+      "workgroup_policy_measured_sessions": 300,
+      "realtime_cpp_allocations_measured_sessions": 300,
+      "callback_cpp_allocations_measured_sessions": 300,
+      "pcm_prefix_exact": 300,
+      "pcm_complete_exact": 300,
+      "failures": [],
+      "counter_totals": {
+        "missing_frames": 0,
+        "missing_calls": 0,
+        "rejected_writes": 0,
+        "callback_deadlines": 0,
+        "hal_misses": 0,
+        "host_missing": 0,
+        "host_backwards": 0,
+        "host_cadence_errors": 0,
+        "sample_errors": 0,
+        "callback_formats": 0,
+        "pcm_mismatches": 0,
+        "callback_cpp_allocations": 0,
+        "realtime_cpp_new_calls": 0,
+        "workgroup_deadline_misses": 0,
+        "workgroup_policy_errors": 0,
+        "workgroup_join_errors": 0,
+        "workgroup_restore_errors": 0,
+        "workgroup_interval_errors": 0,
+        "workgroup_query_errors": 0,
+        "workgroup_wait_errors": 0,
+        "workgroup_wake_errors": 0,
+        "worker_profile_dropped": 0,
+        "detail_dropped": 0,
+        "thread_samples_dropped": 0,
+        "thread_sample_errors": 0
+      },
+      "metric_distributions": {
+        "max_consecutive_missing": {
+          "n": 300,
+          "min": 0,
+          "median": 0.0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        },
+        "fifo_high_water": {
+          "n": 300,
+          "min": 16384,
+          "median": 16384.0,
+          "p95": 16384,
+          "p99": 16384,
+          "max": 16384
+        },
+        "max_dsp_wall_s": {
+          "n": 300,
+          "min": 0.027941084,
+          "median": 0.029889917000000002,
+          "p95": 0.033623833,
+          "p99": 0.071119042,
+          "max": 0.202857791
+        },
+        "max_dsp_cpu_s": {
+          "n": 300,
+          "min": 0.027193333,
+          "median": 0.029121291500000004,
+          "p95": 0.031433959,
+          "p99": 0.033224708,
+          "max": 0.036102042
+        },
+        "max_publication_gap_s": {
+          "n": 300,
+          "min": 0.07198354100000001,
+          "median": 0.07722852100000001,
+          "p95": 0.07927062499999998,
+          "p99": 0.08637883300000002,
+          "max": 0.16987991700000002
+        },
+        "analysis_wait_s": {
+          "n": 300,
+          "min": 0.001869125,
+          "median": 0.004197979,
+          "p95": 0.0069092500000000005,
+          "p99": 0.007621084,
+          "max": 0.022214542
+        },
+        "backpressure_wait_s": {
+          "n": 300,
+          "min": 1.1987004179999996,
+          "median": 1.2195636615000003,
+          "p95": 1.2334584059999991,
+          "p99": 1.2439686349999983,
+          "max": 1.2536110460000007
+        },
+        "analysis_worker_cpu_s": {
+          "n": 300,
+          "min": 0.020210208,
+          "median": 0.027622083500000002,
+          "p95": 0.030407292000000002,
+          "p99": 0.032829292,
+          "max": 0.034238083
+        },
+        "dsp_worker_cpu_s": {
+          "n": 300,
+          "min": 0.522995583,
+          "median": 0.5520574165000001,
+          "p95": 0.5577326659999999,
+          "p99": 0.565594542,
+          "max": 0.57319375
+        },
+        "process_cpu_s": {
+          "n": 300,
+          "min": 0.609662,
+          "median": 0.6458075000000001,
+          "p95": 0.6549849999999999,
+          "p99": 0.664302,
+          "max": 0.672769
+        },
+        "peak_rss_bytes": {
+          "n": 300,
+          "min": 64094208,
+          "median": 64487424.0,
+          "p95": 64700416,
+          "p99": 64765952,
+          "max": 64782336
+        },
+        "ready_s": {
+          "n": 300,
+          "min": 0.155988042,
+          "median": 0.1656127705,
+          "p95": 0.174157375,
+          "p99": 0.252172625,
+          "max": 0.45409475
+        },
+        "resident_ready_s": {
+          "n": 300,
+          "min": 0.001170583,
+          "median": 0.0019089789999999999,
+          "p95": 0.002460083,
+          "p99": 0.004440292,
+          "max": 0.006971834
+        },
+        "first_callback_s": {
+          "n": 300,
+          "min": 0.17062287450000002,
+          "median": 0.18042654200000002,
+          "p95": 0.1892082705,
+          "p99": 0.26743950050000004,
+          "max": 0.4688247495
+        }
+      },
+      "active_block_thread_samples": 27026,
+      "active_block_sample_policy_priority": {
+        "(0, 2, 97)": 27026
+      },
+      "scheduling_delay_per_session_s": null,
+      "unknown_wait_per_session_s": null,
+      "scheduling_delay_scope": "Continuous state available only in OS trace cohorts; samples do not fill gaps",
+      "all_blocks": {
+        "count": 14100,
+        "wall_s": {
+          "n": 14100,
+          "min": 4.1333e-05,
+          "median": 0.010038166500000001,
+          "p95": 0.02570175,
+          "p99": 0.030033375,
+          "max": 0.202857791
+        },
+        "cpu_s": {
+          "n": 14100,
+          "min": 4.133400000005949e-05,
+          "median": 0.010027000000000008,
+          "p95": 0.025694042,
+          "p99": 0.029233542000000015,
+          "max": 0.036102042
+        },
+        "non_cpu_s": {
+          "n": 14100,
+          "min": -2.499999999829028e-07,
+          "median": 1.3877787807814457e-17,
+          "p95": 1.3457999999980097e-05,
+          "p99": 0.0016139999999999974,
+          "max": 0.16963308300000002
+        },
+        "publication_gap_s": {
+          "n": 14100,
+          "min": 0.0,
+          "median": 0.0387052710000001,
+          "p95": 0.054585707999999844,
+          "p99": 0.07734779200000003,
+          "max": 0.16987991700000002
+        }
+      },
+      "realtime_blocks": {
+        "count": 11700,
+        "wall_s": {
+          "n": 11700,
+          "min": 4.1333e-05,
+          "median": 0.010776770500000001,
+          "p95": 0.025529916,
+          "p99": 0.029225208,
+          "max": 0.032040459
+        },
+        "cpu_s": {
+          "n": 11700,
+          "min": 4.133400000005949e-05,
+          "median": 0.010765937000000003,
+          "p95": 0.025527541999999986,
+          "p99": 0.029213166000000013,
+          "max": 0.03202920799999999
+        },
+        "non_cpu_s": {
+          "n": 11700,
+          "min": -2.499999999829028e-07,
+          "median": 6.938893903907228e-18,
+          "p95": 6.416999999994677e-06,
+          "p99": 1.2292000000000552e-05,
+          "max": 0.001860499999999994
+        },
+        "publication_gap_s": {
+          "n": 11700,
+          "min": 0.01851066700000001,
+          "median": 0.044096417,
+          "p95": 0.05534916699999998,
+          "p99": 0.07759616600000002,
+          "max": 0.099719625
+        }
+      }
+    },
+    "v3_cpu100": {
+      "name": "v3_cpu100",
+      "sessions": 100,
+      "passed": 100,
+      "failed": 0,
+      "audio_pass": 100,
+      "measurement_valid": 100,
+      "workgroup_sessions": 100,
+      "workgroup_policy_measured_sessions": 100,
+      "realtime_cpp_allocations_measured_sessions": 100,
+      "callback_cpp_allocations_measured_sessions": 100,
+      "pcm_prefix_exact": 100,
+      "pcm_complete_exact": 100,
+      "failures": [],
+      "counter_totals": {
+        "missing_frames": 0,
+        "missing_calls": 0,
+        "rejected_writes": 0,
+        "callback_deadlines": 0,
+        "hal_misses": 0,
+        "host_missing": 0,
+        "host_backwards": 0,
+        "host_cadence_errors": 0,
+        "sample_errors": 0,
+        "callback_formats": 0,
+        "pcm_mismatches": 0,
+        "callback_cpp_allocations": 0,
+        "realtime_cpp_new_calls": 0,
+        "workgroup_deadline_misses": 0,
+        "workgroup_policy_errors": 0,
+        "workgroup_join_errors": 0,
+        "workgroup_restore_errors": 0,
+        "workgroup_interval_errors": 0,
+        "workgroup_query_errors": 0,
+        "workgroup_wait_errors": 0,
+        "workgroup_wake_errors": 0,
+        "worker_profile_dropped": 0,
+        "detail_dropped": 0,
+        "thread_samples_dropped": 0,
+        "thread_sample_errors": 0
+      },
+      "metric_distributions": {
+        "max_consecutive_missing": {
+          "n": 100,
+          "min": 0,
+          "median": 0.0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        },
+        "fifo_high_water": {
+          "n": 100,
+          "min": 16384,
+          "median": 16384.0,
+          "p95": 16384,
+          "p99": 16384,
+          "max": 16384
+        },
+        "max_dsp_wall_s": {
+          "n": 100,
+          "min": 0.028027667,
+          "median": 0.036327792,
+          "p95": 0.038903875,
+          "p99": 0.041631959,
+          "max": 0.17538625
+        },
+        "max_dsp_cpu_s": {
+          "n": 100,
+          "min": 0.027331167,
+          "median": 0.03371927100000001,
+          "p95": 0.036111458000000006,
+          "p99": 0.037036709,
+          "max": 0.03788875
+        },
+        "max_publication_gap_s": {
+          "n": 100,
+          "min": 0.073211625,
+          "median": 0.07530779150000001,
+          "p95": 0.07709874999999997,
+          "p99": 0.09599329099999998,
+          "max": 0.175386542
+        },
+        "analysis_wait_s": {
+          "n": 100,
+          "min": 0,
+          "median": 0.0034542080000000003,
+          "p95": 0.011639876999999998,
+          "p99": 0.014677041999999998,
+          "max": 0.025311124999999997
+        },
+        "backpressure_wait_s": {
+          "n": 100,
+          "min": 1.2095189089999987,
+          "median": 1.2350182545000008,
+          "p95": 1.2431844530000011,
+          "p99": 1.2432941870000007,
+          "max": 1.2632966229999996
+        },
+        "analysis_worker_cpu_s": {
+          "n": 100,
+          "min": 0.025399542,
+          "median": 0.029166958500000003,
+          "p95": 0.033692542,
+          "p99": 0.036417541,
+          "max": 0.03727587500000001
+        },
+        "dsp_worker_cpu_s": {
+          "n": 100,
+          "min": 0.533611334,
+          "median": 0.5535384170000001,
+          "p95": 0.571899334,
+          "p99": 0.579978125,
+          "max": 0.581556833
+        },
+        "process_cpu_s": {
+          "n": 100,
+          "min": 4.427447,
+          "median": 5.0646865000000005,
+          "p95": 5.0914839999999995,
+          "p99": 5.115321000000001,
+          "max": 5.116388
+        },
+        "peak_rss_bytes": {
+          "n": 100,
+          "min": 198492160,
+          "median": 198901760.0,
+          "p95": 199180288,
+          "p99": 199213056,
+          "max": 199294976
+        },
+        "ready_s": {
+          "n": 100,
+          "min": 0.167489916,
+          "median": 0.178323229,
+          "p95": 0.188742334,
+          "p99": 0.209775333,
+          "max": 0.37901725
+        },
+        "resident_ready_s": {
+          "n": 100,
+          "min": 0.001284125,
+          "median": 0.0018092915,
+          "p95": 0.002399333,
+          "p99": 0.002671167,
+          "max": 0.004567125
+        },
+        "first_callback_s": {
+          "n": 100,
+          "min": 0.18298410350000002,
+          "median": 0.19327256250000002,
+          "p95": 0.204723125,
+          "p99": 0.224652896,
+          "max": 0.393813312
+        }
+      },
+      "active_block_thread_samples": 14336,
+      "active_block_sample_policy_priority": {
+        "(0, 2, 97)": 14336
+      },
+      "scheduling_delay_per_session_s": null,
+      "unknown_wait_per_session_s": null,
+      "scheduling_delay_scope": "Continuous state available only in OS trace cohorts; samples do not fill gaps",
+      "all_blocks": {
+        "count": 4700,
+        "wall_s": {
+          "n": 4700,
+          "min": 4.5292e-05,
+          "median": 0.0102913125,
+          "p95": 0.024116291,
+          "p99": 0.036365541,
+          "max": 0.17538625
+        },
+        "cpu_s": {
+          "n": 4700,
+          "min": 4.529100000005837e-05,
+          "median": 0.010287646000000011,
+          "p95": 0.02405625,
+          "p99": 0.033941709,
+          "max": 0.03788875
+        },
+        "non_cpu_s": {
+          "n": 4700,
+          "min": -1.6700000001618198e-07,
+          "median": 1.734723475976807e-17,
+          "p95": 8.662499999999643e-05,
+          "p99": 0.002744832999999995,
+          "max": 0.151655875
+        },
+        "publication_gap_s": {
+          "n": 4700,
+          "min": 0.0,
+          "median": 0.038850229000000014,
+          "p95": 0.05454262500000007,
+          "p99": 0.07541858300000001,
+          "max": 0.175386542
+        }
+      },
+      "realtime_blocks": {
+        "count": 3900,
+        "wall_s": {
+          "n": 3900,
+          "min": 4.5292e-05,
+          "median": 0.0097234795,
+          "p95": 0.022573292,
+          "p99": 0.027262541,
+          "max": 0.029459167
+        },
+        "cpu_s": {
+          "n": 3900,
+          "min": 4.529100000005837e-05,
+          "median": 0.009721062500000016,
+          "p95": 0.022568458000000013,
+          "p99": 0.027257167000000013,
+          "max": 0.029453249999999986
+        },
+        "non_cpu_s": {
+          "n": 3900,
+          "min": -1.6700000001618198e-07,
+          "median": 4.336808689942018e-18,
+          "p95": 4.957999999992413e-06,
+          "p99": 1.0249999999992904e-05,
+          "max": 3.700100000001219e-05
+        },
+        "publication_gap_s": {
+          "n": 3900,
+          "min": 0.020611208000000047,
+          "median": 0.045096541499999976,
+          "p95": 0.055155375000000006,
+          "p99": 0.07565625000000001,
+          "max": 0.09599329099999998
+        }
+      }
+    },
+    "v3_profile_off20": {
+      "name": "v3_profile_off20",
+      "sessions": 20,
+      "passed": 20,
+      "failed": 0,
+      "audio_pass": 20,
+      "measurement_valid": 20,
+      "workgroup_sessions": 20,
+      "workgroup_policy_measured_sessions": 20,
+      "realtime_cpp_allocations_measured_sessions": 20,
+      "callback_cpp_allocations_measured_sessions": 20,
+      "pcm_prefix_exact": 20,
+      "pcm_complete_exact": 20,
+      "failures": [],
+      "counter_totals": {
+        "missing_frames": 0,
+        "missing_calls": 0,
+        "rejected_writes": 0,
+        "callback_deadlines": 0,
+        "hal_misses": 0,
+        "host_missing": 0,
+        "host_backwards": 0,
+        "host_cadence_errors": 0,
+        "sample_errors": 0,
+        "callback_formats": 0,
+        "pcm_mismatches": 0,
+        "callback_cpp_allocations": 0,
+        "realtime_cpp_new_calls": 0,
+        "workgroup_deadline_misses": 0,
+        "workgroup_policy_errors": 0,
+        "workgroup_join_errors": 0,
+        "workgroup_restore_errors": 0,
+        "workgroup_interval_errors": 0,
+        "workgroup_query_errors": 0,
+        "workgroup_wait_errors": 0,
+        "workgroup_wake_errors": 0,
+        "worker_profile_dropped": 0,
+        "detail_dropped": 0,
+        "thread_samples_dropped": 0,
+        "thread_sample_errors": 0
+      },
+      "metric_distributions": {
+        "max_consecutive_missing": {
+          "n": 20,
+          "min": 0,
+          "median": 0.0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        },
+        "fifo_high_water": {
+          "n": 20,
+          "min": 16384,
+          "median": 16384.0,
+          "p95": 16384,
+          "p99": 16384,
+          "max": 16384
+        },
+        "max_dsp_wall_s": {
+          "n": 20,
+          "min": 0.028242834,
+          "median": 0.030053104,
+          "p95": 0.031023834,
+          "p99": 0.039201834,
+          "max": 0.039201834
+        },
+        "max_dsp_cpu_s": {
+          "n": 20,
+          "min": 0.027303499999999994,
+          "median": 0.028598520500000005,
+          "p95": 0.031018332999999995,
+          "p99": 0.033883375,
+          "max": 0.033883375
+        },
+        "max_publication_gap_s": {
+          "n": 20,
+          "min": 0.07394004200000001,
+          "median": 0.076821854,
+          "p95": 0.079358333,
+          "p99": 0.096086,
+          "max": 0.096086
+        },
+        "analysis_wait_s": {
+          "n": 20,
+          "min": 0.002676333,
+          "median": 0.0039135625,
+          "p95": 0.007317917,
+          "p99": 0.007597292,
+          "max": 0.007597292
+        },
+        "backpressure_wait_s": {
+          "n": 20,
+          "min": 1.213440658000001,
+          "median": 1.2223133670000004,
+          "p95": 1.2516243880000009,
+          "p99": 1.2558791869999995,
+          "max": 1.2558791869999995
+        },
+        "analysis_worker_cpu_s": {
+          "n": 20,
+          "min": 0.026375375000000003,
+          "median": 0.030243416500000002,
+          "p95": 0.032691250000000005,
+          "p99": 0.034158291,
+          "max": 0.034158291
+        },
+        "dsp_worker_cpu_s": {
+          "n": 20,
+          "min": 0.530429208,
+          "median": 0.547958083,
+          "p95": 0.5573008750000001,
+          "p99": 0.5576433330000001,
+          "max": 0.5576433330000001
+        },
+        "process_cpu_s": {
+          "n": 20,
+          "min": 0.622571,
+          "median": 0.638646,
+          "p95": 0.6442459999999999,
+          "p99": 0.647081,
+          "max": 0.647081
+        },
+        "peak_rss_bytes": {
+          "n": 20,
+          "min": 51019776,
+          "median": 51273728.0,
+          "p95": 51478528,
+          "p99": 51593216,
+          "max": 51593216
+        },
+        "ready_s": {
+          "n": 20,
+          "min": 0.1635235,
+          "median": 0.1673742915,
+          "p95": 0.175435042,
+          "p99": 0.176093959,
+          "max": 0.176093959
+        },
+        "resident_ready_s": {
+          "n": 20,
+          "min": 0.001251208,
+          "median": 0.0022094999999999997,
+          "p95": 0.002518166,
+          "p99": 0.002545166,
+          "max": 0.002545166
+        },
+        "first_callback_s": {
+          "n": 20,
+          "min": 0.1781765845,
+          "median": 0.18364141625000002,
+          "p95": 0.1905530215,
+          "p99": 0.20231685400000002,
+          "max": 0.20231685400000002
+        }
+      },
+      "active_block_thread_samples": 0,
+      "active_block_sample_policy_priority": {},
+      "scheduling_delay_per_session_s": null,
+      "unknown_wait_per_session_s": null,
+      "scheduling_delay_scope": "Continuous state available only in OS trace cohorts; samples do not fill gaps",
+      "all_blocks": {
+        "count": 0,
+        "wall_s": null,
+        "cpu_s": null,
+        "non_cpu_s": null,
+        "publication_gap_s": null
+      },
+      "realtime_blocks": {
+        "count": 0,
+        "wall_s": null,
+        "cpu_s": null,
+        "non_cpu_s": null,
+        "publication_gap_s": null
+      }
+    },
+    "native_grid": {
+      "name": "native_grid",
+      "sessions": 90,
+      "passed": 90,
+      "failed": 0,
+      "audio_pass": 90,
+      "measurement_valid": 90,
+      "workgroup_sessions": 90,
+      "workgroup_policy_measured_sessions": 90,
+      "realtime_cpp_allocations_measured_sessions": 90,
+      "callback_cpp_allocations_measured_sessions": 90,
+      "pcm_prefix_exact": 90,
+      "pcm_complete_exact": 68,
+      "failures": [],
+      "counter_totals": {
+        "missing_frames": 0,
+        "missing_calls": 0,
+        "rejected_writes": 0,
+        "callback_deadlines": 0,
+        "hal_misses": 0,
+        "host_missing": 0,
+        "host_backwards": 0,
+        "host_cadence_errors": 0,
+        "sample_errors": 0,
+        "callback_formats": 0,
+        "pcm_mismatches": 0,
+        "callback_cpp_allocations": 0,
+        "realtime_cpp_new_calls": 0,
+        "workgroup_deadline_misses": 0,
+        "workgroup_policy_errors": 0,
+        "workgroup_join_errors": 0,
+        "workgroup_restore_errors": 0,
+        "workgroup_interval_errors": 0,
+        "workgroup_query_errors": 0,
+        "workgroup_wait_errors": 0,
+        "workgroup_wake_errors": 0,
+        "worker_profile_dropped": 0,
+        "detail_dropped": 0,
+        "thread_samples_dropped": 0,
+        "thread_sample_errors": 0
+      },
+      "metric_distributions": {
+        "max_consecutive_missing": {
+          "n": 90,
+          "min": 0,
+          "median": 0.0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        },
+        "fifo_high_water": {
+          "n": 90,
+          "min": 12288,
+          "median": 14336.0,
+          "p95": 16384,
+          "p99": 16384,
+          "max": 16384
+        },
+        "max_dsp_wall_s": {
+          "n": 90,
+          "min": 0.008890583,
+          "median": 0.023206146,
+          "p95": 0.045797875,
+          "p99": 0.086706333,
+          "max": 0.086706333
+        },
+        "max_dsp_cpu_s": {
+          "n": 90,
+          "min": 0.008890542000000001,
+          "median": 0.022356667000000052,
+          "p95": 0.044746667000000004,
+          "p99": 0.054702916000000004,
+          "max": 0.054702916000000004
+        },
+        "max_publication_gap_s": {
+          "n": 90,
+          "min": 0.055148875,
+          "median": 0.090786896,
+          "p95": 0.11183083299999999,
+          "p99": 0.115167208,
+          "max": 0.115167208
+        },
+        "analysis_wait_s": {
+          "n": 90,
+          "min": 0.000490041,
+          "median": 0.0036827705,
+          "p95": 0.022832125,
+          "p99": 0.139462378,
+          "max": 0.139462378
+        },
+        "backpressure_wait_s": {
+          "n": 90,
+          "min": 1.2635495610000016,
+          "median": 2.435193974999997,
+          "p95": 8.819421924000004,
+          "p99": 9.037912006999994,
+          "max": 9.037912006999994
+        },
+        "analysis_worker_cpu_s": {
+          "n": 90,
+          "min": 0.021222042,
+          "median": 0.06027231250000001,
+          "p95": 0.130679292,
+          "p99": 0.147916334,
+          "max": 0.147916334
+        },
+        "dsp_worker_cpu_s": {
+          "n": 90,
+          "min": 0.253449291,
+          "median": 0.6688821455,
+          "p95": 1.479272708,
+          "p99": 1.637741167,
+          "max": 1.637741167
+        },
+        "process_cpu_s": {
+          "n": 90,
+          "min": 0.33833700000000005,
+          "median": 0.8799774999999999,
+          "p95": 1.685659,
+          "p99": 1.9576779999999998,
+          "max": 1.9576779999999998
+        },
+        "peak_rss_bytes": {
+          "n": 90,
+          "min": 47579136,
+          "median": 53968896.0,
+          "p95": 83607552,
+          "p99": 89096192,
+          "max": 89096192
+        },
+        "ready_s": {
+          "n": 90,
+          "min": 0.071357125,
+          "median": 0.1174435,
+          "p95": 0.198641083,
+          "p99": 0.373188291,
+          "max": 0.373188291
+        },
+        "resident_ready_s": {
+          "n": 90,
+          "min": 0.001013291,
+          "median": 0.002074729,
+          "p95": 0.011699167,
+          "p99": 0.014395,
+          "max": 0.014395
+        },
+        "first_callback_s": {
+          "n": 90,
+          "min": 0.096374188,
+          "median": 0.14765950075,
+          "p95": 0.23652391550000001,
+          "p99": 0.411098833,
+          "max": 0.411098833
+        }
+      },
+      "active_block_thread_samples": 18613,
+      "active_block_sample_policy_priority": {
+        "(0, 2, 97)": 18613
+      },
+      "scheduling_delay_per_session_s": null,
+      "unknown_wait_per_session_s": null,
+      "scheduling_delay_scope": "Continuous state available only in OS trace cohorts; samples do not fill gaps",
+      "all_blocks": {
+        "count": 8976,
+        "wall_s": {
+          "n": 8976,
+          "min": 7.75e-06,
+          "median": 0.0060259165,
+          "p95": 0.018134958,
+          "p99": 0.025177792,
+          "max": 0.086706333
+        },
+        "cpu_s": {
+          "n": 8976,
+          "min": 7.750000000028567e-06,
+          "median": 0.006019854000000033,
+          "p95": 0.018105125000000166,
+          "p99": 0.024852791999999985,
+          "max": 0.054702916000000004
+        },
+        "non_cpu_s": {
+          "n": 8976,
+          "min": -4.917000000002718e-06,
+          "median": 6.114900252818245e-17,
+          "p95": 7.000000000007001e-06,
+          "p99": 0.0005513749999999998,
+          "max": 0.03200341699999999
+        },
+        "publication_gap_s": {
+          "n": 8976,
+          "min": 0.0,
+          "median": 0.044169812499999794,
+          "p95": 0.0589829169999998,
+          "p99": 0.06860120800000002,
+          "max": 0.115167208
+        }
+      },
+      "realtime_blocks": {
+        "count": 8346,
+        "wall_s": {
+          "n": 8346,
+          "min": 7.75e-06,
+          "median": 0.0060259165,
+          "p95": 0.017859375,
+          "p99": 0.02369525,
+          "max": 0.037540708
+        },
+        "cpu_s": {
+          "n": 8346,
+          "min": 7.750000000028567e-06,
+          "median": 0.006025895999999975,
+          "p95": 0.01785937500000001,
+          "p99": 0.02369525,
+          "max": 0.037528916999999995
+        },
+        "non_cpu_s": {
+          "n": 8346,
+          "min": -4.917000000002718e-06,
+          "median": 3.9898639947466563e-17,
+          "p95": 2.0800000000154029e-07,
+          "p99": 1.1167000000001162e-05,
+          "max": 3.0292000000004676e-05
+        },
+        "publication_gap_s": {
+          "n": 8346,
+          "min": 0.007886500000000018,
+          "median": 0.04495731299999983,
+          "p95": 0.059292582999999954,
+          "p99": 0.06978725,
+          "max": 0.115167208
+        }
+      }
+    },
+    "native_lifecycle_load": {
+      "name": "native_lifecycle_load",
+      "sessions": 32,
+      "passed": 32,
+      "failed": 0,
+      "audio_pass": 32,
+      "measurement_valid": 32,
+      "workgroup_sessions": 32,
+      "workgroup_policy_measured_sessions": 32,
+      "realtime_cpp_allocations_measured_sessions": 32,
+      "callback_cpp_allocations_measured_sessions": 32,
+      "pcm_prefix_exact": 32,
+      "pcm_complete_exact": 8,
+      "failures": [],
+      "counter_totals": {
+        "missing_frames": 0,
+        "missing_calls": 0,
+        "rejected_writes": 0,
+        "callback_deadlines": 0,
+        "hal_misses": 0,
+        "host_missing": 0,
+        "host_backwards": 0,
+        "host_cadence_errors": 0,
+        "sample_errors": 0,
+        "callback_formats": 0,
+        "pcm_mismatches": 0,
+        "callback_cpp_allocations": 0,
+        "realtime_cpp_new_calls": 0,
+        "workgroup_deadline_misses": 0,
+        "workgroup_policy_errors": 0,
+        "workgroup_join_errors": 0,
+        "workgroup_restore_errors": 0,
+        "workgroup_interval_errors": 0,
+        "workgroup_query_errors": 0,
+        "workgroup_wait_errors": 0,
+        "workgroup_wake_errors": 0,
+        "worker_profile_dropped": 0,
+        "detail_dropped": 0,
+        "thread_samples_dropped": 0,
+        "thread_sample_errors": 0
+      },
+      "metric_distributions": {
+        "max_consecutive_missing": {
+          "n": 32,
+          "min": 0,
+          "median": 0.0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        },
+        "fifo_high_water": {
+          "n": 32,
+          "min": 12288,
+          "median": 14336.0,
+          "p95": 16384,
+          "p99": 16384,
+          "max": 16384
+        },
+        "max_dsp_wall_s": {
+          "n": 32,
+          "min": 0.016664333,
+          "median": 0.0282745625,
+          "p95": 0.05242,
+          "p99": 0.052561792,
+          "max": 0.052561792
+        },
+        "max_dsp_cpu_s": {
+          "n": 32,
+          "min": 0.016664291999999997,
+          "median": 0.026309478999999997,
+          "p95": 0.049381166000000004,
+          "p99": 0.049877667,
+          "max": 0.049877667
+        },
+        "max_publication_gap_s": {
+          "n": 32,
+          "min": 0.05878420799999999,
+          "median": 0.10356406250000001,
+          "p95": 0.25439187499999993,
+          "p99": 0.2580770419999999,
+          "max": 0.2580770419999999
+        },
+        "analysis_wait_s": {
+          "n": 32,
+          "min": 0,
+          "median": 0.0027016665,
+          "p95": 0.012998375,
+          "p99": 0.027771042,
+          "max": 0.027771042
+        },
+        "backpressure_wait_s": {
+          "n": 32,
+          "min": 0.4055567039999999,
+          "median": 2.5374346385000015,
+          "p95": 8.092386717000016,
+          "p99": 8.170099064000006,
+          "max": 8.170099064000006
+        },
+        "analysis_worker_cpu_s": {
+          "n": 32,
+          "min": 0.012555333,
+          "median": 0.103165646,
+          "p95": 0.14285504100000002,
+          "p99": 0.146863333,
+          "max": 0.146863333
+        },
+        "dsp_worker_cpu_s": {
+          "n": 32,
+          "min": 0.192355667,
+          "median": 0.5657887290000001,
+          "p95": 1.9066452500000002,
+          "p99": 1.913542167,
+          "max": 1.913542167
+        },
+        "process_cpu_s": {
+          "n": 32,
+          "min": 0.272617,
+          "median": 7.0250615,
+          "p95": 7.728701,
+          "p99": 7.756455,
+          "max": 7.756455
+        },
+        "peak_rss_bytes": {
+          "n": 32,
+          "min": 52772864,
+          "median": 206299136.0,
+          "p95": 593739776,
+          "p99": 593821696,
+          "max": 593821696
+        },
+        "ready_s": {
+          "n": 32,
+          "min": 0.050336125,
+          "median": 0.13863716650000002,
+          "p95": 0.228058041,
+          "p99": 0.438010041,
+          "max": 0.438010041
+        },
+        "resident_ready_s": {
+          "n": 32,
+          "min": 0.001417583,
+          "median": 0.0111776875,
+          "p95": 0.023367125,
+          "p99": 0.149946625,
+          "max": 0.149946625
+        },
+        "first_callback_s": {
+          "n": 32,
+          "min": 0.065191521,
+          "median": 0.175846344,
+          "p95": 0.26545016600000004,
+          "p99": 0.4782935205,
+          "max": 0.4782935205
+        }
+      },
+      "active_block_thread_samples": 3894,
+      "active_block_sample_policy_priority": {
+        "(0, 2, 97)": 3894
+      },
+      "scheduling_delay_per_session_s": null,
+      "unknown_wait_per_session_s": null,
+      "scheduling_delay_scope": "Continuous state available only in OS trace cohorts; samples do not fill gaps",
+      "all_blocks": {
+        "count": 2432,
+        "wall_s": {
+          "n": 2432,
+          "min": 4.3417e-05,
+          "median": 0.008441708499999999,
+          "p95": 0.020536416,
+          "p99": 0.029063208,
+          "max": 0.052561792
+        },
+        "cpu_s": {
+          "n": 2432,
+          "min": 4.341600000001833e-05,
+          "median": 0.008423291499999985,
+          "p95": 0.020458584000000002,
+          "p99": 0.027644834,
+          "max": 0.049877667
+        },
+        "non_cpu_s": {
+          "n": 2432,
+          "min": -1.6700000002745768e-07,
+          "median": 1.452830911130576e-17,
+          "p95": 1.8666999999998254e-05,
+          "p99": 0.0016818749999999993,
+          "max": 0.012284373999999994
+        },
+        "publication_gap_s": {
+          "n": 2432,
+          "min": 0.0,
+          "median": 0.0459082289999998,
+          "p95": 0.06278083400000001,
+          "p99": 0.09795475000000003,
+          "max": 0.2580770419999999
+        }
+      },
+      "realtime_blocks": {
+        "count": 2208,
+        "wall_s": {
+          "n": 2208,
+          "min": 4.3417e-05,
+          "median": 0.008423292,
+          "p95": 0.02009125,
+          "p99": 0.025004083,
+          "max": 0.03374925
+        },
+        "cpu_s": {
+          "n": 2208,
+          "min": 4.341600000001833e-05,
+          "median": 0.008423291499999985,
+          "p95": 0.020077667000000007,
+          "p99": 0.025004084000000093,
+          "max": 0.033749167
+        },
+        "non_cpu_s": {
+          "n": 2208,
+          "min": -1.6700000002745768e-07,
+          "median": 8.890457814381136e-18,
+          "p95": 2.499999999985153e-07,
+          "p99": 1.1582999999995569e-05,
+          "max": 3.6666999999993705e-05
+        },
+        "publication_gap_s": {
+          "n": 2208,
+          "min": 0.013605124999999996,
+          "median": 0.04725091650000013,
+          "p95": 0.06325687499999999,
+          "p99": 0.099904709,
+          "max": 0.2580770419999999
+        }
+      }
+    },
+    "native_long": {
+      "name": "native_long",
+      "sessions": 4,
+      "passed": 4,
+      "failed": 0,
+      "audio_pass": 4,
+      "measurement_valid": 4,
+      "workgroup_sessions": 4,
+      "workgroup_policy_measured_sessions": 4,
+      "realtime_cpp_allocations_measured_sessions": 4,
+      "callback_cpp_allocations_measured_sessions": 4,
+      "pcm_prefix_exact": 4,
+      "pcm_complete_exact": 4,
+      "failures": [],
+      "counter_totals": {
+        "missing_frames": 0,
+        "missing_calls": 0,
+        "rejected_writes": 0,
+        "callback_deadlines": 0,
+        "hal_misses": 0,
+        "host_missing": 0,
+        "host_backwards": 0,
+        "host_cadence_errors": 0,
+        "sample_errors": 0,
+        "callback_formats": 0,
+        "pcm_mismatches": 0,
+        "callback_cpp_allocations": 0,
+        "realtime_cpp_new_calls": 0,
+        "workgroup_deadline_misses": 0,
+        "workgroup_policy_errors": 0,
+        "workgroup_join_errors": 0,
+        "workgroup_restore_errors": 0,
+        "workgroup_interval_errors": 0,
+        "workgroup_query_errors": 0,
+        "workgroup_wait_errors": 0,
+        "workgroup_wake_errors": 0,
+        "worker_profile_dropped": 0,
+        "detail_dropped": 0,
+        "thread_samples_dropped": 9509,
+        "thread_sample_errors": 0
+      },
+      "metric_distributions": {
+        "max_consecutive_missing": {
+          "n": 4,
+          "min": 0,
+          "median": 0.0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        },
+        "fifo_high_water": {
+          "n": 4,
+          "min": 12288,
+          "median": 14336.0,
+          "p95": 16384,
+          "p99": 16384,
+          "max": 16384
+        },
+        "max_dsp_wall_s": {
+          "n": 4,
+          "min": 0.010944791,
+          "median": 0.0197521455,
+          "p95": 0.034042084,
+          "p99": 0.034042084,
+          "max": 0.034042084
+        },
+        "max_dsp_cpu_s": {
+          "n": 4,
+          "min": 0.010944583000000563,
+          "median": 0.019752083000000004,
+          "p95": 0.032519166,
+          "p99": 0.032519166,
+          "max": 0.032519166
+        },
+        "max_publication_gap_s": {
+          "n": 4,
+          "min": 0.0772715839999999,
+          "median": 0.08414597950000001,
+          "p95": 0.09946137499999999,
+          "p99": 0.09946137499999999,
+          "max": 0.09946137499999999
+        },
+        "analysis_wait_s": {
+          "n": 4,
+          "min": 0.004709292,
+          "median": 0.4186802285000006,
+          "p95": 0.8433166970000006,
+          "p99": 0.8433166970000006,
+          "max": 0.8433166970000006
+        },
+        "backpressure_wait_s": {
+          "n": 4,
+          "min": 70.34979040799725,
+          "median": 193.53514320600254,
+          "p95": 399.9464053789829,
+          "p99": 399.9464053789829,
+          "max": 399.9464053789829
+        },
+        "analysis_worker_cpu_s": {
+          "n": 4,
+          "min": 0.9128679590000001,
+          "median": 1.322068979,
+          "p95": 1.988477875,
+          "p99": 1.988477875,
+          "max": 1.988477875
+        },
+        "dsp_worker_cpu_s": {
+          "n": 4,
+          "min": 19.604421333999998,
+          "median": 32.024746437000005,
+          "p95": 50.404903209,
+          "p99": 50.404903209,
+          "max": 50.404903209
+        },
+        "process_cpu_s": {
+          "n": 4,
+          "min": 22.332901000000003,
+          "median": 37.190825,
+          "p95": 61.207403,
+          "p99": 61.207403,
+          "max": 61.207403
+        },
+        "peak_rss_bytes": {
+          "n": 4,
+          "min": 117211136,
+          "median": 152207360.0,
+          "p95": 244793344,
+          "p99": 244793344,
+          "max": 244793344
+        },
+        "ready_s": {
+          "n": 4,
+          "min": 0.160546458,
+          "median": 0.5710031664999999,
+          "p95": 0.983748625,
+          "p99": 0.983748625,
+          "max": 0.983748625
+        },
+        "resident_ready_s": {
+          "n": 4,
+          "min": 0.026009125,
+          "median": 0.050171479500000005,
+          "p95": 0.05614725,
+          "p99": 0.05614725,
+          "max": 0.05614725
+        },
+        "first_callback_s": {
+          "n": 4,
+          "min": 0.1979345005,
+          "median": 0.6090051460000001,
+          "p95": 1.0212800205,
+          "p99": 1.0212800205,
+          "max": 1.0212800205
+        }
+      },
+      "active_block_thread_samples": 21087,
+      "active_block_sample_policy_priority": {
+        "(0, 2, 97)": 21087
+      },
+      "scheduling_delay_per_session_s": null,
+      "unknown_wait_per_session_s": null,
+      "scheduling_delay_scope": "Continuous state available only in OS trace cohorts; samples do not fill gaps",
+      "all_blocks": {
+        "count": 22176,
+        "wall_s": {
+          "n": 22176,
+          "min": 5.05e-05,
+          "median": 0.00571,
+          "p95": 0.011947292,
+          "p99": 0.016836083,
+          "max": 0.034042084
+        },
+        "cpu_s": {
+          "n": 22176,
+          "min": 5.050000000039745e-05,
+          "median": 0.00570999999999966,
+          "p95": 0.011939917000001188,
+          "p99": 0.016836083000001167,
+          "max": 0.032519166
+        },
+        "non_cpu_s": {
+          "n": 22176,
+          "min": -1.2791000001835182e-05,
+          "median": 1.2175590397012215e-15,
+          "p95": 1.2499999992726663e-07,
+          "p99": 2.499999994156482e-07,
+          "max": 0.001522917999999998
+        },
+        "publication_gap_s": {
+          "n": 22176,
+          "min": 0.0,
+          "median": 0.0450055205000055,
+          "p95": 0.057255250000025626,
+          "p99": 0.06149458299999999,
+          "max": 0.09946137499999999
+        }
+      },
+      "realtime_blocks": {
+        "count": 22148,
+        "wall_s": {
+          "n": 22148,
+          "min": 5.05e-05,
+          "median": 0.005710145999999999,
+          "p95": 0.011915958,
+          "p99": 0.016831833,
+          "max": 0.025519167
+        },
+        "cpu_s": {
+          "n": 22148,
+          "min": 5.050000000039745e-05,
+          "median": 0.005710166500000113,
+          "p95": 0.011915999999999927,
+          "p99": 0.01683183300000124,
+          "max": 0.025513915999999998
+        },
+        "non_cpu_s": {
+          "n": 22148,
+          "min": -1.2791000001835182e-05,
+          "median": 1.2125717097077882e-15,
+          "p95": 1.2499999988997007e-07,
+          "p99": 2.490000013313093e-07,
+          "max": 1.3874999999979182e-05
+        },
+        "publication_gap_s": {
+          "n": 22148,
+          "min": 0.02125479199999969,
+          "median": 0.045011687499993513,
+          "p95": 0.057255916999963574,
+          "p99": 0.06149458299999999,
+          "max": 0.09946137499999999
+        }
+      }
+    },
+    "v3_grid": {
+      "name": "v3_grid",
+      "sessions": 90,
+      "passed": 90,
+      "failed": 0,
+      "audio_pass": 90,
+      "measurement_valid": 90,
+      "workgroup_sessions": 90,
+      "workgroup_policy_measured_sessions": 90,
+      "realtime_cpp_allocations_measured_sessions": 90,
+      "callback_cpp_allocations_measured_sessions": 90,
+      "pcm_prefix_exact": 90,
+      "pcm_complete_exact": 68,
+      "failures": [],
+      "counter_totals": {
+        "missing_frames": 0,
+        "missing_calls": 0,
+        "rejected_writes": 0,
+        "callback_deadlines": 0,
+        "hal_misses": 0,
+        "host_missing": 0,
+        "host_backwards": 0,
+        "host_cadence_errors": 0,
+        "sample_errors": 0,
+        "callback_formats": 0,
+        "pcm_mismatches": 0,
+        "callback_cpp_allocations": 0,
+        "realtime_cpp_new_calls": 0,
+        "workgroup_deadline_misses": 0,
+        "workgroup_policy_errors": 0,
+        "workgroup_join_errors": 0,
+        "workgroup_restore_errors": 0,
+        "workgroup_interval_errors": 0,
+        "workgroup_query_errors": 0,
+        "workgroup_wait_errors": 0,
+        "workgroup_wake_errors": 0,
+        "worker_profile_dropped": 0,
+        "detail_dropped": 0,
+        "thread_samples_dropped": 0,
+        "thread_sample_errors": 0
+      },
+      "metric_distributions": {
+        "max_consecutive_missing": {
+          "n": 90,
+          "min": 0,
+          "median": 0.0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        },
+        "fifo_high_water": {
+          "n": 90,
+          "min": 12288,
+          "median": 14336.0,
+          "p95": 16384,
+          "p99": 16384,
+          "max": 16384
+        },
+        "max_dsp_wall_s": {
+          "n": 90,
+          "min": 0.008122833,
+          "median": 0.024121542000000003,
+          "p95": 0.045572208,
+          "p99": 0.051692167,
+          "max": 0.051692167
+        },
+        "max_dsp_cpu_s": {
+          "n": 90,
+          "min": 0.008122833000000024,
+          "median": 0.024121374500000004,
+          "p95": 0.044291000000000004,
+          "p99": 0.04862783300000001,
+          "max": 0.04862783300000001
+        },
+        "max_publication_gap_s": {
+          "n": 90,
+          "min": 0.05456575000000001,
+          "median": 0.09875933350000002,
+          "p95": 0.11448412500000002,
+          "p99": 0.159011875,
+          "max": 0.159011875
+        },
+        "analysis_wait_s": {
+          "n": 90,
+          "min": 0,
+          "median": 0.0033807710000000003,
+          "p95": 0.020654084,
+          "p99": 0.023287751,
+          "max": 0.023287751
+        },
+        "backpressure_wait_s": {
+          "n": 90,
+          "min": 1.261889157999999,
+          "median": 2.469219834999999,
+          "p95": 8.617863964999998,
+          "p99": 8.947133886000014,
+          "max": 8.947133886000014
+        },
+        "analysis_worker_cpu_s": {
+          "n": 90,
+          "min": 0.022114750000000002,
+          "median": 0.0615747915,
+          "p95": 0.13778041700000002,
+          "p99": 0.143556333,
+          "max": 0.143556333
+        },
+        "dsp_worker_cpu_s": {
+          "n": 90,
+          "min": 0.304167,
+          "median": 0.6614293755,
+          "p95": 1.4563274160000002,
+          "p99": 1.6484456250000001,
+          "max": 1.6484456250000001
+        },
+        "process_cpu_s": {
+          "n": 90,
+          "min": 0.39401499999999995,
+          "median": 0.8623635,
+          "p95": 1.7003380000000001,
+          "p99": 1.923886,
+          "max": 1.923886
+        },
+        "peak_rss_bytes": {
+          "n": 90,
+          "min": 60604416,
+          "median": 67100672.0,
+          "p95": 96862208,
+          "p99": 102039552,
+          "max": 102039552
+        },
+        "ready_s": {
+          "n": 90,
+          "min": 0.069143042,
+          "median": 0.11521464549999999,
+          "p95": 0.184587167,
+          "p99": 0.1961045,
+          "max": 0.1961045
+        },
+        "resident_ready_s": {
+          "n": 90,
+          "min": 0.000840125,
+          "median": 0.002059208,
+          "p95": 0.011874208,
+          "p99": 0.014421541,
+          "max": 0.014421541
+        },
+        "first_callback_s": {
+          "n": 90,
+          "min": 0.0932157295,
+          "median": 0.15211773925,
+          "p95": 0.226433292,
+          "p99": 0.2338807715,
+          "max": 0.2338807715
+        }
+      },
+      "active_block_thread_samples": 19600,
+      "active_block_sample_policy_priority": {
+        "(0, 2, 97)": 19600
+      },
+      "scheduling_delay_per_session_s": null,
+      "unknown_wait_per_session_s": null,
+      "scheduling_delay_scope": "Continuous state available only in OS trace cohorts; samples do not fill gaps",
+      "all_blocks": {
+        "count": 8976,
+        "wall_s": {
+          "n": 8976,
+          "min": 7.208e-06,
+          "median": 0.0066392295,
+          "p95": 0.018203333,
+          "p99": 0.025339875,
+          "max": 0.051692167
+        },
+        "cpu_s": {
+          "n": 8976,
+          "min": 7.165999999947381e-06,
+          "median": 0.0066327919999999915,
+          "p95": 0.01818225000000001,
+          "p99": 0.025329750000000012,
+          "max": 0.04862783300000001
+        },
+        "non_cpu_s": {
+          "n": 8976,
+          "min": -4.590000000047334e-07,
+          "median": 6.591949208711867e-17,
+          "p95": 5.834000000017048e-06,
+          "p99": 0.0006362089999999996,
+          "max": 0.004800833000000001
+        },
+        "publication_gap_s": {
+          "n": 8976,
+          "min": 0.0,
+          "median": 0.04441312499999994,
+          "p95": 0.05920837499999987,
+          "p99": 0.06872641700000015,
+          "max": 0.159011875
+        }
+      },
+      "realtime_blocks": {
+        "count": 8346,
+        "wall_s": {
+          "n": 8346,
+          "min": 7.208e-06,
+          "median": 0.0066818125,
+          "p95": 0.017968625,
+          "p99": 0.024007833,
+          "max": 0.03785225
+        },
+        "cpu_s": {
+          "n": 8346,
+          "min": 7.165999999947381e-06,
+          "median": 0.006681812499999995,
+          "p95": 0.017959833000000036,
+          "p99": 0.02400766600000001,
+          "max": 0.037840874999999996
+        },
+        "non_cpu_s": {
+          "n": 8346,
+          "min": -4.590000000047334e-07,
+          "median": 4.683753385137379e-17,
+          "p95": 2.4999999988358987e-07,
+          "p99": 1.1167000000037591e-05,
+          "max": 0.000526416000000007
+        },
+        "publication_gap_s": {
+          "n": 8346,
+          "min": 0.009885458999999985,
+          "median": 0.045172999999999686,
+          "p95": 0.059504,
+          "p99": 0.06962566599999997,
+          "max": 0.159011875
+        }
+      }
+    },
+    "v3_lifecycle_load": {
+      "name": "v3_lifecycle_load",
+      "sessions": 32,
+      "passed": 32,
+      "failed": 0,
+      "audio_pass": 32,
+      "measurement_valid": 32,
+      "workgroup_sessions": 32,
+      "workgroup_policy_measured_sessions": 32,
+      "realtime_cpp_allocations_measured_sessions": 32,
+      "callback_cpp_allocations_measured_sessions": 32,
+      "pcm_prefix_exact": 32,
+      "pcm_complete_exact": 8,
+      "failures": [],
+      "counter_totals": {
+        "missing_frames": 0,
+        "missing_calls": 0,
+        "rejected_writes": 0,
+        "callback_deadlines": 0,
+        "hal_misses": 0,
+        "host_missing": 0,
+        "host_backwards": 0,
+        "host_cadence_errors": 0,
+        "sample_errors": 0,
+        "callback_formats": 0,
+        "pcm_mismatches": 0,
+        "callback_cpp_allocations": 0,
+        "realtime_cpp_new_calls": 0,
+        "workgroup_deadline_misses": 0,
+        "workgroup_policy_errors": 0,
+        "workgroup_join_errors": 0,
+        "workgroup_restore_errors": 0,
+        "workgroup_interval_errors": 0,
+        "workgroup_query_errors": 0,
+        "workgroup_wait_errors": 0,
+        "workgroup_wake_errors": 0,
+        "worker_profile_dropped": 0,
+        "detail_dropped": 0,
+        "thread_samples_dropped": 0,
+        "thread_sample_errors": 0
+      },
+      "metric_distributions": {
+        "max_consecutive_missing": {
+          "n": 32,
+          "min": 0,
+          "median": 0.0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        },
+        "fifo_high_water": {
+          "n": 32,
+          "min": 12288,
+          "median": 14336.0,
+          "p95": 16384,
+          "p99": 16384,
+          "max": 16384
+        },
+        "max_dsp_wall_s": {
+          "n": 32,
+          "min": 0.016523541,
+          "median": 0.030685229,
+          "p95": 0.050231791,
+          "p99": 0.052902042,
+          "max": 0.052902042
+        },
+        "max_dsp_cpu_s": {
+          "n": 32,
+          "min": 0.016511250000000005,
+          "median": 0.027911750000000003,
+          "p95": 0.047666125000000004,
+          "p99": 0.05039325000000001,
+          "max": 0.05039325000000001
+        },
+        "max_publication_gap_s": {
+          "n": 32,
+          "min": 0.063918709,
+          "median": 0.10398558349999999,
+          "p95": 0.249149375,
+          "p99": 0.25851404199999994,
+          "max": 0.25851404199999994
+        },
+        "analysis_wait_s": {
+          "n": 32,
+          "min": 0,
+          "median": 0.001017167,
+          "p95": 0.007608124000000001,
+          "p99": 0.010430334000000001,
+          "max": 0.010430334000000001
+        },
+        "backpressure_wait_s": {
+          "n": 32,
+          "min": 0.4024705819999997,
+          "median": 2.530720678499999,
+          "p95": 8.100454168,
+          "p99": 8.175185782999993,
+          "max": 8.175185782999993
+        },
+        "analysis_worker_cpu_s": {
+          "n": 32,
+          "min": 0.011533125000000002,
+          "median": 0.1092148335,
+          "p95": 0.151572792,
+          "p99": 0.153491708,
+          "max": 0.153491708
+        },
+        "dsp_worker_cpu_s": {
+          "n": 32,
+          "min": 0.19563170800000002,
+          "median": 0.5676633335000001,
+          "p95": 1.905162958,
+          "p99": 1.9057192500000002,
+          "max": 1.9057192500000002
+        },
+        "process_cpu_s": {
+          "n": 32,
+          "min": 0.272382,
+          "median": 6.9948239999999995,
+          "p95": 7.6502930000000005,
+          "p99": 7.672662,
+          "max": 7.672662
+        },
+        "peak_rss_bytes": {
+          "n": 32,
+          "min": 65798144,
+          "median": 219324416.0,
+          "p95": 606765056,
+          "p99": 607305728,
+          "max": 607305728
+        },
+        "ready_s": {
+          "n": 32,
+          "min": 0.049746292,
+          "median": 0.13792112550000002,
+          "p95": 0.204244209,
+          "p99": 0.208551708,
+          "max": 0.208551708
+        },
+        "resident_ready_s": {
+          "n": 32,
+          "min": 0.001369583,
+          "median": 0.0111951875,
+          "p95": 0.015794792,
+          "p99": 0.016429791,
+          "max": 0.016429791
+        },
+        "first_callback_s": {
+          "n": 32,
+          "min": 0.0640738745,
+          "median": 0.1753901565,
+          "p95": 0.2417218965,
+          "p99": 0.2457597495,
+          "max": 0.2457597495
+        }
+      },
+      "active_block_thread_samples": 4148,
+      "active_block_sample_policy_priority": {
+        "(0, 2, 97)": 4148
+      },
+      "scheduling_delay_per_session_s": null,
+      "unknown_wait_per_session_s": null,
+      "scheduling_delay_scope": "Continuous state available only in OS trace cohorts; samples do not fill gaps",
+      "all_blocks": {
+        "count": 2432,
+        "wall_s": {
+          "n": 2432,
+          "min": 4.65e-05,
+          "median": 0.0084192705,
+          "p95": 0.02042225,
+          "p99": 0.030040042,
+          "max": 0.052902042
+        },
+        "cpu_s": {
+          "n": 2432,
+          "min": 4.650000000006038e-05,
+          "median": 0.008406645499999976,
+          "p95": 0.020393167000000018,
+          "p99": 0.02846858399999999,
+          "max": 0.05039325000000001
+        },
+        "non_cpu_s": {
+          "n": 2432,
+          "min": -3.7500000000471184e-07,
+          "median": 1.0191500421363742e-17,
+          "p95": 9.165999999987545e-06,
+          "p99": 0.001510708999999999,
+          "max": 0.005520125000000001
+        },
+        "publication_gap_s": {
+          "n": 2432,
+          "min": 0.0,
+          "median": 0.04601547950000051,
+          "p95": 0.0630362919999996,
+          "p99": 0.09644904199999998,
+          "max": 0.25851404199999994
+        }
+      },
+      "realtime_blocks": {
+        "count": 2208,
+        "wall_s": {
+          "n": 2208,
+          "min": 4.65e-05,
+          "median": 0.008434958499999999,
+          "p95": 0.019869291,
+          "p99": 0.024915916,
+          "max": 0.035236958
+        },
+        "cpu_s": {
+          "n": 2208,
+          "min": 4.650000000006038e-05,
+          "median": 0.008434957999999992,
+          "p95": 0.019864292000000006,
+          "p99": 0.024891667000000006,
+          "max": 0.035231125
+        },
+        "non_cpu_s": {
+          "n": 2208,
+          "min": -3.7500000000471184e-07,
+          "median": 7.589415207398531e-18,
+          "p95": 2.0799999998419305e-07,
+          "p99": 1.208400000000942e-05,
+          "max": 3.0040999999987605e-05
+        },
+        "publication_gap_s": {
+          "n": 2208,
+          "min": 0.011614999999999986,
+          "median": 0.04722293799999977,
+          "p95": 0.0634699590000003,
+          "p99": 0.100947375,
+          "max": 0.25851404199999994
+        }
+      }
+    },
+    "v3_long": {
+      "name": "v3_long",
+      "sessions": 4,
+      "passed": 4,
+      "failed": 0,
+      "audio_pass": 4,
+      "measurement_valid": 4,
+      "workgroup_sessions": 4,
+      "workgroup_policy_measured_sessions": 4,
+      "realtime_cpp_allocations_measured_sessions": 4,
+      "callback_cpp_allocations_measured_sessions": 4,
+      "pcm_prefix_exact": 4,
+      "pcm_complete_exact": 4,
+      "failures": [],
+      "counter_totals": {
+        "missing_frames": 0,
+        "missing_calls": 0,
+        "rejected_writes": 0,
+        "callback_deadlines": 0,
+        "hal_misses": 0,
+        "host_missing": 0,
+        "host_backwards": 0,
+        "host_cadence_errors": 0,
+        "sample_errors": 0,
+        "callback_formats": 0,
+        "pcm_mismatches": 0,
+        "callback_cpp_allocations": 0,
+        "realtime_cpp_new_calls": 0,
+        "workgroup_deadline_misses": 0,
+        "workgroup_policy_errors": 0,
+        "workgroup_join_errors": 0,
+        "workgroup_restore_errors": 0,
+        "workgroup_interval_errors": 0,
+        "workgroup_query_errors": 0,
+        "workgroup_wait_errors": 0,
+        "workgroup_wake_errors": 0,
+        "worker_profile_dropped": 0,
+        "detail_dropped": 0,
+        "thread_samples_dropped": 30105,
+        "thread_sample_errors": 0
+      },
+      "metric_distributions": {
+        "max_consecutive_missing": {
+          "n": 4,
+          "min": 0,
+          "median": 0.0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        },
+        "fifo_high_water": {
+          "n": 4,
+          "min": 12288,
+          "median": 14336.0,
+          "p95": 16384,
+          "p99": 16384,
+          "max": 16384
+        },
+        "max_dsp_wall_s": {
+          "n": 4,
+          "min": 0.010812167,
+          "median": 0.018647563,
+          "p95": 0.031240917,
+          "p99": 0.031240917,
+          "max": 0.031240917
+        },
+        "max_dsp_cpu_s": {
+          "n": 4,
+          "min": 0.010811959000001536,
+          "median": 0.01864764599999924,
+          "p95": 0.030050833000000002,
+          "p99": 0.030050833000000002,
+          "max": 0.030050833000000002
+        },
+        "max_publication_gap_s": {
+          "n": 4,
+          "min": 0.07724216599999989,
+          "median": 0.08461266649999995,
+          "p95": 0.10005745800000002,
+          "p99": 0.10005745800000002,
+          "max": 0.10005745800000002
+        },
+        "analysis_wait_s": {
+          "n": 4,
+          "min": 0.001976792,
+          "median": 0.42565226899999975,
+          "p95": 0.8618848490000002,
+          "p99": 0.8618848490000002,
+          "max": 0.8618848490000002
+        },
+        "backpressure_wait_s": {
+          "n": 4,
+          "min": 70.25281528399758,
+          "median": 197.14229270650029,
+          "p95": 399.99825231296506,
+          "p99": 399.99825231296506,
+          "max": 399.99825231296506
+        },
+        "analysis_worker_cpu_s": {
+          "n": 4,
+          "min": 1.090208833,
+          "median": 1.6748040625000002,
+          "p95": 2.322427667,
+          "p99": 2.322427667,
+          "max": 2.322427667
+        },
+        "dsp_worker_cpu_s": {
+          "n": 4,
+          "min": 19.702993749999997,
+          "median": 28.345387958499998,
+          "p95": 50.379796291,
+          "p99": 50.379796291,
+          "max": 50.379796291
+        },
+        "process_cpu_s": {
+          "n": 4,
+          "min": 22.586679,
+          "median": 33.8272075,
+          "p95": 62.170582,
+          "p99": 62.170582,
+          "max": 62.170582
+        },
+        "peak_rss_bytes": {
+          "n": 4,
+          "min": 130465792,
+          "median": 167780352.0,
+          "p95": 257409024,
+          "p99": 257409024,
+          "max": 257409024
+        },
+        "ready_s": {
+          "n": 4,
+          "min": 0.142967208,
+          "median": 0.5854558335,
+          "p95": 1.011397583,
+          "p99": 1.011397583,
+          "max": 1.011397583
+        },
+        "resident_ready_s": {
+          "n": 4,
+          "min": 0.035300083,
+          "median": 0.047332687,
+          "p95": 0.062659334,
+          "p99": 0.062659334,
+          "max": 0.062659334
+        },
+        "first_callback_s": {
+          "n": 4,
+          "min": 0.1804454175,
+          "median": 0.6228713445,
+          "p95": 1.048857978,
+          "p99": 1.048857978,
+          "max": 1.048857978
+        }
+      },
+      "active_block_thread_samples": 27720,
+      "active_block_sample_policy_priority": {
+        "(0, 2, 97)": 27720
+      },
+      "scheduling_delay_per_session_s": null,
+      "unknown_wait_per_session_s": null,
+      "scheduling_delay_scope": "Continuous state available only in OS trace cohorts; samples do not fill gaps",
+      "all_blocks": {
+        "count": 22176,
+        "wall_s": {
+          "n": 22176,
+          "min": 2.7916e-05,
+          "median": 0.005142417,
+          "p95": 0.011844709,
+          "p99": 0.016862042,
+          "max": 0.031240917
+        },
+        "cpu_s": {
+          "n": 22176,
+          "min": 2.7958999996968714e-05,
+          "median": 0.005142395999999216,
+          "p95": 0.011836875000000191,
+          "p99": 0.016862041999999966,
+          "max": 0.030050833000000002
+        },
+        "non_cpu_s": {
+          "n": 22176,
+          "min": -9.666000000567877e-06,
+          "median": 3.2276698674893467e-16,
+          "p95": 8.400000058635809e-08,
+          "p99": 2.4999999947636353e-07,
+          "max": 0.001289458999999998
+        },
+        "publication_gap_s": {
+          "n": 22176,
+          "min": 0.0,
+          "median": 0.04479254150000145,
+          "p95": 0.0573692499999936,
+          "p99": 0.06128829200000041,
+          "max": 0.10005745800000002
+        }
+      },
+      "realtime_blocks": {
+        "count": 22148,
+        "wall_s": {
+          "n": 22148,
+          "min": 2.7916e-05,
+          "median": 0.005142770499999999,
+          "p95": 0.011821625,
+          "p99": 0.016861333,
+          "max": 0.028246041
+        },
+        "cpu_s": {
+          "n": 22148,
+          "min": 2.7958999996968714e-05,
+          "median": 0.005142750000000085,
+          "p95": 0.011821582999999691,
+          "p99": 0.016861333000000034,
+          "max": 0.028240249999999995
+        },
+        "non_cpu_s": {
+          "n": 22148,
+          "min": -9.666000000567877e-06,
+          "median": 3.204901621867151e-16,
+          "p95": 8.400000044172552e-08,
+          "p99": 2.4900000133651345e-07,
+          "max": 1.883399999998321e-05
+        },
+        "publication_gap_s": {
+          "n": 22148,
+          "min": 0.0214723750000001,
+          "median": 0.04479543700000477,
+          "p95": 0.057373624999996764,
+          "p99": 0.06128829200000041,
+          "max": 0.10005745800000002
+        }
+      }
+    },
+    "startup_original": {
+      "name": "startup_original",
+      "sessions": 36,
+      "passed": 36,
+      "failed": 0,
+      "audio_pass": 36,
+      "measurement_valid": 36,
+      "workgroup_sessions": 0,
+      "workgroup_policy_measured_sessions": 0,
+      "realtime_cpp_allocations_measured_sessions": 0,
+      "callback_cpp_allocations_measured_sessions": 36,
+      "pcm_prefix_exact": 36,
+      "pcm_complete_exact": 0,
+      "failures": [],
+      "counter_totals": {
+        "missing_frames": 0,
+        "missing_calls": 0,
+        "rejected_writes": 0,
+        "callback_deadlines": 0,
+        "hal_misses": 0,
+        "host_missing": 0,
+        "host_backwards": 0,
+        "host_cadence_errors": 0,
+        "sample_errors": 0,
+        "callback_formats": 0,
+        "pcm_mismatches": 0,
+        "callback_cpp_allocations": 0,
+        "realtime_cpp_new_calls": null,
+        "workgroup_deadline_misses": null,
+        "workgroup_policy_errors": null,
+        "workgroup_join_errors": null,
+        "workgroup_restore_errors": null,
+        "workgroup_interval_errors": null,
+        "workgroup_query_errors": null,
+        "workgroup_wait_errors": null,
+        "workgroup_wake_errors": null,
+        "worker_profile_dropped": 0,
+        "detail_dropped": null,
+        "thread_samples_dropped": null,
+        "thread_sample_errors": null
+      },
+      "metric_distributions": {
+        "max_consecutive_missing": {
+          "n": 36,
+          "min": 0,
+          "median": 0.0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        },
+        "fifo_high_water": {
+          "n": 36,
+          "min": 12288,
+          "median": 14336.0,
+          "p95": 16384,
+          "p99": 16384,
+          "max": 16384
+        },
+        "max_dsp_wall_s": {
+          "n": 36,
+          "min": 0.008431875,
+          "median": 0.0097174585,
+          "p95": 0.032806208,
+          "p99": 0.0485565,
+          "max": 0.0485565
+        },
+        "max_dsp_cpu_s": {
+          "n": 36,
+          "min": 0.008427917,
+          "median": 0.009664041500000001,
+          "p95": 0.015757667000000003,
+          "p99": 0.01656275,
+          "max": 0.01656275
+        },
+        "max_publication_gap_s": {
+          "n": 36,
+          "min": 0.061823040999999995,
+          "median": 0.102821667,
+          "p95": 0.123790083,
+          "p99": 0.1358655,
+          "max": 0.1358655
+        },
+        "analysis_wait_s": {
+          "n": 36,
+          "min": 2.5e-07,
+          "median": 0.001194271,
+          "p95": 0.005391709,
+          "p99": 0.01417075,
+          "max": 0.01417075
+        },
+        "backpressure_wait_s": {
+          "n": 36,
+          "min": 0.8467510429999989,
+          "median": 0.9291363314999999,
+          "p95": 0.984587132,
+          "p99": 1.001611076,
+          "max": 1.001611076
+        },
+        "analysis_worker_cpu_s": {
+          "n": 36,
+          "min": 0.071174375,
+          "median": 0.6895096875,
+          "p95": 0.9692275410000001,
+          "p99": 0.9786846670000001,
+          "max": 0.9786846670000001
+        },
+        "dsp_worker_cpu_s": {
+          "n": 36,
+          "min": 0.11770804200000001,
+          "median": 0.130456271,
+          "p95": 0.19325079100000003,
+          "p99": 0.19374729200000002,
+          "max": 0.19374729200000002
+        },
+        "process_cpu_s": {
+          "n": 36,
+          "min": 0.25847799999999993,
+          "median": 0.892499,
+          "p95": 1.210212,
+          "p99": 1.220999,
+          "max": 1.220999
+        },
+        "peak_rss_bytes": {
+          "n": 36,
+          "min": 72712192,
+          "median": 180518912.0,
+          "p95": 268304384,
+          "p99": 270123008,
+          "max": 270123008
+        },
+        "ready_s": {
+          "n": 36,
+          "min": 0.042666416,
+          "median": 0.0971951455,
+          "p95": 0.137378541,
+          "p99": 0.141336542,
+          "max": 0.141336542
+        },
+        "resident_ready_s": null,
+        "first_callback_s": {
+          "n": 36,
+          "min": 0.0573298755,
+          "median": 0.12470173975,
+          "p95": 0.1962834175,
+          "p99": 0.199163396,
+          "max": 0.199163396
+        }
+      },
+      "active_block_thread_samples": 0,
+      "active_block_sample_policy_priority": {},
+      "scheduling_delay_per_session_s": null,
+      "unknown_wait_per_session_s": null,
+      "scheduling_delay_scope": "Continuous state available only in OS trace cohorts; samples do not fill gaps",
+      "all_blocks": {
+        "count": 1008,
+        "wall_s": {
+          "n": 1008,
+          "min": 0.000132375,
+          "median": 0.0048385,
+          "p95": 0.010079041,
+          "p99": 0.012747041,
+          "max": 0.0485565
+        },
+        "cpu_s": {
+          "n": 1008,
+          "min": 0.00013237500000000055,
+          "median": 0.004811229499999993,
+          "p95": 0.009941875000000001,
+          "p99": 0.01247725000000001,
+          "max": 0.01656275
+        },
+        "non_cpu_s": {
+          "n": 1008,
+          "min": -8.399999999828683e-08,
+          "median": 4.2000000002612864e-08,
+          "p95": 0.00019741699999999834,
+          "p99": 0.0009267499999999988,
+          "max": 0.041215541999999994
+        },
+        "publication_gap_s": {
+          "n": 1008,
+          "min": 0.0,
+          "median": 0.042760770500000045,
+          "p95": 0.05868883299999994,
+          "p99": 0.109344583,
+          "max": 0.1358655
+        }
+      },
+      "realtime_blocks": {
+        "count": 0,
+        "wall_s": null,
+        "cpu_s": null,
+        "non_cpu_s": null,
+        "publication_gap_s": null
+      }
+    },
+    "startup_fix": {
+      "name": "startup_fix",
+      "sessions": 36,
+      "passed": 36,
+      "failed": 0,
+      "audio_pass": 36,
+      "measurement_valid": 36,
+      "workgroup_sessions": 36,
+      "workgroup_policy_measured_sessions": 36,
+      "realtime_cpp_allocations_measured_sessions": 36,
+      "callback_cpp_allocations_measured_sessions": 36,
+      "pcm_prefix_exact": 36,
+      "pcm_complete_exact": 0,
+      "failures": [],
+      "counter_totals": {
+        "missing_frames": 0,
+        "missing_calls": 0,
+        "rejected_writes": 0,
+        "callback_deadlines": 0,
+        "hal_misses": 0,
+        "host_missing": 0,
+        "host_backwards": 0,
+        "host_cadence_errors": 0,
+        "sample_errors": 0,
+        "callback_formats": 0,
+        "pcm_mismatches": 0,
+        "callback_cpp_allocations": 0,
+        "realtime_cpp_new_calls": 0,
+        "workgroup_deadline_misses": 0,
+        "workgroup_policy_errors": 0,
+        "workgroup_join_errors": 0,
+        "workgroup_restore_errors": 0,
+        "workgroup_interval_errors": 0,
+        "workgroup_query_errors": 0,
+        "workgroup_wait_errors": 0,
+        "workgroup_wake_errors": 0,
+        "worker_profile_dropped": 0,
+        "detail_dropped": 0,
+        "thread_samples_dropped": 0,
+        "thread_sample_errors": 0
+      },
+      "metric_distributions": {
+        "max_consecutive_missing": {
+          "n": 36,
+          "min": 0,
+          "median": 0.0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        },
+        "fifo_high_water": {
+          "n": 36,
+          "min": 12288,
+          "median": 14336.0,
+          "p95": 16384,
+          "p99": 16384,
+          "max": 16384
+        },
+        "max_dsp_wall_s": {
+          "n": 36,
+          "min": 0.01546875,
+          "median": 0.017812500000000002,
+          "p95": 0.018852208,
+          "p99": 0.01895175,
+          "max": 0.01895175
+        },
+        "max_dsp_cpu_s": {
+          "n": 36,
+          "min": 0.015468750000000003,
+          "median": 0.017798292000000007,
+          "p95": 0.01883891700000001,
+          "p99": 0.018944792000000002,
+          "max": 0.018944792000000002
+        },
+        "max_publication_gap_s": {
+          "n": 36,
+          "min": 0.06647562500000001,
+          "median": 0.06860075000000002,
+          "p95": 0.07282112500000001,
+          "p99": 0.07410887500000002,
+          "max": 0.07410887500000002
+        },
+        "analysis_wait_s": {
+          "n": 36,
+          "min": 0,
+          "median": 0.0012351875,
+          "p95": 0.006467167,
+          "p99": 0.009292293,
+          "max": 0.009292293
+        },
+        "backpressure_wait_s": {
+          "n": 36,
+          "min": 0.7894274120000002,
+          "median": 0.8277880985000002,
+          "p95": 0.8404585330000002,
+          "p99": 0.8445933359999998,
+          "max": 0.8445933359999998
+        },
+        "analysis_worker_cpu_s": {
+          "n": 36,
+          "min": 0.070266792,
+          "median": 0.6673885835000001,
+          "p95": 0.932480375,
+          "p99": 0.935226958,
+          "max": 0.935226958
+        },
+        "dsp_worker_cpu_s": {
+          "n": 36,
+          "min": 0.21486695800000002,
+          "median": 0.22801975050000003,
+          "p95": 0.26099737500000003,
+          "p99": 0.262193333,
+          "max": 0.262193333
+        },
+        "process_cpu_s": {
+          "n": 36,
+          "min": 0.32624699999999995,
+          "median": 0.9836010000000001,
+          "p95": 1.305125,
+          "p99": 1.307178,
+          "max": 1.307178
+        },
+        "peak_rss_bytes": {
+          "n": 36,
+          "min": 83410944,
+          "median": 244187136.0,
+          "p95": 373522432,
+          "p99": 373817344,
+          "max": 373817344
+        },
+        "ready_s": {
+          "n": 36,
+          "min": 0.046786667,
+          "median": 0.125138417,
+          "p95": 0.227579666,
+          "p99": 0.264198042,
+          "max": 0.264198042
+        },
+        "resident_ready_s": {
+          "n": 36,
+          "min": 0.010341083,
+          "median": 0.06808458349999999,
+          "p95": 0.1516665,
+          "p99": 0.225217875,
+          "max": 0.225217875
+        },
+        "first_callback_s": {
+          "n": 36,
+          "min": 0.06245727,
+          "median": 0.13984674,
+          "p95": 0.242390603,
+          "p99": 0.279083667,
+          "max": 0.279083667
+        }
+      },
+      "active_block_thread_samples": 1226,
+      "active_block_sample_policy_priority": {
+        "(0, 2, 97)": 1226
+      },
+      "scheduling_delay_per_session_s": null,
+      "unknown_wait_per_session_s": null,
+      "scheduling_delay_scope": "Continuous state available only in OS trace cohorts; samples do not fill gaps",
+      "all_blocks": {
+        "count": 1008,
+        "wall_s": {
+          "n": 1008,
+          "min": 0.000129459,
+          "median": 0.007417708,
+          "p95": 0.016482625,
+          "p99": 0.018111958,
+          "max": 0.01895175
+        },
+        "cpu_s": {
+          "n": 1008,
+          "min": 0.00012945799999999896,
+          "median": 0.007405604,
+          "p95": 0.016482458000000005,
+          "p99": 0.018101415999999995,
+          "max": 0.018944792000000002
+        },
+        "non_cpu_s": {
+          "n": 1008,
+          "min": -2.5000000001759726e-07,
+          "median": 4.100000000270554e-08,
+          "p95": 7.787500000000069e-05,
+          "p99": 0.0012124159999999974,
+          "max": 0.0016596659999999989
+        },
+        "publication_gap_s": {
+          "n": 1008,
+          "min": 0.0,
+          "median": 0.04239885449999997,
+          "p95": 0.06138908300000001,
+          "p99": 0.069767458,
+          "max": 0.07410887500000002
+        }
+      },
+      "realtime_blocks": {
+        "count": 756,
+        "wall_s": {
+          "n": 756,
+          "min": 0.000395417,
+          "median": 0.008054979,
+          "p95": 0.01709325,
+          "p99": 0.01832075,
+          "max": 0.01895175
+        },
+        "cpu_s": {
+          "n": 756,
+          "min": 0.00039537500000000336,
+          "median": 0.008054916499999995,
+          "p95": 0.017093208,
+          "p99": 0.018311999999999995,
+          "max": 0.018944792000000002
+        },
+        "non_cpu_s": {
+          "n": 756,
+          "min": -2.5000000001759726e-07,
+          "median": 4.099999999880241e-08,
+          "p95": 3.3300000000079794e-07,
+          "p99": 1.2206999999993251e-05,
+          "max": 1.9792000000004584e-05
+        },
+        "publication_gap_s": {
+          "n": 756,
+          "min": 0.024598500000000023,
+          "median": 0.04770445799999998,
+          "p95": 0.06644591699999997,
+          "p99": 0.070547209,
+          "max": 0.07410887500000002
+        }
+      }
+    },
+    "v3_startup_original": {
+      "name": "v3_startup_original",
+      "sessions": 36,
+      "passed": 36,
+      "failed": 0,
+      "audio_pass": 36,
+      "measurement_valid": 36,
+      "workgroup_sessions": 0,
+      "workgroup_policy_measured_sessions": 0,
+      "realtime_cpp_allocations_measured_sessions": 0,
+      "callback_cpp_allocations_measured_sessions": 36,
+      "pcm_prefix_exact": 36,
+      "pcm_complete_exact": 0,
+      "failures": [],
+      "counter_totals": {
+        "missing_frames": 0,
+        "missing_calls": 0,
+        "rejected_writes": 0,
+        "callback_deadlines": 0,
+        "hal_misses": 0,
+        "host_missing": 0,
+        "host_backwards": 0,
+        "host_cadence_errors": 0,
+        "sample_errors": 0,
+        "callback_formats": 0,
+        "pcm_mismatches": 0,
+        "callback_cpp_allocations": 0,
+        "realtime_cpp_new_calls": null,
+        "workgroup_deadline_misses": null,
+        "workgroup_policy_errors": null,
+        "workgroup_join_errors": null,
+        "workgroup_restore_errors": null,
+        "workgroup_interval_errors": null,
+        "workgroup_query_errors": null,
+        "workgroup_wait_errors": null,
+        "workgroup_wake_errors": null,
+        "worker_profile_dropped": 0,
+        "detail_dropped": null,
+        "thread_samples_dropped": null,
+        "thread_sample_errors": null
+      },
+      "metric_distributions": {
+        "max_consecutive_missing": {
+          "n": 36,
+          "min": 0,
+          "median": 0.0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        },
+        "fifo_high_water": {
+          "n": 36,
+          "min": 12288,
+          "median": 14336.0,
+          "p95": 16384,
+          "p99": 16384,
+          "max": 16384
+        },
+        "max_dsp_wall_s": {
+          "n": 36,
+          "min": 0.008362916,
+          "median": 0.0098605835,
+          "p95": 0.014749167,
+          "p99": 0.019123,
+          "max": 0.019123
+        },
+        "max_dsp_cpu_s": {
+          "n": 36,
+          "min": 0.008362833,
+          "median": 0.009792917000000002,
+          "p95": 0.01074291699999999,
+          "p99": 0.010904709000000012,
+          "max": 0.010904709000000012
+        },
+        "max_publication_gap_s": {
+          "n": 36,
+          "min": 0.0620875,
+          "median": 0.0863129585,
+          "p95": 0.14389724999999998,
+          "p99": 0.145748292,
+          "max": 0.145748292
+        },
+        "analysis_wait_s": {
+          "n": 36,
+          "min": 2.91e-07,
+          "median": 0.0001786875,
+          "p95": 0.003095541,
+          "p99": 0.003965958,
+          "max": 0.003965958
+        },
+        "backpressure_wait_s": {
+          "n": 36,
+          "min": 0.8896470439999992,
+          "median": 0.9341177154999998,
+          "p95": 1.0085763260000005,
+          "p99": 1.0094486660000008,
+          "max": 1.0094486660000008
+        },
+        "analysis_worker_cpu_s": {
+          "n": 36,
+          "min": 0.07279425,
+          "median": 0.69196075,
+          "p95": 0.952753625,
+          "p99": 0.954974542,
+          "max": 0.954974542
+        },
+        "dsp_worker_cpu_s": {
+          "n": 36,
+          "min": 0.112567041,
+          "median": 0.12667116650000004,
+          "p95": 0.161423375,
+          "p99": 0.171604875,
+          "max": 0.171604875
+        },
+        "process_cpu_s": {
+          "n": 36,
+          "min": 0.24302799999999997,
+          "median": 0.893012,
+          "p95": 1.21502,
+          "p99": 1.2180929999999999,
+          "max": 1.2180929999999999
+        },
+        "peak_rss_bytes": {
+          "n": 36,
+          "min": 72761344,
+          "median": 180715520.0,
+          "p95": 267927552,
+          "p99": 269713408,
+          "max": 269713408
+        },
+        "ready_s": {
+          "n": 36,
+          "min": 0.041958583,
+          "median": 0.100228729,
+          "p95": 0.147399167,
+          "p99": 0.16658625,
+          "max": 0.16658625
+        },
+        "resident_ready_s": null,
+        "first_callback_s": {
+          "n": 36,
+          "min": 0.0562645415,
+          "median": 0.12913292675,
+          "p95": 0.22127454200000002,
+          "p99": 0.24340304200000001,
+          "max": 0.24340304200000001
+        }
+      },
+      "active_block_thread_samples": 0,
+      "active_block_sample_policy_priority": {},
+      "scheduling_delay_per_session_s": null,
+      "unknown_wait_per_session_s": null,
+      "scheduling_delay_scope": "Continuous state available only in OS trace cohorts; samples do not fill gaps",
+      "all_blocks": {
+        "count": 1008,
+        "wall_s": {
+          "n": 1008,
+          "min": 0.000130583,
+          "median": 0.0041164585,
+          "p95": 0.009160958,
+          "p99": 0.010795875,
+          "max": 0.019123
+        },
+        "cpu_s": {
+          "n": 1008,
+          "min": 0.00013054200000000085,
+          "median": 0.004100874999999999,
+          "p95": 0.008664666000000001,
+          "p99": 0.010168958,
+          "max": 0.010904709000000012
+        },
+        "non_cpu_s": {
+          "n": 1008,
+          "min": -1.250000000027271e-07,
+          "median": 4.1999999997842374e-08,
+          "p95": 0.0001172909999999994,
+          "p99": 0.0013667910000000035,
+          "max": 0.009853667000000003
+        },
+        "publication_gap_s": {
+          "n": 1008,
+          "min": 0.0,
+          "median": 0.043092041499999956,
+          "p95": 0.05742391699999999,
+          "p99": 0.12039979200000003,
+          "max": 0.145748292
+        }
+      },
+      "realtime_blocks": {
+        "count": 0,
+        "wall_s": null,
+        "cpu_s": null,
+        "non_cpu_s": null,
+        "publication_gap_s": null
+      }
+    },
+    "v3_startup_fix": {
+      "name": "v3_startup_fix",
+      "sessions": 36,
+      "passed": 36,
+      "failed": 0,
+      "audio_pass": 36,
+      "measurement_valid": 36,
+      "workgroup_sessions": 36,
+      "workgroup_policy_measured_sessions": 36,
+      "realtime_cpp_allocations_measured_sessions": 36,
+      "callback_cpp_allocations_measured_sessions": 36,
+      "pcm_prefix_exact": 36,
+      "pcm_complete_exact": 0,
+      "failures": [],
+      "counter_totals": {
+        "missing_frames": 0,
+        "missing_calls": 0,
+        "rejected_writes": 0,
+        "callback_deadlines": 0,
+        "hal_misses": 0,
+        "host_missing": 0,
+        "host_backwards": 0,
+        "host_cadence_errors": 0,
+        "sample_errors": 0,
+        "callback_formats": 0,
+        "pcm_mismatches": 0,
+        "callback_cpp_allocations": 0,
+        "realtime_cpp_new_calls": 0,
+        "workgroup_deadline_misses": 0,
+        "workgroup_policy_errors": 0,
+        "workgroup_join_errors": 0,
+        "workgroup_restore_errors": 0,
+        "workgroup_interval_errors": 0,
+        "workgroup_query_errors": 0,
+        "workgroup_wait_errors": 0,
+        "workgroup_wake_errors": 0,
+        "worker_profile_dropped": 0,
+        "detail_dropped": 0,
+        "thread_samples_dropped": 0,
+        "thread_sample_errors": 0
+      },
+      "metric_distributions": {
+        "max_consecutive_missing": {
+          "n": 36,
+          "min": 0,
+          "median": 0.0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        },
+        "fifo_high_water": {
+          "n": 36,
+          "min": 12288,
+          "median": 14336.0,
+          "p95": 16384,
+          "p99": 16384,
+          "max": 16384
+        },
+        "max_dsp_wall_s": {
+          "n": 36,
+          "min": 0.015451333,
+          "median": 0.01636875,
+          "p95": 0.0177165,
+          "p99": 0.018702125,
+          "max": 0.018702125
+        },
+        "max_dsp_cpu_s": {
+          "n": 36,
+          "min": 0.015451334000000011,
+          "median": 0.016368666999999996,
+          "p95": 0.017710417000000006,
+          "p99": 0.018690958000000008,
+          "max": 0.018690958000000008
+        },
+        "max_publication_gap_s": {
+          "n": 36,
+          "min": 0.06653366699999999,
+          "median": 0.067834125,
+          "p95": 0.069837125,
+          "p99": 0.071858792,
+          "max": 0.071858792
+        },
+        "analysis_wait_s": {
+          "n": 36,
+          "min": 0,
+          "median": 0.0009682915,
+          "p95": 0.006386875,
+          "p99": 0.009792167000000001,
+          "max": 0.009792167000000001
+        },
+        "backpressure_wait_s": {
+          "n": 36,
+          "min": 0.8138825479999997,
+          "median": 0.8350927875,
+          "p95": 0.845930527,
+          "p99": 0.8482124560000002,
+          "max": 0.8482124560000002
+        },
+        "analysis_worker_cpu_s": {
+          "n": 36,
+          "min": 0.06865087500000001,
+          "median": 0.694102,
+          "p95": 0.9109740000000001,
+          "p99": 0.9114236660000001,
+          "max": 0.9114236660000001
+        },
+        "dsp_worker_cpu_s": {
+          "n": 36,
+          "min": 0.207451208,
+          "median": 0.22068149950000002,
+          "p95": 0.238564458,
+          "p99": 0.245693042,
+          "max": 0.245693042
+        },
+        "process_cpu_s": {
+          "n": 36,
+          "min": 0.33028699999999994,
+          "median": 1.0068889999999997,
+          "p95": 1.264898,
+          "p99": 1.277788,
+          "max": 1.277788
+        },
+        "peak_rss_bytes": {
+          "n": 36,
+          "min": 96600064,
+          "median": 257376256.0,
+          "p95": 388874240,
+          "p99": 389218304,
+          "max": 389218304
+        },
+        "ready_s": {
+          "n": 36,
+          "min": 0.04399725,
+          "median": 0.132577479,
+          "p95": 0.212070584,
+          "p99": 0.217993458,
+          "max": 0.217993458
+        },
+        "resident_ready_s": {
+          "n": 36,
+          "min": 0.010857417,
+          "median": 0.07167929149999999,
+          "p95": 0.111527,
+          "p99": 0.118146875,
+          "max": 0.118146875
+        },
+        "first_callback_s": {
+          "n": 36,
+          "min": 0.058602521000000005,
+          "median": 0.14714211475,
+          "p95": 0.227136896,
+          "p99": 0.233321312,
+          "max": 0.233321312
+        }
+      },
+      "active_block_thread_samples": 1161,
+      "active_block_sample_policy_priority": {
+        "(0, 2, 97)": 1161
+      },
+      "scheduling_delay_per_session_s": null,
+      "unknown_wait_per_session_s": null,
+      "scheduling_delay_scope": "Continuous state available only in OS trace cohorts; samples do not fill gaps",
+      "all_blocks": {
+        "count": 1008,
+        "wall_s": {
+          "n": 1008,
+          "min": 0.000129291,
+          "median": 0.0071948335,
+          "p95": 0.015128667,
+          "p99": 0.017199667,
+          "max": 0.018702125
+        },
+        "cpu_s": {
+          "n": 1008,
+          "min": 0.00012929100000000013,
+          "median": 0.007168146500000002,
+          "p95": 0.01512870899999999,
+          "p99": 0.01719316600000001,
+          "max": 0.018690958000000008
+        },
+        "non_cpu_s": {
+          "n": 1008,
+          "min": -3.3300000000686947e-07,
+          "median": 1.0000000000157452e-09,
+          "p95": 0.00012575000000000086,
+          "p99": 0.0012722079999999986,
+          "max": 0.002472208999999998
+        },
+        "publication_gap_s": {
+          "n": 1008,
+          "min": 0.0,
+          "median": 0.042171832999999936,
+          "p95": 0.060861041000000005,
+          "p99": 0.06828512500000003,
+          "max": 0.071858792
+        }
+      },
+      "realtime_blocks": {
+        "count": 756,
+        "wall_s": {
+          "n": 756,
+          "min": 0.000391583,
+          "median": 0.007849354,
+          "p95": 0.015549625,
+          "p99": 0.017301209,
+          "max": 0.018702125
+        },
+        "cpu_s": {
+          "n": 756,
+          "min": 0.0003915840000000004,
+          "median": 0.007849416499999998,
+          "p95": 0.015549583000000006,
+          "p99": 0.017287917,
+          "max": 0.018690958000000008
+        },
+        "non_cpu_s": {
+          "n": 756,
+          "min": -3.3300000000686947e-07,
+          "median": 1.214306433183765e-17,
+          "p95": 1.2500000001920697e-07,
+          "p99": 5.9160000000120505e-06,
+          "max": 1.3292000000001553e-05
+        },
+        "publication_gap_s": {
+          "n": 756,
+          "min": 0.024353917000000003,
+          "median": 0.04788568750000005,
+          "p95": 0.06253162499999998,
+          "p99": 0.06868358399999999,
+          "max": 0.071858792
+        }
+      }
+    }
+  },
+  "all_failures_retained": true,
+  "percentiles": "nearest rank; no failed trials excluded",
+  "limits": "C++ allocations only; bounded samples may be dropped; no system-wide memory-pressure claim",
+  "legacy_startup": {
+    "sessions": 36,
+    "counter_totals": {
+      "callback_deadlines": 0,
+      "hal_misses": 0,
+      "host_missing": 0,
+      "host_backwards": 0,
+      "host_cadence_errors": 0,
+      "sample_errors": 0,
+      "format_errors": 0,
+      "missing_frames": 0,
+      "rejected_writes": 0
+    },
+    "published_prefix_exact": 36,
+    "callback_cpp_allocations": null,
+    "allocation_measured": false,
+    "scope": "Startup legacy harness measures timing and raw published prefix; no callback allocation hook"
+  },
+  "v3_legacy_startup": {
+    "sessions": 36,
+    "counter_totals": {
+      "callback_deadlines": 0,
+      "hal_misses": 0,
+      "host_missing": 0,
+      "host_backwards": 0,
+      "host_cadence_errors": 0,
+      "sample_errors": 0,
+      "format_errors": 0,
+      "missing_frames": 0,
+      "rejected_writes": 0
+    },
+    "published_prefix_exact": 36,
+    "callback_cpp_allocations": null,
+    "allocation_measured": false,
+    "scope": "Startup legacy harness measures timing and raw published prefix; no callback allocation hook"
+  }
+}

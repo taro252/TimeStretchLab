@@ -1,0 +1,74 @@
+-- Configuring done (0.7s)
+-- Generating done (2.1s)
+-- Build files have been written to: /Users/taro252/Docker/TimeStretchLab/build
+[  0%] Building CXX object CMakeFiles/timestretch_core.dir/src/audio/WavWriter.cpp.o
+[  7%] Building CXX object CMakeFiles/timestretch_core.dir/src/audio/WavReader.cpp.o
+[  0%] Building CXX object CMakeFiles/timestretch_core.dir/src/audio/WavStream.cpp.o
+[  7%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/FFTAccelerate.cpp.o
+[ 15%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/STFT.cpp.o
+[ 15%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/OverlapAdd.cpp.o
+[ 15%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/RingOverlapAdd.cpp.o
+[ 23%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/PhaseVocoder.cpp.o
+[ 23%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/PhaseLocker.cpp.o
+[ 23%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/PartialTracker.cpp.o
+[ 23%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/PeriodicResynchronizer.cpp.o
+[ 30%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/TransientDetector.cpp.o
+[ 30%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/TransientEventMap.cpp.o
+[ 30%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/TransientAnchor.cpp.o
+[ 38%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/StereoPhaseCoherence.cpp.o
+[ 38%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/TimeMap.cpp.o
+[ 38%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/MultiResolutionCrossover.cpp.o
+[ 38%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/StreamingCrossover.cpp.o
+[ 46%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/ChunkedTimeStretchEngine.cpp.o
+[ 46%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/Phase13StreamingEngine.cpp.o
+[ 46%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/Phase14PlaybackPipeline.cpp.o
+[ 53%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/Phase18PcmCache.cpp.o
+[ 53%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/TimeStretchEngine.cpp.o
+[ 53%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/TimeStretchProcessor.cpp.o
+[ 53%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/WSOLAEngine.cpp.o
+[ 61%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/SinusoidalResidualEngine.cpp.o
+[ 61%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/TonalResidualEngine.cpp.o
+[ 61%] Linking CXX static library libtimestretch_core.a
+[ 61%] Built target timestretch_core
+[ 61%] Built target phase56_incremental
+[ 61%] Building CXX object CMakeFiles/phase24_variable.dir/src/prototype/Phase24StreamingSpeedEngine.cpp.o
+[ 61%] Building CXX object CMakeFiles/phase24_variable.dir/src/prototype/Phase24PlaybackPipeline.cpp.o
+[ 61%] Linking CXX static library libphase24_variable.a
+[ 69%] Built target phase24_variable
+[ 69%] Building CXX object CMakeFiles/phase36_variable.dir/src/prototype/Phase36StreamingSpeedEngine.cpp.o
+[ 69%] Building CXX object CMakeFiles/phase36_variable.dir/src/prototype/Phase36PlaybackPipeline.cpp.o
+[ 76%] Linking CXX static library libphase36_variable.a
+[ 84%] Built target phase36_variable
+[ 84%] Building CXX object CMakeFiles/phase57_synthesis.dir/src/prototype/Phase57ProgressiveSynthesis.cpp.o
+[ 84%] Linking CXX static library libphase57_synthesis.a
+[ 84%] Built target phase57_synthesis
+[ 84%] Building CXX object CMakeFiles/phase58_realtime.dir/src/prototype/Phase58RealtimePipeline.cpp.o
+[ 84%] Building CXX object CMakeFiles/phase58_realtime.dir/src/prototype/Phase58FixRealtimeWorker.cpp.o
+[ 92%] Linking CXX static library libphase58_realtime.a
+[ 92%] Built target phase58_realtime
+[100%] Building CXX object CMakeFiles/phase58_fix_mailbox_tests.dir/tests/Phase58FixMailboxTests.cpp.o
+[100%] Linking CXX executable phase58_fix_mailbox_tests
+[100%] Built target phase58_fix_mailbox_tests
+[ 61%] Built target timestretch_core
+[ 61%] Built target phase56_incremental
+[ 69%] Built target phase24_variable
+[ 84%] Built target phase36_variable
+[ 84%] Built target phase57_synthesis
+[ 92%] Built target phase58_realtime
+[100%] Building CXX object CMakeFiles/phase58_fix_tests.dir/tests/Phase58FixTests.cpp.o
+[100%] Linking CXX executable phase58_fix_tests
+[100%] Built target phase58_fix_tests
+Test project /Users/taro252/Docker/TimeStretchLab/build
+    Start 85: phase58_fix_diagnostics
+1/3 Test #85: phase58_fix_diagnostics ..........   Passed    0.80 sec
+    Start 86: phase58_fix_trace_analysis
+2/3 Test #86: phase58_fix_trace_analysis .......   Passed    1.11 sec
+    Start 87: phase58_fix_mailbox
+3/3 Test #87: phase58_fix_mailbox ..............   Passed    0.34 sec
+
+100% tests passed, 0 tests failed out of 3
+
+Label Time Summary:
+deterministic    =   2.25 sec*proc (3 tests)
+
+Total Test time (real) =   2.26 sec

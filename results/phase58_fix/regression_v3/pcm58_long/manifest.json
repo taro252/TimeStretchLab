@@ -1,0 +1,29 @@
+{
+  "suite": "long",
+  "baseline": "75ae70cecaef2739f744fc21eeecf99da179e18f",
+  "worker": "workgroup",
+  "resident_input": true,
+  "realtime_armed": false,
+  "driver_source_sha256": "3d35b40ca7d650514fc1b1d87649f3f045529c344f537d49c586a7bdfae33a07",
+  "reference": "/Users/taro252/Docker/TimeStretchLab/build/phase58_frozen/product_reference",
+  "binaries": {
+    "build/phase58_frozen/product_reference": "3a3b04454f754c35afa4cac121a726fa31c44a6854761a7de5f71aa057f2a957",
+    "build/phase58_check": "e9c6e13194d20fe1f9de3c4f01a3e295ef58b1bacbf0c561683fa7a3889b2143",
+    "build/phase58_native": "daacdb21463fd2ebe002109758db7d6109d24a6925cae17b2476f53296213e7a"
+  },
+  "inputs": [
+    {
+      "name": "boundary_180s",
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase55/long/boundary_1_2_44100_180/full.wav",
+      "seconds": 180,
+      "input_sha256": "e5a589ce9e3ea436c53aadda233c96a8246e7a58466718600c82b68b47dd05ac"
+    },
+    {
+      "name": "chain_300s",
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+      "seconds": 300,
+      "input_sha256": "13c957e5c0f5e3d64c4973ac27117930bcc541ac67f4d21459417d8f5a4e0bd0"
+    }
+  ],
+  "started_utc": "2026-10-16T05:22:02Z"
+}

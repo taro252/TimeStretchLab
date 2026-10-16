@@ -1,0 +1,466 @@
+#include "prototype/Phase58RealtimePipeline.h"
+#include "prototype/Phase56PinnedWav.h"
+#include "prototype/Phase45PcmDigest.h"
+#include "prototype/Phase58FixAllocationProbe.h"
+#include "prototype/Phase58FixSnapshotMailbox.h"
+#include "playback/StartupDiagnostics.h"
+#include <condition_variable>
+#include <cerrno>
+#include <mutex>
+#include <pthread.h>
+#include <cmath>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <sys/mman.h>
+#include <unistd.h>
+#include <mach/mach.h>
+
+namespace ts::prototype::phase58 {
+namespace {
+struct Cancelled {};
+// Immutable identity and FD; validation has no analysis-session side effect.
+class Input {
+    std::filesystem::path selected_;int fd_=-1,snapshotFd_=-1;struct stat identity_{};
+    unsigned char* resident_=nullptr;std::size_t residentSize_=0;
+    static bool same(const struct stat& a,const struct stat& b){
+        auto t=[](timespec x,timespec y){return x.tv_sec==y.tv_sec&&x.tv_nsec==y.tv_nsec;};
+        return a.st_dev==b.st_dev&&a.st_ino==b.st_ino&&a.st_gen==b.st_gen&&a.st_size==b.st_size&&
+            t(a.st_mtimespec,b.st_mtimespec)&&t(a.st_ctimespec,b.st_ctimespec)&&t(a.st_birthtimespec,b.st_birthtimespec);
+    }
+public:
+    std::uint32_t rate=0;std::size_t channels=0,frames=0;
+    explicit Input(const std::filesystem::path& p):selected_(p){
+        fd_=open(p.c_str(),O_RDONLY|O_CLOEXEC);
+        try{
+            if(fd_<0||fstat(fd_,&identity_)||!S_ISREG(identity_.st_mode))throw std::runtime_error("Cannot pin regular input");
+            WavStreamReader r(path());rate=r.sampleRate();channels=r.channels();frames=r.frames();
+            if(!frames||(rate!=44100&&rate!=48000)||(channels!=1&&channels!=2))throw std::invalid_argument("Unsupported Phase58 WAV");
+            validate();
+        }catch(...){if(fd_>=0)close(fd_);fd_=-1;throw;}
+    }
+    ~Input(){if(resident_){munlock(resident_,residentSize_);munmap(resident_,residentSize_);}if(snapshotFd_>=0)close(snapshotFd_);if(fd_>=0)close(fd_);}
+    std::filesystem::path path()const{return "/dev/fd/"+std::to_string(snapshotFd_>=0?snapshotFd_:fd_);}
+    std::size_t snapshotBytes()const{return snapshotFd_>=0?std::size_t(identity_.st_size):0;}
+    std::span<const unsigned char> residentBytes()const{return {resident_,residentSize_};}
+    void makeResident(){
+        if(snapshotFd_<0||resident_)throw std::logic_error("Resident source preparation order");
+        const auto bytes=snapshotBytes();void* memory=mmap(nullptr,bytes,PROT_READ,MAP_PRIVATE,snapshotFd_,0);
+        if(memory==MAP_FAILED)throw std::runtime_error("Cannot map private encoded input");
+        if(mlock(memory,bytes)!=0){munmap(memory,bytes);throw std::runtime_error("Cannot lock private encoded input in memory");}
+        resident_=static_cast<unsigned char*>(memory);residentSize_=bytes;
+        WavStreamReader validated(path(),residentBytes());validated.validateEncodedSamples();
+    }
+    void validate()const{
+        struct stat actual{},selected{};const int choice=open(selected_.c_str(),O_RDONLY|O_CLOEXEC);
+        const bool valid=fd_>=0&&fstat(fd_,&actual)==0&&choice>=0&&fstat(choice,&selected)==0&&same(identity_,actual)&&same(identity_,selected);
+        if(choice>=0)close(choice);
+        if(!valid)throw std::runtime_error("Input changed/replaced/unavailable");
+    }
+    std::string identify(std::size_t budget){
+        validate();Phase45PcmDigest hash;std::array<unsigned char,131072> b{};off_t at=0;
+        if(std::uint64_t(identity_.st_size)>budget)throw std::length_error("Input snapshot budget exceeded");
+        auto name=(std::filesystem::temp_directory_path()/"phase58-input-XXXXXX").string();
+        snapshotFd_=mkstemp(name.data());if(snapshotFd_<0)throw std::runtime_error("Cannot allocate private source snapshot");
+        if(unlink(name.c_str())!=0)throw std::runtime_error("Cannot unlink private source snapshot");
+        if(fcntl(snapshotFd_,F_SETFD,FD_CLOEXEC)<0)throw std::runtime_error("Cannot protect source snapshot FD");
+        while(at<identity_.st_size){const auto n=pread(fd_,b.data(),std::min<off_t>(b.size(),identity_.st_size-at),at);
+            if(n<0&&errno==EINTR)continue;
+            if(n<=0)throw std::runtime_error("Input identification read failed");
+            std::size_t written=0;while(written<std::size_t(n)){const auto count=write(snapshotFd_,b.data()+written,std::size_t(n)-written);if(count<0&&errno==EINTR)continue;if(count<=0)throw std::runtime_error("Private input snapshot write failed");written+=count;}
+            hash.update(b.data(),std::size_t(n));at+=n;}
+        validate();return hash.finish();
+    }
+};
+std::atomic<std::uint64_t> nextSession{1};
+static_assert(std::atomic<std::uint64_t>::is_always_lock_free);
+static_assert(std::atomic<std::size_t>::is_always_lock_free);
+static_assert(std::atomic<bool>::is_always_lock_free);
+static_assert(std::atomic<double>::is_always_lock_free);
+struct CpuEnd {
+    std::atomic<double>& destination;double start=playback::threadCpuSeconds();
+    ~CpuEnd(){destination=playback::threadCpuSeconds()-start;}
+};
+void maximum(std::atomic<std::uint64_t>& destination,std::uint64_t value){auto old=destination.load();while(old<value&&!destination.compare_exchange_weak(old,value)){};}
+}
+struct RealtimePipeline::Impl {
+    playback::StageClock origin;Configuration config;Input input;
+    const std::uint64_t session=nextSession.fetch_add(1);const std::size_t lead;
+    Phase14AudioFifo fifo;
+    std::thread analysisWorker,dspWorker,sampler;
+    mutable std::mutex mutex;std::condition_variable changed;
+    std::shared_ptr<const phase56::AnalysisSnapshot> mailbox;
+    BorrowedSnapshotMailbox<phase56::AnalysisSnapshot> borrowedMailbox;
+    std::unique_ptr<RealtimeWorkerSupport> realtime;
+    std::uint64_t version=0;std::string inputSha,pcmSha,error;
+    std::atomic<bool> started{false},cancelled{false},failure{false},analysisDone{false},dspDone{false},ready{false};
+    std::atomic<bool> renderingRequested{false};
+    std::atomic<bool> analysisQos{false},dspQos{false};
+    std::atomic<std::uint64_t> analysisThread{0},dspThread{0},missing{0},missingCalls{0},maxMissing{0},analysisWaits{0};
+    std::uint64_t consecutiveMissing=0; // Audio consumer only.
+    std::atomic<std::size_t> received{0},generated{0},published{0},consumed{0},output{0},snapshotPeak{0},snapshotCopies{0};
+    std::atomic<std::size_t> inputAtFirstPcm{0},inputAtReady{0},nonEosPublished{0};
+    double verified=-1,identified=-1;
+    double residentReady=-1;
+    std::atomic<double> analysisStart{-1},firstEvent{-1},firstMap{-1},firstGenerated{-1},firstPublished{-1},readyTime{-1},analysisEnd{-1};
+    std::atomic<double> analysisCpu{0},dspCpu{0},maxDspWall{0},analysisWait{0},backpressureWait{0};
+    std::atomic<double> dspWorkerCpu{0},maxDspCpu{0},maxPublicationGap{0};
+    std::atomic<double> analysisWorkerCpu{0};
+    std::atomic<double> maxDspValidationWall{0},maxDspValidationCpu{0};
+    std::vector<WorkerRecord> profiles;std::size_t profileDropped=0;
+    std::vector<DetailEvent> details;std::size_t detailDropped=0;
+    std::atomic<unsigned> analysisQosClass{0},dspQosClass{0};
+    std::atomic<int> analysisQosRelative{0},dspQosRelative{0};
+    std::atomic<bool> analysisQosQueried{false},dspQosQueried{false};
+    std::atomic<std::uint64_t> dspNewCalls{0};std::atomic<bool> dspAllocationsMeasured{false};
+    std::atomic<std::uint64_t> realtimeNewCalls{0};std::atomic<bool> realtimeAllocationsMeasured{false};
+    std::atomic<std::uint64_t> currentStage{UINT64_MAX};
+    std::array<std::uint64_t,32> stageStack{};std::size_t stageDepth=0;
+    std::vector<ThreadSample> samples;std::size_t sampleDropped=0,sampleErrors=0;
+    std::atomic<double> samplerCpu{0};
+    Impl(const std::filesystem::path& p,Configuration c):config(c),input(p),lead(c.candidate?16384:12288),fifo(input.channels,16384){
+        if(c.speedMicros<400000||c.speedMicros>2000000||c.speedMicros%10000||!c.analysisChunk||c.analysisChunk>131072||!std::isfinite(c.analysisDelayMs)||c.analysisDelayMs<0||!std::isfinite(c.dspDelayMs)||c.dspDelayMs<0)throw std::invalid_argument("Invalid Phase58 configuration");
+        if(c.diagnosticEventLimit>262144)throw std::invalid_argument("Unbounded detail diagnostics");
+        if(c.scheduling==WorkerScheduling::AudioWorkgroup&&(!c.residentInput||c.dspDelayMs))throw std::invalid_argument("Audio workgroup requires resident input and no synthetic DSP sleep");
+        error.reserve(256);verified=elapsed();inputSha=input.identify(config.sourceSnapshotBytes);identified=elapsed();
+        if(config.residentInput){input.makeResident();residentReady=elapsed();}
+        realtime=std::make_unique<RealtimeWorkerSupport>(config.scheduling==WorkerScheduling::AudioWorkgroup,input.rate);
+    }
+    double elapsed()const{return origin.elapsed().wallSeconds;}
+    static void detailObserver(void* context,std::size_t stage,std::size_t scope,bool begin,std::uint64_t ns,double cpu)noexcept{
+        auto& x=*static_cast<Impl*>(context);
+        if(begin){if(x.stageDepth<x.stageStack.size())x.stageStack[x.stageDepth++]=x.currentStage.load();x.currentStage=(stage<<16)|scope;}
+        else{x.currentStage=x.stageDepth?x.stageStack[--x.stageDepth]:UINT64_MAX;}
+        if(x.details.size()>=x.config.diagnosticEventLimit){++x.detailDropped;return;}
+        const auto base=std::chrono::duration_cast<std::chrono::nanoseconds>(x.origin.wall.time_since_epoch()).count();
+        x.details.push_back({stage,scope,begin,double(std::int64_t(ns)-base)*1e-9,cpu,dspAllocations});
+    }
+    void detail(std::size_t stage,bool begin){if(config.detailedDiagnostics)detailObserver(this,stage,3,begin,
+        std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now().time_since_epoch()).count(),playback::threadCpuSeconds());}
+    struct DetailScope {
+        Impl& x;std::size_t stage;
+        DetailScope(Impl& owner,std::size_t s):x(owner),stage(s){x.detail(stage,true);}
+        ~DetailScope(){x.detail(stage,false);}
+    };
+    struct AllocationScope {
+        Impl& x;
+        explicit AllocationScope(Impl& owner):x(owner){dspAllocations=0;countDspAllocations=x.config.detailedDiagnostics||x.config.scheduling==WorkerScheduling::AudioWorkgroup;}
+        ~AllocationScope(){x.dspNewCalls=dspAllocations;x.dspAllocationsMeasured=countDspAllocations&&dspAllocationProbeAvailable;countDspAllocations=false;}
+    };
+    void sampleThread(){
+        CpuEnd measured{samplerCpu};
+        try{
+            pthread_setname_np("Phase58 DSP sampler");pthread_set_qos_class_self_np(QOS_CLASS_UTILITY,0);
+            samples.reserve(65536);
+            const auto thread=pthread_mach_thread_np(dspWorker.native_handle());
+            const auto retained=mach_port_mod_refs(mach_task_self(),thread,MACH_PORT_RIGHT_SEND,1);
+            if(retained!=KERN_SUCCESS){++sampleErrors;return;}
+            while(!cancelled.load()&&!failure.load()&&!dspDone.load()){
+                ThreadSample r;thread_extended_info_data_t info{};mach_msg_type_number_t count=THREAD_EXTENDED_INFO_COUNT;
+                r.beforeS=elapsed();r.stageBefore=currentStage.load();
+                r.result=thread_info(thread,THREAD_EXTENDED_INFO,reinterpret_cast<thread_info_t>(&info),&count);
+                r.stageAfter=currentStage.load();r.afterS=elapsed();
+                if(r.result==KERN_SUCCESS){r.userNs=info.pth_user_time;r.systemNs=info.pth_system_time;r.state=info.pth_run_state;r.policy=info.pth_policy;r.currentPriority=info.pth_curpri;r.basePriority=info.pth_priority;r.maxPriority=info.pth_maxpriority;}
+                else ++sampleErrors;
+                if(samples.size()<65536)samples.push_back(r);else ++sampleDropped;
+                std::this_thread::sleep_for(std::chrono::milliseconds(1));
+            }
+            mach_port_deallocate(mach_task_self(),thread);
+        }catch(const std::exception& e){fail(e.what());}
+    }
+    void check(bool dsp=false){if(cancelled.load()||failure.load())throw Cancelled{};
+        // DSP sees only the private immutable byte snapshot. Original-path
+        // validation belongs exclusively to the analysis/identity worker.
+        if(!dsp)input.validate();}
+    void fail(const char* message){
+        {std::lock_guard lock(mutex);if(!failure.exchange(true))error.assign(message,std::min<std::size_t>(std::char_traits<char>::length(message),256));}
+        changed.notify_all();
+        realtime->signal();
+    }
+    void publish(std::shared_ptr<const phase56::AnalysisSnapshot> s){
+        if(config.scheduling==WorkerScheduling::AudioWorkgroup){
+            const auto* view=s.get();
+            while(!borrowedMailbox.tryPublish(s)){
+                if(cancelled.load()||failure.load())throw Cancelled{};
+                std::this_thread::sleep_for(std::chrono::milliseconds(1));
+            }
+            if(view->closedEventCount&&firstEvent.load()<0)firstEvent=elapsed();
+            if(view->mapThroughNode>1&&firstMap.load()<0)firstMap=elapsed();
+            {std::lock_guard lock(mutex);++version;}
+            realtime->signal();return;
+        }
+        if(s->closedEventCount&&firstEvent.load()<0)firstEvent=elapsed();
+        if(s->mapThroughNode>1&&firstMap.load()<0)firstMap=elapsed();
+        {std::lock_guard lock(mutex);mailbox=std::move(s);++version;}
+        changed.notify_all();
+    }
+    void analyze(){
+        CpuEnd measured{analysisWorkerCpu};
+        std::unique_ptr<phase56::ProgressiveAnalysisSession> a;
+        try{
+            std::uint64_t tid=0;pthread_threadid_np(nullptr,&tid);analysisThread=tid;
+            analysisQos=pthread_set_qos_class_self_np(QOS_CLASS_UTILITY,0)==0;
+            int relative=0;qos_class_t actual=QOS_CLASS_UNSPECIFIED;
+            analysisQosQueried=pthread_get_qos_class_np(pthread_self(),&actual,&relative)==0;
+            if(analysisQosQueried){analysisQosClass=actual;analysisQosRelative=relative;}
+            pthread_setname_np("Phase58 analysis");
+            analysisStart=elapsed();playback::StageClock cpu;
+            a=std::make_unique<phase56::ProgressiveAnalysisSession>(input.rate,input.channels,session,phase56::AnalysisLimits{},std::vector<std::uint32_t>{config.speedMicros});
+            phase56::PinnedWavSource source(input.path(),session);std::size_t at=0;
+            while(at<input.frames){check();if(config.analysisDelayMs)std::this_thread::sleep_for(std::chrono::duration<double,std::milli>(config.analysisDelayMs));
+                check();at+=source.appendNext(*a,config.analysisChunk);check();received=at;publish(a->getSnapshot());}
+            check();source.finish(*a);check();analysisEnd=elapsed();analysisDone=true;publish(a->getSnapshot());
+            const auto stats=a->statistics();snapshotPeak=stats.snapshotPeakBytes;snapshotCopies=stats.snapshotCopyBytes;
+            analysisCpu=cpu.elapsed().threadCpuSeconds;
+            // Continue validating the selected source after analysis EOS. The
+            // control/audio owner joins this worker before releasing the FD.
+            while(!cancelled.load()&&!failure.load()){
+                std::unique_lock lock(mutex);changed.wait_for(lock,std::chrono::milliseconds(10),[&]{return cancelled.load()||failure.load();});lock.unlock();
+                if(dspDone.load()&&fifo.available()==0)break;check();
+            }
+        }catch(const Cancelled&){if(a)a->cancel();}
+        catch(const std::exception& e){if(dspDone.load()&&fifo.available()==0&&!failure.load())return;
+            if(a&&!analysisDone.load()){try{a->failInput(session,phase56::AnalysisError::InputRead);}catch(...){}}fail(e.what());}
+        changed.notify_all();
+    }
+    void synthesizeRealtime(){
+        CpuEnd measured{dspWorkerCpu};AllocationScope allocations{*this};
+        std::uint64_t activeAllocationBase=0;
+        const auto demote=[&]()noexcept{
+            if(realtime->active()){
+                realtimeNewCalls=realtimeNewCalls.load()+dspAllocations-activeAllocationBase;
+                realtimeAllocationsMeasured=countDspAllocations&&dspAllocationProbeAvailable;
+            }
+            return realtime->demote();
+        };
+        try{
+            std::uint64_t tid=0;pthread_threadid_np(nullptr,&tid);dspThread=tid;
+            pthread_setname_np("Phase58 realtime DSP");dspQos=pthread_set_qos_class_self_np(QOS_CLASS_USER_INITIATED,0)==0;
+            int relative=0;qos_class_t actual=QOS_CLASS_UNSPECIFIED;
+            dspQosQueried=pthread_get_qos_class_np(pthread_self(),&actual,&relative)==0;
+            if(dspQosQueried){dspQosClass=actual;dspQosRelative=relative;}
+            if(config.detailedDiagnostics)details.reserve(config.diagnosticEventLimit);
+            phase57::ProgressiveSynthesisEngine* activeEngine=nullptr;
+            phase57::ProgressiveSynthesisEngine engine(input.path(),config.speedMicros,session,[&]{
+                if(activeEngine){if(cancelled.load()||failure.load())activeEngine->cancel();}
+                else check(true);
+            },16*1024*1024,input.residentBytes());
+            activeEngine=&engine;
+            output=std::size_t(std::llround(input.frames*(1.0/(double(config.speedMicros)/1000000.0))));
+            engine.setDeclaredFinalOutputFrames(output.load());
+            if(config.recordWorkerProfile){profiles.reserve(65536);engine.enableWorkProfiling();}
+            if(config.detailedDiagnostics)engine.setWorkObserver(detailObserver,this);
+            Phase45PcmDigest hash;std::vector<float> interleaved(config.verifyPcm?2048*input.channels:0);
+            std::uint64_t seenTag=decltype(borrowedMailbox)::initialTag,seen=0;
+            bool needSnapshot=true,finalSnapshot=false;double previousPublished=-1,atPublication=0,gap=0;
+            // Construct this owning function once before promotion. No per-block
+            // std::function allocation, snapshot ownership, mutex or notification.
+            const phase57::ProgressiveSynthesisEngine::Sink sink=[&](auto generation,auto offset,const float*const* p,std::size_t n){
+                if(cancelled.load()||failure.load()){engine.cancel();return;}
+                if(generation!=session||offset!=published.load())throw std::logic_error("PCM identity/offset mismatch");
+                generated=offset+n;if(firstGenerated.load()<0)firstGenerated=elapsed();
+                if(config.verifyPcm){DetailScope region{*this,15};for(std::size_t i=0;i<n;++i)for(std::size_t c=0;c<input.channels;++c)interleaved[i*input.channels+c]=p[c][i];hash.update(interleaved.data(),n*input.channels*sizeof(float));}
+                {DetailScope region{*this,16};if(!fifo.write(p,n))throw std::runtime_error("FIFO rejected PCM write");}
+                atPublication=elapsed();gap=previousPublished<0?0:atPublication-previousPublished;previousPublished=atPublication;maxPublicationGap=std::max(maxPublicationGap.load(),gap);
+                published=offset+n;if(firstPublished.load()<0){inputAtFirstPcm=received.load();firstPublished=atPublication;}
+                if(!analysisDone.load())nonEosPublished=offset+n;
+                if(offset+n>=lead&&!ready.load()){
+                    // Promotion is armed by the normal owner only AFTER Ready.
+                    {std::lock_guard lock(mutex);inputAtReady=received.load();readyTime=elapsed();ready=true;}
+                    changed.notify_all();
+                }
+            };
+            // Keep the engine/buffers alive until the worker has left its group
+            // and restored normal scheduling, including exception/cancel paths.
+            try{
+                while(!cancelled.load()&&!failure.load()){
+                    if(renderingRequested.load()&&ready.load()&&!realtime->active()){
+                        activeAllocationBase=dspAllocations;
+                        if(!realtime->promote())throw std::runtime_error("DSP realtime promotion failed");
+                    }else if(!renderingRequested.load()&&realtime->active()){
+                        if(!demote())throw std::runtime_error("DSP normal-policy restore failed");
+                    }
+                    if(auto lease=borrowedMailbox.acquire(seenTag)){
+                        DetailScope region{*this,12};
+                        const auto* view=lease->get();engine.supplyBorrowedSnapshot(view);
+                        finalSnapshot=view->isFinal;seenTag=lease->tag();seen=seenTag>>2;lease->commit();needSnapshot=false;
+                    }
+                    if(needSnapshot){
+                        DetailScope region{*this,10};playback::StageClock wait;++analysisWaits;
+                        realtime->waitForSignal();analysisWait=analysisWait.load()+wait.elapsed().wallSeconds;continue;
+                    }
+                    if(fifo.free()<2048||fifo.available()+2048>lead){
+                        DetailScope region{*this,13};playback::StageClock wait;
+                        realtime->waitForSignal();backpressureWait=backpressureWait.load()+wait.elapsed().wallSeconds;continue;
+                    }
+                    playback::StageClock block;const auto began=elapsed();const auto fifoBefore=fifo.available();const auto startOutput=published.load();atPublication=0;gap=0;
+                    if(!realtime->beginInterval())throw std::runtime_error("DSP work interval start failed");
+                    phase57::SynthesisState state;
+                    try{DetailScope region{*this,14};state=engine.advance(sink);}
+                    catch(...){realtime->finishInterval();demote();generated=engine.frontier().generated;throw;}
+                    if(!realtime->finishInterval())throw std::runtime_error("DSP work interval finish failed");
+                    const auto t=block.elapsed();dspCpu=dspCpu.load()+t.threadCpuSeconds;maxDspWall=std::max(maxDspWall.load(),t.wallSeconds);maxDspCpu=std::max(maxDspCpu.load(),t.threadCpuSeconds);
+                    if(config.recordWorkerProfile&&published.load()!=startOutput){
+                        if(profiles.size()<65536)profiles.push_back({startOutput,published.load(),fifoBefore,fifo.available(),received.load(),seen,finalSnapshot,began,atPublication,t.wallSeconds,t.threadCpuSeconds,gap,engine.workProfile(),realtime->active()});else ++profileDropped;
+                    }
+                    if(cancelled.load()||failure.load())break;
+                    if(state==phase57::SynthesisState::NeedsMoreAnalysis||state==phase57::SynthesisState::NeedsMoreInput){needSnapshot=true;continue;}
+                    if(state==phase57::SynthesisState::Finished){
+                        if(!demote())throw std::runtime_error("DSP final normal-policy restore failed");
+                        if(engine.frontier().published!=output.load())throw std::logic_error("Final output length differs");
+                        {std::lock_guard lock(mutex);if(config.verifyPcm)pcmSha=hash.finish();
+                            dspDone=true;if(published.load()&&!ready.load()){inputAtReady=received.load();readyTime=elapsed();ready=true;}}
+                        changed.notify_all();return;
+                    }
+                    if(state!=phase57::SynthesisState::Produced)throw std::runtime_error("Unexpected realtime synthesis state");
+                }
+                if(!demote())throw std::runtime_error("DSP cancelled normal-policy restore failed");
+            }catch(...){demote();throw;}
+        }catch(const Cancelled&){}
+        catch(const std::exception& e){demote();fail(e.what());}
+        changed.notify_all();
+    }
+    void synthesize(){
+        if(config.scheduling==WorkerScheduling::AudioWorkgroup){synthesizeRealtime();return;}
+        CpuEnd measured{dspWorkerCpu};
+        AllocationScope allocations{*this};
+        try{
+            std::uint64_t tid=0;pthread_threadid_np(nullptr,&tid);dspThread=tid;
+            dspQos=pthread_set_qos_class_self_np(QOS_CLASS_USER_INITIATED,0)==0;
+            int relative=0;qos_class_t actual=QOS_CLASS_UNSPECIFIED;
+            dspQosQueried=pthread_get_qos_class_np(pthread_self(),&actual,&relative)==0;
+            if(dspQosQueried){dspQosClass=actual;dspQosRelative=relative;}
+            pthread_setname_np("Phase58 DSP");
+            if(config.detailedDiagnostics)details.reserve(config.diagnosticEventLimit);
+            phase57::ProgressiveSynthesisEngine engine(input.path(),config.speedMicros,session,[this]{check(true);},16*1024*1024,input.residentBytes());
+            output=std::size_t(std::llround(input.frames*(1.0/(double(config.speedMicros)/1000000.0))));
+            engine.setDeclaredFinalOutputFrames(output.load());
+            if(config.recordWorkerProfile){profiles.reserve(65536);engine.enableWorkProfiling();}
+            if(config.detailedDiagnostics)engine.setWorkObserver(detailObserver,this);
+            Phase45PcmDigest hash;std::vector<float> interleaved(config.verifyPcm?2048*input.channels:0);
+            std::uint64_t seen=0;
+            bool needSnapshot=true,finalSnapshot=false;double previousPublished=-1;
+            while(!cancelled.load()&&!failure.load()){
+                std::shared_ptr<const phase56::AnalysisSnapshot> next;
+                if(needSnapshot){
+                    DetailScope region{*this,10};
+                    playback::StageClock wait;std::unique_lock lock(mutex);++analysisWaits;
+                    changed.wait(lock,[&]{return cancelled.load()||failure.load()||version!=seen;});
+                    analysisWait=analysisWait.load()+wait.elapsed().wallSeconds;
+                    if(cancelled.load()||failure.load())break;
+                    next=mailbox;seen=version;needSnapshot=false;
+                }else{
+                    DetailScope region{*this,11};
+                    std::lock_guard lock(mutex);if(version!=seen){next=mailbox;seen=version;}
+                }
+                if(next){
+                    DetailScope region{*this,12};
+                    engine.supplySnapshot(next);
+                    finalSnapshot=next->isFinal;
+                }
+                if(fifo.free()<2048||fifo.available()+2048>lead){
+                    DetailScope region{*this,13};
+                    playback::StageClock wait;std::unique_lock lock(mutex);
+                    // Callback only reads atomics/FIFO. A bounded 2ms worker
+                    // sleep supplies backpressure without callback-side wakeups.
+                    changed.wait_for(lock,std::chrono::milliseconds(2),[&]{return cancelled.load()||failure.load()||(fifo.free()>=2048&&fifo.available()+2048<=lead);});
+                    backpressureWait=backpressureWait.load()+wait.elapsed().wallSeconds;continue;
+                }
+                check(true);playback::StageClock block;const auto began=elapsed();const auto fifoBefore=fifo.available();const auto startOutput=published.load();double atPublication=0,gap=0;
+                if(config.dspDelayMs)std::this_thread::sleep_for(std::chrono::duration<double,std::milli>(config.dspDelayMs));
+                phase57::SynthesisState state;
+                try{DetailScope region{*this,14};state=engine.advance([&](auto generation,auto offset,const float*const* p,std::size_t n){
+                    check(true);if(generation!=session||offset!=published.load())throw std::logic_error("PCM identity/offset mismatch");
+                    generated=offset+n;if(firstGenerated.load()<0)firstGenerated=elapsed();
+                    if(config.verifyPcm){DetailScope digestRegion{*this,15};for(std::size_t i=0;i<n;++i)for(std::size_t c=0;c<input.channels;++c)interleaved[i*input.channels+c]=p[c][i];hash.update(interleaved.data(),n*input.channels*sizeof(float));}
+                    {DetailScope fifoRegion{*this,16};if(!fifo.write(p,n))throw std::runtime_error("FIFO rejected PCM write");}
+                    atPublication=elapsed();gap=previousPublished<0?0:atPublication-previousPublished;previousPublished=atPublication;maxPublicationGap=std::max(maxPublicationGap.load(),gap);
+                    published=offset+n;if(firstPublished.load()<0){inputAtFirstPcm=received.load();firstPublished=atPublication;}
+                    if(!analysisDone.load())nonEosPublished=offset+n;
+                    if(offset+n>=lead&&!ready.load()){
+                        // Publish the condition under the waiter's mutex so
+                        // notify cannot fall between its predicate and park.
+                        std::lock_guard lock(mutex);inputAtReady=received.load();readyTime=elapsed();ready=true;
+                    }changed.notify_all();
+                });}catch(...){generated=engine.frontier().generated;throw;}
+                const auto t=block.elapsed();dspCpu=dspCpu.load()+t.threadCpuSeconds;maxDspWall=std::max(maxDspWall.load(),t.wallSeconds);maxDspCpu=std::max(maxDspCpu.load(),t.threadCpuSeconds);
+                if(config.recordWorkerProfile&&published.load()!=startOutput){
+                    if(profiles.size()<65536)profiles.push_back({startOutput,published.load(),fifoBefore,fifo.available(),received.load(),seen,finalSnapshot,began,atPublication,t.wallSeconds,t.threadCpuSeconds,gap,engine.workProfile()});else ++profileDropped;
+                }
+                if(state==phase57::SynthesisState::NeedsMoreAnalysis||state==phase57::SynthesisState::NeedsMoreInput){needSnapshot=true;continue;}
+                if(state==phase57::SynthesisState::Finished){
+                    if(engine.frontier().published!=output.load())throw std::logic_error("Final output length differs");
+                    {std::lock_guard lock(mutex);if(config.verifyPcm)pcmSha=hash.finish();
+                        dspDone=true;if(published.load()&&!ready.load()){inputAtReady=received.load();readyTime=elapsed();ready=true;}}
+                    changed.notify_all();return;
+                }
+                if(state!=phase57::SynthesisState::Produced)throw std::runtime_error("Unexpected synthesis terminal state");
+            }
+        }catch(const Cancelled&){}
+        catch(const std::exception& e){fail(e.what());}
+        changed.notify_all();
+    }
+    void stop(){{std::lock_guard lock(mutex);cancelled=true;}renderingRequested=false;realtime->signal();changed.notify_all();if(sampler.joinable())sampler.join();if(analysisWorker.joinable())analysisWorker.join();if(dspWorker.joinable())dspWorker.join();}
+};
+RealtimePipeline::RealtimePipeline(const std::filesystem::path& p,Configuration c):impl_(std::make_unique<Impl>(p,c)){}
+RealtimePipeline::~RealtimePipeline(){impl_->stop();}
+void RealtimePipeline::start(){if(impl_->started.exchange(true))throw std::logic_error("Create a fresh playback session");
+    try{impl_->analysisWorker=std::thread([this]{impl_->analyze();});impl_->dspWorker=std::thread([this]{impl_->synthesize();});if(impl_->config.sampleDspThread)impl_->sampler=std::thread([this]{impl_->sampleThread();});}catch(...){impl_->stop();throw;}}
+bool RealtimePipeline::waitUntilReady(std::chrono::milliseconds timeout){auto& x=*impl_;std::unique_lock lock(x.mutex);x.changed.wait_for(lock,timeout,[&]{return x.ready.load()||x.failure.load()||x.cancelled.load();});return x.ready.load()&&!x.failure.load()&&!x.cancelled.load();}
+bool RealtimePipeline::setRealtimeRendering(bool active,std::chrono::milliseconds timeout){
+    auto& x=*impl_;if(x.config.scheduling!=WorkerScheduling::AudioWorkgroup)return true;
+    if(active&&(!x.started.load()||!x.ready.load()||x.failure.load()||x.cancelled.load()))return false;
+    x.renderingRequested=active;x.realtime->signal();const auto end=std::chrono::steady_clock::now()+timeout;
+    while(std::chrono::steady_clock::now()<end){
+        if(x.failure.load()||x.cancelled.load())return false;
+        if(active?(x.realtime->active()||x.dspDone.load()):!x.realtime->active())return true;
+        std::this_thread::sleep_for(std::chrono::microseconds(100));
+    }return false;
+}
+void RealtimePipeline::stop(){impl_->stop();}
+RenderResult RealtimePipeline::pullAudio(float*const* p,std::size_t n)noexcept{
+    auto& x=*impl_;RenderResult r;r.outputBefore=x.consumed.load(std::memory_order_relaxed);r.fifoBefore=x.fifo.available();
+    const auto end=x.output.load(std::memory_order_acquire);r.wanted=end?(end>r.outputBefore?std::min(n,end-r.outputBefore):0):n;
+    if(x.cancelled.load()||x.failure.load())r.wanted=0;
+    r.received=x.fifo.read(p,r.wanted);x.consumed.fetch_add(r.received,std::memory_order_relaxed);
+    for(std::size_t c=0;c<x.input.channels;++c)std::fill(p[c]+r.received,p[c]+n,0.0f);
+    const auto missing=r.wanted-r.received;
+    if(missing){x.missing.fetch_add(missing);x.missingCalls.fetch_add(1);x.consecutiveMissing=r.received?missing:x.consecutiveMissing+missing;maximum(x.maxMissing,x.consecutiveMissing);}else x.consecutiveMissing=0;
+    return r;
+}
+bool RealtimePipeline::finished()const noexcept{return impl_->dspDone.load();}
+bool RealtimePipeline::drained()const noexcept{return finished()&&!available();}
+bool RealtimePipeline::failed()const noexcept{return impl_->failure.load();}
+std::size_t RealtimePipeline::available()const noexcept{return impl_->fifo.available();}
+std::uint32_t RealtimePipeline::sampleRate()const noexcept{return impl_->input.rate;}
+std::size_t RealtimePipeline::channels()const noexcept{return impl_->input.channels;}
+std::size_t RealtimePipeline::inputFrames()const noexcept{return impl_->input.frames;}
+double RealtimePipeline::elapsedSeconds()const noexcept{return impl_->elapsed();}
+Diagnostics RealtimePipeline::diagnostics()const{
+    const auto& x=*impl_;Diagnostics d;std::lock_guard lock(x.mutex);
+    d.session=x.session;d.analysisThread=x.analysisThread;d.dspThread=x.dspThread;d.snapshotVersion=x.version;
+    d.inputFrames=x.input.frames;d.receivedInput=x.received;d.generated=x.generated;d.published=x.published;d.consumed=x.consumed;d.outputFrames=x.output;
+    d.inputAtFirstPcm=x.inputAtFirstPcm;d.inputAtReady=x.inputAtReady;d.nonEosPublished=x.nonEosPublished;
+    d.sourceSnapshotBytes=x.input.snapshotBytes();d.analysisWorkerCpuS=x.analysisWorkerCpu;
+    d.residentInputBytes=x.input.residentBytes().size();d.residentReadyS=x.residentReady;d.renderingRequested=x.renderingRequested;
+    d.inputSamplesPrevalidated=!x.input.residentBytes().empty();
+    d.scheduling=x.realtime->metrics();d.realtimeNewCalls=x.realtimeNewCalls;d.realtimeAllocationsMeasured=x.realtimeAllocationsMeasured;
+    if(!x.analysisWorker.joinable()&&!x.dspWorker.joinable())d.borrowedSnapshotOwners=x.borrowedMailbox.ownerCount();
+    d.fifoHighWater=x.fifo.highWater();d.snapshotPeakBytes=x.snapshotPeak;d.snapshotCopyBytes=x.snapshotCopies;
+    d.missingFrames=x.missing;d.missingCalls=x.missingCalls;d.maxConsecutiveMissing=x.maxMissing;d.rejectedWrites=x.fifo.rejectedWrites();d.analysisWaits=x.analysisWaits;
+    d.verifiedS=x.verified;d.identifiedS=x.identified;d.analysisStartS=x.analysisStart;d.firstEventS=x.firstEvent;d.firstMapS=x.firstMap;
+    d.firstGeneratedS=x.firstGenerated;d.firstPublishedS=x.firstPublished;d.readyS=x.readyTime;d.analysisDoneS=x.analysisEnd;
+    d.analysisCpuS=x.analysisCpu;d.dspCpuS=x.dspCpu;d.maxDspWallS=x.maxDspWall;d.analysisWaitS=x.analysisWait;d.backpressureWaitS=x.backpressureWait;
+    d.dspWorkerCpuS=x.dspWorkerCpu;d.maxDspCpuS=x.maxDspCpu;d.maxPublicationGapS=x.maxPublicationGap;
+    d.maxDspValidationWallS=x.maxDspValidationWall;d.maxDspValidationCpuS=x.maxDspValidationCpu;
+    if(!x.dspWorker.joinable()){d.workerProfileRecords=x.profiles.size();d.workerProfileDropped=x.profileDropped;d.detailRecords=x.details.size();d.detailDropped=x.detailDropped;}
+    d.dspNewCalls=x.dspNewCalls;d.dspAllocationsMeasured=x.dspAllocationsMeasured;
+    d.analysisQosClass=x.analysisQosClass;d.dspQosClass=x.dspQosClass;d.analysisQosRelativePriority=x.analysisQosRelative;d.dspQosRelativePriority=x.dspQosRelative;
+    d.analysisQosQueried=x.analysisQosQueried;d.dspQosQueried=x.dspQosQueried;d.threadSamplingRequested=x.config.sampleDspThread;d.samplerCpuS=x.samplerCpu;
+    if(!x.sampler.joinable()){d.threadSamples=x.samples.size();d.threadSamplesDropped=x.sampleDropped;d.threadSampleErrors=x.sampleErrors;}
+    d.analysisQos=x.analysisQos;d.dspQos=x.dspQos;d.analysisDone=x.analysisDone;d.dspDone=x.dspDone;d.cancelled=x.cancelled&&!x.dspDone;d.failed=x.failure;
+    d.inputSha256=x.inputSha;d.pcmSha256=x.pcmSha;d.error=x.error;return d;
+}
+std::vector<WorkerRecord> RealtimePipeline::workerRecords()const{const auto& x=*impl_;if(x.analysisWorker.joinable()||x.dspWorker.joinable())throw std::logic_error("Stop and join before exporting worker records");return x.profiles;}
+std::vector<DetailEvent> RealtimePipeline::detailEvents()const{const auto& x=*impl_;if(x.analysisWorker.joinable()||x.dspWorker.joinable())throw std::logic_error("Stop and join before exporting detail records");return x.details;}
+std::vector<ThreadSample> RealtimePipeline::threadSamples()const{const auto& x=*impl_;if(x.analysisWorker.joinable()||x.dspWorker.joinable()||x.sampler.joinable())throw std::logic_error("Stop and join before exporting samples");return x.samples;}
+}

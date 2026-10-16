@@ -1,0 +1,29 @@
+{
+  "start_utc": "2026-10-16T02:56:24.710119+00:00",
+  "head": "75ae70cecaef2739f744fc21eeecf99da179e18f",
+  "input": "/Users/taro252/Docker/TimeStretchLab/results/phase58/native_product/inputs/boundary_1_2_48000.wav",
+  "input_sha256": "5e60e5f416b0d1f83c728887253421e06a2b6114ccb8be427a8bcb892b35f584",
+  "binary": "/Users/taro252/Docker/TimeStretchLab/build/phase58_fix_frozen/candidate_v2_native",
+  "binary_sha256": "32433b0d9296bb35e735646d26ae5e27dfacb3712c2144c3ca8967fff5d2209e",
+  "reference_binary_sha256": "3a3b04454f754c35afa4cac121a726fa31c44a6854761a7de5f71aa057f2a957",
+  "preset": "candidate",
+  "speed_micros": 2000000,
+  "analysis_chunk": 32768,
+  "fifo_capacity": 16384,
+  "lead": 16384,
+  "block": 2048,
+  "gain": 0.5,
+  "cpu_load_threads": 0,
+  "memory_load_mib": 0,
+  "extra": [
+    "--worker=workgroup",
+    "--resident-input=on",
+    "--profile=detail",
+    "--sample-thread=on"
+  ],
+  "os_environment": "../START_STATE.json",
+  "qos_actual_measured": false,
+  "requested_dsp_qos": "USER_INITIATED",
+  "requested_analysis_qos": "UTILITY",
+  "end_utc": "2026-10-16T02:57:11.784115+00:00"
+}

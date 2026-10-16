@@ -1,0 +1,36 @@
+[ 57%] Built target timestretch_core
+[ 64%] Built target phase56_incremental
+[ 71%] Built target phase24_variable
+[ 71%] Building CXX object CMakeFiles/phase36_variable.dir/src/prototype/Phase36PlaybackPipeline.cpp.o
+[ 71%] Building CXX object CMakeFiles/phase36_variable.dir/src/prototype/Phase36StreamingSpeedEngine.cpp.o
+[ 78%] Linking CXX static library libphase36_variable.a
+[ 85%] Built target phase36_variable
+[ 85%] Building CXX object CMakeFiles/phase57_synthesis.dir/src/prototype/Phase57ProgressiveSynthesis.cpp.o
+[ 92%] Linking CXX static library libphase57_synthesis.a
+[ 92%] Built target phase57_synthesis
+[ 92%] Building CXX object CMakeFiles/phase58_realtime.dir/src/prototype/Phase58RealtimePipeline.cpp.o
+/Users/taro252/Docker/TimeStretchLab/src/prototype/Phase58RealtimePipeline.cpp:140:45: error: no matching function for call to 'pthread_get_qos_class_np'
+  140 |             int relative=0;analysisQosClass=pthread_get_qos_class_np(pthread_self(),&relative);analysisQosRelative=relative;
+      |                                             ^~~~~~~~~~~~~~~~~~~~~~~~
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/pthread/qos.h:186:1: note: candidate function not viable: requires 3 arguments, but 2 were provided
+  186 | pthread_get_qos_class_np(pthread_t __pthread,
+      | ^                        ~~~~~~~~~~~~~~~~~~~~
+  187 |                 qos_class_t * _Nullable __restrict __qos_class,
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  188 |                 int * _Nullable __restrict __relative_priority);
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/Users/taro252/Docker/TimeStretchLab/src/prototype/Phase58RealtimePipeline.cpp:166:40: error: no matching function for call to 'pthread_get_qos_class_np'
+  166 |             int relative=0;dspQosClass=pthread_get_qos_class_np(pthread_self(),&relative);dspQosRelative=relative;
+      |                                        ^~~~~~~~~~~~~~~~~~~~~~~~
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/pthread/qos.h:186:1: note: candidate function not viable: requires 3 arguments, but 2 were provided
+  186 | pthread_get_qos_class_np(pthread_t __pthread,
+      | ^                        ~~~~~~~~~~~~~~~~~~~~
+  187 |                 qos_class_t * _Nullable __restrict __qos_class,
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  188 |                 int * _Nullable __restrict __relative_priority);
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.
+make[3]: *** [CMakeFiles/phase58_realtime.dir/src/prototype/Phase58RealtimePipeline.cpp.o] Error 1
+make[2]: *** [CMakeFiles/phase58_realtime.dir/all] Error 2
+make[1]: *** [CMakeFiles/phase58_native.dir/rule] Error 2
+make: *** [phase58_native] Error 2

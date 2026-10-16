@@ -4,20 +4,25 @@
 #include <filesystem>
 #include <fstream>
 #include <vector>
+#include <span>
 
 namespace ts {
 class WavStreamReader {
 public:
     explicit WavStreamReader(const std::filesystem::path& path);
+    // Optional immutable encoded WAV bytes. The owner must outlive this reader.
+    WavStreamReader(const std::filesystem::path& path,std::span<const unsigned char> pinnedBytes);
     ~WavStreamReader();
     std::uint32_t sampleRate() const { return sampleRate_; }
     std::size_t channels() const { return channels_; }
     std::size_t frames() const { return frames_; }
     float sample(std::size_t channel, std::size_t frame);
+    void validateEncodedSamples() const; // Normal preparation, encoded byte input only.
 private:
     static constexpr std::size_t cacheFrames_ = 65536;
     std::ifstream input_;
     int descriptor_=-1; // Pinned input uses offset-independent pread on Darwin.
+    std::span<const unsigned char> pinnedBytes_;
     bool readPinned(void*,std::size_t,std::streamoff);
     std::streamoff dataOffset_ = 0;
     std::uint32_t sampleRate_ = 0;

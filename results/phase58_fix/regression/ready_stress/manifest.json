@@ -1,0 +1,10 @@
+{
+  "input_sha256": "07f97dd5c68b7f7bb3a9bd7bffcecf6b408a5edb989a6dc052bd2d1f95daab56",
+  "binaries": {
+    "build/phase58_check": "1e1fd9b14f94c25150c17a91d6c9c30c1dda2db34bf4c70db403ad87be9a30ef",
+    "build/phase58_frozen/product_reference": "3a3b04454f754c35afa4cac121a726fa31c44a6854761a7de5f71aa057f2a957"
+  },
+  "repeats": 1000,
+  "notification_lag_limit_s": 1,
+  "limit_purpose": "Ready通知の60秒取りこぼし検出。音声callback期限やPCM一致の閾値ではない。"
+}

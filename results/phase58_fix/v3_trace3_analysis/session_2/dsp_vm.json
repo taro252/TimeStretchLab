@@ -1,0 +1,127 @@
+[
+  {
+    "start": {
+      "value": "7028864708",
+      "fmt": "00:07.028.864",
+      "tag": "start-time"
+    },
+    "thread": {
+      "value": null,
+      "fmt": "0x4e20b5 (candidate_v3_native, pid: 88611)",
+      "tag": "thread",
+      "tid": 5120181,
+      "pid": 88611
+    },
+    "operation": {
+      "value": "Decompress Memory",
+      "fmt": "Decompress Memory",
+      "tag": "vm-op"
+    },
+    "duration": {
+      "value": "6292",
+      "fmt": "6.29 \u00b5s",
+      "tag": "duration"
+    },
+    "process": {
+      "value": null,
+      "fmt": "candidate_v3_native (88611)",
+      "tag": "process",
+      "pid": 88611
+    },
+    "cputime": {
+      "value": null,
+      "fmt": null,
+      "tag": "sentinel"
+    },
+    "waittime": {
+      "value": null,
+      "fmt": null,
+      "tag": "sentinel"
+    },
+    "address": {
+      "value": "22351462400",
+      "fmt": "0x534404000",
+      "tag": "address"
+    },
+    "size": {
+      "value": "16384",
+      "fmt": "16.00 KiB",
+      "tag": "size-in-bytes"
+    },
+    "backtrace": {
+      "value": null,
+      "fmt": null,
+      "tag": "tagged-backtrace",
+      "frames": [
+        "__bzero",
+        "std::__1::vector<ts::prototype::phase58::DetailEvent, std::__1::allocator<ts::prototype::phase58::DetailEvent>>::resize(unsigned long)",
+        "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+        "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+        "_pthread_start",
+        "thread_start"
+      ]
+    }
+  },
+  {
+    "start": {
+      "value": "8812176291",
+      "fmt": "00:08.812.176",
+      "tag": "start-time"
+    },
+    "thread": {
+      "value": null,
+      "fmt": "0x4e20b5 (candidate_v3_native, pid: 88611)",
+      "tag": "thread",
+      "tid": 5120181,
+      "pid": 88611
+    },
+    "operation": {
+      "value": "Zero Fill",
+      "fmt": "Zero Fill",
+      "tag": "vm-op"
+    },
+    "duration": {
+      "value": "7917",
+      "fmt": "7.92 \u00b5s",
+      "tag": "duration"
+    },
+    "process": {
+      "value": null,
+      "fmt": "candidate_v3_native (88611)",
+      "tag": "process",
+      "pid": 88611
+    },
+    "cputime": {
+      "value": null,
+      "fmt": null,
+      "tag": "sentinel"
+    },
+    "waittime": {
+      "value": null,
+      "fmt": null,
+      "tag": "sentinel"
+    },
+    "address": {
+      "value": "6132629504",
+      "fmt": "0x16d888000",
+      "tag": "address"
+    },
+    "size": {
+      "value": "16384",
+      "fmt": "16.00 KiB",
+      "tag": "size-in-bytes"
+    },
+    "backtrace": {
+      "value": null,
+      "fmt": null,
+      "tag": "tagged-backtrace",
+      "frames": [
+        "_platform_memset",
+        "_pthread_terminate_invoke",
+        "_pthread_exit",
+        "_pthread_start",
+        "thread_start"
+      ]
+    }
+  }
+]

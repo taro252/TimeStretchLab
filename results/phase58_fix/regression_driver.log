@@ -1,0 +1,25 @@
+release_configure 0
+release_all_build 0
+ready_stress 0
+Traceback (most recent call last):
+  File "/Users/taro252/Docker/TimeStretchLab/scripts/phase58_fix_regression.py", line 17, in <module>
+    run('deterministic_ctest',['ctest','--test-dir','build','-L','deterministic','--output-on-failure','-j1'])
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/taro252/Docker/TimeStretchLab/scripts/phase58_fix_regression.py", line 10, in run
+    p=subprocess.run(list(map(str,cmd)),cwd=ROOT,stdout=output,stderr=subprocess.STDOUT)
+  File "/usr/local/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1213, in communicate
+    self.wait()
+    ~~~~~~~~~^^
+  File "/usr/local/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1279, in wait
+    return self._wait(timeout=timeout)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 2084, in _wait
+    (pid, sts) = self._try_wait(0)
+                 ~~~~~~~~~~~~~~^^^
+  File "/usr/local/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 2042, in _try_wait
+    (pid, sts) = os.waitpid(self.pid, wait_flags)
+                 ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt

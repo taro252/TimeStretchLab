@@ -5,7 +5,8 @@ using namespace synthesis_detail;
 struct ProgressiveSynthesisEngine::Impl final:ProgressiveAccess {
     std::uint32_t speed;std::uint64_t generation;std::size_t length,channels,output,generated=0,published=0;
     StretchConfig config;std::function<void()> validate;
-    std::shared_ptr<const phase56::AnalysisSnapshot> snapshot;
+    std::shared_ptr<const phase56::AnalysisSnapshot> snapshotOwner;
+    const phase56::AnalysisSnapshot* snapshot=nullptr;bool borrowedSnapshots=false;
     std::optional<std::size_t> declaredFinalOutput;
     Phase36StreamingSpeedEngine::WorkProfile profile{};bool profileEnabled=false;
     mutable std::array<std::pair<double,double>,16> positionCache{};
@@ -18,9 +19,9 @@ struct ProgressiveSynthesisEngine::Impl final:ProgressiveAccess {
     std::array<std::vector<float>,2> pcm;std::array<const float*,2> pointers{};
     std::atomic<bool> cancelled{false},finished{false};bool failed=false,injected=false,finalLength=false;
     SynthesisState state=SynthesisState::NeedsMoreAnalysis;
-    Impl(const std::filesystem::path& path,std::uint32_t s,std::uint64_t g,std::function<void()> v,std::size_t budget):speed(s),generation(g),validate(std::move(v)){
+    Impl(const std::filesystem::path& path,std::uint32_t s,std::uint64_t g,std::function<void()> v,std::size_t budget,std::span<const unsigned char> pinnedBytes):speed(s),generation(g),validate(std::move(v)){
         if(s<400000||s>2000000||s%10000||!g)throw std::invalid_argument("Invalid Phase57 speed/generation");
-        if(validate)validate();WavStreamReader reader(path);length=reader.frames();channels=reader.channels();
+        if(validate)validate();WavStreamReader reader(path,pinnedBytes);length=reader.frames();channels=reader.channels();
         if((reader.sampleRate()!=44100&&reader.sampleRate()!=48000)||(channels!=1&&channels!=2))throw std::invalid_argument("Unsupported input format");
         config.sampleRate=reader.sampleRate();config.channels=int(channels);config.timeRatio=1.0/(double(s)/1000000.0);
         config.qualityMode=QualityMode::Experimental;config.enableMultiResolution=true;config.enablePhaseLocking=true;config.enableTransientHandling=true;config.enableAdaptiveTimeMapping=true;config.enablePreciseTransientAnchoring=true;config.enableStereoCoherence=true;
@@ -31,11 +32,19 @@ struct ProgressiveSynthesisEngine::Impl final:ProgressiveAccess {
         if(budget<stateBytesEstimate())throw std::bad_alloc();
         for(auto* d:{&digests.fft,&digests.phase,&digests.ifft,&digests.ola})d->fill(hashSeed);digests.lowFir=digests.highFir=digests.fir=hashSeed;
         constexpr std::array<int,3> fft{8192,4096,1024},hop{2048,1024,256};
-        for(std::size_t r=0;r<3;++r)resolution[r]=std::make_unique<ResolutionStream>(path,config,fft[r],hop[r],detection,r==1,output,modes,digests,r,nullptr,0,nullptr,false);
+        for(std::size_t r=0;r<3;++r)resolution[r]=std::make_unique<ResolutionStream>(path,config,fft[r],hop[r],detection,r==1,output,modes,digests,r,nullptr,0,nullptr,false,pinnedBytes);
         MultiResolutionCrossover filters(config.sampleRate,config.lowCrossoverHz,config.highCrossoverHz);
         for(std::size_t c=0;c<channels;++c){low.push_back(std::make_unique<LiveStreamingFIR>(filters.lowFilter(),output,nullptr));high.push_back(std::make_unique<LiveStreamingFIR>(filters.highFilter(),output,nullptr));pcm[c].resize(2048);pointers[c]=pcm[c].data();}
     }
     std::size_t stateBytesEstimate()const{return 8*1024*1024;} // reservation, not process RSS
+    void acceptSnapshot(const phase56::AnalysisSnapshot* s){
+        if(!s||s->inputGeneration!=generation||s->receivedInputFrames>length||(s->isFinal&&(s->receivedInputFrames!=length||s->hasError||s->isCancelled))||(s->hasError&&s->isCancelled)||s->closedEventCount!=s->closedAnchorCount||s->detector.size()!=s->detectorThrough||s->events.size()!=s->closedEventCount||s->anchors.size()!=s->closedAnchorCount)throw std::invalid_argument("Invalid snapshot identity/bounds");
+        if(s->mapForSpeed(speed).size()!=s->mapThroughNode)throw std::invalid_argument("Requested map bounds differ");
+        if(snapshot&&(s->receivedInputFrames<snapshot->receivedInputFrames||s->detectorThrough<snapshot->detectorThrough||s->closedEventCount<snapshot->closedEventCount||s->mapThroughNode<snapshot->mapThroughNode||snapshot->isFinal))throw std::invalid_argument("Snapshot regressed/after EOS");
+        snapshot=s;
+        if(snapshot->hasError){failed=true;state=SynthesisState::Failed;}
+        else if(snapshot->isCancelled){cancelled.store(true);state=SynthesisState::Cancelled;}
+    }
     const auto& map()const{if(!snapshot)throw std::logic_error("No snapshot");return snapshot->mapForSpeed(speed);}
     double position(double input)const override{
         for(std::size_t i=0;i<positionCacheCount;++i)if(positionCache[i].first==input)return positionCache[i].second;
@@ -56,7 +65,7 @@ struct ProgressiveSynthesisEngine::Impl final:ProgressiveAccess {
         return Availability::Ready;
     }
     SynthesisState advance(const Sink& sink){
-        if(profileEnabled)profile={};
+        if(profileEnabled)profile.stages={};
         if(finished.load())return state=SynthesisState::Finished;
         if(failed)return state=SynthesisState::Failed;
         if(cancelled.load())return state=SynthesisState::Cancelled;
@@ -92,7 +101,7 @@ struct ProgressiveSynthesisEngine::Impl final:ProgressiveAccess {
         return state;
     }
 };
-ProgressiveSynthesisEngine::ProgressiveSynthesisEngine(const std::filesystem::path& p,std::uint32_t s,std::uint64_t g,std::function<void()> v,std::size_t b):impl_(std::make_unique<Impl>(p,s,g,std::move(v),b)){}
+ProgressiveSynthesisEngine::ProgressiveSynthesisEngine(const std::filesystem::path& p,std::uint32_t s,std::uint64_t g,std::function<void()> v,std::size_t b,std::span<const unsigned char> bytes):impl_(std::make_unique<Impl>(p,s,g,std::move(v),b,bytes)){}
 ProgressiveSynthesisEngine::~ProgressiveSynthesisEngine()=default;
 void ProgressiveSynthesisEngine::setDeclaredFinalOutputFrames(std::size_t frames){auto& x=*impl_;
     if(x.snapshot||x.generated||x.finished.load()||x.failed||x.cancelled.load())throw std::logic_error("Set output contract before input");
@@ -104,13 +113,17 @@ void ProgressiveSynthesisEngine::enableWorkProfiling(){auto& x=*impl_;if(x.snaps
     x.profileEnabled=true;for(auto& r:x.resolution)r->setWorkProfile(&x.profile);for(auto& f:x.low)f->setWorkProfile(&x.profile);for(auto& f:x.high)f->setWorkProfile(&x.profile);
 }
 Phase36StreamingSpeedEngine::WorkProfile ProgressiveSynthesisEngine::workProfile()const{return impl_->profile;}
+void ProgressiveSynthesisEngine::setWorkObserver(Phase36StreamingSpeedEngine::WorkProfile::Observer observer,void* context){
+    auto& x=*impl_;if(x.snapshot||x.generated)throw std::logic_error("Set observer before input");
+    enableWorkProfiling();x.profile.observer=observer;x.profile.observerContext=context;
+}
 void ProgressiveSynthesisEngine::supplySnapshot(std::shared_ptr<const phase56::AnalysisSnapshot> s){auto& x=*impl_;if(x.finished.load()||x.failed||x.cancelled.load())throw std::logic_error("Synthesis already terminal");try{
-    if(!s||s->inputGeneration!=x.generation||s->receivedInputFrames>x.length||(s->isFinal&&(s->receivedInputFrames!=x.length||s->hasError||s->isCancelled))||(s->hasError&&s->isCancelled)||s->closedEventCount!=s->closedAnchorCount||s->detector.size()!=s->detectorThrough||s->events.size()!=s->closedEventCount||s->anchors.size()!=s->closedAnchorCount)throw std::invalid_argument("Invalid snapshot identity/bounds");
-    if(s->mapForSpeed(x.speed).size()!=s->mapThroughNode)throw std::invalid_argument("Requested map bounds differ");
-    if(x.snapshot&&(s->receivedInputFrames<x.snapshot->receivedInputFrames||s->detectorThrough<x.snapshot->detectorThrough||s->closedEventCount<x.snapshot->closedEventCount||s->mapThroughNode<x.snapshot->mapThroughNode||x.snapshot->isFinal))throw std::invalid_argument("Snapshot regressed/after EOS");
-    x.snapshot=std::move(s);
-    if(x.snapshot->hasError){x.failed=true;x.state=SynthesisState::Failed;}
-    else if(x.snapshot->isCancelled){x.cancelled.store(true);x.state=SynthesisState::Cancelled;}
+    if(x.borrowedSnapshots)throw std::logic_error("Cannot mix borrowed and owned snapshots");
+    x.acceptSnapshot(s.get());x.snapshotOwner=std::move(s);
+}catch(...){x.failed=true;x.state=SynthesisState::Failed;throw;}}
+void ProgressiveSynthesisEngine::supplyBorrowedSnapshot(const phase56::AnalysisSnapshot* s){auto& x=*impl_;if(x.finished.load()||x.failed||x.cancelled.load())throw std::logic_error("Synthesis already terminal");try{
+    if(x.snapshotOwner)throw std::logic_error("Cannot mix owned and borrowed snapshots");
+    x.borrowedSnapshots=true;x.acceptSnapshot(s);
 }catch(...){x.failed=true;x.state=SynthesisState::Failed;throw;}}
 SynthesisState ProgressiveSynthesisEngine::advance(const Sink& s){try{return impl_->advance(s);}catch(...){impl_->failed=true;impl_->state=SynthesisState::Failed;throw;}}
 void ProgressiveSynthesisEngine::cancel()noexcept{if(!impl_->finished.load())impl_->cancelled.store(true);}

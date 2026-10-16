@@ -1,0 +1,60 @@
+{
+  "suite": "lifecycle_load",
+  "binaries": {
+    "/Users/taro252/Docker/TimeStretchLab/build/phase58_fix_frozen/candidate_v2_native": "32433b0d9296bb35e735646d26ae5e27dfacb3712c2144c3ca8967fff5d2209e",
+    "/Users/taro252/Docker/TimeStretchLab/build/phase58_frozen/product_reference": "3a3b04454f754c35afa4cac121a726fa31c44a6854761a7de5f71aa057f2a957"
+  },
+  "driver_sha256": "67daa7d27ef57b0746ad0d3dbb1df1f371cf7acbb7c28948721b115d57db3567",
+  "start_utc": "2026-10-16T03:34:48.744972+00:00",
+  "inputs": [
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+      "input_sha256": "789d4c159e35b4c133a17913ad5a9c47b85970185e5d86b074d146afc1bb311e",
+      "input_bytes": 3528044
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase58_fix/native_lifecycle_load/inputs/eos_candidate.wav",
+      "input_sha256": "bac316209ca86ff27c43565eff38e1a642280148998d0fd8ee6a226ea2cceef2",
+      "input_bytes": 768044
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase54/input/mix_30s.wav",
+      "input_sha256": "c502b566d750753f5b7ded95cb5191c46c2a201c94ab357d7d652533cf4fd4e6",
+      "input_bytes": 10584044
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase58_fix/native_lifecycle_load/inputs/eos_baseline.wav",
+      "input_sha256": "bac316209ca86ff27c43565eff38e1a642280148998d0fd8ee6a226ea2cceef2",
+      "input_bytes": 768044
+    }
+  ],
+  "expected_device": 72,
+  "expected_rate": 48000,
+  "expected_buffer": 512,
+  "speeds_micros": [
+    400000,
+    410000,
+    500000,
+    750000,
+    990000,
+    1000000,
+    1010000,
+    1250000,
+    1500000,
+    1990000,
+    2000000
+  ],
+  "flags": [
+    "--worker=workgroup",
+    "--resident-input=on",
+    "--profile=block",
+    "--sample-thread=on"
+  ],
+  "independent_process_per_case": true,
+  "head": "75ae70cecaef2739f744fc21eeecf99da179e18f",
+  "cold_definition": "fresh process; OS filesystem cache is not flushed",
+  "rss_scope": "process lifetime peak, including preloaded verification reference",
+  "memory_pressure_scope": "bounded process allocation; not system-wide pressure",
+  "end_utc": "2026-10-16T03:38:48.044721+00:00",
+  "binaries_unchanged": true
+}

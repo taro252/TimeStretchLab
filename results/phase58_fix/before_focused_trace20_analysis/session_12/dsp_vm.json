@@ -1,0 +1,64 @@
+[
+  {
+    "start": {
+      "value": "32351475541",
+      "fmt": "00:32.351.475",
+      "tag": "start-time"
+    },
+    "thread": {
+      "value": null,
+      "fmt": "0x4947ad (diagnostic_native, pid: 61649)",
+      "tag": "thread",
+      "tid": 4802477,
+      "pid": 61649
+    },
+    "operation": {
+      "value": "Zero Fill",
+      "fmt": "Zero Fill",
+      "tag": "vm-op"
+    },
+    "duration": {
+      "value": "3750",
+      "fmt": "3.75 \u00b5s",
+      "tag": "duration"
+    },
+    "process": {
+      "value": null,
+      "fmt": "diagnostic_native (61649)",
+      "tag": "process",
+      "pid": 61649
+    },
+    "cputime": {
+      "value": null,
+      "fmt": null,
+      "tag": "sentinel"
+    },
+    "waittime": {
+      "value": null,
+      "fmt": null,
+      "tag": "sentinel"
+    },
+    "address": {
+      "value": "6157041664",
+      "fmt": "0x16efd0000",
+      "tag": "address"
+    },
+    "size": {
+      "value": "16384",
+      "fmt": "16.00 KiB",
+      "tag": "size-in-bytes"
+    },
+    "backtrace": {
+      "value": null,
+      "fmt": null,
+      "tag": "tagged-backtrace",
+      "frames": [
+        "_platform_memset",
+        "_pthread_terminate_invoke",
+        "_pthread_exit",
+        "_pthread_start",
+        "thread_start"
+      ]
+    }
+  }
+]

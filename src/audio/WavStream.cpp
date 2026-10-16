@@ -29,29 +29,37 @@ void put32(std::ostream& out, std::uint32_t value) {
 }
 }
 bool WavStreamReader::readPinned(void* buffer,std::size_t bytes,std::streamoff at) {
+    if(!pinnedBytes_.empty()){
+        if(at<0||std::uint64_t(at)>pinnedBytes_.size()||bytes>pinnedBytes_.size()-std::size_t(at))return false;
+        std::memcpy(buffer,pinnedBytes_.data()+std::size_t(at),bytes);return true;
+    }
     auto* p=static_cast<char*>(buffer);std::size_t done=0;
     while(done<bytes){const auto n=pread(descriptor_,p+done,bytes-done,at+done);
         if(n<0&&errno==EINTR)continue;if(n<=0)return false;done+=static_cast<std::size_t>(n);}
     return true;
 }
 WavStreamReader::~WavStreamReader(){if(descriptor_>=0)close(descriptor_);}
-WavStreamReader::WavStreamReader(const std::filesystem::path& path) {
-    if(path.string().starts_with("/dev/fd/")){
+WavStreamReader::WavStreamReader(const std::filesystem::path& path):WavStreamReader(path,{}){}
+WavStreamReader::WavStreamReader(const std::filesystem::path& path,std::span<const unsigned char> pinnedBytes):pinnedBytes_(pinnedBytes) {
+    if(!pinnedBytes_.empty()){
+        // Parsing and scalar PCM conversion below are shared with file input.
+    }else if(path.string().starts_with("/dev/fd/")){
         auto fd=std::stoi(path.string().substr(8));descriptor_=fcntl(fd,F_DUPFD_CLOEXEC,0);
         if(descriptor_<0)throw std::runtime_error("Cannot duplicate pinned WAV");
     }else{input_.open(path,std::ios::binary);if(!input_)throw std::runtime_error("Cannot open WAV: "+path.string());}
     try {
+    const bool pinned=descriptor_>=0||!pinnedBytes_.empty();
     std::streamoff position=0;
-    const auto read=[&](void* p,std::size_t n){if(descriptor_>=0){auto ok=readPinned(p,n,position);position+=n;return ok;}return bool(input_.read(static_cast<char*>(p),n));};
-    const auto seek=[&](std::streamoff at){if(descriptor_>=0){position=at;return true;}input_.seekg(at);return bool(input_);};
-    const auto tell=[&](){return descriptor_>=0?position:static_cast<std::streamoff>(input_.tellg());};
+    const auto read=[&](void* p,std::size_t n){if(pinned){auto ok=readPinned(p,n,position);position+=n;return ok;}return bool(input_.read(static_cast<char*>(p),n));};
+    const auto seek=[&](std::streamoff at){if(pinned){position=at;return true;}input_.seekg(at);return bool(input_);};
+    const auto tell=[&](){return pinned?position:static_cast<std::streamoff>(input_.tellg());};
     unsigned char header[12];
     if (!read(header,12) ||
         std::memcmp(header, "RIFF", 4) || std::memcmp(header+8, "WAVE", 4))
         throw std::runtime_error("Expected RIFF/WAVE");
     bool haveFormat = false, haveData = false;
     std::uint32_t dataBytes = 0;
-    while ((descriptor_>=0||input_) && !(haveFormat && haveData)) {
+    while ((pinned||input_) && !(haveFormat && haveData)) {
         unsigned char chunk[8];
         if (!read(chunk,8)) break;
         const auto size = u32(chunk+4);
@@ -81,7 +89,8 @@ WavStreamReader::WavStreamReader(const std::filesystem::path& path) {
         blockAlign_ != channels_*bytesPerSample_ || dataBytes % blockAlign_)
         throw std::runtime_error("Supported WAV: mono/stereo, 44.1/48 kHz, PCM16/float32");
     std::streamoff length=0;
-    if(descriptor_>=0){struct stat st{};if(fstat(descriptor_,&st))throw std::runtime_error("Pinned WAV stat failed");length=st.st_size;}
+    if(!pinnedBytes_.empty())length=static_cast<std::streamoff>(pinnedBytes_.size());
+    else if(descriptor_>=0){struct stat st{};if(fstat(descriptor_,&st))throw std::runtime_error("Pinned WAV stat failed");length=st.st_size;}
     else{input_.clear();input_.seekg(0,std::ios::end);length=static_cast<std::streamoff>(input_.tellg());}
     if (length < dataOffset_ + dataBytes)
         throw std::runtime_error("Truncated WAV data");
@@ -93,7 +102,7 @@ void WavStreamReader::load(std::size_t frame) {
     cacheStart_ = frame/cacheFrames_*cacheFrames_;
     cacheCount_ = std::min(cacheFrames_, frames_-cacheStart_);
     const auto bytes=cacheCount_*blockAlign_;const auto at=dataOffset_+static_cast<std::streamoff>(cacheStart_*blockAlign_);
-    if(descriptor_>=0){if(!readPinned(cache_.data(),bytes,at))throw std::runtime_error("Truncated pinned WAV data");}
+    if(descriptor_>=0||!pinnedBytes_.empty()){if(!readPinned(cache_.data(),bytes,at))throw std::runtime_error("Truncated pinned WAV data");}
     else{input_.clear();input_.seekg(at);if(!input_.read(reinterpret_cast<char*>(cache_.data()),static_cast<std::streamsize>(bytes)))throw std::runtime_error("Truncated WAV data");}
 }
 float WavStreamReader::sample(std::size_t channel, std::size_t frame) {
@@ -105,6 +114,13 @@ float WavStreamReader::sample(std::size_t channel, std::size_t frame) {
         : std::bit_cast<float>(u32(p));
     if (!std::isfinite(value)) throw std::runtime_error("Non-finite WAV sample");
     return value;
+}
+void WavStreamReader::validateEncodedSamples() const {
+    if(pinnedBytes_.empty())throw std::logic_error("Encoded input required for prevalidation");
+    if(format_!=3)return; // Every PCM16 code is finite.
+    const auto* data=pinnedBytes_.data()+std::size_t(dataOffset_);
+    for(std::size_t i=0;i<frames_*channels_;++i)
+        if((u32(data+4*i)&0x7f800000U)==0x7f800000U)throw std::runtime_error("Non-finite WAV sample");
 }
 WavStreamWriter::WavStreamWriter(const std::filesystem::path& path, std::uint32_t rate,
                                  std::size_t channels, std::size_t frames)

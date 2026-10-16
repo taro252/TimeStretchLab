@@ -1,0 +1,53 @@
+usage: xctrace record [<options>] [--attach | --all-processes | --launch -- command ]
+
+description:
+	Perform a new recording on the specified device and target with the given template
+
+options:
+	--output <path>                        Output .trace file to the given path
+	--append-run                           Appends a new run to an existing trace file
+	--run-name <name>                      Names the run
+	--template <path|name>                 Record using given trace template name or path
+	--device <name|UDID>                   Record on device with the given name or UDID
+	--instrument <name>                    Add Instrument with the given name to the recording
+	--time-limit <time[ms|s|m|h]>          Limit recording time to the specified value
+	--window <duration[ms|s|m]>            Keep only events from the specified end time window
+	--package <file>                       Load Instruments Package from given path for duration of the command
+	--all-processes                        Record all processes
+	--attach <pid|name>                    Attach and record process with the given name or pid
+	--launch -- command [arguments]        Launch process with the given name or path
+	--target-stdin <name>                  Redirect standard input of the launched process
+	--target-stdout <name>                 Redirect standard output of the launched process
+	--env <VAR=value>                      Set specified environment variable for the launched process
+	--notify-tracing-started               Send Darwin notification with this name when a recording has started
+	--no-prompt                            Skip any prompts that would be otherwise presented (like privacy warnings)
+	--recording-options <file>             Apply recording options for instruments from the given JSON file
+	--show-recording-options               Print recording options for selected instruments as JSON instead of starting a recording
+
+global options:
+	--quiet        Make terminal ouput less verbose
+
+notes:
+	If an output path is not specified, a uniquely named file will be created in the current directory.
+	If the output path is a directory, then a unique file is created in it. If the path contains the .trace
+	extension, a file will be created at the specified path. If trace file already exists, then --append-run
+	needs to be specified to add a run to it. In this case, specified template will be ignored
+	and the one used to record original trace file will be used.
+	
+	If target device UDID or name is not specified — host device is used for the recording.
+	Specifying environment variables or stream redirection is only available when using launch option.
+	
+	When --show-recording-options is provided, no recording is started: the configurable recording options for
+	the selected template and instruments are printed as JSON. A target option (--all-processes, --attach,
+	--launch) is not required in that mode. Instruments without configurable recording options are omitted.
+
+examples:
+	xctrace record --template 'Time Profiler' --all-processes --time-limit 5s
+	xctrace record --template 'Time Profiler' --all-processes --output 'recording.trace'
+	xctrace record --all-processes --append-run --run-name Fix#2 --output 'existing.trace'
+	xctrace record --template 'System Trace' --attach 4215
+	xctrace record --template 'Time Profiler' --device-name "Chad's iPhone" --attach 'Trailblazer'
+	xctrace record --template 'Metal System Trace' --device-name 'iPhone SE Simulator' --all-processes
+	xctrace record --template 'Allocations' --env KEY=VALUE --launch -- MyApp.app
+	xctrace record --template 'Time Profiler' --target-stdout - --launch -- /tmp/tool arg1 arg2
+	xctrace record --template 'Time Profiler' --instrument 'Processor Trace' --show-recording-options

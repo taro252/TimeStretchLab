@@ -1,0 +1,2487 @@
+{
+  "reason": "Reserved diagnostics first-touch Zero Fill in RT worker, verified by OS backtrace",
+  "records": [
+    {
+      "session": "/Users/taro252/Docker/TimeStretchLab/results/phase58_fix/after_trace3/sessions/session_2",
+      "realtime_blocks": 39,
+      "faults": 0,
+      "fault_duration_ns": 0,
+      "rows": []
+    },
+    {
+      "session": "/Users/taro252/Docker/TimeStretchLab/results/phase58_fix/after_trace3/sessions/session_1",
+      "realtime_blocks": 39,
+      "faults": 0,
+      "fault_duration_ns": 0,
+      "rows": []
+    },
+    {
+      "session": "/Users/taro252/Docker/TimeStretchLab/results/phase58_fix/after_trace3/sessions/session_0",
+      "realtime_blocks": 39,
+      "faults": 37,
+      "fault_duration_ns": 131708.0,
+      "rows": [
+        {
+          "start": {
+            "value": "3398322291",
+            "fmt": "00:03.398.322",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "13917",
+            "fmt": "13.92 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23114956800",
+            "fmt": "0x561c24000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::analyze(unsigned long, unsigned long)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "3431408458",
+            "fmt": "00:03.431.408",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "7125",
+            "fmt": "7.12 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23114973184",
+            "fmt": "0x561c28000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::analyze(unsigned long, unsigned long)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "3476746041",
+            "fmt": "00:03.476.746",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "9209",
+            "fmt": "9.21 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23114989568",
+            "fmt": "0x561c2c000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "3515600041",
+            "fmt": "00:03.515.600",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "7542",
+            "fmt": "7.54 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115005952",
+            "fmt": "0x561c30000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "3558793958",
+            "fmt": "00:03.558.793",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "3375",
+            "fmt": "3.38 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115022336",
+            "fmt": "0x561c34000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "3598231541",
+            "fmt": "00:03.598.231",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "2584",
+            "fmt": "2.58 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115038720",
+            "fmt": "0x561c38000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "3610503791",
+            "fmt": "00:03.610.503",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "1542",
+            "fmt": "1.54 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115055104",
+            "fmt": "0x561c3c000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "3679057416",
+            "fmt": "00:03.679.057",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "2417",
+            "fmt": "2.42 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115071488",
+            "fmt": "0x561c40000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "3690948208",
+            "fmt": "00:03.690.948",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "1667",
+            "fmt": "1.67 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115087872",
+            "fmt": "0x561c44000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "3768502791",
+            "fmt": "00:03.768.502",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "2125",
+            "fmt": "2.12 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115120640",
+            "fmt": "0x561c4c000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::analyze(unsigned long, unsigned long)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "3811257458",
+            "fmt": "00:03.811.257",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "3625",
+            "fmt": "3.62 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115137024",
+            "fmt": "0x561c50000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::DetailScope::~DetailScope()",
+              "auto ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()::'lambda'(auto, auto, float const* const*, unsigned long)::operator()<unsigned long long, unsigned long>(auto, auto, float const* const*, unsigned long) const",
+              "std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)>::operator()(unsigned long long, unsigned long, float const* const*, unsigned long) const",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "3853099875",
+            "fmt": "00:03.853.099",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "4583",
+            "fmt": "4.58 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115153408",
+            "fmt": "0x561c54000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::analyze(unsigned long, unsigned long)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "3894692500",
+            "fmt": "00:03.894.692",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "2166",
+            "fmt": "2.17 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115169792",
+            "fmt": "0x561c58000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::analyze(unsigned long, unsigned long)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "3935989250",
+            "fmt": "00:03.935.989",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "4500",
+            "fmt": "4.50 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115186176",
+            "fmt": "0x561c5c000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::analyze(unsigned long, unsigned long)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "3986466958",
+            "fmt": "00:03.986.466",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "4667",
+            "fmt": "4.67 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115202560",
+            "fmt": "0x561c60000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::analyze(unsigned long, unsigned long)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "4063975750",
+            "fmt": "00:04.063.975",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "2750",
+            "fmt": "2.75 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115218944",
+            "fmt": "0x561c64000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::analyze(unsigned long, unsigned long)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "4072350333",
+            "fmt": "00:04.072.350",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "1167",
+            "fmt": "1.17 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115235328",
+            "fmt": "0x561c68000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "4147638041",
+            "fmt": "00:04.147.638",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "4667",
+            "fmt": "4.67 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115251712",
+            "fmt": "0x561c6c000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::analyze(unsigned long, unsigned long)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "4154557583",
+            "fmt": "00:04.154.557",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "4083",
+            "fmt": "4.08 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115268096",
+            "fmt": "0x561c70000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "4198409625",
+            "fmt": "00:04.198.409",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "2916",
+            "fmt": "2.92 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115284480",
+            "fmt": "0x561c74000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "4204186750",
+            "fmt": "00:04.204.186",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "1416",
+            "fmt": "1.42 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115300864",
+            "fmt": "0x561c78000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::analyze(unsigned long, unsigned long)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "4278029916",
+            "fmt": "00:04.278.029",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "2459",
+            "fmt": "2.46 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115317248",
+            "fmt": "0x561c7c000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::analyze(unsigned long, unsigned long)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "4366434708",
+            "fmt": "00:04.366.434",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "2708",
+            "fmt": "2.71 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115350016",
+            "fmt": "0x561c84000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::analyze(unsigned long, unsigned long)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "4447515625",
+            "fmt": "00:04.447.515",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "2833",
+            "fmt": "2.83 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115366400",
+            "fmt": "0x561c88000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::analyze(unsigned long, unsigned long)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "4458277750",
+            "fmt": "00:04.458.277",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "4583",
+            "fmt": "4.58 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115382784",
+            "fmt": "0x561c8c000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "4498695791",
+            "fmt": "00:04.498.695",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "3625",
+            "fmt": "3.62 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115399168",
+            "fmt": "0x561c90000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::analyze(unsigned long, unsigned long)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "4533778583",
+            "fmt": "00:04.533.778",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "2083",
+            "fmt": "2.08 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115415552",
+            "fmt": "0x561c94000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::DetailScope::DetailScope(ts::prototype::phase58::RealtimePipeline::Impl&, unsigned long)",
+              "auto ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()::'lambda'(auto, auto, float const* const*, unsigned long)::operator()<unsigned long long, unsigned long>(auto, auto, float const* const*, unsigned long) const",
+              "std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)>::operator()(unsigned long long, unsigned long, float const* const*, unsigned long) const",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "4584035625",
+            "fmt": "00:04.584.035",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "2208",
+            "fmt": "2.21 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115431936",
+            "fmt": "0x561c98000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "4621948833",
+            "fmt": "00:04.621.948",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "4667",
+            "fmt": "4.67 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115448320",
+            "fmt": "0x561c9c000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "4664399041",
+            "fmt": "00:04.664.399",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "1792",
+            "fmt": "1.79 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115464704",
+            "fmt": "0x561ca0000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "4706635708",
+            "fmt": "00:04.706.635",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "3083",
+            "fmt": "3.08 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115481088",
+            "fmt": "0x561ca4000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::analyze(unsigned long, unsigned long)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "4748647250",
+            "fmt": "00:04.748.647",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "3416",
+            "fmt": "3.42 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115497472",
+            "fmt": "0x561ca8000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::analyze(unsigned long, unsigned long)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "4793427583",
+            "fmt": "00:04.793.427",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "3417",
+            "fmt": "3.42 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115513856",
+            "fmt": "0x561cac000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "4800391250",
+            "fmt": "00:04.800.391",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "1291",
+            "fmt": "1.29 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115530240",
+            "fmt": "0x561cb0000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "4878705166",
+            "fmt": "00:04.878.705",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "2542",
+            "fmt": "2.54 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115546624",
+            "fmt": "0x561cb4000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::analyze(unsigned long, unsigned long)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "4884271541",
+            "fmt": "00:04.884.271",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "1042",
+            "fmt": "1.04 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115563008",
+            "fmt": "0x561cb8000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::analyze(unsigned long, unsigned long)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        },
+        {
+          "start": {
+            "value": "4958523000",
+            "fmt": "00:04.958.523",
+            "tag": "start-time"
+          },
+          "thread": {
+            "value": null,
+            "fmt": "0x4d0e16 (candidate_v2_native, pid: 83350)",
+            "tag": "thread",
+            "tid": 5049878,
+            "pid": 83350
+          },
+          "operation": {
+            "value": "Zero Fill",
+            "fmt": "Zero Fill",
+            "tag": "vm-op"
+          },
+          "duration": {
+            "value": "1916",
+            "fmt": "1.92 \u00b5s",
+            "tag": "duration"
+          },
+          "process": {
+            "value": null,
+            "fmt": "candidate_v2_native (83350)",
+            "tag": "process",
+            "pid": 83350
+          },
+          "cputime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "waittime": {
+            "value": null,
+            "fmt": null,
+            "tag": "sentinel"
+          },
+          "address": {
+            "value": "23115579392",
+            "fmt": "0x561cbc000",
+            "tag": "address"
+          },
+          "size": {
+            "value": "16384",
+            "fmt": "16.00 KiB",
+            "tag": "size-in-bytes"
+          },
+          "backtrace": {
+            "value": null,
+            "fmt": null,
+            "tag": "tagged-backtrace",
+            "frames": [
+              "ts::prototype::phase58::RealtimePipeline::Impl::detailObserver(void*, unsigned long, unsigned long, bool, unsigned long long, double)",
+              "ts::prototype::synthesis_detail::ResolutionStream::analyze(unsigned long, unsigned long)",
+              "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+              "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)&&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+              "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+              "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+              "_pthread_start",
+              "thread_start"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

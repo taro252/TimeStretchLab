@@ -2,6 +2,7 @@
 #include "prototype/Phase56ProgressiveAnalysis.h"
 #include "prototype/Phase36StreamingSpeedEngine.h"
 #include <functional>
+#include <span>
 namespace ts::prototype::phase57 {
 enum class SynthesisState {Produced,NeedsMoreInput,NeedsMoreAnalysis,Finished,Cancelled,Failed};
 struct SynthesisFrontier {
@@ -19,14 +20,19 @@ class ProgressiveSynthesisEngine {
 public:
     using Sink=std::function<void(std::uint64_t,std::size_t,const float*const*,std::size_t)>;
     ProgressiveSynthesisEngine(const std::filesystem::path& pinnedInput,std::uint32_t speedMicros,
-        std::uint64_t generation,std::function<void()> validateInput={},std::size_t memoryBudget=16*1024*1024);
+        std::uint64_t generation,std::function<void()> validateInput={},std::size_t memoryBudget=16*1024*1024,
+        std::span<const unsigned char> pinnedBytes={});
     ~ProgressiveSynthesisEngine();
     // Phase58: optional fixed PlaybackEngine output-length contract. Must be
     // selected before the first snapshot; the Phase57 default is unchanged.
     void setDeclaredFinalOutputFrames(std::size_t);
     void enableWorkProfiling(); // Producer only, before first snapshot.
+    void setWorkObserver(Phase36StreamingSpeedEngine::WorkProfile::Observer,void*);
     Phase36StreamingSpeedEngine::WorkProfile workProfile()const;
     void supplySnapshot(std::shared_ptr<const phase56::AnalysisSnapshot>);
+    // Experimental realtime reader: an external mailbox must pin this immutable
+    // view through the next supply call or engine destruction. No ownership ops.
+    void supplyBorrowedSnapshot(const phase56::AnalysisSnapshot*);
     SynthesisState advance(const Sink&); // at most one 2048-frame output block
     void cancel()noexcept; // thread-safe request; completed EOS stays completed
     void fail();

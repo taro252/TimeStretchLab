@@ -1,0 +1,32 @@
+-- Configuring done (1.9s)
+-- Generating done (1.4s)
+-- Build files have been written to: /Users/taro252/Docker/TimeStretchLab/build
+[ 57%] Built target timestretch_core
+[ 64%] Built target phase56_incremental
+[ 71%] Built target phase24_variable
+[ 85%] Built target phase36_variable
+[ 92%] Built target phase57_synthesis
+[ 92%] Building OBJCXX object CMakeFiles/phase58_fix_scheduling_probe.dir/src/prototype/Phase58FixSchedulingProbe.mm.o
+[100%] Linking CXX executable phase58_fix_scheduling_probe
+[100%] Built target phase58_fix_scheduling_probe
+[ 61%] Built target timestretch_core
+[ 76%] Built target phase56_incremental
+[ 76%] Built target phase24_variable
+[ 92%] Built target phase36_variable
+[100%] Built target phase57_synthesis
+[100%] Built target phase58_realtime
+[100%] Building CXX object CMakeFiles/phase58_fix_tests.dir/tests/Phase58FixTests.cpp.o
+[100%] Linking CXX executable phase58_fix_tests
+[100%] Built target phase58_fix_tests
+Test project /Users/taro252/Docker/TimeStretchLab/build
+    Start 85: phase58_fix_diagnostics
+1/2 Test #85: phase58_fix_diagnostics ..........   Passed    0.75 sec
+    Start 86: phase58_fix_trace_analysis
+2/2 Test #86: phase58_fix_trace_analysis .......   Passed    3.15 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Label Time Summary:
+deterministic    =   3.90 sec*proc (2 tests)
+
+Total Test time (real) =   3.91 sec

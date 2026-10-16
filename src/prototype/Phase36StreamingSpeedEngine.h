@@ -7,6 +7,7 @@
 #include <iosfwd>
 #include <vector>
 #include <chrono>
+#include <cstdint>
 
 namespace ts::prototype {
 
@@ -18,6 +19,10 @@ public:
     struct WorkProfile {
         // Worker-local, reset at each output block; no callback-thread access.
         std::array<StageTime,5> stages{}; // WAV read, FFT, phase, IFFT/OLA, FIR
+        // Optional bounded experimental observer. No ownership or allocation.
+        using Observer=void(*)(void*,std::size_t,std::size_t,bool,std::uint64_t,double) noexcept;
+        Observer observer=nullptr;
+        void* observerContext=nullptr;
     };
     struct Frontier {
         static constexpr std::size_t historySize=24;

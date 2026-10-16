@@ -1,0 +1,158 @@
+[
+  {
+    "name": "after_trace3",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase58_fix_trace.py",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58_fix/after_trace3",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase58_fix_frozen/candidate_v2_native",
+      "--repeats",
+      "3",
+      "--extra=--worker=workgroup",
+      "--extra=--resident-input=on",
+      "--extra=--profile=detail",
+      "--extra=--sample-thread=on"
+    ],
+    "exit": 0,
+    "elapsed_s": 45.31997091698577,
+    "end_utc": "2026-10-16T03:19:59.356900+00:00"
+  },
+  {
+    "name": "cpu_load100",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase58_fix_repeat.py",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58_fix/cpu_load100",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase58_fix_frozen/candidate_v2_native",
+      "--repeats",
+      "100",
+      "--cpu",
+      "2",
+      "--memory",
+      "128",
+      "--extra=--worker=workgroup",
+      "--extra=--resident-input=on",
+      "--extra=--profile=block",
+      "--extra=--sample-thread=on"
+    ],
+    "exit": 0,
+    "elapsed_s": 229.89645649999147,
+    "end_utc": "2026-10-16T03:23:49.267003+00:00"
+  },
+  {
+    "name": "profile_off20",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase58_fix_repeat.py",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58_fix/profile_off20",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase58_fix_frozen/candidate_v2_native",
+      "--repeats",
+      "20",
+      "--extra=--worker=workgroup",
+      "--extra=--resident-input=on",
+      "--extra=--profile=off",
+      "--extra=--sample-thread=off"
+    ],
+    "exit": 0,
+    "elapsed_s": 45.77372887500678,
+    "end_utc": "2026-10-16T03:24:35.043499+00:00"
+  },
+  {
+    "name": "resident_standard20",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase58_fix_repeat.py",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58_fix/resident_standard20",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase58_fix_frozen/candidate_v2_native",
+      "--repeats",
+      "20",
+      "--extra=--resident-input=on",
+      "--extra=--worker=standard",
+      "--extra=--profile=block",
+      "--extra=--sample-thread=on"
+    ],
+    "exit": 0,
+    "elapsed_s": 44.8094629579864,
+    "end_utc": "2026-10-16T03:25:19.854841+00:00"
+  },
+  {
+    "name": "native_grid",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase58_fix_native_validation.py",
+      "--suite",
+      "grid",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58_fix/native_grid",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase58_fix_frozen/candidate_v2_native"
+    ],
+    "exit": 0,
+    "elapsed_s": 568.6949897499871,
+    "end_utc": "2026-10-16T03:34:48.565935+00:00"
+  },
+  {
+    "name": "native_lifecycle_load",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase58_fix_native_validation.py",
+      "--suite",
+      "lifecycle_load",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58_fix/native_lifecycle_load",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase58_fix_frozen/candidate_v2_native"
+    ],
+    "exit": 0,
+    "elapsed_s": 239.50277604200528,
+    "end_utc": "2026-10-16T03:38:48.076662+00:00"
+  },
+  {
+    "name": "native_long",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase58_fix_native_validation.py",
+      "--suite",
+      "long",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58_fix/native_long",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase58_fix_frozen/candidate_v2_native"
+    ],
+    "exit": 0,
+    "elapsed_s": 1082.7619190420082,
+    "end_utc": "2026-10-16T03:56:50.917740+00:00"
+  },
+  {
+    "name": "native_startup",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase58_fix_native_validation.py",
+      "--suite",
+      "startup",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58_fix/native_startup",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase58_fix_frozen/candidate_v2_native"
+    ],
+    "exit": 0,
+    "elapsed_s": 299.5849107080139,
+    "end_utc": "2026-10-16T04:01:50.512719+00:00"
+  }
+]

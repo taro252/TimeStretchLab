@@ -1,0 +1,30 @@
+Test project /Users/taro252/Docker/TimeStretchLab/build/phase58_fix_debug
+      Start 76: phase56_state_safety
+ 1/11 Test #76: phase56_state_safety .............   Passed    0.67 sec
+      Start 77: phase56_fixed_preset_maps
+ 2/11 Test #77: phase56_fixed_preset_maps ........   Passed    0.46 sec
+      Start 78: phase56_incremental_exact
+ 3/11 Test #78: phase56_incremental_exact ........   Passed    3.03 sec
+      Start 81: phase57_state_safety
+ 4/11 Test #81: phase57_state_safety .............   Passed    1.05 sec
+      Start 82: phase57_pcm_exact
+ 5/11 Test #82: phase57_pcm_exact ................   Passed   14.97 sec
+      Start 83: phase58_state_safety
+ 6/11 Test #83: phase58_state_safety .............   Passed    2.15 sec
+      Start 84: phase58_fifo_pcm
+ 7/11 Test #84: phase58_fifo_pcm .................   Passed   13.62 sec
+      Start 85: phase58_fix_diagnostics
+ 8/11 Test #85: phase58_fix_diagnostics ..........   Passed    1.77 sec
+      Start 86: phase58_fix_trace_analysis
+ 9/11 Test #86: phase58_fix_trace_analysis .......   Passed    0.24 sec
+      Start 87: phase58_fix_mailbox
+10/11 Test #87: phase58_fix_mailbox ..............   Passed    0.47 sec
+      Start 88: phase58_fix_worker_lifecycle
+11/11 Test #88: phase58_fix_worker_lifecycle .....   Passed    0.42 sec
+
+100% tests passed, 0 tests failed out of 11
+
+Label Time Summary:
+deterministic    =  38.83 sec*proc (11 tests)
+
+Total Test time (real) =  38.85 sec

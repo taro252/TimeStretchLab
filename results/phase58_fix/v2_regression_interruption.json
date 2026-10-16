@@ -1,0 +1,23 @@
+{
+  "at_utc": "2026-10-16T04:06:10.111347+00:00",
+  "reason": "Post-fix OS trace found first-touch Zero Fill faults in reserved diagnostic storage; stop incomplete regression before source fix",
+  "processes": {
+    "84054": {
+      "parent": 50747,
+      "args": "/usr/local/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -B scripts/phase58_fix_post_validation.py"
+    },
+    "85374": {
+      "parent": 84054,
+      "args": "/usr/local/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -B scripts/phase58_fix_regression.py"
+    },
+    "88152": {
+      "parent": 85374,
+      "args": "ctest --test-dir build -L deterministic --output-on-failure -j1"
+    },
+    "88184": {
+      "parent": 88152,
+      "args": "/Users/taro252/Docker/TimeStretchLab/build/phase52_tests"
+    }
+  },
+  "status": "Intentionally interrupted, not a failed audio trial"
+}
