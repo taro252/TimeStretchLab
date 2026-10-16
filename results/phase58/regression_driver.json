@@ -1,0 +1,248 @@
+[
+  {
+    "name": "release_all_build",
+    "command": [
+      "cmake",
+      "--build",
+      "build",
+      "-j3"
+    ],
+    "exit": 0,
+    "wall_s": 14.204617977142334,
+    "started_utc": "2026-10-15T15:19:26Z"
+  },
+  {
+    "name": "ready_stress",
+    "command": [
+      "python3",
+      "scripts/phase58_ready_stress.py",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58/ready_stress"
+    ],
+    "exit": 0,
+    "wall_s": 47.58801603317261,
+    "started_utc": "2026-10-15T15:19:40Z"
+  },
+  {
+    "name": "deterministic_ctest",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "build",
+      "-L",
+      "deterministic",
+      "--output-on-failure",
+      "-j1"
+    ],
+    "exit": 0,
+    "wall_s": 724.7842209339142,
+    "started_utc": "2026-10-15T15:20:28Z"
+  },
+  {
+    "name": "debug_configure",
+    "command": [
+      "cmake",
+      "-S",
+      ".",
+      "-B",
+      "build/phase58_debug",
+      "-DCMAKE_BUILD_TYPE=Debug",
+      "-DCMAKE_OSX_ARCHITECTURES=arm64",
+      "-DTIMESTRETCH_ENABLE_REALTIME_TESTS=OFF"
+    ],
+    "exit": 0,
+    "wall_s": 2.1949398517608643,
+    "started_utc": "2026-10-15T15:32:32Z"
+  },
+  {
+    "name": "debug_all_build",
+    "command": [
+      "cmake",
+      "--build",
+      "build/phase58_debug",
+      "-j3"
+    ],
+    "exit": 0,
+    "wall_s": 14.294899225234985,
+    "started_utc": "2026-10-15T15:32:35Z"
+  },
+  {
+    "name": "debug_ctest",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "build/phase58_debug",
+      "-R",
+      "^(phase13|phase56_.*|phase57_.*|phase58_.*)$",
+      "--output-on-failure",
+      "-j1"
+    ],
+    "exit": 0,
+    "wall_s": 29.67308807373047,
+    "started_utc": "2026-10-15T15:32:49Z"
+  },
+  {
+    "name": "pcm58_short",
+    "command": [
+      "python3",
+      "scripts/phase58_study.py",
+      "--suite",
+      "short",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58/pcm58_short"
+    ],
+    "exit": 0,
+    "wall_s": 220.96181297302246,
+    "started_utc": "2026-10-15T15:33:19Z"
+  },
+  {
+    "name": "pcm58_all_speeds",
+    "command": [
+      "python3",
+      "scripts/phase58_study.py",
+      "--suite",
+      "all_speeds",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58/pcm58_all_speeds"
+    ],
+    "exit": 0,
+    "wall_s": 344.6615860462189,
+    "started_utc": "2026-10-15T15:37:00Z"
+  },
+  {
+    "name": "pcm58_long",
+    "command": [
+      "python3",
+      "scripts/phase58_study.py",
+      "--suite",
+      "long",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58/pcm58_long"
+    ],
+    "exit": 0,
+    "wall_s": 1723.3540987968445,
+    "started_utc": "2026-10-15T15:42:44Z"
+  },
+  {
+    "name": "regress57_stage1",
+    "command": [
+      "python3",
+      "scripts/phase57_study.py",
+      "--suite",
+      "stage1",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58/regress57_stage1",
+      "--reference",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase57_frozen/reference",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase57_check"
+    ],
+    "exit": 0,
+    "wall_s": 547.6847479343414,
+    "started_utc": "2026-10-15T16:11:28Z"
+  },
+  {
+    "name": "regress57_stage2",
+    "command": [
+      "python3",
+      "scripts/phase57_study.py",
+      "--suite",
+      "stage2",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58/regress57_stage2",
+      "--reference",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase57_frozen/reference",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase57_check",
+      "--prerequisite",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58/regress57_stage1/summary.json"
+    ],
+    "exit": 0,
+    "wall_s": 1766.1970329284668,
+    "started_utc": "2026-10-15T16:20:35Z"
+  },
+  {
+    "name": "regress57_long",
+    "command": [
+      "python3",
+      "scripts/phase57_study.py",
+      "--suite",
+      "long",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58/regress57_long",
+      "--reference",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase57_frozen/reference",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase57_check"
+    ],
+    "exit": 0,
+    "wall_s": 1871.1698291301727,
+    "started_utc": "2026-10-15T16:50:01Z"
+  },
+  {
+    "name": "regress57_natural",
+    "command": [
+      "python3",
+      "scripts/phase57_study.py",
+      "--suite",
+      "natural",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58/regress57_natural",
+      "--reference",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase57_frozen/reference",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase57_check"
+    ],
+    "exit": 0,
+    "wall_s": 487.65434288978577,
+    "started_utc": "2026-10-15T17:21:13Z"
+  },
+  {
+    "name": "regress57_rejections",
+    "command": [
+      "python3",
+      "scripts/phase57_study.py",
+      "--suite",
+      "rejections",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58/regress57_rejections",
+      "--reference",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase57_frozen/reference",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase57_check"
+    ],
+    "exit": 0,
+    "wall_s": 0.8724327087402344,
+    "started_utc": "2026-10-15T17:29:20Z"
+  },
+  {
+    "name": "golden25",
+    "command": [
+      "python3",
+      "scripts/phase57_golden.py",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58/golden25"
+    ],
+    "exit": 0,
+    "wall_s": 125.7149121761322,
+    "started_utc": "2026-10-15T17:29:21Z"
+  },
+  {
+    "name": "protected_assets",
+    "command": [
+      "python3",
+      "scripts/phase58_audit.py",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58/protected_assets.json",
+      "--allow",
+      "src/prototype/Phase36SynthesisCore.h",
+      "--allow",
+      "src/prototype/Phase57ProgressiveSynthesis.h",
+      "--allow",
+      "src/prototype/Phase57ProgressiveSynthesis.cpp"
+    ],
+    "exit": 0,
+    "wall_s": 35.21760082244873,
+    "started_utc": "2026-10-15T17:31:27Z"
+  }
+]

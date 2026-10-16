@@ -92,6 +92,7 @@ struct Detection {
 // response, block order and accumulation order are identical to StreamingFIR.
 class LiveStreamingFIR {
 public:
+    void setWorkProfile(WorkProfile* profile){profile_=profile;}
     LiveStreamingFIR(const MultiResolutionCrossover::Filter& filter,std::size_t length,
                      WorkProfile* profile)
         : taps_(filter.taps),center_(filter.taps/2),
@@ -181,6 +182,7 @@ inline Detection makeDetection(const Phase13TransientAnalysis& analysis,
 }
 class ResolutionStream {
 public:
+    void setWorkProfile(WorkProfile* profile){profile_=profile;}
     using Frontier=Phase36StreamingSpeedEngine::Frontier;
     ResolutionStream(const std::filesystem::path& path, const StretchConfig& config,
                      int fftSize, int hop, const Detection& detection,

@@ -1,0 +1,70 @@
+[
+  {
+    "name": "legacy_native_candidate",
+    "command": [
+      "build/phase54_native",
+      "results/phase31/input/mix.wav",
+      "candidate",
+      "0.50",
+      "results/phase58/legacy_native_candidate",
+      "smoke",
+      "0"
+    ],
+    "exit": 2,
+    "wall_s": 13.563616037368774
+  },
+  {
+    "name": "legacy_native_baseline",
+    "command": [
+      "build/phase54_native",
+      "results/phase31/input/mix.wav",
+      "baseline",
+      "0.50",
+      "results/phase58/legacy_native_baseline",
+      "smoke",
+      "0"
+    ],
+    "exit": 0,
+    "wall_s": 12.64046311378479
+  },
+  {
+    "name": "realtime_ctest_configure",
+    "command": [
+      "cmake",
+      "-S",
+      ".",
+      "-B",
+      "build",
+      "-DTIMESTRETCH_ENABLE_REALTIME_TESTS=ON"
+    ],
+    "exit": 0,
+    "wall_s": 2.3369898796081543
+  },
+  {
+    "name": "legacy_realtime_ctest",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "build",
+      "-L",
+      "realtime",
+      "--output-on-failure",
+      "-j1"
+    ],
+    "exit": 0,
+    "wall_s": 60.52309513092041
+  },
+  {
+    "name": "restore_realtime_option",
+    "command": [
+      "cmake",
+      "-S",
+      ".",
+      "-B",
+      "build",
+      "-DTIMESTRETCH_ENABLE_REALTIME_TESTS=OFF"
+    ],
+    "exit": 0,
+    "wall_s": 2.143188953399658
+  }
+]

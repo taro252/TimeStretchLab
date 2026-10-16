@@ -1,0 +1,86 @@
+[
+  {
+    "name": "release_all_build",
+    "command": [
+      "cmake",
+      "--build",
+      "build",
+      "-j3"
+    ],
+    "exit": 0,
+    "wall_s": 86.39021801948547,
+    "started_utc": "2026-10-15T14:22:04Z"
+  },
+  {
+    "name": "deterministic_ctest",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "build",
+      "-L",
+      "deterministic",
+      "--output-on-failure",
+      "-j1"
+    ],
+    "exit": 0,
+    "wall_s": 788.0929667949677,
+    "started_utc": "2026-10-15T14:23:30Z"
+  },
+  {
+    "name": "debug_configure",
+    "command": [
+      "cmake",
+      "-S",
+      ".",
+      "-B",
+      "build/phase58_debug",
+      "-DCMAKE_BUILD_TYPE=Debug",
+      "-DCMAKE_OSX_ARCHITECTURES=arm64",
+      "-DTIMESTRETCH_ENABLE_REALTIME_TESTS=OFF"
+    ],
+    "exit": 0,
+    "wall_s": 4.110954999923706,
+    "started_utc": "2026-10-15T14:36:38Z"
+  },
+  {
+    "name": "debug_all_build",
+    "command": [
+      "cmake",
+      "--build",
+      "build/phase58_debug",
+      "-j3"
+    ],
+    "exit": 0,
+    "wall_s": 152.13314819335938,
+    "started_utc": "2026-10-15T14:36:42Z"
+  },
+  {
+    "name": "debug_ctest",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "build/phase58_debug",
+      "-R",
+      "^(phase13_.*|phase56_.*|phase57_.*|phase58_.*)$",
+      "--output-on-failure",
+      "-j1"
+    ],
+    "exit": 0,
+    "wall_s": 40.60091280937195,
+    "started_utc": "2026-10-15T14:39:15Z"
+  },
+  {
+    "name": "pcm58_short",
+    "command": [
+      "python3",
+      "scripts/phase58_study.py",
+      "--suite",
+      "short",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase58/pcm58_short"
+    ],
+    "exit": 0,
+    "wall_s": 407.9037802219391,
+    "started_utc": "2026-10-15T14:39:55Z"
+  }
+]

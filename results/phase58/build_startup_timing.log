@@ -1,0 +1,35 @@
+[ 57%] Built target timestretch_core
+[ 64%] Built target phase56_incremental
+[ 71%] Built target phase24_variable
+[ 85%] Built target phase36_variable
+[ 92%] Built target phase57_synthesis
+[ 92%] Built target phase58_realtime
+[100%] Building OBJCXX object CMakeFiles/phase58_native.dir/src/prototype/Phase58Native.mm.o
+[100%] Linking CXX executable phase58_native
+[100%] Built target phase58_native
+[ 57%] Built target timestretch_core
+[ 64%] Built target phase24_variable
+[ 78%] Built target phase36_variable
+[ 78%] Building CXX object CMakeFiles/phase39_variable.dir/src/prototype/Phase39TimeMap.cpp.o
+[ 78%] Building CXX object CMakeFiles/phase39_variable.dir/src/prototype/Phase37HighSpeedMap.cpp.o
+[ 85%] Building CXX object CMakeFiles/phase39_variable.dir/src/prototype/Phase39PlaybackPipeline.cpp.o
+/Users/taro252/Docker/TimeStretchLab/src/prototype/Phase39PlaybackPipeline.cpp:504:21: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
+  504 |                     densityReady_.store(false,std::memory_order_release);
+      |                     ^
+/Users/taro252/Docker/TimeStretchLab/src/prototype/Phase39PlaybackPipeline.cpp:502:17: note: previous statement is here
+  502 |                 if (changesDensity)
+      |                 ^
+[ 85%] Building CXX object CMakeFiles/phase39_variable.dir/src/prototype/Phase42DensityGuard.cpp.o
+1 warning generated.
+[ 85%] Linking CXX static library libphase39_variable.a
+[ 85%] Built target phase39_variable
+[ 92%] Building CXX object CMakeFiles/playback_engine.dir/src/playback/PlaybackEngine.cpp.o
+[ 92%] Building CXX object CMakeFiles/playback_engine.dir/src/playback/PlaybackAnalysisCache.cpp.o
+[ 92%] Linking CXX static library libplayback_engine.a
+[ 92%] Built target playback_engine
+[ 92%] Building OBJCXX object CMakeFiles/macos_playback_engine.dir/src/platform/macos/MacPlaybackEngine.mm.o
+[100%] Linking CXX static library libmacos_playback_engine.a
+[100%] Built target macos_playback_engine
+[100%] Building CXX object CMakeFiles/phase58_legacy_startup.dir/src/prototype/Phase58LegacyStartup.cpp.o
+[100%] Linking CXX executable phase58_legacy_startup
+[100%] Built target phase58_legacy_startup

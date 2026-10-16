@@ -1,0 +1,26 @@
+{
+  "method": "既存Phase46HostClockの100us/2 sample基準をCSVへ適用。閾値変更なし。",
+  "counts": {
+    "host_missing": 0,
+    "host_backwards": 0,
+    "host_cadence_errors": 1,
+    "sample_errors": 1,
+    "hal_misses": 0
+  },
+  "events": [
+    {
+      "file": "callbacks_0.csv",
+      "sequence": 2,
+      "epoch": 1,
+      "errors": [
+        "host_cadence_errors",
+        "sample_errors"
+      ],
+      "previous_frames": 471,
+      "host_delta_ns": 22750000,
+      "host_progress_error_ns": 12069728,
+      "sample_delta": 1003.0,
+      "sample_progress_error": 532.0
+    }
+  ]
+}

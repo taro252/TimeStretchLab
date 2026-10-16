@@ -1,0 +1,50 @@
+[
+  {
+    "name": "startup_final",
+    "command": [
+      "python3",
+      "scripts/phase58_native_validation.py",
+      "--suite",
+      "startup",
+      "--output",
+      "results/phase58/startup_final"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "lifecycle_load_final",
+    "command": [
+      "python3",
+      "scripts/phase58_native_validation.py",
+      "--suite",
+      "lifecycle_load",
+      "--output",
+      "results/phase58/lifecycle_load_final"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "native_gate_product_final",
+    "command": [
+      "python3",
+      "scripts/phase58_study.py",
+      "--suite",
+      "native_gate",
+      "--output",
+      "results/phase58/native_gate_product_final"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "native_long_final",
+    "command": [
+      "python3",
+      "scripts/phase58_native_validation.py",
+      "--suite",
+      "long",
+      "--output",
+      "results/phase58/native_long_final"
+    ],
+    "exit": 0
+  }
+]

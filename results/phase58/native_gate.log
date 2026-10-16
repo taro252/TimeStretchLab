@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "/Users/taro252/Docker/TimeStretchLab/scripts/phase58_study.py", line 61, in <module>
+    p=argparse.ArgumentParser();p.add_argument('--suite',choices=('short','all_speeds','long','native_gate'),required=True);p.add_argument('--output',type=Path,required=True);raise SystemExit(run(p.parse_args()))
+                                                                                                                                                                                                ~~~^^^^^^^^^^^^^^^^
+  File "/Users/taro252/Docker/TimeStretchLab/scripts/phase58_study.py", line 16, in run
+    p=out/'inputs'/f'{kind}_{encoding}_{channels}_{rate}.wav';fixture(p,rate,channels,encoding,kind,seconds)
+                                                              ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/taro252/Docker/TimeStretchLab/scripts/phase57_study.py", line 31, in fixture
+    write_wav(path,rate,channels,encoding,data.tobytes())
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/taro252/Docker/TimeStretchLab/scripts/phase55_study.py", line 26, in write_wav
+    path.write_bytes(header + b'data' + struct.pack('<I', len(payload)) + payload)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/pathlib/__init__.py", line 796, in write_bytes
+    with self.open(mode='wb') as f:
+         ~~~~~~~~~^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/pathlib/__init__.py", line 771, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/taro252/Docker/TimeStretchLab/results/phase58/native_gate/inputs/boundary_1_1_44100.wav'

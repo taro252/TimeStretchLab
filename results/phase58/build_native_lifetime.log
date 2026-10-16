@@ -1,0 +1,32 @@
+[ 53%] Built target timestretch_core
+[ 60%] Built target phase56_incremental
+[ 73%] Built target phase24_variable
+[ 86%] Built target phase36_variable
+[ 93%] Built target phase57_synthesis
+[100%] Built target phase58_realtime
+[100%] Building OBJCXX object CMakeFiles/phase58_native.dir/src/prototype/Phase58Native.mm.o
+/Users/taro252/Docker/TimeStretchLab/src/prototype/Phase58Native.mm:93:9: error: no member named 'WavStreamReader' in namespace 'ts'
+   93 |     ts::WavStreamReader metadata(argv[1]);std::vector<float> reference(expectedFrames*metadata.channels());
+      |         ^~~~~~~~~~~~~~~
+/Users/taro252/Docker/TimeStretchLab/src/prototype/Phase58Native.mm:93:87: error: use of undeclared identifier 'metadata'; did you mean 'io_stat_info::metadata'?
+   93 |     ts::WavStreamReader metadata(argv[1]);std::vector<float> reference(expectedFrames*metadata.channels());
+      |                                                                                       ^~~~~~~~
+      |                                                                                       io_stat_info::metadata
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/thread_info.h:195:26: note: 'io_stat_info::metadata' declared here
+  195 |         struct io_stat_entry    metadata;
+      |                                 ^
+/Users/taro252/Docker/TimeStretchLab/src/prototype/Phase58Native.mm:93:87: error: invalid use of non-static data member 'metadata'
+   93 |     ts::WavStreamReader metadata(argv[1]);std::vector<float> reference(expectedFrames*metadata.channels());
+      |                                                                                       ^~~~~~~~
+/Users/taro252/Docker/TimeStretchLab/src/prototype/Phase58Native.mm:125:95: warning: '&&' within '||' [-Wlogical-op-parentheses]
+  125 |     const bool pass=audioPass&&measured&&(eos||windowed||routeStopped)&&(mode!="pause"||paused&&resumed);
+      |                                                                                       ~~~~~~~~^~~~~~~~~
+/Users/taro252/Docker/TimeStretchLab/src/prototype/Phase58Native.mm:125:95: note: place parentheses around the '&&' expression to silence this warning
+  125 |     const bool pass=audioPass&&measured&&(eos||windowed||routeStopped)&&(mode!="pause"||paused&&resumed);
+      |                                                                                               ^        
+      |                                                                                         (              )
+1 warning and 3 errors generated.
+make[3]: *** [CMakeFiles/phase58_native.dir/src/prototype/Phase58Native.mm.o] Error 1
+make[2]: *** [CMakeFiles/phase58_native.dir/all] Error 2
+make[1]: *** [CMakeFiles/phase58_native.dir/rule] Error 2
+make: *** [phase58_native] Error 2

@@ -1,0 +1,55 @@
+[
+  {
+    "name": "startup_after_ready_fix",
+    "command": [
+      "python3",
+      "scripts/phase58_native_validation.py",
+      "--suite",
+      "startup",
+      "--output",
+      "results/phase58/startup_after_ready_fix"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "startup_stage_after_ready_fix",
+    "command": [
+      "python3",
+      "scripts/phase58_startup_statistics.py",
+      "results/phase58/startup_after_ready_fix"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "reproduce_after_ready_fix",
+    "command": [
+      "python3",
+      "scripts/phase58_reproduce.py",
+      "--output",
+      "results/phase58/reproduce_after_ready_fix",
+      "--repeats",
+      "20",
+      "--legacy-repeats",
+      "0"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "measurement_audit_current",
+    "command": [
+      "python3",
+      "scripts/phase58_measurement_audit.py",
+      "--output",
+      "results/phase58/measurement_audit.json"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "final_report_current",
+    "command": [
+      "python3",
+      "scripts/phase58_report.py"
+    ],
+    "exit": 0
+  }
+]

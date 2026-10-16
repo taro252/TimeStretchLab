@@ -1,0 +1,614 @@
+[
+  {
+    "seconds": 30,
+    "preset": "candidate",
+    "repeats": 5,
+    "all_cases_pass": true,
+    "legacy_cold_first_callback_s": {
+      "n": 5,
+      "median": 0.23540322800000002,
+      "max": 0.42441018700000005,
+      "population_stddev": 0.08252156303017175
+    },
+    "legacy_cold_process_cpu_s": {
+      "n": 5,
+      "median": 0.275959,
+      "max": 0.294295,
+      "population_stddev": 0.009768904393021761
+    },
+    "legacy_cold_peak_rss_bytes": {
+      "n": 5,
+      "median": 61128704,
+      "max": 61210624,
+      "population_stddev": 39593.725046274696
+    },
+    "legacy_cold_play_to_callback_s": {
+      "n": 5,
+      "median": 0.053293229000000004,
+      "max": 0.10843848,
+      "population_stddev": 0.022245523613333203
+    },
+    "legacy_restart_first_callback_s": {
+      "n": 5,
+      "median": 0.060742749000000006,
+      "max": 0.061751437000000006,
+      "population_stddev": 0.000535018169386274
+    },
+    "legacy_restart_process_cpu_s": {
+      "n": 5,
+      "median": 0.15702699999999997,
+      "max": 0.159935,
+      "population_stddev": 0.001399819702676019
+    },
+    "legacy_restart_peak_rss_bytes": {
+      "n": 5,
+      "median": 61833216,
+      "max": 61865984,
+      "population_stddev": 50763.96731540986
+    },
+    "legacy_restart_play_to_callback_s": {
+      "n": 5,
+      "median": 0.06074270700000001,
+      "max": 0.061751437000000006,
+      "population_stddev": 0.0005350381203094217
+    },
+    "native_cold_first_callback_s": {
+      "n": 5,
+      "median": 0.139667542,
+      "max": 0.20204037600000002,
+      "population_stddev": 0.029464341091805634
+    },
+    "native_cold_process_cpu_s": {
+      "n": 5,
+      "median": 0.34250099999999994,
+      "max": 0.3684009999999999,
+      "population_stddev": 0.02075408312983253
+    },
+    "native_cold_peak_rss_bytes": {
+      "n": 5,
+      "median": 73023488,
+      "max": 73056256,
+      "population_stddev": 97426.26814242656
+    },
+    "native_cold_play_to_callback_s": {
+      "n": 5,
+      "median": 0.014902437500000004,
+      "max": 0.036018895999999995,
+      "population_stddev": 0.00839277092064297
+    },
+    "native_restart_first_callback_s": {
+      "n": 5,
+      "median": 0.07951748,
+      "max": 0.07979681250000001,
+      "population_stddev": 0.0003519920773621781
+    },
+    "native_restart_process_cpu_s": {
+      "n": 5,
+      "median": 0.312725,
+      "max": 0.32768800000000003,
+      "population_stddev": 0.010779788996079682
+    },
+    "native_restart_peak_rss_bytes": {
+      "n": 5,
+      "median": 73564160,
+      "max": 74317824,
+      "population_stddev": 361578.21351713105
+    },
+    "native_restart_play_to_callback_s": {
+      "n": 5,
+      "median": 0.014563854000000001,
+      "max": 0.015471374499999996,
+      "population_stddev": 0.000463855147705549
+    }
+  },
+  {
+    "seconds": 30,
+    "preset": "baseline",
+    "repeats": 5,
+    "all_cases_pass": true,
+    "legacy_cold_first_callback_s": {
+      "n": 5,
+      "median": 0.22192418700000002,
+      "max": 0.24079339600000002,
+      "population_stddev": 0.007697650640910227
+    },
+    "legacy_cold_process_cpu_s": {
+      "n": 5,
+      "median": 0.263959,
+      "max": 0.266849,
+      "population_stddev": 0.0018745316214990905
+    },
+    "legacy_cold_peak_rss_bytes": {
+      "n": 5,
+      "median": 61112320,
+      "max": 61145088,
+      "population_stddev": 26214.4
+    },
+    "legacy_cold_play_to_callback_s": {
+      "n": 5,
+      "median": 0.045213895000000004,
+      "max": 0.068860687,
+      "population_stddev": 0.00950372126451558
+    },
+    "legacy_restart_first_callback_s": {
+      "n": 5,
+      "median": 0.054417563,
+      "max": 0.056248104,
+      "population_stddev": 0.0008538456439969452
+    },
+    "legacy_restart_process_cpu_s": {
+      "n": 5,
+      "median": 0.150611,
+      "max": 0.155277,
+      "population_stddev": 0.0020377105388155545
+    },
+    "legacy_restart_peak_rss_bytes": {
+      "n": 5,
+      "median": 61767680,
+      "max": 61800448,
+      "population_stddev": 262961.923984443
+    },
+    "legacy_restart_play_to_callback_s": {
+      "n": 5,
+      "median": 0.054417521,
+      "max": 0.056248104,
+      "population_stddev": 0.0008538497789074129
+    },
+    "native_cold_first_callback_s": {
+      "n": 5,
+      "median": 0.10948477100000001,
+      "max": 0.12472741700000001,
+      "population_stddev": 0.00625562184001138
+    },
+    "native_cold_process_cpu_s": {
+      "n": 5,
+      "median": 0.35666,
+      "max": 0.371539,
+      "population_stddev": 0.007859305577466754
+    },
+    "native_cold_peak_rss_bytes": {
+      "n": 5,
+      "median": 72744960,
+      "max": 73039872,
+      "population_stddev": 124172.99461895891
+    },
+    "native_cold_play_to_callback_s": {
+      "n": 5,
+      "median": 0.014352021000000006,
+      "max": 0.014973209000000001,
+      "population_stddev": 0.0005111603875640599
+    },
+    "native_restart_first_callback_s": {
+      "n": 5,
+      "median": 0.06948929200000001,
+      "max": 0.07435275050000001,
+      "population_stddev": 0.0024629174474791703
+    },
+    "native_restart_process_cpu_s": {
+      "n": 5,
+      "median": 0.33215599999999995,
+      "max": 0.342569,
+      "population_stddev": 0.015136159071574248
+    },
+    "native_restart_peak_rss_bytes": {
+      "n": 5,
+      "median": 73252864,
+      "max": 73711616,
+      "population_stddev": 229469.603758232
+    },
+    "native_restart_play_to_callback_s": {
+      "n": 5,
+      "median": 0.015131417000000008,
+      "max": 0.0154569165,
+      "population_stddev": 0.0005176657223930717
+    }
+  },
+  {
+    "seconds": 180,
+    "preset": "candidate",
+    "repeats": 5,
+    "all_cases_pass": true,
+    "legacy_cold_first_callback_s": {
+      "n": 5,
+      "median": 0.629618938,
+      "max": 0.64832573,
+      "population_stddev": 0.01473959887094777
+    },
+    "legacy_cold_process_cpu_s": {
+      "n": 5,
+      "median": 0.640065,
+      "max": 0.645559,
+      "population_stddev": 0.011245189559985198
+    },
+    "legacy_cold_peak_rss_bytes": {
+      "n": 5,
+      "median": 61259776,
+      "max": 62472192,
+      "population_stddev": 481433.1834519096
+    },
+    "legacy_cold_play_to_callback_s": {
+      "n": 5,
+      "median": 0.074587688,
+      "max": 0.07497202,
+      "population_stddev": 0.0002658359720108609
+    },
+    "legacy_restart_first_callback_s": {
+      "n": 5,
+      "median": 0.061041938000000004,
+      "max": 0.062965355,
+      "population_stddev": 0.0012181639372684763
+    },
+    "legacy_restart_process_cpu_s": {
+      "n": 5,
+      "median": 0.15373900000000007,
+      "max": 0.15557600000000005,
+      "population_stddev": 0.0016627846042106852
+    },
+    "legacy_restart_peak_rss_bytes": {
+      "n": 5,
+      "median": 62078976,
+      "max": 63078400,
+      "population_stddev": 395855.8851331631
+    },
+    "legacy_restart_play_to_callback_s": {
+      "n": 5,
+      "median": 0.061041938000000004,
+      "max": 0.06296531300000001,
+      "population_stddev": 0.0012181529812524544
+    },
+    "native_cold_first_callback_s": {
+      "n": 5,
+      "median": 0.15237766700000002,
+      "max": 0.166751438,
+      "population_stddev": 0.008393600180675427
+    },
+    "native_cold_process_cpu_s": {
+      "n": 5,
+      "median": 0.967409,
+      "max": 1.011051,
+      "population_stddev": 0.039714137857443176
+    },
+    "native_cold_peak_rss_bytes": {
+      "n": 5,
+      "median": 180125696,
+      "max": 180813824,
+      "population_stddev": 303595.1221152277
+    },
+    "native_cold_play_to_callback_s": {
+      "n": 5,
+      "median": 0.014569229999999989,
+      "max": 0.01491906300000001,
+      "population_stddev": 0.0004463438351149942
+    },
+    "native_restart_first_callback_s": {
+      "n": 5,
+      "median": 0.096268479,
+      "max": 0.101904583,
+      "population_stddev": 0.0024835955707451546
+    },
+    "native_restart_process_cpu_s": {
+      "n": 5,
+      "median": 0.8980940000000002,
+      "max": 0.938285,
+      "population_stddev": 0.026314130672321287
+    },
+    "native_restart_peak_rss_bytes": {
+      "n": 5,
+      "median": 181157888,
+      "max": 182124544,
+      "population_stddev": 458330.5035095962
+    },
+    "native_restart_play_to_callback_s": {
+      "n": 5,
+      "median": 0.014246187000000007,
+      "max": 0.01587250000000001,
+      "population_stddev": 0.0006574499459496839
+    }
+  },
+  {
+    "seconds": 180,
+    "preset": "baseline",
+    "repeats": 5,
+    "all_cases_pass": true,
+    "legacy_cold_first_callback_s": {
+      "n": 5,
+      "median": 0.625773542,
+      "max": 0.7617206870000001,
+      "population_stddev": 0.05566319518114421
+    },
+    "legacy_cold_process_cpu_s": {
+      "n": 5,
+      "median": 0.638191,
+      "max": 0.6854389999999999,
+      "population_stddev": 0.019859664061609893
+    },
+    "legacy_cold_peak_rss_bytes": {
+      "n": 5,
+      "median": 61243392,
+      "max": 61341696,
+      "population_stddev": 110443.23030697717
+    },
+    "legacy_cold_play_to_callback_s": {
+      "n": 5,
+      "median": 0.068309167,
+      "max": 0.07606747900000001,
+      "population_stddev": 0.003243502965210733
+    },
+    "legacy_restart_first_callback_s": {
+      "n": 5,
+      "median": 0.05451310400000001,
+      "max": 0.055687333000000006,
+      "population_stddev": 0.0007183794382476719
+    },
+    "legacy_restart_process_cpu_s": {
+      "n": 5,
+      "median": 0.14924099999999996,
+      "max": 0.15495000000000003,
+      "population_stddev": 0.002394737446986659
+    },
+    "legacy_restart_peak_rss_bytes": {
+      "n": 5,
+      "median": 62062592,
+      "max": 62160896,
+      "population_stddev": 124604.6017410272
+    },
+    "legacy_restart_play_to_callback_s": {
+      "n": 5,
+      "median": 0.054513063,
+      "max": 0.055687292000000006,
+      "population_stddev": 0.0007183704910049152
+    },
+    "native_cold_first_callback_s": {
+      "n": 5,
+      "median": 0.163957,
+      "max": 0.1670287085,
+      "population_stddev": 0.004642698037873567
+    },
+    "native_cold_process_cpu_s": {
+      "n": 5,
+      "median": 0.9374330000000001,
+      "max": 0.94898,
+      "population_stddev": 0.02735085001531035
+    },
+    "native_cold_peak_rss_bytes": {
+      "n": 5,
+      "median": 180338688,
+      "max": 180551680,
+      "population_stddev": 99713.83700490119
+    },
+    "native_cold_play_to_callback_s": {
+      "n": 5,
+      "median": 0.014886229,
+      "max": 0.01761841750000001,
+      "population_stddev": 0.0012530117839752125
+    },
+    "native_restart_first_callback_s": {
+      "n": 5,
+      "median": 0.09524748000000001,
+      "max": 0.0958671675,
+      "population_stddev": 0.0010557724144540529
+    },
+    "native_restart_process_cpu_s": {
+      "n": 5,
+      "median": 0.8663209999999999,
+      "max": 0.8845430000000001,
+      "population_stddev": 0.015527723676057585
+    },
+    "native_restart_peak_rss_bytes": {
+      "n": 5,
+      "median": 181075968,
+      "max": 181338112,
+      "population_stddev": 195072.83317407372
+    },
+    "native_restart_play_to_callback_s": {
+      "n": 5,
+      "median": 0.016247895499999998,
+      "max": 0.0165756455,
+      "population_stddev": 0.0007046129322729913
+    }
+  },
+  {
+    "seconds": 300,
+    "preset": "candidate",
+    "repeats": 5,
+    "all_cases_pass": true,
+    "legacy_cold_first_callback_s": {
+      "n": 5,
+      "median": 0.94514825,
+      "max": 1.003697313,
+      "population_stddev": 0.03350183935358603
+    },
+    "legacy_cold_process_cpu_s": {
+      "n": 5,
+      "median": 0.9409239999999999,
+      "max": 1.007267,
+      "population_stddev": 0.028162741521378903
+    },
+    "legacy_cold_peak_rss_bytes": {
+      "n": 5,
+      "median": 62685184,
+      "max": 62898176,
+      "population_stddev": 99713.83700490119
+    },
+    "legacy_cold_play_to_callback_s": {
+      "n": 5,
+      "median": 0.07806660400000001,
+      "max": 0.08313227100000001,
+      "population_stddev": 0.0030211699179464534
+    },
+    "legacy_restart_first_callback_s": {
+      "n": 5,
+      "median": 0.062820896,
+      "max": 0.064859396,
+      "population_stddev": 0.0008387191410519723
+    },
+    "legacy_restart_process_cpu_s": {
+      "n": 5,
+      "median": 0.1587099999999999,
+      "max": 0.160871,
+      "population_stddev": 0.0009982910597616359
+    },
+    "legacy_restart_peak_rss_bytes": {
+      "n": 5,
+      "median": 63356928,
+      "max": 63520768,
+      "population_stddev": 100784.90787335175
+    },
+    "legacy_restart_play_to_callback_s": {
+      "n": 5,
+      "median": 0.06282085400000001,
+      "max": 0.06485935400000001,
+      "population_stddev": 0.0008387119945403447
+    },
+    "native_cold_first_callback_s": {
+      "n": 5,
+      "median": 0.2231172085,
+      "max": 0.2507992925,
+      "population_stddev": 0.020591089741245613
+    },
+    "native_cold_process_cpu_s": {
+      "n": 5,
+      "median": 1.198475,
+      "max": 1.2299820000000001,
+      "population_stddev": 0.028802720610386804
+    },
+    "native_cold_peak_rss_bytes": {
+      "n": 5,
+      "median": 266010624,
+      "max": 266354688,
+      "population_stddev": 241017.49454842485
+    },
+    "native_cold_play_to_callback_s": {
+      "n": 5,
+      "median": 0.014916666500000009,
+      "max": 0.015559438000000009,
+      "population_stddev": 0.00029919185138686804
+    },
+    "native_restart_first_callback_s": {
+      "n": 5,
+      "median": 0.140919979,
+      "max": 0.2202059785,
+      "population_stddev": 0.032623849307390866
+    },
+    "native_restart_process_cpu_s": {
+      "n": 5,
+      "median": 1.0517159999999999,
+      "max": 1.167864,
+      "population_stddev": 0.05674884556147368
+    },
+    "native_restart_peak_rss_bytes": {
+      "n": 5,
+      "median": 267173888,
+      "max": 269647872,
+      "population_stddev": 1112404.8285076076
+    },
+    "native_restart_play_to_callback_s": {
+      "n": 5,
+      "median": 0.014404270999999996,
+      "max": 0.016134291999999995,
+      "population_stddev": 0.0007371111685885193
+    }
+  },
+  {
+    "seconds": 300,
+    "preset": "baseline",
+    "repeats": 5,
+    "all_cases_pass": true,
+    "legacy_cold_first_callback_s": {
+      "n": 5,
+      "median": 1.027855438,
+      "max": 1.3062546030000002,
+      "population_stddev": 0.11029085980619464
+    },
+    "legacy_cold_process_cpu_s": {
+      "n": 5,
+      "median": 1.0529209999999998,
+      "max": 1.178307,
+      "population_stddev": 0.0526404422990537
+    },
+    "legacy_cold_peak_rss_bytes": {
+      "n": 5,
+      "median": 62701568,
+      "max": 62832640,
+      "population_stddev": 194576.81443131913
+    },
+    "legacy_cold_play_to_callback_s": {
+      "n": 5,
+      "median": 0.07626327100000001,
+      "max": 0.09076706200000001,
+      "population_stddev": 0.005805347613943939
+    },
+    "legacy_restart_first_callback_s": {
+      "n": 5,
+      "median": 0.060354229,
+      "max": 0.061933022000000004,
+      "population_stddev": 0.0009529915085626741
+    },
+    "legacy_restart_process_cpu_s": {
+      "n": 5,
+      "median": 0.17081800000000014,
+      "max": 0.17428200000000005,
+      "population_stddev": 0.0037380315461483246
+    },
+    "legacy_restart_peak_rss_bytes": {
+      "n": 5,
+      "median": 63291392,
+      "max": 63488000,
+      "population_stddev": 160663.4788897589
+    },
+    "legacy_restart_play_to_callback_s": {
+      "n": 5,
+      "median": 0.060354187000000004,
+      "max": 0.061932980000000006,
+      "population_stddev": 0.0009529747031930294
+    },
+    "native_cold_first_callback_s": {
+      "n": 5,
+      "median": 0.21144220900000002,
+      "max": 0.241141209,
+      "population_stddev": 0.013786269539003209
+    },
+    "native_cold_process_cpu_s": {
+      "n": 5,
+      "median": 1.210639,
+      "max": 1.249128,
+      "population_stddev": 0.10388775363169615
+    },
+    "native_cold_peak_rss_bytes": {
+      "n": 5,
+      "median": 266141696,
+      "max": 266240000,
+      "population_stddev": 96094.63921780445
+    },
+    "native_cold_play_to_callback_s": {
+      "n": 5,
+      "median": 0.01480766650000001,
+      "max": 0.014918458999999995,
+      "population_stddev": 0.00012020470303211985
+    },
+    "native_restart_first_callback_s": {
+      "n": 5,
+      "median": 0.1426165005,
+      "max": 0.282774459,
+      "population_stddev": 0.05595374781392946
+    },
+    "native_restart_process_cpu_s": {
+      "n": 5,
+      "median": 1.115646,
+      "max": 1.1643379999999999,
+      "population_stddev": 0.08428165285185142
+    },
+    "native_restart_peak_rss_bytes": {
+      "n": 5,
+      "median": 267468800,
+      "max": 268140544,
+      "population_stddev": 526127.9713408137
+    },
+    "native_restart_play_to_callback_s": {
+      "n": 5,
+      "median": 0.01419795800000001,
+      "max": 0.016043916500000005,
+      "population_stddev": 0.0007672176207234503
+    }
+  }
+]

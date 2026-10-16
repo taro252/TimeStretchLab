@@ -6,6 +6,8 @@ struct ProgressiveSynthesisEngine::Impl final:ProgressiveAccess {
     std::uint32_t speed;std::uint64_t generation;std::size_t length,channels,output,generated=0,published=0;
     StretchConfig config;std::function<void()> validate;
     std::shared_ptr<const phase56::AnalysisSnapshot> snapshot;
+    std::optional<std::size_t> declaredFinalOutput;
+    Phase36StreamingSpeedEngine::WorkProfile profile{};bool profileEnabled=false;
     mutable std::array<std::pair<double,double>,16> positionCache{};
     mutable std::size_t positionCacheCount=0,positionCacheNext=0;
     bool waiting=false;std::size_t waitedNodes=0,waitedInput=0;
@@ -54,6 +56,7 @@ struct ProgressiveSynthesisEngine::Impl final:ProgressiveAccess {
         return Availability::Ready;
     }
     SynthesisState advance(const Sink& sink){
+        if(profileEnabled)profile={};
         if(finished.load())return state=SynthesisState::Finished;
         if(failed)return state=SynthesisState::Failed;
         if(cancelled.load())return state=SynthesisState::Cancelled;
@@ -65,14 +68,14 @@ struct ProgressiveSynthesisEngine::Impl final:ProgressiveAccess {
         waiting=false;
         const auto wait=[&](SynthesisState s){waiting=true;waitedNodes=map().size();waitedInput=snapshot->receivedInputFrames;waitedState=s;return state=s;};
         if(snapshot->isFinal&&!finalLength){
-            output=length?std::size_t(std::llround(position(double(length)))):0;
+            output=declaredFinalOutput.value_or(length?std::size_t(std::llround(position(double(length)))):0);
             for(auto& r:resolution)r->setOutputLength(output);for(auto& f:low)f->setOutputLength(output);for(auto& f:high)f->setOutputLength(output);finalLength=true;
         }
         if(published==output){finished.store(true);return state=SynthesisState::Finished;}
         const auto count=std::min(std::size_t(2048),output-published),last=published+count-1;
         const auto lowThrough=low[0]->requiredSourceThrough(last),highThrough=high[0]->requiredSourceThrough(last);
         const std::array<std::size_t,3> through{std::max(last+1,lowThrough),std::max({last+1,lowThrough,highThrough}),std::max(last+1,highThrough)};
-        if(!snapshot->isFinal&&(map().size()<2||*std::max_element(through.begin(),through.end())>std::size_t(map().at(map().size()-1))))return wait(SynthesisState::NeedsMoreAnalysis);
+        if(!snapshot->isFinal&&(map().size()<2||*std::max_element(through.begin(),through.end())>std::min(std::size_t(map().at(map().size()-1)),declaredFinalOutput.value_or(std::numeric_limits<std::size_t>::max()))))return wait(SynthesisState::NeedsMoreAnalysis);
         for(std::size_t r=0;r<3;++r){const auto a=resolution[r]->readyThrough(through[r]-1);if(a!=Availability::Ready)return wait(a==Availability::NeedsMoreInput?SynthesisState::NeedsMoreInput:SynthesisState::NeedsMoreAnalysis);}
         if(validate)validate();if(injected)throw std::runtime_error("Injected DSP failure");
         for(std::size_t i=0;i<count;++i)for(std::size_t c=0;c<channels;++c){
@@ -82,7 +85,8 @@ struct ProgressiveSynthesisEngine::Impl final:ProgressiveAccess {
             hashFloat(digests.lowFir,lf);hashFloat(digests.highFir,hf);
             float value=hi;value+=lf;value+=hf;pcm[c][i]=value;hashFloat(digests.fir,value);
         }
-        generated=published+count;if(validate)validate();if(cancelled.load())return state=SynthesisState::Cancelled;
+        generated=published+count;
+        if(validate)validate();if(cancelled.load())return state=SynthesisState::Cancelled;
         sink(generation,published,pointers.data(),count);published+=count;
         if(finalLength&&published==output){finished.store(true);state=SynthesisState::Finished;}else state=SynthesisState::Produced;
         return state;
@@ -90,6 +94,16 @@ struct ProgressiveSynthesisEngine::Impl final:ProgressiveAccess {
 };
 ProgressiveSynthesisEngine::ProgressiveSynthesisEngine(const std::filesystem::path& p,std::uint32_t s,std::uint64_t g,std::function<void()> v,std::size_t b):impl_(std::make_unique<Impl>(p,s,g,std::move(v),b)){}
 ProgressiveSynthesisEngine::~ProgressiveSynthesisEngine()=default;
+void ProgressiveSynthesisEngine::setDeclaredFinalOutputFrames(std::size_t frames){auto& x=*impl_;
+    if(x.snapshot||x.generated||x.finished.load()||x.failed||x.cancelled.load())throw std::logic_error("Set output contract before input");
+    const auto legacy=std::size_t(std::llround(x.length*x.config.timeRatio));
+    if(!frames||frames!=legacy)throw std::invalid_argument("Declared length must match the fixed PlaybackEngine contract");
+    x.declaredFinalOutput=frames;
+}
+void ProgressiveSynthesisEngine::enableWorkProfiling(){auto& x=*impl_;if(x.snapshot||x.generated)throw std::logic_error("Enable profiling before input");
+    x.profileEnabled=true;for(auto& r:x.resolution)r->setWorkProfile(&x.profile);for(auto& f:x.low)f->setWorkProfile(&x.profile);for(auto& f:x.high)f->setWorkProfile(&x.profile);
+}
+Phase36StreamingSpeedEngine::WorkProfile ProgressiveSynthesisEngine::workProfile()const{return impl_->profile;}
 void ProgressiveSynthesisEngine::supplySnapshot(std::shared_ptr<const phase56::AnalysisSnapshot> s){auto& x=*impl_;if(x.finished.load()||x.failed||x.cancelled.load())throw std::logic_error("Synthesis already terminal");try{
     if(!s||s->inputGeneration!=x.generation||s->receivedInputFrames>x.length||(s->isFinal&&(s->receivedInputFrames!=x.length||s->hasError||s->isCancelled))||(s->hasError&&s->isCancelled)||s->closedEventCount!=s->closedAnchorCount||s->detector.size()!=s->detectorThrough||s->events.size()!=s->closedEventCount||s->anchors.size()!=s->closedAnchorCount)throw std::invalid_argument("Invalid snapshot identity/bounds");
     if(s->mapForSpeed(x.speed).size()!=s->mapThroughNode)throw std::invalid_argument("Requested map bounds differ");

@@ -1,5 +1,6 @@
 #pragma once
 #include "prototype/Phase56ProgressiveAnalysis.h"
+#include "prototype/Phase36StreamingSpeedEngine.h"
 #include <functional>
 namespace ts::prototype::phase57 {
 enum class SynthesisState {Produced,NeedsMoreInput,NeedsMoreAnalysis,Finished,Cancelled,Failed};
@@ -20,6 +21,11 @@ public:
     ProgressiveSynthesisEngine(const std::filesystem::path& pinnedInput,std::uint32_t speedMicros,
         std::uint64_t generation,std::function<void()> validateInput={},std::size_t memoryBudget=16*1024*1024);
     ~ProgressiveSynthesisEngine();
+    // Phase58: optional fixed PlaybackEngine output-length contract. Must be
+    // selected before the first snapshot; the Phase57 default is unchanged.
+    void setDeclaredFinalOutputFrames(std::size_t);
+    void enableWorkProfiling(); // Producer only, before first snapshot.
+    Phase36StreamingSpeedEngine::WorkProfile workProfile()const;
     void supplySnapshot(std::shared_ptr<const phase56::AnalysisSnapshot>);
     SynthesisState advance(const Sink&); // at most one 2048-frame output block
     void cancel()noexcept; // thread-safe request; completed EOS stays completed
