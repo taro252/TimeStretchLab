@@ -1,0 +1,27 @@
+{
+  "PASS": false,
+  "history": [
+    {
+      "command": [
+        "cmake",
+        "--build",
+        "build",
+        "--target",
+        "phase59_control_tests",
+        "-j2"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "build",
+        "-R",
+        "^phase59_request_control$",
+        "--output-on-failure"
+      ],
+      "exit": 8
+    }
+  ]
+}

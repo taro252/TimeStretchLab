@@ -1,0 +1,90 @@
+{
+  "driver_source_sha256": "cec7f401a82d864bcac504dee53dbb7f031689f522bfb9736d546a21840f60de",
+  "baseline": "ec087019626d9ff0d9f157245729b74ddb6847d7",
+  "suite": "stage1",
+  "reference": "/Users/taro252/Docker/TimeStretchLab/build/phase57_frozen/reference",
+  "reference_binary_sha256": "461c26d10b0fd8a781cbffcbbab49072f501e02172e2a7c2f26e3e49a0253a1e",
+  "incremental_binary": "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/final/phase57_check",
+  "incremental_binary_sha256": "e5ac02ce2afc87485e94c4a31800dcac3f76c2501c80fc8d1120180e65e51027",
+  "speeds": [
+    400000,
+    500000,
+    750000,
+    1000000,
+    1250000,
+    1500000,
+    2000000
+  ],
+  "chunks": [
+    "1024",
+    "7168",
+    "8192",
+    "32768",
+    "131072",
+    "5003",
+    "irregular"
+  ],
+  "inputs": [
+    {
+      "name": "silence_1_2_44100",
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59/regression_parallel57/stage1/44100_2_1/inputs/silence_1_2_44100.wav",
+      "rate": 44100,
+      "channels": 2,
+      "encoding": 1,
+      "kind": "synthetic silence",
+      "seconds": 0.5,
+      "input_sha256": "ce6005cbf75b27ea897b1ec8ced1387b8f50c7ee2edc5ffe55104f01f209ba96"
+    },
+    {
+      "name": "impulse_1_2_44100",
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59/regression_parallel57/stage1/44100_2_1/inputs/impulse_1_2_44100.wav",
+      "rate": 44100,
+      "channels": 2,
+      "encoding": 1,
+      "kind": "synthetic impulse",
+      "seconds": 0.5,
+      "input_sha256": "20b8791f58bb339c62c928d5d9eb2d36e95fc5d19a6aa7b9178ef373dd3aae8a"
+    },
+    {
+      "name": "train_1_2_44100",
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59/regression_parallel57/stage1/44100_2_1/inputs/train_1_2_44100.wav",
+      "rate": 44100,
+      "channels": 2,
+      "encoding": 1,
+      "kind": "synthetic train",
+      "seconds": 0.5,
+      "input_sha256": "56abb8c123d88eea5b48c7fbe342996ce3c089635809344be9b23df7cbf48b13"
+    },
+    {
+      "name": "sustained_1_2_44100",
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59/regression_parallel57/stage1/44100_2_1/inputs/sustained_1_2_44100.wav",
+      "rate": 44100,
+      "channels": 2,
+      "encoding": 1,
+      "kind": "synthetic sustained",
+      "seconds": 0.5,
+      "input_sha256": "411ef6fdd4f4749fc528927924ae82d317f134e39c8cd52a4e06f7af559ade69"
+    },
+    {
+      "name": "boundary_1_2_44100",
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59/regression_parallel57/stage1/44100_2_1/inputs/boundary_1_2_44100.wav",
+      "rate": 44100,
+      "channels": 2,
+      "encoding": 1,
+      "kind": "synthetic boundary",
+      "seconds": 4,
+      "input_sha256": "8e1e8eafa65f29a0dc428faed350b459bf48289a1dc327400f20040cfaa02f15"
+    },
+    {
+      "name": "chain_1_2_44100",
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59/regression_parallel57/stage1/44100_2_1/inputs/chain_1_2_44100.wav",
+      "rate": 44100,
+      "channels": 2,
+      "encoding": 1,
+      "kind": "synthetic chain",
+      "seconds": 0.5,
+      "input_sha256": "f19c38b5b3cf119cc2aaaee6b52f8e98a39d32883b2eaf88a0cfea50f3f07387"
+    }
+  ],
+  "started_utc": "2026-10-16T10:19:24Z"
+}

@@ -1,0 +1,44 @@
+[
+  {
+    "name": "release_ctest",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "build",
+      "-L",
+      "deterministic",
+      "--output-on-failure",
+      "-j2"
+    ],
+    "exit": 0,
+    "wall_s": 752.953418970108
+  },
+  {
+    "name": "phase58_short",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase58_fix_study.py",
+      "--suite",
+      "short",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase59/regression_final/phase58_short"
+    ],
+    "exit": 0,
+    "wall_s": 434.95030522346497
+  },
+  {
+    "name": "phase58_all_speeds",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase58_fix_study.py",
+      "--suite",
+      "all_speeds",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase59/regression_final/phase58_all_speeds"
+    ],
+    "exit": 0,
+    "wall_s": 739.2330422401428
+  }
+]

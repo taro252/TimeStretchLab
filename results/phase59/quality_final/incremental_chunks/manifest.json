@@ -1,0 +1,19 @@
+{
+  "suite": "chunks",
+  "binary": "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/final/phase59_progressive_replay",
+  "binary_sha256": "0f8935f4e419daedf0056be44416c41b5bb71d88bdcfc206aa9a5db84248183a",
+  "reference": "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/captured_reference",
+  "reference_sha256": "1c860210fb6ea4a2075c5f2fdc9c1fd1afa97adb175413994be676a131d97818",
+  "inputs": [
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+      "sha256": "789d4c159e35b4c133a17913ad5a9c47b85970185e5d86b074d146afc1bb311e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/drums.wav",
+      "sha256": "d77f30cdc1b889227b7f3492791ca510be3ad3514aa7dc38be5f4f2d77297008"
+    }
+  ],
+  "cases": 112,
+  "scope": "未来解析不足は保留し、実際の適用Frontier/計画を変更前の全曲解析＋動的Phase39へ再現。元の完成解析の予定境界と違うPCMを同一と判定しない。"
+}

@@ -1,0 +1,17 @@
+{
+  "command": [
+    "/usr/bin/c++",
+    "-std=c++20",
+    "-O3",
+    "-DNDEBUG",
+    "-arch",
+    "arm64",
+    "-Isrc",
+    "results/phase59/layout_probe.cpp",
+    "-o",
+    "build/phase59_frozen/layout_probe"
+  ],
+  "source_sha256": "b7055f314b0c9791e83fd02267d902a49ea6d1d54d390763d77fb776c172a3d4",
+  "binary_sha256": "9c934a293c7cfb52220392290359d3739618d9520107f40098034e17de23e428",
+  "scope": "arm64実行でsizeofを計測。予約要素と固定領域の値であり、allocator管理領域・Map配列・プロセスRSSの総量とは異なる。"
+}

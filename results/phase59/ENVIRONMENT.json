@@ -1,0 +1,28 @@
+{
+  "sw_vers": {
+    "exit": 0,
+    "stdout": "ProductName:\t\tmacOS\nProductVersion:\t\t26.6.2\nBuildVersion:\t\t25G83\n",
+    "stderr": ""
+  },
+  "uname -a": {
+    "exit": 0,
+    "stdout": "Darwin MacBook-Air.local 25.6.0 Darwin Kernel Version 25.6.0: Fri Jul 31 19:17:12 PDT 2026; root:xnu-12377.161.14~5/RELEASE_ARM64_T8103 x86_64\n",
+    "stderr": ""
+  },
+  "sysctl -n hw.model hw.memsize machdep.cpu.brand_string": {
+    "exit": 1,
+    "stdout": "",
+    "stderr": "sysctl: sysctl fmt -1 1024 1: Operation not permitted\n"
+  },
+  "xcrun clang++ --version": {
+    "exit": 0,
+    "stdout": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin\n",
+    "stderr": ""
+  },
+  "cmake --version": {
+    "exit": 0,
+    "stdout": "cmake version 4.3.3\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).\n",
+    "stderr": ""
+  },
+  "python": "macOS-26.6.2-x86_64-i386-64bit-Mach-O"
+}

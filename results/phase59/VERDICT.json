@@ -1,0 +1,83 @@
+{
+  "verdict": "B",
+  "dynamic_transition_implemented": true,
+  "dynamic_pcm_bit_exact": true,
+  "all_161_initial_speeds_covered": true,
+  "all_161_target_speeds_covered": true,
+  "all_25921_pairs_tested": false,
+  "latest_wins_verified": true,
+  "l1_verified": true,
+  "l2_verified": true,
+  "safe_density_verified": true,
+  "phase50_boundary_verified": true,
+  "snapshot_consistency_verified": true,
+  "same_dsp_instance_verified": true,
+  "realtime_worker_safe": false,
+  "realtime_worker_allocations": 0,
+  "fifo_underrun_free": false,
+  "dynamic_fifo_underrun_free": true,
+  "callback_deadline_verified": true,
+  "realtime_transition_verified": false,
+  "long_track_verified": false,
+  "high_load_verified": false,
+  "dynamic_long_track_verified": true,
+  "dynamic_high_load_verified": true,
+  "golden_pass": true,
+  "legacy_regression_passed": false,
+  "gate_2_passed": false,
+  "gate_3_ready": false,
+  "product_integration_ready": false,
+  "merodoa_changed": false,
+  "final_native_sessions": 190,
+  "final_native_failures": 0,
+  "prior_clock_failure_resolved": false,
+  "eos_restart_functional_verified": true,
+  "eos_pending_cancel_verified": true,
+  "debug_realtime_stress_passed": false,
+  "unpaced_realtime_stress_passed": false,
+  "realtime_worker_safe_scope": "有界適用・借用所有権・C++確保を検査したが、OS状態未観測域とRT Zero Fill、起動時計異常の未解決を残す。",
+  "dynamic_pcm_scope": "同じ要求/Frontier/適用計画の旧全曲解析＋動的Phase39/36。先行全計画Phase35との同値性は未成立。",
+  "storage_original_floor_maintained": false,
+  "storage_revised_minimum_free_gib": 3,
+  "capacity_interrupted_groups": 5,
+  "trace_peak_budget_maintained": false,
+  "fixed_device_failures": [
+    {
+      "input": "/Users/taro252/Docker/TimeStretchLab/results/phase55/long/boundary_1_2_44100_180/full.wav",
+      "preset": "candidate",
+      "exit": 2,
+      "deadline_misses": 2,
+      "missing_frames": 0,
+      "pcm_complete_exact": true
+    },
+    {
+      "input": "/Users/taro252/Docker/TimeStretchLab/results/phase55/long/boundary_1_2_44100_180/full.wav",
+      "preset": "baseline",
+      "exit": 2,
+      "deadline_misses": 3,
+      "missing_frames": 0,
+      "pcm_complete_exact": true
+    }
+  ],
+  "legacy_device_failures": [
+    {
+      "label": "original",
+      "mode": "smoke",
+      "preset": "candidate",
+      "exit": 2,
+      "missing_frames": 1319
+    }
+  ],
+  "not_tested": [
+    "全25921組",
+    "長尺の全161速度",
+    "実機で全161速度を各初期・目標として物理適用",
+    "実際のApple API失敗・OS全体のメモリ逼迫",
+    "全OS・全出力装置・物理音響遅延"
+  ],
+  "blocking_issues": [
+    "初回2コールバック間のhost/sample不連続1件の原因未特定",
+    "固定180秒/2倍/CPU競合2の両presetで作業期限超過を観測",
+    "変更前の旧製品Candidate smokeでFIFO不足1319フレームを観測"
+  ]
+}

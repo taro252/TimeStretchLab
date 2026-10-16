@@ -1,0 +1,476 @@
+{
+  "trace_epoch_ns": 243707440072291.66,
+  "sessions": [
+    {
+      "session": "results/phase59/startup_trace_v1/native",
+      "thread": 5699454,
+      "PASS": true,
+      "missing_frames": 0,
+      "bridge_uncertainty_s": 8.750000000043445e-07,
+      "pipeline_start_in_trace_s": 3.02708427084375,
+      "state_rows": 4246,
+      "syscall_rows": 16308,
+      "fault_rows": 134,
+      "worst_blocks": [
+        {
+          "output_start": 0,
+          "output_end": 2048,
+          "start_s": 0.074124375,
+          "published_s": 0.082574958,
+          "fifo_before": 0,
+          "wall_s": 0.008457625,
+          "cpu_s": 0.007647082999999999,
+          "non_cpu_s": 0.0008105420000000009,
+          "realtime": false,
+          "os": {
+            "state_seconds": {
+              "Unknown": 0.008450583000000001
+            },
+            "covered_s": 0.008450583000000001,
+            "unobserved_s": 0,
+            "longest_state": {
+              "overlap_ns": 8450583.0,
+              "state": "Unknown",
+              "priority": "Background - 0",
+              "note": null,
+              "summary": "Unknown",
+              "preempted_by": null,
+              "core": null
+            },
+            "syscalls": [],
+            "faults": []
+          },
+          "callbacks_in_block": 0,
+          "requested_in_block": 0,
+          "received_in_block": 0,
+          "missing_in_block": 0
+        },
+        {
+          "output_start": 2048,
+          "output_end": 4096,
+          "start_s": 0.08259275,
+          "published_s": 0.08865125,
+          "fifo_before": 2048,
+          "wall_s": 0.006077667,
+          "cpu_s": 0.005751917000000002,
+          "non_cpu_s": 0.0003257499999999979,
+          "realtime": false,
+          "os": {
+            "state_seconds": {
+              "Unknown": 0.0060585000000000005
+            },
+            "covered_s": 0.0060585000000000005,
+            "unobserved_s": 0,
+            "longest_state": {
+              "overlap_ns": 6058500.0,
+              "state": "Unknown",
+              "priority": "Background - 0",
+              "note": null,
+              "summary": "Unknown",
+              "preempted_by": null,
+              "core": null
+            },
+            "syscalls": [],
+            "faults": []
+          },
+          "callbacks_in_block": 0,
+          "requested_in_block": 0,
+          "received_in_block": 0,
+          "missing_in_block": 0
+        },
+        {
+          "output_start": 6144,
+          "output_end": 8192,
+          "start_s": 0.088863167,
+          "published_s": 0.092289542,
+          "fifo_before": 6144,
+          "wall_s": 0.003429167,
+          "cpu_s": 0.0034096249999999995,
+          "non_cpu_s": 1.954200000000043e-05,
+          "realtime": false,
+          "os": {
+            "state_seconds": {
+              "Unknown": 0.003426375
+            },
+            "covered_s": 0.003426375,
+            "unobserved_s": 0,
+            "longest_state": {
+              "overlap_ns": 3426375.0,
+              "state": "Unknown",
+              "priority": "Background - 0",
+              "note": null,
+              "summary": "Unknown",
+              "preempted_by": null,
+              "core": null
+            },
+            "syscalls": [],
+            "faults": []
+          },
+          "callbacks_in_block": 0,
+          "requested_in_block": 0,
+          "received_in_block": 0,
+          "missing_in_block": 0
+        }
+      ],
+      "realtime_blocks": 98,
+      "worst_realtime_blocks": [
+        {
+          "output_start": 53248,
+          "output_end": 55296,
+          "start_s": 0.94694275,
+          "published_s": 0.963229333,
+          "fifo_before": 14336,
+          "wall_s": 0.016293791,
+          "cpu_s": 0.016287042,
+          "non_cpu_s": 6.748999999996869e-06,
+          "realtime": true,
+          "os": {
+            "state_seconds": {
+              "Unknown": 0.016286583
+            },
+            "covered_s": 0.016286583,
+            "unobserved_s": 0,
+            "longest_state": {
+              "overlap_ns": 16286583.0,
+              "state": "Unknown",
+              "priority": "Background - 0",
+              "note": null,
+              "summary": "Unknown",
+              "preempted_by": null,
+              "core": null
+            },
+            "syscalls": [],
+            "faults": []
+          },
+          "callbacks_in_block": 1,
+          "requested_in_block": 512,
+          "received_in_block": 512,
+          "missing_in_block": 0
+        },
+        {
+          "output_start": 47104,
+          "output_end": 49152,
+          "start_s": 0.819416583,
+          "published_s": 0.826622542,
+          "fifo_before": 14336,
+          "wall_s": 0.00721975,
+          "cpu_s": 0.0072196660000000135,
+          "non_cpu_s": 8.399999998614377e-08,
+          "realtime": true,
+          "os": {
+            "state_seconds": {
+              "Unknown": 0.0072059590000000005
+            },
+            "covered_s": 0.0072059590000000005,
+            "unobserved_s": 0,
+            "longest_state": {
+              "overlap_ns": 7205959.0,
+              "state": "Unknown",
+              "priority": "Background - 0",
+              "note": null,
+              "summary": "Unknown",
+              "preempted_by": null,
+              "core": null
+            },
+            "syscalls": [],
+            "faults": []
+          },
+          "callbacks_in_block": 0,
+          "requested_in_block": 0,
+          "received_in_block": 0,
+          "missing_in_block": 0
+        },
+        {
+          "output_start": 38912,
+          "output_end": 40960,
+          "start_s": 0.649031042,
+          "published_s": 0.662167375,
+          "fifo_before": 14336,
+          "wall_s": 0.013150375,
+          "cpu_s": 0.013150291999999994,
+          "non_cpu_s": 8.300000000661945e-08,
+          "realtime": true,
+          "os": {
+            "state_seconds": {
+              "Unknown": 0.013136333
+            },
+            "covered_s": 0.013136333,
+            "unobserved_s": 0,
+            "longest_state": {
+              "overlap_ns": 13136333.0,
+              "state": "Unknown",
+              "priority": "Background - 0",
+              "note": null,
+              "summary": "Unknown",
+              "preempted_by": null,
+              "core": null
+            },
+            "syscalls": [],
+            "faults": []
+          },
+          "callbacks_in_block": 1,
+          "requested_in_block": 512,
+          "received_in_block": 512,
+          "missing_in_block": 0
+        }
+      ],
+      "worst_realtime_phase_intervals": [
+        {
+          "stage": 2,
+          "scope": 2,
+          "start_s": 0.785937917,
+          "end_s": 0.786230792,
+          "wall_s": 0.00029287499999997024,
+          "cpu_s": 0.00028970799999999963,
+          "non_cpu_s": 3.16699999997061e-06,
+          "cpp_new_calls": 0,
+          "realtime": true,
+          "os": {
+            "state_seconds": {
+              "Unknown": 0.000292875
+            },
+            "covered_s": 0.000292875,
+            "unobserved_s": 0,
+            "longest_state": {
+              "overlap_ns": 292875.0,
+              "state": "Unknown",
+              "priority": "Background - 0",
+              "note": null,
+              "summary": "Unknown",
+              "preempted_by": null,
+              "core": null
+            },
+            "syscalls": [],
+            "faults": []
+          }
+        },
+        {
+          "stage": 2,
+          "scope": 2,
+          "start_s": 3.766935042,
+          "end_s": 3.767104042,
+          "wall_s": 0.00016900000000008575,
+          "cpu_s": 0.00016762500000000458,
+          "non_cpu_s": 1.3750000000811724e-06,
+          "cpp_new_calls": 0,
+          "realtime": true,
+          "os": {
+            "state_seconds": {
+              "Interrupted": 1.02015625e-06,
+              "Running": 0.00016797984375
+            },
+            "covered_s": 0.00016900000000000002,
+            "unobserved_s": 0,
+            "longest_state": {
+              "overlap_ns": 167979.84375,
+              "state": "Running",
+              "priority": "Real Time - 97",
+              "note": null,
+              "summary": "Running at priority Real Time - 97 on CPU 4 (P Core)",
+              "preempted_by": null,
+              "core": "CPU 4 (P Core)"
+            },
+            "syscalls": [
+              {
+                "name": "thread_selfusage",
+                "overlap_ns": 1270.15625,
+                "duration_ns": 1542.0,
+                "errno": "0x0",
+                "frames": [
+                  "__thread_selfusage",
+                  "clock_gettime_nsec_np",
+                  "clock_gettime",
+                  "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+                  "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)&&)",
+                  "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+                  "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+                  "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+                  "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+                  "_pthread_start",
+                  "thread_start"
+                ]
+              },
+              {
+                "name": "thread_selfusage",
+                "overlap_ns": 125.0,
+                "duration_ns": 125.0,
+                "errno": "0x0",
+                "frames": [
+                  "__thread_selfusage",
+                  "clock_gettime_nsec_np",
+                  "clock_gettime",
+                  "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+                  "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)&&)",
+                  "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+                  "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+                  "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+                  "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+                  "_pthread_start",
+                  "thread_start"
+                ]
+              }
+            ],
+            "faults": []
+          }
+        },
+        {
+          "stage": 2,
+          "scope": 2,
+          "start_s": 3.551253083,
+          "end_s": 3.5514254170000004,
+          "wall_s": 0.00017233400000016275,
+          "cpu_s": 0.00017162500000000858,
+          "non_cpu_s": 7.090000001541696e-07,
+          "cpp_new_calls": 0,
+          "realtime": true,
+          "os": {
+            "state_seconds": {
+              "Running": 0.000172334
+            },
+            "covered_s": 0.000172334,
+            "unobserved_s": 0,
+            "longest_state": {
+              "overlap_ns": 172334.0,
+              "state": "Running",
+              "priority": "Real Time - 97",
+              "note": null,
+              "summary": "Running at priority Real Time - 97 on CPU 4 (P Core)",
+              "preempted_by": null,
+              "core": "CPU 4 (P Core)"
+            },
+            "syscalls": [
+              {
+                "name": "thread_selfusage",
+                "overlap_ns": 521.15625,
+                "duration_ns": 834.0,
+                "errno": "0x0",
+                "frames": [
+                  "__thread_selfusage",
+                  "clock_gettime_nsec_np",
+                  "clock_gettime",
+                  "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+                  "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)&&)",
+                  "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+                  "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+                  "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+                  "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+                  "_pthread_start",
+                  "thread_start"
+                ]
+              },
+              {
+                "name": "thread_selfusage",
+                "overlap_ns": 125.0,
+                "duration_ns": 125.0,
+                "errno": "0x0",
+                "frames": [
+                  "__thread_selfusage",
+                  "clock_gettime_nsec_np",
+                  "clock_gettime",
+                  "ts::prototype::synthesis_detail::ResolutionStream::processFrame()",
+                  "float ts::prototype::synthesis_detail::LiveStreamingFIR::next<ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)>(unsigned long, ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)::'lambda0'(unsigned long)&&)",
+                  "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+                  "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+                  "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+                  "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+                  "_pthread_start",
+                  "thread_start"
+                ]
+              }
+            ],
+            "faults": []
+          }
+        }
+      ],
+      "worst_phase_intervals": [
+        {
+          "stage": 2,
+          "scope": 0,
+          "start_s": 0.08363229200000001,
+          "end_s": 0.085643417,
+          "wall_s": 0.0020111249999999886,
+          "cpu_s": 0.001912707999999999,
+          "non_cpu_s": 9.841699999998954e-05,
+          "cpp_new_calls": 0,
+          "realtime": false,
+          "os": {
+            "state_seconds": {
+              "Unknown": 0.0020111250000000003
+            },
+            "covered_s": 0.0020111250000000003,
+            "unobserved_s": 0,
+            "longest_state": {
+              "overlap_ns": 2011125.0,
+              "state": "Unknown",
+              "priority": "Background - 0",
+              "note": null,
+              "summary": "Unknown",
+              "preempted_by": null,
+              "core": null
+            },
+            "syscalls": [],
+            "faults": []
+          }
+        },
+        {
+          "stage": 2,
+          "scope": 1,
+          "start_s": 0.08039725,
+          "end_s": 0.081285417,
+          "wall_s": 0.0008881669999999953,
+          "cpu_s": 0.0008109169999999995,
+          "non_cpu_s": 7.724999999999572e-05,
+          "cpp_new_calls": 0,
+          "realtime": false,
+          "os": {
+            "state_seconds": {
+              "Unknown": 0.000888167
+            },
+            "covered_s": 0.000888167,
+            "unobserved_s": 0,
+            "longest_state": {
+              "overlap_ns": 888167.0,
+              "state": "Unknown",
+              "priority": "Background - 0",
+              "note": null,
+              "summary": "Unknown",
+              "preempted_by": null,
+              "core": null
+            },
+            "syscalls": [],
+            "faults": []
+          }
+        },
+        {
+          "stage": 2,
+          "scope": 2,
+          "start_s": 0.079526417,
+          "end_s": 0.07977000000000001,
+          "wall_s": 0.00024358300000000555,
+          "cpu_s": 0.0001986669999999996,
+          "non_cpu_s": 4.491600000000595e-05,
+          "cpp_new_calls": 0,
+          "realtime": false,
+          "os": {
+            "state_seconds": {
+              "Unknown": 0.00024358300000000002
+            },
+            "covered_s": 0.00024358300000000002,
+            "unobserved_s": 0,
+            "longest_state": {
+              "overlap_ns": 243583.0,
+              "state": "Unknown",
+              "priority": "Background - 0",
+              "note": null,
+              "summary": "Unknown",
+              "preempted_by": null,
+              "core": null
+            },
+            "syscalls": [],
+            "faults": []
+          }
+        }
+      ]
+    }
+  ]
+}

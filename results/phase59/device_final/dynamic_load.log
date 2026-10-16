@@ -1,0 +1,22 @@
+load 1 / 90 PASS applied 3
+load 2 / 90 PASS applied 3
+load 3 / 90 PASS applied 3
+load 4 / 90 PASS applied 3
+load 5 / 90 PASS applied 3
+load 6 / 90 PASS applied 3
+load 7 / 90 PASS applied 2
+load 8 / 90 PASS applied 2
+load 9 / 90 PASS applied 2
+load 10 / 90 PASS applied 3
+load 11 / 90 PASS applied 3
+load 12 / 90 PASS applied 3
+load 13 / 90 PASS applied 3
+load 14 / 90 PASS applied 3
+Traceback (most recent call last):
+  File "/Users/taro252/Docker/TimeStretchLab/scripts/phase59_native_validation.py", line 174, in <module>
+    parser=argparse.ArgumentParser(__doc__);parser.add_argument('--suite',choices=['smoke','normal','load','lifecycle','long','burst','materials'],required=True);parser.add_argument('--output',type=Path,required=True);parser.add_argument('--binary',type=Path,default=ROOT/'build/phase59_native');raise SystemExit(0 if run(parser.parse_args())['PASS'] else 2)
+                                                                                                                                                                                                                                                                                                                              ~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/taro252/Docker/TimeStretchLab/scripts/phase59_native_validation.py", line 101, in run
+    if shutil.disk_usage(ROOT).free<4*1024**3:raise RuntimeError('Disk floor reached')
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Disk floor reached

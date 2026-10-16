@@ -1,0 +1,51 @@
+[
+  {
+    "input": "/Users/taro252/Docker/TimeStretchLab/results/phase59/native_smoke_v1/inputs/boundary_float_stereo_48000.wav",
+    "initial": 500000,
+    "requests": [
+      [
+        16384,
+        1500000
+      ],
+      [
+        49152,
+        400000
+      ],
+      [
+        69632,
+        990000
+      ]
+    ],
+    "preset": "candidate",
+    "mode": "normal",
+    "window": 0,
+    "cpu": 0,
+    "memory": 0,
+    "repeat": 0,
+    "command": [
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_native",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase59/native_smoke_v1/inputs/boundary_float_stereo_48000.wav",
+      "500000",
+      "candidate",
+      "capture",
+      "480002",
+      "-",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase59/native_smoke_v1/case_000/native",
+      "normal",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "--worker=workgroup",
+      "--resident-input=on",
+      "--profile=block",
+      "--sample-thread=on",
+      "--capture-path=/Users/taro252/Docker/TimeStretchLab/results/phase59/native_smoke_v1/working/capture.f32",
+      "--speed-requests=/Users/taro252/Docker/TimeStretchLab/results/phase59/native_smoke_v1/case_000/requests.csv"
+    ],
+    "native_exit": 1,
+    "started_utc": "2026-10-16T08:04:01Z",
+    "PASS": false
+  }
+]

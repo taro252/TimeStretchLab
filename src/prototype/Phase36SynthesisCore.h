@@ -234,6 +234,7 @@ public:
     }
 
     void setOutputLength(std::size_t length) { outputLength_=length; }
+    void enableFrameHistory() { recordFrameHistory_=true; }
     Availability readyThrough(std::size_t lastOutput)const {
         if(!detection_.progressive||produced_>lastOutput)return Availability::Ready;
         auto position=position_;bool done=done_;
@@ -242,7 +243,7 @@ public:
             const auto lookup=detection_.progressive->frameAvailable(position,padding_,position,false);
             if(lookup!=Availability::Ready)return lookup;
             if(std::llround(detection_.position(double(position)))>static_cast<long long>(absolute))break;
-            const auto following=position+(config_.timeRatio>2.0?hop_/2:hop_);
+            const auto following=nextInputPosition(position);
             const auto available=detection_.progressive->frameAvailable(position,padding_,position+(following-position)/2,true);
             if(available!=Availability::Ready)return available;
             if(position>=length_+padding_)done=true;
@@ -291,13 +292,13 @@ private:
         (void)frameIndex;
         return std::llround(detection_.position(double(position_)));
     }
-    std::size_t nextInputPosition() const {
+    std::size_t nextInputPosition(std::size_t position) const {
         bool half=config_.timeRatio>2.0;
         for (const auto& change:modeChanges_) {
-            if (change.first>position_) break;
+            if (change.first>position) break;
             half=change.second;
         }
-        return position_+(half ? hop_/2 : hop_);
+        return position+(half ? hop_/2 : hop_);
     }
     void processFrame() {
         const auto start=startAt(nextFrame_);
@@ -306,7 +307,7 @@ private:
             throw std::runtime_error("Unsafe variable synthesis hop");
         bool reset=false;
         float strength=0;
-        const auto following=nextInputPosition();
+        const auto following=nextInputPosition(position_);
         const auto midpoint=position_+(following-position_)/2;
         while (nextEvent_<detection_.eventSize()) {
             const auto& event=detection_.event(nextEvent_);

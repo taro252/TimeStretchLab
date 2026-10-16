@@ -1,0 +1,22 @@
+Test project /Users/taro252/Docker/TimeStretchLab/build
+    Start 85: phase59_request_control
+1/1 Test #85: phase59_request_control ..........***Failed   22.34 sec
+EOS run=0 generated=241664 published=241664 consumed=241664 output=321174 received=441000 snapshot=15 analysisDone=1 dspDone=0 failed=0 error= available=0 attempts=1 stale=0 history=1 dspCpu=2.32077 analysisWait=0.00885483 backpressure=0.000578749
+block=235520 snapshot=15 final=1 map=8 at=13.7276 wall=0.497605 cpu=0.0109692
+block=237568 snapshot=15 final=1 map=8 at=14.2252 wall=4.80051 cpu=0.0331671
+block=239616 snapshot=15 final=1 map=8 at=19.0257 wall=0.0195147 cpu=0.00846167
+block=241664 snapshot=15 final=1 map=8 at=19.0452 wall=0.0454575 cpu=0.0261125
+planner map nodes=434 end=322524
+Dynamic EOS did not drain
+
+
+0% tests passed, 1 tests failed out of 1
+
+Label Time Summary:
+deterministic    =  22.34 sec*proc (1 test)
+
+Total Test time (real) =  22.36 sec
+
+The following tests FAILED:
+	 85 - phase59_request_control (Failed)                  deterministic
+Errors while running CTest

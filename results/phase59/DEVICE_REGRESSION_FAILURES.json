@@ -1,0 +1,70 @@
+{
+  "fixed_long": [
+    {
+      "input": "/Users/taro252/Docker/TimeStretchLab/results/phase55/long/boundary_1_2_44100_180/full.wav",
+      "preset": "candidate",
+      "exit": 2,
+      "deadline_misses": 2,
+      "missing_frames": 0,
+      "pcm_complete_exact": true
+    },
+    {
+      "input": "/Users/taro252/Docker/TimeStretchLab/results/phase55/long/boundary_1_2_44100_180/full.wav",
+      "preset": "baseline",
+      "exit": 2,
+      "deadline_misses": 3,
+      "missing_frames": 0,
+      "pcm_complete_exact": true
+    }
+  ],
+  "legacy": [
+    {
+      "label": "original",
+      "mode": "smoke",
+      "preset": "candidate",
+      "exit": 2,
+      "missing_frames": 1319,
+      "summary": {
+        "AUDIO_QUALITY": "FAIL",
+        "MEASUREMENT_QUALITY": "PASS",
+        "PCM_CORRECTNESS": "PASS",
+        "VERDICT": "FAIL",
+        "mode": "smoke",
+        "source_rate": "44100",
+        "channels": "2",
+        "device": "72",
+        "device_rate": "48000",
+        "device_buffer": "512",
+        "prepare_wall_s": "0.30293508299999999",
+        "prepare_thread_cpu_s": "0.11489974999999999",
+        "play_wall_s": "0.35683033400000003",
+        "play_thread_cpu_s": "0.017557249999999996",
+        "missing_frames": "1319",
+        "lifetime_missing_frames": "1319",
+        "callback_rows": "819",
+        "callback_max_ms": "0.016333999999999998",
+        "callback_overruns": "0",
+        "callback_allocations": "0",
+        "worker_max_wall_s": "0.18949949999999999",
+        "worker_max_cpu_s": "0.088482624999999995",
+        "analysis_hit": "1",
+        "analysis_runs": "1",
+        "cache_hits": "6",
+        "analysis_bytes": "20755",
+        "cache_resident_bytes": "20755",
+        "playback_rss_bytes": "74694656",
+        "playback_process_cpu_s": "7.2758750000000001",
+        "eos": "1",
+        "route": "0",
+        "silent": "0",
+        "fade": "64",
+        "seek_count": "5",
+        "expected_frames": "220500",
+        "consumed_frames": "220500"
+      }
+    }
+  ],
+  "original_coordinator": "device_final/summary.json",
+  "resumed_coordinator": "device_resume_after_trace_archive/summary.json",
+  "cause": "期限超過とFIFO不足を観測。該当実行のOS状態未取得につき、原因や変更との因果は未確定。"
+}

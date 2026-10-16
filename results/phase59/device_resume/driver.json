@@ -1,0 +1,21 @@
+[
+  {
+    "suite": "load",
+    "command": [
+      "/usr/local/opt/python@3.14/bin/python3.14",
+      "-B",
+      "scripts/phase59_native_validation.py",
+      "--suite",
+      "load",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase59/device_final/dynamic_load",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/final/phase59_native",
+      "--resume",
+      "--minimum-free-gib",
+      "3"
+    ],
+    "exit": 1,
+    "wall_s": 1.4558818340301514
+  }
+]

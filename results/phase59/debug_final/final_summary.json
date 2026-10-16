@@ -1,0 +1,30 @@
+{
+  "PASS": true,
+  "history": [
+    {
+      "command": [
+        "cmake",
+        "--build",
+        "build/phase59_debug",
+        "--target",
+        "phase58_product_reference",
+        "-j2"
+      ],
+      "exit": 0,
+      "wall_s": 6.852617025375366
+    },
+    {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "build/phase59_debug",
+        "-R",
+        "^(phase59_|phase58_|phase57_|phase56_|phase54_)",
+        "--output-on-failure",
+        "-j1"
+      ],
+      "exit": 0,
+      "wall_s": 413.54171228408813
+    }
+  ]
+}

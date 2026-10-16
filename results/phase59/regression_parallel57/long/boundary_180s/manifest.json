@@ -1,0 +1,36 @@
+{
+  "driver_source_sha256": "e20566ef324dccaac9513abd81cd28130811bd758edbea8555b6cb98ca80e340",
+  "baseline": "ec087019626d9ff0d9f157245729b74ddb6847d7",
+  "suite": "long",
+  "reference": "/Users/taro252/Docker/TimeStretchLab/build/phase57_frozen/reference",
+  "reference_binary_sha256": "461c26d10b0fd8a781cbffcbbab49072f501e02172e2a7c2f26e3e49a0253a1e",
+  "incremental_binary": "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/final/phase57_check",
+  "incremental_binary_sha256": "e5ac02ce2afc87485e94c4a31800dcac3f76c2501c80fc8d1120180e65e51027",
+  "speeds": [
+    400000,
+    410000,
+    500000,
+    990000,
+    1000000,
+    1010000,
+    1500000,
+    1990000,
+    2000000
+  ],
+  "chunks": [
+    "131072"
+  ],
+  "inputs": [
+    {
+      "name": "boundary_180s",
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase55/long/boundary_1_2_44100_180/full.wav",
+      "rate": 44100,
+      "channels": 2,
+      "encoding": 1,
+      "kind": "synthetic boundary pattern repeated 180s",
+      "seconds": 180,
+      "input_sha256": "e5a589ce9e3ea436c53aadda233c96a8246e7a58466718600c82b68b47dd05ac"
+    }
+  ],
+  "started_utc": "2026-10-16T10:46:52Z"
+}

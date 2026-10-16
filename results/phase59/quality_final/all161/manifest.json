@@ -1,0 +1,33 @@
+{
+  "suite": "all161",
+  "reference": "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/dynamic_reference",
+  "reference_sha256": "64c4e98611fdf19d673daf58b051a4b992228096eeacd7dc23891b678f1ea5b9",
+  "binary": "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/final/phase59_check",
+  "binary_sha256": "0c9ec0251c128219f52ff0dccc8fa980da9cd37a9f7639d5313f5fa38d3a8fab",
+  "inputs": [
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59/quality_final/all161/inputs/sustained_3_2_48000.wav",
+      "sha256": "471c33ec15f02ff684d72e69d971b04eed0596dc487433fcc2c9f2515fbe5e19"
+    }
+  ],
+  "planned_cases": 640,
+  "chunks": [
+    "1024",
+    "7168",
+    "8192",
+    "32768",
+    "131072",
+    "5003",
+    "irregular"
+  ],
+  "comparison": "同一論理要求・Frontier・適用境界。全Float32生ビット、出力数、計画・密度・全Map node",
+  "storage_budget": {
+    "generated_wav": 536870912,
+    "raw_pcm_working": 536870912,
+    "temporary_references": 268435456,
+    "detailed_csv": 268435456,
+    "os_trace": 536870912,
+    "retained_evidence": 1610612736,
+    "minimum_free": 4294967296
+  }
+}

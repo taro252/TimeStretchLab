@@ -1,0 +1,40 @@
+Test project /Users/taro252/Docker/TimeStretchLab/build/phase59_debug
+      Start 74: phase54_analysis_cache
+ 1/16 Test #74: phase54_analysis_cache ...........   Passed    2.02 sec
+      Start 75: phase54_seek_pcm
+ 2/16 Test #75: phase54_seek_pcm .................   Passed  237.78 sec
+      Start 76: phase56_state_safety
+ 3/16 Test #76: phase56_state_safety .............   Passed    0.92 sec
+      Start 77: phase56_fixed_preset_maps
+ 4/16 Test #77: phase56_fixed_preset_maps ........   Passed    0.63 sec
+      Start 78: phase56_incremental_exact
+ 5/16 Test #78: phase56_incremental_exact ........   Passed    5.01 sec
+      Start 81: phase57_state_safety
+ 6/16 Test #81: phase57_state_safety .............   Passed    1.65 sec
+      Start 82: phase57_pcm_exact
+ 7/16 Test #82: phase57_pcm_exact ................   Passed   24.78 sec
+      Start 83: phase59_certified_planning
+ 8/16 Test #83: phase59_certified_planning .......   Passed    1.90 sec
+      Start 84: phase59_dynamic_pcm
+ 9/16 Test #84: phase59_dynamic_pcm ..............   Passed  105.99 sec
+      Start 85: phase59_request_control
+10/16 Test #85: phase59_request_control ..........   Passed    3.55 sec
+      Start 86: phase58_state_safety
+11/16 Test #86: phase58_state_safety .............   Passed    3.11 sec
+      Start 87: phase58_fifo_pcm
+12/16 Test #87: phase58_fifo_pcm .................   Passed   21.63 sec
+      Start 88: phase58_fix_diagnostics
+13/16 Test #88: phase58_fix_diagnostics ..........   Passed    2.59 sec
+      Start 89: phase58_fix_trace_analysis
+14/16 Test #89: phase58_fix_trace_analysis .......   Passed    0.38 sec
+      Start 90: phase58_fix_mailbox
+15/16 Test #90: phase58_fix_mailbox ..............   Passed    0.97 sec
+      Start 91: phase58_fix_worker_lifecycle
+16/16 Test #91: phase58_fix_worker_lifecycle .....   Passed    0.46 sec
+
+100% tests passed, 0 tests failed out of 16
+
+Label Time Summary:
+deterministic    = 413.39 sec*proc (16 tests)
+
+Total Test time (real) = 413.45 sec

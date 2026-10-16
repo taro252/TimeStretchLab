@@ -1,0 +1,199 @@
+[  0%] Building CXX object CMakeFiles/timestretch_core.dir/src/audio/WavReader.cpp.o
+[  0%] Building CXX object CMakeFiles/timestretch_core.dir/src/audio/WavWriter.cpp.o
+[  7%] Building CXX object CMakeFiles/timestretch_core.dir/src/audio/WavStream.cpp.o
+[  7%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/FFTAccelerate.cpp.o
+[  7%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/STFT.cpp.o
+[  7%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/OverlapAdd.cpp.o
+[ 14%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/RingOverlapAdd.cpp.o
+[ 14%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/PhaseVocoder.cpp.o
+[ 14%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/PhaseLocker.cpp.o
+[ 14%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/PartialTracker.cpp.o
+[ 21%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/PeriodicResynchronizer.cpp.o
+[ 21%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/TransientDetector.cpp.o
+[ 21%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/TransientEventMap.cpp.o
+[ 28%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/TransientAnchor.cpp.o
+[ 28%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/StereoPhaseCoherence.cpp.o
+[ 28%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/TimeMap.cpp.o
+[ 28%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/MultiResolutionCrossover.cpp.o
+[ 35%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/StreamingCrossover.cpp.o
+[ 35%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/ChunkedTimeStretchEngine.cpp.o
+[ 35%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/Phase13StreamingEngine.cpp.o
+[ 35%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/Phase14PlaybackPipeline.cpp.o
+[ 42%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/Phase18PcmCache.cpp.o
+[ 42%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/TimeStretchEngine.cpp.o
+[ 42%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/TimeStretchProcessor.cpp.o
+[ 50%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/WSOLAEngine.cpp.o
+[ 50%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/SinusoidalResidualEngine.cpp.o
+[ 50%] Building CXX object CMakeFiles/timestretch_core.dir/src/dsp/TonalResidualEngine.cpp.o
+[ 50%] Linking CXX static library libtimestretch_core.a
+[ 50%] Built target timestretch_core
+[ 50%] Building CXX object CMakeFiles/phase24_variable.dir/src/prototype/Phase24StreamingSpeedEngine.cpp.o
+[ 57%] Building CXX object CMakeFiles/phase56_incremental.dir/src/prototype/Phase56ProgressiveAnalysis.cpp.o
+[ 64%] Building CXX object CMakeFiles/phase24_variable.dir/src/prototype/Phase24PlaybackPipeline.cpp.o
+[ 64%] Linking CXX static library libphase56_incremental.a
+[ 64%] Built target phase56_incremental
+[ 64%] Building CXX object CMakeFiles/phase24_variable.dir/src/prototype/Phase22VariableTimeMap.cpp.o
+[ 64%] Linking CXX static library libphase24_variable.a
+[ 64%] Built target phase24_variable
+[ 71%] Building CXX object CMakeFiles/phase36_variable.dir/src/prototype/Phase35TimeMap.cpp.o
+[ 71%] Building CXX object CMakeFiles/phase36_variable.dir/src/prototype/Phase35PhaseVocoder.cpp.o
+[ 71%] Building CXX object CMakeFiles/phase36_variable.dir/src/prototype/Phase35StereoPhaseCoherence.cpp.o
+[ 71%] Building CXX object CMakeFiles/phase36_variable.dir/src/prototype/Phase36StreamingSpeedEngine.cpp.o
+[ 78%] Building CXX object CMakeFiles/phase36_variable.dir/src/prototype/Phase36PlaybackPipeline.cpp.o
+[ 78%] Linking CXX static library libphase36_variable.a
+[ 78%] Built target phase36_variable
+[ 78%] Building CXX object CMakeFiles/phase39_variable.dir/src/prototype/Phase39TimeMap.cpp.o
+[ 78%] Building CXX object CMakeFiles/phase57_synthesis.dir/src/prototype/Phase57ProgressiveSynthesis.cpp.o
+[ 78%] Building CXX object CMakeFiles/phase39_variable.dir/src/prototype/Phase37HighSpeedMap.cpp.o
+[ 85%] Linking CXX static library libphase57_synthesis.a
+[ 85%] Built target phase57_synthesis
+[ 92%] Building CXX object CMakeFiles/phase39_variable.dir/src/prototype/Phase39PlaybackPipeline.cpp.o
+[ 92%] Building CXX object CMakeFiles/phase39_variable.dir/src/prototype/Phase42DensityGuard.cpp.o
+/Users/taro252/Docker/TimeStretchLab/src/prototype/Phase39PlaybackPipeline.cpp:504:21: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
+  504 |                     densityReady_.store(false,std::memory_order_release);
+      |                     ^
+/Users/taro252/Docker/TimeStretchLab/src/prototype/Phase39PlaybackPipeline.cpp:502:17: note: previous statement is here
+  502 |                 if (changesDensity)
+      |                 ^
+1 warning generated.
+[ 92%] Linking CXX static library libphase39_variable.a
+[ 92%] Built target phase39_variable
+[ 92%] Building CXX object CMakeFiles/phase59_transition.dir/src/prototype/Phase59ProgressiveTransition.cpp.o
+[ 92%] Linking CXX static library libphase59_transition.a
+[ 92%] Built target phase59_transition
+[ 92%] Building CXX object CMakeFiles/phase59_tests.dir/tests/Phase59Tests.cpp.o
+[100%] Linking CXX executable phase59_tests
+[100%] Built target phase59_tests
+[ 50%] Built target timestretch_core
+[ 57%] Built target phase56_incremental
+[ 64%] Built target phase24_variable
+[ 78%] Built target phase36_variable
+[ 85%] Built target phase57_synthesis
+[ 92%] Built target phase39_variable
+[ 92%] Built target phase59_transition
+[100%] Building CXX object CMakeFiles/phase58_realtime.dir/src/prototype/Phase58RealtimePipeline.cpp.o
+[100%] Building CXX object CMakeFiles/phase58_realtime.dir/src/prototype/Phase58FixRealtimeWorker.cpp.o
+[100%] Linking CXX static library libphase58_realtime.a
+[100%] Built target phase58_realtime
+[100%] Building CXX object CMakeFiles/phase59_control_tests.dir/tests/Phase59ControlTests.cpp.o
+[100%] Linking CXX executable phase59_control_tests
+[100%] Built target phase59_control_tests
+[ 50%] Built target timestretch_core
+[ 57%] Built target phase56_incremental
+[ 64%] Built target phase24_variable
+[ 78%] Built target phase36_variable
+[ 85%] Built target phase57_synthesis
+[ 92%] Built target phase39_variable
+[ 92%] Built target phase59_transition
+[100%] Building CXX object CMakeFiles/phase59_check.dir/src/prototype/Phase59Check.cpp.o
+[100%] Linking CXX executable phase59_check
+[100%] Built target phase59_check
+[ 63%] Built target timestretch_core
+[ 72%] Built target phase24_variable
+[ 90%] Built target phase36_variable
+[100%] Built target phase39_variable
+[100%] Building CXX object CMakeFiles/phase59_reference.dir/src/prototype/Phase59Reference.cpp.o
+[100%] Linking CXX executable phase59_reference
+[100%] Built target phase59_reference
+[ 50%] Built target timestretch_core
+[ 57%] Built target phase56_incremental
+[ 64%] Built target phase24_variable
+[ 78%] Built target phase36_variable
+[ 85%] Built target phase57_synthesis
+[ 92%] Built target phase39_variable
+[ 92%] Built target phase59_transition
+[ 92%] Building CXX object CMakeFiles/phase59_progressive_replay.dir/src/prototype/Phase59ProgressiveReplay.cpp.o
+[100%] Linking CXX executable phase59_progressive_replay
+[100%] Built target phase59_progressive_replay
+[ 63%] Built target timestretch_core
+[ 72%] Built target phase24_variable
+[ 90%] Built target phase36_variable
+[100%] Built target phase39_variable
+[100%] Building CXX object CMakeFiles/phase59_captured_reference.dir/src/prototype/Phase59CapturedReference.cpp.o
+[100%] Linking CXX executable phase59_captured_reference
+[100%] Built target phase59_captured_reference
+[ 46%] Built target timestretch_core
+[ 53%] Built target phase56_incremental
+[ 60%] Built target phase24_variable
+[ 73%] Built target phase36_variable
+[ 80%] Built target phase57_synthesis
+[ 86%] Built target phase39_variable
+[ 86%] Built target phase59_transition
+[ 93%] Built target phase58_realtime
+[100%] Building CXX object CMakeFiles/phase58_tests.dir/tests/Phase58Tests.cpp.o
+[100%] Linking CXX executable phase58_tests
+[100%] Built target phase58_tests
+[ 46%] Built target timestretch_core
+[ 53%] Built target phase56_incremental
+[ 60%] Built target phase24_variable
+[ 73%] Built target phase36_variable
+[ 80%] Built target phase57_synthesis
+[ 86%] Built target phase39_variable
+[ 86%] Built target phase59_transition
+[ 93%] Built target phase58_realtime
+[ 93%] Building CXX object CMakeFiles/phase58_check.dir/src/prototype/Phase58Check.cpp.o
+[100%] Linking CXX executable phase58_check
+[100%] Built target phase58_check
+[ 50%] Built target timestretch_core
+[ 57%] Built target phase56_incremental
+[ 64%] Built target phase24_variable
+[ 78%] Built target phase36_variable
+[ 85%] Built target phase57_synthesis
+[ 92%] Built target phase39_variable
+[ 92%] Built target phase59_transition
+[100%] Built target phase58_realtime
+[100%] Building CXX object CMakeFiles/phase58_fix_tests.dir/tests/Phase58FixTests.cpp.o
+[100%] Linking CXX executable phase58_fix_tests
+[100%] Built target phase58_fix_tests
+[ 50%] Built target timestretch_core
+[ 57%] Built target phase56_incremental
+[ 64%] Built target phase24_variable
+[ 78%] Built target phase36_variable
+[ 85%] Built target phase57_synthesis
+[ 92%] Built target phase39_variable
+[ 92%] Built target phase59_transition
+[100%] Built target phase58_realtime
+[100%] Building CXX object CMakeFiles/phase58_fix_mailbox_tests.dir/tests/Phase58FixMailboxTests.cpp.o
+[100%] Linking CXX executable phase58_fix_mailbox_tests
+[100%] Built target phase58_fix_mailbox_tests
+[ 46%] Built target timestretch_core
+[ 53%] Built target phase56_incremental
+[ 60%] Built target phase24_variable
+[ 73%] Built target phase36_variable
+[ 80%] Built target phase57_synthesis
+[ 86%] Built target phase39_variable
+[ 86%] Built target phase59_transition
+[ 93%] Built target phase58_realtime
+[100%] Building CXX object CMakeFiles/phase58_fix_worker_tests.dir/tests/Phase58FixWorkerTests.cpp.o
+[100%] Linking CXX executable phase58_fix_worker_tests
+[100%] Built target phase58_fix_worker_tests
+[ 58%] Built target timestretch_core
+[ 66%] Built target phase56_incremental
+[ 75%] Built target phase24_variable
+[ 91%] Built target phase36_variable
+[100%] Built target phase57_synthesis
+[100%] Building CXX object CMakeFiles/phase57_tests.dir/tests/Phase57Tests.cpp.o
+[100%] Linking CXX executable phase57_tests
+[100%] Built target phase57_tests
+[ 53%] Built target timestretch_core
+[ 61%] Built target phase56_incremental
+[ 69%] Built target phase24_variable
+[ 84%] Built target phase36_variable
+[ 92%] Built target phase57_synthesis
+[ 92%] Building CXX object CMakeFiles/phase57_check.dir/src/prototype/Phase57Check.cpp.o
+[100%] Linking CXX executable phase57_check
+[100%] Built target phase57_check
+[ 77%] Built target timestretch_core
+[ 88%] Built target phase56_incremental
+[100%] Building CXX object CMakeFiles/phase56_tests.dir/tests/Phase56Tests.cpp.o
+[100%] Linking CXX executable phase56_tests
+[100%] Built target phase56_tests
+[ 58%] Built target timestretch_core
+[ 66%] Built target phase56_incremental
+[ 75%] Built target phase24_variable
+[ 91%] Built target phase36_variable
+[100%] Built target phase39_variable
+[100%] Building CXX object CMakeFiles/phase56_fixed_modes.dir/tests/Phase56FixedModes.cpp.o
+[100%] Linking CXX executable phase56_fixed_modes
+[100%] Built target phase56_fixed_modes
+make: *** No rule to make target `phase56_analysis_probe'.  Stop.

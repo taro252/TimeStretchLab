@@ -1,0 +1,131 @@
+{
+  "PASS": true,
+  "history": [
+    {
+      "name": "release_ctest",
+      "command": [
+        "ctest",
+        "--test-dir",
+        "build",
+        "-L",
+        "deterministic",
+        "--output-on-failure",
+        "-j2"
+      ],
+      "exit": 0,
+      "wall_s": 752.953418970108
+    },
+    {
+      "name": "phase58_short",
+      "command": [
+        "python3",
+        "-B",
+        "scripts/phase58_fix_study.py",
+        "--suite",
+        "short",
+        "--output",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase59/regression_final/phase58_short"
+      ],
+      "exit": 0,
+      "wall_s": 434.95030522346497
+    },
+    {
+      "name": "phase58_all_speeds",
+      "command": [
+        "python3",
+        "-B",
+        "scripts/phase58_fix_study.py",
+        "--suite",
+        "all_speeds",
+        "--output",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase59/regression_final/phase58_all_speeds"
+      ],
+      "exit": 0,
+      "wall_s": 739.2330422401428
+    },
+    {
+      "name": "phase58_long",
+      "exit": 0,
+      "checkpoint": "/Users/taro252/Docker/TimeStretchLab/results/phase59/regression_final/phase58_long/summary.json"
+    },
+    {
+      "name": "phase57_stage1",
+      "exit": 0,
+      "result": {
+        "PASS": true,
+        "cases": 672,
+        "pcm_sessions": 4704,
+        "matched_rejections": 0,
+        "partitions": 8,
+        "parallelism": 4,
+        "original_driver_sha256": "b6582c8be4ea744ec1cbf251de7bd07d3bac986a5ae6ccf826c850abb1fb740a",
+        "binary_sha256": "e5ac02ce2afc87485e94c4a31800dcac3f76c2501c80fc8d1120180e65e51027",
+        "partition_manifest": "/Users/taro252/Docker/TimeStretchLab/results/phase59/regression_parallel57/stage1/partitions.json"
+      }
+    },
+    {
+      "name": "phase57_stage2",
+      "exit": 0,
+      "result": {
+        "PASS": true,
+        "cases": 15456,
+        "pcm_sessions": 46368,
+        "matched_rejections": 0,
+        "partitions": 8,
+        "parallelism": 4,
+        "original_driver_sha256": "b6582c8be4ea744ec1cbf251de7bd07d3bac986a5ae6ccf826c850abb1fb740a",
+        "binary_sha256": "e5ac02ce2afc87485e94c4a31800dcac3f76c2501c80fc8d1120180e65e51027",
+        "partition_manifest": "/Users/taro252/Docker/TimeStretchLab/results/phase59/regression_parallel57/stage2/partitions.json"
+      }
+    },
+    {
+      "name": "phase57_long",
+      "exit": 0,
+      "result": {
+        "PASS": true,
+        "cases": 36,
+        "pcm_sessions": 48,
+        "matched_rejections": 0,
+        "partitions": 2,
+        "partition_manifest": "/Users/taro252/Docker/TimeStretchLab/results/phase59/regression_parallel57/long/partitions.json",
+        "original_driver_sha256": "b6582c8be4ea744ec1cbf251de7bd07d3bac986a5ae6ccf826c850abb1fb740a",
+        "binary_sha256": "e5ac02ce2afc87485e94c4a31800dcac3f76c2501c80fc8d1120180e65e51027"
+      }
+    },
+    {
+      "name": "phase57_natural",
+      "exit": 0,
+      "result": {
+        "PASS": true,
+        "cases": 70,
+        "pcm_sessions": 210,
+        "matched_rejections": 0,
+        "partitions": 5,
+        "partition_manifest": "/Users/taro252/Docker/TimeStretchLab/results/phase59/regression_completion/natural/partitions.json",
+        "original_driver_sha256": "b6582c8be4ea744ec1cbf251de7bd07d3bac986a5ae6ccf826c850abb1fb740a",
+        "binary_sha256": "e5ac02ce2afc87485e94c4a31800dcac3f76c2501c80fc8d1120180e65e51027"
+      }
+    },
+    {
+      "name": "phase57_rejections",
+      "exit": 0,
+      "result": {
+        "PASS": true,
+        "cases": 4,
+        "pcm_sessions": 14,
+        "matched_rejections": 2,
+        "partitions": 1,
+        "partition_manifest": "/Users/taro252/Docker/TimeStretchLab/results/phase59/regression_completion/rejections/partitions.json",
+        "original_driver_sha256": "b6582c8be4ea744ec1cbf251de7bd07d3bac986a5ae6ccf826c850abb1fb740a",
+        "binary_sha256": "e5ac02ce2afc87485e94c4a31800dcac3f76c2501c80fc8d1120180e65e51027"
+      }
+    },
+    {
+      "name": "golden",
+      "exit": 0
+    }
+  ],
+  "completion_manifest": "/Users/taro252/Docker/TimeStretchLab/results/phase59/regression_completion/summary.json",
+  "handoff": "/Users/taro252/Docker/TimeStretchLab/results/phase59/regression_completion/handoff.json",
+  "performance_claim": false
+}

@@ -4,6 +4,10 @@
 #include "prototype/Phase46HostClock.h"
 #include "prototype/Phase45PcmDigest.h"
 #include "prototype/Phase58FixAllocationProbe.h"
+#ifdef PHASE59_RESEARCH
+#include "prototype/Phase59Diagnostics.h"
+#include "prototype/Phase59ReplaySupport.h"
+#endif
 #include "audio/WavStream.h"
 #include <mach/mach_time.h>
 #include <bit>
@@ -34,6 +38,7 @@ namespace {
 struct Record {std::uint64_t start=0,end=0,host=0,epoch=0;double sample=0;std::uint32_t flags=0,frames=0;phase58::RenderResult raw;};
 struct Context {
     phase58::RealtimePipeline* pipeline=nullptr;const float* reference=nullptr;std::size_t referenceFrames=0,channels=0;double rate=0;
+    float* capture=nullptr;
     std::atomic<bool> active{false};std::atomic<unsigned> inRender{0};
     std::uint64_t numer=1,denom=1,epoch=1,calls=0,dropped=0,maximum=0,deadlines=0,formats=0;
     std::uint64_t hostMissing=0,hostBackwards=0,hostCadence=0,sampleErrors=0,sampleValid=0,halMisses=0;
@@ -51,6 +56,7 @@ OSStatus render(Context* c,BOOL* silent,const AudioTimeStamp* stamp,AVAudioFrame
         // Reference was read and touched before rendering. No file IO or hash in callback.
         for(std::size_t i=0;i<raw.received;++i)for(std::size_t ch=0;ch<c->channels;++ch){
             const auto frame=raw.outputBefore+i;const auto actual=std::bit_cast<std::uint32_t>(p[ch][i]);
+            if(c->capture){if(frame<c->referenceFrames)c->capture[frame*c->channels+ch]=p[ch][i];else ++c->mismatches;continue;}
             const auto expected=frame<c->referenceFrames?std::bit_cast<std::uint32_t>(c->reference[frame*c->channels+ch]):0;
             if(frame>=c->referenceFrames||actual!=expected){if(!c->mismatches){c->firstMismatch=frame;c->actualBits=actual;c->expectedBits=expected;}++c->mismatches;}
         }
@@ -90,8 +96,13 @@ int runOne(int argc,char** argv){@autoreleasepool{try{
     if(argc<10)throw std::invalid_argument("input speed_micros preset ref.f32 frames sha output normal|pause|route window_s [cpu_threads memory_mib analysis_delay_ms dsp_delay_ms]");
     const std::filesystem::path out=argv[7];if(std::filesystem::exists(out))throw std::runtime_error("Fresh output directory required");std::filesystem::create_directories(out);
     phase58::Configuration config;config.recordWorkerProfile=true;config.speedMicros=std::stoul(argv[2]);const std::string preset=argv[3],mode=argv[8];
+    bool captureMode=false;std::filesystem::path capturePath,requestPath;
+#ifdef PHASE59_RESEARCH
+    config.dynamicTransitions=true;config.scheduling=phase58::WorkerScheduling::AudioWorkgroup;config.residentInput=true;
+    captureMode=std::string(argv[4])=="capture";
+#endif
     if(preset!="candidate"&&preset!="baseline")throw std::invalid_argument("preset");if(mode!="normal"&&mode!="pause"&&mode!="route")throw std::invalid_argument("mode");config.candidate=preset=="candidate";
-    const auto expectedFrames=std::stoull(argv[5]);const double window=std::stod(argv[9]);const unsigned cpu=argc>10?std::stoul(argv[10]):0,memory=argc>11?std::stoul(argv[11]):0;
+    const auto expectedFrames=std::size_t(std::stoull(argv[5]));const double window=std::stod(argv[9]);const unsigned cpu=argc>10?std::stoul(argv[10]):0,memory=argc>11?std::stoul(argv[11]):0;
     if(cpu>8||memory>512||window<0||!std::isfinite(window))throw std::invalid_argument("Bounded probe load/window required");
     if(argc>12)config.analysisDelayMs=std::stod(argv[12]);if(argc>13)config.dspDelayMs=std::stod(argv[13]);
     std::string profileMode="block";
@@ -103,13 +114,26 @@ int runOne(int argc,char** argv){@autoreleasepool{try{
         else if(flag=="--worker=standard")config.scheduling=phase58::WorkerScheduling::Standard;
         else if(flag=="--resident-input=on")config.residentInput=true;
         else if(flag=="--resident-input=off")config.residentInput=false;
+#ifdef PHASE59_RESEARCH
+        else if(flag.starts_with("--capture-path="))capturePath=flag.substr(15);
+        else if(flag.starts_with("--speed-requests="))requestPath=flag.substr(17);
+        else if(flag=="--plan-failure=processing")config.transitionFailureForTest=1;
+        else if(flag=="--plan-failure=allocation")config.transitionFailureForTest=2;
+#endif
         else if(!flag.starts_with("--sessions="))throw std::invalid_argument("Unknown native probe option");
     }
     config.recordWorkerProfile=profileMode!="off";config.detailedDiagnostics=profileMode=="detail";
-    ts::WavStreamReader metadata(argv[1]);std::vector<float> reference(expectedFrames*metadata.channels());
-    std::ifstream raw(argv[4],std::ios::binary);if(!raw.read(reinterpret_cast<char*>(reference.data()),reference.size()*sizeof(float))||raw.peek()!=EOF)throw std::runtime_error("Reference size mismatch");
-    Phase45PcmDigest digest;digest.update(reference.data(),reference.size()*sizeof(float));if(digest.finish()!=argv[6])throw std::runtime_error("Reference SHA differs");
+    ts::WavStreamReader metadata(argv[1]);
+    if(!metadata.channels()||expectedFrames>(512ULL*1024*1024)/(metadata.channels()*sizeof(float)))throw std::length_error("Probe PCM budget exceeded");
+    std::vector<float> reference(expectedFrames*metadata.channels());
+    if(!captureMode){std::ifstream raw(argv[4],std::ios::binary);if(!raw.read(reinterpret_cast<char*>(reference.data()),reference.size()*sizeof(float))||raw.peek()!=EOF)throw std::runtime_error("Reference size mismatch");
+        Phase45PcmDigest digest;digest.update(reference.data(),reference.size()*sizeof(float));if(digest.finish()!=argv[6])throw std::runtime_error("Reference SHA differs");}
+    else if(capturePath.empty()||requestPath.empty())throw std::invalid_argument("Bounded capture path and speed request file required");
     Load load(cpu,memory);const auto processCpu=[](){rusage u{};getrusage(RUSAGE_SELF,&u);return u.ru_utime.tv_sec+u.ru_utime.tv_usec*1e-6+u.ru_stime.tv_sec+u.ru_stime.tv_usec*1e-6;};const auto cpuStart=processCpu();phase58::RealtimePipeline pipeline(argv[1],config);Context ctx;ctx.pipeline=&pipeline;ctx.reference=reference.data();ctx.referenceFrames=expectedFrames;ctx.rate=pipeline.sampleRate();ctx.channels=pipeline.channels();ctx.records.resize(262144);
+    if(captureMode)ctx.capture=reference.data();
+#ifdef PHASE59_RESEARCH
+    const auto requests=phase59::readOperations(requestPath);std::size_t nextRequest=0;
+#endif
     OutputLifetime lifetime(&ctx);mach_timebase_info_data_t tb{};mach_timebase_info(&tb);ctx.numer=tb.numer;ctx.denom=tb.denom;
     const auto allocationBase=phase58Allocations.load();const auto bridgeBefore=pipeline.elapsedSeconds();const auto bridgeMach=ctx.now();const auto bridgeAfter=pipeline.elapsedSeconds();const auto bridgeElapsed=(bridgeBefore+bridgeAfter)/2;const auto bridgeUncertainty=bridgeAfter-bridgeBefore;pipeline.start();
     AVAudioEngine* audio=[[AVAudioEngine alloc]init];lifetime.audio=audio;const auto device=defaultDevice();auto deviceFormat=[audio.outputNode outputFormatForBus:0];const double deviceRate=deviceFormat.sampleRate;const auto deviceChannels=deviceFormat.channelCount;const auto buffer=bufferFrames(device);
@@ -128,6 +152,10 @@ int runOne(int argc,char** argv){@autoreleasepool{try{
     const auto playbackStart=ctx.now();bool paused=false,resumed=false,routeStopped=false,timedOut=false,windowed=false;
     while(true){const double elapsed=double(ctx.now()-playbackStart)*1e-9;
         if(pipeline.failed())break;
+#ifdef PHASE59_RESEARCH
+        const auto position=pipeline.diagnostics().consumed;
+        while(nextRequest<requests.size()&&requests[nextRequest].at<=position){pipeline.requestSpeed(requests[nextRequest].target,position);++nextRequest;}
+#endif
         if(mode=="pause"&&!paused&&elapsed>=.5){ctx.active=false;[audio pause];while(ctx.inRender.load())std::this_thread::sleep_for(std::chrono::microseconds(100));pipeline.setRealtimeRendering(false);paused=true;std::this_thread::sleep_for(std::chrono::milliseconds(200));++ctx.epoch;if(!pipeline.setRealtimeRendering(true))throw std::runtime_error("Realtime resume arming failed");ctx.active=true;if(![audio startAndReturnError:&error])throw std::runtime_error("Resume failed");resumed=true;}
         if(mode=="route"&&elapsed>=.5){[[NSNotificationCenter defaultCenter]postNotificationName:AVAudioEngineConfigurationChangeNotification object:audio];routeStopped=true;break;}
         if(routeSignal->exchange(false)){auto f=[audio.outputNode outputFormatForBus:0];if(defaultDevice()!=device||f.sampleRate!=deviceRate||f.channelCount!=deviceChannels){routeStopped=true;break;}}
@@ -137,6 +165,12 @@ int runOne(int argc,char** argv){@autoreleasepool{try{
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
     lifetime.stop();pipeline.stop();const auto captureEnded=pipeline.elapsedSeconds();const auto d=pipeline.diagnostics();const auto callbackAllocations=phase58Allocations.load()-allocationBase;
+#ifdef PHASE59_RESEARCH
+    phase59::exportOperations(out,pipeline.speedOperations(),config.speedMicros);
+    if(config.dynamicTransitions){const auto map=pipeline.dynamicTimeMap();std::ofstream nodes(out/"dynamic_map.nodes.bin",std::ios::binary);nodes.write(reinterpret_cast<const char*>(map.starts().data()),map.starts().size()*sizeof(long long));
+        std::ofstream events(out/"dynamic_events.csv");events<<"onset,peak,attack_end,end,strength_bits\n";for(const auto& e:map.events())events<<e.onsetFrame<<','<<e.peakFrame<<','<<e.attackEndFrame<<','<<e.endFrame<<','<<std::bit_cast<std::uint32_t>(e.strength)<<'\n';}
+    if(captureMode){std::ofstream captured(capturePath,std::ios::binary|std::ios::trunc);if(!captured.write(reinterpret_cast<const char*>(reference.data()),std::min(d.consumed,expectedFrames)*ctx.channels*sizeof(float)))throw std::runtime_error("Capture write failed");}
+#endif
     std::ofstream detailCsv(out/"detail.csv");detailCsv<<"stage,scope,begin,at_s,cpu_s,cpp_new_calls\n"<<std::setprecision(17);
     for(const auto& e:pipeline.detailEvents())detailCsv<<e.stage<<','<<e.scope<<','<<e.begin<<','<<e.atS<<','<<e.cpuS<<','<<e.newCalls<<'\n';
     std::ofstream sampleCsv(out/"thread_samples.csv");sampleCsv<<"before_s,after_s,stage_before,stage_after,result,user_ns,system_ns,run_state,policy,current_priority,base_priority,max_priority\n"<<std::setprecision(17);
@@ -150,16 +184,16 @@ int runOne(int argc,char** argv){@autoreleasepool{try{
     std::ofstream csv(out/"callbacks.csv");csv<<"sequence,epoch,start_ns,end_ns,host_ns,sample_time,flags,requested,wanted,received,output_before,fifo_before\n"<<std::setprecision(17);std::vector<std::uint64_t> durations;
     for(std::size_t i=0;i<std::min<std::size_t>(ctx.calls,ctx.records.size());++i){const auto& r=ctx.records[i];durations.push_back(r.end-r.start);csv<<i+1<<','<<r.epoch<<','<<r.start<<','<<r.end<<','<<r.host<<','<<r.sample<<','<<r.flags<<','<<r.frames<<','<<r.raw.wanted<<','<<r.raw.received<<','<<r.raw.outputBefore<<','<<r.raw.fifoBefore<<'\n';}
     std::sort(durations.begin(),durations.end());const auto percentile=[&](double q){return durations.empty()?0:durations[std::min(durations.size()-1,std::size_t(std::ceil(q*durations.size())-1))];};
-    const bool eos=d.dspDone&&d.consumed==expectedFrames,pcm=ctx.calls&&!ctx.mismatches&&d.consumed>0;
+    const bool eos=d.dspDone&&d.consumed==(captureMode?d.outputFrames:expectedFrames),pcm=ctx.calls&&!ctx.mismatches&&d.consumed>0;
     const bool measured=ctx.calls>1&&!ctx.dropped&&ctx.sampleValid==ctx.calls&&!ctx.hostMissing&&!ctx.hostBackwards&&!ctx.hostCadence&&!ctx.sampleErrors&&!ctx.halMisses;
     const bool audioPass=pcm&&!d.missingFrames&&!d.missingCalls&&!d.rejectedWrites&&!ctx.deadlines&&!ctx.formats&&!callbackAllocations&&!d.failed&&!timedOut;
     const auto& rt=d.scheduling;const bool schedulingValid=!rt.enabled||((!realtimeNeeded||rt.policyMeasured)&&!rt.policyErrors&&!rt.joinErrors&&!rt.restoreErrors&&!rt.intervalErrors&&!rt.queryErrors&&!rt.waitErrors&&!rt.wakeErrors&&rt.promotions==rt.joins&&rt.joins==rt.leaves&&rt.leaves==rt.restores&&rt.intervalStarts==rt.intervalFinishes&&!rt.active);
     const bool realtimeAllocationValid=!rt.enabled||!realtimeNeeded||(d.realtimeAllocationsMeasured&&!d.realtimeNewCalls);
-    const bool pass=audioPass&&measured&&schedulingValid&&realtimeAllocationValid&&(eos||windowed||routeStopped)&&(mode!="pause"||(paused&&resumed));
-    rusage usage{};getrusage(RUSAGE_SELF,&usage);std::ofstream result(out/"summary.json");result<<std::setprecision(17)<<"{\"PASS\":"<<(pass?"true":"false")<<",\"audio_pass\":"<<audioPass<<",\"measurement_valid\":"<<measured<<",\"pcm_prefix_exact\":"<<pcm<<",\"pcm_complete_exact\":"<<(pcm&&eos&&d.pcmSha256==argv[6])<<",\"eos\":"<<eos<<",\"windowed\":"<<windowed<<",\"route_stopped\":"<<routeStopped<<",\"route_simulated\":"<<(mode=="route")<<",\"paused_resumed\":"<<(paused&&resumed)
+    const bool pass=audioPass&&measured&&schedulingValid&&realtimeAllocationValid&&!rt.deadlineMisses&&(eos||windowed||routeStopped)&&(mode!="pause"||(paused&&resumed));
+    rusage usage{};getrusage(RUSAGE_SELF,&usage);std::ofstream result(out/"summary.json");result<<std::setprecision(17)<<"{\"PASS\":"<<(pass?"true":"false")<<",\"audio_pass\":"<<audioPass<<",\"measurement_valid\":"<<measured<<",\"capture_mode\":"<<captureMode<<",\"pcm_prefix_exact\":"<<(!captureMode&&pcm)<<",\"pcm_complete_exact\":"<<(!captureMode&&pcm&&eos&&d.pcmSha256==argv[6])<<",\"eos\":"<<eos<<",\"windowed\":"<<windowed<<",\"route_stopped\":"<<routeStopped<<",\"route_simulated\":"<<(mode=="route")<<",\"paused_resumed\":"<<(paused&&resumed)
         <<",\"preset\":"<<phase58::jsonString(preset)<<",\"speed_micros\":"<<config.speedMicros<<",\"device_id\":"<<device<<",\"device_rate\":"<<deviceRate<<",\"device_channels\":"<<deviceChannels<<",\"device_buffer_frames\":"<<buffer<<",\"input_rate\":"<<ctx.rate<<",\"channels\":"<<ctx.channels<<",\"cpu_load_threads\":"<<cpu<<",\"memory_load_mib\":"<<memory
         <<",\"callback_calls\":"<<ctx.calls<<",\"callback_max_ns\":"<<ctx.maximum<<",\"callback_p95_ns\":"<<percentile(.95)<<",\"callback_p99_ns\":"<<percentile(.99)<<",\"callback_deadlines\":"<<ctx.deadlines<<",\"callback_formats\":"<<ctx.formats<<",\"callback_records_dropped\":"<<ctx.dropped<<",\"callback_cpp_allocations\":"<<callbackAllocations<<",\"allocation_measured\":true,\"host_missing\":"<<ctx.hostMissing<<",\"host_backwards\":"<<ctx.hostBackwards<<",\"host_cadence_errors\":"<<ctx.hostCadence<<",\"sample_errors\":"<<ctx.sampleErrors<<",\"sample_valid_calls\":"<<ctx.sampleValid<<",\"hal_misses\":"<<ctx.halMisses
-        <<",\"pcm_mismatches\":"<<ctx.mismatches<<",\"first_mismatch_frame\":"<<ctx.firstMismatch<<",\"actual_bits\":"<<ctx.actualBits<<",\"expected_bits\":"<<ctx.expectedBits<<",\"av_configured_s\":"<<configured<<",\"play_requested_s\":"<<playRequested<<",\"audio_started_s\":"<<audioStarted<<",\"first_callback_s\":"<<(ctx.firstPcm?bridgeElapsed+double(ctx.firstPcm-bridgeMach)*1e-9:-1)<<",\"bridge_uncertainty_s\":"<<bridgeUncertainty<<",\"startup_timing_valid\":"<<(ctx.firstPcm&&bridgeUncertainty<=.001)<<",\"wall_s\":"<<captureEnded<<",\"process_cpu_s\":"<<processCpu()-cpuStart<<",\"analysis_cache_hit\":false,\"peak_rss_bytes\":"<<usage.ru_maxrss<<",\"reference_bytes\":"<<reference.size()*sizeof(float);
+        <<",\"pcm_mismatches\":"<<ctx.mismatches<<",\"first_mismatch_frame\":"<<ctx.firstMismatch<<",\"actual_bits\":"<<ctx.actualBits<<",\"expected_bits\":"<<ctx.expectedBits<<",\"av_configured_s\":"<<configured<<",\"play_requested_s\":"<<playRequested<<",\"audio_started_s\":"<<audioStarted<<",\"first_callback_s\":"<<(ctx.firstPcm?bridgeElapsed+double(ctx.firstPcm-bridgeMach)*1e-9:-1)<<",\"bridge_uncertainty_s\":"<<bridgeUncertainty<<",\"startup_timing_valid\":"<<(ctx.firstPcm&&bridgeUncertainty<=.001)<<",\"wall_s\":"<<captureEnded<<",\"process_cpu_s\":"<<processCpu()-cpuStart<<",\"analysis_cache_hit\":false,\"peak_rss_bytes\":"<<usage.ru_maxrss<<",\"reference_bytes\":"<<(captureMode?0:reference.size()*sizeof(float))<<",\"capture_buffer_bytes\":"<<(captureMode?reference.size()*sizeof(float):0);
     result<<",\"profile_mode\":"<<phase58::jsonString(profileMode)<<",\"clock_mach_ns\":"<<bridgeMach<<",\"clock_pipeline_s\":"<<bridgeElapsed<<",\"realtime_armed_s\":"<<realtimeArmed<<",\"realtime_needed\":"<<realtimeNeeded<<",\"scheduling_valid\":"<<schedulingValid<<",\"realtime_allocation_valid\":"<<realtimeAllocationValid;
     phase58::writeDiagnostics(result,d);result<<"}\n";std::cout<<(pass?"PASS":"FAIL")<<" callback="<<ctx.calls<<" underrun="<<d.missingFrames<<" hal="<<ctx.halMisses<<" pcm="<<ctx.mismatches<<'\n';return pass?0:2;
 }catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}}}

@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/Users/taro252/Docker/TimeStretchLab/scripts/phase59_native_validation.py", line 174, in <module>
+    parser=argparse.ArgumentParser(__doc__);parser.add_argument('--suite',choices=['smoke','normal','load','lifecycle','long','burst','materials'],required=True);parser.add_argument('--output',type=Path,required=True);parser.add_argument('--binary',type=Path,default=ROOT/'build/phase59_native');raise SystemExit(0 if run(parser.parse_args())['PASS'] else 2)
+                                                                                                                                                                                                                                                                                                                              ~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/taro252/Docker/TimeStretchLab/scripts/phase59_native_validation.py", line 101, in run
+    if shutil.disk_usage(ROOT).free<4*1024**3:raise RuntimeError('Disk floor reached')
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Disk floor reached

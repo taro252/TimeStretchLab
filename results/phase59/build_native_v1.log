@@ -1,0 +1,31 @@
+[ 50%] Built target timestretch_core
+[ 57%] Built target phase56_incremental
+[ 64%] Built target phase24_variable
+[ 71%] Built target phase36_variable
+[ 71%] Built target phase57_synthesis
+[ 85%] Built target phase39_variable
+[ 92%] Built target phase59_transition
+[100%] Building CXX object CMakeFiles/phase58_realtime.dir/src/prototype/Phase58RealtimePipeline.cpp.o
+[100%] Linking CXX static library libphase58_realtime.a
+[100%] Built target phase58_realtime
+[100%] Building OBJCXX object CMakeFiles/phase59_native.dir/src/prototype/Phase58Native.mm.o
+/Users/taro252/Docker/TimeStretchLab/src/prototype/Phase58Native.mm:168:157: error: no matching function for call to 'min'
+  168 |     if(captureMode){std::ofstream captured(capturePath,std::ios::binary|std::ios::trunc);if(!captured.write(reinterpret_cast<const char*>(reference.data()),std::min(d.consumed,expectedFrames)*ctx.channels*sizeof(float)))throw std::runtime_error("Capture write failed");}
+      |                                                                                                                                                             ^~~~~~~~
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__algorithm/min.h:35:1: note: candidate template ignored: deduced conflicting types for parameter '_Tp' ('std::size_t' (aka 'unsigned long') vs. 'unsigned long long')
+   35 | min(_LIBCPP_LIFETIMEBOUND const _Tp& __a, _LIBCPP_LIFETIMEBOUND const _Tp& __b) {
+      | ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__algorithm/min.h:43:1: note: candidate template ignored: could not match 'initializer_list<_Tp>' against 'std::size_t' (aka 'unsigned long')
+   43 | min(initializer_list<_Tp> __t, _Compare __comp) {
+      | ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__algorithm/min.h:48:82: note: candidate function template not viable: requires single argument '__t', but 2 arguments were provided
+   48 | [[__nodiscard__]] inline _LIBCPP_HIDE_FROM_ABI _LIBCPP_CONSTEXPR_SINCE_CXX14 _Tp min(initializer_list<_Tp> __t) {
+      |                                                                                  ^   ~~~~~~~~~~~~~~~~~~~~~~~~~
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__algorithm/min.h:29:1: note: candidate function template not viable: requires 3 arguments, but 2 were provided
+   29 | min(_LIBCPP_LIFETIMEBOUND const _Tp& __a, _LIBCPP_LIFETIMEBOUND const _Tp& __b, _Compare __comp) {
+      | ^                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+make[3]: *** [CMakeFiles/phase59_native.dir/src/prototype/Phase58Native.mm.o] Error 1
+make[2]: *** [CMakeFiles/phase59_native.dir/all] Error 2
+make[1]: *** [CMakeFiles/phase59_native.dir/rule] Error 2
+make: *** [phase59_native] Error 2

@@ -1,0 +1,26 @@
+{
+  "suite": "smoke",
+  "binary": "/Users/taro252/Docker/TimeStretchLab/build/phase59_native",
+  "binary_sha256": "10fa1becbd07965a9318018a4929470217a6e5b895297f9c7a530473132813ca",
+  "reference": "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/phase51_reference",
+  "reference_sha256": "01d599b7dc17be0c5b38db30ef038f8ef6b942e5637fcd1a4c7e62251c4ae9cc",
+  "fixed_reference_sha256": "3a3b04454f754c35afa4cac121a726fa31c44a6854761a7de5f71aa057f2a957",
+  "inputs": [
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59/native_smoke_v3/inputs/boundary_float_stereo_48000.wav",
+      "sha256": "ebb61d453dde2d99eef3731c8bf17bd65679541dc942d9a7bcc8a6bb3238cacd",
+      "metadata": {
+        "encoding": 3,
+        "channels": 2,
+        "rate": 48000,
+        "bits": 32,
+        "frames": 192000,
+        "data_offset": 44,
+        "data_bytes": 1536000
+      }
+    }
+  ],
+  "cases": 2,
+  "serial_audio": true,
+  "comparison": "callback raw PCMを事前確保領域に保存し、停止後に実際に適用した計画列を変更前Phase51へ再現して全生ビット比較。記録時点のnative PASSだけではPCM合格としない。"
+}

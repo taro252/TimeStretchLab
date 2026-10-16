@@ -1,0 +1,197 @@
+{
+  "native_suites": {
+    "normal": {
+      "PASS": true,
+      "attempts": 30,
+      "sessions": 30,
+      "passed": 30,
+      "failed": 0,
+      "full_pcm_sessions": 30,
+      "prefix_sessions": 0,
+      "applied_operations": 88
+    },
+    "load": {
+      "PASS": true,
+      "attempts": 90,
+      "sessions": 90,
+      "passed": 90,
+      "failed": 0,
+      "full_pcm_sessions": 90,
+      "prefix_sessions": 0,
+      "applied_operations": 262
+    },
+    "lifecycle": {
+      "PASS": true,
+      "attempts": 30,
+      "sessions": 30,
+      "passed": 30,
+      "failed": 0,
+      "full_pcm_sessions": 18,
+      "prefix_sessions": 12,
+      "applied_operations": 57
+    },
+    "burst": {
+      "PASS": true,
+      "attempts": 6,
+      "sessions": 6,
+      "passed": 6,
+      "failed": 0,
+      "full_pcm_sessions": 6,
+      "prefix_sessions": 0,
+      "applied_operations": 8
+    },
+    "materials": {
+      "PASS": true,
+      "attempts": 30,
+      "sessions": 30,
+      "passed": 30,
+      "failed": 0,
+      "full_pcm_sessions": 30,
+      "prefix_sessions": 0,
+      "applied_operations": 42
+    },
+    "long": {
+      "PASS": true,
+      "attempts": 4,
+      "sessions": 4,
+      "passed": 4,
+      "failed": 0,
+      "full_pcm_sessions": 4,
+      "prefix_sessions": 0,
+      "applied_operations": 8
+    }
+  },
+  "final_native_sessions": 190,
+  "final_native_passed": 190,
+  "final_native_failures": [],
+  "prior_clock_failure_count": 1,
+  "prior_clock_failure_resolved": false,
+  "sandbox_no_audio_attempts": 1,
+  "reference_scope_mismatch_sessions": 3,
+  "canonical_pcm_exact": true,
+  "zero_invariant_totals": {
+    "missing_frames": 0,
+    "missing_calls": 0,
+    "rejected_writes": 0,
+    "callback_deadlines": 0,
+    "callback_formats": 0,
+    "hal_misses": 0,
+    "host_missing": 0,
+    "host_backwards": 0,
+    "host_cadence_errors": 0,
+    "sample_errors": 0,
+    "callback_cpp_allocations": 0,
+    "realtime_cpp_new_calls": 0,
+    "workgroup_deadline_misses": 0,
+    "callback_records_dropped": 0,
+    "worker_profile_dropped": 0,
+    "thread_sample_errors": 0,
+    "workgroup_policy_errors": 0,
+    "workgroup_join_errors": 0,
+    "workgroup_restore_errors": 0,
+    "workgroup_interval_errors": 0,
+    "workgroup_query_errors": 0,
+    "workgroup_wait_errors": 0,
+    "workgroup_wake_errors": 0
+  },
+  "request_to_map_apply_ms": {
+    "n": 465,
+    "median": 31.023083000000007,
+    "p95": 467.8832089999998,
+    "p99": 970.2153340000001,
+    "max": 1114.219292
+  },
+  "request_to_presented_apply_ms": {
+    "n": 454,
+    "median": 553.9088337500001,
+    "p95": 863.7195835000002,
+    "p99": 1588.7837920000004,
+    "max": 2239.3841455
+  },
+  "request_to_presented_completion_ms": {
+    "n": 453,
+    "median": 670.796187,
+    "p95": 1204.2125414999998,
+    "p99": 2058.3301455,
+    "max": 2314.240458
+  },
+  "plan_cpu_per_operation_ms": {
+    "n": 465,
+    "median": 0.057708000000003534,
+    "p95": 2.0821669999999957,
+    "p99": 8.161000000000001,
+    "max": 11.389375000000006
+  },
+  "plan_wall_per_operation_ms": {
+    "n": 465,
+    "median": 0.058249999999999996,
+    "p95": 2.281875,
+    "p99": 10.2685,
+    "max": 12.948667
+  },
+  "realtime_blocks": 38231,
+  "realtime_wall_ms": {
+    "n": 38231,
+    "median": 6.8648750000000005,
+    "p95": 19.631167,
+    "p99": 24.940707999999997,
+    "max": 38.569708
+  },
+  "realtime_non_cpu_ms": {
+    "n": 38231,
+    "median": 5.637851296924623e-15,
+    "p95": 4.3000000031143126e-05,
+    "p99": 0.0004159999999978764,
+    "max": 0.39862400000006787
+  },
+  "realtime_policy_sampled_blocks": 35054,
+  "realtime_policy_unobserved_blocks": 3177,
+  "realtime_policy_observed_priorities": [
+    97
+  ],
+  "native_operation_states": {
+    "Completed": 453,
+    "Replaced": 6191,
+    "Cancelled": 18,
+    "Rejected": 6
+  },
+  "burst_operation_states": {
+    "Replaced": 6136,
+    "Completed": 8
+  },
+  "peak_rss_bytes": 213811200,
+  "peak_rss_by_group": {
+    "normal": 70565888,
+    "load": 204980224,
+    "lifecycle": 69599232,
+    "burst": 73252864,
+    "materials": 73285632,
+    "long": 213811200
+  },
+  "map_peak_estimate_bytes": 516936,
+  "snapshot_peak_bytes": 795040,
+  "borrowed_snapshot_owners_max": 3,
+  "borrowed_map_owners_max": 3,
+  "planning_attempts": 479,
+  "stale_replans": 14,
+  "analysis_deferrals": 0,
+  "dynamic_deterministic_sessions": 1140,
+  "logical_pairs": 652,
+  "logical_plan_counts": {
+    "Completed": 1042,
+    "with_l2_held_frames": 63,
+    "with_density_switch": 146,
+    "Replaced": 637,
+    "Duplicate": 84,
+    "RejectedInvalid": 4,
+    "Cancelled": 42,
+    "Rejected": 49
+  },
+  "fixed_device_sessions": 40,
+  "fixed_device_passed": 38,
+  "legacy_device_executions": 8,
+  "legacy_device_passed": 7,
+  "device_regression_failure_manifest": "DEVICE_REGRESSION_FAILURES.json",
+  "device_failure_timeline_manifest": "DEVICE_FAILURE_TIMELINES.json",
+  "dynamic_zero_invariant_scope": "最終動的6群のみ。固定速度と旧製品は別の失敗台帳を参照。"
+}

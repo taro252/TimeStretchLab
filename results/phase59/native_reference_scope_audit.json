@@ -1,0 +1,76 @@
+{
+  "scope": "全曲解析＋同一Frontierの旧Phase39/36動的経路。旧Phase35の先行全計画方式の失敗記録を変更しない。",
+  "rows": [
+    {
+      "source_session": "/Users/taro252/Docker/TimeStretchLab/results/phase59/native_smoke_v2/case_000",
+      "original_native_pass": false,
+      "reference_exit": 0,
+      "reference_sha256": "1c860210fb6ea4a2075c5f2fdc9c1fd1afa97adb175413994be676a131d97818",
+      "original_preplanned_comparison_preserved": true,
+      "reference": {
+        "frames": 211954,
+        "channels": 2,
+        "pcm_sha256": "96b24743efee6ad2d4b408e89edb85d9c4e2ca50fec89a56be9330e1cfa12da5",
+        "map_sha256": "66d77f96aa367e32227aa2518ca2927ba710612c76ab994a58119fbae56aa461",
+        "plans": 3,
+        "frontiers_exact": true
+      },
+      "pcm": {
+        "PASS": true,
+        "complete": true,
+        "frames": 211954,
+        "pcm_sha256": "96b24743efee6ad2d4b408e89edb85d9c4e2ca50fec89a56be9330e1cfa12da5",
+        "reference_frames": 211954
+      },
+      "map_exact": true
+    },
+    {
+      "source_session": "/Users/taro252/Docker/TimeStretchLab/results/phase59/native_smoke_v3/case_000",
+      "original_native_pass": true,
+      "reference_exit": 0,
+      "reference_sha256": "1c860210fb6ea4a2075c5f2fdc9c1fd1afa97adb175413994be676a131d97818",
+      "original_preplanned_comparison_preserved": true,
+      "reference": {
+        "frames": 216077,
+        "channels": 2,
+        "pcm_sha256": "d09cc6755c0418b2edde30f53e2b7e7c1d303f51d46dbf6f053a4a807aa1eef0",
+        "map_sha256": "b3022f12d46dc367a14e81d2fc7f295c61d531c1f7118367ff25751613d99c5d",
+        "plans": 3,
+        "frontiers_exact": true
+      },
+      "pcm": {
+        "PASS": true,
+        "complete": true,
+        "frames": 216077,
+        "pcm_sha256": "d09cc6755c0418b2edde30f53e2b7e7c1d303f51d46dbf6f053a4a807aa1eef0",
+        "reference_frames": 216077
+      },
+      "map_exact": true
+    },
+    {
+      "source_session": "/Users/taro252/Docker/TimeStretchLab/results/phase59/native_smoke_v3/case_001",
+      "original_native_pass": true,
+      "reference_exit": 0,
+      "reference_sha256": "1c860210fb6ea4a2075c5f2fdc9c1fd1afa97adb175413994be676a131d97818",
+      "original_preplanned_comparison_preserved": true,
+      "reference": {
+        "frames": 225135,
+        "channels": 2,
+        "pcm_sha256": "cde56b42d5ad9b90a090c2fb69297e1aa83a817807cb79e9afbc1cca937ec586",
+        "map_sha256": "bc45225a2fe34df698d2e05877f76d25349107284bfa2a62f28b06ea957495ea",
+        "plans": 3,
+        "frontiers_exact": true
+      },
+      "pcm": {
+        "PASS": true,
+        "complete": true,
+        "frames": 225135,
+        "pcm_sha256": "cde56b42d5ad9b90a090c2fb69297e1aa83a817807cb79e9afbc1cca937ec586",
+        "reference_frames": 225135
+      },
+      "map_exact": true
+    }
+  ],
+  "all_canonical_pcm_exact": true,
+  "original_clock_failure_resolved": false
+}

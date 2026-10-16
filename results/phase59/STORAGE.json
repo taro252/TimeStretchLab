@@ -1,0 +1,126 @@
+{
+  "results_bytes": 532979057,
+  "bytes_by_extension": {
+    ".json": 6455644,
+    ".log": 23653467,
+    ".md": 14971,
+    ".cpp": 124189,
+    ".txt": 10595,
+    ".py": 295083,
+    ".jsonl": 5988441,
+    ".h": 17672,
+    ".csv": 59749395,
+    ".bin": 95967392,
+    ".f32": 139914144,
+    ".mm": 25134,
+    ".wav": 171018490,
+    ".gz": 29744440
+  },
+  "frozen_and_archive_bytes": {
+    "build/phase59_frozen": 170194845,
+    "build/phase59_archives": 170008871
+  },
+  "results_plus_frozen_and_archives_bytes": 873182773,
+  "free_bytes": 5878681600,
+  "baseline_budget": {
+    "generated_wav": 536870912,
+    "raw_pcm_working": 536870912,
+    "temporary_references": 268435456,
+    "detailed_csv": 268435456,
+    "os_trace": 536870912,
+    "retained_evidence": 1610612736,
+    "minimum_free": 4294967296
+  },
+  "final_observed_budget_bytes": {
+    "generated_wav": 171018490,
+    "raw_pcm_working": 139914144,
+    "temporary_references_upper_bound": 95967392,
+    "detailed_csv": 59749395,
+    "retained_results_frozen_archives": 873182773
+  },
+  "final_budget_scope": "最終保存量。全時間のピークや共用Release build全体を含むとはしない。binはMap証拠も含む参照量の上限。",
+  "revised_budget": {
+    "at_utc": "2026-10-16T11:52:02.967595+00:00",
+    "original_minimum_free_bytes": 4294967296,
+    "revised_minimum_free_bytes": 3221225472,
+    "current_free_bytes": 3978911744,
+    "remaining_active_pcm_cap_bytes": 536870912,
+    "remaining_detailed_csv_budget_bytes": 268435456,
+    "remaining_generated_input_bytes": 62914560,
+    "stop_before_new_case_below_floor": true,
+    "original_capacity_interruptions_preserved": true,
+    "quality_and_audio_conditions_changed": false,
+    "reason": "4GiBは作業開始時に設定した内的な保守的予算。残りの有界な一時保存量と保護対象を再確認し、再開前に保存予算だけを更新。DSP・FIFO・速度行列・反復数・PCM基準は維持。",
+    "driver_before_resume_sha256": "dc4166560760b01ddb0afe6c07cf89830a9e142680369952422a6b4c288ece56"
+  },
+  "compaction_manifest": "STORAGE_COMPACTION.json",
+  "trace_bytes": 81833928,
+  "trace_peak_observed_at_least_bytes": 1557222696,
+  "trace_peak_budget_maintained": false,
+  "current_temporary_trace_archive": {
+    "original_path": "/private/var/folders/ft/xsqp1bg15lvcr2m90ynsllmr0000gn/T/instrumentsyXCDN6.ktrace",
+    "archive_path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_archives/current_startup_instrumentsyXCDN6.ktrace.gz",
+    "original_bytes": 1475388768,
+    "archive_bytes": 136860552,
+    "sha256": "ef37e914c4723ec82e3330caf8d0af5753f508af85927d8f6e618ee4c4e7be1b",
+    "archive_sha256": "5f075855777dd6d9422999762317148ed79dd79ee16b4454c7e68f3c43f5f887",
+    "restored_sha256": "ef37e914c4723ec82e3330caf8d0af5753f508af85927d8f6e618ee4c4e7be1b",
+    "original_unchanged_during_archive": true,
+    "original_removed": true,
+    "mode": 33152,
+    "uid": 501,
+    "gid": 20,
+    "atime_ns": 1792139596844646930,
+    "mtime_ns": 1792139587105351056,
+    "birthtime": 1792139581.1397734,
+    "xattrs_hex_listing": "",
+    "gui_state": "Template chooser only; no unsaved document; normal Cmd-Q succeeded",
+    "saved_trace_bundle": "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/startup_trace_v1.trace",
+    "restore_command": "gzip -dc /Users/taro252/Docker/TimeStretchLab/build/phase59_archives/current_startup_instrumentsyXCDN6.ktrace.gz > /chosen/restore/instrumentsyXCDN6.ktrace",
+    "user_authorization": "保存後の終了と圧縮保存を許可する",
+    "utc": "2026-10-16T12:11:54Z",
+    "free_bytes_before_release": 2390585344,
+    "no_open_fd_verified": true,
+    "related_process_exit_verified": true,
+    "free_bytes_after_release": 3874566144,
+    "reclaimed_bytes": 1338528216,
+    "past_temporary_traces_still_present_with_original_sizes": [
+      {
+        "path": "/private/var/folders/ft/xsqp1bg15lvcr2m90ynsllmr0000gn/T/instruments7QCYPE.ktrace",
+        "bytes": 1485842600,
+        "mtime_ns": 1792120776308722565
+      },
+      {
+        "path": "/private/var/folders/ft/xsqp1bg15lvcr2m90ynsllmr0000gn/T/instrumentsnWaBVm.ktrace",
+        "bytes": 1614700304,
+        "mtime_ns": 1792123770684037559
+      },
+      {
+        "path": "/private/var/folders/ft/xsqp1bg15lvcr2m90ynsllmr0000gn/T/instrumentsUGXlvW.ktrace",
+        "bytes": 920308280,
+        "mtime_ns": 1791878576056367004
+      },
+      {
+        "path": "/private/var/folders/ft/xsqp1bg15lvcr2m90ynsllmr0000gn/T/instrumentsrrcXKd.ktrace",
+        "bytes": 904801448,
+        "mtime_ns": 1791878790443582577
+      },
+      {
+        "path": "/private/var/folders/ft/xsqp1bg15lvcr2m90ynsllmr0000gn/T/instrumentsuOn5Tj.ktrace",
+        "bytes": 519369952,
+        "mtime_ns": 1791877366936048314
+      }
+    ],
+    "terminated_related_pid": 72222,
+    "post_validation_other_service": {
+      "pid": 52598,
+      "parent_pid": 52251,
+      "start_local": "2026-10-16 21:20:53 JST",
+      "current_or_past_ktrace_open": false,
+      "action": "別PIDの後発サービスは今回のトレースを開いていないため終了対象に追加しない"
+    }
+  },
+  "previous_assets_deleted": false,
+  "successful_working_pcm_reused": true,
+  "at_utc": "2026-10-16T12:47:21.765238+00:00"
+}

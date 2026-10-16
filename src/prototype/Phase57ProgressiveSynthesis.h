@@ -3,6 +3,7 @@
 #include "prototype/Phase36StreamingSpeedEngine.h"
 #include <functional>
 #include <span>
+namespace ts::prototype::phase59 {struct DynamicMap;}
 namespace ts::prototype::phase57 {
 enum class SynthesisState {Produced,NeedsMoreInput,NeedsMoreAnalysis,Finished,Cancelled,Failed};
 struct SynthesisFrontier {
@@ -33,6 +34,12 @@ public:
     // Experimental realtime reader: an external mailbox must pin this immutable
     // view through the next supply call or engine destruction. No ownership ops.
     void supplyBorrowedSnapshot(const phase56::AnalysisSnapshot*);
+    // Phase59 independent research path; opt in before the first snapshot.
+    void enableDynamicTransitions();
+    // Caller pins both old and proposed immutable views during this bounded
+    // validation. A false return leaves every DSP state and view unchanged.
+    bool trySupplyBorrowedDynamicMap(const phase59::DynamicMap*) noexcept;
+    Phase36StreamingSpeedEngine::Frontier dspFrontier()const;
     SynthesisState advance(const Sink&); // at most one 2048-frame output block
     void cancel()noexcept; // thread-safe request; completed EOS stays completed
     void fail();

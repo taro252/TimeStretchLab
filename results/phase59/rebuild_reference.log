@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/Users/taro252/Docker/TimeStretchLab/scripts/phase59_rebuild_reference.py", line 30, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/Users/taro252/Docker/TimeStretchLab/scripts/phase59_rebuild_reference.py", line 18, in main
+    run(['cmake','-S',source,'-B',build,'-DCMAKE_BUILD_TYPE=Release','-DCMAKE_OSX_ARCHITECTURES=arm64'],'configure')
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/taro252/Docker/TimeStretchLab/scripts/phase59_rebuild_reference.py", line 17, in run
+    records.append(dict(command=list(map(str,command)),exit=r.returncode));assert r.returncode==0,label
+                                                                                  ^^^^^^^^^^^^^^^
+AssertionError: configure

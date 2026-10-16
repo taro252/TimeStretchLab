@@ -7,6 +7,7 @@
 #include <map>
 #include <memory>
 #include <vector>
+#include <functional>
 
 namespace ts::prototype {
 
@@ -51,6 +52,11 @@ public:
     Phase39TimeMap(const Phase13TransientAnalysis& analysis,
                             std::uint32_t sampleRate,Phase39Speed initial,
                             Phase39Planning planning=Phase39Planning::A);
+    // Phase59 research: actual certified coordinate prefix, never a provisional
+    // whole-file analysis. Factory must return the same certified node count.
+    using CertifiedFixedFactory=std::function<TimeMap(Phase39Speed)>;
+    Phase39TimeMap(TimeMap certifiedInitial,std::uint32_t sampleRate,
+        Phase39Speed initial,Phase39Planning planning,CertifiedFixedFactory);
     // The shared ownership lease remains valid even when the cache evicts it.
     std::shared_ptr<const TimeMap> fixed(Phase39Speed speed);
     const TimeMap& current() const noexcept { return current_; }
@@ -72,6 +78,7 @@ public:
         return frame<safeRunEligible_.size() && safeRunEligible_[frame];
     }
 private:
+    void indexProtection();
     std::size_t protectedEndAt(std::size_t frame) const noexcept;
     Phase13TransientAnalysis analysis_;
     std::map<std::uint32_t,std::shared_ptr<const TimeMap>> fixed_;
@@ -85,5 +92,6 @@ private:
     long long lastPublished_=0,completionOutput_=-1;
     std::vector<Phase39Plan> history_;
     Phase39Planning planning_;
+    CertifiedFixedFactory certifiedFactory_;
 };
 }

@@ -1,0 +1,14 @@
+{
+  "stopped_coordinators": [
+    {
+      "pid": 93149,
+      "command": "/usr/local/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -B scripts/phase59_parallel57_validation.py --sequential-driver-pid 67299"
+    },
+    {
+      "pid": 67299,
+      "command": "/usr/local/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -B scripts/phase59_regression_validation.py"
+    }
+  ],
+  "children_completed": true,
+  "reason": "重複する未開始段階だけを破棄し、終了済みの全検証証拠を合流。"
+}

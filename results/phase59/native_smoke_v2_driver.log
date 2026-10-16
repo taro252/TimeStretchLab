@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/Users/taro252/Docker/TimeStretchLab/scripts/phase59_native_validation.py", line 129, in <module>
+    parser=argparse.ArgumentParser(__doc__);parser.add_argument('--suite',choices=['smoke','normal','load','lifecycle','long'],required=True);parser.add_argument('--output',type=Path,required=True);parser.add_argument('--binary',type=Path,default=ROOT/'build/phase59_native');run(parser.parse_args())
+                                                                                                                                                                                                                                                                                    ~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/taro252/Docker/TimeStretchLab/scripts/phase59_native_validation.py", line 91, in run
+    row['PASS']=False;rows.append(row);(out/'rows.json').write_text(json.dumps(rows,indent=2)+'\n');raise RuntimeError(f'Native failure retained at {folder}')
+                                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Native failure retained at /Users/taro252/Docker/TimeStretchLab/results/phase59/native_smoke_v2/case_000

@@ -1,0 +1,43 @@
+{
+  "suite": "formats",
+  "binary": "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/final/phase59_progressive_replay",
+  "binary_sha256": "0f8935f4e419daedf0056be44416c41b5bb71d88bdcfc206aa9a5db84248183a",
+  "reference": "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/captured_reference",
+  "reference_sha256": "1c860210fb6ea4a2075c5f2fdc9c1fd1afa97adb175413994be676a131d97818",
+  "inputs": [
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59/quality_final/incremental_formats/inputs/boundary_1_1_44100.wav",
+      "sha256": "ab21809f56c87a2d061e646b6a4659f8ec406b87388354d6d63dfc6b801ad042"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59/quality_final/incremental_formats/inputs/boundary_3_1_44100.wav",
+      "sha256": "4da3c677625483c1e0ead42920b66e6bfb30c28298d796865136f564657fce1c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59/quality_final/incremental_formats/inputs/boundary_1_2_44100.wav",
+      "sha256": "8e1e8eafa65f29a0dc428faed350b459bf48289a1dc327400f20040cfaa02f15"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59/quality_final/incremental_formats/inputs/boundary_3_2_44100.wav",
+      "sha256": "5520f5a1d4cd21168a31f08a3842cac3e0eb2cfe9a3f951846b8c8f684300c81"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59/quality_final/incremental_formats/inputs/boundary_1_1_48000.wav",
+      "sha256": "8389eb052f60ea885dee63b007047e03f64e3cf37c422b5f74bd6bc4455e9515"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59/quality_final/incremental_formats/inputs/boundary_3_1_48000.wav",
+      "sha256": "ee5b16348d93453a0bd0caf00bee114c332a00d0340af4ea404b097765f53e1f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59/quality_final/incremental_formats/inputs/boundary_1_2_48000.wav",
+      "sha256": "5e60e5f416b0d1f83c728887253421e06a2b6114ccb8be427a8bcb892b35f584"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59/quality_final/incremental_formats/inputs/boundary_3_2_48000.wav",
+      "sha256": "ebb61d453dde2d99eef3731c8bf17bd65679541dc942d9a7bcc8a6bb3238cacd"
+    }
+  ],
+  "cases": 32,
+  "scope": "未来解析不足は保留し、実際の適用Frontier/計画を変更前の全曲解析＋動的Phase39へ再現。元の完成解析の予定境界と違うPCMを同一と判定しない。"
+}

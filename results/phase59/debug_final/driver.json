@@ -1,0 +1,44 @@
+[
+  {
+    "command": [
+      "cmake",
+      "-S",
+      ".",
+      "-B",
+      "build/phase59_debug",
+      "-DCMAKE_BUILD_TYPE=Debug",
+      "-DCMAKE_OSX_ARCHITECTURES=arm64"
+    ],
+    "exit": 0,
+    "wall_s": 9.818000793457031
+  },
+  {
+    "command": [
+      "cmake",
+      "--build",
+      "build/phase59_debug",
+      "--target",
+      "phase59_tests",
+      "phase59_control_tests",
+      "phase59_check",
+      "phase59_reference",
+      "phase59_progressive_replay",
+      "phase59_captured_reference",
+      "phase58_tests",
+      "phase58_check",
+      "phase58_fix_tests",
+      "phase58_fix_mailbox_tests",
+      "phase58_fix_worker_tests",
+      "phase57_tests",
+      "phase57_check",
+      "phase56_tests",
+      "phase56_fixed_modes",
+      "phase56_analysis_probe",
+      "phase54_analysis_tests",
+      "phase54_seek_tests",
+      "-j2"
+    ],
+    "exit": 2,
+    "wall_s": 163.31468272209167
+  }
+]

@@ -68,5 +68,6 @@ public:
     std::size_t ownerCount()const{ // Publisher or joined threads only.
         std::size_t count=0;for(const auto& owner:owners_)count+=bool(owner);return count;
     }
+    std::uint64_t publishedTag()const noexcept{return published_.load();}
 };
 }

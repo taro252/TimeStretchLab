@@ -1,0 +1,66 @@
+[
+  {
+    "command": [
+      "/usr/bin/c++",
+      "-std=c++20",
+      "-O1",
+      "-g",
+      "-fsanitize=thread",
+      "-fno-omit-frame-pointer",
+      "-Isrc",
+      "tests/Phase59MailboxProbe.cpp",
+      "-o",
+      "build/phase59_frozen/frontier_final_thread"
+    ],
+    "compile_exit": 0,
+    "run_exit": 0
+  },
+  {
+    "command": [
+      "/usr/bin/c++",
+      "-std=c++20",
+      "-O1",
+      "-g",
+      "-fsanitize=thread",
+      "-fno-omit-frame-pointer",
+      "-Isrc",
+      "tests/Phase58FixMailboxTests.cpp",
+      "-o",
+      "build/phase59_frozen/borrowed_final_thread"
+    ],
+    "compile_exit": 0,
+    "run_exit": 0
+  },
+  {
+    "command": [
+      "/usr/bin/c++",
+      "-std=c++20",
+      "-O1",
+      "-g",
+      "-fsanitize=address,undefined",
+      "-fno-omit-frame-pointer",
+      "-Isrc",
+      "tests/Phase59MailboxProbe.cpp",
+      "-o",
+      "build/phase59_frozen/frontier_final_address_undefined"
+    ],
+    "compile_exit": 0,
+    "run_exit": 0
+  },
+  {
+    "command": [
+      "/usr/bin/c++",
+      "-std=c++20",
+      "-O1",
+      "-g",
+      "-fsanitize=address,undefined",
+      "-fno-omit-frame-pointer",
+      "-Isrc",
+      "tests/Phase58FixMailboxTests.cpp",
+      "-o",
+      "build/phase59_frozen/borrowed_final_address_undefined"
+    ],
+    "compile_exit": 0,
+    "run_exit": 0
+  }
+]

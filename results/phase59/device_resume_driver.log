@@ -1,0 +1,9 @@
+load 1
+Traceback (most recent call last):
+  File "/Users/taro252/Docker/TimeStretchLab/scripts/phase59_resume_device.py", line 21, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/Users/taro252/Docker/TimeStretchLab/scripts/phase59_resume_device.py", line 19, in main
+    if p.returncode not in [0,2]:raise RuntimeError('Audio continuation interrupted: '+suite)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Audio continuation interrupted: load

@@ -1,0 +1,73 @@
+{
+  "suite": "materials",
+  "reference": "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/dynamic_reference",
+  "reference_sha256": "64c4e98611fdf19d673daf58b051a4b992228096eeacd7dc23891b678f1ea5b9",
+  "binary": "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/final/phase59_check",
+  "binary_sha256": "0c9ec0251c128219f52ff0dccc8fa980da9cd37a9f7639d5313f5fa38d3a8fab",
+  "inputs": [
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59/quality_final/materials/inputs/silence_3_2_48000.wav",
+      "sha256": "4943ef93c830bb213216c70a2f6e3e0b78420cebaa6891ba9e925b7827de6370"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59/quality_final/materials/inputs/impulse_3_2_48000.wav",
+      "sha256": "8549c8d98f743b294c06e27a524e04a471fb8b50cddc7a49ce763ab73672e838"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59/quality_final/materials/inputs/train_3_2_48000.wav",
+      "sha256": "5fb940daf2cabdcf80d5e594d0d2dd36fdc6289e2c4d9183f9144000d70e60f8"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59/quality_final/materials/inputs/sustained_3_2_48000.wav",
+      "sha256": "51b9f369ce749aa3bde5e55e6810e5dd960a9d3065510200b8df499be1c58370"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59/quality_final/materials/inputs/boundary_3_2_48000.wav",
+      "sha256": "ebb61d453dde2d99eef3731c8bf17bd65679541dc942d9a7bcc8a6bb3238cacd"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59/quality_final/materials/inputs/chain_3_2_48000.wav",
+      "sha256": "4130c94a9b2ad97380714dfbbf5a575f0614116b594aef2effc7bfe4b259f531"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+      "sha256": "789d4c159e35b4c133a17913ad5a9c47b85970185e5d86b074d146afc1bb311e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/drums.wav",
+      "sha256": "d77f30cdc1b889227b7f3492791ca510be3ad3514aa7dc38be5f4f2d77297008"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/vocal.wav",
+      "sha256": "2f7924d9b9c7cd2574d5c80a9cc98c59e02184cfda0676c5f5fa2c70793428ab"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/bass.wav",
+      "sha256": "37e6aec488ae3a838f67fc7cf8867588e2ca15cecc4dee0facd401a44890d3eb"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/guitar.wav",
+      "sha256": "3da0902bd133bfe71c61650cae3e3f7ba0864bd0deb375387a36b3b38ec2f87a"
+    }
+  ],
+  "planned_cases": 88,
+  "chunks": [
+    "1024",
+    "7168",
+    "8192",
+    "32768",
+    "131072",
+    "5003",
+    "irregular"
+  ],
+  "comparison": "同一論理要求・Frontier・適用境界。全Float32生ビット、出力数、計画・密度・全Map node",
+  "storage_budget": {
+    "generated_wav": 536870912,
+    "raw_pcm_working": 536870912,
+    "temporary_references": 268435456,
+    "detailed_csv": 268435456,
+    "os_trace": 536870912,
+    "retained_evidence": 1610612736,
+    "minimum_free": 4294967296
+  }
+}

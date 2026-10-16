@@ -1,0 +1,101 @@
+{
+  "PASS": true,
+  "history": [
+    {
+      "suite": "load",
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/phase59_native_validation.py",
+        "--suite",
+        "load",
+        "--output",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase59/device_final/dynamic_load",
+        "--binary",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/final/phase59_native",
+        "--resume",
+        "--minimum-free-gib",
+        "3"
+      ],
+      "exit": 0,
+      "wall_s": 559.4382321834564
+    },
+    {
+      "suite": "lifecycle",
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/phase59_native_validation.py",
+        "--suite",
+        "lifecycle",
+        "--output",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase59/device_final/dynamic_lifecycle",
+        "--binary",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/final/phase59_native",
+        "--resume",
+        "--minimum-free-gib",
+        "3"
+      ],
+      "exit": 0,
+      "wall_s": 145.8387370109558
+    },
+    {
+      "suite": "burst",
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/phase59_native_validation.py",
+        "--suite",
+        "burst",
+        "--output",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase59/device_final/dynamic_burst",
+        "--binary",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/final/phase59_native",
+        "--resume",
+        "--minimum-free-gib",
+        "3"
+      ],
+      "exit": 0,
+      "wall_s": 27.283491134643555
+    },
+    {
+      "suite": "materials",
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/phase59_native_validation.py",
+        "--suite",
+        "materials",
+        "--output",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase59/device_final/dynamic_materials",
+        "--binary",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/final/phase59_native",
+        "--resume",
+        "--minimum-free-gib",
+        "3"
+      ],
+      "exit": 0,
+      "wall_s": 294.2847340106964
+    },
+    {
+      "suite": "long",
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/phase59_native_validation.py",
+        "--suite",
+        "long",
+        "--output",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase59/device_final/dynamic_long",
+        "--binary",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/final/phase59_native",
+        "--resume",
+        "--minimum-free-gib",
+        "3"
+      ],
+      "exit": 0,
+      "wall_s": 832.7524080276489
+    }
+  ],
+  "original_capacity_interruptions_preserved": true
+}

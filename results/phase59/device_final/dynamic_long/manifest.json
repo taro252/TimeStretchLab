@@ -1,0 +1,54 @@
+{
+  "suite": "long",
+  "driver_source_sha256": "dc4166560760b01ddb0afe6c07cf89830a9e142680369952422a6b4c288ece56",
+  "binary": "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/final/phase59_native",
+  "binary_sha256": "64b4a996c1d1a3208068fa8f86fbbca5df9212017bd899e726ac8c7ca60dce28",
+  "reference": "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/captured_reference",
+  "reference_sha256": "1c860210fb6ea4a2075c5f2fdc9c1fd1afa97adb175413994be676a131d97818",
+  "fixed_reference_sha256": "3a3b04454f754c35afa4cac121a726fa31c44a6854761a7de5f71aa057f2a957",
+  "inputs": [
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59/device_final/dynamic_long/inputs/boundary_float_stereo_48000.wav",
+      "sha256": "ebb61d453dde2d99eef3731c8bf17bd65679541dc942d9a7bcc8a6bb3238cacd",
+      "metadata": {
+        "encoding": 3,
+        "channels": 2,
+        "rate": 48000,
+        "bits": 32,
+        "frames": 192000,
+        "data_offset": 44,
+        "data_bytes": 1536000
+      }
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase55/long/boundary_1_2_44100_180/full.wav",
+      "sha256": "e5a589ce9e3ea436c53aadda233c96a8246e7a58466718600c82b68b47dd05ac",
+      "metadata": {
+        "encoding": 1,
+        "channels": 2,
+        "rate": 44100,
+        "bits": 16,
+        "frames": 7938000,
+        "data_offset": 44,
+        "data_bytes": 31752000
+      }
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59/device_final/dynamic_long/inputs/mix_repeated_300s.wav",
+      "sha256": "fc8be98125b35e0b2bde0728ef8ccfc60ab2aee4462b72f61c55733ae277cf58",
+      "metadata": {
+        "encoding": 3,
+        "channels": 2,
+        "rate": 44100,
+        "bits": 32,
+        "frames": 13230000,
+        "data_offset": 44,
+        "data_bytes": 105840000
+      }
+    }
+  ],
+  "cases": 4,
+  "serial_audio": true,
+  "comparison": "callback raw PCMを事前確保領域に保存し、停止後に実際のFrontierで変更前の全曲解析＋Phase39/42/50/36動的経路へ再現。全計画を前もって与えるPhase35参照と区別。",
+  "system_context": "environment.json（各群の音声開始前に取得。全期間の連続システム負荷計測ではない）"
+}

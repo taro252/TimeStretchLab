@@ -2,6 +2,7 @@
 #include "prototype/Phase57ProgressiveSynthesis.h"
 #include "dsp/Phase14PlaybackPipeline.h"
 #include "prototype/Phase58FixRealtimeWorker.h"
+#include "prototype/Phase59Control.h"
 #include <string>
 
 namespace ts::prototype::phase58 {
@@ -12,12 +13,15 @@ struct Configuration {
     bool detailedDiagnostics=false;
     bool sampleDspThread=false;
     bool residentInput=false;
+    bool dynamicTransitions=false; // Phase59 explicit research opt-in only.
     WorkerScheduling scheduling=WorkerScheduling::Standard;
     std::size_t diagnosticEventLimit=262144;
     std::size_t analysisChunk=32768;
     std::size_t sourceSnapshotBytes=512ULL*1024*1024;
     // Deterministic fault/stall controls, never implicit environment variables.
     double analysisDelayMs=0,dspDelayMs=0;
+    unsigned transitionFailureForTest=0; // 0 none, 1 processing, 2 allocation.
+    unsigned promotionFailureOnAttemptForTest=0; // Explicit pre-promotion fault, max 2.
 };
 struct RenderResult {std::size_t wanted=0,received=0,outputBefore=0,fifoBefore=0;};
 struct Diagnostics {
@@ -26,6 +30,10 @@ struct Diagnostics {
     std::size_t inputAtFirstPcm=0,inputAtReady=0,nonEosPublished=0;
     std::size_t sourceSnapshotBytes=0;
     std::size_t residentInputBytes=0,borrowedSnapshotOwners=0;
+    bool dynamicTransitions=false;
+    std::size_t transitionOperations=0,transitionMapOwners=0,transitionHistory=0,transitionMapPeakBytes=0;
+    std::size_t transitionPlanAttempts=0,transitionStaleReplans=0,transitionAnalysisDeferrals=0;
+    double transitionPlanCpuS=0,transitionPlanWallS=0;
     double residentReadyS=-1;
     bool renderingRequested=false;
     bool inputSamplesPrevalidated=false;
@@ -59,6 +67,7 @@ struct WorkerRecord {
     double startedS=0,publishedS=0,wallS=0,cpuS=0,publicationGapS=0;
     Phase36StreamingSpeedEngine::WorkProfile work{};
     bool realtime=false;
+    std::uint64_t dynamicMapVersion=0;
 };
 struct DetailEvent {
     std::size_t stage=0,scope=0;bool begin=false;
@@ -86,6 +95,10 @@ public:
     bool finished()const noexcept;
     bool drained()const noexcept;
     bool failed()const noexcept;
+    phase59::RequestReceipt requestSpeed(std::uint32_t targetMicros,std::size_t logicalPresented,
+        std::uint64_t expectedSession=0,std::uint64_t expectedInputGeneration=0);
+    std::vector<phase59::SpeedOperation> speedOperations()const; // Normal control thread only.
+    TimeMap dynamicTimeMap()const; // Joined workers only, normal diagnostic copy.
     std::size_t available()const noexcept;
     std::uint32_t sampleRate()const noexcept;
     std::size_t channels()const noexcept;

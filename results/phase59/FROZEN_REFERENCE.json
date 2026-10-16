@@ -1,0 +1,18 @@
+{
+  "baseline_head": "bb22efcbd27f999e8ffe85bbe3f03e20895be3f2",
+  "dynamic_reference_sha256": "64c4e98611fdf19d673daf58b051a4b992228096eeacd7dc23891b678f1ea5b9",
+  "compiled_before_core_changes": true,
+  "frozen_driver_sha256": {
+    "Phase59Reference.cpp": "09f4bd3fd881115ceaec77a5f94ea6c5469d523ce623f31e10a6b9f653346a78",
+    "Phase59ReplaySupport.h": "8d7227c312077ee3303ddc623d4dc1fa5d92d9b1b26b03168adf4690e1e36619",
+    "Phase59PlanningContract.h": "3b6a76ce4c55e118bc8b79a858bdbcef46a84292ec627c5c9c18dcc4a3d4744a"
+  },
+  "library_sha256": {
+    "libphase36_variable.a": "c061921a15a976541cb6d9d3cba9785f5c409f6da381534121a09935e7153639",
+    "libphase39_variable.a": "90c8b2093346a24bc44d469b57a1d51895bc0886784b9217dbf45fd0c6ebe24f",
+    "libtimestretch_core.a": "ab07d2e2a203d0599f27180d021f66598953478d592bce76b0257501665823a1",
+    "libphase24_variable.a": "a837604be32fbecc9313d292676a152d90db85c99354dcb39848b0e3768f7ff3"
+  },
+  "command": "/usr/bin/c++ -O3 -DNDEBUG -std=c++20 -arch arm64 -I build/phase59_frozen/source -I src src/prototype/Phase59Reference.cpp build/phase59_frozen/libphase39_variable.a build/phase59_frozen/libphase36_variable.a build/phase59_frozen/libphase24_variable.a build/phase59_frozen/libtimestretch_core.a -framework Accelerate -o build/phase59_frozen/dynamic_reference",
+  "scope": "全曲Phase13解析、変更前Phase39TimeMap/Phase42DensityGuard/Phase36 DSP。論理要求再現器のみ新規。"
+}

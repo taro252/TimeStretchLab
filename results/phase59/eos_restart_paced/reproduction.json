@@ -1,0 +1,10 @@
+{
+  "reconstructed_equivalent_test_source": true,
+  "byte_identical_original_source_not_claimed": true,
+  "source_sha256": "446f973611d4f991a5468c47cba59d70bc8a42284b1532bf9aba51e5aefc7b1d",
+  "runtime_source_manifest": "results/phase59/FINAL_CANDIDATE.json",
+  "input": "results/phase31/input/mix.wav",
+  "additional_input": "results/phase31/input/drums.wav",
+  "link_recipe": "/usr/bin/c++ -O3 -DNDEBUG -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/phase59_control_tests.dir/tests/Phase59ControlTests.cpp.o -o phase59_control_tests  libphase58_realtime.a libphase57_synthesis.a libphase59_transition.a libphase56_incremental.a libphase39_variable.a libphase36_variable.a libphase24_variable.a libtimestretch_core.a -framework Accelerate -framework AudioToolbox\n",
+  "scope": "音声デバイスを使わない追加ストレス。OS上の停止状態・強制降格原因は未測定。"
+}

@@ -42,6 +42,20 @@ Phase39TimeMap::Phase39TimeMap(
       events_(analysis.events()),sampleRate_(rate),tail_(initial),planning_(planning) {
     if (rate==0 || current_.starts().size()<2)
         throw std::invalid_argument("Invalid Phase 39 initialization");
+    indexProtection();
+    fixed_.emplace(initial.micros,std::make_shared<TimeMap>(current_));
+}
+Phase39TimeMap::Phase39TimeMap(TimeMap initialMap,std::uint32_t rate,
+    Phase39Speed initial,Phase39Planning planning,CertifiedFixedFactory factory)
+    :current_(std::move(initialMap)),events_(current_.events()),sampleRate_(rate),
+     tail_(initial),planning_(planning),certifiedFactory_(std::move(factory)) {
+    if(!initial.valid()||!rate||current_.sourceHop()!=1024||current_.starts().size()<2||!certifiedFactory_)
+        throw std::invalid_argument("Invalid certified Phase39 prefix");
+    if(!monotonic())throw std::invalid_argument("Nonmonotonic certified prefix");
+    indexProtection();
+    fixed_.emplace(initial.micros,std::make_shared<TimeMap>(current_));
+}
+void Phase39TimeMap::indexProtection() {
     const auto limit=current_.starts().size()-1;
     protectedEndByFrame_.assign(current_.starts().size(),
         std::numeric_limits<std::size_t>::max());
@@ -71,14 +85,15 @@ Phase39TimeMap::Phase39TimeMap(
                       safeRunEligible_.begin()+last,true);
         first=last;
     }
-    fixed_.emplace(initial.micros,std::make_shared<TimeMap>(current_));
 }
 std::shared_ptr<const TimeMap> Phase39TimeMap::fixed(Phase39Speed speed) {
     if (!speed.valid())
         throw std::invalid_argument("Invalid target speed");
     auto it=fixed_.find(speed.micros);
     if (it==fixed_.end()) {
-        auto made=std::make_shared<TimeMap>(makeFixed(analysis_,speed.timeRatio()));
+        auto made=std::make_shared<TimeMap>(certifiedFactory_?certifiedFactory_(speed):makeFixed(analysis_,speed.timeRatio()));
+        if(certifiedFactory_&&(made->sourceHop()!=1024||made->starts().size()!=current_.starts().size()))
+            throw std::invalid_argument("Certified target bounds differ");
         it=fixed_.emplace(speed.micros,std::move(made)).first;
     }
     // A decimal speed may have a million possible values; keep the prototype's

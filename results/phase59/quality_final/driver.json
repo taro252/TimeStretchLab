@@ -1,0 +1,123 @@
+[
+  {
+    "name": "release_all_build",
+    "command": [
+      "cmake",
+      "--build",
+      "build",
+      "-j3"
+    ],
+    "exit": 0,
+    "wall_s": 44.241482973098755
+  },
+  {
+    "name": "phase59_ctest",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "build",
+      "-R",
+      "^phase59_",
+      "--output-on-failure",
+      "-j1"
+    ],
+    "exit": 0,
+    "wall_s": 21.343091011047363
+  },
+  {
+    "name": "priority",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase59_study.py",
+      "--suite",
+      "priority",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/final/phase59_check",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase59/quality_final/priority"
+    ],
+    "exit": 0,
+    "wall_s": 212.08042311668396
+  },
+  {
+    "name": "all161",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase59_study.py",
+      "--suite",
+      "all161",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/final/phase59_check",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase59/quality_final/all161"
+    ],
+    "exit": 0,
+    "wall_s": 681.8460259437561
+  },
+  {
+    "name": "materials",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase59_study.py",
+      "--suite",
+      "materials",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/final/phase59_check",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase59/quality_final/materials"
+    ],
+    "exit": 0,
+    "wall_s": 394.1730008125305
+  },
+  {
+    "name": "long",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase59_study.py",
+      "--suite",
+      "long",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/final/phase59_check",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase59/quality_final/long"
+    ],
+    "exit": 0,
+    "wall_s": 1626.9430720806122
+  },
+  {
+    "name": "incremental_chunks",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase59_incremental_study.py",
+      "--suite",
+      "chunks",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/final/phase59_progressive_replay",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase59/quality_final/incremental_chunks"
+    ],
+    "exit": 0,
+    "wall_s": 1163.4985890388489
+  },
+  {
+    "name": "incremental_formats",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase59_incremental_study.py",
+      "--suite",
+      "formats",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/final/phase59_progressive_replay",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase59/quality_final/incremental_formats"
+    ],
+    "exit": 0,
+    "wall_s": 76.26465821266174
+  }
+]

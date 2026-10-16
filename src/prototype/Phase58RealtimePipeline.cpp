@@ -103,6 +103,23 @@ struct RealtimePipeline::Impl {
     mutable std::mutex mutex;std::condition_variable changed;
     std::shared_ptr<const phase56::AnalysisSnapshot> mailbox;
     BorrowedSnapshotMailbox<phase56::AnalysisSnapshot> borrowedMailbox;
+    BorrowedSnapshotMailbox<phase59::DynamicMap> dynamicMailbox;
+    phase59::ValueMailbox<phase59::PlanningFrontier> frontierMailbox;
+    std::unique_ptr<phase59::ProgressiveTransitionPlanner> transitionPlanner;
+    mutable std::mutex operationMutex;
+    std::vector<phase59::SpeedOperation> operations;
+    static constexpr std::size_t noOperation=std::size_t(-1);
+    std::size_t pendingOperation=noOperation,activeOperation=noOperation,mapOperation=noOperation;
+    std::uint64_t requestGeneration=0,pendingMapTag=0,lastPlannerReceived=0;
+    bool plannerSawFinal=false,mapOffered=false;
+    std::shared_ptr<const phase59::DynamicMap> pendingMap;
+    std::atomic<std::uint64_t> mapAckTag{0};std::atomic<bool> mapAckAccepted{false};
+    std::atomic<std::uint64_t> announcedRequest{0},observedRequest{0};
+    std::atomic<double> observedRequestS{-1};
+    std::atomic<double> mapAckS{-1};
+    std::atomic<std::size_t> mapAckConsumed{0},transitionAttempts{0},transitionStale{0},transitionDeferrals{0},transitionMapPeak{0},transitionHistory{0};
+    std::atomic<double> transitionCpu{0},transitionWall{0};
+    std::size_t waitingAnalysisNodes=std::size_t(-1);bool waitingAnalysisFinal=false;
     std::unique_ptr<RealtimeWorkerSupport> realtime;
     std::uint64_t version=0;std::string inputSha,pcmSha,error;
     std::atomic<bool> started{false},cancelled{false},failure{false},analysisDone{false},dspDone{false},ready{false};
@@ -134,9 +151,13 @@ struct RealtimePipeline::Impl {
         if(c.speedMicros<400000||c.speedMicros>2000000||c.speedMicros%10000||!c.analysisChunk||c.analysisChunk>131072||!std::isfinite(c.analysisDelayMs)||c.analysisDelayMs<0||!std::isfinite(c.dspDelayMs)||c.dspDelayMs<0)throw std::invalid_argument("Invalid Phase58 configuration");
         if(c.diagnosticEventLimit>262144)throw std::invalid_argument("Unbounded detail diagnostics");
         if(c.scheduling==WorkerScheduling::AudioWorkgroup&&(!c.residentInput||c.dspDelayMs))throw std::invalid_argument("Audio workgroup requires resident input and no synthetic DSP sleep");
+        if(c.dynamicTransitions&&c.scheduling!=WorkerScheduling::AudioWorkgroup)throw std::invalid_argument("Phase59 requires the resident Audio Workgroup path");
+        if(c.transitionFailureForTest>2||(!c.dynamicTransitions&&c.transitionFailureForTest))throw std::invalid_argument("Invalid transition fault control");
+        if(c.promotionFailureOnAttemptForTest>2)throw std::invalid_argument("Invalid promotion fault control");
         error.reserve(256);verified=elapsed();inputSha=input.identify(config.sourceSnapshotBytes);identified=elapsed();
         if(config.residentInput){input.makeResident();residentReady=elapsed();}
         realtime=std::make_unique<RealtimeWorkerSupport>(config.scheduling==WorkerScheduling::AudioWorkgroup,input.rate);
+        if(config.dynamicTransitions){operations.reserve(4096);transitionPlanner=std::make_unique<phase59::ProgressiveTransitionPlanner>(input.rate,input.frames,session,c.speedMicros,c.candidate);}
     }
     double elapsed()const{return origin.elapsed().wallSeconds;}
     static void detailObserver(void* context,std::size_t stage,std::size_t scope,bool begin,std::uint64_t ns,double cpu)noexcept{
@@ -185,7 +206,16 @@ struct RealtimePipeline::Impl {
         // validation belongs exclusively to the analysis/identity worker.
         if(!dsp)input.validate();}
     void fail(const char* message){
-        {std::lock_guard lock(mutex);if(!failure.exchange(true))error.assign(message,std::min<std::size_t>(std::char_traits<char>::length(message),256));}
+        // Failure can originate on the sampler or the demoted DSP thread.
+        // Only records are shared here; analysis-owned queue indices and map
+        // transactions are settled by their owner or after both workers join.
+        {std::lock_guard lock(mutex);
+            const auto publishFailure=[&]{if(!failure.exchange(true))error.assign(message,std::min<std::size_t>(std::char_traits<char>::length(message),256));};
+            if(config.dynamicTransitions){std::lock_guard operationLock(operationMutex);
+                for(auto& op:operations)if(op.state==phase59::OperationState::Pending||op.state==phase59::OperationState::Submitted||op.state==phase59::OperationState::Applied){op.state=phase59::OperationState::Cancelled;op.workerState=Phase39RequestState::Cancelled;}
+                publishFailure();
+            }else publishFailure();
+        }
         changed.notify_all();
         realtime->signal();
     }
@@ -206,6 +236,100 @@ struct RealtimePipeline::Impl {
         {std::lock_guard lock(mutex);mailbox=std::move(s);++version;}
         changed.notify_all();
     }
+    void cancelOperations(){
+        std::lock_guard lock(operationMutex);
+        for(auto& op:operations){
+            if(op.generation&&op.generation==observedRequest.load()&&op.workerSeenS<0)op.workerSeenS=observedRequestS;
+            if(op.state==phase59::OperationState::Pending||op.state==phase59::OperationState::Submitted||op.state==phase59::OperationState::Applied){
+            op.state=phase59::OperationState::Cancelled;op.workerState=Phase39RequestState::Cancelled;
+            }
+        }
+        pendingOperation=activeOperation=noOperation;
+    }
+    void finalizeTransition(){ // Both workers joined, normal owner only.
+        if(pendingMap&&mapOperation!=noOperation){
+            const bool accepted=mapOffered&&mapAckTag.load()==pendingMapTag&&mapAckAccepted.load();
+            transitionPlanner->confirmPlan(accepted);
+            if(accepted){std::lock_guard lock(operationMutex);auto& op=operations[mapOperation];if(op.state!=phase59::OperationState::Cancelled){op.state=phase59::OperationState::Applied;op.workerState=Phase39RequestState::Applied;}op.appliedS=mapAckS;op.consumedAtApply=mapAckConsumed;}
+        }
+        pendingMap.reset();mapOperation=noOperation;mapOffered=false;
+        if(transitionPlanner)transitionHistory=transitionPlanner->historyCount();
+    }
+    // Runs on the normal analysis/control worker. Planning, all shared ownership
+    // and destruction stay here. DSP only borrows the resulting immutable map.
+    void transitionStep(const std::shared_ptr<const phase56::AnalysisSnapshot>& snapshot){
+        if(!config.dynamicTransitions||!snapshot||cancelled.load()||failure.load())return;
+        auto& planner=*transitionPlanner;
+        if(pendingMap){
+            if(!mapOffered){auto lease=pendingMap;if(dynamicMailbox.tryPublish(lease)){pendingMapTag=dynamicMailbox.publishedTag();mapOffered=true;realtime->signal();}return;}
+            if(mapAckTag.load()!=pendingMapTag)return;
+            const bool accepted=mapAckAccepted.load();
+            if(mapOperation!=noOperation){
+                planner.confirmPlan(accepted);
+                std::lock_guard lock(operationMutex);auto& op=operations[mapOperation];
+                if(accepted){const bool terminal=cancelled.load()||failure.load();op.state=terminal?phase59::OperationState::Cancelled:phase59::OperationState::Applied;op.workerState=terminal?Phase39RequestState::Cancelled:Phase39RequestState::Applied;op.appliedS=mapAckS;op.consumedAtApply=mapAckConsumed;}
+                else {++op.staleReplans;++transitionStale;op.planningDecided=false;op.workerState=(cancelled.load()||failure.load())?Phase39RequestState::Cancelled:Phase39RequestState::Requested;waitingAnalysisNodes=std::size_t(-1);}
+            }else if(!accepted){mapOffered=false;return;}
+            pendingMap.reset();mapOffered=false;mapOperation=noOperation;
+        }
+        if(cancelled.load()||failure.load())return;
+        if(snapshot->receivedInputFrames!=lastPlannerReceived||snapshot->isFinal!=plannerSawFinal){
+            planner.update(snapshot);lastPlannerReceived=snapshot->receivedInputFrames;plannerSawFinal=snapshot->isFinal;
+            transitionMapPeak=std::max(transitionMapPeak.load(),planner.mapBytes());
+            if(auto view=planner.view();view&&view->version!=(frontierMailbox.read().value_or(phase59::PlanningFrontier{}).mapVersion)){
+                pendingMap=std::move(view);return;
+            }
+        }
+        auto latest=frontierMailbox.read();if(!latest||!planner.view()||latest->mapVersion!=planner.view()->version)return;
+        const auto& f=latest->dsp;const auto& modes=planner.view()->modes;
+        const bool densityReady=modes.empty()||std::all_of(f.nextInput.begin(),f.nextInput.end(),[&](auto p){return p>modes.back().first;});
+        {
+            std::lock_guard lock(operationMutex);
+            if(activeOperation!=noOperation){auto& op=operations[activeOperation];
+                if(op.workerState==Phase39RequestState::Applied&&consumed.load()>=std::size_t(op.change.plan.completionOutputSample)&&densityReady){op.state=phase59::OperationState::Completed;op.completedS=elapsed();activeOperation=noOperation;}
+            }
+            if(dspDone.load()){for(auto& op:operations)if(op.state==phase59::OperationState::Pending||op.state==phase59::OperationState::Submitted){op.state=phase59::OperationState::Cancelled;op.workerState=Phase39RequestState::Cancelled;}return;}
+            if(!renderingRequested.load())return;
+            if(activeOperation==noOperation&&pendingOperation!=noOperation&&densityReady){
+                auto& op=operations[pendingOperation];
+                if(op.target==planner.tail().micros){op.state=phase59::OperationState::Duplicate;op.acceptance=Phase39RequestResult::Duplicate;pendingOperation=noOperation;return;}
+                activeOperation=pendingOperation;pendingOperation=noOperation;op.state=phase59::OperationState::Submitted;op.workerState=Phase39RequestState::Requested;
+                op.generation=++requestGeneration;op.plannerSeenS=elapsed();waitingAnalysisNodes=std::size_t(-1);
+                announcedRequest=op.generation;realtime->signal();
+            }
+            if(activeOperation==noOperation||operations[activeOperation].workerState!=Phase39RequestState::Requested)return;
+            auto& op=operations[activeOperation];if(observedRequest.load()!=op.generation)return;
+            if(op.workerSeenS<0)op.workerSeenS=observedRequestS;
+        }
+        if(waitingAnalysisNodes==snapshot->mapThroughNode&&waitingAnalysisFinal==snapshot->isFinal)return;
+        phase59::SpeedOperation op;
+        {std::lock_guard lock(operationMutex);op=operations[activeOperation];}
+        playback::StageClock timing;const auto began=elapsed();
+        {std::lock_guard lock(operationMutex);auto& record=operations[activeOperation];record.planStartedS=began;record.planningDecided=false;
+            record.frontier=f;record.publishedAtPlan=latest->published;record.analysisNodesAtPlan=snapshot->mapThroughNode;record.receivedInputAtPlan=snapshot->receivedInputFrames;record.finalAnalysisAtPlan=snapshot->isFinal;}
+        phase59::PlanningResult result;
+        try{
+            if(config.transitionFailureForTest==1)throw std::runtime_error("Injected normal transition planner failure");
+            if(config.transitionFailureForTest==2)throw std::bad_alloc();
+            result=planner.plan({op.target},op.generation,op.logicalPresented,latest->published,f);
+        }catch(...){const auto cost=timing.elapsed();transitionCpu=transitionCpu.load()+cost.threadCpuSeconds;transitionWall=transitionWall.load()+cost.wallSeconds;++transitionAttempts;
+            std::lock_guard lock(operationMutex);auto& record=operations[activeOperation];record.planFinishedS=elapsed();record.planCpuS+=cost.threadCpuSeconds;record.planWallS+=cost.wallSeconds;++record.attempts;throw;}
+        const auto cost=timing.elapsed();transitionCpu=transitionCpu.load()+cost.threadCpuSeconds;transitionWall=transitionWall.load()+cost.wallSeconds;++transitionAttempts;
+        if(cancelled.load()||failure.load()){if(result.change.plan.applied())planner.confirmPlan(false);transitionHistory=planner.historyCount();return;}
+        transitionMapPeak=std::max(transitionMapPeak.load(),planner.mapBytes());transitionHistory=planner.historyCount();
+        {
+            std::lock_guard lock(operationMutex);auto& record=operations[activeOperation];
+            record.planStartedS=began;record.planFinishedS=elapsed();record.planCpuS+=cost.threadCpuSeconds;record.planWallS+=cost.wallSeconds;++record.attempts;
+            record.frontier=f;record.publishedAtPlan=latest->published;
+            record.analysisNodesAtPlan=snapshot->mapThroughNode;record.receivedInputAtPlan=snapshot->receivedInputFrames;record.finalAnalysisAtPlan=snapshot->isFinal;
+            record.planningDecided=result.status==phase59::PlanningStatus::Decided;
+            if(result.status==phase59::PlanningStatus::PendingAnalysis){++record.analysisDeferrals;++transitionDeferrals;waitingAnalysisNodes=snapshot->mapThroughNode;waitingAnalysisFinal=snapshot->isFinal;return;}
+            record.change=result.change;
+            if(result.limitReached)record.acceptance=Phase39RequestResult::LimitReached;
+            if(!result.change.plan.applied()){record.state=phase59::OperationState::Rejected;record.workerState=Phase39RequestState::Rejected;activeOperation=noOperation;return;}
+        }
+        pendingMap=planner.view();mapOperation=activeOperation;
+    }
     void analyze(){
         CpuEnd measured{analysisWorkerCpu};
         std::unique_ptr<phase56::ProgressiveAnalysisSession> a;
@@ -220,16 +344,18 @@ struct RealtimePipeline::Impl {
             a=std::make_unique<phase56::ProgressiveAnalysisSession>(input.rate,input.channels,session,phase56::AnalysisLimits{},std::vector<std::uint32_t>{config.speedMicros});
             phase56::PinnedWavSource source(input.path(),session);std::size_t at=0;
             while(at<input.frames){check();if(config.analysisDelayMs)std::this_thread::sleep_for(std::chrono::duration<double,std::milli>(config.analysisDelayMs));
-                check();at+=source.appendNext(*a,config.analysisChunk);check();received=at;publish(a->getSnapshot());}
-            check();source.finish(*a);check();analysisEnd=elapsed();analysisDone=true;publish(a->getSnapshot());
+                check();at+=source.appendNext(*a,config.analysisChunk);check();received=at;publish(a->getSnapshot());transitionStep(a->getSnapshot());}
+            check();source.finish(*a);check();analysisEnd=elapsed();analysisDone=true;publish(a->getSnapshot());transitionStep(a->getSnapshot());
             const auto stats=a->statistics();snapshotPeak=stats.snapshotPeakBytes;snapshotCopies=stats.snapshotCopyBytes;
             analysisCpu=cpu.elapsed().threadCpuSeconds;
             // Continue validating the selected source after analysis EOS. The
             // control/audio owner joins this worker before releasing the FD.
             while(!cancelled.load()&&!failure.load()){
-                std::unique_lock lock(mutex);changed.wait_for(lock,std::chrono::milliseconds(10),[&]{return cancelled.load()||failure.load();});lock.unlock();
+                transitionStep(a->getSnapshot());
+                std::unique_lock lock(mutex);changed.wait_for(lock,std::chrono::milliseconds(config.dynamicTransitions?1:10),[&]{return cancelled.load()||failure.load();});lock.unlock();
                 if(dspDone.load()&&fifo.available()==0)break;check();
             }
+            if(config.dynamicTransitions)transitionStep(a->getSnapshot());
         }catch(const Cancelled&){if(a)a->cancel();}
         catch(const std::exception& e){if(dspDone.load()&&fifo.available()==0&&!failure.load())return;
             if(a&&!analysisDone.load()){try{a->failInput(session,phase56::AnalysisError::InputRead);}catch(...){}}fail(e.what());}
@@ -258,13 +384,16 @@ struct RealtimePipeline::Impl {
                 else check(true);
             },16*1024*1024,input.residentBytes());
             activeEngine=&engine;
-            output=std::size_t(std::llround(input.frames*(1.0/(double(config.speedMicros)/1000000.0))));
-            engine.setDeclaredFinalOutputFrames(output.load());
+            output=config.dynamicTransitions?0:std::size_t(std::llround(input.frames*(1.0/(double(config.speedMicros)/1000000.0))));
+            if(config.dynamicTransitions)engine.enableDynamicTransitions();else engine.setDeclaredFinalOutputFrames(output.load());
             if(config.recordWorkerProfile){prepareDiagnosticStorage(profiles,65536);engine.enableWorkProfiling();}
             if(config.detailedDiagnostics)engine.setWorkObserver(detailObserver,this);
             Phase45PcmDigest hash;std::vector<float> interleaved(config.verifyPcm?2048*input.channels:0);
             std::uint64_t seenTag=decltype(borrowedMailbox)::initialTag,seen=0;
+            std::uint64_t seenMapTag=decltype(dynamicMailbox)::initialTag,currentMapVersion=0;
+            const auto publishFrontier=[&]{if(config.dynamicTransitions)frontierMailbox.publish({engine.dspFrontier(),currentMapVersion,published.load(),consumed.load(),elapsed()});};
             bool needSnapshot=true,finalSnapshot=false;double previousPublished=-1,atPublication=0,gap=0;
+            unsigned promotionAttempts=0;
             // Construct this owning function once before promotion. No per-block
             // std::function allocation, snapshot ownership, mutex or notification.
             const phase57::ProgressiveSynthesisEngine::Sink sink=[&](auto generation,auto offset,const float*const* p,std::size_t n){
@@ -288,6 +417,7 @@ struct RealtimePipeline::Impl {
                 while(!cancelled.load()&&!failure.load()){
                     if(renderingRequested.load()&&ready.load()&&!realtime->active()){
                         activeAllocationBase=dspAllocations;
+                        if(++promotionAttempts==config.promotionFailureOnAttemptForTest)throw std::runtime_error("Injected pre-promotion failure");
                         if(!realtime->promote())throw std::runtime_error("DSP realtime promotion failed");
                     }else if(!renderingRequested.load()&&realtime->active()){
                         if(!demote())throw std::runtime_error("DSP normal-policy restore failed");
@@ -296,6 +426,18 @@ struct RealtimePipeline::Impl {
                         DetailScope region{*this,12};
                         const auto* view=lease->get();engine.supplyBorrowedSnapshot(view);
                         finalSnapshot=view->isFinal;seenTag=lease->tag();seen=seenTag>>2;lease->commit();needSnapshot=false;
+                    }
+                    if(config.dynamicTransitions){
+                        if(auto lease=dynamicMailbox.acquire(seenMapTag)){
+                            const auto* view=lease->get();const auto tag=lease->tag();
+                            const bool accepted=engine.trySupplyBorrowedDynamicMap(view);
+                            if(accepted){currentMapVersion=view->version;if(view->final)output=view->outputFrames;lease->commit();needSnapshot=false;}
+                            seenMapTag=tag;publishFrontier();mapAckAccepted=accepted;mapAckS=elapsed();mapAckConsumed=consumed.load();mapAckTag=tag;
+                        }
+                        const auto request=announcedRequest.load();
+                        if(request&&request!=observedRequest.load()){
+                            const auto recognized=elapsed();publishFrontier();observedRequestS=recognized;observedRequest=request;
+                        }
                     }
                     if(needSnapshot){
                         DetailScope region{*this,10};playback::StageClock wait;++analysisWaits;
@@ -311,9 +453,10 @@ struct RealtimePipeline::Impl {
                     try{DetailScope region{*this,14};state=engine.advance(sink);}
                     catch(...){realtime->finishInterval();demote();generated=engine.frontier().generated;throw;}
                     if(!realtime->finishInterval())throw std::runtime_error("DSP work interval finish failed");
+                    publishFrontier();
                     const auto t=block.elapsed();dspCpu=dspCpu.load()+t.threadCpuSeconds;maxDspWall=std::max(maxDspWall.load(),t.wallSeconds);maxDspCpu=std::max(maxDspCpu.load(),t.threadCpuSeconds);
                     if(config.recordWorkerProfile&&published.load()!=startOutput){
-                        if(profiles.size()<65536)profiles.push_back({startOutput,published.load(),fifoBefore,fifo.available(),received.load(),seen,finalSnapshot,began,atPublication,t.wallSeconds,t.threadCpuSeconds,gap,engine.workProfile(),realtime->active()});else ++profileDropped;
+                        if(profiles.size()<65536)profiles.push_back({startOutput,published.load(),fifoBefore,fifo.available(),received.load(),seen,finalSnapshot,began,atPublication,t.wallSeconds,t.threadCpuSeconds,gap,engine.workProfile(),realtime->active(),currentMapVersion});else ++profileDropped;
                     }
                     if(cancelled.load()||failure.load())break;
                     if(state==phase57::SynthesisState::NeedsMoreAnalysis||state==phase57::SynthesisState::NeedsMoreInput){needSnapshot=true;continue;}
@@ -412,7 +555,7 @@ struct RealtimePipeline::Impl {
         catch(const std::exception& e){fail(e.what());}
         changed.notify_all();
     }
-    void stop(){{std::lock_guard lock(mutex);cancelled=true;}renderingRequested=false;realtime->signal();changed.notify_all();if(sampler.joinable())sampler.join();if(analysisWorker.joinable())analysisWorker.join();if(dspWorker.joinable())dspWorker.join();}
+    void stop(){{std::lock_guard lock(mutex);cancelled=true;}renderingRequested=false;realtime->signal();changed.notify_all();if(sampler.joinable())sampler.join();if(analysisWorker.joinable())analysisWorker.join();if(dspWorker.joinable())dspWorker.join();if(config.dynamicTransitions){finalizeTransition();cancelOperations();}}
 };
 RealtimePipeline::RealtimePipeline(const std::filesystem::path& p,Configuration c):impl_(std::make_unique<Impl>(p,c)){}
 RealtimePipeline::~RealtimePipeline(){impl_->stop();}
@@ -443,6 +586,23 @@ RenderResult RealtimePipeline::pullAudio(float*const* p,std::size_t n)noexcept{
 bool RealtimePipeline::finished()const noexcept{return impl_->dspDone.load();}
 bool RealtimePipeline::drained()const noexcept{return finished()&&!available();}
 bool RealtimePipeline::failed()const noexcept{return impl_->failure.load();}
+phase59::RequestReceipt RealtimePipeline::requestSpeed(std::uint32_t speed,std::size_t position,std::uint64_t expectedSession,std::uint64_t expectedGeneration){
+    auto& x=*impl_;std::lock_guard lock(x.operationMutex);
+    const bool invalid=!x.config.dynamicTransitions||!phase59::formalSpeed(speed);
+    const bool stopped=!x.started.load()||x.cancelled.load()||x.failure.load()||x.dspDone.load()||(expectedSession&&expectedSession!=x.session)||(expectedGeneration&&expectedGeneration!=x.session);
+    if(x.operations.size()>=4096)return {0,invalid?Phase39RequestResult::Invalid:stopped?Phase39RequestResult::Stopped:Phase39RequestResult::LimitReached};
+    phase59::SpeedOperation op;op.id=x.operations.size()+1;op.session=x.session;op.inputGeneration=x.session;op.target=speed;op.logicalPresented=position;op.acceptedS=x.elapsed();
+    if(invalid){op.acceptance=Phase39RequestResult::Invalid;op.change.plan.outcome=Phase39Outcome::Invalid;op.state=phase59::OperationState::Rejected;}
+    else if(stopped){
+        op.acceptance=Phase39RequestResult::Stopped;op.state=phase59::OperationState::Rejected;
+    }else{
+        if(x.pendingOperation!=Impl::noOperation)x.operations[x.pendingOperation].state=phase59::OperationState::Replaced;
+        x.pendingOperation=x.operations.size();
+    }
+    x.operations.push_back(op);return {op.id,op.acceptance};
+}
+std::vector<phase59::SpeedOperation> RealtimePipeline::speedOperations()const{std::lock_guard lock(impl_->operationMutex);return impl_->operations;}
+TimeMap RealtimePipeline::dynamicTimeMap()const{const auto& x=*impl_;if(x.analysisWorker.joinable()||x.dspWorker.joinable()||!x.transitionPlanner||!x.transitionPlanner->view())throw std::logic_error("Joined dynamic session required");return x.transitionPlanner->view()->map;}
 std::size_t RealtimePipeline::available()const noexcept{return impl_->fifo.available();}
 std::uint32_t RealtimePipeline::sampleRate()const noexcept{return impl_->input.rate;}
 std::size_t RealtimePipeline::channels()const noexcept{return impl_->input.channels;}
@@ -456,6 +616,10 @@ Diagnostics RealtimePipeline::diagnostics()const{
     d.sourceSnapshotBytes=x.input.snapshotBytes();d.analysisWorkerCpuS=x.analysisWorkerCpu;
     d.residentInputBytes=x.input.residentBytes().size();d.residentReadyS=x.residentReady;d.renderingRequested=x.renderingRequested;
     d.inputSamplesPrevalidated=!x.input.residentBytes().empty();
+    d.dynamicTransitions=x.config.dynamicTransitions;d.transitionHistory=x.transitionHistory;d.transitionMapPeakBytes=x.transitionMapPeak;
+    d.transitionPlanAttempts=x.transitionAttempts;d.transitionStaleReplans=x.transitionStale;d.transitionAnalysisDeferrals=x.transitionDeferrals;d.transitionPlanCpuS=x.transitionCpu;d.transitionPlanWallS=x.transitionWall;
+    {std::lock_guard operationLock(x.operationMutex);d.transitionOperations=x.operations.size();}
+    if(!x.analysisWorker.joinable()&&!x.dspWorker.joinable())d.transitionMapOwners=x.dynamicMailbox.ownerCount();
     d.scheduling=x.realtime->metrics();d.realtimeNewCalls=x.realtimeNewCalls;d.realtimeAllocationsMeasured=x.realtimeAllocationsMeasured;
     if(!x.analysisWorker.joinable()&&!x.dspWorker.joinable())d.borrowedSnapshotOwners=x.borrowedMailbox.ownerCount();
     d.fifoHighWater=x.fifo.highWater();d.snapshotPeakBytes=x.snapshotPeak;d.snapshotCopyBytes=x.snapshotCopies;

@@ -1,0 +1,39 @@
+[
+  {
+    "selection": "boundary_180s",
+    "exit": 0,
+    "result": {
+      "PASS": true,
+      "cases": 18,
+      "pcm_sessions": 30,
+      "matched_rejections": 0,
+      "completed_utc": "2026-10-16T11:19:48Z"
+    },
+    "command": "/usr/local/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -B /Users/taro252/Docker/TimeStretchLab/results/phase59/regression_parallel57/driver_sources/long_boundary_180s.py --suite long --output /Users/taro252/Docker/TimeStretchLab/results/phase59/regression_parallel57/long/boundary_180s --binary /Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/final/phase57_check",
+    "driver_sha256": "e20566ef324dccaac9513abd81cd28130811bd758edbea8555b6cb98ca80e340"
+  },
+  {
+    "selection": "chain_300s",
+    "command": [
+      "/usr/local/opt/python@3.14/bin/python3.14",
+      "-B",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase59/regression_completion/driver_sources/long_chain_300s.py",
+      "--suite",
+      "long",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase59/regression_parallel57/long/chain_300s",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/final/phase57_check"
+    ],
+    "exit": 0,
+    "wall_s": 1073.733458995819,
+    "driver_sha256": "fcf8c0ce2f984d95728b43fd92413df959d36c1ffb7de6496d4a5f2a9234bc1f",
+    "result": {
+      "PASS": true,
+      "cases": 18,
+      "pcm_sessions": 18,
+      "matched_rejections": 0,
+      "completed_utc": "2026-10-16T11:24:28Z"
+    }
+  }
+]

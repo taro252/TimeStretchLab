@@ -1,0 +1,27 @@
+[
+  {
+    "command": [
+      "sysctl",
+      "vm.swapusage"
+    ],
+    "exit": 0,
+    "stdout": "vm.swapusage: total = 5120.00M  used = 4280.06M  free = 839.94M  (encrypted)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "vm_stat"
+    ],
+    "exit": 0,
+    "stdout": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     6085.\nPages active:                                 183797.\nPages inactive:                               182095.\nPages speculative:                               648.\nPages throttled:                                   0.\nPages wired down:                             168579.\nPages purgeable:                                 854.\n\"Translation faults\":                     2361888310.\nPages copy-on-write:                        97032530.\nPages zero filled:                        1603487142.\nPages reactivated:                         397356805.\nPages purged:                               42333839.\nFile-backed pages:                            133721.\nAnonymous pages:                              232819.\nPages stored in compressor:                  1542613.\nPages occupied by compressor:                 471512.\nDecompressions:                            377498070.\nCompressions:                              423304124.\nPageins:                                   114205408.\nPageouts:                                    1595008.\nSwapins:                                     2059728.\nSwapouts:                                    2927374.\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "uptime"
+    ],
+    "exit": 0,
+    "stdout": "21:24  up 3 days,  5:22, 5 users, load averages: 5.73 7.17 11.43\n",
+    "stderr": ""
+  }
+]

@@ -1,0 +1,33 @@
+{
+  "driver_source_sha256": "c13955b9032eb60db153471997e8c34eabbaabf5dc6a474c565de5aabfe5d335",
+  "baseline": "ec087019626d9ff0d9f157245729b74ddb6847d7",
+  "suite": "natural",
+  "reference": "/Users/taro252/Docker/TimeStretchLab/build/phase57_frozen/reference",
+  "reference_binary_sha256": "461c26d10b0fd8a781cbffcbbab49072f501e02172e2a7c2f26e3e49a0253a1e",
+  "incremental_binary": "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/final/phase57_check",
+  "incremental_binary_sha256": "e5ac02ce2afc87485e94c4a31800dcac3f76c2501c80fc8d1120180e65e51027",
+  "speeds": [
+    400000,
+    500000,
+    750000,
+    1000000,
+    1250000,
+    1500000,
+    2000000
+  ],
+  "chunks": [
+    "7168",
+    "131072",
+    "5003"
+  ],
+  "inputs": [
+    {
+      "name": "guitar",
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/guitar.wav",
+      "kind": "existing natural excerpt 10s",
+      "seconds": 10,
+      "input_sha256": "3da0902bd133bfe71c61650cae3e3f7ba0864bd0deb375387a36b3b38ec2f87a"
+    }
+  ],
+  "started_utc": "2026-10-16T11:27:35Z"
+}

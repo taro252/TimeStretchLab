@@ -12,6 +12,10 @@ inline void writeDiagnostics(std::ostream& out,const Diagnostics& d){
     n("source_snapshot_bytes",d.sourceSnapshotBytes);n("analysis_worker_cpu_s",d.analysisWorkerCpuS);
     n("resident_input_bytes",d.residentInputBytes);n("resident_ready_s",d.residentReadyS);n("borrowed_snapshot_owners",d.borrowedSnapshotOwners);n("rendering_requested",d.renderingRequested);
     n("input_samples_prevalidated",d.inputSamplesPrevalidated);
+    n("dynamic_transitions",d.dynamicTransitions);n("transition_operations",d.transitionOperations);n("transition_map_owners",d.transitionMapOwners);
+    n("transition_history",d.transitionHistory);n("transition_map_peak_bytes",d.transitionMapPeakBytes);n("transition_plan_attempts",d.transitionPlanAttempts);
+    n("transition_stale_replans",d.transitionStaleReplans);n("transition_analysis_deferrals",d.transitionAnalysisDeferrals);
+    n("transition_plan_cpu_s",d.transitionPlanCpuS);n("transition_plan_wall_s",d.transitionPlanWallS);
     const auto& rt=d.scheduling;
     n("workgroup_enabled",rt.enabled);n("workgroup_policy_measured",rt.policyMeasured);n("workgroup_active_after_stop",rt.active);
     n("workgroup_promotions",rt.promotions);n("workgroup_joins",rt.joins);n("workgroup_leaves",rt.leaves);n("workgroup_restores",rt.restores);
