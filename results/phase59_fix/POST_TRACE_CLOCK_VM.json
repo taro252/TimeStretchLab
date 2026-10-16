@@ -1,0 +1,133 @@
+{
+  "clock_jumps": [
+    {
+      "index": 8016,
+      "previous": {
+        "sequence": "8016",
+        "epoch": "1",
+        "start_ns": "280215770352750",
+        "end_ns": "280215770369500",
+        "host_ns": "280215772460750",
+        "sample_time": "3770256",
+        "flags": "7",
+        "requested": "471",
+        "wanted": "471",
+        "received": "471",
+        "output_before": "3770256",
+        "fifo_before": "10352"
+      },
+      "current": {
+        "sequence": "8017",
+        "epoch": "1",
+        "start_ns": "280215781528000",
+        "end_ns": "280215781531000",
+        "host_ns": "280215794876375",
+        "sample_time": "3771245",
+        "flags": "7",
+        "requested": "470",
+        "wanted": "470",
+        "received": "470",
+        "output_before": "3770727",
+        "fifo_before": "9881"
+      },
+      "extra_frames": 518.0,
+      "entry_pipeline_s": 85.82072208400001,
+      "actual_entry_delta_ns": 11175250,
+      "timestamp_delta_ns": 22415625
+    }
+  ],
+  "client_thread": 7094022,
+  "hal_client_overloads": 1,
+  "hal_overloads": [
+    {
+      "timestamp": {
+        "value": "2962721000",
+        "fmt": "00:02.962.721",
+        "tag": "event-time"
+      },
+      "description": {
+        "value": null,
+        "fmt": "Client Overload (Process: phase59_fix_fixed_probe (40822); Thread: 0x6c3f06 (phase59_fix_fixed_probe, pid: 40822))",
+        "tag": "narrative",
+        "tid": 7094022,
+        "pid": 40822
+      },
+      "concept": {
+        "value": "Critical",
+        "fmt": "Critical",
+        "tag": "event-concept"
+      },
+      "detail": {
+        "value": null,
+        "fmt": "Client phase59_fix_fixed_probe (40822) had an overload on thread 0x6c3f06 (phase59_fix_fixed_probe, pid: 40822) at 2962721000.",
+        "tag": "narrative",
+        "tid": 7094022,
+        "pid": 40822
+      }
+    }
+  ],
+  "native_hal_window_misses": 0,
+  "native_callback_deadlines": 0,
+  "native_pcm_complete_exact": 1,
+  "native_missing_frames": 0,
+  "known_realtime_vm": [
+    {
+      "output_start": "3792896",
+      "operation": "Decompress Memory",
+      "duration_ns": 8750.0,
+      "address": "0xb28dac000",
+      "frames": [
+        "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::position(double) const",
+        "ts::prototype::synthesis_detail::ResolutionStream::readyThrough(unsigned long) const",
+        "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+        "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+        "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+        "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+        "_pthread_start",
+        "thread_start"
+      ]
+    },
+    {
+      "output_start": "3815424",
+      "operation": "Decompress Memory",
+      "duration_ns": 5667.0,
+      "address": "0x5a97a0000",
+      "frames": [
+        "ts::prototype::phase58::RealtimePipeline::Impl::DetailScope::~DetailScope()",
+        "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+        "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+        "_pthread_start",
+        "thread_start"
+      ]
+    },
+    {
+      "output_start": "3858432",
+      "operation": "Decompress Memory",
+      "duration_ns": 6584.0,
+      "address": "0xb28db8000",
+      "frames": [
+        "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::position(double) const",
+        "ts::prototype::synthesis_detail::ResolutionStream::readyThrough(unsigned long) const",
+        "ts::prototype::phase57::ProgressiveSynthesisEngine::Impl::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+        "ts::prototype::phase57::ProgressiveSynthesisEngine::advance(std::__1::function<void (unsigned long long, unsigned long, float const* const*, unsigned long)> const&)",
+        "ts::prototype::phase58::RealtimePipeline::Impl::synthesizeRealtime()",
+        "void* std::__1::__thread_proxy[abi:nqe220106]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, ts::prototype::phase58::RealtimePipeline::start()::$_1>>(void*)",
+        "_pthread_start",
+        "thread_start"
+      ]
+    }
+  ],
+  "client_vm_operations": 11,
+  "evidence": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/final_long_trace/post_trace_clock_vm_evidence.json",
+  "evidence_sha256": "6b88d91a6e073a2870ceff07e09828d2092c13e803d2aa1271acdb093230de56",
+  "script_sha256": "5daaa13f408024037f8e8e9703f366aa3eccbcd6a12f2b5b195822ea83849f04",
+  "source_sha256": {
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/final_long_trace_native/callbacks.csv": "f4ff547b4c92add4095a1c42e4f232b122c566c1bff98e6be7f68098deddc779",
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/final_long_trace_native/summary.json": "46cba71c9d041c644dbec501f90e25b5899e353c7f50b68fcc486aa87094d1eb",
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/final_long_trace/xml/audio-hal-client-poi.xml": "39613ea9920f0125a3797750b6a2633f50ba097866ab6be1c162a973cea7fb91",
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/final_long_trace/xml/audio-hal-client-io-cycle-ioproc.xml": "e308c0bba7a9a7f73c996a4321a0e9b6aa759c0b8a171814d18e060151e581e9",
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/final_long_trace/xml/audio-hal-io-cycle-hardware.xml": "93976bfd845697daa7dbb6eb04482a9ef1f0a16f1961c6b9711b035f412ad4e4"
+  },
+  "interpretation": "8016手前にHAL client threadが約11.2ms Blockedとなり、dtsecurityによる起床、遅れたIOProc、Client Overload、次のSourceNode timestamp跳躍という順序を観測。待機の全因果と計測器の関与は未証明。トレースなしの初回異常と同原因としない。",
+  "scope": "追加の計測器付き1試行。正式274セッションと分離。Native HAL window 0をOS Client Overload 0へ一般化しない。元の72秒付近の対象7区間は未取得。"
+}

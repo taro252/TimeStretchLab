@@ -1,0 +1,253 @@
+[
+  {
+    "name": "release_deterministic",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "build",
+      "-L",
+      "deterministic",
+      "--output-on-failure",
+      "-j2"
+    ],
+    "exit": 0,
+    "wall_s": 514.4941790103912,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/release_deterministic.log"
+  },
+  {
+    "name": "debug_configure",
+    "command": [
+      "cmake",
+      "-S",
+      "/Users/taro252/Docker/TimeStretchLab",
+      "-B",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_debug",
+      "-DCMAKE_BUILD_TYPE=Debug"
+    ],
+    "exit": 0,
+    "wall_s": 1.9262869358062744,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/debug_configure.log"
+  },
+  {
+    "name": "debug_all_build",
+    "command": [
+      "cmake",
+      "--build",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_debug",
+      "-j3"
+    ],
+    "exit": 0,
+    "wall_s": 200.53573083877563,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/debug_all_build.log"
+  },
+  {
+    "name": "debug_related",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_debug",
+      "-R",
+      "^(phase59_|phase58_|phase57_|phase56_|phase54_)",
+      "--output-on-failure",
+      "-j1"
+    ],
+    "exit": 0,
+    "wall_s": 404.4060118198395,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/debug_related.log"
+  },
+  {
+    "name": "golden",
+    "command": [
+      "/usr/local/opt/python@3.14/bin/python3.14",
+      "-B",
+      "scripts/phase57_golden.py",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/golden"
+    ],
+    "exit": 0,
+    "wall_s": 125.63590502738953,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/golden.log"
+  },
+  {
+    "name": "git_blob_guard",
+    "command": [
+      "/usr/local/opt/python@3.14/bin/python3.14",
+      "-B",
+      "tests/GitBlobSizeGuardTests.py",
+      "-v"
+    ],
+    "exit": 0,
+    "wall_s": 8.47468900680542,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/git_blob_guard.log"
+  },
+  {
+    "name": "frontier_thread_compile",
+    "command": [
+      "/usr/bin/c++",
+      "-std=c++20",
+      "-O1",
+      "-g",
+      "-fsanitize=thread",
+      "-fno-omit-frame-pointer",
+      "-Isrc",
+      "tests/Phase59MailboxProbe.cpp",
+      "-o",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/frontier_thread"
+    ],
+    "exit": 0,
+    "wall_s": 3.0312280654907227,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/frontier_thread_compile.log"
+  },
+  {
+    "name": "frontier_thread",
+    "command": [
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/frontier_thread"
+    ],
+    "exit": 0,
+    "wall_s": 1.0763270854949951,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/frontier_thread.log"
+  },
+  {
+    "name": "borrowed_thread_compile",
+    "command": [
+      "/usr/bin/c++",
+      "-std=c++20",
+      "-O1",
+      "-g",
+      "-fsanitize=thread",
+      "-fno-omit-frame-pointer",
+      "-Isrc",
+      "tests/Phase58FixMailboxTests.cpp",
+      "-o",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/borrowed_thread"
+    ],
+    "exit": 0,
+    "wall_s": 0.9690649509429932,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/borrowed_thread_compile.log"
+  },
+  {
+    "name": "borrowed_thread",
+    "command": [
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/borrowed_thread"
+    ],
+    "exit": 0,
+    "wall_s": 1.8808281421661377,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/borrowed_thread.log"
+  },
+  {
+    "name": "frontier_address_undefined_compile",
+    "command": [
+      "/usr/bin/c++",
+      "-std=c++20",
+      "-O1",
+      "-g",
+      "-fsanitize=address,undefined",
+      "-fno-omit-frame-pointer",
+      "-Isrc",
+      "tests/Phase59MailboxProbe.cpp",
+      "-o",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/frontier_address_undefined"
+    ],
+    "exit": 0,
+    "wall_s": 2.4992570877075195,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/frontier_address_undefined_compile.log"
+  },
+  {
+    "name": "frontier_address_undefined",
+    "command": [
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/frontier_address_undefined"
+    ],
+    "exit": 0,
+    "wall_s": 0.551551342010498,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/frontier_address_undefined.log"
+  },
+  {
+    "name": "borrowed_address_undefined_compile",
+    "command": [
+      "/usr/bin/c++",
+      "-std=c++20",
+      "-O1",
+      "-g",
+      "-fsanitize=address,undefined",
+      "-fno-omit-frame-pointer",
+      "-Isrc",
+      "tests/Phase58FixMailboxTests.cpp",
+      "-o",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/borrowed_address_undefined"
+    ],
+    "exit": 0,
+    "wall_s": 1.1443228721618652,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/borrowed_address_undefined_compile.log"
+  },
+  {
+    "name": "borrowed_address_undefined",
+    "command": [
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/borrowed_address_undefined"
+    ],
+    "exit": 0,
+    "wall_s": 0.5503520965576172,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/borrowed_address_undefined.log"
+  },
+  {
+    "name": "vocoder_address_undefined_compile",
+    "command": [
+      "/usr/bin/c++",
+      "-std=c++20",
+      "-O1",
+      "-g",
+      "-fsanitize=address,undefined",
+      "-fno-omit-frame-pointer",
+      "-Isrc",
+      "tests/Phase59FixVocoderTests.cpp",
+      "tests/reference/phase59_fix/Before59FixPhaseVocoder.cpp",
+      "src/prototype/Phase35PhaseVocoder.cpp",
+      "src/dsp/PhaseLocker.cpp",
+      "-o",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/vocoder_address_undefined"
+    ],
+    "exit": 0,
+    "wall_s": 4.721387147903442,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/vocoder_address_undefined_compile.log"
+  },
+  {
+    "name": "vocoder_address_undefined",
+    "command": [
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/vocoder_address_undefined"
+    ],
+    "exit": 0,
+    "wall_s": 2.4785819053649902,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/vocoder_address_undefined.log"
+  },
+  {
+    "name": "stereo_address_undefined_compile",
+    "command": [
+      "/usr/bin/c++",
+      "-std=c++20",
+      "-O1",
+      "-g",
+      "-fsanitize=address,undefined",
+      "-fno-omit-frame-pointer",
+      "-Isrc",
+      "tests/Phase59FixStereoTests.cpp",
+      "tests/reference/phase59_fix/Before59FixPhaseVocoder.cpp",
+      "tests/reference/phase59_fix/Before59FixStereoPhaseCoherence.cpp",
+      "src/prototype/Phase35PhaseVocoder.cpp",
+      "src/prototype/Phase35StereoPhaseCoherence.cpp",
+      "src/dsp/PhaseLocker.cpp",
+      "-o",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/stereo_address_undefined"
+    ],
+    "exit": 0,
+    "wall_s": 7.344318866729736,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/stereo_address_undefined_compile.log"
+  },
+  {
+    "name": "stereo_address_undefined",
+    "command": [
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/stereo_address_undefined"
+    ],
+    "exit": 0,
+    "wall_s": 4.614675998687744,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/checks_final/stereo_address_undefined.log"
+  }
+]

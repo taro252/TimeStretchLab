@@ -11,6 +11,12 @@ PhaseLocker::PhaseLocker(std::size_t fftSize, float relativeThreshold)
     if (fftSize < 16 || !std::isfinite(relativeThreshold) || relativeThreshold <= 0)
         throw std::invalid_argument("Invalid PhaseLocker configuration");
     peaks_.reserve(binCount_); // No peak-list allocation in the audio frame loop.
+    // reserve() does not write peak-list pages. Prepare the whole bounded
+    // capacity before any render/real-time promotion, then restore empty state.
+    peaks_.resize(binCount_);
+    auto* storage=reinterpret_cast<volatile unsigned char*>(peaks_.data());
+    for(std::size_t i=0;i<binCount_*sizeof(SpectralPeak);++i)storage[i]=0;
+    peaks_.clear();
 }
 void PhaseLocker::reset() {
     peaks_.clear();

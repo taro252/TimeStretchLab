@@ -1,0 +1,31 @@
+{
+  "commit": "190fbcd1ad9f6cf2e98eccf7d0f3d4cb2dd5e05b",
+  "recipe": "git show COMMIT:PATH; rename class Phase35PhaseVocoder to Before59FixPhaseVocoder; change cpp include to local renamed header. Arithmetic and state updates unchanged.",
+  "files": [
+    {
+      "original": "src/prototype/Phase35PhaseVocoder.h",
+      "baseline_sha256": "f8aa3cd95f260c754aad5c375221d5176fd4b47346c95b03551e80b9e6ed61b9",
+      "copy": "tests/reference/phase59_fix/Before59FixPhaseVocoder.h",
+      "sha256": "f89a34b6804c9dd9edc4e891fe860abb59a057a7aed16572a93bca7e2c56d40d"
+    },
+    {
+      "original": "src/prototype/Phase35PhaseVocoder.cpp",
+      "baseline_sha256": "5fff30139bad399b31457713067db9397f6c4f22bccef26bd0f13d15ecb3bfd7",
+      "copy": "tests/reference/phase59_fix/Before59FixPhaseVocoder.cpp",
+      "sha256": "afa332c557039116c14b151d3cb689bf45e75dac36acf24e275a28ead11d4ad2"
+    },
+    {
+      "original": "src/prototype/Phase35StereoPhaseCoherence.h",
+      "baseline_sha256": "5d1716458905b9848954330cd4d40dceac6debf0f67353f1d6540ea6a22b8c4d",
+      "copy": "tests/reference/phase59_fix/Before59FixStereoPhaseCoherence.h",
+      "sha256": "7910124f31fbb7d8dfe81438ac821a36e8a9315a5e90bad828555de3835767ba"
+    },
+    {
+      "original": "src/prototype/Phase35StereoPhaseCoherence.cpp",
+      "baseline_sha256": "ec8be2fb2dda97740b0da989364eeab3db356498adf368251cae0ada7538b833",
+      "copy": "tests/reference/phase59_fix/Before59FixStereoPhaseCoherence.cpp",
+      "sha256": "357f7a4b620d781a210a45b1072736358f56bbb079f45e9004da1a0386776059"
+    }
+  ],
+  "stereo_recipe": "Same class/include renaming for StereoPhaseCoherence, using the frozen Before59FixPhaseVocoder type; no arithmetic changes."
+}

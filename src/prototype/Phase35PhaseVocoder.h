@@ -32,6 +32,8 @@ private:
     std::vector<bool> resyncPending_;
     std::vector<double> previousPhase_, synthesisPhase_;
     std::vector<float> previousMagnitude_;
+    // Frame-local reuse only. Persistent phase update order remains unchanged.
+    std::vector<float> inputMagnitudeCache_,inputPhaseCache_;
     bool enablePhaseLocking_;
     PhaseLocker phaseLocker_;
 };

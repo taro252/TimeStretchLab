@@ -1,0 +1,83 @@
+{
+  "failures": [
+    {
+      "group": "dynamic",
+      "summary": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/device_final/dynamic_normal/case_000/native/summary.json",
+      "summary_sha256": "8b2b6dc8d1d1b6812413dd4a3bb8ef03a0f3c0ebe590bd1305deb9bb44d1dafd",
+      "zero_invariants": {
+        "missing_frames": 0,
+        "missing_calls": 0,
+        "rejected_writes": 0,
+        "callback_deadlines": 0,
+        "callback_formats": 0,
+        "hal_misses": 0,
+        "host_missing": 0,
+        "host_backwards": 0,
+        "host_cadence_errors": 1,
+        "sample_errors": 1,
+        "callback_cpp_allocations": 0,
+        "realtime_cpp_new_calls": 0,
+        "workgroup_deadline_misses": 0,
+        "workgroup_policy_errors": 0,
+        "workgroup_join_errors": 0,
+        "workgroup_restore_errors": 0,
+        "workgroup_interval_errors": 0,
+        "workgroup_query_errors": 0,
+        "workgroup_wait_errors": 0,
+        "workgroup_wake_errors": 0
+      },
+      "pcm_mismatches": 0,
+      "external_dynamic_pcm": {
+        "PASS": true,
+        "complete": true,
+        "frames": 216077,
+        "pcm_sha256": "d09cc6755c0418b2edde30f53e2b7e7c1d303f51d46dbf6f053a4a807aa1eef0",
+        "reference_frames": 216077
+      },
+      "measurement_valid": 0,
+      "clock_sample_jumps": [
+        {
+          "previous": {
+            "sequence": "1",
+            "epoch": "1",
+            "start_ns": "276533920487083",
+            "end_ns": "276533920495333",
+            "host_ns": "276533933204416",
+            "sample_time": "0",
+            "flags": "7",
+            "requested": "512",
+            "wanted": "512",
+            "received": "512",
+            "output_before": "0",
+            "fifo_before": "16384"
+          },
+          "current": {
+            "sequence": "2",
+            "epoch": "1",
+            "start_ns": "276533944382833",
+            "end_ns": "276533944385333",
+            "host_ns": "276533957371083",
+            "sample_time": "1160",
+            "flags": "7",
+            "requested": "512",
+            "wanted": "512",
+            "received": "512",
+            "output_before": "512",
+            "fifo_before": "15872"
+          },
+          "delta_sample_frames": 1160.0,
+          "extra_frames": 648.0,
+          "entry_pipeline_s": 2.2075398749999997,
+          "before_first_speed_request": true,
+          "actual_entry_delta_ns": 23895750,
+          "timestamp_delta_ns": 24166667
+        }
+      ],
+      "missing_callbacks": [],
+      "first_speed_request_accepted_s": 2.528476834,
+      "deadline_interval_evidence": null,
+      "deadline_miss_intervals": null
+    }
+  ],
+  "scope": "正式な最終新経路274セッション。Nativeの合否を変更せず、raw記録を抽出する。追加のOS trace付き1試行と旧製品は別記。最大Wall位置を期限違反位置と推定しない。"
+}

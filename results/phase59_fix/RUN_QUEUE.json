@@ -1,0 +1,24 @@
+{
+  "stage": "quality",
+  "quality_command": [
+    "python3",
+    "-B",
+    "scripts/phase59_fix_validation.py",
+    "--frozen",
+    "build/phase59_fix_artifacts/final",
+    "--tag",
+    "final"
+  ],
+  "device_command": [
+    "python3",
+    "-B",
+    "scripts/phase59_fix_device.py",
+    "--frozen",
+    "build/phase59_fix_artifacts/final",
+    "--tag",
+    "final"
+  ],
+  "started_unix": 1792166763.047575,
+  "exit": 2,
+  "finished_unix": 1792172337.808667
+}

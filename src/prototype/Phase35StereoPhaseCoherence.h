@@ -18,6 +18,7 @@ public:
                  const std::vector<int>& owners);
     const std::vector<float>& weights() const { return weights_; }
     double averageWeight() const { return weightedBins_ ? weightSum_ / weightedBins_ : 0.0; }
+    std::size_t lastNeighborhoodEvaluations() const { return lastNeighborhoodEvaluations_; }
 private:
     std::size_t fftSize_;
     double sampleRate_;
@@ -27,5 +28,6 @@ private:
     std::vector<float> weights_;
     double weightSum_ = 0;
     std::size_t weightedBins_ = 0;
+    std::size_t lastNeighborhoodEvaluations_ = 0;
 };
 }

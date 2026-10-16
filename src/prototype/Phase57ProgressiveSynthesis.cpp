@@ -13,6 +13,7 @@ struct ProgressiveSynthesisEngine::Impl final:ProgressiveAccess {
     bool dynamicEnabled=false;
     const phase59::DynamicMap* dynamicMap=nullptr;
     Phase36StreamingSpeedEngine::WorkProfile profile{};bool profileEnabled=false;
+    Phase36StreamingSpeedEngine::WorkProfile::Observer preparedObserver=nullptr;
     mutable std::array<std::pair<double,double>,16> positionCache{};
     mutable std::size_t positionCacheCount=0,positionCacheNext=0;
     bool waiting=false;std::size_t waitedNodes=0,waitedInput=0;
@@ -73,7 +74,7 @@ struct ProgressiveSynthesisEngine::Impl final:ProgressiveAccess {
         return Availability::Ready;
     }
     SynthesisState advance(const Sink& sink){
-        if(profileEnabled)profile.stages={};
+        if(profileEnabled){profile.stages={};profile.phaseFrames={};}
         if(finished.load())return state=SynthesisState::Finished;
         if(failed)return state=SynthesisState::Failed;
         if(cancelled.load())return state=SynthesisState::Cancelled;
@@ -124,8 +125,9 @@ void ProgressiveSynthesisEngine::enableWorkProfiling(){auto& x=*impl_;if(x.snaps
 Phase36StreamingSpeedEngine::WorkProfile ProgressiveSynthesisEngine::workProfile()const{return impl_->profile;}
 void ProgressiveSynthesisEngine::setWorkObserver(Phase36StreamingSpeedEngine::WorkProfile::Observer observer,void* context){
     auto& x=*impl_;if(x.snapshot||x.generated)throw std::logic_error("Set observer before input");
-    enableWorkProfiling();x.profile.observer=observer;x.profile.observerContext=context;
+    enableWorkProfiling();x.preparedObserver=observer;x.profile.observer=observer;x.profile.observerContext=context;
 }
+void ProgressiveSynthesisEngine::setWorkObserverActive(bool active)noexcept{auto& x=*impl_;x.profile.observer=active?x.preparedObserver:nullptr;}
 void ProgressiveSynthesisEngine::supplySnapshot(std::shared_ptr<const phase56::AnalysisSnapshot> s){auto& x=*impl_;if(x.finished.load()||x.failed||x.cancelled.load())throw std::logic_error("Synthesis already terminal");try{
     if(x.borrowedSnapshots)throw std::logic_error("Cannot mix borrowed and owned snapshots");
     x.acceptSnapshot(s.get());x.snapshotOwner=std::move(s);

@@ -10,6 +10,9 @@ struct RealtimeWorkerMetrics {
     int observedPolicy=-1,observedPriority=-1,restoredPolicy=-1,lastError=0,errorStage=0;
     double periodS=0,computationS=0,maxIntervalS=0;
 };
+struct RealtimeIntervalTiming {
+    std::uint64_t startTicks=0,endTicks=0,deadlineTicks=0;
+};
 // Created/released by the normal owner. Only the DSP worker promotes, joins,
 // starts/finishes intervals and demotes. Other normal threads may signal it.
 class RealtimeWorkerSupport {
@@ -25,5 +28,6 @@ public:
     void signal()noexcept;
     void waitForSignal()noexcept;
     RealtimeWorkerMetrics metrics()const noexcept;
+    RealtimeIntervalTiming lastInterval()const noexcept; // DSP owner thread only.
 };
 }

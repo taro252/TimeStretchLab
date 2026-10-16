@@ -1,0 +1,9 @@
+{
+  "header": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/AVFAudio.framework/Versions/A/Headers/AVAudioSourceNode.h",
+  "sha256": "2cd9418004fff136063196b7c6c1d2ea7ae491f48f2fe8345e687988dfbf87f9",
+  "official_urls": [
+    "https://developer.apple.com/documentation/avfaudio/avaudiosourcenoderenderblock",
+    "https://developer.apple.com/documentation/avfaudio/avaudioengine/start()"
+  ],
+  "paraphrase": "timestampはHALで描画される時刻。下流にサンプルレート変換や時間圧縮/伸長がある場合sample timeは無効となる。今回の元異常は48kHz同士・flags=7であり、SRCによる無効値とは未確認。Apple契約に開始直後の任意の不連続を許容する記載は確認できていない。閾値は維持する。"
+}

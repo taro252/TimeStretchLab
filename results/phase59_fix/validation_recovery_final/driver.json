@@ -1,0 +1,122 @@
+[
+  {
+    "name": "dynamic_long",
+    "command": [
+      "/usr/local/opt/python@3.14/bin/python3.14",
+      "-B",
+      "/Users/taro252/Docker/TimeStretchLab/scripts/phase59_study.py",
+      "--suite",
+      "long",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/final/phase59_check",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/validation_recovery_final/dynamic_long"
+    ],
+    "exit": 0,
+    "wall_s": 1213.8808488845825,
+    "result": {
+      "PASS": true,
+      "pcm_sessions": 16,
+      "failures": 0,
+      "applied_operations": 20,
+      "status_counts": {
+        "Completed": 20,
+        "Rejected": 12,
+        "Duplicate": 8
+      },
+      "initial_speeds": [
+        400000,
+        490000,
+        990000,
+        2000000
+      ],
+      "target_speeds": [
+        400000,
+        490000,
+        500000,
+        510000,
+        990000,
+        1000000,
+        1010000,
+        2000000
+      ],
+      "unique_initial_target_pairs": 10,
+      "all_25921_pairs_tested": false,
+      "retained_bytes": 61051155,
+      "workspace_pcm_bytes": 58181820
+    },
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/validation_recovery_final/dynamic_long.log"
+  },
+  {
+    "name": "incremental_chunks",
+    "command": [
+      "/usr/local/opt/python@3.14/bin/python3.14",
+      "-B",
+      "/Users/taro252/Docker/TimeStretchLab/scripts/phase59_incremental_study.py",
+      "--suite",
+      "chunks",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/final/phase59_progressive_replay",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/validation_recovery_final/incremental_chunks"
+    ],
+    "exit": 0,
+    "wall_s": 703.4443271160126,
+    "result": {
+      "PASS": true,
+      "pcm_sessions": 112,
+      "deferral_sessions": 90,
+      "nonfinal_pcm_sessions": 112,
+      "nonfinal_plan_sessions": 78,
+      "analysis_deferrals": 1501,
+      "nonfinal_plans": 179,
+      "chunks": [
+        "1024",
+        "131072",
+        "32768",
+        "5003",
+        "7168",
+        "8192",
+        "irregular"
+      ],
+      "retained_bytes": 11463695
+    },
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/validation_recovery_final/incremental_chunks.log"
+  },
+  {
+    "name": "incremental_formats",
+    "command": [
+      "/usr/local/opt/python@3.14/bin/python3.14",
+      "-B",
+      "/Users/taro252/Docker/TimeStretchLab/scripts/phase59_incremental_study.py",
+      "--suite",
+      "formats",
+      "--binary",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/final/phase59_progressive_replay",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/validation_recovery_final/incremental_formats"
+    ],
+    "exit": 0,
+    "wall_s": 45.14449906349182,
+    "result": {
+      "PASS": true,
+      "pcm_sessions": 32,
+      "deferral_sessions": 20,
+      "nonfinal_pcm_sessions": 32,
+      "nonfinal_plan_sessions": 32,
+      "analysis_deferrals": 20,
+      "nonfinal_plans": 72,
+      "chunks": [
+        "1024",
+        "131072",
+        "32768",
+        "5003",
+        "7168",
+        "8192",
+        "irregular"
+      ],
+      "retained_bytes": 10132609
+    },
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/validation_recovery_final/incremental_formats.log"
+  }
+]

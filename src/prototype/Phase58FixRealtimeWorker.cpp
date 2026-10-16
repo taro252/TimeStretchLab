@@ -17,6 +17,7 @@ struct RealtimeWorkerSupport::Impl {
     os_workgroup_interval_t group=nullptr;semaphore_t semaphore=MACH_PORT_NULL;
     os_workgroup_join_token_s token{};thread_extended_policy_data_t normal{true};
     bool policySet=false,joined=false,interval=false;std::uint64_t intervalStart=0,deadline=0;
+    RealtimeIntervalTiming lastInterval;
     std::atomic<bool> active{false},notified{false},policyMeasured{false};
     std::atomic<std::uint64_t> promotions{0},joins{0},leaves{0},restores{0},starts{0},finishes{0};
     std::atomic<std::uint64_t> policyErrors{0},joinErrors{0},restoreErrors{0},intervalErrors{0},queryErrors{0},waitCalls{0},waitErrors{0},wakeErrors{0},misses{0};
@@ -37,6 +38,7 @@ struct RealtimeWorkerSupport::Impl {
     bool finish()noexcept{
         if(!interval)return true;
         const auto end=mach_absolute_time();const double seconds=double(end-intervalStart)*timebase.numer/timebase.denom*1e-9;
+        lastInterval={intervalStart,end,deadline};
         maxInterval=std::max(maxInterval.load(),seconds);if(end>deadline)++misses;
         const auto result=os_workgroup_interval_finish(group,nullptr);interval=false;
         if(result){++intervalErrors;error(4,result);return false;}++finishes;return true;
@@ -85,6 +87,7 @@ bool RealtimeWorkerSupport::beginInterval()noexcept{
     if(result){++x.intervalErrors;x.error(3,result);return false;}x.interval=true;++x.starts;return true;
 }
 bool RealtimeWorkerSupport::finishInterval()noexcept{return impl_->finish();}
+RealtimeIntervalTiming RealtimeWorkerSupport::lastInterval()const noexcept{return impl_->lastInterval;}
 void RealtimeWorkerSupport::signal()noexcept{
     auto& x=*impl_;if(!x.enabled||x.notified.exchange(true))return;
     const auto result=semaphore_signal(x.semaphore);if(result!=KERN_SUCCESS){x.notified=false;++x.wakeErrors;x.error(7,result);}

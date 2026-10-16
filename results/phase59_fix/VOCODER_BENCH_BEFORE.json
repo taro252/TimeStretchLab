@@ -1,0 +1,19 @@
+{
+  "input": "results/phase55/long/boundary_1_2_44100_180/full.wav",
+  "csv_sha256": "367a7749df4ef49d9fe3f73cdf51d53f375cd082e01086843306d15c11d1d985",
+  "results": {
+    "8192": {
+      "cpu_ratio_median": 0.9943977351892581,
+      "all_final_frames_exact": true
+    },
+    "4096": {
+      "cpu_ratio_median": 1.0032562248001098,
+      "all_final_frames_exact": true
+    },
+    "1024": {
+      "cpu_ratio_median": 0.9993807814790172,
+      "all_final_frames_exact": true
+    }
+  },
+  "scope": "変更前の同じ算術の2クラス比較。固定素材の3入力位置から27スペクトルを準備。5交互反復、540フレームずつ。CSVの一致は最終スペクトルだけ、全フレーム状態は別の固定参照単体検査で比較。"
+}

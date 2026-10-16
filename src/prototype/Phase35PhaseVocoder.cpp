@@ -3,6 +3,8 @@
 #include <cmath>
 #include <numbers>
 #include <stdexcept>
+#include <cstdint>
+#include <type_traits>
 
 namespace ts::prototype {
 Phase35PhaseVocoder::Phase35PhaseVocoder(std::size_t size, int hop, bool enablePhaseLocking, double sampleRate)
@@ -10,6 +12,8 @@ Phase35PhaseVocoder::Phase35PhaseVocoder(std::size_t size, int hop, bool enableP
       resyncPending_(size / 2 + 1,false),
       previousPhase_(size / 2 + 1), synthesisPhase_(size / 2 + 1),
       previousMagnitude_(size / 2 + 1),
+      inputMagnitudeCache_(enablePhaseLocking?size/2+1:0),
+      inputPhaseCache_(enablePhaseLocking?size/2+1:0),
       enablePhaseLocking_(enablePhaseLocking), phaseLocker_(size) {
     if (hop <= 0 || !std::isfinite(sampleRate) || sampleRate <= 0)
         throw std::invalid_argument("Invalid analysis hop or sample rate");
@@ -27,6 +31,18 @@ void Phase35PhaseVocoder::process(const std::complex<float>* input, std::complex
                            bool selectiveReset, float eventStrength,
                            const std::vector<int>* sharedOwners,int analysisHopOverride) {
     constexpr double pi = std::numbers::pi;
+    static_assert(std::is_same_v<decltype(std::atan2(float{},float{})),float>);
+    const auto inputAddress=reinterpret_cast<std::uintptr_t>(input);
+    const auto outputAddress=reinterpret_cast<std::uintptr_t>(output);
+    const auto distance=inputAddress<outputAddress?outputAddress-inputAddress:inputAddress-outputAddress;
+    const bool reuse=enablePhaseLocking_&&sharedOwners&&
+        distance/sizeof(std::complex<float>)>=size_/2+1;
+    if(reuse){
+        // Public callers can supply a Nyquist owner even though the generated
+        // peak map excludes it. Its input must be cached too.
+        inputMagnitudeCache_[size_/2]=std::abs(input[size_/2]);
+        if(inputMagnitudeCache_[size_/2]>=1e-7f)inputPhaseCache_[size_/2]=std::arg(input[size_/2]);
+    }
     // DC and Nyquist must remain real for a real-valued inverse transform.
     output[0] = {input[0].real(), 0.0f};
     output[size_ / 2] = {input[size_ / 2].real(), 0.0f};
@@ -35,6 +51,7 @@ void Phase35PhaseVocoder::process(const std::complex<float>* input, std::complex
             ? analysisHopOverride : analysisHop_;
         resyncPending_[k]=false;
         const double magnitude = std::abs(input[k]);
+        if(reuse)inputMagnitudeCache_[k]=static_cast<float>(magnitude);
         if (magnitude < 1e-7) {
             output[k] = {0, 0};
             // A later reappearance is a new onset: the previous phase no longer
@@ -46,6 +63,7 @@ void Phase35PhaseVocoder::process(const std::complex<float>* input, std::complex
             continue;
         }
         const double phase = std::atan2(input[k].imag(), input[k].real());
+        if(reuse)inputPhaseCache_[k]=static_cast<float>(phase);
         // At an onset, align the output and persistent state with this frame's
         // analysis phase; propagation across an attack would smear its timing.
         if ((resetPhase && !selectiveReset) || !initialized_[k]) synthesisPhase_[k] = phase;
@@ -79,7 +97,21 @@ void Phase35PhaseVocoder::process(const std::complex<float>* input, std::complex
         output[k] = std::polar(static_cast<float>(magnitude), static_cast<float>(synthesisPhase_[k]));
     }
     if (enablePhaseLocking_) {
-        if (sharedOwners) PhaseLocker::lockWithOwners(input, output, synthesisPhase_, *sharedOwners);
+        if (reuse) {
+            // Same arithmetic and ascending state updates as lockWithOwners.
+            // atan2(float,float) and arg(complex<float>) both return Float32;
+            // store those original Float32 values after their lossless promotion.
+            constexpr double twoPi=2.0*pi;
+            for(std::size_t k=1;k+1<sharedOwners->size();++k){
+                const int owner=(*sharedOwners)[k];
+                if(owner<1||static_cast<int>(k)==owner||
+                    inputMagnitudeCache_[k]<1e-7f||inputMagnitudeCache_[owner]<1e-7f)continue;
+                const double relative=std::remainder(double(inputPhaseCache_[k])-inputPhaseCache_[owner],twoPi);
+                const double locked=std::remainder(synthesisPhase_[owner]+relative,twoPi);
+                synthesisPhase_[k]=locked;
+                output[k]=std::polar(inputMagnitudeCache_[k],static_cast<float>(locked));
+            }
+        } else if (sharedOwners) PhaseLocker::lockWithOwners(input, output, synthesisPhase_, *sharedOwners);
         else {
             phaseLocker_.analyzePeaks(input, size_ / 2 + 1);
             phaseLocker_.lock(synthesisPhase_, output);

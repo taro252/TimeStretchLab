@@ -1,0 +1,12 @@
+export time-info 65
+export thread-state 16530336
+export syscall 25781229
+export virtual-memory 3024146
+Traceback (most recent call last):
+  File "/Users/taro252/Docker/TimeStretchLab/scripts/phase58_fix_trace_analyze.py", line 244, in <module>
+    main()
+    ~~~~^^
+  File "/Users/taro252/Docker/TimeStretchLab/scripts/phase58_fix_trace_analyze.py", line 163, in main
+    clock = table(xml/'time-info.xml')[0]
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range

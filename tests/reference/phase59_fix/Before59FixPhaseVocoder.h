@@ -1,0 +1,38 @@
+#pragma once
+#include "dsp/PhaseLocker.h"
+#include <complex>
+#include <cstddef>
+#include <vector>
+
+namespace ts::prototype {
+class Before59FixPhaseVocoder {
+public:
+    Before59FixPhaseVocoder(std::size_t fftSize, int analysisHop, bool enablePhaseLocking = false,
+                 double sampleRate = 44100.0);
+    void reset();
+    // Hs is the distance from the preceding synthesis frame, including fractional timing.
+    void process(const std::complex<float>* input, std::complex<float>* output,
+                 double synthesisHop, bool resetPhase = false,
+                 bool selectiveReset = false, float eventStrength = 1.0f,
+                 const std::vector<int>* sharedOwners = nullptr,
+                 int analysisHopOverride = 0);
+    // Replace the persistent phase with a waveform-aligned analysis frame.
+    // Magnitudes and output timing remain those of the scheduled frame.
+    void resynchronize(const std::complex<float>* scheduled,
+                       const std::complex<float>* aligned,
+                       std::complex<float>* output,
+                       const std::vector<int>* sharedOwners = nullptr);
+    void setOutputPhase(std::size_t bin, double phase);
+    const PhaseLocker& phaseLocker() const { return phaseLocker_; }
+private:
+    std::size_t size_;
+    int analysisHop_;
+    double sampleRate_;
+    std::vector<bool> initialized_;
+    std::vector<bool> resyncPending_;
+    std::vector<double> previousPhase_, synthesisPhase_;
+    std::vector<float> previousMagnitude_;
+    bool enablePhaseLocking_;
+    PhaseLocker phaseLocker_;
+};
+}

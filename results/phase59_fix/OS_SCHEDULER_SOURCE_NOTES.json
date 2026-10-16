@@ -1,0 +1,17 @@
+{
+  "sources": [
+    {
+      "url": "https://developer.apple.com/library/archive/documentation/Darwin/Conceptual/KernelProgramming/scheduler/scheduler.html",
+      "section": "Why Did My Thread Priority Change?",
+      "finding": "ブロックせず計算を継続し、要求した実時間量を超えるthreadは通常優先度へ下げられ得る、というAppleの公開説明。",
+      "scope": "soft realtimeの契約。今回のカーネル内部フラグや元の4.8秒停止を直接観測した証拠ではない。"
+    },
+    {
+      "url": "https://github.com/apple-oss-distributions/xnu/blob/main/osfmk/kern/sched_prim.c",
+      "finding": "公開ソースに連続計算の安全策に関する時間量定義を確認した。",
+      "scope": "mainのソースとインストール済みカーネルの同一性は未検証。内部フラグFAILSAFEの成立を断定しない。"
+    }
+  ],
+  "observations": "eos_beforeのRelease高速排出で、アプリのdemote/stopより前のRT生成区間にpolicy=1/priority=0のOS標本を観測。最長非CPU約0.571秒。周期付きReleaseは期限超過0。",
+  "original_4_8_second_gap_exactly_reproduced": false
+}

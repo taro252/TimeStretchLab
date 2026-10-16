@@ -1,0 +1,113 @@
+{
+  "command": [
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/legacy_preflight_v2/legacy_probe",
+    "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+    "candidate",
+    "2.0",
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/legacy_preflight_v2/native",
+    "eos",
+    "64"
+  ],
+  "exit": 0,
+  "recipe": {
+    "original_sha256": "538784aab924409d6c8ea1a3d1cd1f4db7ea124a2af91bffcdf34cad875a7087",
+    "generated_source_sha256": "fc19bdc28fb24d7f0094bf0314140b4d3aba701a40b198fb4d94a162ed88f266",
+    "command": [
+      "/usr/bin/c++",
+      "-O3",
+      "-DNDEBUG",
+      "-arch",
+      "arm64",
+      "-Wl,-search_paths_first",
+      "-Wl,-headerpad_max_install_names",
+      "-std=c++20",
+      "-I/Users/taro252/Docker/TimeStretchLab/src",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/legacy_preflight_v2/legacy_probe.cpp",
+      "CMakeFiles/phase54_native.dir/src/prototype/Phase35TransitionEngine.cpp.o",
+      "-o",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/legacy_preflight_v2/legacy_probe",
+      "libmacos_playback_engine.a",
+      "libplayback_engine.a",
+      "libphase39_variable.a",
+      "libphase36_variable.a",
+      "libphase24_variable.a",
+      "libtimestretch_core.a",
+      "-framework",
+      "Accelerate",
+      "-framework",
+      "AVFoundation",
+      "-framework",
+      "Foundation",
+      "-framework",
+      "CoreAudio"
+    ],
+    "link_input_sha256": {
+      "/Users/taro252/Docker/TimeStretchLab/build/CMakeFiles/phase54_native.dir/src/prototype/Phase35TransitionEngine.cpp.o": "3b9cb4c673c0d4910cf0a5ca9d4f6b50de92483251923244b4558d141cec1301",
+      "/Users/taro252/Docker/TimeStretchLab/build/libmacos_playback_engine.a": "77e7483b2137142d8dc0389d0b8da8ccfbd586231371c728b617eb4ce953a84a",
+      "/Users/taro252/Docker/TimeStretchLab/build/libplayback_engine.a": "cf2ce195161594b2efe76327f73e874e7549b3692c6bd88e141620c5ef60ab7b",
+      "/Users/taro252/Docker/TimeStretchLab/build/libphase39_variable.a": "da620e886f3d2d6f790b7a284119876615e6843b29763e8496bd2452b8c5a57d",
+      "/Users/taro252/Docker/TimeStretchLab/build/libphase36_variable.a": "f95f2bb9ac2fb50ee2bf1a350ba9c0b3ce3b23bb27c3ec5ba903af999ff4d640",
+      "/Users/taro252/Docker/TimeStretchLab/build/libphase24_variable.a": "4b8c9906869f11846b95a466eec3567b89a00a51decf90f095a17c3398b3b00b",
+      "/Users/taro252/Docker/TimeStretchLab/build/libtimestretch_core.a": "e9f1129891b71d2dba4f60e9dfb182e908257ce907dfaca0a458549e1e02cbe7"
+    },
+    "diagnostic_changes": "\u901a\u5e38\u5074\u306e\u6642\u8a08\u8f03\u6b63\u30fb16384\u4ef6\u4e0a\u9650\u306e\u516c\u958b\u4f4d\u7f6e\u6a19\u672c\u30fb\u505c\u6b62\u5f8c\u306e\u65e2\u5b58worker profile\u66f8\u51fa\u3057\u3002\u97f3\u58f0\u30b3\u30fc\u30eb\u30d0\u30c3\u30af\u3001FIFO\u3001DSP\u7b97\u8853\u3001\u64cd\u4f5c\u5217\u306f\u4e0d\u5909\u3002"
+  },
+  "binary_sha256": "e5bbd49add08308defc88c17ce5ca821f565789ac915417550ee64c1b45e4791",
+  "artifacts": [
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/legacy_preflight_v2/dependencies_build.log",
+      "bytes": 261,
+      "sha256": "d7915ab20bd828c9fb0db3ee2d773b6648a2cb8dc57fe9fea12e9f97b79e5494"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/legacy_preflight_v2/test.log",
+      "bytes": 35,
+      "sha256": "b89025cbad053fef179faea1c90ec8ba7978f77576c31b43fa917d3aaf51a694"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/legacy_preflight_v2/legacy_probe.cpp",
+      "bytes": 11391,
+      "sha256": "fc19bdc28fb24d7f0094bf0314140b4d3aba701a40b198fb4d94a162ed88f266"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/legacy_preflight_v2/legacy_probe",
+      "bytes": 643152,
+      "sha256": "e5bbd49add08308defc88c17ce5ca821f565789ac915417550ee64c1b45e4791"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/legacy_preflight_v2/build.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/legacy_preflight_v2/native/callbacks_0.csv",
+      "bytes": 41856,
+      "sha256": "07d23f847473cc18bd534cc1c7e6cd1c62b3c9498d2a8c7d23cde158ee3609b1"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/legacy_preflight_v2/native/control.csv",
+      "bytes": 223872,
+      "sha256": "6d7c2f459a1c57028a5267b54bcce36d84a3461c22437e9f8f40eb653721e65f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/legacy_preflight_v2/native/summary.txt",
+      "bytes": 888,
+      "sha256": "b56ffa0ffb27a53efa2b12d2e9e0d1a5d2a10c7c5e3eb7d0683cfba226063815"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/legacy_preflight_v2/native/worker_0.csv",
+      "bytes": 17769,
+      "sha256": "f9a72ffc9c705ad38ef240ad1e3f55747b426449989987dc431f20a04729cdf2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/legacy_preflight_v2/native/seeks.csv",
+      "bytes": 66,
+      "sha256": "7f85eafea41d10cf489ccd04501ae5a484247bb96e17954a225b5c5df8f16063"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/legacy_preflight_v2/native/actions.csv",
+      "bytes": 65,
+      "sha256": "d191656f6443634a72022bd84cdc269e8fd7f53bac62a5f7a53c8256e735c350"
+    }
+  ]
+}

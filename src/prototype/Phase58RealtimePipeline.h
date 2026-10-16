@@ -22,6 +22,8 @@ struct Configuration {
     double analysisDelayMs=0,dspDelayMs=0;
     unsigned transitionFailureForTest=0; // 0 none, 1 processing, 2 allocation.
     unsigned promotionFailureOnAttemptForTest=0; // Explicit pre-promotion fault, max 2.
+    std::array<std::pair<std::size_t,std::size_t>,4> phaseProbeWindows{};
+    std::size_t phaseProbeWindowCount=0; // Detailed phase substages, at most 4 windows.
 };
 struct RenderResult {std::size_t wanted=0,received=0,outputBefore=0,fifoBefore=0;};
 struct Diagnostics {
@@ -68,6 +70,7 @@ struct WorkerRecord {
     Phase36StreamingSpeedEngine::WorkProfile work{};
     bool realtime=false;
     std::uint64_t dynamicMapVersion=0;
+    RealtimeIntervalTiming intervalTiming{};
 };
 struct DetailEvent {
     std::size_t stage=0,scope=0;bool begin=false;

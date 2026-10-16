@@ -58,3 +58,24 @@ __pycache__/
 
 /results/phase50/**/.summary.lock
 /results/phase51/**/.summary.lock
+
+# Phase 59 Fix以降: 大容量の再生成物はbuild内へ保存し、SHA/manifestを記録する。
+# 既に追跡中の過去証拠はこの指定では除外されない。サイズはフックで別途検査する。
+/results/**/*.f32
+/results/**/*.pcm
+/results/**/*.raw
+/results/**/*.bin
+/results/**/*.xml
+/results/**/*.trace
+/results/**/*.ktrace
+/results/**/*.a
+/results/**/*.dylib
+/results/**/*.so
+/results/**/*.exe
+/results/**/*.gz
+/results/**/*.zip
+/results/**/*.xz
+/results/**/*.bz2
+/results/**/*.zst
+/results/**/*.tar
+/results/**/*.7z

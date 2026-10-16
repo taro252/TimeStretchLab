@@ -1,5 +1,6 @@
 #import <AVFoundation/AVFoundation.h>
 #import <CoreAudio/CoreAudio.h>
+#import <AudioUnit/AudioUnit.h>
 #include "prototype/Phase58Diagnostics.h"
 #include "prototype/Phase46HostClock.h"
 #include "prototype/Phase45PcmDigest.h"
@@ -39,6 +40,15 @@ struct Record {std::uint64_t start=0,end=0,host=0,epoch=0;double sample=0;std::u
 struct Context {
     phase58::RealtimePipeline* pipeline=nullptr;const float* reference=nullptr;std::size_t referenceFrames=0,channels=0;double rate=0;
     float* capture=nullptr;
+#ifdef PHASE59_FIX_STARTUP
+    struct RenderEntry {std::uint64_t start=0,host=0;double sample=0;std::uint32_t frames=0,flags=0;bool active=false;};
+    std::array<RenderEntry,32> renderEntries{};
+    std::atomic<std::uint32_t> renderEntryCalls{0};
+    struct OutputNotifyRecord {std::uint64_t start=0,host=0;double sample=0;std::uint32_t frames=0,action=0,flags=0,bus=0;};
+    std::array<OutputNotifyRecord,1024> outputRecords{};
+    std::atomic<std::uint32_t> outputCalls{0};
+    bool captureOutputNotify=false;
+#endif
     std::atomic<bool> active{false};std::atomic<unsigned> inRender{0};
     std::uint64_t numer=1,denom=1,epoch=1,calls=0,dropped=0,maximum=0,deadlines=0,formats=0;
     std::uint64_t hostMissing=0,hostBackwards=0,hostCadence=0,sampleErrors=0,sampleValid=0,halMisses=0;
@@ -48,6 +58,14 @@ struct Context {
 };
 OSStatus render(Context* c,BOOL* silent,const AudioTimeStamp* stamp,AVAudioFrameCount n,AudioBufferList* b)noexcept{
     c->inRender.fetch_add(1);phase58InCallback=true;const auto start=c->now();
+#ifdef PHASE59_FIX_STARTUP
+    const auto entry=c->renderEntryCalls.fetch_add(1,std::memory_order_relaxed);
+    if(entry<c->renderEntries.size()){
+        const auto flags=stamp?stamp->mFlags:0;
+        const auto host=stamp&&(flags&kAudioTimeStampHostTimeValid)?std::uint64_t(static_cast<long double>(stamp->mHostTime)*c->numer/c->denom):0;
+        c->renderEntries[entry]={start,host,stamp?stamp->mSampleTime:0,n,flags,c->active.load()};
+    }
+#endif
     bool valid=b->mNumberBuffers==c->channels;float* p[2]{};
     for(unsigned i=0;i<b->mNumberBuffers;++i){auto& v=b->mBuffers[i];if(i<2)p[i]=static_cast<float*>(v.mData);valid&=v.mData&&v.mNumberChannels==1&&v.mDataByteSize>=n*sizeof(float);}
     phase58::RenderResult raw;
@@ -76,6 +94,17 @@ OSStatus render(Context* c,BOOL* silent,const AudioTimeStamp* stamp,AVAudioFrame
     *silent=raw.received==0;phase58InCallback=false;c->inRender.fetch_sub(1);return noErr;
 }
 AudioDeviceID defaultDevice(){AudioDeviceID v=0;UInt32 n=sizeof(v);AudioObjectPropertyAddress a{kAudioHardwarePropertyDefaultOutputDevice,kAudioObjectPropertyScopeGlobal,kAudioObjectPropertyElementMain};if(AudioObjectGetPropertyData(kAudioObjectSystemObject,&a,0,nullptr,&n,&v)!=noErr||!v)throw std::runtime_error("No default output device");return v;}
+#ifdef PHASE59_FIX_STARTUP
+OSStatus outputNotify(void* raw,AudioUnitRenderActionFlags* action,const AudioTimeStamp* stamp,UInt32 bus,UInt32 frames,AudioBufferList*)noexcept{
+    auto* c=static_cast<Context*>(raw);c->inRender.fetch_add(1);const bool previous=phase58InCallback;phase58InCallback=true;
+    const auto index=c->outputCalls.fetch_add(1);
+    if(index<c->outputRecords.size()){
+        const auto host=stamp&&(stamp->mFlags&kAudioTimeStampHostTimeValid)?std::uint64_t(static_cast<long double>(stamp->mHostTime)*c->numer/c->denom):0;
+        c->outputRecords[index]={c->now(),host,stamp?stamp->mSampleTime:0,frames,action?*action:0,stamp?stamp->mFlags:0,bus};
+    }
+    phase58InCallback=previous;c->inRender.fetch_sub(1);return noErr;
+}
+#endif
 unsigned bufferFrames(AudioDeviceID device){UInt32 v=0,n=sizeof(v);AudioObjectPropertyAddress a{kAudioDevicePropertyBufferFrameSize,kAudioObjectPropertyScopeGlobal,kAudioObjectPropertyElementMain};if(AudioObjectGetPropertyData(device,&a,0,nullptr,&n,&v)!=noErr)throw std::runtime_error("Device buffer unavailable");return v;}
 struct Load {
     std::atomic<bool> stop{false};std::vector<std::thread> threads;std::vector<unsigned char> memory;
@@ -83,9 +112,16 @@ struct Load {
     ~Load(){stop=true;for(auto& t:threads)t.join();}
 };
 struct OutputLifetime {
+#ifdef PHASE59_FIX_STARTUP
+    AudioUnit outputUnit=nullptr;
+#endif
     Context* context;AVAudioEngine* audio=nil;AVAudioSourceNode* source=nil;id observer=nil;
     explicit OutputLifetime(Context* c):context(c){}
-    void stop(){context->active=false;if(audio)[audio stop];while(context->inRender.load())std::this_thread::sleep_for(std::chrono::microseconds(100));
+    void stop(){context->active=false;if(audio)[audio stop];
+#ifdef PHASE59_FIX_STARTUP
+        if(outputUnit){AudioUnitRemoveRenderNotify(outputUnit,outputNotify,context);outputUnit=nullptr;}
+#endif
+        while(context->inRender.load())std::this_thread::sleep_for(std::chrono::microseconds(100));
         if(context->pipeline)context->pipeline->setRealtimeRendering(false);
         if(observer)[[NSNotificationCenter defaultCenter]removeObserver:observer];observer=nil;
         if(audio&&source)[audio detachNode:source];source=nil;audio=nil;}
@@ -97,6 +133,9 @@ int runOne(int argc,char** argv){@autoreleasepool{try{
     const std::filesystem::path out=argv[7];if(std::filesystem::exists(out))throw std::runtime_error("Fresh output directory required");std::filesystem::create_directories(out);
     phase58::Configuration config;config.recordWorkerProfile=true;config.speedMicros=std::stoul(argv[2]);const std::string preset=argv[3],mode=argv[8];
     bool captureMode=false;std::filesystem::path capturePath,requestPath;
+#ifdef PHASE59_FIX_STARTUP
+    bool captureOutputNotify=false;
+#endif
 #ifdef PHASE59_RESEARCH
     config.dynamicTransitions=true;config.scheduling=phase58::WorkerScheduling::AudioWorkgroup;config.residentInput=true;
     captureMode=std::string(argv[4])=="capture";
@@ -114,6 +153,15 @@ int runOne(int argc,char** argv){@autoreleasepool{try{
         else if(flag=="--worker=standard")config.scheduling=phase58::WorkerScheduling::Standard;
         else if(flag=="--resident-input=on")config.residentInput=true;
         else if(flag=="--resident-input=off")config.residentInput=false;
+#ifdef PHASE59_FIX_STARTUP
+        else if(flag=="--output-notify=on")captureOutputNotify=true;
+        else if(flag.starts_with("--phase-probe=")){
+            const auto colon=flag.find(':',14);if(colon==std::string::npos||config.phaseProbeWindowCount==config.phaseProbeWindows.size())throw std::invalid_argument("Bounded phase probe windows required");
+            const auto first=std::stoull(flag.substr(14,colon-14)),last=std::stoull(flag.substr(colon+1));
+            if(first>=last)throw std::invalid_argument("Invalid phase probe window");
+            config.phaseProbeWindows[config.phaseProbeWindowCount++]={first,last};
+        }
+#endif
 #ifdef PHASE59_RESEARCH
         else if(flag.starts_with("--capture-path="))capturePath=flag.substr(15);
         else if(flag.starts_with("--speed-requests="))requestPath=flag.substr(17);
@@ -135,20 +183,43 @@ int runOne(int argc,char** argv){@autoreleasepool{try{
     const auto requests=phase59::readOperations(requestPath);std::size_t nextRequest=0;
 #endif
     OutputLifetime lifetime(&ctx);mach_timebase_info_data_t tb{};mach_timebase_info(&tb);ctx.numer=tb.numer;ctx.denom=tb.denom;
+#ifdef PHASE59_FIX_STARTUP
+    struct StartupMark {const char* name;std::uint64_t ns;};
+    std::array<StartupMark,16> startupMarks{};std::size_t startupCount=0;
+    auto* entryBytes=reinterpret_cast<volatile unsigned char*>(ctx.renderEntries.data());
+    for(std::size_t i=0;i<sizeof(ctx.renderEntries);++i)entryBytes[i]=0;
+    const auto startupMark=[&](const char* name){startupMarks[startupCount++]={name,ctx.now()};};
+    startupMark("pipeline_start_request");
+#else
+    const auto startupMark=[](const char*){};
+#endif
     const auto allocationBase=phase58Allocations.load();const auto bridgeBefore=pipeline.elapsedSeconds();const auto bridgeMach=ctx.now();const auto bridgeAfter=pipeline.elapsedSeconds();const auto bridgeElapsed=(bridgeBefore+bridgeAfter)/2;const auto bridgeUncertainty=bridgeAfter-bridgeBefore;pipeline.start();
-    AVAudioEngine* audio=[[AVAudioEngine alloc]init];lifetime.audio=audio;const auto device=defaultDevice();auto deviceFormat=[audio.outputNode outputFormatForBus:0];const double deviceRate=deviceFormat.sampleRate;const auto deviceChannels=deviceFormat.channelCount;const auto buffer=bufferFrames(device);
+    startupMark("engine_construct_request");
+    AVAudioEngine* audio=[[AVAudioEngine alloc]init];lifetime.audio=audio;startupMark("engine_construct_return");const auto device=defaultDevice();auto deviceFormat=[audio.outputNode outputFormatForBus:0];const double deviceRate=deviceFormat.sampleRate;const auto deviceChannels=deviceFormat.channelCount;const auto buffer=bufferFrames(device);
+    startupMark("device_format_resolved");
     auto format=[[AVAudioFormat alloc]initWithCommonFormat:AVAudioPCMFormatFloat32 sampleRate:ctx.rate channels:static_cast<AVAudioChannelCount>(ctx.channels) interleaved:NO];
     Context* state=&ctx;auto source=[[AVAudioSourceNode alloc]initWithFormat:format renderBlock:^OSStatus(BOOL* s,const AudioTimeStamp* t,AVAudioFrameCount n,AudioBufferList* b){return render(state,s,t,n,b);}];
-    lifetime.source=source;[audio attachNode:source];[audio connect:source to:audio.mainMixerNode format:format];audio.mainMixerNode.outputVolume=.5f;[audio prepare];
+    lifetime.source=source;[audio attachNode:source];[audio connect:source to:audio.mainMixerNode format:format];audio.mainMixerNode.outputVolume=.5f;
+    startupMark("nodes_connected");startupMark("engine_prepare_request");[audio prepare];startupMark("engine_prepare_return");
+#ifdef PHASE59_FIX_STARTUP
+    if(captureOutputNotify){
+        auto* bytes=reinterpret_cast<volatile unsigned char*>(ctx.outputRecords.data());
+        for(std::size_t i=0;i<sizeof(ctx.outputRecords);++i)bytes[i]=0;
+        ctx.captureOutputNotify=true;lifetime.outputUnit=audio.outputNode.audioUnit;
+        if(!lifetime.outputUnit||AudioUnitAddRenderNotify(lifetime.outputUnit,outputNotify,&ctx)!=noErr)throw std::runtime_error("Output render notification unavailable");
+    }
+#endif
     // A notification already being delivered can outlive removeObserver. Its
     // flag has independent ownership and never dereferences a destroyed Context.
     auto routeSignal=std::make_shared<std::atomic<bool>>(false);
     id observer=[[NSNotificationCenter defaultCenter]addObserverForName:AVAudioEngineConfigurationChangeNotification object:audio queue:nil usingBlock:^(NSNotification*){routeSignal->store(true);}];
     lifetime.observer=observer;
-    const auto configured=pipeline.elapsedSeconds();if(!pipeline.waitUntilReady(std::chrono::seconds(60)))throw std::runtime_error("Preparation failed: "+pipeline.diagnostics().error);
+    const auto configured=pipeline.elapsedSeconds();startupMark("ready_wait_request");if(!pipeline.waitUntilReady(std::chrono::seconds(60)))throw std::runtime_error("Preparation failed: "+pipeline.diagnostics().error);
+    startupMark("ready_observed");
     const auto playRequested=pipeline.elapsedSeconds();const bool realtimeNeeded=!pipeline.finished();
     if(!pipeline.setRealtimeRendering(true))throw std::runtime_error("Realtime worker arming failed");
-    const auto realtimeArmed=pipeline.elapsedSeconds();ctx.active=true;NSError* error=nil;if(![audio startAndReturnError:&error])throw std::runtime_error(error?[[error description]UTF8String]:"Audio start failed");const auto audioStarted=pipeline.elapsedSeconds();
+    startupMark("workgroup_armed");
+    const auto realtimeArmed=pipeline.elapsedSeconds();ctx.active=true;NSError* error=nil;startupMark("engine_start_request");if(![audio startAndReturnError:&error])throw std::runtime_error(error?[[error description]UTF8String]:"Audio start failed");startupMark("engine_start_return");const auto audioStarted=pipeline.elapsedSeconds();
     const auto playbackStart=ctx.now();bool paused=false,resumed=false,routeStopped=false,timedOut=false,windowed=false;
     while(true){const double elapsed=double(ctx.now()-playbackStart)*1e-9;
         if(pipeline.failed())break;
@@ -181,9 +252,26 @@ int runOne(int argc,char** argv){@autoreleasepool{try{
     }
     std::ofstream workerCsv(out/"worker.csv");workerCsv<<"output_start,output_end,fifo_before,fifo_after,received_input,snapshot_version,final_snapshot,start_s,published_s,wall_s,cpu_s,publication_gap_s,wav_wall_s,wav_cpu_s,fft_wall_s,fft_cpu_s,phase_wall_s,phase_cpu_s,ola_wall_s,ola_cpu_s,fir_wall_s,fir_cpu_s,realtime\n"<<std::setprecision(17);
     for(const auto& r:pipeline.workerRecords()){workerCsv<<r.outputStart<<','<<r.outputEnd<<','<<r.fifoBefore<<','<<r.fifoAfter<<','<<r.receivedInput<<','<<r.snapshotVersion<<','<<r.finalSnapshot<<','<<r.startedS<<','<<r.publishedS<<','<<r.wallS<<','<<r.cpuS<<','<<r.publicationGapS;for(const auto& t:r.work.stages)workerCsv<<','<<t.wallSeconds<<','<<t.threadCpuSeconds;workerCsv<<','<<r.realtime<<'\n';}
+#ifdef PHASE59_FIX_STARTUP
+    std::ofstream intervalCsv(out/"intervals.csv");intervalCsv<<"output_start,start_ticks,end_ticks,deadline_ticks,timebase_numer,timebase_denom,deadline_miss\n";
+    for(const auto& r:pipeline.workerRecords())if(r.realtime){const auto& t=r.intervalTiming;intervalCsv<<r.outputStart<<','<<t.startTicks<<','<<t.endTicks<<','<<t.deadlineTicks<<','<<ctx.numer<<','<<ctx.denom<<','<<(t.endTicks>t.deadlineTicks)<<'\n';}
+    std::ofstream framesCsv(out/"phase_frames.csv");framesCsv<<"output_start,resolution,frames,shared_peaks,max_shared_peaks,resets,first_input,last_input,neighborhood_evaluations\n";
+    for(const auto& r:pipeline.workerRecords())for(std::size_t resolution=0;resolution<3;++resolution){const auto& f=r.work.phaseFrames[resolution];framesCsv<<r.outputStart<<','<<resolution<<','<<f.frames<<','<<f.sharedPeaks<<','<<f.maxSharedPeaks<<','<<f.resets<<','<<f.firstInput<<','<<f.lastInput<<','<<f.neighborhoodEvaluations<<'\n';}
+#endif
     std::ofstream csv(out/"callbacks.csv");csv<<"sequence,epoch,start_ns,end_ns,host_ns,sample_time,flags,requested,wanted,received,output_before,fifo_before\n"<<std::setprecision(17);std::vector<std::uint64_t> durations;
     for(std::size_t i=0;i<std::min<std::size_t>(ctx.calls,ctx.records.size());++i){const auto& r=ctx.records[i];durations.push_back(r.end-r.start);csv<<i+1<<','<<r.epoch<<','<<r.start<<','<<r.end<<','<<r.host<<','<<r.sample<<','<<r.flags<<','<<r.frames<<','<<r.raw.wanted<<','<<r.raw.received<<','<<r.raw.outputBefore<<','<<r.raw.fifoBefore<<'\n';}
     std::sort(durations.begin(),durations.end());const auto percentile=[&](double q){return durations.empty()?0:durations[std::min(durations.size()-1,std::size_t(std::ceil(q*durations.size())-1))];};
+#ifdef PHASE59_FIX_STARTUP
+    std::ofstream startupCsv(out/"startup.csv");startupCsv<<"event,mach_ns\n";
+    for(std::size_t i=0;i<startupCount;++i)startupCsv<<startupMarks[i].name<<','<<startupMarks[i].ns<<'\n';
+    for(std::size_t i=0;i<std::min<std::size_t>(2,ctx.calls);++i)startupCsv<<"callback_"<<i+1<<','<<ctx.records[i].start<<'\n';
+    std::ofstream entriesCsv(out/"initial_render_entries.csv");entriesCsv<<"sequence,start_ns,host_ns,sample_time,frames,timestamp_flags,active\n"<<std::setprecision(17);
+    for(std::size_t i=0;i<std::min<std::size_t>(ctx.renderEntryCalls.load(),ctx.renderEntries.size());++i){const auto& r=ctx.renderEntries[i];entriesCsv<<i+1<<','<<r.start<<','<<r.host<<','<<r.sample<<','<<r.frames<<','<<r.flags<<','<<r.active<<'\n';}
+    if(captureOutputNotify){
+        std::ofstream notifyCsv(out/"output_notify.csv");notifyCsv<<"sequence,start_ns,host_ns,sample_time,frames,action_flags,timestamp_flags,bus\n"<<std::setprecision(17);
+        for(std::size_t i=0;i<std::min<std::size_t>(ctx.outputCalls.load(),ctx.outputRecords.size());++i){const auto& r=ctx.outputRecords[i];notifyCsv<<i+1<<','<<r.start<<','<<r.host<<','<<r.sample<<','<<r.frames<<','<<r.action<<','<<r.flags<<','<<r.bus<<'\n';}
+    }
+#endif
     const bool eos=d.dspDone&&d.consumed==(captureMode?d.outputFrames:expectedFrames),pcm=ctx.calls&&!ctx.mismatches&&d.consumed>0;
     const bool measured=ctx.calls>1&&!ctx.dropped&&ctx.sampleValid==ctx.calls&&!ctx.hostMissing&&!ctx.hostBackwards&&!ctx.hostCadence&&!ctx.sampleErrors&&!ctx.halMisses;
     const bool audioPass=pcm&&!d.missingFrames&&!d.missingCalls&&!d.rejectedWrites&&!ctx.deadlines&&!ctx.formats&&!callbackAllocations&&!d.failed&&!timedOut;

@@ -1,0 +1,79 @@
+{
+  "failures": [
+    {
+      "label": "original",
+      "mode": "smoke",
+      "preset": "baseline",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase58_fix_frozen/phase54_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+        "baseline",
+        "2.0",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/legacy_final/0_original_smoke_baseline",
+        "smoke",
+        "64"
+      ],
+      "summary": {
+        "AUDIO_QUALITY": "FAIL",
+        "MEASUREMENT_QUALITY": "PASS",
+        "PCM_CORRECTNESS": "PASS",
+        "VERDICT": "FAIL",
+        "mode": "smoke",
+        "source_rate": "44100",
+        "channels": "2",
+        "device": "72",
+        "device_rate": "48000",
+        "device_buffer": "512",
+        "prepare_wall_s": "0.149837584",
+        "prepare_thread_cpu_s": "0.062502791000000002",
+        "play_wall_s": "0.164431666",
+        "play_thread_cpu_s": "0.0055560419999999971",
+        "missing_frames": "234",
+        "lifetime_missing_frames": "234",
+        "callback_rows": "820",
+        "callback_max_ms": "0.0079579999999999998",
+        "callback_overruns": "0",
+        "callback_allocations": "0",
+        "worker_max_wall_s": "0.161241",
+        "worker_max_cpu_s": "0.056953541000000003",
+        "analysis_hit": "1",
+        "analysis_runs": "1",
+        "cache_hits": "6",
+        "analysis_bytes": "20755",
+        "cache_resident_bytes": "20755",
+        "playback_rss_bytes": "74072064",
+        "playback_process_cpu_s": "5.1860210000000002",
+        "eos": "1",
+        "route": "0",
+        "silent": "0",
+        "fade": "64",
+        "seek_count": "5",
+        "expected_frames": "220500",
+        "consumed_frames": "220500"
+      },
+      "missing_callbacks": [
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/legacy_final/0_original_smoke_baseline/callbacks_1.csv",
+          "missing_frames": 234,
+          "callback": {
+            "sequence": "179",
+            "epoch": "1",
+            "session": "4",
+            "start_ns": "279935705931250",
+            "end_ns": "279935705934458",
+            "host_ns": "279935719243500",
+            "sample_time": "83732",
+            "flags": "7",
+            "requested": "470",
+            "wanted": "470",
+            "received": "236",
+            "output": "83732",
+            "fifo": "236"
+          }
+        }
+      ],
+      "os_state_at_missing_callback": null
+    }
+  ],
+  "scope": "旧製品経路。最終新経路274セッションへ合算して相殺しない。worker最大Wallを当該不足callbackの原因と断定しない。"
+}

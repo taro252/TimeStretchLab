@@ -1,0 +1,63 @@
+{
+  "input": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+  "input_sha256": "789d4c159e35b4c133a17913ad5a9c47b85970185e5d86b074d146afc1bb311e",
+  "recipe": {
+    "original_sha256": "538784aab924409d6c8ea1a3d1cd1f4db7ea124a2af91bffcdf34cad875a7087",
+    "generated_source_sha256": "712e6133427609a23407009238622fe224660fed93092f7fdb676ddf2ec4c22c",
+    "command": [
+      "/usr/bin/c++",
+      "-O3",
+      "-DNDEBUG",
+      "-arch",
+      "arm64",
+      "-Wl,-search_paths_first",
+      "-Wl,-headerpad_max_install_names",
+      "-std=c++20",
+      "-I/Users/taro252/Docker/TimeStretchLab/src",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/legacy_final/legacy_probe.cpp",
+      "CMakeFiles/phase54_native.dir/src/prototype/Phase35TransitionEngine.cpp.o",
+      "-o",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/legacy_final/legacy_probe",
+      "libmacos_playback_engine.a",
+      "libplayback_engine.a",
+      "libphase39_variable.a",
+      "libphase36_variable.a",
+      "libphase24_variable.a",
+      "libtimestretch_core.a",
+      "-framework",
+      "Accelerate",
+      "-framework",
+      "AVFoundation",
+      "-framework",
+      "Foundation",
+      "-framework",
+      "CoreAudio"
+    ],
+    "link_input_sha256": {
+      "/Users/taro252/Docker/TimeStretchLab/build/CMakeFiles/phase54_native.dir/src/prototype/Phase35TransitionEngine.cpp.o": "b95e22daeb94d4f963f6eaf159f2b2b655e2e598df0914c11dbf3db19f2abb72",
+      "/Users/taro252/Docker/TimeStretchLab/build/libmacos_playback_engine.a": "77e7483b2137142d8dc0389d0b8da8ccfbd586231371c728b617eb4ce953a84a",
+      "/Users/taro252/Docker/TimeStretchLab/build/libplayback_engine.a": "cf2ce195161594b2efe76327f73e874e7549b3692c6bd88e141620c5ef60ab7b",
+      "/Users/taro252/Docker/TimeStretchLab/build/libphase39_variable.a": "da620e886f3d2d6f790b7a284119876615e6843b29763e8496bd2452b8c5a57d",
+      "/Users/taro252/Docker/TimeStretchLab/build/libphase36_variable.a": "5f31ca69718b530a1ba66d2e8ce6f91699d9b9329e952f7cd3ed83edf440bc70",
+      "/Users/taro252/Docker/TimeStretchLab/build/libphase24_variable.a": "4b8c9906869f11846b95a466eec3567b89a00a51decf90f095a17c3398b3b00b",
+      "/Users/taro252/Docker/TimeStretchLab/build/libtimestretch_core.a": "0fa025ae75c81b8a1a9ff84c7ba05908350be72f590cfa2a9e5247216fe1d901"
+    },
+    "diagnostic_changes": "通常側の時計較正・16384件上限の公開位置標本・停止後の既存worker profile書出し。音声コールバック、FIFO、DSP算術、操作列は不変。"
+  },
+  "repeats": 1,
+  "driver_sha256": "316bc29aee2ece4fec33f27c4d5894b52fc54ee0849a02288d3ce12f7331778a",
+  "binaries": {
+    "original": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase58_fix_frozen/phase54_native",
+      "sha256": "e3e0eee3193fa79365dfc2c835c14b041b9a7c1253f99c453a1bb4da308542d4"
+    },
+    "phase59_before": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/final/phase54_native",
+      "sha256": "b3e31debe8d786d1007eaa78546467d6bf78ea5569f8c3c1bfb58d12352d7db1"
+    },
+    "probe": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/legacy_final/legacy_probe",
+      "sha256": "e88bbdb77de085c14b3c68170f78d2843df9b2802c647c4ab0cce5f0efc41ea8"
+    }
+  }
+}

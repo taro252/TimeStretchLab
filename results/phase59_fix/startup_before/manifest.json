@@ -1,0 +1,41 @@
+{
+  "repeats": 20,
+  "preset": "candidate",
+  "initial_speed": 500000,
+  "input": "/Users/taro252/Docker/TimeStretchLab/results/phase59/native_smoke_v2/inputs/boundary_float_stereo_48000.wav",
+  "input_sha256": "ebb61d453dde2d99eef3731c8bf17bd65679541dc942d9a7bcc8a6bb3238cacd",
+  "metadata": {
+    "encoding": 3,
+    "channels": 2,
+    "rate": 48000,
+    "bits": 32,
+    "frames": 192000,
+    "data_offset": 44,
+    "data_bytes": 1536000
+  },
+  "requests": "/Users/taro252/Docker/TimeStretchLab/results/phase59/native_smoke_v2/case_000/requests.csv",
+  "requests_sha256": "6c121164e1901c95cd7786b4dea6dfc593de4e01a88796797e8e2732c65c8327",
+  "binaries": {
+    "phase58_fix": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase58_fix_frozen/candidate_v3_native",
+      "sha256": "daacdb21463fd2ebe002109758db7d6109d24a6925cae17b2476f53296213e7a"
+    },
+    "phase59_v7": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/native_v7",
+      "sha256": "10fa1becbd07965a9318018a4929470217a6e5b895297f9c7a530473132813ca"
+    },
+    "phase59_final": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/final/phase59_native",
+      "sha256": "64b4a996c1d1a3208068fa8f86fbbca5df9212017bd899e726ac8c7ca60dce28"
+    },
+    "startup_probe": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_startup_probe",
+      "sha256": "c3049709e7fe5a3f38782c62e25a70811064c1ed7d4581a871cc8b64606efd4e"
+    }
+  },
+  "reference_sha256": "1c860210fb6ea4a2075c5f2fdc9c1fd1afa97adb175413994be676a131d97818",
+  "artifact_directory": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/startup_before",
+  "minimum_free_bytes": 1073741824,
+  "expected_next_working_bytes": 33554432,
+  "comparison": "固定58Fixと動的59は要求列が異なる。起動要求前の同じ初期速度・入力・SourceNode構成を比較し、PCMは各自の同一計画参照で照合。"
+}

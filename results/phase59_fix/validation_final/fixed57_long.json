@@ -1,0 +1,33 @@
+{
+  "PASS": true,
+  "pcm_sessions": 48,
+  "matched_rejections": 0,
+  "cases": 36,
+  "partitions": [
+    {
+      "name": "fixed57_long_all",
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/validation_final/partition_drivers/long_all.py",
+        "--suite",
+        "long",
+        "--binary",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/final/phase57_check",
+        "--output",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/validation_final/fixed57_long_all"
+      ],
+      "exit": 0,
+      "wall_s": 2585.7459161281586,
+      "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/validation_final/fixed57_long_all.log",
+      "result": {
+        "PASS": true,
+        "cases": 36,
+        "pcm_sessions": 48,
+        "matched_rejections": 0,
+        "completed_utc": "2026-10-16T17:29:26Z"
+      }
+    }
+  ],
+  "original_driver_sha256": "b6582c8be4ea744ec1cbf251de7bd07d3bac986a5ae6ccf826c850abb1fb740a"
+}

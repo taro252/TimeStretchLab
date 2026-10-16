@@ -154,6 +154,8 @@ struct RealtimePipeline::Impl {
         if(c.dynamicTransitions&&c.scheduling!=WorkerScheduling::AudioWorkgroup)throw std::invalid_argument("Phase59 requires the resident Audio Workgroup path");
         if(c.transitionFailureForTest>2||(!c.dynamicTransitions&&c.transitionFailureForTest))throw std::invalid_argument("Invalid transition fault control");
         if(c.promotionFailureOnAttemptForTest>2)throw std::invalid_argument("Invalid promotion fault control");
+        if(c.phaseProbeWindowCount>c.phaseProbeWindows.size())throw std::invalid_argument("Too many phase probe windows");
+        for(std::size_t w=0;w<c.phaseProbeWindowCount;++w)if(c.phaseProbeWindows[w].first>=c.phaseProbeWindows[w].second)throw std::invalid_argument("Invalid phase probe window");
         error.reserve(256);verified=elapsed();inputSha=input.identify(config.sourceSnapshotBytes);identified=elapsed();
         if(config.residentInput){input.makeResident();residentReady=elapsed();}
         realtime=std::make_unique<RealtimeWorkerSupport>(config.scheduling==WorkerScheduling::AudioWorkgroup,input.rate);
@@ -448,6 +450,12 @@ struct RealtimePipeline::Impl {
                         realtime->waitForSignal();backpressureWait=backpressureWait.load()+wait.elapsed().wallSeconds;continue;
                     }
                     playback::StageClock block;const auto began=elapsed();const auto fifoBefore=fifo.available();const auto startOutput=published.load();atPublication=0;gap=0;
+                    if(config.detailedDiagnostics){
+                        bool observe=config.phaseProbeWindowCount==0;
+                        for(std::size_t w=0;w<config.phaseProbeWindowCount;++w)
+                            observe|=startOutput>=config.phaseProbeWindows[w].first&&startOutput<config.phaseProbeWindows[w].second;
+                        engine.setWorkObserverActive(observe);
+                    }
                     if(!realtime->beginInterval())throw std::runtime_error("DSP work interval start failed");
                     phase57::SynthesisState state;
                     try{DetailScope region{*this,14};state=engine.advance(sink);}
@@ -455,8 +463,8 @@ struct RealtimePipeline::Impl {
                     if(!realtime->finishInterval())throw std::runtime_error("DSP work interval finish failed");
                     publishFrontier();
                     const auto t=block.elapsed();dspCpu=dspCpu.load()+t.threadCpuSeconds;maxDspWall=std::max(maxDspWall.load(),t.wallSeconds);maxDspCpu=std::max(maxDspCpu.load(),t.threadCpuSeconds);
-                    if(config.recordWorkerProfile&&published.load()!=startOutput){
-                        if(profiles.size()<65536)profiles.push_back({startOutput,published.load(),fifoBefore,fifo.available(),received.load(),seen,finalSnapshot,began,atPublication,t.wallSeconds,t.threadCpuSeconds,gap,engine.workProfile(),realtime->active(),currentMapVersion});else ++profileDropped;
+                    if(config.recordWorkerProfile){
+                        if(profiles.size()<65536)profiles.push_back({startOutput,published.load(),fifoBefore,fifo.available(),received.load(),seen,finalSnapshot,began,atPublication,t.wallSeconds,t.threadCpuSeconds,gap,engine.workProfile(),realtime->active(),currentMapVersion,realtime->active()?realtime->lastInterval():RealtimeIntervalTiming{}});else ++profileDropped;
                     }
                     if(cancelled.load()||failure.load())break;
                     if(state==phase57::SynthesisState::NeedsMoreAnalysis||state==phase57::SynthesisState::NeedsMoreInput){needSnapshot=true;continue;}

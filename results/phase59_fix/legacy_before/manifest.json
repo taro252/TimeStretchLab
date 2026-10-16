@@ -1,0 +1,53 @@
+{
+  "input": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+  "input_sha256": "789d4c159e35b4c133a17913ad5a9c47b85970185e5d86b074d146afc1bb311e",
+  "recipe": {
+    "original_sha256": "538784aab924409d6c8ea1a3d1cd1f4db7ea124a2af91bffcdf34cad875a7087",
+    "generated_source_sha256": "fc19bdc28fb24d7f0094bf0314140b4d3aba701a40b198fb4d94a162ed88f266",
+    "command": [
+      "/usr/bin/c++",
+      "-O3",
+      "-DNDEBUG",
+      "-arch",
+      "arm64",
+      "-Wl,-search_paths_first",
+      "-Wl,-headerpad_max_install_names",
+      "-std=c++20",
+      "-I/Users/taro252/Docker/TimeStretchLab/src",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/legacy_before/legacy_probe.cpp",
+      "CMakeFiles/phase54_native.dir/src/prototype/Phase35TransitionEngine.cpp.o",
+      "-o",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/legacy_before/legacy_probe",
+      "libmacos_playback_engine.a",
+      "libplayback_engine.a",
+      "libphase39_variable.a",
+      "libphase36_variable.a",
+      "libphase24_variable.a",
+      "libtimestretch_core.a",
+      "-framework",
+      "Accelerate",
+      "-framework",
+      "AVFoundation",
+      "-framework",
+      "Foundation",
+      "-framework",
+      "CoreAudio"
+    ],
+    "diagnostic_changes": "通常側の時計較正・16384件上限の公開位置標本・停止後の既存worker profile書出し。音声コールバック、FIFO、DSP算術、操作列は不変。"
+  },
+  "repeats": 1,
+  "binaries": {
+    "original": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase58_fix_frozen/phase54_native",
+      "sha256": "e3e0eee3193fa79365dfc2c835c14b041b9a7c1253f99c453a1bb4da308542d4"
+    },
+    "phase59_before": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/final/phase54_native",
+      "sha256": "b3e31debe8d786d1007eaa78546467d6bf78ea5569f8c3c1bfb58d12352d7db1"
+    },
+    "probe": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/legacy_before/legacy_probe",
+      "sha256": "734bc84c9bbdd7b73068d41e0204bbed59dea2ce52cb7d0f6e48005942d200f5"
+    }
+  }
+}

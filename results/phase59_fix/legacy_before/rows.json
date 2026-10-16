@@ -1,0 +1,41 @@
+[
+  {
+    "label": "probe_long_cpu0",
+    "repeat": 0,
+    "mode": "eos",
+    "preset": "candidate",
+    "input": "/Users/taro252/Docker/TimeStretchLab/results/phase55/long/boundary_1_2_44100_180/full.wav",
+    "input_sha256": "e5a589ce9e3ea436c53aadda233c96a8246e7a58466718600c82b68b47dd05ac",
+    "cpu": 0,
+    "command": [
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/legacy_before/legacy_probe",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase55/long/boundary_1_2_44100_180/full.wav",
+      "candidate",
+      "2.0",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/legacy_before/0_probe_long_cpu0_eos_candidate",
+      "eos",
+      "64"
+    ],
+    "exit": 1,
+    "wall_s": 92.75233697891235,
+    "summary": {},
+    "PASS": false,
+    "artifacts": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/legacy_before/0_probe_long_cpu0_eos_candidate/callbacks_0.csv",
+        "bytes": 779140,
+        "sha256": "df6e165fbcb926c0970978edbd28f9728d4f2cfe871eda97652ad1c6680125a6"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/legacy_before/0_probe_long_cpu0_eos_candidate/worker_0.csv",
+        "bytes": 319566,
+        "sha256": "5ea564c96394bf453c822edc47309297d849cc83018eaa58fa47e8ca0d38ea6a"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/legacy_before/0_probe_long_cpu0_eos_candidate/actions.csv",
+        "bytes": 65,
+        "sha256": "d191656f6443634a72022bd84cdc269e8fd7f53bac62a5f7a53c8256e735c350"
+      }
+    ]
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "input": "results/phase55/long/boundary_1_2_44100_180/full.wav",
+  "csv_sha256": "b250dcb4a39fc26bdb664665ddc5a25314532e3bd4d484a9428ffb41af70251b",
+  "results": {
+    "8192": {
+      "rounds": 5,
+      "cpu_ratio_median": 0.9170241538208038,
+      "all_final_frames_exact": true
+    },
+    "4096": {
+      "rounds": 5,
+      "cpu_ratio_median": 0.9139366144542477,
+      "all_final_frames_exact": true
+    },
+    "1024": {
+      "rounds": 5,
+      "cpu_ratio_median": 0.9009697114809067,
+      "all_final_frames_exact": true
+    }
+  },
+  "unit_frozen_frames": 3840,
+  "scope": "同じFFT入力・同じ要求条件の旧版コピーと修正版を交互計測。CSVのビット一致は最終スペクトル。全状態の一致は固定参照単体検査、全PCM回帰を別途実施する。"
+}

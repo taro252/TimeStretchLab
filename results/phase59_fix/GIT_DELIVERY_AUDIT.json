@@ -1,0 +1,2180 @@
+{
+  "PASS": true,
+  "head": "190fbcd1ad9f6cf2e98eccf7d0f3d4cb2dd5e05b",
+  "branch": "main",
+  "historical_reference_checks": {
+    "build/phase59_frozen/native_v7": true,
+    "build/phase59_frozen/final/phase59_native": true,
+    "build/phase58_fix_frozen/candidate_v3_native": true,
+    "build/phase59_frozen/final/phase58_native": true,
+    "build/phase58_fix_frozen/phase54_native": true,
+    "build/phase59_frozen/final/phase54_native": true,
+    "build/phase59_frozen/dynamic_reference": true,
+    "build/phase59_frozen/captured_reference": true,
+    "build/phase58_frozen/product_reference": true,
+    "build/phase57_frozen/reference": true
+  },
+  "historical_large_files": [
+    {
+      "path": "results/phase57/stage2/rows.jsonl",
+      "bytes": 53116718,
+      "blob": "d9b3dc04e6062cdf814f2e2e84776e184493f507",
+      "sha256": "561bddda07e914bdc8e7c91d72f85fcdc6d621cf875b4bc454595a5d7a997558",
+      "storage_path": "/Users/taro252/Docker/TimeStretchLab/results/phase57/stage2/rows.jsonl",
+      "preserved": true,
+      "restore": "既存Git履歴またはこの保存原本から復元。履歴書換え・原本削除は行わない。",
+      "preserved_at_delivery": true
+    },
+    {
+      "path": "results/phase58/regress57_stage2/rows.jsonl",
+      "bytes": 53121730,
+      "blob": "41e52c82b6b5e08988ed39b7a19e96629ca590ad",
+      "sha256": "55eb357b22161ed050ce5f0fad013fd4dce0e71ff3f59b27557d0cdb7f33810a",
+      "storage_path": "/Users/taro252/Docker/TimeStretchLab/results/phase58/regress57_stage2/rows.jsonl",
+      "preserved": true,
+      "restore": "既存Git履歴またはこの保存原本から復元。履歴書換え・原本削除は行わない。",
+      "preserved_at_delivery": true
+    },
+    {
+      "path": "results/phase58_fix/regression_v3/regress57_stage2/rows.jsonl",
+      "bytes": 53080347,
+      "blob": "87c1a8c3d89f2762b0bbaa1e148edf1dcb240498",
+      "sha256": "efba83f6766bdbd3f75f44db928b6f6a5ff228046a72d08d28a47f8153d33ce4",
+      "storage_path": "/Users/taro252/Docker/TimeStretchLab/results/phase58_fix/regression_v3/regress57_stage2/rows.jsonl",
+      "preserved": true,
+      "restore": "既存Git履歴またはこの保存原本から復元。履歴書換え・原本削除は行わない。",
+      "preserved_at_delivery": true
+    },
+    {
+      "path": "results/phase59/device_final/dynamic_long/working/capture.f32",
+      "bytes": 71013176,
+      "blob": "65494609bd5d792c8b3a1807fc28cc890c4488ff",
+      "sha256": "9e01bf88e7da2c8af250351042aca649e1dd372e6618b526a22138cb8e1b22e3",
+      "storage_path": "/Users/taro252/Docker/TimeStretchLab/results/phase59/device_final/dynamic_long/working/capture.f32",
+      "preserved": true,
+      "restore": "既存Git履歴またはこの保存原本から復元。履歴書換え・原本削除は行わない。",
+      "preserved_at_delivery": true
+    },
+    {
+      "path": "results/phase59/device_final/dynamic_long/working/reference.bin",
+      "bytes": 71013176,
+      "blob": "65494609bd5d792c8b3a1807fc28cc890c4488ff",
+      "sha256": "9e01bf88e7da2c8af250351042aca649e1dd372e6618b526a22138cb8e1b22e3",
+      "storage_path": "/Users/taro252/Docker/TimeStretchLab/results/phase59/device_final/dynamic_long/working/reference.bin",
+      "preserved": true,
+      "restore": "既存Git履歴またはこの保存原本から復元。履歴書換え・原本削除は行わない。",
+      "preserved_at_delivery": true
+    }
+  ],
+  "historical_tracked_results_unchanged": true,
+  "final_source_209_unchanged": true,
+  "real_index_unchanged": true,
+  "actual_staged_check": "Git blob容量検査: 合格（新規対象は50,000,000バイト未満）\n",
+  "frozen_build_input_checks": {
+    "CMakeLists.txt": true,
+    "tests/Phase59FixVocoderBench.cpp": true,
+    "tests/Phase59FixVocoderTests.cpp": true,
+    "tests/Phase59FixStereoTests.cpp": true,
+    "tests/Phase59FixEOSProbe.cpp": true,
+    "src/phase23_main.cpp": true,
+    "src/wav_metrics.cpp": true,
+    "src/phase29_main.cpp": true,
+    "src/.DS_Store": true,
+    "src/phase17_seek_study.cpp": true,
+    "src/phase101_offline_events.cpp": true,
+    "src/wav_compare.cpp": true,
+    "src/realtime_main.cpp": true,
+    "src/phase17_cache_prefill_study.cpp": true,
+    "src/sinusoidal_residual_main.cpp": true,
+    "src/stereo_spectral_metrics.cpp": true,
+    "src/phase14_main.cpp": true,
+    "src/tonal_residual_main.cpp": true,
+    "src/bass_pitch_metrics.cpp": true,
+    "src/phase13_main.cpp": true,
+    "src/phase24_sim_main.cpp": true,
+    "src/main.cpp": true,
+    "src/wsola_main.cpp": true,
+    "src/prototype/Phase26BidirectionalTimeMap.cpp": true,
+    "src/prototype/Phase39Sim.cpp": true,
+    "src/prototype/Phase33TraceRender.cpp": true,
+    "src/prototype/Phase37HighSpeedMap.h": true,
+    "src/prototype/Phase39Reference.cpp": true,
+    "src/prototype/Phase35PhaseVocoder.cpp": true,
+    "src/prototype/Phase41MapTrace.cpp": true,
+    "src/prototype/Phase55AnalysisProbe.cpp": true,
+    "src/prototype/Phase32ResearchEngine.cpp": true,
+    "src/prototype/Phase35PhaseVocoder.h": true,
+    "src/prototype/Phase51BusyStudy.cpp": true,
+    "src/prototype/Phase57PinnedInput.h": true,
+    "src/prototype/Phase42DensityGuard.cpp": true,
+    "src/prototype/Phase50Boundary.h": true,
+    "src/prototype/Phase42DensityGuard.h": true,
+    "src/prototype/Phase35Render.cpp": true,
+    "src/prototype/Phase35StereoPhaseCoherence.h": true,
+    "src/prototype/Phase30PlaybackPipeline.h": true,
+    "src/prototype/Phase58LegacyStartup.cpp": true,
+    "src/prototype/Phase58Check.cpp": true,
+    "src/prototype/Phase59Check.cpp": true,
+    "src/prototype/Phase32ResearchEngine.h": true,
+    "src/prototype/Phase58FixSnapshotMailbox.h": true,
+    "src/prototype/Phase28ArbitraryTimeMap.cpp": true,
+    "src/prototype/Phase58Native.mm": true,
+    "src/prototype/Phase37SynthesisEngine.cpp": true,
+    "src/prototype/Phase35TimeMap.cpp": true,
+    "src/prototype/Phase45CallbackClock.h": true,
+    "src/prototype/Phase26BidirectionalTimeMap.h": true,
+    "src/prototype/Phase56Reference.cpp": true,
+    "src/prototype/Phase58ProductReference.cpp": true,
+    "src/prototype/Phase32Render.cpp": true,
+    "src/prototype/Phase46Statistics.h": true,
+    "src/prototype/Phase58RealtimePipeline.cpp": true,
+    "src/prototype/Phase59ReplaySupport.h": true,
+    "src/prototype/Phase33Crossover.cpp": true,
+    "src/prototype/Phase47EvidenceFile.h": true,
+    "src/prototype/Phase37HighSpeedMap.cpp": true,
+    "src/prototype/Phase22VariableTimeMap.cpp": true,
+    "src/prototype/Phase36PlaybackPipeline.h": true,
+    "src/prototype/Phase22BResponsiveMap.cpp": true,
+    "src/prototype/Phase22BResponsiveMap.h": true,
+    "src/prototype/Phase58RealtimePipeline.h": true,
+    "src/prototype/Phase35DensityControl.cpp": true,
+    "src/prototype/Phase57ProgressiveSynthesis.cpp": true,
+    "src/prototype/Phase37SynthesisEngine.h": true,
+    "src/prototype/Phase33TraceEngine.h": true,
+    "src/prototype/Phase51CommandControl.h": true,
+    "src/prototype/Phase45DeviceRate.cpp": true,
+    "src/prototype/Phase57Reference.cpp": true,
+    "src/prototype/Phase46HostClock.h": true,
+    "src/prototype/Phase50DeviceBuffer.cpp": true,
+    "src/prototype/Phase36SynthesisCore.h": true,
+    "src/prototype/Phase45PcmDigest.h": true,
+    "src/prototype/Phase36StreamingSpeedEngine.cpp": true,
+    "src/prototype/Phase31ResearchEngine.cpp": true,
+    "src/prototype/Phase23VariableSpeedEngine.h": true,
+    "src/prototype/Phase36PlaybackPipeline.cpp": true,
+    "src/prototype/Phase39TimeMap.h": true,
+    "src/prototype/Phase31Render.cpp": true,
+    "src/prototype/Phase28ArbitraryTimeMap.h": true,
+    "src/prototype/Phase35TransitionEngine.h": true,
+    "src/prototype/Phase58Diagnostics.h": true,
+    "src/prototype/Phase36Reference.cpp": true,
+    "src/prototype/Phase22VariableTimeMap.h": true,
+    "src/prototype/Phase56ImmutableSeries.h": true,
+    "src/prototype/Phase59CapturedReference.cpp": true,
+    "src/prototype/Phase31ResearchEngine.h": true,
+    "src/prototype/Phase58FixRealtimeWorker.cpp": true,
+    "src/prototype/Phase24StreamingSpeedEngine.h": true,
+    "src/prototype/Phase39Probe.cpp": true,
+    "src/prototype/Phase35StereoPhaseCoherence.cpp": true,
+    "src/prototype/Phase59Diagnostics.h": true,
+    "src/prototype/Phase36Sim.cpp": true,
+    "src/prototype/Phase23VariableSpeedEngine.cpp": true,
+    "src/prototype/Phase37Render.cpp": true,
+    "src/prototype/Phase38EventDump.cpp": true,
+    "src/prototype/Phase26PlaybackPipeline.h": true,
+    "src/prototype/Phase58FixSchedulingProbe.mm": true,
+    "src/prototype/Phase31Feasibility.cpp": true,
+    "src/prototype/Phase30PlaybackPipeline.cpp": true,
+    "src/prototype/Phase58FixRealtimeWorker.h": true,
+    "src/prototype/Phase59ProgressiveTransition.cpp": true,
+    "src/prototype/Phase58FixAllocationProbe.h": true,
+    "src/prototype/Phase24PlaybackPipeline.cpp": true,
+    "src/prototype/Phase56ProgressiveAnalysis.h": true,
+    "src/prototype/Phase56PinnedWav.h": true,
+    "src/prototype/Phase36StreamingSpeedEngine.h": true,
+    "src/prototype/Phase56ProgressiveAnalysis.cpp": true,
+    "src/prototype/Phase33TraceEngine.cpp": true,
+    "src/prototype/Phase35TransitionEngine.cpp": true,
+    "src/prototype/Phase48ReplayBlocks.cpp": true,
+    "src/prototype/Phase59PlanningContract.h": true,
+    "src/prototype/Phase55StartupStudy.cpp": true,
+    "src/prototype/Phase24StreamingSpeedEngine.cpp": true,
+    "src/prototype/Phase26PlaybackPipeline.cpp": true,
+    "src/prototype/Phase59ProgressiveTransition.h": true,
+    "src/prototype/Phase59Reference.cpp": true,
+    "src/prototype/Phase39PlaybackPipeline.h": true,
+    "src/prototype/Phase59Control.h": true,
+    "src/prototype/Phase45PcmHash.cpp": true,
+    "src/prototype/Phase57ProgressiveSynthesis.h": true,
+    "src/prototype/Phase40PacedSim.cpp": true,
+    "src/prototype/Phase39PlaybackPipeline.cpp": true,
+    "src/prototype/Phase56Check.cpp": true,
+    "src/prototype/Phase57Check.cpp": true,
+    "src/prototype/Phase39TimeMap.cpp": true,
+    "src/prototype/Phase24PlaybackPipeline.h": true,
+    "src/prototype/Phase51Counterfactual.cpp": true,
+    "src/prototype/Phase35TimeMap.h": true,
+    "src/prototype/Phase39PacedSim.cpp": true,
+    "src/prototype/Phase56ReferenceData.h": true,
+    "src/prototype/Phase59ProgressiveReplay.cpp": true,
+    "src/audio/WavReader.h": true,
+    "src/audio/WavStream.h": true,
+    "src/audio/WavFile.h": true,
+    "src/audio/WavWriter.h": true,
+    "src/audio/WavWriter.cpp": true,
+    "src/audio/WavReader.cpp": true,
+    "src/audio/WavStream.cpp": true,
+    "src/playback/Phase54FadeStudy.cpp": true,
+    "src/playback/StartupDiagnostics.h": true,
+    "src/playback/Phase54ReferenceCheck.h": true,
+    "src/playback/PlaybackEngine.cpp": true,
+    "src/playback/Phase54StartupProbe.cpp": true,
+    "src/playback/PlaybackEngine.h": true,
+    "src/playback/Phase54SeekStudy.cpp": true,
+    "src/playback/PlaybackReference.cpp": true,
+    "src/playback/Phase54NativeStudy.cpp": true,
+    "src/playback/PlaybackAnalysisCache.cpp": true,
+    "src/playback/PlaybackDemo.cpp": true,
+    "src/playback/Phase54CoreProbe.cpp": true,
+    "src/playback/PlaybackAnalysisCache.h": true,
+    "src/dsp/RingOverlapAdd.h": true,
+    "src/dsp/Phase18PcmCache.h": true,
+    "src/dsp/OverlapAdd.h": true,
+    "src/dsp/PhaseVocoder.h": true,
+    "src/dsp/TransientDetector.cpp": true,
+    "src/dsp/WSOLAEngine.cpp": true,
+    "src/dsp/Phase14PlaybackPipeline.cpp": true,
+    "src/dsp/Phase13StreamingEngine.cpp": true,
+    "src/dsp/STFT.cpp": true,
+    "src/dsp/TonalResidualEngine.h": true,
+    "src/dsp/PeriodicResynchronizer.h": true,
+    "src/dsp/TransientEventMap.cpp": true,
+    "src/dsp/TimeStretchProcessor.cpp": true,
+    "src/dsp/TimeMap.h": true,
+    "src/dsp/TonalResidualEngine.cpp": true,
+    "src/dsp/TransientAnchor.cpp": true,
+    "src/dsp/PartialTracker.cpp": true,
+    "src/dsp/Phase13StreamingEngine.h": true,
+    "src/dsp/SinusoidalResidualEngine.cpp": true,
+    "src/dsp/OverlapAdd.cpp": true,
+    "src/dsp/TimeStretchProcessor.h": true,
+    "src/dsp/FFTAccelerate.cpp": true,
+    "src/dsp/WSOLAEngine.h": true,
+    "src/dsp/PartialTracker.h": true,
+    "src/dsp/PhaseLocker.cpp": true,
+    "src/dsp/STFT.h": true,
+    "src/dsp/ChunkedTimeStretchEngine.h": true,
+    "src/dsp/MultiResolutionCrossover.h": true,
+    "src/dsp/MultiResolutionCrossover.cpp": true,
+    "src/dsp/StereoPhaseCoherence.cpp": true,
+    "src/dsp/StereoPhaseCoherence.h": true,
+    "src/dsp/PhaseVocoder.cpp": true,
+    "src/dsp/Phase14PlaybackPipeline.h": true,
+    "src/dsp/TransientAnchor.h": true,
+    "src/dsp/Phase18PcmCache.cpp": true,
+    "src/dsp/TimeStretchEngine.h": true,
+    "src/dsp/TransientDetector.h": true,
+    "src/dsp/StreamingCrossover.h": true,
+    "src/dsp/RingOverlapAdd.cpp": true,
+    "src/dsp/SinusoidalResidualEngine.h": true,
+    "src/dsp/PhaseLocker.h": true,
+    "src/dsp/TimeMap.cpp": true,
+    "src/dsp/ChunkedTimeStretchEngine.cpp": true,
+    "src/dsp/TimeStretchEngine.cpp": true,
+    "src/dsp/FFTAccelerate.h": true,
+    "src/dsp/PeriodicResynchronizer.cpp": true,
+    "src/dsp/TransientEventMap.h": true,
+    "src/dsp/Phase18SeekQueue.h": true,
+    "src/dsp/StreamingCrossover.cpp": true,
+    "src/platform/macos/MacPlaybackEngine.h": true,
+    "src/platform/macos/Phase15MacPlayback.mm": true,
+    "src/platform/macos/Phase26MacPlayback.mm": true,
+    "src/platform/macos/Phase36MacPlayback.mm": true,
+    "src/platform/macos/Phase24MacPlayback.mm": true,
+    "src/platform/macos/Phase43MacPlayback.mm": true,
+    "src/platform/macos/Phase27MacPlayback.mm": true,
+    "src/platform/macos/Phase30MacPlayback.mm": true,
+    "src/platform/macos/MacPlaybackEngine.mm": true,
+    "tests/reference/phase59_fix/PROVENANCE.json": true,
+    "tests/reference/phase59_fix/Before59FixPhaseVocoder.cpp": true,
+    "tests/reference/phase59_fix/Before59FixStereoPhaseCoherence.h": true,
+    "tests/reference/phase59_fix/Before59FixStereoPhaseCoherence.cpp": true,
+    "tests/reference/phase59_fix/Before59FixPhaseVocoder.h": true
+  },
+  "script_sha256": "4357d4df461bf8d3f38209daec5d67c22f8bb8089efc1f85b3634c4ad9525899",
+  "proposed_index_check": "Git blob容量検査: 合格（新規対象は50,000,000バイト未満）\n",
+  "proposed_blobs": [
+    {
+      "path": ".githooks/pre-commit",
+      "blob": "ee76bbe11abba49ee0426762fef3e6479eaea568",
+      "bytes": 128
+    },
+    {
+      "path": ".githooks/pre-push",
+      "blob": "d743be7223d42f35f7c0ec641e3901fccab79612",
+      "bytes": 144
+    },
+    {
+      "path": ".gitignore",
+      "blob": "684c0f7943b109c647e91fe0dcb84e45d679377f",
+      "bytes": 2034
+    },
+    {
+      "path": "AGENTS.md",
+      "blob": "edf3a3a50b4e7c93d05874a18250fc2896b56f41",
+      "bytes": 1560
+    },
+    {
+      "path": "CMakeLists.txt",
+      "blob": "a8806464805805652e154686ebc70314e3f276dc",
+      "bytes": 44249
+    },
+    {
+      "path": "docs/GIT_ARTIFACT_POLICY.md",
+      "blob": "e53de4a3ef97f28b1eb707056ee76bc4b1e752dd",
+      "bytes": 3066
+    },
+    {
+      "path": "docs/PHASE59_FIX_REALTIME.md",
+      "blob": "36adac93f8185f058b9c1b6820d0f72a34c69924",
+      "bytes": 5963
+    },
+    {
+      "path": "docs/PHASE59_FIX_ROOT_CAUSE.md",
+      "blob": "45df1f0aa600582175321c1b304b62a1ca494b35",
+      "bytes": 12597
+    },
+    {
+      "path": "docs/PHASE59_FIX_VALIDATION.md",
+      "blob": "a10e1d892d554f47f50ba9a7c505fc253cfaf6e2",
+      "bytes": 5580
+    },
+    {
+      "path": "results/phase59_fix/APPLE_SOURCE_CONTRACT.json",
+      "blob": "98bf18d6f78503bedda52ea6bc540303640dc5e6",
+      "bytes": 851
+    },
+    {
+      "path": "results/phase59_fix/ARTIFACT_INDEX.json",
+      "blob": "37c960d02f6d841737ad98cfa837f63ef623152d",
+      "bytes": 6967230
+    },
+    {
+      "path": "results/phase59_fix/CAPACITY_CHECKPOINTS.json",
+      "blob": "aa8d9d318be18e7241262cafaaab9a4bce4da0fa",
+      "bytes": 271
+    },
+    {
+      "path": "results/phase59_fix/CLOCK_REPRODUCTION.json",
+      "blob": "6da7a713d18c41717090598079b2433a8d119c1d",
+      "bytes": 8732
+    },
+    {
+      "path": "results/phase59_fix/COMPLETION_QUEUE.json",
+      "blob": "1d583544fe21dedd80e0c0f935c0d3ae18383389",
+      "bytes": 2298
+    },
+    {
+      "path": "results/phase59_fix/DEBUG_BUILD_ARCHIVE.json",
+      "blob": "a04dff7643a5d8f84a51da90950f64a8d55092ad",
+      "bytes": 405955
+    },
+    {
+      "path": "results/phase59_fix/EOS_TRACE_OBSERVATIONS.json",
+      "blob": "c6a05959667ddd5e1c023852f549e810170f5a13",
+      "bytes": 703174
+    },
+    {
+      "path": "results/phase59_fix/FINAL_CANDIDATE.json",
+      "blob": "590b8c244d90dd06f9be42a80deefa13901815e5",
+      "bytes": 108922
+    },
+    {
+      "path": "results/phase59_fix/FINAL_LEGACY_FAILURES.json",
+      "blob": "512560bf8544535e84782daf1d990bd63de45ed9",
+      "bytes": 2680
+    },
+    {
+      "path": "results/phase59_fix/FINAL_NATIVE_FAILURES.json",
+      "blob": "5c605a19fabb81e5ebf9e52099966590b08feec1",
+      "bytes": 2889
+    },
+    {
+      "path": "results/phase59_fix/FINAL_TRACE_NATIVE.json",
+      "blob": "2f35adfd3c605a80cbdc802de4582f8a54ec75f9",
+      "bytes": 7938
+    },
+    {
+      "path": "results/phase59_fix/FINAL_TRACE_OBSERVATIONS.json",
+      "blob": "b11ad0a5d30713c7198621f78f6d9a09262a7914",
+      "bytes": 3434
+    },
+    {
+      "path": "results/phase59_fix/FROZEN_REFERENCES.json",
+      "blob": "c51c5fbd5bcdd483c4660163232a0de6e497b63d",
+      "bytes": 2525
+    },
+    {
+      "path": "results/phase59_fix/GIT_DELIVERY_AUDIT.json",
+      "blob": "4f7d9f81de2cd5f346db8ae71bfcfb7fc12f9826",
+      "bytes": 67018
+    },
+    {
+      "path": "results/phase59_fix/LEGACY_FAILURE_REVIEW.json",
+      "blob": "d73d01dbb9ee0ea4877137d06bbe19fb57ec6016",
+      "bytes": 28928
+    },
+    {
+      "path": "results/phase59_fix/LEGACY_PREFLIGHT_V2.json",
+      "blob": "e2190b2ba824f7ca2544f36d40505ccf9cdaaba7",
+      "bytes": 5628
+    },
+    {
+      "path": "results/phase59_fix/MEASUREMENTS.json",
+      "blob": "e22f84277eff647ab778abd60b9da36fec231060",
+      "bytes": 334625
+    },
+    {
+      "path": "results/phase59_fix/MEASUREMENT_PREPARATION_FAILURES.json",
+      "blob": "6e630a4cc8f095ae98883faf8b0c44e0c8bf401c",
+      "bytes": 1353
+    },
+    {
+      "path": "results/phase59_fix/OS_SCHEDULER_SOURCE_NOTES.json",
+      "blob": "c8a3ff91061bde040767cc0123e4999f8bd7472c",
+      "bytes": 1187
+    },
+    {
+      "path": "results/phase59_fix/PERFORMANCE_CSV_ARCHIVES.json",
+      "blob": "dc476596748dc0b04d018511084db27a9d2585dc",
+      "bytes": 15232
+    },
+    {
+      "path": "results/phase59_fix/PHASE_AFTER_ANALYSIS.json",
+      "blob": "b8199b0b1b1584793229a6037283a0a88e50e5db",
+      "bytes": 18050
+    },
+    {
+      "path": "results/phase59_fix/PHASE_BEFORE_ANALYSIS.json",
+      "blob": "91642f9ddddbe84ea5c7045db457cf5d5a75ab06",
+      "bytes": 41337
+    },
+    {
+      "path": "results/phase59_fix/POST_TRACE_CLOCK_VM.json",
+      "blob": "d208ffaa826f722db23e140c455f899da27bc26e",
+      "bytes": 6641
+    },
+    {
+      "path": "results/phase59_fix/REPORT.md",
+      "blob": "99fe404cd33e69858e8043e7f78fb9acc31b9342",
+      "bytes": 7834
+    },
+    {
+      "path": "results/phase59_fix/RUN_QUEUE.json",
+      "blob": "7e9cfcd0b043bf9d4422ba806dd719dfe9a06f01",
+      "bytes": 460
+    },
+    {
+      "path": "results/phase59_fix/STARTUP_PROBE_PROVENANCE.json",
+      "blob": "c4109f35195577044ce86268d5db7b896e7bd29a",
+      "bytes": 542
+    },
+    {
+      "path": "results/phase59_fix/START_STATE.json",
+      "blob": "5549fdb4915e59e5735cc490b6a3fc492fd027e2",
+      "bytes": 4052
+    },
+    {
+      "path": "results/phase59_fix/TRACE_ARCHIVE_clock_audio_trace.json",
+      "blob": "9b7152ca0abfc7e88c40c51c169d17f7ce01a011",
+      "bytes": 78998
+    },
+    {
+      "path": "results/phase59_fix/TRACE_ARCHIVE_clock_before_trace.json",
+      "blob": "c5c5309c38796fc78ba61c69fee507493e6b1874",
+      "bytes": 84806
+    },
+    {
+      "path": "results/phase59_fix/TRACE_ARCHIVE_eos_unpaced_trace.json",
+      "blob": "d453b428ba94ed49a8dd3bab141152cac9a35857",
+      "bytes": 74757
+    },
+    {
+      "path": "results/phase59_fix/TRACE_BUDGET.json",
+      "blob": "d521075514dae4347381e1c71a10734781498153",
+      "bytes": 474
+    },
+    {
+      "path": "results/phase59_fix/TRACE_TOTAL_BUDGET.json",
+      "blob": "216a3193762df5e560b6db141f806b17a027191d",
+      "bytes": 529
+    },
+    {
+      "path": "results/phase59_fix/VERDICT.json",
+      "blob": "42a1f0a2f08cbc0ec3356f84c3440f75c8a36923",
+      "bytes": 2530
+    },
+    {
+      "path": "results/phase59_fix/VOCODER_BENCH_AFTER.json",
+      "blob": "81e30fb4a3279cfbd9cd7a44956cbdc7b35d85f8",
+      "bytes": 803
+    },
+    {
+      "path": "results/phase59_fix/VOCODER_BENCH_BEFORE.json",
+      "blob": "b6182e094ed07cae67a1ff1e5efdf3b705a303f6",
+      "bytes": 760
+    },
+    {
+      "path": "results/phase59_fix/WORK_PROGRESS.json",
+      "blob": "77d4fd01bbbf61f4286d5897f643573788be9779",
+      "bytes": 12913
+    },
+    {
+      "path": "results/phase59_fix/XML_ARCHIVES.json",
+      "blob": "38987c55f3a1f9ea4bc39d4f6ed36286bcda2dd0",
+      "bytes": 2877
+    },
+    {
+      "path": "results/phase59_fix/before_probes_build.log",
+      "blob": "2caccc59956986f198c65719d5fd90a7d9737a3c",
+      "bytes": 65
+    },
+    {
+      "path": "results/phase59_fix/before_probes_build_v2.log",
+      "blob": "56e74996520c9be03469e160f31f5732139b7fac",
+      "bytes": 933
+    },
+    {
+      "path": "results/phase59_fix/before_probes_configure.log",
+      "blob": "07eb7809fc06bd756cc83208915016e41b33aef0",
+      "bytes": 133
+    },
+    {
+      "path": "results/phase59_fix/checks_final/artifacts.json",
+      "blob": "bdb2f49bc14a1221ada25e800d878b2a6ca29ef7",
+      "bytes": 22140
+    },
+    {
+      "path": "results/phase59_fix/checks_final/driver.json",
+      "blob": "0d5bf9d42ef688bc9981b569f8e069bcca97c29c",
+      "bytes": 8178
+    },
+    {
+      "path": "results/phase59_fix/checks_final/summary.json",
+      "blob": "26a746d9135edb1f397268fd6893ead90c6bbc55",
+      "bytes": 24218
+    },
+    {
+      "path": "results/phase59_fix/checks_final_driver.log",
+      "blob": "da4d3ea159beb17d8ddf52c48cdc526325f6f2c9",
+      "bytes": 448
+    },
+    {
+      "path": "results/phase59_fix/clock_audio_trace/manifest.json",
+      "blob": "9a82323751b3a2128c17924792b4a0dca94fb06a",
+      "bytes": 143863
+    },
+    {
+      "path": "results/phase59_fix/clock_audio_trace/record.log",
+      "blob": "5092c87f5ce3d99c1e776ce47b52bef3792e1ab4",
+      "bytes": 263
+    },
+    {
+      "path": "results/phase59_fix/clock_audio_trace_analysis.log",
+      "blob": "5b67822e3f680219e6433958f0b3f108fafa30de",
+      "bytes": 132
+    },
+    {
+      "path": "results/phase59_fix/clock_audio_trace_archive.log",
+      "blob": "1b7dac8544ab1c72bd8195990ea1c8d5d60ee31a",
+      "bytes": 58
+    },
+    {
+      "path": "results/phase59_fix/clock_audio_trace_driver.log",
+      "blob": "cd246cf5f62e8d41dea06879046fed83bef38be2",
+      "bytes": 65
+    },
+    {
+      "path": "results/phase59_fix/clock_before_trace/manifest.json",
+      "blob": "eb496318922ec7e0cff540808f15940a9b8e5394",
+      "bytes": 164571
+    },
+    {
+      "path": "results/phase59_fix/clock_before_trace/record.log",
+      "blob": "d8bef11dd0b43e9ef01aafe8a3d36d18136820f6",
+      "bytes": 246
+    },
+    {
+      "path": "results/phase59_fix/clock_before_trace_analysis.log",
+      "blob": "5501b1d9b5565a4138d5f3ce2b6d9aea2e01f093",
+      "bytes": 488
+    },
+    {
+      "path": "results/phase59_fix/clock_before_trace_archive.log",
+      "blob": "92c5217a0b5f1c8e59790e03c02926c871aac29e",
+      "bytes": 60
+    },
+    {
+      "path": "results/phase59_fix/clock_before_trace_driver.log",
+      "blob": "2862e73a8c330d7f85b707b173b25eb7addb4577",
+      "bytes": 66
+    },
+    {
+      "path": "results/phase59_fix/components_after_stereo.log",
+      "blob": "10da07a2521f482ca1d7b303a0c73d99f7f52286",
+      "bytes": 424
+    },
+    {
+      "path": "results/phase59_fix/delivery_audit_before_report_completion_driver.log",
+      "blob": "110f044a2d522ca8634699799c0bddeae3d74ef6",
+      "bytes": 63
+    },
+    {
+      "path": "results/phase59_fix/delivery_audit_final_completion_driver.log",
+      "blob": "b3b452a6aadea3322921a5bd0114b1bfa8567be1",
+      "bytes": 63
+    },
+    {
+      "path": "results/phase59_fix/device_final/driver.json",
+      "blob": "8bb8756510d478e66f6900196ab630869256b12d",
+      "bytes": 85395
+    },
+    {
+      "path": "results/phase59_fix/device_final/fixed_long_rows.json",
+      "blob": "2ee1a5a2ac2143a86f1f4aafcce3ef8df59b8842",
+      "bytes": 65300
+    },
+    {
+      "path": "results/phase59_fix/device_final/manifest.json",
+      "blob": "720468b9ab81d1de1341c17af86ef95cc565c065",
+      "bytes": 5110
+    },
+    {
+      "path": "results/phase59_fix/device_final/summary.json",
+      "blob": "812f55c5ffae46147b0ea6dc881752bb7f72f620",
+      "bytes": 90615
+    },
+    {
+      "path": "results/phase59_fix/device_final_completion_driver.log",
+      "blob": "8d555a13e30e63b9dc6e02b89355a65332d35294",
+      "bytes": 927
+    },
+    {
+      "path": "results/phase59_fix/eos_after/manifest.json",
+      "blob": "2d0fe13e529a0a6e5afe82f1fea6d2ed6f1f8faa",
+      "bytes": 24278
+    },
+    {
+      "path": "results/phase59_fix/eos_after/rows.json",
+      "blob": "93bad0c4c716aa95527f0affaf864ac9fdd9c07b",
+      "bytes": 47754
+    },
+    {
+      "path": "results/phase59_fix/eos_after/summary.json",
+      "blob": "d616ed3711b468d02215b7ed31133b2c62626311",
+      "bytes": 50626
+    },
+    {
+      "path": "results/phase59_fix/eos_after_completion_driver.log",
+      "blob": "0dadb9bf1d52a7deabdaa8d1e3256ad83d565841",
+      "bytes": 228
+    },
+    {
+      "path": "results/phase59_fix/eos_before/manifest.json",
+      "blob": "7e216ea9cc8c6d9376d91ff1e2cbd7ecc0a8a06b",
+      "bytes": 24280
+    },
+    {
+      "path": "results/phase59_fix/eos_before/rows.json",
+      "blob": "fcd090ea93407a091542fb5af26ac727b67dc24a",
+      "bytes": 47825
+    },
+    {
+      "path": "results/phase59_fix/eos_before/summary.json",
+      "blob": "c6f394c2fa0b37ad0df57b81472d6c67871cb02a",
+      "bytes": 50707
+    },
+    {
+      "path": "results/phase59_fix/eos_before_debug_build.log",
+      "blob": "8d0ab8fb0dc8188de74697e2bbd11203e00e88a2",
+      "bytes": 5633
+    },
+    {
+      "path": "results/phase59_fix/eos_before_debug_configure.log",
+      "blob": "3acffa829326996e84232532d59c6cba0f2f85f9",
+      "bytes": 638
+    },
+    {
+      "path": "results/phase59_fix/eos_before_driver.log",
+      "blob": "730841aff7701b3d0790620b48e9b0bb7aa57213",
+      "bytes": 228
+    },
+    {
+      "path": "results/phase59_fix/eos_before_release_build.log",
+      "blob": "ef69d6b3f21dbde15a5e597cafc29e8b5adf1ac6",
+      "bytes": 1943
+    },
+    {
+      "path": "results/phase59_fix/eos_before_release_configure.log",
+      "blob": "bd53b8b004d6220da4452f7ef4a50ac94a2c9323",
+      "bytes": 133
+    },
+    {
+      "path": "results/phase59_fix/eos_unpaced_trace/manifest.json",
+      "blob": "4e66a06fe7a41b3b375d539a7eb6c0b792719828",
+      "bytes": 146411
+    },
+    {
+      "path": "results/phase59_fix/eos_unpaced_trace/record.log",
+      "blob": "3898620953855080426cf81b5c75d361f41af2c3",
+      "bytes": 267
+    },
+    {
+      "path": "results/phase59_fix/eos_unpaced_trace_analysis.log",
+      "blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0
+    },
+    {
+      "path": "results/phase59_fix/eos_unpaced_trace_driver.log",
+      "blob": "98481da5c4a97e436fac5cb0b436bd04f14b1aba",
+      "bytes": 65
+    },
+    {
+      "path": "results/phase59_fix/final_focused_trace_completion_driver.log",
+      "blob": "4d4aa0d3940ce7e2222f51d4b3d3b9925ffcef90",
+      "bytes": 55
+    },
+    {
+      "path": "results/phase59_fix/final_long_trace/manifest.json",
+      "blob": "663574edb7f241803253903e5a7c548f7d1d05ab",
+      "bytes": 147242
+    },
+    {
+      "path": "results/phase59_fix/final_long_trace/record.log",
+      "blob": "da43f5137a5e0a72dc6d185f2d7ce52d78ed914b",
+      "bytes": 269
+    },
+    {
+      "path": "results/phase59_fix/fix_release_all_build.log",
+      "blob": "f500b073375e2e617d56402103ba61573872a203",
+      "bytes": 22587
+    },
+    {
+      "path": "results/phase59_fix/fix_release_all_build_v2.log",
+      "blob": "263e4c5c03171c729e75a4c072e96b0596d2e8db",
+      "bytes": 9854
+    },
+    {
+      "path": "results/phase59_fix/fix_release_configure.log",
+      "blob": "525fd7a04eef09542ee0c63ec99a76b112736bfb",
+      "bytes": 133
+    },
+    {
+      "path": "results/phase59_fix/fix_stereo_configure.log",
+      "blob": "9f07568edab90a059de13ce8e9ea86a493d59b57",
+      "bytes": 133
+    },
+    {
+      "path": "results/phase59_fix/git_blob_guard_tests.log",
+      "blob": "619f1c65f69f674a5fa9991f33971fc4e804abd1",
+      "bytes": 625
+    },
+    {
+      "path": "results/phase59_fix/legacy_before/manifest.json",
+      "blob": "25e2544c8ce5e12a70177e5b52f5dcf096a664aa",
+      "bytes": 2151
+    },
+    {
+      "path": "results/phase59_fix/legacy_before/rows.json",
+      "blob": "77f8e55ae23dd0572c917dcb4dccf666afcc7c80",
+      "bytes": 1633
+    },
+    {
+      "path": "results/phase59_fix/legacy_before_driver.log",
+      "blob": "cafa0b8a504f78efbe7a6823e213dab48ae0440e",
+      "bytes": 1856
+    },
+    {
+      "path": "results/phase59_fix/legacy_before_v2/manifest.json",
+      "blob": "29521dcf14fbb1af08f445564f48279638a6e349",
+      "bytes": 854
+    },
+    {
+      "path": "results/phase59_fix/legacy_before_v2/rows.json",
+      "blob": "1c7b0d97f58641e58af3d648badf3890b09c945a",
+      "bytes": 56680
+    },
+    {
+      "path": "results/phase59_fix/legacy_before_v2/summary.json",
+      "blob": "19d2c9e11b71af60f1600be68236a2584bc1a590",
+      "bytes": 80
+    },
+    {
+      "path": "results/phase59_fix/legacy_before_v2_driver.log",
+      "blob": "83555154ea89278eda80b5d19ff47abc94607879",
+      "bytes": 639
+    },
+    {
+      "path": "results/phase59_fix/legacy_dependency_rebuild.log",
+      "blob": "896ec43135a6ad1d5944b931a3cfeec87f4632d4",
+      "bytes": 1679
+    },
+    {
+      "path": "results/phase59_fix/legacy_final/manifest.json",
+      "blob": "da11cb7f78d0e059e0792fa19720f73cad4441e7",
+      "bytes": 3318
+    },
+    {
+      "path": "results/phase59_fix/legacy_final/rows.json",
+      "blob": "9ee243e59a413830494d2cae10a9d667e017d27c",
+      "bytes": 40866
+    },
+    {
+      "path": "results/phase59_fix/legacy_final/summary.json",
+      "blob": "a34f17622ee9d540300fc8dafb7eceb2cbb0755c",
+      "bytes": 79
+    },
+    {
+      "path": "results/phase59_fix/output_notify_build.log",
+      "blob": "fbfe14926031701e24ecd856743ea21ac7b9f70d",
+      "bytes": 502
+    },
+    {
+      "path": "results/phase59_fix/output_notify_smoke.log",
+      "blob": "a9f3eec0fdcb6eb629b5726b513df921ce0648dd",
+      "bytes": 41
+    },
+    {
+      "path": "results/phase59_fix/phase_after/manifest.json",
+      "blob": "81ef65ee163065b7cb0e3ab1520327abaec85583",
+      "bytes": 24441
+    },
+    {
+      "path": "results/phase59_fix/phase_after/reference.json",
+      "blob": "026da46001fe3cb50a2840579b96c2d91cb74cfb",
+      "bytes": 653
+    },
+    {
+      "path": "results/phase59_fix/phase_after/rows.json",
+      "blob": "5fcf76697d82087d40321e90181190432ca3054c",
+      "bytes": 39079
+    },
+    {
+      "path": "results/phase59_fix/phase_after/summary.json",
+      "blob": "5ec718f633dab88937c8cda34aee47af617283fe",
+      "bytes": 60
+    },
+    {
+      "path": "results/phase59_fix/phase_after_driver.log",
+      "blob": "211e217a29a009c8389222ce255847a1a5653589",
+      "bytes": 107
+    },
+    {
+      "path": "results/phase59_fix/phase_before/manifest.json",
+      "blob": "ef2175e7d9213732ec45faccf7e1067be565940d",
+      "bytes": 25196
+    },
+    {
+      "path": "results/phase59_fix/phase_before/reference.json",
+      "blob": "026da46001fe3cb50a2840579b96c2d91cb74cfb",
+      "bytes": 653
+    },
+    {
+      "path": "results/phase59_fix/phase_before_driver.log",
+      "blob": "3c35633560f5aa85ea87ddb904e38554e82b774b",
+      "bytes": 1261
+    },
+    {
+      "path": "results/phase59_fix/phase_before_v2/manifest.json",
+      "blob": "03d8edcea4ef29989b027fdb977cb1c5b984daba",
+      "bytes": 25202
+    },
+    {
+      "path": "results/phase59_fix/phase_before_v2/reference.json",
+      "blob": "026da46001fe3cb50a2840579b96c2d91cb74cfb",
+      "bytes": 653
+    },
+    {
+      "path": "results/phase59_fix/phase_before_v2/rows.json",
+      "blob": "dbb65e66c58aa8d21de0eada3863cefc1fe7470a",
+      "bytes": 203062
+    },
+    {
+      "path": "results/phase59_fix/phase_before_v2/summary.json",
+      "blob": "6d0a421c8990a651bd173e0fc6d7912376854661",
+      "bytes": 62
+    },
+    {
+      "path": "results/phase59_fix/phase_before_v2_driver.log",
+      "blob": "56bfc20a943f30dd85d14a7dea2c7f42b841e6a8",
+      "bytes": 692
+    },
+    {
+      "path": "results/phase59_fix/phase_probe_build.log",
+      "blob": "92a10254d4547c493d884f396d70dadb1ad8b037",
+      "bytes": 1093
+    },
+    {
+      "path": "results/phase59_fix/phase_probe_build_v2.log",
+      "blob": "2759e0e6505499a91fa9ee8522a20ea9093c6349",
+      "bytes": 3986
+    },
+    {
+      "path": "results/phase59_fix/phase_probe_build_v3.log",
+      "blob": "857c1ff3f712bd022b2d8f6a402be3c09d62cad5",
+      "bytes": 4811
+    },
+    {
+      "path": "results/phase59_fix/phase_probe_build_v4.log",
+      "blob": "6590b6c4c72680965d43295a904da4b9f59b69d1",
+      "bytes": 826
+    },
+    {
+      "path": "results/phase59_fix/phase_probe_build_v5.log",
+      "blob": "79c2f494322af8f47f7e2ea5deccfec98f5d5608",
+      "bytes": 722
+    },
+    {
+      "path": "results/phase59_fix/phase_probe_configure.log",
+      "blob": "b074b7188be19108efd9e03aad61f143f9af0aaf",
+      "bytes": 133
+    },
+    {
+      "path": "results/phase59_fix/phase_probe_smoke.log",
+      "blob": "ef5ee143fe89ea5eb85e614c4f974d984cc69a0c",
+      "bytes": 41
+    },
+    {
+      "path": "results/phase59_fix/profile_csv_archive.log",
+      "blob": "6cd7bd527fa61eb2a7f355c147ad66d89c5506dc",
+      "bytes": 53
+    },
+    {
+      "path": "results/phase59_fix/quality_final_queue_driver.log",
+      "blob": "42e61767525454b7c47e91f20307b146a570932f",
+      "bytes": 1033
+    },
+    {
+      "path": "results/phase59_fix/report_completion_driver.log",
+      "blob": "8619e966d5df5140e456a71b3da3f50a518884a9",
+      "bytes": 53
+    },
+    {
+      "path": "results/phase59_fix/startup_before/manifest.json",
+      "blob": "8670ba9a3214cd914c05e0c718c95b5d7dfdbd8d",
+      "bytes": 1944
+    },
+    {
+      "path": "results/phase59_fix/startup_before/rows.json",
+      "blob": "ffadab0d807bb364744334768bf7a8ea3c4fc5c2",
+      "bytes": 1089088
+    },
+    {
+      "path": "results/phase59_fix/startup_before/summary.json",
+      "blob": "63a1270f7fc2ea5d1618d6fe82a80d58e41fade7",
+      "bytes": 542
+    },
+    {
+      "path": "results/phase59_fix/startup_before_driver.log",
+      "blob": "7b2ffbb1ae5dbabb762c8df3cdd66d5bed92e09d",
+      "bytes": 2912
+    },
+    {
+      "path": "results/phase59_fix/startup_build.log",
+      "blob": "2f36c49ec0c2656f277b69302e4eef7d3a069ea8",
+      "bytes": 508
+    },
+    {
+      "path": "results/phase59_fix/startup_configure.log",
+      "blob": "5aedd42a49caf4fc4f5f1b60ecc8ecebe0c7eda9",
+      "bytes": 133
+    },
+    {
+      "path": "results/phase59_fix/system_trace_options.json",
+      "blob": "26750060ad3cf5f52c24604aab48ae7e6c79ac3e",
+      "bytes": 319
+    },
+    {
+      "path": "results/phase59_fix/validation_final/artifacts.json",
+      "blob": "d493e207982036df748267270273d54df314e16a",
+      "bytes": 4773997
+    },
+    {
+      "path": "results/phase59_fix/validation_final/driver.json",
+      "blob": "90d857ffde7a66c34ad105fed8b43f266174cfa0",
+      "bytes": 32038
+    },
+    {
+      "path": "results/phase59_fix/validation_final/effective_summary.json",
+      "blob": "fe35aa5ea179a205d4c955e5ab0c0bfc7e21f233",
+      "bytes": 859
+    },
+    {
+      "path": "results/phase59_fix/validation_final/fixed57_long.json",
+      "blob": "4a8be7da0fcbb77d7f49115a75ea8f84617ff3d3",
+      "bytes": 1096
+    },
+    {
+      "path": "results/phase59_fix/validation_final/fixed57_natural.json",
+      "blob": "8e6d4b10e67f055464dd2017ebee478d0919f884",
+      "bytes": 1111
+    },
+    {
+      "path": "results/phase59_fix/validation_final/fixed57_rejections.json",
+      "blob": "8c006968ab7e7b1fda9f41d006db72d0df4cff11",
+      "bytes": 1124
+    },
+    {
+      "path": "results/phase59_fix/validation_final/fixed57_stage1.json",
+      "blob": "9c520ddaffa968ac183c3e9ada2ee4e622b7f1b8",
+      "bytes": 7637
+    },
+    {
+      "path": "results/phase59_fix/validation_final/fixed57_stage2.json",
+      "blob": "d63582d2a01adb012d047282bec13fb65ef58000",
+      "bytes": 8712
+    },
+    {
+      "path": "results/phase59_fix/validation_final/manifest.json",
+      "blob": "ca9b2b3e653f5f472846fb78c288781e1a9dd54c",
+      "bytes": 27087
+    },
+    {
+      "path": "results/phase59_fix/validation_final/success_working_archives.json",
+      "blob": "764f4933569be795c557a326edf4aa1d457945b8",
+      "bytes": 6029
+    },
+    {
+      "path": "results/phase59_fix/validation_final/summary.json",
+      "blob": "6428811b8111b24253bdab7feec4178325f5a341",
+      "bytes": 306
+    },
+    {
+      "path": "results/phase59_fix/validation_recovery_final/artifacts.json",
+      "blob": "b27dbd8e011f4b76d00e38cca85d811d493f80eb",
+      "bytes": 458341
+    },
+    {
+      "path": "results/phase59_fix/validation_recovery_final/driver.json",
+      "blob": "c1e218e842fbaae9d2334764cebf3d4e2b2c4286",
+      "bytes": 3477
+    },
+    {
+      "path": "results/phase59_fix/validation_recovery_final/manifest.json",
+      "blob": "3d237df11ea81b468170375c55b04fa7acd698bf",
+      "bytes": 601
+    },
+    {
+      "path": "results/phase59_fix/validation_recovery_final/summary.json",
+      "blob": "fe35aa5ea179a205d4c955e5ab0c0bfc7e21f233",
+      "bytes": 859
+    },
+    {
+      "path": "results/phase59_fix/validation_recovery_final/waiting.json",
+      "blob": "423570f7394d4925e0104b641fad7f443ec009a0",
+      "bytes": 114
+    },
+    {
+      "path": "results/phase59_fix/vocoder_after_unit.log",
+      "blob": "6752063ce259345bcc3421f87cc3fbcd6f49452c",
+      "bytes": 88
+    },
+    {
+      "path": "results/phase59_fix/vocoder_before_unit.log",
+      "blob": "0b870022233f9b19e7dcb70c793d52113047e800",
+      "bytes": 88
+    },
+    {
+      "path": "results/phase59_fix/vocoder_bench_after.csv",
+      "blob": "18565455d240457197b9a84f471c531557020bdf",
+      "bytes": 1412
+    },
+    {
+      "path": "results/phase59_fix/vocoder_bench_after.log",
+      "blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0
+    },
+    {
+      "path": "results/phase59_fix/vocoder_bench_before.csv",
+      "blob": "b6047e1aa30bdacbfb38e6291fa3fc83f18da303",
+      "bytes": 1377
+    },
+    {
+      "path": "results/phase59_fix/vocoder_bench_before.log",
+      "blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0
+    },
+    {
+      "path": "scripts/check_git_blob_sizes.py",
+      "blob": "7ef712c9ca5d426bf715ac40d232798645cd59c3",
+      "bytes": 4853
+    },
+    {
+      "path": "scripts/phase59_fix_archive_debug.py",
+      "blob": "3c35859afbf371c0e8a459daae406e1c8b37f398",
+      "bytes": 3634
+    },
+    {
+      "path": "scripts/phase59_fix_archive_device.py",
+      "blob": "dd61732b97b13bb74cf8f72c763a74d8cc46ef05",
+      "bytes": 3495
+    },
+    {
+      "path": "scripts/phase59_fix_archive_profiles.py",
+      "blob": "51e0285f13b7ac96d4ed8b88ade6ba7599dcaf53",
+      "bytes": 2428
+    },
+    {
+      "path": "scripts/phase59_fix_archive_success.py",
+      "blob": "0c6965ca2f2264deb63aaaa856d434e9168fae4b",
+      "bytes": 3176
+    },
+    {
+      "path": "scripts/phase59_fix_archive_trace.py",
+      "blob": "a2f8d549b0e0c5d3419c70bbd6841b967cb16a1f",
+      "bytes": 3674
+    },
+    {
+      "path": "scripts/phase59_fix_archive_xml.py",
+      "blob": "99e3e5d00b0b3d3011a7b853d5b60b8cd98ea759",
+      "bytes": 2246
+    },
+    {
+      "path": "scripts/phase59_fix_artifacts.py",
+      "blob": "2f4c9de30ab08ed9628bfc88da8fd6cc86e0d313",
+      "bytes": 2106
+    },
+    {
+      "path": "scripts/phase59_fix_checks.py",
+      "blob": "3c7d62b88f9d391b8c277059458a2631264a99a0",
+      "bytes": 3664
+    },
+    {
+      "path": "scripts/phase59_fix_delivery_audit.py",
+      "blob": "5b82da6ed92335f8145b297c34b7991a1da35313",
+      "bytes": 4960
+    },
+    {
+      "path": "scripts/phase59_fix_device.py",
+      "blob": "9769038cdda87a3f6d2eaeb4fce49984dffa8dbc",
+      "bytes": 7208
+    },
+    {
+      "path": "scripts/phase59_fix_eos.py",
+      "blob": "18bf6ae26779634b4d67effb000b00cd23c53aaf",
+      "bytes": 4902
+    },
+    {
+      "path": "scripts/phase59_fix_eos_trace_analyze.py",
+      "blob": "cf5f9a877b6a2d3915e498cd5d9d653d1c40cdc0",
+      "bytes": 3114
+    },
+    {
+      "path": "scripts/phase59_fix_final_trace.py",
+      "blob": "2379429a522e84a01269018883267046445c03c4",
+      "bytes": 7948
+    },
+    {
+      "path": "scripts/phase59_fix_freeze.py",
+      "blob": "45b2da9e4a504947f1255f843b9241caee5260c1",
+      "bytes": 2875
+    },
+    {
+      "path": "scripts/phase59_fix_legacy.py",
+      "blob": "4951f0e72b27ccbbff095125eeef2116a762156b",
+      "bytes": 9087
+    },
+    {
+      "path": "scripts/phase59_fix_phase_analyze.py",
+      "blob": "f3127c6bcab95d6b9d3b1e017bd76d936487fa83",
+      "bytes": 3838
+    },
+    {
+      "path": "scripts/phase59_fix_phase_profile.py",
+      "blob": "57aa37d722e15b3adc04517a2f8c54c2453af4bd",
+      "bytes": 5586
+    },
+    {
+      "path": "scripts/phase59_fix_post_trace.py",
+      "blob": "d0ec467931ff29b16a47d4e1cdec43fd3b7f2ded",
+      "bytes": 5275
+    },
+    {
+      "path": "scripts/phase59_fix_report.py",
+      "blob": "816f1c13c403319ee6d5f5cc6032ece007068229",
+      "bytes": 30351
+    },
+    {
+      "path": "scripts/phase59_fix_startup.py",
+      "blob": "7e215fe52e643d9bc0414bee89deb16b70975e34",
+      "bytes": 6150
+    },
+    {
+      "path": "scripts/phase59_fix_trace.py",
+      "blob": "d61f98fe12c65a1966af88508b47fb8782632f0a",
+      "bytes": 5502
+    },
+    {
+      "path": "scripts/phase59_fix_validation.py",
+      "blob": "37ff3deccd5c05830eaefbbbbf39c7a59d9320ed",
+      "bytes": 8357
+    },
+    {
+      "path": "scripts/phase59_fix_validation_recover.py",
+      "blob": "6373ea1b29b0b34905500b228d38699808f4c76d",
+      "bytes": 4476
+    },
+    {
+      "path": "src/dsp/PhaseLocker.cpp",
+      "blob": "43ef70c107f333db34cc0153f6b1c63793a4d3b6",
+      "bytes": 5083
+    },
+    {
+      "path": "src/prototype/Phase35PhaseVocoder.cpp",
+      "blob": "a5a39a81b6839a195e993804b6b31d67e40fd168",
+      "bytes": 8797
+    },
+    {
+      "path": "src/prototype/Phase35PhaseVocoder.h",
+      "blob": "f178caf818d6d586fffde20b63b87ba96f79b826",
+      "bytes": 1717
+    },
+    {
+      "path": "src/prototype/Phase35StereoPhaseCoherence.cpp",
+      "blob": "c35eb7324c7f79311b04c5cf2bb824e11df718d2",
+      "bytes": 5671
+    },
+    {
+      "path": "src/prototype/Phase35StereoPhaseCoherence.h",
+      "blob": "c5510d9ca20c6aa0f0952df7cc91969252a46715",
+      "bytes": 1384
+    },
+    {
+      "path": "src/prototype/Phase36StreamingSpeedEngine.h",
+      "blob": "f70825503325fa7625a90bb73e69a4c44d57357d",
+      "bytes": 2864
+    },
+    {
+      "path": "src/prototype/Phase36SynthesisCore.h",
+      "blob": "05518eaa8f17fef7333629b564afa1ffd53b49e7",
+      "bytes": 25082
+    },
+    {
+      "path": "src/prototype/Phase57ProgressiveSynthesis.cpp",
+      "blob": "ac845dafeeb593157c89e11b8baae135849f04ed",
+      "bytes": 19541
+    },
+    {
+      "path": "src/prototype/Phase57ProgressiveSynthesis.h",
+      "blob": "f1bed0f367c738877649f6267ddff67b8dce6b4f",
+      "bytes": 2938
+    },
+    {
+      "path": "src/prototype/Phase58FixRealtimeWorker.cpp",
+      "blob": "66c04dc377d04e861531bea531d2f4b1b4bc118e",
+      "bytes": 7788
+    },
+    {
+      "path": "src/prototype/Phase58FixRealtimeWorker.h",
+      "blob": "faf45295fbe75f85d5abf23b0306ab59261b0c5f",
+      "bytes": 1363
+    },
+    {
+      "path": "src/prototype/Phase58Native.mm",
+      "blob": "4b2607a023ac91087981c703e8f1134bbffb5491",
+      "bytes": 31566
+    },
+    {
+      "path": "src/prototype/Phase58RealtimePipeline.cpp",
+      "blob": "bca6d3c95c41dee296114fd8361cf1bd665ad60e",
+      "bytes": 53458
+    },
+    {
+      "path": "src/prototype/Phase58RealtimePipeline.h",
+      "blob": "91ee98b66cca77e099c59fe80797bca4de3fdd8b",
+      "bytes": 5885
+    },
+    {
+      "path": "tests/GitBlobSizeGuardTests.py",
+      "blob": "4727ece94ccfcd2c9aaf4115a2027793669476bb",
+      "bytes": 3971
+    },
+    {
+      "path": "tests/Phase59FixEOSProbe.cpp",
+      "blob": "916affb80dd09c873bf934d3f8cf33ce49923e84",
+      "bytes": 7674
+    },
+    {
+      "path": "tests/Phase59FixStereoTests.cpp",
+      "blob": "bf6bf0cc1cccde2397c3a3a1b0eb0e89ec7e606a",
+      "bytes": 3753
+    },
+    {
+      "path": "tests/Phase59FixVocoderBench.cpp",
+      "blob": "f1db87f8bc0fbb4d151fd5f914ea6e445348ba5c",
+      "bytes": 3250
+    },
+    {
+      "path": "tests/Phase59FixVocoderTests.cpp",
+      "blob": "149db5c19c2271180f225374d5fd3b7ddcee5f74",
+      "bytes": 3014
+    },
+    {
+      "path": "tests/reference/phase59_fix/Before59FixPhaseVocoder.cpp",
+      "blob": "a4bd0ffce5146a20bd979f1b25c073e4eb832599",
+      "bytes": 6827
+    },
+    {
+      "path": "tests/reference/phase59_fix/Before59FixPhaseVocoder.h",
+      "blob": "438a062a06df43ad7bcf89220d861012d28590f1",
+      "bytes": 1583
+    },
+    {
+      "path": "tests/reference/phase59_fix/Before59FixStereoPhaseCoherence.cpp",
+      "blob": "1586c83b0c161bbad68b1a0a964b5f2b697014e1",
+      "bytes": 4725
+    },
+    {
+      "path": "tests/reference/phase59_fix/Before59FixStereoPhaseCoherence.h",
+      "blob": "a2b29936fbb0ca1fb14fc4e304d0bb0c4dfd016f",
+      "bytes": 1251
+    },
+    {
+      "path": "tests/reference/phase59_fix/PROVENANCE.json",
+      "blob": "d8f07f29ec4162c430b4d9c4dda0e0e37f3662fa",
+      "bytes": 1712
+    }
+  ],
+  "working_files": [
+    {
+      "path": ".githooks/pre-commit",
+      "working_bytes": 128
+    },
+    {
+      "path": ".githooks/pre-push",
+      "working_bytes": 144
+    },
+    {
+      "path": ".gitignore",
+      "working_bytes": 2034
+    },
+    {
+      "path": "AGENTS.md",
+      "working_bytes": 1560
+    },
+    {
+      "path": "CMakeLists.txt",
+      "working_bytes": 44249
+    },
+    {
+      "path": "docs/GIT_ARTIFACT_POLICY.md",
+      "working_bytes": 3066
+    },
+    {
+      "path": "docs/PHASE59_FIX_REALTIME.md",
+      "working_bytes": 5963
+    },
+    {
+      "path": "docs/PHASE59_FIX_ROOT_CAUSE.md",
+      "working_bytes": 12597
+    },
+    {
+      "path": "docs/PHASE59_FIX_VALIDATION.md",
+      "working_bytes": 5580
+    },
+    {
+      "path": "results/phase59_fix/APPLE_SOURCE_CONTRACT.json",
+      "working_bytes": 851
+    },
+    {
+      "path": "results/phase59_fix/ARTIFACT_INDEX.json",
+      "working_bytes": 6967230
+    },
+    {
+      "path": "results/phase59_fix/CAPACITY_CHECKPOINTS.json",
+      "working_bytes": 271
+    },
+    {
+      "path": "results/phase59_fix/CLOCK_REPRODUCTION.json",
+      "working_bytes": 8732
+    },
+    {
+      "path": "results/phase59_fix/COMPLETION_QUEUE.json",
+      "working_bytes": 2298
+    },
+    {
+      "path": "results/phase59_fix/DEBUG_BUILD_ARCHIVE.json",
+      "working_bytes": 405955
+    },
+    {
+      "path": "results/phase59_fix/EOS_TRACE_OBSERVATIONS.json",
+      "working_bytes": 703174
+    },
+    {
+      "path": "results/phase59_fix/FINAL_CANDIDATE.json",
+      "working_bytes": 108922
+    },
+    {
+      "path": "results/phase59_fix/FINAL_LEGACY_FAILURES.json",
+      "working_bytes": 2680
+    },
+    {
+      "path": "results/phase59_fix/FINAL_NATIVE_FAILURES.json",
+      "working_bytes": 2889
+    },
+    {
+      "path": "results/phase59_fix/FINAL_TRACE_NATIVE.json",
+      "working_bytes": 7938
+    },
+    {
+      "path": "results/phase59_fix/FINAL_TRACE_OBSERVATIONS.json",
+      "working_bytes": 3434
+    },
+    {
+      "path": "results/phase59_fix/FROZEN_REFERENCES.json",
+      "working_bytes": 2525
+    },
+    {
+      "path": "results/phase59_fix/GIT_DELIVERY_AUDIT.json",
+      "working_bytes": 67018
+    },
+    {
+      "path": "results/phase59_fix/LEGACY_FAILURE_REVIEW.json",
+      "working_bytes": 28928
+    },
+    {
+      "path": "results/phase59_fix/LEGACY_PREFLIGHT_V2.json",
+      "working_bytes": 5628
+    },
+    {
+      "path": "results/phase59_fix/MEASUREMENTS.json",
+      "working_bytes": 334625
+    },
+    {
+      "path": "results/phase59_fix/MEASUREMENT_PREPARATION_FAILURES.json",
+      "working_bytes": 1353
+    },
+    {
+      "path": "results/phase59_fix/OS_SCHEDULER_SOURCE_NOTES.json",
+      "working_bytes": 1187
+    },
+    {
+      "path": "results/phase59_fix/PERFORMANCE_CSV_ARCHIVES.json",
+      "working_bytes": 15232
+    },
+    {
+      "path": "results/phase59_fix/PHASE_AFTER_ANALYSIS.json",
+      "working_bytes": 18050
+    },
+    {
+      "path": "results/phase59_fix/PHASE_BEFORE_ANALYSIS.json",
+      "working_bytes": 41337
+    },
+    {
+      "path": "results/phase59_fix/POST_TRACE_CLOCK_VM.json",
+      "working_bytes": 6641
+    },
+    {
+      "path": "results/phase59_fix/REPORT.md",
+      "working_bytes": 7834
+    },
+    {
+      "path": "results/phase59_fix/RUN_QUEUE.json",
+      "working_bytes": 460
+    },
+    {
+      "path": "results/phase59_fix/STARTUP_PROBE_PROVENANCE.json",
+      "working_bytes": 542
+    },
+    {
+      "path": "results/phase59_fix/START_STATE.json",
+      "working_bytes": 4052
+    },
+    {
+      "path": "results/phase59_fix/TRACE_ARCHIVE_clock_audio_trace.json",
+      "working_bytes": 78998
+    },
+    {
+      "path": "results/phase59_fix/TRACE_ARCHIVE_clock_before_trace.json",
+      "working_bytes": 84806
+    },
+    {
+      "path": "results/phase59_fix/TRACE_ARCHIVE_eos_unpaced_trace.json",
+      "working_bytes": 74757
+    },
+    {
+      "path": "results/phase59_fix/TRACE_BUDGET.json",
+      "working_bytes": 474
+    },
+    {
+      "path": "results/phase59_fix/TRACE_TOTAL_BUDGET.json",
+      "working_bytes": 529
+    },
+    {
+      "path": "results/phase59_fix/VERDICT.json",
+      "working_bytes": 2530
+    },
+    {
+      "path": "results/phase59_fix/VOCODER_BENCH_AFTER.json",
+      "working_bytes": 803
+    },
+    {
+      "path": "results/phase59_fix/VOCODER_BENCH_BEFORE.json",
+      "working_bytes": 760
+    },
+    {
+      "path": "results/phase59_fix/WORK_PROGRESS.json",
+      "working_bytes": 12913
+    },
+    {
+      "path": "results/phase59_fix/XML_ARCHIVES.json",
+      "working_bytes": 2877
+    },
+    {
+      "path": "results/phase59_fix/before_probes_build.log",
+      "working_bytes": 65
+    },
+    {
+      "path": "results/phase59_fix/before_probes_build_v2.log",
+      "working_bytes": 933
+    },
+    {
+      "path": "results/phase59_fix/before_probes_configure.log",
+      "working_bytes": 133
+    },
+    {
+      "path": "results/phase59_fix/checks_final/artifacts.json",
+      "working_bytes": 22140
+    },
+    {
+      "path": "results/phase59_fix/checks_final/driver.json",
+      "working_bytes": 8178
+    },
+    {
+      "path": "results/phase59_fix/checks_final/summary.json",
+      "working_bytes": 24218
+    },
+    {
+      "path": "results/phase59_fix/checks_final_driver.log",
+      "working_bytes": 448
+    },
+    {
+      "path": "results/phase59_fix/clock_audio_trace/manifest.json",
+      "working_bytes": 143863
+    },
+    {
+      "path": "results/phase59_fix/clock_audio_trace/record.log",
+      "working_bytes": 263
+    },
+    {
+      "path": "results/phase59_fix/clock_audio_trace_analysis.log",
+      "working_bytes": 132
+    },
+    {
+      "path": "results/phase59_fix/clock_audio_trace_archive.log",
+      "working_bytes": 58
+    },
+    {
+      "path": "results/phase59_fix/clock_audio_trace_driver.log",
+      "working_bytes": 65
+    },
+    {
+      "path": "results/phase59_fix/clock_before_trace/manifest.json",
+      "working_bytes": 164571
+    },
+    {
+      "path": "results/phase59_fix/clock_before_trace/record.log",
+      "working_bytes": 246
+    },
+    {
+      "path": "results/phase59_fix/clock_before_trace_analysis.log",
+      "working_bytes": 488
+    },
+    {
+      "path": "results/phase59_fix/clock_before_trace_archive.log",
+      "working_bytes": 60
+    },
+    {
+      "path": "results/phase59_fix/clock_before_trace_driver.log",
+      "working_bytes": 66
+    },
+    {
+      "path": "results/phase59_fix/components_after_stereo.log",
+      "working_bytes": 424
+    },
+    {
+      "path": "results/phase59_fix/delivery_audit_before_report_completion_driver.log",
+      "working_bytes": 63
+    },
+    {
+      "path": "results/phase59_fix/delivery_audit_final_completion_driver.log",
+      "working_bytes": 63
+    },
+    {
+      "path": "results/phase59_fix/device_final/driver.json",
+      "working_bytes": 85395
+    },
+    {
+      "path": "results/phase59_fix/device_final/fixed_long_rows.json",
+      "working_bytes": 65300
+    },
+    {
+      "path": "results/phase59_fix/device_final/manifest.json",
+      "working_bytes": 5110
+    },
+    {
+      "path": "results/phase59_fix/device_final/summary.json",
+      "working_bytes": 90615
+    },
+    {
+      "path": "results/phase59_fix/device_final_completion_driver.log",
+      "working_bytes": 927
+    },
+    {
+      "path": "results/phase59_fix/eos_after/manifest.json",
+      "working_bytes": 24278
+    },
+    {
+      "path": "results/phase59_fix/eos_after/rows.json",
+      "working_bytes": 47754
+    },
+    {
+      "path": "results/phase59_fix/eos_after/summary.json",
+      "working_bytes": 50626
+    },
+    {
+      "path": "results/phase59_fix/eos_after_completion_driver.log",
+      "working_bytes": 228
+    },
+    {
+      "path": "results/phase59_fix/eos_before/manifest.json",
+      "working_bytes": 24280
+    },
+    {
+      "path": "results/phase59_fix/eos_before/rows.json",
+      "working_bytes": 47825
+    },
+    {
+      "path": "results/phase59_fix/eos_before/summary.json",
+      "working_bytes": 50707
+    },
+    {
+      "path": "results/phase59_fix/eos_before_debug_build.log",
+      "working_bytes": 5633
+    },
+    {
+      "path": "results/phase59_fix/eos_before_debug_configure.log",
+      "working_bytes": 638
+    },
+    {
+      "path": "results/phase59_fix/eos_before_driver.log",
+      "working_bytes": 228
+    },
+    {
+      "path": "results/phase59_fix/eos_before_release_build.log",
+      "working_bytes": 1943
+    },
+    {
+      "path": "results/phase59_fix/eos_before_release_configure.log",
+      "working_bytes": 133
+    },
+    {
+      "path": "results/phase59_fix/eos_unpaced_trace/manifest.json",
+      "working_bytes": 146411
+    },
+    {
+      "path": "results/phase59_fix/eos_unpaced_trace/record.log",
+      "working_bytes": 267
+    },
+    {
+      "path": "results/phase59_fix/eos_unpaced_trace_analysis.log",
+      "working_bytes": 0
+    },
+    {
+      "path": "results/phase59_fix/eos_unpaced_trace_driver.log",
+      "working_bytes": 65
+    },
+    {
+      "path": "results/phase59_fix/final_focused_trace_completion_driver.log",
+      "working_bytes": 55
+    },
+    {
+      "path": "results/phase59_fix/final_long_trace/manifest.json",
+      "working_bytes": 147242
+    },
+    {
+      "path": "results/phase59_fix/final_long_trace/record.log",
+      "working_bytes": 269
+    },
+    {
+      "path": "results/phase59_fix/fix_release_all_build.log",
+      "working_bytes": 22587
+    },
+    {
+      "path": "results/phase59_fix/fix_release_all_build_v2.log",
+      "working_bytes": 9854
+    },
+    {
+      "path": "results/phase59_fix/fix_release_configure.log",
+      "working_bytes": 133
+    },
+    {
+      "path": "results/phase59_fix/fix_stereo_configure.log",
+      "working_bytes": 133
+    },
+    {
+      "path": "results/phase59_fix/git_blob_guard_tests.log",
+      "working_bytes": 625
+    },
+    {
+      "path": "results/phase59_fix/legacy_before/manifest.json",
+      "working_bytes": 2151
+    },
+    {
+      "path": "results/phase59_fix/legacy_before/rows.json",
+      "working_bytes": 1633
+    },
+    {
+      "path": "results/phase59_fix/legacy_before_driver.log",
+      "working_bytes": 1856
+    },
+    {
+      "path": "results/phase59_fix/legacy_before_v2/manifest.json",
+      "working_bytes": 854
+    },
+    {
+      "path": "results/phase59_fix/legacy_before_v2/rows.json",
+      "working_bytes": 56680
+    },
+    {
+      "path": "results/phase59_fix/legacy_before_v2/summary.json",
+      "working_bytes": 80
+    },
+    {
+      "path": "results/phase59_fix/legacy_before_v2_driver.log",
+      "working_bytes": 639
+    },
+    {
+      "path": "results/phase59_fix/legacy_dependency_rebuild.log",
+      "working_bytes": 1679
+    },
+    {
+      "path": "results/phase59_fix/legacy_final/manifest.json",
+      "working_bytes": 3318
+    },
+    {
+      "path": "results/phase59_fix/legacy_final/rows.json",
+      "working_bytes": 40866
+    },
+    {
+      "path": "results/phase59_fix/legacy_final/summary.json",
+      "working_bytes": 79
+    },
+    {
+      "path": "results/phase59_fix/output_notify_build.log",
+      "working_bytes": 502
+    },
+    {
+      "path": "results/phase59_fix/output_notify_smoke.log",
+      "working_bytes": 41
+    },
+    {
+      "path": "results/phase59_fix/phase_after/manifest.json",
+      "working_bytes": 24441
+    },
+    {
+      "path": "results/phase59_fix/phase_after/reference.json",
+      "working_bytes": 653
+    },
+    {
+      "path": "results/phase59_fix/phase_after/rows.json",
+      "working_bytes": 39079
+    },
+    {
+      "path": "results/phase59_fix/phase_after/summary.json",
+      "working_bytes": 60
+    },
+    {
+      "path": "results/phase59_fix/phase_after_driver.log",
+      "working_bytes": 107
+    },
+    {
+      "path": "results/phase59_fix/phase_before/manifest.json",
+      "working_bytes": 25196
+    },
+    {
+      "path": "results/phase59_fix/phase_before/reference.json",
+      "working_bytes": 653
+    },
+    {
+      "path": "results/phase59_fix/phase_before_driver.log",
+      "working_bytes": 1261
+    },
+    {
+      "path": "results/phase59_fix/phase_before_v2/manifest.json",
+      "working_bytes": 25202
+    },
+    {
+      "path": "results/phase59_fix/phase_before_v2/reference.json",
+      "working_bytes": 653
+    },
+    {
+      "path": "results/phase59_fix/phase_before_v2/rows.json",
+      "working_bytes": 203062
+    },
+    {
+      "path": "results/phase59_fix/phase_before_v2/summary.json",
+      "working_bytes": 62
+    },
+    {
+      "path": "results/phase59_fix/phase_before_v2_driver.log",
+      "working_bytes": 692
+    },
+    {
+      "path": "results/phase59_fix/phase_probe_build.log",
+      "working_bytes": 1093
+    },
+    {
+      "path": "results/phase59_fix/phase_probe_build_v2.log",
+      "working_bytes": 3986
+    },
+    {
+      "path": "results/phase59_fix/phase_probe_build_v3.log",
+      "working_bytes": 4811
+    },
+    {
+      "path": "results/phase59_fix/phase_probe_build_v4.log",
+      "working_bytes": 826
+    },
+    {
+      "path": "results/phase59_fix/phase_probe_build_v5.log",
+      "working_bytes": 722
+    },
+    {
+      "path": "results/phase59_fix/phase_probe_configure.log",
+      "working_bytes": 133
+    },
+    {
+      "path": "results/phase59_fix/phase_probe_smoke.log",
+      "working_bytes": 41
+    },
+    {
+      "path": "results/phase59_fix/profile_csv_archive.log",
+      "working_bytes": 53
+    },
+    {
+      "path": "results/phase59_fix/quality_final_queue_driver.log",
+      "working_bytes": 1033
+    },
+    {
+      "path": "results/phase59_fix/report_completion_driver.log",
+      "working_bytes": 53
+    },
+    {
+      "path": "results/phase59_fix/startup_before/manifest.json",
+      "working_bytes": 1944
+    },
+    {
+      "path": "results/phase59_fix/startup_before/rows.json",
+      "working_bytes": 1089088
+    },
+    {
+      "path": "results/phase59_fix/startup_before/summary.json",
+      "working_bytes": 542
+    },
+    {
+      "path": "results/phase59_fix/startup_before_driver.log",
+      "working_bytes": 2912
+    },
+    {
+      "path": "results/phase59_fix/startup_build.log",
+      "working_bytes": 508
+    },
+    {
+      "path": "results/phase59_fix/startup_configure.log",
+      "working_bytes": 133
+    },
+    {
+      "path": "results/phase59_fix/system_trace_options.json",
+      "working_bytes": 319
+    },
+    {
+      "path": "results/phase59_fix/validation_final/artifacts.json",
+      "working_bytes": 4773997
+    },
+    {
+      "path": "results/phase59_fix/validation_final/driver.json",
+      "working_bytes": 32038
+    },
+    {
+      "path": "results/phase59_fix/validation_final/effective_summary.json",
+      "working_bytes": 859
+    },
+    {
+      "path": "results/phase59_fix/validation_final/fixed57_long.json",
+      "working_bytes": 1096
+    },
+    {
+      "path": "results/phase59_fix/validation_final/fixed57_natural.json",
+      "working_bytes": 1111
+    },
+    {
+      "path": "results/phase59_fix/validation_final/fixed57_rejections.json",
+      "working_bytes": 1124
+    },
+    {
+      "path": "results/phase59_fix/validation_final/fixed57_stage1.json",
+      "working_bytes": 7637
+    },
+    {
+      "path": "results/phase59_fix/validation_final/fixed57_stage2.json",
+      "working_bytes": 8712
+    },
+    {
+      "path": "results/phase59_fix/validation_final/manifest.json",
+      "working_bytes": 27087
+    },
+    {
+      "path": "results/phase59_fix/validation_final/success_working_archives.json",
+      "working_bytes": 6029
+    },
+    {
+      "path": "results/phase59_fix/validation_final/summary.json",
+      "working_bytes": 306
+    },
+    {
+      "path": "results/phase59_fix/validation_recovery_final/artifacts.json",
+      "working_bytes": 458341
+    },
+    {
+      "path": "results/phase59_fix/validation_recovery_final/driver.json",
+      "working_bytes": 3477
+    },
+    {
+      "path": "results/phase59_fix/validation_recovery_final/manifest.json",
+      "working_bytes": 601
+    },
+    {
+      "path": "results/phase59_fix/validation_recovery_final/summary.json",
+      "working_bytes": 859
+    },
+    {
+      "path": "results/phase59_fix/validation_recovery_final/waiting.json",
+      "working_bytes": 114
+    },
+    {
+      "path": "results/phase59_fix/vocoder_after_unit.log",
+      "working_bytes": 88
+    },
+    {
+      "path": "results/phase59_fix/vocoder_before_unit.log",
+      "working_bytes": 88
+    },
+    {
+      "path": "results/phase59_fix/vocoder_bench_after.csv",
+      "working_bytes": 1412
+    },
+    {
+      "path": "results/phase59_fix/vocoder_bench_after.log",
+      "working_bytes": 0
+    },
+    {
+      "path": "results/phase59_fix/vocoder_bench_before.csv",
+      "working_bytes": 1377
+    },
+    {
+      "path": "results/phase59_fix/vocoder_bench_before.log",
+      "working_bytes": 0
+    },
+    {
+      "path": "scripts/check_git_blob_sizes.py",
+      "working_bytes": 4853
+    },
+    {
+      "path": "scripts/phase59_fix_archive_debug.py",
+      "working_bytes": 3634
+    },
+    {
+      "path": "scripts/phase59_fix_archive_device.py",
+      "working_bytes": 3495
+    },
+    {
+      "path": "scripts/phase59_fix_archive_profiles.py",
+      "working_bytes": 2428
+    },
+    {
+      "path": "scripts/phase59_fix_archive_success.py",
+      "working_bytes": 3176
+    },
+    {
+      "path": "scripts/phase59_fix_archive_trace.py",
+      "working_bytes": 3674
+    },
+    {
+      "path": "scripts/phase59_fix_archive_xml.py",
+      "working_bytes": 2246
+    },
+    {
+      "path": "scripts/phase59_fix_artifacts.py",
+      "working_bytes": 2106
+    },
+    {
+      "path": "scripts/phase59_fix_checks.py",
+      "working_bytes": 3664
+    },
+    {
+      "path": "scripts/phase59_fix_delivery_audit.py",
+      "working_bytes": 4960
+    },
+    {
+      "path": "scripts/phase59_fix_device.py",
+      "working_bytes": 7208
+    },
+    {
+      "path": "scripts/phase59_fix_eos.py",
+      "working_bytes": 4902
+    },
+    {
+      "path": "scripts/phase59_fix_eos_trace_analyze.py",
+      "working_bytes": 3114
+    },
+    {
+      "path": "scripts/phase59_fix_final_trace.py",
+      "working_bytes": 7948
+    },
+    {
+      "path": "scripts/phase59_fix_freeze.py",
+      "working_bytes": 2875
+    },
+    {
+      "path": "scripts/phase59_fix_legacy.py",
+      "working_bytes": 9087
+    },
+    {
+      "path": "scripts/phase59_fix_phase_analyze.py",
+      "working_bytes": 3838
+    },
+    {
+      "path": "scripts/phase59_fix_phase_profile.py",
+      "working_bytes": 5586
+    },
+    {
+      "path": "scripts/phase59_fix_post_trace.py",
+      "working_bytes": 5275
+    },
+    {
+      "path": "scripts/phase59_fix_report.py",
+      "working_bytes": 30351
+    },
+    {
+      "path": "scripts/phase59_fix_startup.py",
+      "working_bytes": 6150
+    },
+    {
+      "path": "scripts/phase59_fix_trace.py",
+      "working_bytes": 5502
+    },
+    {
+      "path": "scripts/phase59_fix_validation.py",
+      "working_bytes": 8357
+    },
+    {
+      "path": "scripts/phase59_fix_validation_recover.py",
+      "working_bytes": 4476
+    },
+    {
+      "path": "src/dsp/PhaseLocker.cpp",
+      "working_bytes": 5083
+    },
+    {
+      "path": "src/prototype/Phase35PhaseVocoder.cpp",
+      "working_bytes": 8797
+    },
+    {
+      "path": "src/prototype/Phase35PhaseVocoder.h",
+      "working_bytes": 1717
+    },
+    {
+      "path": "src/prototype/Phase35StereoPhaseCoherence.cpp",
+      "working_bytes": 5671
+    },
+    {
+      "path": "src/prototype/Phase35StereoPhaseCoherence.h",
+      "working_bytes": 1384
+    },
+    {
+      "path": "src/prototype/Phase36StreamingSpeedEngine.h",
+      "working_bytes": 2864
+    },
+    {
+      "path": "src/prototype/Phase36SynthesisCore.h",
+      "working_bytes": 25082
+    },
+    {
+      "path": "src/prototype/Phase57ProgressiveSynthesis.cpp",
+      "working_bytes": 19541
+    },
+    {
+      "path": "src/prototype/Phase57ProgressiveSynthesis.h",
+      "working_bytes": 2938
+    },
+    {
+      "path": "src/prototype/Phase58FixRealtimeWorker.cpp",
+      "working_bytes": 7788
+    },
+    {
+      "path": "src/prototype/Phase58FixRealtimeWorker.h",
+      "working_bytes": 1363
+    },
+    {
+      "path": "src/prototype/Phase58Native.mm",
+      "working_bytes": 31566
+    },
+    {
+      "path": "src/prototype/Phase58RealtimePipeline.cpp",
+      "working_bytes": 53458
+    },
+    {
+      "path": "src/prototype/Phase58RealtimePipeline.h",
+      "working_bytes": 5885
+    },
+    {
+      "path": "tests/GitBlobSizeGuardTests.py",
+      "working_bytes": 3971
+    },
+    {
+      "path": "tests/Phase59FixEOSProbe.cpp",
+      "working_bytes": 7674
+    },
+    {
+      "path": "tests/Phase59FixStereoTests.cpp",
+      "working_bytes": 3753
+    },
+    {
+      "path": "tests/Phase59FixVocoderBench.cpp",
+      "working_bytes": 3250
+    },
+    {
+      "path": "tests/Phase59FixVocoderTests.cpp",
+      "working_bytes": 3014
+    },
+    {
+      "path": "tests/reference/phase59_fix/Before59FixPhaseVocoder.cpp",
+      "working_bytes": 6827
+    },
+    {
+      "path": "tests/reference/phase59_fix/Before59FixPhaseVocoder.h",
+      "working_bytes": 1583
+    },
+    {
+      "path": "tests/reference/phase59_fix/Before59FixStereoPhaseCoherence.cpp",
+      "working_bytes": 4725
+    },
+    {
+      "path": "tests/reference/phase59_fix/Before59FixStereoPhaseCoherence.h",
+      "working_bytes": 1251
+    },
+    {
+      "path": "tests/reference/phase59_fix/PROVENANCE.json",
+      "working_bytes": 1712
+    }
+  ],
+  "local_outgoing_history_check": "Git blob容量検査: 合格（新規対象は50,000,000バイト未満）\n",
+  "network_remote_refs_checked": false,
+  "hooks_path": ".githooks",
+  "commits_created": 0,
+  "pushes": 0,
+  "history_rewritten": false,
+  "lfs_migration": false,
+  "scope": "提案内容は/tmpの専用index/object storeと既存objectsの読取り専用参照で検査。実index/object storeへ追加しない。Push時の広告ref確認は実際のpre-pushで別途実施する。"
+}

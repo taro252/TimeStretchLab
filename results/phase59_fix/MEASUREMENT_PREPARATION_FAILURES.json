@@ -1,0 +1,18 @@
+{
+  "build_failure": "phase_probe_build_v2.log: 計測器が実際のPhase35StereoPhaseCoherenceではなく基底DSP型のgetterを参照。基底DSPの計数変更を撤回し、使用中の型へ接続。",
+  "preparation_failure": "phase_before/00.log: Set observer before input。再生開始前の診断設定失敗。事前設定する関数とブロック境界の有効/無効切替を分けて修正。",
+  "audio_sessions_in_failed_preparation": 0,
+  "original_logs_preserved": true,
+  "legacy_probe_v1": {
+    "log": "build/phase59_fix_artifacts/legacy_before/0_probe_long_cpu0_eos_candidate.log",
+    "error": "Spectrum bin count mismatch",
+    "cause": "WorkProfile/Phase35Stereoの構造体サイズ変更後に旧製品側のPlaybackEngine/MacPlaybackEngine/Phase35TransitionEngineリンク対象を再構築していなかった。関連全ターゲット再構築後の短尺でPASSを確認。",
+    "invalid_completed_attempts": 1,
+    "owned_comparison_parent_pid": 75173,
+    "interrupted_child_pid": 75204,
+    "interruption": "次の長尺baseline試行をSIGINTで中断。原本は保持。ユーザープロセスを終了していない。",
+    "repair_log": "results/phase59_fix/legacy_dependency_rebuild.log",
+    "preflight": "results/phase59_fix/LEGACY_PREFLIGHT_V2.json",
+    "count_as_product_regression": false
+  }
+}

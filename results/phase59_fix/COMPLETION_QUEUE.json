@@ -1,0 +1,83 @@
+{
+  "stage": "completed",
+  "started_unix": 1792169787.120646,
+  "runs": [
+    {
+      "name": "device_final",
+      "command": [
+        "python3",
+        "-B",
+        "scripts/phase59_fix_device.py",
+        "--frozen",
+        "build/phase59_fix_artifacts/final",
+        "--tag",
+        "final"
+      ],
+      "exit": 2,
+      "wall_s": 3539.0287709236145,
+      "log": "/Users/taro252/Docker/TimeStretchLab/results/phase59_fix/device_final_completion_driver.log"
+    },
+    {
+      "name": "eos_after",
+      "command": [
+        "python3",
+        "-B",
+        "scripts/phase59_fix_eos.py",
+        "--tag",
+        "after",
+        "--release",
+        "build/phase59_fix_artifacts/final/phase59_fix_eos_probe",
+        "--debug",
+        "build/phase59_fix_artifacts/debug_eos_final"
+      ],
+      "exit": 0,
+      "wall_s": 88.29542231559753,
+      "log": "/Users/taro252/Docker/TimeStretchLab/results/phase59_fix/eos_after_completion_driver.log"
+    },
+    {
+      "name": "final_focused_trace",
+      "command": [
+        "python3",
+        "-B",
+        "scripts/phase59_fix_final_trace.py"
+      ],
+      "exit": 0,
+      "wall_s": 189.37950992584229,
+      "log": "/Users/taro252/Docker/TimeStretchLab/results/phase59_fix/final_focused_trace_completion_driver.log"
+    },
+    {
+      "name": "delivery_audit_before_report",
+      "command": [
+        "python3",
+        "-B",
+        "scripts/phase59_fix_delivery_audit.py"
+      ],
+      "exit": 0,
+      "wall_s": 16.870817184448242,
+      "log": "/Users/taro252/Docker/TimeStretchLab/results/phase59_fix/delivery_audit_before_report_completion_driver.log"
+    },
+    {
+      "name": "report",
+      "command": [
+        "python3",
+        "-B",
+        "scripts/phase59_fix_report.py"
+      ],
+      "exit": 0,
+      "wall_s": 1.9236478805541992,
+      "log": "/Users/taro252/Docker/TimeStretchLab/results/phase59_fix/report_completion_driver.log"
+    },
+    {
+      "name": "delivery_audit_final",
+      "command": [
+        "python3",
+        "-B",
+        "scripts/phase59_fix_delivery_audit.py"
+      ],
+      "exit": 0,
+      "wall_s": 14.698269128799438,
+      "log": "/Users/taro252/Docker/TimeStretchLab/results/phase59_fix/delivery_audit_final_completion_driver.log"
+    }
+  ],
+  "finished_unix": 1792176218.771617
+}

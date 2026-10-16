@@ -29,6 +29,7 @@ public:
     void setDeclaredFinalOutputFrames(std::size_t);
     void enableWorkProfiling(); // Producer only, before first snapshot.
     void setWorkObserver(Phase36StreamingSpeedEngine::WorkProfile::Observer,void*);
+    void setWorkObserverActive(bool) noexcept; // DSP owner, between advance calls.
     Phase36StreamingSpeedEngine::WorkProfile workProfile()const;
     void supplySnapshot(std::shared_ptr<const phase56::AnalysisSnapshot>);
     // Experimental realtime reader: an external mailbox must pin this immutable

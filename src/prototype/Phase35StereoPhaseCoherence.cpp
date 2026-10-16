@@ -3,6 +3,7 @@
 #include <cmath>
 #include <numbers>
 #include <stdexcept>
+#include <cstdint>
 
 namespace ts::prototype {
 Phase35StereoPhaseCoherence::Phase35StereoPhaseCoherence(std::size_t fftSize, double sampleRate,
@@ -21,6 +22,7 @@ void Phase35StereoPhaseCoherence::reset() {
     std::fill(weights_.begin(), weights_.end(), 0.0f);
     weightSum_ = 0;
     weightedBins_ = 0;
+    lastNeighborhoodEvaluations_ = 0;
 }
 void Phase35StereoPhaseCoherence::process(const std::complex<float>* leftInput,
                                    const std::complex<float>* rightInput,
@@ -29,6 +31,16 @@ void Phase35StereoPhaseCoherence::process(const std::complex<float>* leftInput,
                                    Phase35PhaseVocoder& leftVocoder, Phase35PhaseVocoder& rightVocoder,
                                    const std::vector<int>& owners) {
     constexpr double twoPi = 2 * std::numbers::pi;
+    lastNeighborhoodEvaluations_ = 0;
+    const auto disjoint=[&](const auto* input,const auto* output){
+        const auto a=reinterpret_cast<std::uintptr_t>(input),b=reinterpret_cast<std::uintptr_t>(output);
+        return (a<b?b-a:a-b)/sizeof(std::complex<float>)>=fftSize_/2+1;
+    };
+    const bool reuse=disjoint(leftInput,leftOutput)&&disjoint(leftInput,rightOutput)&&
+        disjoint(rightInput,leftOutput)&&disjoint(rightInput,rightOutput);
+    // Adjacent region members share exactly this owner-local calculation.
+    // Reuse only while the inputs cannot be changed through either output.
+    int cachedOwner=-1;double cachedTonality=0;
     for (std::size_t k = 1; k < fftSize_ / 2; ++k) {
         weights_[k] = 0;
         const double leftMag = std::abs(leftInput[k]), rightMag = std::abs(rightInput[k]);
@@ -45,21 +57,27 @@ void Phase35StereoPhaseCoherence::process(const std::complex<float>* leftInput,
         valid_[k] = true;
         const int owner = owners[k];
         if (owner < 1 || std::abs(owner - static_cast<int>(k)) > 3) continue;
-        const auto combined = [&](std::size_t bin) {
-            return std::hypot(double(std::abs(leftInput[bin])),
-                              double(std::abs(rightInput[bin])));
-        };
-        const double peak = combined(static_cast<std::size_t>(owner));
-        double localMean = 0;
-        int count = 0;
-        for (int j = -8; j <= 8; ++j) {
-            const auto bin = owner + j;
-            if (bin < 1 || bin >= static_cast<int>(fftSize_ / 2)) continue;
-            localMean += combined(static_cast<std::size_t>(bin));
-            ++count;
+        double tonality;
+        if(reuse&&owner==cachedOwner)tonality=cachedTonality;
+        else{
+            ++lastNeighborhoodEvaluations_;
+            const auto combined = [&](std::size_t bin) {
+                return std::hypot(double(std::abs(leftInput[bin])),
+                                  double(std::abs(rightInput[bin])));
+            };
+            const double peak = combined(static_cast<std::size_t>(owner));
+            double localMean = 0;
+            int count = 0;
+            for (int j = -8; j <= 8; ++j) {
+                const auto bin = owner + j;
+                if (bin < 1 || bin >= static_cast<int>(fftSize_ / 2)) continue;
+                localMean += combined(static_cast<std::size_t>(bin));
+                ++count;
+            }
+            localMean /= count;
+            tonality = std::clamp((peak / (localMean + 1e-12) - 1.5) / 3.0, 0.0, 1.0);
+            cachedOwner=owner;cachedTonality=tonality;
         }
-        localMean /= count;
-        const double tonality = std::clamp((peak / (localMean + 1e-12) - 1.5) / 3.0, 0.0, 1.0);
         const double balance = 2 * std::min(leftMag, rightMag) / (leftMag + rightMag + 1e-12);
         const double frequency = k * sampleRate_ / fftSize_;
         const double lowBlend = frequency <= 150 ? 1.0 :

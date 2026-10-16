@@ -1,0 +1,88 @@
+{
+  "head": "190fbcd1ad9f6cf2e98eccf7d0f3d4cb2dd5e05b",
+  "branch": "main",
+  "working_tree": "",
+  "utc": "2026-10-16T13:48:24.100043+00:00",
+  "free_bytes": 2329784320,
+  "historical_large_blobs": [
+    {
+      "sha": "d9b3dc04e6062cdf814f2e2e84776e184493f507",
+      "bytes": 53116718,
+      "path": "results/phase57/stage2/rows.jsonl"
+    },
+    {
+      "sha": "41e52c82b6b5e08988ed39b7a19e96629ca590ad",
+      "bytes": 53121730,
+      "path": "results/phase58/regress57_stage2/rows.jsonl"
+    },
+    {
+      "sha": "87c1a8c3d89f2762b0bbaa1e148edf1dcb240498",
+      "bytes": 53080347,
+      "path": "results/phase58_fix/regression_v3/regress57_stage2/rows.jsonl"
+    },
+    {
+      "sha": "65494609bd5d792c8b3a1807fc28cc890c4488ff",
+      "bytes": 71013176,
+      "path": "results/phase59/device_final/dynamic_long/working/capture.f32"
+    }
+  ],
+  "history_rewritten": false,
+  "assets_deleted": false,
+  "new_blob_limit_bytes": 50000000,
+  "storage_budget_bytes": {
+    "generated_wav": 134217728,
+    "raw_pcm_working": 268435456,
+    "temporary_reference": 134217728,
+    "detailed_csv": 134217728,
+    "trace_peak_including_backend": 671088640,
+    "minimum_free": 1073741824
+  },
+  "storage_policy": "空き容量低下時は記録を保存し試験開始を止める。履歴・既存証拠は削除せず、大容量の新規生成物はbuild/phase59_fix_artifactsへ保管しSHA/復元レシピをresultsへ保存。",
+  "historical_large_tracked_files": [
+    {
+      "path": "results/phase57/stage2/rows.jsonl",
+      "bytes": 53116718,
+      "blob": "d9b3dc04e6062cdf814f2e2e84776e184493f507",
+      "sha256": "561bddda07e914bdc8e7c91d72f85fcdc6d621cf875b4bc454595a5d7a997558",
+      "storage_path": "/Users/taro252/Docker/TimeStretchLab/results/phase57/stage2/rows.jsonl",
+      "preserved": true,
+      "restore": "既存Git履歴またはこの保存原本から復元。履歴書換え・原本削除は行わない。"
+    },
+    {
+      "path": "results/phase58/regress57_stage2/rows.jsonl",
+      "bytes": 53121730,
+      "blob": "41e52c82b6b5e08988ed39b7a19e96629ca590ad",
+      "sha256": "55eb357b22161ed050ce5f0fad013fd4dce0e71ff3f59b27557d0cdb7f33810a",
+      "storage_path": "/Users/taro252/Docker/TimeStretchLab/results/phase58/regress57_stage2/rows.jsonl",
+      "preserved": true,
+      "restore": "既存Git履歴またはこの保存原本から復元。履歴書換え・原本削除は行わない。"
+    },
+    {
+      "path": "results/phase58_fix/regression_v3/regress57_stage2/rows.jsonl",
+      "bytes": 53080347,
+      "blob": "87c1a8c3d89f2762b0bbaa1e148edf1dcb240498",
+      "sha256": "efba83f6766bdbd3f75f44db928b6f6a5ff228046a72d08d28a47f8153d33ce4",
+      "storage_path": "/Users/taro252/Docker/TimeStretchLab/results/phase58_fix/regression_v3/regress57_stage2/rows.jsonl",
+      "preserved": true,
+      "restore": "既存Git履歴またはこの保存原本から復元。履歴書換え・原本削除は行わない。"
+    },
+    {
+      "path": "results/phase59/device_final/dynamic_long/working/capture.f32",
+      "bytes": 71013176,
+      "blob": "65494609bd5d792c8b3a1807fc28cc890c4488ff",
+      "sha256": "9e01bf88e7da2c8af250351042aca649e1dd372e6618b526a22138cb8e1b22e3",
+      "storage_path": "/Users/taro252/Docker/TimeStretchLab/results/phase59/device_final/dynamic_long/working/capture.f32",
+      "preserved": true,
+      "restore": "既存Git履歴またはこの保存原本から復元。履歴書換え・原本削除は行わない。"
+    },
+    {
+      "path": "results/phase59/device_final/dynamic_long/working/reference.bin",
+      "bytes": 71013176,
+      "blob": "65494609bd5d792c8b3a1807fc28cc890c4488ff",
+      "sha256": "9e01bf88e7da2c8af250351042aca649e1dd372e6618b526a22138cb8e1b22e3",
+      "storage_path": "/Users/taro252/Docker/TimeStretchLab/results/phase59/device_final/dynamic_long/working/reference.bin",
+      "preserved": true,
+      "restore": "既存Git履歴またはこの保存原本から復元。履歴書換え・原本削除は行わない。"
+    }
+  ]
+}

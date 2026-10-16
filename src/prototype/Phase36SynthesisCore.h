@@ -60,6 +60,21 @@ struct StageClock {
     }
     ~StageClock() { finish(); }
 };
+// Detailed diagnostics only. Substage times are nested inside phase stage 2;
+// they must not be added to the existing five aggregate stage counters.
+struct ObservedPhaseStage {
+    WorkProfile* profile=nullptr;
+    std::size_t stage=0,scope=0;
+    ObservedPhaseStage(WorkProfile* target,std::size_t index,std::size_t source)
+        : profile(target&&target->observer?target:nullptr),stage(index),scope(source) {
+        if(profile)profile->observer(profile->observerContext,stage,scope,true,
+            std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now().time_since_epoch()).count(),threadCpuNow());
+    }
+    ~ObservedPhaseStage(){
+        if(profile)profile->observer(profile->observerContext,stage,scope,false,
+            std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now().time_since_epoch()).count(),threadCpuNow());
+    }
+};
 inline void hashFloat(std::uint64_t& hash, float value) {
     std::uint32_t bits;
     std::memcpy(&bits, &value, sizeof(bits));
@@ -326,13 +341,20 @@ private:
         const bool shared=reader_.channels()==2 &&
             (config_.enableStereoCoherence || tracker_ || resynchronizer_);
         if (shared) {
+            ObservedPhaseStage measured(profile_,20,resolutionIndex_);
             for (std::size_t k=0; k<combined_.size(); ++k)
                 combined_[k]={std::hypot(std::abs(inputSpectra_[0][k]),
                                          std::abs(inputSpectra_[1][k])),0};
-            sharedPeaks_.analyzePeaks(combined_.data(),combined_.size());
+            {ObservedPhaseStage peaks(profile_,21,resolutionIndex_);
+                sharedPeaks_.analyzePeaks(combined_.data(),combined_.size());}
         } else if (resynchronizer_)
             sharedPeaks_.analyzePeaks(inputSpectra_[0].data(),combined_.size());
         ResyncDecision decision;
+        if(profile_){auto& counters=profile_->phaseFrames[resolutionIndex_];
+            if(!counters.frames)counters.firstInput=position_;
+            ++counters.frames;counters.lastInput=position_;counters.resets+=reset;
+            if(shared||resynchronizer_){counters.sharedPeaks+=sharedPeaks_.peaks().size();
+                counters.maxSharedPeaks=std::max(counters.maxSharedPeaks,sharedPeaks_.peaks().size());}}
         if (resynchronizer_) {
             decision=resynchronizer_->consider(nextFrame_,start,position_,
                 detection_.resets,sharedPeaks_,reader_,olas_);
@@ -357,17 +379,22 @@ private:
         }
         if (shared) {
             const auto* owners=config_.enablePhaseLocking ? &sharedPeaks_.ownerPeak() : nullptr;
-            for (std::size_t c=0; c<2; ++c)
+            for (std::size_t c=0; c<2; ++c){
+                ObservedPhaseStage measured(profile_,23,resolutionIndex_*2+c);
                 vocoders_[c].process(inputSpectra_[c].data(),outputSpectra_[c].data(),
                     delta,reset,config_.enableSelectivePhaseReset,strength,owners,actualAnalysisHop);
+            }
             if (decision.applied) for (std::size_t c=0;c<2;++c)
                 vocoders_[c].resynchronize(inputSpectra_[c].data(),alignedSpectra_[c].data(),
                                           outputSpectra_[c].data(),owners);
             if (tracker_) throw std::logic_error("Partial tracking is outside Phase 36 scope");
-            if (config_.enableStereoCoherence)
+            if (config_.enableStereoCoherence){
+                ObservedPhaseStage measured(profile_,24,resolutionIndex_);
                 coherence_.process(inputSpectra_[0].data(),inputSpectra_[1].data(),
                     outputSpectra_[0].data(),outputSpectra_[1].data(),
                     vocoders_[0],vocoders_[1],sharedPeaks_.ownerPeak());
+                if(profile_)profile_->phaseFrames[resolutionIndex_].neighborhoodEvaluations+=coherence_.lastNeighborhoodEvaluations();
+            }
             if (tracker_) tracker_->synchronize({outputSpectra_[0].data(),outputSpectra_[1].data()});
         } else {
             for (std::size_t c=0; c<reader_.channels(); ++c) {

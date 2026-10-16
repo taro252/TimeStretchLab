@@ -1,0 +1,71 @@
+{
+  "task": "Phase 59 Fix full request attachment 6d50be2c-7de5-4942-a583-552c6c22eca0",
+  "baseline": "190fbcd1ad9f6cf2e98eccf7d0f3d4cb2dd5e05b",
+  "at_utc": "2026-10-16T18:55:34.844029+00:00",
+  "commit_requested": false,
+  "rules": "AGENTS.md Japanese and strict new blob <50000000. Hooks enabled local core.hooksPath=.githooks. No history rewrite, no LFS, no deletion of historical proofs.",
+  "git_guard": "5/5 isolated tests PASS; 4 historical oversized blobs / 5 tracked paths in START_STATE; origin/main initially same as HEAD.",
+  "startup": "80/80 initial old58/V7/old59/probe PASS. Later first short fixed probe actually reproduced clock0→1436 vs512, +924frames/19.25ms. FullPCM exact/FIFO0/deadline0. Fixed_probe_clock_repro frozen and CLOCK_REPRODUCTION.json preserved. OutputNotify subsequent short trial PASS, notifypre/post matchSource timestamps, cause UNRESOLVED; no exclusion/thresholdchange.",
+  "trace": "SystemTrace clock_before_trace saved peak1.598GB; missing time-info -> analyzer failed, preserve. AudioSystemTrace clock_audio_trace saved peak1.866GB; analyzer succeeded.96RT blocks,48fullyknown,48unknown,24DecompressMemory in known. All artifacts in build/phase59_fix_artifacts. Raw ktraces preserved, never delete/move with open FD.",
+  "capacity": "User freed space after low130MB; now multipleGB available. Trace budget2GiB per capture+minimumfree2GiB; admission4GiB. Retained prior traces are additional, no destructive cleanup.",
+  "sources": "Only diagnostics so far, no numeric DSP math change: startup milestones, exact Workgroup interval tick records, focused observer windows, phase substage20/21/23/24, frame/peak/neighborhood counts. Generic src/dsp/StereoPhaseCoherence edits reverted; actual path is prototype/Phase35StereoPhaseCoherence.",
+  "preparation_failures": "Build_v2 wrong getter type then phase_before first Native failed beforeaudio Set observer before input. Both preserved; fixed prepared observer binding + setWorkObserverActive(bool) owner-only.",
+  "active": [],
+  "next": [
+    "Awaitchecks91530 (Release93PASS Debug18+Golden25+ASAN/UBSANvocoder/stereo+mailboxesTSAN etc) andqueue72824. IfchecksFAILqueueassertstops; inspect/fixverification onlyorrefreeze ifcorechange. Queueautomaticallyruns phase59_fix_validation.py all1140/6216/51344 outsideGit with4activePCMworkers(noaudio), thenphase59_fix_device.py286physical (190dynamic+36fixedshort+8fixedlongCPU2 180repeat3each/300onceeach +40sameprocessEOS+12legacy). ActualDeviceSummarycanFAILdueknownlegacy; jobreturns2butallgroupsrun. PreserveallFAIL.",
+    "AfterqueueStage8complete, run finalEOSprobecomparison withfrozenrelease andbuild/phase59_fix_debug/eosprobe(currentrebuiltbychecks), fresh tagafter. Thisisnondevice butRTstress nootherDSP. Retainfailures; rootD4.8stilluncertain.",
+    "Onefocusedfinaltracebudgetleft: preferfinalBaseline180s/2xCPU2 at~72s originalslowwindow ratherthananotherstartup. scripts/phase59_fix_trace.py now --attach-pid PID --wait-for-target-exit;6seconds,hasheswaitpidexit(max300). Launchownfrozenfixedprobe180s witholdrawref31.75MB expectedsha, profile=detail phasewindow3186688:3201024, outputfreshbuild/final_long_trace_native, recordownPID thenwait~68s beforeattach(start~70s,record70-76coversoldB72.4s). Nativecontinues~90s; wrapperwaitforPIDexitbeforelargehash; NO XMLexport/build/duringaudio. ActualMachintervalCSV+timeinfoalign no guessedOSstate. Needgenericexistingphase58_fix_trace_analyze --sessions Nativefolder --output build/...analysis --existing-xml build/...xml withescalation. Tracehelpercreatesdata/tracefolder. Inspectcapacitiesbeforelaunch; required4GiB. Preserveifcapacityinsufficientandaskuseronlyifneeded, neverweakenquality.",
+    "Aftertrials, auditfrozenreferences10SHA/source209 +oldGolden/oldresultsGitdiff, Gitblobstaged andoutgoinghistory(nochangesstagednohistorynew;newfilesfilesystemsize<50M). Completeartifactledgers/restore recipes+reports3docs/18sections/VERDICT requiredallkeys. globalfifo falseifanyknownlegacyfail, startupclockverifiedfalsebyunresolved1436failure; newfinal190onlystatisticsseparate. NoAutoCommit/Push."
+  ],
+  "planned_drivers": [
+    "scripts/phase59_fix_validation.py: fresh all1140/6216/51344 outsideGit, phase57partition2workers +dynamic+fixed lanes. NOT RUN beforeStage6finalfreeze. Source/binarySHAverified. Failure58reference retained and57tmp preserved via generateddriver.",
+    "scripts/phase59_fix_legacy.py: generate diagnostic copy of unchangedPhase54Native, cfgdetailed true, normal1ms bounded16384control snapshots, actionMachbefore/after+steady, export existingworkerprofilesafterstop. No source/corechanges. Syntaxonly, NOT BUILT/RUN. Before StageC buildprobe after profile done; oldoriginal/59before/probe12sessions.",
+    "tests/Phase59FixEOSProbe.cpp: newstandalonepaced/unpaced/normal2input2EOS lifecycle, ThreadExtendedInfo samples, allintervalticks/logs. Not CMake registered/built/run yet. FunctionaldrainPASS separateRTdeadline values. NativeactualEOSrepeat stillneeded."
+  ],
+  "findings": "First5 longpreFixsessions allPCM PASS/no deadlines. Diagnosticstage23(vocoder inclPhaseLockerlockWithOwners)~83%phase; stereo~14%, sharedpeaks~2%. Static repeated magnitude/arg inlockWithOwners couldreuse firstloopexactfloat values only for disjointinput/output; no fiximplemented. Needconfirm beforeadopt; no sourcechanges duringbeforeprofile.",
+  "stage3": "phase_before_v2 12/12 PCM/FIFO/clock/deadline PASS, realtimemax46.351ms close46.44ms. PHASE_BEFORE_ANALYSIS.json details. Dominant23vocoder82%, framecount CPUcorrelation.9237, peakcountnegative. Cache reuse contemplated, STILL NOT IMPLEMENTED.",
+  "stage4": "legacy_before initialprobe failed Spectrum bin mismatch due stale related objects afterclasssizeheaderchanges. Ownparent75173+child75204 SIGINT; oldfiles preserved. Rebuilt phase54_native/fullrelated libs/TransitionEngine; LEGACY_PREFLIGHT_V2 PASS. Then legacy_before_v2 16sessions,15PASS: original frozen pre59 Baseline smoke newFIFOFAIL8208 frames, PCMexact, timestampsPASS; epoch1/session1 cb114-120,125-135 around1.2-1.43s rapidseek reconstruction. before59+diagnostic12comparison? 4long+12, onlyoneoldfail. Rawlogs inbuild. CurrentgeneratoraddedcallbacklastPublicationNs for FUTUREprobe; currentbefore_v2 compiledwithout that column.",
+  "stage5": "eos_before all6modesfinished sourceSHAassertPASS. Releasepaced twoEOS deadline0, unpaced drainedbut13/20deadline; maxnonCPU.571s with OSsamples policy1priority0, previouslyRR2priority97; normaldrainpassdeadline0. Debugpaced drainedbut16/33deadline; debugunpacedexit2 92/28deadline, normalpass0. Frozenrelease/debug probes+sourceSHA inmanifest. eostracebefore nowrunning6sec, analyze via phase59_fix_eos_trace_analyze.py aftertargetdone; capacitymonitorcap2Gibytescount4 cumulative8GiB.",
+  "storage": "df5GB after3rdtrace; minfloor2GiB,traceadmission4GiB,peak2GiB,cumulative8GiB,max4captures. Bundlesfirst2archivedlosslessallfileSHA/lsofclosed (no symlinks). Temporary3ktracesstilluntouched/openbyuserHub52598; DO NOT KILL userXcode/Hub. Couldcopy+gzstablektraceswithoutunlinkafterlasttrialforlongtermevidence, budgetperfloor. SavedEOSbundlecurrentlyuncompressed. No morethanonefocusedtraceleft.",
+  "prep": "New scripts validation/checks/legacy/eos/eos_trace_analyze/phase_analyze/archive_trace have beenwritten; validation/checks NOTRUN. CMakeEOSprobe+frozenvocoder+bench targetsadded. Unitbefore2560PASS. Benchbefore15rows CPUratio~1.0 allfinalspectraexact. srcMathstillunchanged; onlydiagnostics. NewNativeFIXrecords first32ALLrenderentries(active+inactive), engineconstructreturnmark; frozenoriginalclockfailbinarypreserved.",
+  "stage6": "ADOPTED exact Float32 magnitude/phase reuse inPhase35Vocoder fordisjoint sharedOwners, originalaliasfallback; frame-local lastowner tonality reuseinPhase35Stereo withall4input/outputrangechecks; PhaseLocker reserve/resize/volatilezero/clear preinit. UnitVocoder3840PASS (inclactualfft1024/4096,Nyquistowners), Stereo1920PASS (weights/average+aliascross/reset) against190frozenrenamedcopies.PROVENANCE. WholeReleasebuiltALL twice toensureABI. BenchvocoderCPU8-10%saved. Matchedafter1802xCPU2bothpreset fullPCM/FIFO/deadline/new0, maxRTCPU27.117/27.722ms; StereoCPU18/21%less inwindows. PHASE_AFTER_ANALYSIS.json. No morecorechanges sincefreeze.",
+  "frozen": "build/phase59_fix_artifacts/final:19executables10libs209src; results/phase59_fix/FINAL_CANDIDATE.json allSHA+flags/sourcecopies. Allformaltestsusefrozen. DO NOT OVERWRITE oldfrozenrefs or thisfrozenfinal. Newunitcopies intests/reference/phase59_fix linkedindependentbeforecode. SourceSHA209stillunchanged.",
+  "stage5_trace": "eos_unpaced_trace saved exit0 peak1857669424 nointerrupt. Analysisfinishedbuild/.../eos_unpaced_trace/analysis. GitcompactEOS_TRACE_OBSERVATIONS.json: run0 45/149known,run1 20/158known. Fullyknownworst278.656mswall/23.702CPU +254.986msPreempted backgroundpriority0, supportsOSprioritydowngradeunderunpaced; original4.8s notproven. ZeroVMfaultsin65known;242unknown/outofwindow. Original26.6internalFLAGSnotread. Applearchivedschedulercontractexplicitdemotion supportsinterpretation, sourceURLinOS_SCHEDULER_SOURCE_NOTES.",
+  "docs": "Created docs/PHASE59_FIX_ROOT_CAUSE.md andREALTIME.md withactualbefore/aftermeasurements+limitations. Need finalVALIDATION.md +REPORT18sections +VERDICT.json andmetrics afterALLruns. B ifclockroot/legacy/memoryuncertainty unresolved (currentlyso). No commit/pushrequested.",
+  "new_helpers": [
+    "phase59_fix_report.py is written butNOTRUN; requires quality/checks/device/legacy_final/eos_after summaries; generatesMETRICS/VERDICT/VALIDATIONdoc/REPORT18. Mustextendwithlastfocusedtraceobservations+deliveryauditandvalidateexactcounts insteadofhardcodingunverifiedpass.",
+    "phase59_fix_archive_success.py runsautomatically BEFOREDEVICE oncequalityPASS. Onlynewvalidation*/working/*.f32/.bin >=1MB, noFAILcasefiles. ClosedFD+gzipfullrestoredSHA verifythenreleaseuncompressed; skipbusy. Ledger validation_final/success_working_archives.json. Helpscapacitywithoutlosingevidence.",
+    "device scriptnowaggregatesEOSrepeat20perpreset andreturns2ifanysummaryFAIL; queuewillstopafterdevicefailedbutallsuitesexecuted/summarypreserved. Legacyknownoldfailuremustnotblockreportwhenalldataexists."
+  ],
+  "final_trace_plan": "helper now --attach-pid PID --wait-for-target-exit permitsfocusedlate6s, notlaunch. PreferfrozenfinalfixedprobeBaseline180/2xCPU2 at~72s, spawnownprocessrecordPIDandnativeoutputfinal_long_trace_native; after~68sattach6s, helperwaitsexitbeforelargeSHA, Native90sexits/reapedbyownPythonparent. Thenexport/analyze(notwhileaudio)usingexistingphase58_fix_trace_analyze. Fourth/lastcapturebudget. SourceAllNative initial32renderentriesalreadyinFIXbinary, nofurthercoreedits. Capacityadmission4GiB; current~4.7GB, mayneedownsuccessworkingcompressionoraskuseriftrulyinsufficient. DO NOT closeuserXcode/Hub ordeleteopenktraces.",
+  "final_pending": [],
+  "lossless_archives": [
+    "TRACE_ARCHIVE_clock_before_trace.json",
+    "TRACE_ARCHIVE_clock_audio_trace.json",
+    "TRACE_ARCHIVE_eos_unpaced_trace.json",
+    "DEBUG_BUILD_ARCHIVE.json",
+    "PERFORMANCE_CSV_ARCHIVES.json"
+  ],
+  "quality_interruption": "長尺動的1件一致後4GiB基準で安全中断。原本維持、未完了160件を条件不変で別保存先へ再実行予定。",
+  "quality_progress": {
+    "PASS": true,
+    "dynamic_pcm_sessions": 1140,
+    "fixed58_pcm_sessions": 6216,
+    "fixed57_pcm_sessions": 51344,
+    "effective_summary": "results/phase59_fix/validation_final/effective_summary.json",
+    "initial_capacity_interruption_retained": true
+  },
+  "final_native_progress": {
+    "dynamic": "189/190、最初の時計648フレーム余分",
+    "fixed_short": "36/36",
+    "fixed_long": "8/8、180秒2倍CPU2は両preset各3反復合格",
+    "actual_eos": "40/40",
+    "legacy": "11/12、旧Baseline session4/epoch1/callback179に234不足",
+    "additional_trace": "PCM一致・不足/期限0だが85.821秒で518フレーム時計跳躍、OS Client Overload1、既知94/155区間にDecompress Memory3、対象の元最大Wall位置7区間は未取得"
+  },
+  "active_tool_session": null,
+  "capacity_followup": "最終traceは空き基準を満たして実行完了。最大一時+bundle1872708480バイト、最小空き4708265984バイト。容量中断なし。8GBの追加確保回答は受けておらず、実測空きで判定。",
+  "storage_fallback": "queueがwaiting_final_trace_capacityなら、phase59_fix_archive_device.pyで成功作業データと今回生成WAVだけを復元SHA付きで圧縮可能。実行中は.storage_maintenanceでfinal_traceのNative開始を抑制。FAIL原本・旧成果物・使用中ktraceは触らない。",
+  "completion": "B：必要な実装・回帰・OS調査を完了。Gate 2未合格。",
+  "artifact_index": "results/phase59_fix/ARTIFACT_INDEX.json：26032ファイル、1747490805バイト"
+}

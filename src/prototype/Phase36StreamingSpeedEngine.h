@@ -19,6 +19,11 @@ public:
     struct WorkProfile {
         // Worker-local, reset at each output block; no callback-thread access.
         std::array<StageTime,5> stages{}; // WAV read, FFT, phase, IFFT/OLA, FIR
+        struct PhaseFrames {
+            std::size_t frames=0,sharedPeaks=0,maxSharedPeaks=0,resets=0;
+            std::size_t firstInput=0,lastInput=0,neighborhoodEvaluations=0;
+        };
+        std::array<PhaseFrames,3> phaseFrames{};
         // Optional bounded experimental observer. No ownership or allocation.
         using Observer=void(*)(void*,std::size_t,std::size_t,bool,std::uint64_t,double) noexcept;
         Observer observer=nullptr;

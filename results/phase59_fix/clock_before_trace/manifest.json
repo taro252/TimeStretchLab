@@ -1,0 +1,3755 @@
+{
+  "command": [
+    "xcrun",
+    "xctrace",
+    "record",
+    "--template",
+    "System Trace",
+    "--time-limit",
+    "6s",
+    "--output",
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace",
+    "--target-stdout",
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/target.log",
+    "--launch",
+    "--",
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/native_v7",
+    "/Users/taro252/Docker/TimeStretchLab/results/phase59/native_smoke_v2/inputs/boundary_float_stereo_48000.wav",
+    "500000",
+    "candidate",
+    "capture",
+    "480002",
+    "-",
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/native",
+    "normal",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "--worker=workgroup",
+    "--resident-input=on",
+    "--profile=detail",
+    "--sample-thread=on",
+    "--capture-path=/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/capture.f32",
+    "--speed-requests=/Users/taro252/Docker/TimeStretchLab/results/phase59/native_smoke_v2/case_000/requests.csv"
+  ],
+  "exit": 0,
+  "capacity_interrupted": false,
+  "budget": {
+    "utc": "2026-10-16T14:06:51.900470+00:00",
+    "prior_trace_peak_at_least_bytes": 1557222696,
+    "trace_peak_budget_bytes": 2147483648,
+    "minimum_free_during_trace": 2147483648,
+    "admission_required_free_bytes": 4294967296,
+    "focused_duration_s": 4,
+    "scope": "\u65e2\u77e5\u306ebackend\u4e00\u6642ktrace\u3068\u4fdd\u5b58bundle\u306e\u4e21\u65b9\u3092\u4e88\u7b97\u3078\u542b\u3081\u308b\u3002\u6700\u59272GiB\u3092\u76e3\u8996\u3057\u3001\u7d42\u4e86\u30fb\u4fdd\u5b58\u5f8c\u3082open FD\u304c\u3042\u308c\u3070\u539f\u672c\u3092\u79fb\u52d5/\u524a\u9664\u3057\u306a\u3044\u3002",
+    "free_bytes": 10362695680
+  },
+  "maximum_observed_bytes": 1598119503,
+  "minimum_observed_free_bytes": 6974521344,
+  "checkpoints": [
+    {
+      "at": 1792159720.249037,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10071613440
+    },
+    {
+      "at": 1792159720.473309,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10071474176
+    },
+    {
+      "at": 1792159720.693399,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10071470080
+    },
+    {
+      "at": 1792159720.9168441,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10071392256
+    },
+    {
+      "at": 1792159721.13987,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10071576576
+    },
+    {
+      "at": 1792159721.364931,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10071572480
+    },
+    {
+      "at": 1792159721.652312,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10071572480
+    },
+    {
+      "at": 1792159721.87521,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10071441408
+    },
+    {
+      "at": 1792159722.0945868,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10071187456
+    },
+    {
+      "at": 1792159722.313304,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10071166976
+    },
+    {
+      "at": 1792159722.532442,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10071142400
+    },
+    {
+      "at": 1792159722.749642,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10070818816
+    },
+    {
+      "at": 1792159722.967988,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10070798336
+    },
+    {
+      "at": 1792159723.1906781,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10070462464
+    },
+    {
+      "at": 1792159723.409128,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10070454272
+    },
+    {
+      "at": 1792159723.628373,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10070450176
+    },
+    {
+      "at": 1792159723.853205,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10070290432
+    },
+    {
+      "at": 1792159724.075229,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10070175744
+    },
+    {
+      "at": 1792159724.2983801,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10070151168
+    },
+    {
+      "at": 1792159724.516169,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10070061056
+    },
+    {
+      "at": 1792159724.738098,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10070036480
+    },
+    {
+      "at": 1792159724.957582,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10069929984
+    },
+    {
+      "at": 1792159725.17551,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10069913600
+    },
+    {
+      "at": 1792159725.394987,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10069762048
+    },
+    {
+      "at": 1792159725.6165068,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10069762048
+    },
+    {
+      "at": 1792159725.840891,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10066292736
+    },
+    {
+      "at": 1792159726.0649111,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10076778496
+    },
+    {
+      "at": 1792159726.296778,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10073964544
+    },
+    {
+      "at": 1792159726.514752,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10073620480
+    },
+    {
+      "at": 1792159726.737699,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10073391104
+    },
+    {
+      "at": 1792159726.959425,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10073227264
+    },
+    {
+      "at": 1792159727.178663,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10070794240
+    },
+    {
+      "at": 1792159727.3985898,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10070482944
+    },
+    {
+      "at": 1792159727.6229088,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10070396928
+    },
+    {
+      "at": 1792159727.8491871,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10070159360
+    },
+    {
+      "at": 1792159728.070432,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10069151744
+    },
+    {
+      "at": 1792159728.2946272,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10073866240
+    },
+    {
+      "at": 1792159728.518686,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10084536320
+    },
+    {
+      "at": 1792159728.743542,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10084519936
+    },
+    {
+      "at": 1792159728.969415,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10084511744
+    },
+    {
+      "at": 1792159729.189179,
+      "temporary_bytes": 0,
+      "artifact_bytes": 0,
+      "free_bytes": 10084372480
+    },
+    {
+      "at": 1792159729.411514,
+      "temporary_bytes": 0,
+      "artifact_bytes": 53248,
+      "free_bytes": 10084311040
+    },
+    {
+      "at": 1792159729.6376529,
+      "temporary_bytes": 0,
+      "artifact_bytes": 53248,
+      "free_bytes": 10084245504
+    },
+    {
+      "at": 1792159729.861176,
+      "temporary_bytes": 0,
+      "artifact_bytes": 53248,
+      "free_bytes": 10084229120
+    },
+    {
+      "at": 1792159730.085727,
+      "temporary_bytes": 0,
+      "artifact_bytes": 53248,
+      "free_bytes": 10084065280
+    },
+    {
+      "at": 1792159730.3452811,
+      "temporary_bytes": 0,
+      "artifact_bytes": 53248,
+      "free_bytes": 10083483648
+    },
+    {
+      "at": 1792159730.60772,
+      "temporary_bytes": 1128,
+      "artifact_bytes": 53248,
+      "free_bytes": 10083287040
+    },
+    {
+      "at": 1792159730.8351161,
+      "temporary_bytes": 3997704,
+      "artifact_bytes": 53248,
+      "free_bytes": 10079367168
+    },
+    {
+      "at": 1792159731.056698,
+      "temporary_bytes": 3997704,
+      "artifact_bytes": 53248,
+      "free_bytes": 10067931136
+    },
+    {
+      "at": 1792159731.286552,
+      "temporary_bytes": 3997704,
+      "artifact_bytes": 53248,
+      "free_bytes": 10068074496
+    },
+    {
+      "at": 1792159731.511064,
+      "temporary_bytes": 3997704,
+      "artifact_bytes": 53248,
+      "free_bytes": 10068058112
+    },
+    {
+      "at": 1792159731.741024,
+      "temporary_bytes": 63766536,
+      "artifact_bytes": 53248,
+      "free_bytes": 10017755136
+    },
+    {
+      "at": 1792159731.960311,
+      "temporary_bytes": 193126400,
+      "artifact_bytes": 53248,
+      "free_bytes": 9889959936
+    },
+    {
+      "at": 1792159732.1826692,
+      "temporary_bytes": 193126400,
+      "artifact_bytes": 53529,
+      "free_bytes": 9888444416
+    },
+    {
+      "at": 1792159732.396797,
+      "temporary_bytes": 193126400,
+      "artifact_bytes": 53836,
+      "free_bytes": 9888960512
+    },
+    {
+      "at": 1792159732.619491,
+      "temporary_bytes": 193126400,
+      "artifact_bytes": 53836,
+      "free_bytes": 9888874496
+    },
+    {
+      "at": 1792159732.843254,
+      "temporary_bytes": 193126400,
+      "artifact_bytes": 53836,
+      "free_bytes": 9888862208
+    },
+    {
+      "at": 1792159733.060145,
+      "temporary_bytes": 347176968,
+      "artifact_bytes": 53836,
+      "free_bytes": 9734770688
+    },
+    {
+      "at": 1792159733.284108,
+      "temporary_bytes": 347176968,
+      "artifact_bytes": 53836,
+      "free_bytes": 9734770688
+    },
+    {
+      "at": 1792159733.503562,
+      "temporary_bytes": 347176968,
+      "artifact_bytes": 53836,
+      "free_bytes": 9734766592
+    },
+    {
+      "at": 1792159733.726573,
+      "temporary_bytes": 347176968,
+      "artifact_bytes": 53836,
+      "free_bytes": 9734766592
+    },
+    {
+      "at": 1792159733.949781,
+      "temporary_bytes": 347176968,
+      "artifact_bytes": 53836,
+      "free_bytes": 9734754304
+    },
+    {
+      "at": 1792159734.174743,
+      "temporary_bytes": 477290496,
+      "artifact_bytes": 53836,
+      "free_bytes": 9604624384
+    },
+    {
+      "at": 1792159734.399425,
+      "temporary_bytes": 477290496,
+      "artifact_bytes": 53836,
+      "free_bytes": 9604620288
+    },
+    {
+      "at": 1792159734.61821,
+      "temporary_bytes": 477290496,
+      "artifact_bytes": 53836,
+      "free_bytes": 9604620288
+    },
+    {
+      "at": 1792159734.837743,
+      "temporary_bytes": 477290496,
+      "artifact_bytes": 53836,
+      "free_bytes": 9604583424
+    },
+    {
+      "at": 1792159735.062606,
+      "temporary_bytes": 477290496,
+      "artifact_bytes": 53836,
+      "free_bytes": 9604579328
+    },
+    {
+      "at": 1792159735.2844748,
+      "temporary_bytes": 599449600,
+      "artifact_bytes": 53836,
+      "free_bytes": 9481805824
+    },
+    {
+      "at": 1792159735.5037282,
+      "temporary_bytes": 599617544,
+      "artifact_bytes": 53836,
+      "free_bytes": 9481793536
+    },
+    {
+      "at": 1792159735.723495,
+      "temporary_bytes": 599617544,
+      "artifact_bytes": 53836,
+      "free_bytes": 9481854976
+    },
+    {
+      "at": 1792159735.945173,
+      "temporary_bytes": 599617544,
+      "artifact_bytes": 53836,
+      "free_bytes": 9481494528
+    },
+    {
+      "at": 1792159736.170617,
+      "temporary_bytes": 599617544,
+      "artifact_bytes": 53836,
+      "free_bytes": 9480847360
+    },
+    {
+      "at": 1792159736.394161,
+      "temporary_bytes": 673542152,
+      "artifact_bytes": 53836,
+      "free_bytes": 9403662336
+    },
+    {
+      "at": 1792159736.6169002,
+      "temporary_bytes": 725442560,
+      "artifact_bytes": 53836,
+      "free_bytes": 9353232384
+    },
+    {
+      "at": 1792159736.840265,
+      "temporary_bytes": 725442560,
+      "artifact_bytes": 2890815,
+      "free_bytes": 9351745536
+    },
+    {
+      "at": 1792159737.0640051,
+      "temporary_bytes": 725442560,
+      "artifact_bytes": 2890815,
+      "free_bytes": 9351581696
+    },
+    {
+      "at": 1792159737.289186,
+      "temporary_bytes": 725442560,
+      "artifact_bytes": 2890815,
+      "free_bytes": 9349353472
+    },
+    {
+      "at": 1792159737.5124521,
+      "temporary_bytes": 756375552,
+      "artifact_bytes": 2890815,
+      "free_bytes": 9308143616
+    },
+    {
+      "at": 1792159737.7674398,
+      "temporary_bytes": 780238856,
+      "artifact_bytes": 2890815,
+      "free_bytes": 9285345280
+    },
+    {
+      "at": 1792159737.994763,
+      "temporary_bytes": 780238856,
+      "artifact_bytes": 2890815,
+      "free_bytes": 9285328896
+    },
+    {
+      "at": 1792159738.219167,
+      "temporary_bytes": 780238856,
+      "artifact_bytes": 2890815,
+      "free_bytes": 9285419008
+    },
+    {
+      "at": 1792159738.4479759,
+      "temporary_bytes": 780238856,
+      "artifact_bytes": 2890815,
+      "free_bytes": 9285353472
+    },
+    {
+      "at": 1792159738.6727328,
+      "temporary_bytes": 780238856,
+      "artifact_bytes": 2890815,
+      "free_bytes": 9285419008
+    },
+    {
+      "at": 1792159738.897163,
+      "temporary_bytes": 780238856,
+      "artifact_bytes": 2890815,
+      "free_bytes": 9285398528
+    },
+    {
+      "at": 1792159739.123876,
+      "temporary_bytes": 780508151,
+      "artifact_bytes": 2890815,
+      "free_bytes": 9285099520
+    },
+    {
+      "at": 1792159739.346387,
+      "temporary_bytes": 780508151,
+      "artifact_bytes": 2890815,
+      "free_bytes": 9285099520
+    },
+    {
+      "at": 1792159739.568265,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 9267982336
+    },
+    {
+      "at": 1792159739.792607,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 9267908608
+    },
+    {
+      "at": 1792159740.0070982,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 9267802112
+    },
+    {
+      "at": 1792159740.230763,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 9267773440
+    },
+    {
+      "at": 1792159740.452281,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 9267773440
+    },
+    {
+      "at": 1792159740.673215,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 9267769344
+    },
+    {
+      "at": 1792159740.891287,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 9267761152
+    },
+    {
+      "at": 1792159741.1110709,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 9267748864
+    },
+    {
+      "at": 1792159741.334024,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 9267720192
+    },
+    {
+      "at": 1792159741.557437,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 9267683328
+    },
+    {
+      "at": 1792159741.780075,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 9267560448
+    },
+    {
+      "at": 1792159742.003652,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 9267556352
+    },
+    {
+      "at": 1792159742.2264168,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 9267552256
+    },
+    {
+      "at": 1792159742.447422,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 9278648320
+    },
+    {
+      "at": 1792159742.67036,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9278631936
+    },
+    {
+      "at": 1792159742.889875,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9278550016
+    },
+    {
+      "at": 1792159743.107487,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9278496768
+    },
+    {
+      "at": 1792159743.3289988,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9278414848
+    },
+    {
+      "at": 1792159743.5496168,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9278320640
+    },
+    {
+      "at": 1792159743.7718139,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9278124032
+    },
+    {
+      "at": 1792159743.9929469,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9277812736
+    },
+    {
+      "at": 1792159744.2143948,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9277628416
+    },
+    {
+      "at": 1792159744.436457,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9277616128
+    },
+    {
+      "at": 1792159744.660506,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9277599744
+    },
+    {
+      "at": 1792159744.883314,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9277562880
+    },
+    {
+      "at": 1792159745.102737,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9277374464
+    },
+    {
+      "at": 1792159745.3220968,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9277145088
+    },
+    {
+      "at": 1792159745.546758,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9277018112
+    },
+    {
+      "at": 1792159745.768248,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9276903424
+    },
+    {
+      "at": 1792159745.987825,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9276829696
+    },
+    {
+      "at": 1792159746.2136042,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9276792832
+    },
+    {
+      "at": 1792159746.435745,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9276792832
+    },
+    {
+      "at": 1792159746.658158,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9276772352
+    },
+    {
+      "at": 1792159746.883898,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9276588032
+    },
+    {
+      "at": 1792159747.1089861,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9276530688
+    },
+    {
+      "at": 1792159747.332882,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9278685184
+    },
+    {
+      "at": 1792159747.558828,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9182199808
+    },
+    {
+      "at": 1792159747.779351,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9182175232
+    },
+    {
+      "at": 1792159748.00455,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9182060544
+    },
+    {
+      "at": 1792159748.225888,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9182076928
+    },
+    {
+      "at": 1792159748.4467719,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9181745152
+    },
+    {
+      "at": 1792159748.671233,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9181483008
+    },
+    {
+      "at": 1792159748.892174,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9085153280
+    },
+    {
+      "at": 1792159749.115295,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9084846080
+    },
+    {
+      "at": 1792159749.336164,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9084788736
+    },
+    {
+      "at": 1792159749.565493,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9084784640
+    },
+    {
+      "at": 1792159749.786871,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9084661760
+    },
+    {
+      "at": 1792159750.0110002,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9084637184
+    },
+    {
+      "at": 1792159750.233748,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 9084489728
+    },
+    {
+      "at": 1792159750.450557,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8987992064
+    },
+    {
+      "at": 1792159750.6673422,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8987914240
+    },
+    {
+      "at": 1792159750.885953,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8987910144
+    },
+    {
+      "at": 1792159751.109649,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8987897856
+    },
+    {
+      "at": 1792159751.335118,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8987860992
+    },
+    {
+      "at": 1792159751.557141,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8987860992
+    },
+    {
+      "at": 1792159751.776721,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8987856896
+    },
+    {
+      "at": 1792159751.993432,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8987840512
+    },
+    {
+      "at": 1792159752.213275,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8987840512
+    },
+    {
+      "at": 1792159752.450733,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8987832320
+    },
+    {
+      "at": 1792159752.760649,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8891285504
+    },
+    {
+      "at": 1792159752.9798322,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8891265024
+    },
+    {
+      "at": 1792159753.2021692,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8891248640
+    },
+    {
+      "at": 1792159753.42227,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8890245120
+    },
+    {
+      "at": 1792159753.641479,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8890245120
+    },
+    {
+      "at": 1792159753.8604748,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8890232832
+    },
+    {
+      "at": 1792159754.078014,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8890224640
+    },
+    {
+      "at": 1792159754.29695,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8890216448
+    },
+    {
+      "at": 1792159754.517691,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8890183680
+    },
+    {
+      "at": 1792159754.735403,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8890179584
+    },
+    {
+      "at": 1792159754.95401,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8890175488
+    },
+    {
+      "at": 1792159755.175832,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8889565184
+    },
+    {
+      "at": 1792159755.403699,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8867532800
+    },
+    {
+      "at": 1792159755.6266181,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8864243712
+    },
+    {
+      "at": 1792159755.848146,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8862699520
+    },
+    {
+      "at": 1792159756.068707,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8852905984
+    },
+    {
+      "at": 1792159756.290581,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8828268544
+    },
+    {
+      "at": 1792159756.513875,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8825131008
+    },
+    {
+      "at": 1792159756.737227,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8825126912
+    },
+    {
+      "at": 1792159756.95898,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8825126912
+    },
+    {
+      "at": 1792159757.181878,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8825126912
+    },
+    {
+      "at": 1792159757.400148,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8825118720
+    },
+    {
+      "at": 1792159757.617194,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8825118720
+    },
+    {
+      "at": 1792159757.839356,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8825114624
+    },
+    {
+      "at": 1792159758.064505,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8824901632
+    },
+    {
+      "at": 1792159758.285165,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8824541184
+    },
+    {
+      "at": 1792159758.513356,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8824610816
+    },
+    {
+      "at": 1792159758.738837,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8824602624
+    },
+    {
+      "at": 1792159758.961804,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8824594432
+    },
+    {
+      "at": 1792159759.185993,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8824545280
+    },
+    {
+      "at": 1792159759.415811,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8824520704
+    },
+    {
+      "at": 1792159759.642178,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 800505159,
+      "free_bytes": 8824520704
+    },
+    {
+      "at": 1792159759.907701,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 8824442880
+    },
+    {
+      "at": 1792159760.13863,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 8824438784
+    },
+    {
+      "at": 1792159760.372885,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 8824430592
+    },
+    {
+      "at": 1792159760.608415,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 8824389632
+    },
+    {
+      "at": 1792159760.838352,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 8824385536
+    },
+    {
+      "at": 1792159761.0730062,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 8824107008
+    },
+    {
+      "at": 1792159761.3018298,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 8616771584
+    },
+    {
+      "at": 1792159761.5360289,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 8535609344
+    },
+    {
+      "at": 1792159761.76745,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 8533237760
+    },
+    {
+      "at": 1792159762.0073411,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 8530169856
+    },
+    {
+      "at": 1792159762.3025532,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 8528551936
+    },
+    {
+      "at": 1792159762.5403478,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 8525975552
+    },
+    {
+      "at": 1792159762.847883,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 8504889344
+    },
+    {
+      "at": 1792159763.076417,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 8502525952
+    },
+    {
+      "at": 1792159763.3113441,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 8496832512
+    },
+    {
+      "at": 1792159763.552424,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 8492044288
+    },
+    {
+      "at": 1792159763.78038,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 8490336256
+    },
+    {
+      "at": 1792159764.009857,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 8294887424
+    },
+    {
+      "at": 1792159764.2430441,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 8282882048
+    },
+    {
+      "at": 1792159764.4717891,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 8277606400
+    },
+    {
+      "at": 1792159764.703312,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 8260702208
+    },
+    {
+      "at": 1792159764.931521,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 8253128704
+    },
+    {
+      "at": 1792159765.160157,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 8251133952
+    },
+    {
+      "at": 1792159765.3885498,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 8245919744
+    },
+    {
+      "at": 1792159765.622253,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 8140402688
+    },
+    {
+      "at": 1792159765.858031,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 7847497728
+    },
+    {
+      "at": 1792159766.08336,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 7610363904
+    },
+    {
+      "at": 1792159766.313719,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 7599284224
+    },
+    {
+      "at": 1792159766.547621,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 7485177856
+    },
+    {
+      "at": 1792159766.772641,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 7467474944
+    },
+    {
+      "at": 1792159766.998294,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 7464710144
+    },
+    {
+      "at": 1792159767.2207448,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 7460130816
+    },
+    {
+      "at": 1792159767.4436638,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 7455993856
+    },
+    {
+      "at": 1792159767.667574,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 7451717632
+    },
+    {
+      "at": 1792159767.894689,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 7451443200
+    },
+    {
+      "at": 1792159768.125799,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 7450902528
+    },
+    {
+      "at": 1792159768.4052968,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 7435771904
+    },
+    {
+      "at": 1792159768.63039,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 7430393856
+    },
+    {
+      "at": 1792159768.8548238,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 7423176704
+    },
+    {
+      "at": 1792159769.079384,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 7409389568
+    },
+    {
+      "at": 1792159769.314272,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 7368863744
+    },
+    {
+      "at": 1792159769.5330691,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 7362809856
+    },
+    {
+      "at": 1792159769.7592828,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 7357108224
+    },
+    {
+      "at": 1792159769.993643,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 2890815,
+      "free_bytes": 7350845440
+    },
+    {
+      "at": 1792159770.2167392,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 13757383,
+      "free_bytes": 7337119744
+    },
+    {
+      "at": 1792159770.472935,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 14156351,
+      "free_bytes": 7187034112
+    },
+    {
+      "at": 1792159770.7784052,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 14156351,
+      "free_bytes": 7186980864
+    },
+    {
+      "at": 1792159772.463818,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 27010980,
+      "free_bytes": 7170269184
+    },
+    {
+      "at": 1792159773.581517,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 36125604,
+      "free_bytes": 7158390784
+    },
+    {
+      "at": 1792159774.610214,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 40839797,
+      "free_bytes": 7147323392
+    },
+    {
+      "at": 1792159774.904066,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 40839797,
+      "free_bytes": 7145193472
+    },
+    {
+      "at": 1792159776.468247,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 48827937,
+      "free_bytes": 7132651520
+    },
+    {
+      "at": 1792159777.122151,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 48827937,
+      "free_bytes": 7112957952
+    },
+    {
+      "at": 1792159777.408451,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 128317233,
+      "free_bytes": 7052869632
+    },
+    {
+      "at": 1792159777.684875,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 144713590,
+      "free_bytes": 7036157952
+    },
+    {
+      "at": 1792159778.052572,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 161490806,
+      "free_bytes": 7019245568
+    },
+    {
+      "at": 1792159778.349031,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 161490806,
+      "free_bytes": 7019175936
+    },
+    {
+      "at": 1792159778.6540108,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 178268022,
+      "free_bytes": 7002316800
+    },
+    {
+      "at": 1792159779.005698,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 178268022,
+      "free_bytes": 7001587712
+    },
+    {
+      "at": 1792159779.3062122,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 178268022,
+      "free_bytes": 7001251840
+    },
+    {
+      "at": 1792159779.564317,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 178268022,
+      "free_bytes": 7000428544
+    },
+    {
+      "at": 1792159779.846635,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 184120802,
+      "free_bytes": 6994038784
+    },
+    {
+      "at": 1792159780.1301289,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 184120802,
+      "free_bytes": 6993534976
+    },
+    {
+      "at": 1792159780.417346,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 184120802,
+      "free_bytes": 6992711680
+    },
+    {
+      "at": 1792159780.6833138,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 184120802,
+      "free_bytes": 6989017088
+    },
+    {
+      "at": 1792159780.9541771,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 184120802,
+      "free_bytes": 6974521344
+    },
+    {
+      "at": 1792159781.2251241,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 184120802,
+      "free_bytes": 6983000064
+    },
+    {
+      "at": 1792159781.5202,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 184120802,
+      "free_bytes": 6982864896
+    },
+    {
+      "at": 1792159781.773269,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 184120802,
+      "free_bytes": 6982778880
+    },
+    {
+      "at": 1792159782.0709891,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 184120802,
+      "free_bytes": 6982434816
+    },
+    {
+      "at": 1792159782.335196,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 184120802,
+      "free_bytes": 6980382720
+    },
+    {
+      "at": 1792159782.588831,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 184120802,
+      "free_bytes": 6980124672
+    },
+    {
+      "at": 1792159782.843636,
+      "temporary_bytes": 797614344,
+      "artifact_bytes": 184120802,
+      "free_bytes": 6980112384
+    }
+  ],
+  "temporary_traces": [
+    {
+      "path": "/var/folders/ft/xsqp1bg15lvcr2m90ynsllmr0000gn/T/instrumentsp75ODb.ktrace",
+      "bytes": 797614344,
+      "sha256": "3a7f7ef2e8ce329354f13f8193d318b462a719bfc89a5feec8b56174aed13da8"
+    }
+  ],
+  "trace_bundle": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace",
+  "artifacts": [
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/target.log",
+      "bytes": 629,
+      "sha256": "84f1280cd55236fe89d6ed871ea7e1fac36aa62162a798769f27b4d3d450e4a8"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/capture.f32",
+      "bytes": 1695632,
+      "sha256": "96b24743efee6ad2d4b408e89edb85d9c4e2ca50fec89a56be9330e1cfa12da5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/UI_state_metadata.bin",
+      "bytes": 490,
+      "sha256": "8a95e4e1e6d0aa2e71961ec1f3020a8c4cb00e23955c5fe3a035ca0bc540c670"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/open.creq",
+      "bytes": 14171,
+      "sha256": "52e5a9ebde38de59d5404bc92890b2ec10066ec44bc76511d1331daf4e4c4d79"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/form.template",
+      "bytes": 10866568,
+      "sha256": "3c6a587ddc5bbb39295a58cc3bc9cf9d20430534ad81687a8d8b267ec19f747e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/native/plan_frontiers.csv",
+      "bytes": 5861,
+      "sha256": "2fa9eb92b4410bafbde3cf20e210b829723ad3c652b108f0c5a2a69929b9d103"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/native/summary.json",
+      "bytes": 4639,
+      "sha256": "a712371774f8a950e435ccd860d4467160fb85a870f2a5fa8fdd91c94cd521f2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/native/detail.csv",
+      "bytes": 951261,
+      "sha256": "72fc9f2a28ee654e65fc74330940525047a894aa17b6f2d93373d332de7c7f9d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/native/dynamic_map.nodes.bin",
+      "bytes": 1528,
+      "sha256": "66d77f96aa367e32227aa2518ca2927ba710612c76ab994a58119fbae56aa461"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/native/worker.csv",
+      "bytes": 36865,
+      "sha256": "7b43bbc8df06819eb3149c2ec782ba424b2e34069af4bbf6f92550a0f0cc1046"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/native/thread_samples.csv",
+      "bytes": 103484,
+      "sha256": "6cfe724aee720ec798581a8679c8d33917b1dd834f792a2aac98c23cb1cd795a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/native/callbacks.csv",
+      "bytes": 36133,
+      "sha256": "ec631558165117754a7edd3f16fc9c6da3216b9153b42070b1201f040c5e912d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/native/speeds.csv",
+      "bytes": 992,
+      "sha256": "93f75264a244cdfa02912f2ca698376c2afd3534a72f9519f9232c25373db462"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/native/dynamic_events.csv",
+      "bytes": 132,
+      "sha256": "55fef29046c094e061cc16bd899abb3fd5e349b0ea2c9edb56fe9a396bbce0bb"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/native/plans.csv",
+      "bytes": 411,
+      "sha256": "3a13a5b0c17f188a08eb98409220da8263909c40464fce9eed655c913d8d6060"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/MANIFEST.plist",
+      "bytes": 290,
+      "sha256": "35365bc545a73b5662fa33a5933919dc76c024b737002465a1449b9ac30a94fb"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/Trace1.run/RunIssues.storedata",
+      "bytes": 53248,
+      "sha256": "4f6b51c97dbca503c5984ae9cf61987768911b5db3c59b4e349931c1271fc254"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/MANIFEST.plist",
+      "bytes": 8169,
+      "sha256": "7cee6d473852e80e3a71e88c4d971a0ec20fb09bfcd0e3bae223cc7cc71e14b9"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/uniquing/TOC",
+      "bytes": 344,
+      "sha256": "28bb5344b4c59bce7a3535796580fa23c79eb51ac6edbbbc6576069075596ee9"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/uniquing/strings",
+      "bytes": 39723,
+      "sha256": "e79d7de72da13d177142753cc5f1cca6b47e15627fe7edd4a5373468dfc4af9b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/uniquing/EngineeringTypes.etypes",
+      "bytes": 7769,
+      "sha256": "11b4fedc3bbdd1d9ee4537a94acc8fd3d891d7e8f94737ad5dc867dc9cca3139"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/core-config/exposedTableInfo.plist",
+      "bytes": 5709,
+      "sha256": "dc2da910005f7e113df31a2c30affff34d082aa4f4ca0a9876f933bfe27afee0"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/table-manager/tables.plist",
+      "bytes": 18486,
+      "sha256": "10e475ab6e27fc10f37774b525a2ad3ff2d67246c37a150b85232ea21e194207"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-25/spec.plist",
+      "bytes": 582,
+      "sha256": "069663345d29d5ccbdcee0c7c97857769f36463fdc4c6a68f1cb8f5c278fef8f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-25/bulkstore",
+      "bytes": 50,
+      "sha256": "be3f9541e9f3c5d70efd91b6233e6f13da13bb844ecea553d3632bcd792a6f3c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-25/bulkstore_descriptor",
+      "bytes": 1979,
+      "sha256": "9d94d35bfd6a40433b4eb87fe29102ccc5449f1f5d94de26e287411a78e5dc96"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-25/schema.xml",
+      "bytes": 494,
+      "sha256": "8682483bd7bc569bc1829fdf222cd726071949f8bf40564b83bf817efe80cbe8"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-22/spec.plist",
+      "bytes": 509,
+      "sha256": "20de9c79a4978c4ef622b60fd6679523bb26517a2076aa7c9b8738e53ce67d48"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-22/bulkstore",
+      "bytes": 7621,
+      "sha256": "aef74bab3ba913d04120823fa4896fe4eb10a0d6768d18620b5059b23aedeaf8"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-22/spindex.0",
+      "bytes": 7188,
+      "sha256": "34ef593ec8f15a5f38616e27a65de4474794a11f425d92283d6cc544e67696ef"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-22/bulkstore_descriptor",
+      "bytes": 1308,
+      "sha256": "b6e770162887b7348730f11f9616e694fc8f8cd66b85b193c40ce0aa62ded4c3"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-22/schema.xml",
+      "bytes": 303,
+      "sha256": "909f3bf4b0f14eafd885f830ef01bf2a15530c2aef438dbcce42928dc82f11c6"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-14/spec.plist",
+      "bytes": 738,
+      "sha256": "dbf36f8ab4b7fe25d71cdbb929f780c6b99cfff3b279bd7b36d7c1d18e81557f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-14/bulkstore",
+      "bytes": 47,
+      "sha256": "de61dc3d74ec1b31a40c8e634ead79efb5d65421536daa1888686d6ac56cf0e5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-14/bulkstore_descriptor",
+      "bytes": 1757,
+      "sha256": "697d2bab1edb9030f8b1d691dc4ff1e4a55071196445c9d8366e6ece66f58d46"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-14/schema.xml",
+      "bytes": 433,
+      "sha256": "964add3b9b2c78c1517e781d5b2a220e72e7709960744e2235c66d40956f032c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-13/spec.plist",
+      "bytes": 430,
+      "sha256": "6525b785cfcf0749ceb57e5a9a10fcd2af8e31f82a99a6f8bae1aeedc3e4301b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-13/bulkstore",
+      "bytes": 1838,
+      "sha256": "61c4f4d5635f09549b89260a9a7bbb279d645575930b06784855bf79d61e6b94"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-13/spindex.0",
+      "bytes": 79,
+      "sha256": "224397a89469052229d7777403b649faec6e3e5b34289e3d10d007621e63cb5e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-13/bulkstore_descriptor",
+      "bytes": 1222,
+      "sha256": "5f37e3cb382b08931aa59c2683325118f56bfd319ee4d31a82562fa361e8b615"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-13/schema.xml",
+      "bytes": 303,
+      "sha256": "8f35ed2bdce86532612c8c08cfc84f0e76c4e8e21e7f60ca7f83bddcc7363f63"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-47/spec.plist",
+      "bytes": 512,
+      "sha256": "42d2635bd373c5c4e2d1ff1f13fd32dec12efcb9125d3d16099ed433ee4de4c2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-47/bulkstore",
+      "bytes": 22629996,
+      "sha256": "6aa42e83ad2fe83f4425ba2497d571f3f604dae8255c704eb43826555f6f58e2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-47/spindex.1",
+      "bytes": 15976241,
+      "sha256": "c38a30ef61a6cc524d9f851c8e00f429653500017b90e6d90536e7d9ddec07e3"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-47/spindex.0",
+      "bytes": 16299345,
+      "sha256": "9e5a7ed8ac03dcd7d529a56b45f4669a24a806f6d298867115796d71f30a8aea"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-47/bulkstore_descriptor",
+      "bytes": 2036,
+      "sha256": "a34de782c64babaa4d390ec7b50cd84eac3fb352a37cc37b223edf5ebb0b1f09"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-47/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-40/spec.plist",
+      "bytes": 501,
+      "sha256": "66bd57b91df1e01197ab0ddffe9cf5c4c0920cd772ffef0eed24ba9919e78025"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-40/bulkstore",
+      "bytes": 2564104,
+      "sha256": "99a2f939f4e69b4f55d6e993926c7fe1793d8ca58d589dd6286cdfd9f0508a2d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-40/spindex.0",
+      "bytes": 2756974,
+      "sha256": "f51bfc7d13e9e3347f41b983efc9b6813cd767b9624c4d720dae74973bc03ea5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-40/bulkstore_descriptor",
+      "bytes": 2925,
+      "sha256": "a0c6181c7addb9072b9b7fe5b21feff60c03e9d8a2685313bddf973d6ffab41d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-40/schema.xml",
+      "bytes": 665,
+      "sha256": "3c9206e79b1cb7ceb2800ea15c5963cd833f2da7e6afce305e2598794ab05f76"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-49/spec.plist",
+      "bytes": 499,
+      "sha256": "adb279eaf19830860f5fbcc646693585853f8d2a46d11916c68c234382b9c6d5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-49/bulkstore",
+      "bytes": 26449,
+      "sha256": "fb742e8274e8b3a6a9b3760f7c9513ab4ec06cf0dc6899614c3cc3a921db0c5d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-49/spindex.0",
+      "bytes": 25243,
+      "sha256": "cabd2884ceddd49de5d21bfe70072ad0bb6e14cd42edd41273d0621f3bd25629"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-49/bulkstore_descriptor",
+      "bytes": 2034,
+      "sha256": "16babc2501cf5a35f0f6a9e328979c399955b0f0874422d891e5881da7f016b2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-49/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-12/spec.plist",
+      "bytes": 501,
+      "sha256": "0433681df0c7cdc54ed3a7138a834c869ed20e3ea7f76703459771465076ee6d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-12/bulkstore",
+      "bytes": 18536,
+      "sha256": "7e957e2634bc476d55d853b3cf60989ea05a58f5f9779ed3092cf8ae3a21a5eb"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-12/spindex.0",
+      "bytes": 24986,
+      "sha256": "8ddc8472dee6450b1284af06630469db6b44f05ed6dead923a20a4dd472b1330"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-12/bulkstore_descriptor",
+      "bytes": 1363,
+      "sha256": "461996563d3e47210cb7a70be7c162952e8792d6b2ffb4e1aed76a0cce56e99c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-12/schema.xml",
+      "bytes": 283,
+      "sha256": "4947536b455094d95f49bef9b9120f6dab960fc3c552773532de4562065e14cc"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-15/spec.plist",
+      "bytes": 530,
+      "sha256": "d7842c36da2b37cb4b59a7f596e566973c8046227a66fc4ef73d2f5436fe9579"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-15/bulkstore",
+      "bytes": 47,
+      "sha256": "de61dc3d74ec1b31a40c8e634ead79efb5d65421536daa1888686d6ac56cf0e5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-15/bulkstore_descriptor",
+      "bytes": 1757,
+      "sha256": "697d2bab1edb9030f8b1d691dc4ff1e4a55071196445c9d8366e6ece66f58d46"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-15/schema.xml",
+      "bytes": 433,
+      "sha256": "964add3b9b2c78c1517e781d5b2a220e72e7709960744e2235c66d40956f032c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-23/spec.plist",
+      "bytes": 516,
+      "sha256": "35136420628b8cab81ecae181e0d5f6a46833426608f07adb938bfec3ee52960"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-23/bulkstore",
+      "bytes": 50,
+      "sha256": "be3f9541e9f3c5d70efd91b6233e6f13da13bb844ecea553d3632bcd792a6f3c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-23/bulkstore_descriptor",
+      "bytes": 1979,
+      "sha256": "9d94d35bfd6a40433b4eb87fe29102ccc5449f1f5d94de26e287411a78e5dc96"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-23/schema.xml",
+      "bytes": 494,
+      "sha256": "8682483bd7bc569bc1829fdf222cd726071949f8bf40564b83bf817efe80cbe8"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-24/spec.plist",
+      "bytes": 534,
+      "sha256": "b3ec79bbeb958d4a8a417fb4ae88a6b8a81583afc371bd36bbee3f290f605ccb"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-24/bulkstore",
+      "bytes": 50,
+      "sha256": "be3f9541e9f3c5d70efd91b6233e6f13da13bb844ecea553d3632bcd792a6f3c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-24/bulkstore_descriptor",
+      "bytes": 1979,
+      "sha256": "9d94d35bfd6a40433b4eb87fe29102ccc5449f1f5d94de26e287411a78e5dc96"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-24/schema.xml",
+      "bytes": 494,
+      "sha256": "8682483bd7bc569bc1829fdf222cd726071949f8bf40564b83bf817efe80cbe8"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-48/spec.plist",
+      "bytes": 587,
+      "sha256": "a1ee2d65b20ae99ac902cb0db68486321daf92133547d13bdd7f850e5ce852ae"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-48/bulkstore",
+      "bytes": 877347,
+      "sha256": "eb9364a354c3b27f1c1e048bcc7ae53e970723e0baf34fe74784c128e89faf62"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-48/spindex.0",
+      "bytes": 1352411,
+      "sha256": "82fa1ea1bbff9e3923348f1f3158ab54ceda3758b56e025bf657217f995cf899"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-48/bulkstore_descriptor",
+      "bytes": 2034,
+      "sha256": "12b63150feb79bfb0fddfde2ed4de0f92a660c26940eddd995a801a3b566102d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-48/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-41/spec.plist",
+      "bytes": 505,
+      "sha256": "a27f403af105768052a16396d5839338e019749be93646c96b6bd892f5837601"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-41/bulkstore",
+      "bytes": 49,
+      "sha256": "18c5730fe4721c6cb38510d0245dc43fc525032f012cd32cb8971883ef518d81"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-41/bulkstore_descriptor",
+      "bytes": 1792,
+      "sha256": "75053eadba0d97412399eca4648c0e6780feff3b9b65c270ac4f76c6d81d1ae8"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-41/schema.xml",
+      "bytes": 532,
+      "sha256": "54d2549d12439638de9b2b23c3a0dab677a08d156621b149f26498a9b0e28b37"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-46/spec.plist",
+      "bytes": 501,
+      "sha256": "8c19bb9e67ec438dd93ed4e6f8899afee0f5c208aadbd5c7665b9afe18800b52"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-46/bulkstore",
+      "bytes": 32041010,
+      "sha256": "456a1fa2e6f06a2866e34519893212ce5d6013ac800f8b9b3ad4dfc1611b7524"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-46/spindex.1",
+      "bytes": 15956489,
+      "sha256": "bb1d2589d1c73d5ed28afb613740b24373d167d08e6540c44b4248e0831c838c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-46/spindex.0",
+      "bytes": 16087898,
+      "sha256": "4cccec050479169b9fd39edbc6defbfbe7b49c00bec693629bf4e69adcc6d68a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-46/bulkstore_descriptor",
+      "bytes": 2036,
+      "sha256": "fc05bc2d6b60070de2533af7dd3ecc6ab0cb4f7921df8cc2729e1fb78580bf02"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-46/spindex.2",
+      "bytes": 15169323,
+      "sha256": "845a168ef1468eeb21fe65c1c54ed57805ba018e14ce491a1abb440fb99ca831"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-46/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-5/spec.plist",
+      "bytes": 424,
+      "sha256": "3204d8b7fc171e7d2ea4ef89b47a8a12b5f1703cd59e0a8325d7919ce056f5ed"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-5/bulkstore",
+      "bytes": 71121,
+      "sha256": "da36259387fe688244340e94efe44ff6a706223ee6dfcb25218e11b4dc24b5e2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-5/spindex.0",
+      "bytes": 99985,
+      "sha256": "1326915d13ceb3f40c21b1985a9b320c6dc48848b11279c64644379416a1d26e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-5/bulkstore_descriptor",
+      "bytes": 1604,
+      "sha256": "408fb726502c46cefa1cc7fbcd9e62aabb47c3296ff214e482f735d874487304"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-5/schema.xml",
+      "bytes": 436,
+      "sha256": "fd45dd04ec8065cc39bd640d5df1b4f4a34cadc944701d597fe721cf2aec7b82"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-2/spec.plist",
+      "bytes": 428,
+      "sha256": "35a4d4b0ec7cfc5fdcc735935791d723244f7dccc74b57d0be1c5476c8355b1a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-2/bulkstore",
+      "bytes": 20306,
+      "sha256": "0f9e2fa7c24a4addb04e671594762903045099510effab35ba925ae57b3d0918"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-2/spindex.0",
+      "bytes": 29832,
+      "sha256": "2ce4bc57dc018811c152caccfe89ee9ed939ed0beb0faa7501679f43ae5e2e94"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-2/bulkstore_descriptor",
+      "bytes": 1284,
+      "sha256": "0d271e229bb86de97da8f84a1abc804aa586159d2e7925e7e868927a00c75945"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-2/schema.xml",
+      "bytes": 332,
+      "sha256": "a23107b7c7b70ea732954613db4f2a0cb962d36f5fb2ce65015f7513392144d7"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-3/spec.plist",
+      "bytes": 501,
+      "sha256": "47ab37a3db4c13a6e89ee0d96e573995c4d84e4eb38887cc48c7ec64d505ce6f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-3/bulkstore",
+      "bytes": 129543,
+      "sha256": "78391aac545189878f0063f988c293caddd3fda455079c1237210f78a3aea121"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-3/spindex.0",
+      "bytes": 330027,
+      "sha256": "789562a37da61ea0fe05dbd17e4903c4e9b7b8d881738fd69d6b896a212e2e15"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-3/bulkstore_descriptor",
+      "bytes": 1374,
+      "sha256": "cd3e7d96fc786669596cdf4616aa850e526bbcb3350245902d0a1ad6f7e5fc15"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-3/schema.xml",
+      "bytes": 310,
+      "sha256": "3fe32809a864de7b1b1d96451b1a10d85041135624314d96a249241f9e2bb3a2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-4/spec.plist",
+      "bytes": 456,
+      "sha256": "cbfdb606584d0b40ff008b3348f5c881fe1c7618cfc88bb4953291bbb28a6e9d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-4/bulkstore",
+      "bytes": 515230,
+      "sha256": "058060cf995873ee7c29b5646e084c785605be73674d986b7c08d5966e759d6f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-4/spindex.0",
+      "bytes": 944057,
+      "sha256": "f5e2768990e552fa90a15e508f91e5215d1cdf399c53b1b3edbd29870da71f68"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-4/bulkstore_descriptor",
+      "bytes": 2073,
+      "sha256": "5070fed81ed05a972c53f26a1e2279c3607f7f77f481b25d9d784dcf7cdae100"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-4/schema.xml",
+      "bytes": 537,
+      "sha256": "6cb177520cee48876c50076b85925b3408d20d4473eae1c435cb821077319593"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-64/spec.plist",
+      "bytes": 557,
+      "sha256": "3830ea0e63572d87906b55dcfcb94ca9b787ac73431554a45039168b49ea3083"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-64/bulkstore",
+      "bytes": 50,
+      "sha256": "c4b2bc95c3d700934461bc3a4d2c7498d500c003c4cc91c0fec69eea148083d5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-64/bulkstore_descriptor",
+      "bytes": 2028,
+      "sha256": "5c887b851a393e8a963486d8b55a90c3bea4d255691fe1d559a4a7c7ea50762c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-64/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-63/spec.plist",
+      "bytes": 600,
+      "sha256": "a567d583e28a024f7295d974021eb5e7f5b68b9a91d110d164654d224be6bd10"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-63/bulkstore",
+      "bytes": 203431,
+      "sha256": "08ff2178726ffec67e131a37e3a8a58f1dbb1aa7d8f72b12e1691219cacfe0f6"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-63/spindex.0",
+      "bytes": 349171,
+      "sha256": "e83436f098d70c00c9dcd10d608e40de095f0c1e238a0af82d6999c68d3d5948"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-63/bulkstore_descriptor",
+      "bytes": 2034,
+      "sha256": "702ca047a4ef4e01e44a3df19d5596bddd49ea4168c5c56113b5f4e777c82124"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-63/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-55/spec.plist",
+      "bytes": 524,
+      "sha256": "c51d2d19ab7aa5f8af56981cdf3ad0207b72cd2109955e8ba2e03e7d1bb78c0e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-55/bulkstore",
+      "bytes": 5704,
+      "sha256": "ba80bb1467abcfcb2d7bd6296d3a3e8d29cc88bd55bf9f95926b543c5cebb196"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-55/spindex.0",
+      "bytes": 753,
+      "sha256": "d4af5f7de010e68b607a25a7c08da49d87a54fef5534adf1c38b572895aae5a0"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-55/bulkstore_descriptor",
+      "bytes": 2034,
+      "sha256": "414357e2178e0a4cafdb14ac597ee71e13ea2c8081360adc3bb8a9cf7e73cb47"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-55/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-52/spec.plist",
+      "bytes": 527,
+      "sha256": "9284367074bbf4305a0df6dc050e53d4bb8c2aac0e30582456eb70dcae621029"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-52/bulkstore",
+      "bytes": 50,
+      "sha256": "c4b2bc95c3d700934461bc3a4d2c7498d500c003c4cc91c0fec69eea148083d5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-52/bulkstore_descriptor",
+      "bytes": 2028,
+      "sha256": "5c887b851a393e8a963486d8b55a90c3bea4d255691fe1d559a4a7c7ea50762c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-52/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-39/spec.plist",
+      "bytes": 428,
+      "sha256": "f4ba27cdfc5df7391c096154bbceec55c462b47baa47255b304159902e2907f0"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-39/bulkstore",
+      "bytes": 2395,
+      "sha256": "fc0c436bf6650baa06f2441718aa83791d25c25bad1b7b717e914b6cd19f231f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-39/spindex.0",
+      "bytes": 130,
+      "sha256": "be49f03805e657b843c3d85abf5964d70f6690187fe5ce687711a9a9a03dd06f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-39/bulkstore_descriptor",
+      "bytes": 1291,
+      "sha256": "940f3665c933a0697da982f6a7f8a8b7ac76b2f678b3faca6771fd9c26d10a3b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-39/schema.xml",
+      "bytes": 367,
+      "sha256": "2f0f03af20d4a2fb194b532fa887941ef2f3855451c1d0ed3c4b087b200d1d16"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-37/spec.plist",
+      "bytes": 501,
+      "sha256": "c990d9a3c0fac60204d1c061c15836f85ddcfe379318f1c1e30f06852458a5ba"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-37/bulkstore",
+      "bytes": 49,
+      "sha256": "aad1e06830f06d9ef3807e087e34a33ec8586ef3712c1c5f6aefcbbfb9ec75c5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-37/bulkstore_descriptor",
+      "bytes": 2273,
+      "sha256": "d4c5609a4fc88d00820d7023bee58eb83a72314207a63b31585d1496ea45abc9"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-37/schema.xml",
+      "bytes": 492,
+      "sha256": "74595cc7573a2c074a89b1e8f93b09602e6b8e8d508fdadf19cf01cadb57df0d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-30/spec.plist",
+      "bytes": 531,
+      "sha256": "421b3a9c4a9c01b740de2837d2b74c996c95c006115c50e1aa67ddb04e0ae0a0"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-30/bulkstore",
+      "bytes": 9635,
+      "sha256": "258e29b39689c427fcdd690f4aef14b9c0582f67eec805b66c0047ec05717e1f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-30/spindex.0",
+      "bytes": 12989,
+      "sha256": "4668330af1a2ef496a3902414b47778c3e8f57e1d987ad821176d5accc25ee14"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-30/bulkstore_descriptor",
+      "bytes": 1678,
+      "sha256": "39d568147366c6cf2ced30e0a73c0908b22f8a03cba525ef99982aeefa37e781"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-30/schema.xml",
+      "bytes": 399,
+      "sha256": "73dd276d35a85fabcd46f2ef6838d035ef328df6f598d4f8e9b905855f2b731f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-53/spec.plist",
+      "bytes": 557,
+      "sha256": "8fafedcd1541a47e6f373226171b5f2dbdc9a01102f817c042f5ec1587e5be62"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-53/bulkstore",
+      "bytes": 50,
+      "sha256": "c4b2bc95c3d700934461bc3a4d2c7498d500c003c4cc91c0fec69eea148083d5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-53/bulkstore_descriptor",
+      "bytes": 2028,
+      "sha256": "5c887b851a393e8a963486d8b55a90c3bea4d255691fe1d559a4a7c7ea50762c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-53/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-54/spec.plist",
+      "bytes": 527,
+      "sha256": "276b16537a2408d9e7b5872d36da569d7bfdf5fa7b5c2d382f0192b0ee41a528"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-54/bulkstore",
+      "bytes": 5309,
+      "sha256": "ae91cb8c965a151c3cf46629b0639f83f3c95399cb8caeaa78e8cd5de6580fc2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-54/spindex.0",
+      "bytes": 215,
+      "sha256": "b84076a18e26bfc21b8b4ba6891d8ccf7cce16ab37828e3cfffd0e3e000b7a01"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-54/bulkstore_descriptor",
+      "bytes": 2034,
+      "sha256": "f3717e3f4b7fa8253a223cb6fad938760f539da6dfa73a0d6a7d51838ee07550"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-54/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-62/spec.plist",
+      "bytes": 503,
+      "sha256": "c09912cee959e3591987d244fe1215d839b428ee0538372ad086fff229ad2bd4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-62/bulkstore",
+      "bytes": 5757,
+      "sha256": "237d049bba60e46a79db5c878c3dce83b3124eb2811ba18b30c2f11af7141e37"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-62/spindex.0",
+      "bytes": 1077,
+      "sha256": "8afa20334dda5eabaff76447b80ded6f98af68b0e68854c26049fc94c453f2a5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-62/bulkstore_descriptor",
+      "bytes": 2034,
+      "sha256": "ba6afcc7fa4ccd113dbb300f680cd329495363298bcc59c9525a8b8df0a2e9d5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-62/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-65/spec.plist",
+      "bytes": 564,
+      "sha256": "d6bd8bd0b0081686f24de10a388599acbc7ca1fd2b1b485a9c6d338f8eddce58"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-65/bulkstore",
+      "bytes": 711044,
+      "sha256": "aabad22f786b7b78750628e78ec31754f65246be085cf2edc94249b619648fe5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-65/spindex.0",
+      "bytes": 1101787,
+      "sha256": "de4646c4b58e2a66b3b5c3fd0a5ce7406129362bc5ec12a43caac7d1bb7683c8"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-65/bulkstore_descriptor",
+      "bytes": 2033,
+      "sha256": "81d7f187e7f58b0f79eebef1af2ba7d500f2e32fa7d2c08a2d5bfe6b8c72e3d3"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-65/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-31/spec.plist",
+      "bytes": 546,
+      "sha256": "f3a36756ce39be33638a4a3d188d735f0ddab25fb7c894ae0e0444bed62d1ddd"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-31/bulkstore",
+      "bytes": 49,
+      "sha256": "48836cee49c33f15ac3c31cd707f6cc63b75b484eb95b25039964d6dea429f61"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-31/bulkstore_descriptor",
+      "bytes": 1614,
+      "sha256": "77445bd9bff9dc3607050c663d748e547e96edd6370a6128c14a344ce9e31a61"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-31/schema.xml",
+      "bytes": 351,
+      "sha256": "da1c1bd97c1a6b732b53aaa5007919fe7bb84a997bbde40d19b6366ab3075234"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-36/spec.plist",
+      "bytes": 497,
+      "sha256": "cfe27d89eff2687063b18b0e35043c3359892ae21067c7f0ded41964fcea5824"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-36/bulkstore",
+      "bytes": 88992,
+      "sha256": "ee4d2f86cdde24e80b036400235f34ab6a410f83cfa67791b30da5106180f92f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-36/spindex.0",
+      "bytes": 109823,
+      "sha256": "5d0c3ef23b3b339cb4849571c383ddeb31f087322ffe410ec283febb94bec870"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-36/bulkstore_descriptor",
+      "bytes": 2818,
+      "sha256": "853e017f77224f6ef14eca869fbae81c785cf21c8f54bcac408c353b0535bffd"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-36/schema.xml",
+      "bytes": 587,
+      "sha256": "0573284ca688a11571446504b4503b6795a701403932692b1258673afcf2c3c5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-38/spec.plist",
+      "bytes": 511,
+      "sha256": "68faa675d7223018a417512e636784ea8c0faf25488e37a464b5dc7ed835d899"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-38/bulkstore",
+      "bytes": 5276,
+      "sha256": "5db0815192d1fbfdf806439b6b0469b96564fbddc85b00a01920126a201925ce"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-38/spindex.0",
+      "bytes": 2638,
+      "sha256": "ad13e10d50f2e29a4cab93106827c57dfb78aa86d6eecf029641b15cc44f8dcb"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-38/bulkstore_descriptor",
+      "bytes": 1429,
+      "sha256": "222fd60f11f1968f8d075206465f803b0f8dd535186a32c7687f5bea3ec6ef6d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-38/schema.xml",
+      "bytes": 327,
+      "sha256": "eb6fd771440a098e561d54c1cf4c319f53f90847051f3b53e7de4d0964d5cb31"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-43/spec.plist",
+      "bytes": 391,
+      "sha256": "e1603925a708bb07ed70ba45f5264bc8c0f6481fffcf220d2acf7c10a813e0cb"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-43/bulkstore",
+      "bytes": 57920,
+      "sha256": "4a1f6dac74c7dc6c3b7af2c3c3eaddfddde6a3583de0aa0aa50a93b259abac88"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-43/spindex.0",
+      "bytes": 49535,
+      "sha256": "cba6b91b235b793c3467809c2e78a66578dfaa9b6aa76274e2499093fd50f52e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-43/bulkstore_descriptor",
+      "bytes": 1413,
+      "sha256": "91b91b148e9acfefe1fdc099a4791401f07551d7bc7c64abeb545bb214b50938"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-43/schema.xml",
+      "bytes": 330,
+      "sha256": "927ffbca235a8d8cfcf9beac4a8ea8875a9a7c51ddbc9eb21a90abfef909d715"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-44/spec.plist",
+      "bytes": 558,
+      "sha256": "ac8fc209a565dfbf74192163f45a1421d97e80b5ac004144ae7e11420c75fc9d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-44/bulkstore",
+      "bytes": 12532,
+      "sha256": "085255e6c1fbdc4d7780aa08becbaab4479d3bde3237f6995c6b8e2486f81645"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-44/spindex.0",
+      "bytes": 23192,
+      "sha256": "f1676b29ca3964dd5b0e234b6d9601f3fe81abddfd91250b3f1e25fa8892bcc8"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-44/bulkstore_descriptor",
+      "bytes": 1348,
+      "sha256": "eed18cf527a109c719e4295eb339e8aedfb191ca3373ff5b3d4fc5914806f5c2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-44/schema.xml",
+      "bytes": 265,
+      "sha256": "bf0e4ffad075d653a80cd15145c5bf8ea44e476834a50c1e3c7622357e47c1df"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-21/spec.plist",
+      "bytes": 449,
+      "sha256": "044d5005ebfbcfc92eb5c373306ec4ad20d4a32727ecc5ddd1ea744f98a0b04a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-21/bulkstore",
+      "bytes": 1404,
+      "sha256": "4906495d7e48a6d9a9f3ed8c6c2486a30b3caaaf0c801c98a9f86a568f818600"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-21/spindex.0",
+      "bytes": 895,
+      "sha256": "6d45fa8ec2a8f784419a70fefe9c52ce769be2e3348b4f1a104e9900a85a1ca7"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-21/bulkstore_descriptor",
+      "bytes": 1078,
+      "sha256": "6acc47198449db287a727680be7b6a7f51ecd8d226f0760b298e1bd4fd8a1b60"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-21/schema.xml",
+      "bytes": 351,
+      "sha256": "014009df985a50a5a1f44a440177f98bb1d36b584aa99e29ba47e35ec033a642"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-26/spec.plist",
+      "bytes": 614,
+      "sha256": "1208ffa91e524ba3bcaa4658605b7098ad4a1d24832321079c9af7d680844169"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-26/bulkstore",
+      "bytes": 50,
+      "sha256": "be3f9541e9f3c5d70efd91b6233e6f13da13bb844ecea553d3632bcd792a6f3c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-26/bulkstore_descriptor",
+      "bytes": 1979,
+      "sha256": "9d94d35bfd6a40433b4eb87fe29102ccc5449f1f5d94de26e287411a78e5dc96"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-26/schema.xml",
+      "bytes": 494,
+      "sha256": "8682483bd7bc569bc1829fdf222cd726071949f8bf40564b83bf817efe80cbe8"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-19/spec.plist",
+      "bytes": 449,
+      "sha256": "c68eef08df91c78a525036fa210bc398e58db400e0447b3b78e4dffa8ee7da15"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-19/bulkstore",
+      "bytes": 4056,
+      "sha256": "969532d3a7249b9e2744783ba0a6e79dc815ee794c7d3d988b96f4c4dba45725"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-19/spindex.0",
+      "bytes": 6864,
+      "sha256": "1253c2eb943555f8a2d89e31e61d96a9f31e6e226ee12534cf0e474d32448799"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-19/bulkstore_descriptor",
+      "bytes": 1079,
+      "sha256": "9d5f10a612226b38d99bf92caf19e6461bd15368bf199274f1aeefb79f943fef"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-19/schema.xml",
+      "bytes": 351,
+      "sha256": "014009df985a50a5a1f44a440177f98bb1d36b584aa99e29ba47e35ec033a642"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-10/spec.plist",
+      "bytes": 460,
+      "sha256": "18fbb47bc7cf8d1e71a645d11b6fd9565ac027c9f442542df48d96112f15d8f2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-10/bulkstore",
+      "bytes": 50,
+      "sha256": "aaa4b1d47104646c44949c99648127b7f0b91d22b2d8a96067f52346410f3b51"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-10/bulkstore_descriptor",
+      "bytes": 1995,
+      "sha256": "53521c419ff9821067ad92201670f3d362fe056f02337b942252bc5e4de6a7ff"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-10/schema.xml",
+      "bytes": 437,
+      "sha256": "ab923e6a6764fcd1a6a4d0b399b1a2c94f627c11d8053a17ea318fd73fce863a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-17/spec.plist",
+      "bytes": 521,
+      "sha256": "31cf9b21bbc004bf0899f368f2aa9d6ff49816fdf59b893432d32f0de334a43d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-17/bulkstore",
+      "bytes": 11867,
+      "sha256": "eb4c74f6028b793c8008f970a8ccce6966dbc396bd5b4a86b2ae1d3608f8f3f8"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-17/spindex.0",
+      "bytes": 7183,
+      "sha256": "293ae2c5b58c31d68d0de9f756eaa281f3f50ea9f0009f9d6775a49192b9611e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-17/bulkstore_descriptor",
+      "bytes": 1297,
+      "sha256": "f3914d56da925e5f48fc9d333f21aace7a5b0d4ff5260bb3262d981df17d4775"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-17/schema.xml",
+      "bytes": 282,
+      "sha256": "78f96e169633132a5f3fd5fff40c98f1aa2d684d1f64449813a976dcabe4394c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-28/spec.plist",
+      "bytes": 421,
+      "sha256": "87d18c8b87966d7be88108298b0e3919ae98ac3c2b602adbaa691238ee6d24ce"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-28/bulkstore",
+      "bytes": 803440,
+      "sha256": "c1f46c1fbb535552e5dc308e9eae2c1e6bf411a405d559551d9b1e2e9721db8d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-28/spindex.0",
+      "bytes": 878849,
+      "sha256": "394e271fdd3cd7112ae14eee1b8aaf1775e8ca3c994ab4ba24367643a79070b1"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-28/bulkstore_descriptor",
+      "bytes": 2022,
+      "sha256": "bb552c27df6a5f23a4fd0f55067b7d5423995fc5c090380cede1346807326a40"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-28/schema.xml",
+      "bytes": 496,
+      "sha256": "d99c52c6086056eca739ed7542782178f166de4f1be898a4a16c19602e798cc1"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-45/spec.plist",
+      "bytes": 603,
+      "sha256": "0fa9f35c876aeb66ae734b9bf60cf1ac3998f0f44e7b2f70b86af40fadd50585"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-45/bulkstore",
+      "bytes": 11351,
+      "sha256": "cbae298a8c850537551bd95568a68da25a3a808f397c3a0a1f8acfc1e70b1a73"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-45/spindex.0",
+      "bytes": 14583,
+      "sha256": "24c198094dd61f056036135ffa03e58111344e863d769551163935af2cd1720a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-45/bulkstore_descriptor",
+      "bytes": 1439,
+      "sha256": "dfaf465c04105a38788ad06aff4a626bb517f60ab0fc5b41137b8fc62a4e0788"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-45/schema.xml",
+      "bytes": 355,
+      "sha256": "7dcc8bd1c0b9b0369f78ed9729cd1d3fd05950c33f841ab611aec7b33dbec9f5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-42/spec.plist",
+      "bytes": 505,
+      "sha256": "b7849c5dce925187258a87f412f8dcb1331cf53815c05e35b05ad1fc971f5e67"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-42/bulkstore",
+      "bytes": 47,
+      "sha256": "de61dc3d74ec1b31a40c8e634ead79efb5d65421536daa1888686d6ac56cf0e5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-42/bulkstore_descriptor",
+      "bytes": 1749,
+      "sha256": "e9be5f2a8fa07f9312d6328a7907298c196cacbd1b8d68d2b5f23f3f0d07e267"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-42/schema.xml",
+      "bytes": 436,
+      "sha256": "56851457678caa0d4c659cf7045ef72eb112d55610dd54d0ac1e597a823b81fb"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-16/spec.plist",
+      "bytes": 548,
+      "sha256": "08f3d6d0ba0d219273d88ba1273b565f246c6585169a3d3880fa02ddeb8446dc"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-16/bulkstore",
+      "bytes": 123242,
+      "sha256": "3be47272b1de0fdc330ab484d02ab9d411b1466610fb2f82cd64f6ae5f94be0e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-16/spindex.0",
+      "bytes": 118007,
+      "sha256": "f7a4f07a37287589f7bc78c518df53d3895d96c0c9e737f4426399672e5d8811"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-16/bulkstore_descriptor",
+      "bytes": 1968,
+      "sha256": "2cda88e8997dea03597b511d51db9cc9b99c0b3a11ea810846f0b6fa2728bb68"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-16/schema.xml",
+      "bytes": 416,
+      "sha256": "46819eb4ff0009a17f261e698f57b6048987aae964dc17b39a7132cccacce8f4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-29/spec.plist",
+      "bytes": 530,
+      "sha256": "4a40ff3087881f86c0525ea6689ff2931767ae65efb09408025ebb9b494a5f46"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-29/bulkstore",
+      "bytes": 49,
+      "sha256": "806d3adc6fc56e7e2e2180005d69f403856e29fab08c1fbecd0854bc0432d505"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-29/bulkstore_descriptor",
+      "bytes": 1674,
+      "sha256": "3bbd6ca14554859bb4a8967e95baae80f3116257d55065e28a2e0f16f2b27c85"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-29/schema.xml",
+      "bytes": 399,
+      "sha256": "73dd276d35a85fabcd46f2ef6838d035ef328df6f598d4f8e9b905855f2b731f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-11/spec.plist",
+      "bytes": 543,
+      "sha256": "c09e8dc493236ac82c6d75bf34a3049b3cebca6d2cbd5c70ca468d67ac7444d9"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-11/bulkstore",
+      "bytes": 1467,
+      "sha256": "53b319ef0693640ba27ec75f35159bb40840e4e799366bd558a1ae94dd7ea310"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-11/spindex.0",
+      "bytes": 251,
+      "sha256": "f18797d4b55890567153579db5ab63a5ba989aa8d6ef65662fa8f14009e2e50d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-11/bulkstore_descriptor",
+      "bytes": 1147,
+      "sha256": "f20f5d2a193c2286b7d54a59df8cb01dc827c3f9cc191141462ed15dd8c5eeb2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-11/schema.xml",
+      "bytes": 218,
+      "sha256": "afe799d478b45f0b79e2e55f711c9abe3f304d479a5fead8833462cea3795a60"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-27/spec.plist",
+      "bytes": 506,
+      "sha256": "10618ab9e08701d33a7f1090284d3fade029cc90997a99fc40cfba6141a11b9f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-27/bulkstore",
+      "bytes": 17609,
+      "sha256": "8b0eed9409b2f9435fb19f9e5f0b1540afe9141cca5acf017cd327933badd70d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-27/spindex.0",
+      "bytes": 26836,
+      "sha256": "6aeadb49b30a328b9772433c2ab54a2864edd391b17ba314da546059dd9f512d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-27/bulkstore_descriptor",
+      "bytes": 1366,
+      "sha256": "47d82511e0fb7aa7346d270a09654ca77901d3018d31c007d5e65ba386049fef"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-27/schema.xml",
+      "bytes": 301,
+      "sha256": "e1cc7dce73f916c9c5ad0ebddde05d401b1419c074778330aaa515dda18751f4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-18/spec.plist",
+      "bytes": 581,
+      "sha256": "29dc20634913daf63f7cf9981f874c016c1899ea4b65e4d4a0a5af45403b802b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-18/bulkstore",
+      "bytes": 11546,
+      "sha256": "414a2787f1918feb816c7b21a483dfc324b2c1821d6220dc93f05958d372c801"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-18/spindex.0",
+      "bytes": 14518,
+      "sha256": "148c899ca84d171a3414fcadcce9d6084c6a7a749bb0477b56ce09c842914d8a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-18/bulkstore_descriptor",
+      "bytes": 1422,
+      "sha256": "976bc1cc2e3ab877fd06b446a234803a5a4fb3c143984672247bb2eb8c5acf92"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-18/schema.xml",
+      "bytes": 387,
+      "sha256": "5518c0c96c0f4cd164cd46ddc5e0ebe0222033d7a0c57e1a1f12d7c56145a16d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-20/spec.plist",
+      "bytes": 448,
+      "sha256": "f7214f1c3ed3487ba7048bbe605cb7ece9fce905b75a0a9b08242c2c0c402bc6"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-20/bulkstore",
+      "bytes": 1118,
+      "sha256": "c8975b52bab19bb834360e850fde52d60036cbb30b5186d49362448861a5436b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-20/spindex.0",
+      "bytes": 159,
+      "sha256": "0362d1660b8f28f9a26ad43cebfd36ae5bf14aa235a9f95b19d778b5a7be1a0a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-20/bulkstore_descriptor",
+      "bytes": 1078,
+      "sha256": "8c4c1c48c920164efc6d942f3c9cd37defd38eff91f4b83bee5374e9e86f5361"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-20/schema.xml",
+      "bytes": 351,
+      "sha256": "014009df985a50a5a1f44a440177f98bb1d36b584aa99e29ba47e35ec033a642"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-8/spec.plist",
+      "bytes": 390,
+      "sha256": "70516c68fae18cace10236faa456c1175658858c72889c184432c9479d2eecfe"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-8/bulkstore",
+      "bytes": 9515,
+      "sha256": "4189e9a15e46e57c343ecbe55dbdd30402cfa0e0c79ca97635654725e43988b2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-8/spindex.0",
+      "bytes": 7865,
+      "sha256": "fb09f80d15ebfbb39cf96c0ff9bb17a7c2f0b3207fdcf0c7970445389766923a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-8/bulkstore_descriptor",
+      "bytes": 1286,
+      "sha256": "f89c711b1b48da2b77433040502862aa3e4bc688025ad002c118cc52171ab0cd"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-8/schema.xml",
+      "bytes": 315,
+      "sha256": "571aac4a2d180181e01ba213cca4342deaacab1ee1ff39bfd50b62a1d746297d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-1/spec.plist",
+      "bytes": 409,
+      "sha256": "21526240d6c3e3a907910b03e55b93f899149726faac16897a3e5bfb2503118b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-1/bulkstore",
+      "bytes": 3122,
+      "sha256": "35014956bb108a2c2a10cf10a3fa8360abf1e818ff8a4b9937ff1c1e5e2385f4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-1/spindex.0",
+      "bytes": 85,
+      "sha256": "25ba197520ff092efa48fc842280f3bf45febcf2f013514efb599d3eaaa9bc4d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-1/bulkstore_descriptor",
+      "bytes": 1439,
+      "sha256": "8f149d634d5f9a196b0639be15888e527283dea820f2198531c0eec50b3f00ee"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-1/schema.xml",
+      "bytes": 355,
+      "sha256": "ad87176bda621672716d9c2c79e782d57b7c3bae48206467bc823522f8e27ad4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-6/spec.plist",
+      "bytes": 455,
+      "sha256": "7b69b2cf5eb35d2bbfccca43bda10181c0398183e32092d5825b4e2054e309d2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-6/bulkstore",
+      "bytes": 49,
+      "sha256": "4431ec7c1ea8adee8113815385eb755cf3e873e86cdad904ba8f001dffa0de66"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-6/bulkstore_descriptor",
+      "bytes": 1285,
+      "sha256": "7671fb90207eb0c760fe6b5eff5d5950399e4d26a100319a6f4c9a92b61b2cc1"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-6/schema.xml",
+      "bytes": 268,
+      "sha256": "d29291c260b62086190d778555d3dee1bc4b46688bfef73a46ea2cf9a96d3afb"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-7/spec.plist",
+      "bytes": 459,
+      "sha256": "a1457180d0120d2f54a4114c138eacfb91f1f68904dbb03b5962ee9af6925a5f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-7/bulkstore",
+      "bytes": 49,
+      "sha256": "4431ec7c1ea8adee8113815385eb755cf3e873e86cdad904ba8f001dffa0de66"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-7/bulkstore_descriptor",
+      "bytes": 1415,
+      "sha256": "f9fcf77b5090fccc4f0c4adffb4db84e78fb19e0a99ad3acfd1a56b5c6a3465f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-7/schema.xml",
+      "bytes": 334,
+      "sha256": "2531ef61a5ec02c79b8508e353dc42091b9296557cca003419edfe4194ad8cf9"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-0/spec.plist",
+      "bytes": 455,
+      "sha256": "f60e4c51ab94def9dbaa74e28820ba4bdfe01df1509738868fad20080d8d0371"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-0/bulkstore",
+      "bytes": 7988140,
+      "sha256": "2596550cec83d058053ad77c8e02307c165e13acd77b2cc68db61b5150ed1269"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-0/spindex.0",
+      "bytes": 16396357,
+      "sha256": "436f3efa758fd5dafabf6613eee33127ffff6242810a8b7c635118847e3856ce"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-0/bulkstore_descriptor",
+      "bytes": 1285,
+      "sha256": "2f82167aa4ac0540342b17e1ff19f9d8519a470e6cd358462c00306b0929eef5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-0/schema.xml",
+      "bytes": 360,
+      "sha256": "10eb92a2bbe22678e850a58704069f08d27f9330474eed13011e8c2a369d82ff"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-9/spec.plist",
+      "bytes": 426,
+      "sha256": "3d8f9538aa99a3af9a47a39acb1c61f6febf142994d6307c63c73e79cc6f7904"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-9/bulkstore",
+      "bytes": 16959,
+      "sha256": "a2baccfff8e96059a2c09a078adf89d119dc253c858e581a3ed07be9fd5af5a5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-9/spindex.0",
+      "bytes": 50112,
+      "sha256": "0687c1bee79a3a69efbe2d426aadae8d025c25ae8e749c3ac30a1f8587cc6c42"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-9/bulkstore_descriptor",
+      "bytes": 1224,
+      "sha256": "651d412b5059ed2447549c4627c8bc1160d4979bf5be17da112014897bb3d22c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-9/schema.xml",
+      "bytes": 308,
+      "sha256": "307b86017d0bec50c17504e471b9c5b0852ec74fce741b72089447cad303fc7f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-33/spec.plist",
+      "bytes": 592,
+      "sha256": "db768678801bcb1d647c3f9d3db72ca3b81ba9a4ed9f6718d0bc9d49c11ab12f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-33/bulkstore",
+      "bytes": 50,
+      "sha256": "fad053ab9be24f150fffd04f9f9c10e3753c256b7f2d5f9ef9cdd5e68812dbe9"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-33/bulkstore_descriptor",
+      "bytes": 2215,
+      "sha256": "2d491c0cfa222d54bc9cbf0905f9560fa4f3b05b5d4ddce2214a672584af6655"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-33/schema.xml",
+      "bytes": 488,
+      "sha256": "f2df8f8753d6b2dd048e74a1fdc2750544257d39b3f86c712360eff6eb2cd328"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-34/spec.plist",
+      "bytes": 424,
+      "sha256": "bdc81c619ca712580c4beaa936132ae0d8c606d5d3d6ab9f681b523e454f1795"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-34/bulkstore",
+      "bytes": 303830,
+      "sha256": "df4d83042dcd646e614995dd316e516263d23e12602fe7b0795d2faf9ce4823b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-34/spindex.0",
+      "bytes": 689652,
+      "sha256": "b2f73afb19049d8c9a25a68e48b0e35b3c3bacee8bc30244ff3411b81c9e52e3"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-34/bulkstore_descriptor",
+      "bytes": 1416,
+      "sha256": "f88384df6a198a12d289408733b6e3dd9f6d85f15cf8f99b66867159f01900a7"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-34/schema.xml",
+      "bytes": 348,
+      "sha256": "4c652b7d4d4f838955c3f17787b1be6c038c7297c5c7dfff6ccb6f3c0c4ead8c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-60/spec.plist",
+      "bytes": 557,
+      "sha256": "2fa70a138323fad409a05fd454c0f2a9cf04a8175452294ccea3d6e6de71b021"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-60/bulkstore",
+      "bytes": 42654,
+      "sha256": "04fbf1135adb907148ad5a8926a3eb41eeeaf628bd223a0f85450deb57d88c96"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-60/spindex.0",
+      "bytes": 75549,
+      "sha256": "15547105efaf7a1af577bba67e7298c7bb438bc0ec6fd36b77dbcfce10bd87c7"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-60/bulkstore_descriptor",
+      "bytes": 2035,
+      "sha256": "75ad21fa48b21a3cfb5f715f121df67f69e009840ec96d19c15ccb183412b97f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-60/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-67/spec.plist",
+      "bytes": 556,
+      "sha256": "17def02723ef4954ed34b11f0b2662a52503e485d5a084e2f98688b21f2eca59"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-67/bulkstore",
+      "bytes": 5704,
+      "sha256": "ba80bb1467abcfcb2d7bd6296d3a3e8d29cc88bd55bf9f95926b543c5cebb196"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-67/spindex.0",
+      "bytes": 750,
+      "sha256": "78d1395f355fbb5859f95a4e3f9fcbf16477c3806e8f369e9b708ef37d7c43cc"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-67/bulkstore_descriptor",
+      "bytes": 2034,
+      "sha256": "414357e2178e0a4cafdb14ac597ee71e13ea2c8081360adc3bb8a9cf7e73cb47"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-67/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-58/spec.plist",
+      "bytes": 527,
+      "sha256": "4e3413755cd9b65dc9c375877023a3316b53399ffcba34088298609959b258d7"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-58/bulkstore",
+      "bytes": 50,
+      "sha256": "c4b2bc95c3d700934461bc3a4d2c7498d500c003c4cc91c0fec69eea148083d5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-58/bulkstore_descriptor",
+      "bytes": 2028,
+      "sha256": "5c887b851a393e8a963486d8b55a90c3bea4d255691fe1d559a4a7c7ea50762c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-58/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-51/spec.plist",
+      "bytes": 527,
+      "sha256": "051309c4f916fa5d460ad6da6f3ae92a2e1c6757eb5f97d0a6b3e84786375311"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-51/bulkstore",
+      "bytes": 13705,
+      "sha256": "12baee5f3a48f77d3a256dcd965092807f1620b8f8dba5b82521fd7b692833af"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-51/spindex.0",
+      "bytes": 9494,
+      "sha256": "56130dd227019ea2745e6c306613582043a3098037a608513457e92992d36d06"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-51/bulkstore_descriptor",
+      "bytes": 2035,
+      "sha256": "5564701de376464e6eab23465d963e828d846c86328f01089b9d8e605ee5c685"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-51/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-56/spec.plist",
+      "bytes": 526,
+      "sha256": "22edb868d06788a28763bab9c3340c4c48a9c6b43a17b5dd2c82d3cf6a1f9245"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-56/bulkstore",
+      "bytes": 50,
+      "sha256": "c4b2bc95c3d700934461bc3a4d2c7498d500c003c4cc91c0fec69eea148083d5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-56/bulkstore_descriptor",
+      "bytes": 2028,
+      "sha256": "5c887b851a393e8a963486d8b55a90c3bea4d255691fe1d559a4a7c7ea50762c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-56/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-69/spec.plist",
+      "bytes": 571,
+      "sha256": "c001a673e4a61a476cc36afe9835fbc89dc22e9d9f123360bd932f9c1ab38bdf"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-69/bulkstore",
+      "bytes": 88381,
+      "sha256": "07f60f40e0b50401b8bb76cf28a0c70204808e55083fdf29bba6ca76cb3f914d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-69/spindex.0",
+      "bytes": 183884,
+      "sha256": "ad8efbf21b104d31f805b016bf20261caab7a4a65a4b48f89135060e865a0e8b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-69/bulkstore_descriptor",
+      "bytes": 2035,
+      "sha256": "1a15c60873665f05d6ec6fbb822c9a076fce9936120edb338eaf8ac165e1a5d1"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-69/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-35/spec.plist",
+      "bytes": 429,
+      "sha256": "8d419db660c4ee59e058e27156627f172d7b3ecb5a82af69708446ae49e9d9a0"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-35/bulkstore",
+      "bytes": 50,
+      "sha256": "1c634713f7ecf6c91ed0ff0c71f397f9ed71935eefdc96149fd8fcc6eaf43b32"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-35/bulkstore_descriptor",
+      "bytes": 1840,
+      "sha256": "7ac545558bc63730814473631af35793434fd230fcaa0e867e220bffcb28e743"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-35/schema.xml",
+      "bytes": 404,
+      "sha256": "ea18d628c2b8185f0457a430df841b416f727ec0b3cfe0410aadf2fcc061f70b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-32/spec.plist",
+      "bytes": 387,
+      "sha256": "51f6fc22a0938113370271e51dbb4d5ffdabbc20da3e58291181493d1520d232"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-32/bulkstore",
+      "bytes": 2237241,
+      "sha256": "4825f79cd1cc5cd3e518f877da8106110a27ea6d1e9fc9607907d6ae6b0e2459"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-32/spindex.0",
+      "bytes": 4714193,
+      "sha256": "9c505a427e2fcc6a344685976494b27be48c965b8efcf8c0c265557c0a9529fd"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-32/bulkstore_descriptor",
+      "bytes": 1220,
+      "sha256": "7e5c54500d48bb98402047ea55d34a2a314ddc1dd1aeceac15096c5763bca4ea"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-32/schema.xml",
+      "bytes": 368,
+      "sha256": "5757169a327aadc2c404667a38f855b761aa29795fc45db428155d756e53011c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-57/spec.plist",
+      "bytes": 527,
+      "sha256": "c7fda7082f002ca7f140676b6d3b8f6acdfc9d33fdfdbc42d6877e382776f7d5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-57/bulkstore",
+      "bytes": 50,
+      "sha256": "c4b2bc95c3d700934461bc3a4d2c7498d500c003c4cc91c0fec69eea148083d5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-57/bulkstore_descriptor",
+      "bytes": 2028,
+      "sha256": "5c887b851a393e8a963486d8b55a90c3bea4d255691fe1d559a4a7c7ea50762c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-57/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-68/spec.plist",
+      "bytes": 543,
+      "sha256": "ba53365edb448193a64fb9100755603682852664921961c5e71e3e1738765849"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-68/bulkstore",
+      "bytes": 21418,
+      "sha256": "b1b95f2e38cd676b8bbdbda58cbb9c465c0ccc974a1c78038729b11a1780342f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-68/spindex.0",
+      "bytes": 10265,
+      "sha256": "6b97f4e65ae6395e0b768088a89d29b613221adfca4a5e6a6483a0266242d66b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-68/bulkstore_descriptor",
+      "bytes": 2034,
+      "sha256": "4d7ec061db3c000387ba36cb2db51f8d709c215fd5ab5eef7b67c21c43bbd9c4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-68/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-50/spec.plist",
+      "bytes": 575,
+      "sha256": "4fbddf73d75bdda13752107dcf0eee3a79597fdcb8be55215df37d83d31d6404"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-50/bulkstore",
+      "bytes": 106659,
+      "sha256": "b7754d6804d499b6820dd09dbde2752d82bc4b2a1dc08763f10b65c82d797ade"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-50/spindex.0",
+      "bytes": 164752,
+      "sha256": "4a2348e7a322fb956b014b2fad4d5940199d8931ab1219bc94db0282492284ea"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-50/bulkstore_descriptor",
+      "bytes": 2035,
+      "sha256": "f9a1305bdfb9ac406c9970f96872f07a6e7b64909cde52877790a1989c5a2b13"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-50/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-66/spec.plist",
+      "bytes": 558,
+      "sha256": "1ca88b22d899ade34b2a4fe44dd99a4b54af93d35976dba7351f25262e217ef3"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-66/bulkstore",
+      "bytes": 902789,
+      "sha256": "35b35ad86fcffc98d5ef68325c7ab3b2b884ae8d78d61ed1d60b266b83ecf352"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-66/spindex.0",
+      "bytes": 1341238,
+      "sha256": "94bbd1853878445d7f8afbc5a5d644a5a512fd5cd58c527b5e98e36b93dfcbde"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-66/bulkstore_descriptor",
+      "bytes": 2034,
+      "sha256": "7d640d54d300e565ed48e07182386bae07dd08116e6a34d387bdc9b36d2f1460"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-66/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-59/spec.plist",
+      "bytes": 565,
+      "sha256": "462f5167e699b788f11ac16bb285c6ae586af829b226bb73f6c638ea3c47e031"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-59/bulkstore",
+      "bytes": 23640,
+      "sha256": "a5cad803974e2a01656d1b7f373d3761276e841fe4b1ed63c10f43b46f290030"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-59/spindex.0",
+      "bytes": 19554,
+      "sha256": "a7be7b7a3e5c25dad1f8c46a38e300d8f863c6f1566d3691c2b6138bd3da874e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-59/bulkstore_descriptor",
+      "bytes": 2035,
+      "sha256": "941ee30df348630ea3a07f28516cf94d594dbb72ddcb9186343b468d97214ab2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-59/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-61/spec.plist",
+      "bytes": 525,
+      "sha256": "671f3c9160400c8262e734e322fc150f68a667bbff7c01f1cc8c99423b6a6daf"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-61/bulkstore",
+      "bytes": 50,
+      "sha256": "c4b2bc95c3d700934461bc3a4d2c7498d500c003c4cc91c0fec69eea148083d5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-61/bulkstore_descriptor",
+      "bytes": 2028,
+      "sha256": "5c887b851a393e8a963486d8b55a90c3bea4d255691fe1d559a4a7c7ea50762c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/stores/indexed-store-61/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/uniquing/typedArrayUniquer/integeruniquer.index",
+      "bytes": 79343,
+      "sha256": "c40b58740efea784ff8990c657372213c3fc931ef2431f296b936b0be157e860"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/uniquing/typedArrayUniquer/integeruniquer.data",
+      "bytes": 279149,
+      "sha256": "dba091f2ff9b8ffe9b5ef2e3235571b8ec324a66a88cd8a87cc04fdef16cd1b1"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/uniquing/arrayUniquer/integeruniquer.index",
+      "bytes": 45473,
+      "sha256": "fecdb28cf6b16d503c1b98b79d93127c2cb8e78d4845d6ab15542fae12669e8f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/run1/core/uniquing/arrayUniquer/integeruniquer.data",
+      "bytes": 173391,
+      "sha256": "21d57a157c0bb5b9b44e14c9a698c6e85577f0bc9f6461f32740c979a4dd2fb8"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/currentRun/core/uniquing/typedArrayUniquer/integeruniquer.index",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/currentRun/core/uniquing/typedArrayUniquer/integeruniquer.data",
+      "bytes": 101947,
+      "sha256": "7ec09fb365c9a3c7455ab6cf59fb45b1ebf7d6dc9962114d87341f38700af6d6"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/currentRun/core/uniquing/arrayUniquer/integeruniquer.index",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/corespace/currentRun/core/uniquing/arrayUniquer/integeruniquer.data",
+      "bytes": 101947,
+      "sha256": "7ec09fb365c9a3c7455ab6cf59fb45b1ebf7d6dc9962114d87341f38700af6d6"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/1C7E652B-6B94-3180-93A6-EF8DBA3A5448.symbolsarchive",
+      "bytes": 3284,
+      "sha256": "192da1bcb4a6178c2f4ad97be56802b38c7cf8bf4d54c93e4877f464f893c902"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/D13AB14D-2B45-34D0-86DE-38DF75BF48E5.symbolsarchive",
+      "bytes": 30541,
+      "sha256": "b3f7a983bbbcaab356b7319a4c0152df7af5663cca5c0b2205097e9ee2cf42ab"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/8CABDD64-E6C6-3B77-B839-2E2B875CE0FE.symbolsarchive",
+      "bytes": 1102,
+      "sha256": "6ebcaa5f158b3799b3e502d83e48dc7ce8601d16da83ea0e68b2c41cbc06c778"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/DC26AFB1-EFAD-3BB8-9446-0FB18DDFE476.symbolsarchive",
+      "bytes": 7755,
+      "sha256": "64ab006cd3ec581f8a4b7da55b2510fad60ef20b4f199939bd5d79e3cb642f2e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/B0A62AD1-78DA-3A6F-A23A-BE1DC54C19F8.symbolsarchive",
+      "bytes": 3259,
+      "sha256": "25aff20ecc844558933d059a10c8f0f538be8ab87e4a5d672e866f265944529e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/4C851329-A9F4-3E9E-9E48-07FF4120DCF9.symbolsarchive",
+      "bytes": 2619,
+      "sha256": "6fce0627b44e6ad196f197148a9eae4f48ebd776bf57d9327de6b058ee4c713a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/D4ACD2AC-5702-3C45-85A0-300B2C2D19E1.symbolsarchive",
+      "bytes": 1884,
+      "sha256": "d286e726c7615998e0600ecbb299e7b5fbbe8c44ca7f1dbcc1bc10f19bfa683d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/B54FBE99-DB0B-32C7-ABDD-C2206DF606A4.symbolsarchive",
+      "bytes": 1193,
+      "sha256": "f24b2fc74da5b78a79d693e342e38d707fd0b8189b9cc4de0471dd171c1d871f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/91DACE39-FA28-3191-818D-1FCC6A0E615A.symbolsarchive",
+      "bytes": 16173,
+      "sha256": "1e76cddfd9a2e7039b29838f68d30d1cdf36d8e452b5637c8fd467d2b4b3bd9d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/9D0387FC-E8F6-3004-9C95-CA68EA715C8B.symbolsarchive",
+      "bytes": 7365,
+      "sha256": "a521ea62661fdffdcf373b08d4d185e9b8847138ecc073ba817b82af9d80962c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/9B5FB84B-31AD-3EA7-8F89-8C700D369DC8.symbolsarchive",
+      "bytes": 2457,
+      "sha256": "ecdcfd3ca9fb7c0b4959b1827494ff2ec073ccdd2154cddfac1a920c56bb724f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/AD0B0769-76D4-3613-BAE4-DBBBE05F7E3E.symbolsarchive",
+      "bytes": 9441,
+      "sha256": "8ebfbabe1f564bbc982fc3057f2a7b1b56ee3a1e56524b09ec16037419f0b316"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/C4EF9A70-A6B4-3F21-B3D8-A0C740406419.symbolsarchive",
+      "bytes": 4963,
+      "sha256": "d424ac470c614594e09b5640561e0530ffb8dfc4d9c44156b8d715232e5595c0"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/0C7397C6-D747-31F2-8BC1-4096213BDE5C.symbolsarchive",
+      "bytes": 1072,
+      "sha256": "6b712f13b2295ea6f3de98da46b4bf6a713ff99060b223bb8eb193af43c82c84"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/FEE12F9C-344B-33B3-8EDD-283580EF1C67.symbolsarchive",
+      "bytes": 1131,
+      "sha256": "4f03f4f50887f86aea78d2d507356cffd5a3aa30ccb3622cb5f19e29db3e535b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/A373F0B0-9880-326A-88B4-DD8BE4E33072.symbolsarchive",
+      "bytes": 3254,
+      "sha256": "ba5f2b10605370e559a608f6e1c07bc8759e66f0dba835eae7aaec4395bf9b79"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/7C923545-F3BB-3215-9720-85196358D9F1.symbolsarchive",
+      "bytes": 2196,
+      "sha256": "df545f45ecba066f3a9afdb31e57c00597aaa7a986fd1e47038c200cbcb0bd0e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/B67E4205-32B5-3FF3-9FB5-9186C0B32A90.symbolsarchive",
+      "bytes": 2848,
+      "sha256": "8257ee9d4655c9ccb88a2c918d212ac1939847ceeeaa054b951bad39e45e3600"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/33E44C2D-D65E-37A6-B85F-1A4CF524A050.symbolsarchive",
+      "bytes": 7560,
+      "sha256": "571ddcb03eb43e67c7f7ceecb7df8abd7d4a61cfae10fc191cb6ab3ad6af6608"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/F38A9C58-22AB-3798-BBAE-8DCD9CC0CE27.symbolsarchive",
+      "bytes": 2238,
+      "sha256": "25ca6426b5872716b0e70b7dd38b1cc0bd178597e4e6a3de05bec21042d1c35d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/D8E7E31A-7D3E-3742-A3EE-469C6237FAF4.symbolsarchive",
+      "bytes": 2177,
+      "sha256": "2e3ba73452c1d0dd512247a07f1e3311cfe99b1aa6ce192ac68e97a6b5805359"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/465A74BC-F20D-3C05-9441-7E08EAA49FAF.symbolsarchive",
+      "bytes": 1621,
+      "sha256": "d56b44ab95a10e50f6a5481d085d72d191f6b74c82d3b32524e4dbdf9a95cdc7"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/03BD9E32-CF0A-37B0-898A-3CE8DE06D842.symbolsarchive",
+      "bytes": 8299,
+      "sha256": "44b93b23a4ce69652619e517b7031ddfacbbd7ca1df49a9e1a71fde5c932ba89"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/75F77FEC-BE14-3C97-93DA-403C3B529D3B.symbolsarchive",
+      "bytes": 3110,
+      "sha256": "6b89a292d0a63b369bdda468bbc620b1b816c9dd97b4225e2b5f99657b8b89cd"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/ECABC024-8F02-374A-BB7E-29437CEA2ABD.symbolsarchive",
+      "bytes": 898,
+      "sha256": "74f85fb52722115560f40a7d9efac5a657ca7f546d3d9494f38787e310d539b5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/957F93B3-8805-39C7-9C51-EDD1715F550E.symbolsarchive",
+      "bytes": 2478,
+      "sha256": "d79abe7c4de6fc5836a69b0f937b39a2295115f014bf32eeffa7674bffa575bc"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/63A6BBA0-CD50-30F8-9CD2-81B59264EA13.symbolsarchive",
+      "bytes": 2035,
+      "sha256": "a9c5d440df67ed5942a109178edb4161523f0d0251c23a9e48b0a7e8a7b7e9cd"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/4109E8DD-0A81-310C-B1B3-23B87186D0D8.symbolsarchive",
+      "bytes": 650,
+      "sha256": "4ec80e9e7670bd0d21aee286b840be4a0fd0363fde24b6d36a5a0f77e432568f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/83794FB3-DE9B-3D23-AB5E-2C1D5D30F134.symbolsarchive",
+      "bytes": 18924,
+      "sha256": "39c053217946ca4afb04711de0e01f55ec2e07b876fdefafa2cccf61078dea25"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/05FD0014-55B1-3B8A-A6BA-6C7A389C4123.symbolsarchive",
+      "bytes": 1068,
+      "sha256": "42d89a7124b701b0e06ee85dd1bf0091bc9adc575d110304e3806d7707fd9c01"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/D614ADAF-EEDD-3492-AEEB-7D03558D419C.symbolsarchive",
+      "bytes": 2418,
+      "sha256": "5cde557eaf38c1a165ad2e85d6f59485fc55eebe6b0873eb247c5b05aa319ed2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/38C8FBEC-DE88-33FE-B742-A192F22CC754.symbolsarchive",
+      "bytes": 3944,
+      "sha256": "548c78d1b9bcf5cb44e82f6baefe4654d70d19f6ea936e57f10060e42cf254d4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/B2000CD5-F580-314A-A141-E036719D854E.symbolsarchive",
+      "bytes": 11416,
+      "sha256": "7e2d76356e00a1a86ac5beb937f3c3b6ff8123082c45595d1071686cf10335f8"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/1DB56DA9-CF6B-3023-ABDF-5A37CB79223C.symbolsarchive",
+      "bytes": 1300,
+      "sha256": "5e5590a2026cc280d9879bc5aea89d836543855ad90b1d40e126c9a490d2c506"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/016C5057-625C-30B1-AD32-7BC9D082F05B.symbolsarchive",
+      "bytes": 12727,
+      "sha256": "d5d2f61fcca45e6ebcc2bfd74e42ce58228cd0c94b324c269bc924f03b05ea73"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/2186F196-EE17-3A59-B9DA-D6823BEDD35B.symbolsarchive",
+      "bytes": 1172,
+      "sha256": "834053bb095236534c48bcffc21a6c3f9353d91b6d02e6cc7eba1db63671df23"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/54688162-B50D-3D31-A1E8-7B9766D3530D.symbolsarchive",
+      "bytes": 1133,
+      "sha256": "781d5fa2e0d0e76f121bcd9866a6016c2b1d42718183d3ce6f12c89a185b572d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/6EA99748-C242-3BD0-9A19-109E75672490.symbolsarchive",
+      "bytes": 20850,
+      "sha256": "ae99a5cdd2dee518bbe2f18ce344d5de3a1c91dd16a49cb027af2d62d6a5e011"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/724B28C1-873E-3674-95DE-A03F6714128F.symbolsarchive",
+      "bytes": 6716,
+      "sha256": "4f9c7f0f1ac755243cff2af4dab61574cd331ff95569969b941b32e86ec4c47a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/0C8F41C6-6D93-3DB3-B522-CA8CFF5C3B33.symbolsarchive",
+      "bytes": 3394,
+      "sha256": "3c73b017a293666d44caa79403af95f970f546f0011e01db118a5d5e7523b8b7"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/1A63E9E1-2D64-3AF4-9CCD-6EF042397F84.symbolsarchive",
+      "bytes": 2817,
+      "sha256": "659773d917e0a5ce75ee7f3fa55d21f1f6d9c7f877f734e5c5fc61ab2004b442"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/C6A4A4CB-92E6-3BAF-AAE0-E8306259209A.symbolsarchive",
+      "bytes": 9559,
+      "sha256": "a80483c8cdcbb6709bc7064e1083197ca616df698aefc1eff987484741957720"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/F0FD393C-15BC-3C75-A19D-897F7B225C78.symbolsarchive",
+      "bytes": 7484,
+      "sha256": "d9d2005f5453faac6567dc249ed7213ef5a49dfa0e675cd53420c605080e3974"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/F0B9A36E-CE82-3B73-B644-E9C05DF0AF71.symbolsarchive",
+      "bytes": 3240,
+      "sha256": "af41152282fa7c1378ef8cc665acd55858a153e7897cfe25048d9b3ba8fa9623"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/8AF1606D-5C93-3B80-BC81-60C5688628E2.symbolsarchive",
+      "bytes": 33073,
+      "sha256": "8a3f4d3fbc6eb83f4575f4650cf67dfaac92a1946c27c09010090b8fde2db824"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/9B672762-7B1F-30BC-96DE-F176B372D66D.symbolsarchive",
+      "bytes": 21393,
+      "sha256": "300f4186e14d917dcced131bb188f2439af148b13afd093c54ef5d70161df275"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/0642DDAD-4771-3C82-805C-E7C6701C1461.symbolsarchive",
+      "bytes": 1545,
+      "sha256": "9d23d405d0e7af61d01659ea2cd39d5d39af10f1e456b788486773411ea8547e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/8E07D22E-CE5A-38A0-B091-5B0338C326F5.symbolsarchive",
+      "bytes": 1033,
+      "sha256": "ddaa284a4a04c351018a95326c61ca277ebfe68a124c409a471bdbbb019abbbd"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/D969A907-3E43-3951-9365-8C2DB3812E9D.symbolsarchive",
+      "bytes": 4195,
+      "sha256": "8e5c72404d8f9ba78fab586f79df398c30435b9887afe6da56a4ef27dfe1c701"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/4FED5EE2-5D3E-35B1-A170-9859C4B683BB.symbolsarchive",
+      "bytes": 910,
+      "sha256": "1cf672025ad9f59b72338e0af08c9ea20653971f6da784188124af9b370afaf3"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/74E52480-C2BD-3C8D-812D-95FE2B74A096.symbolsarchive",
+      "bytes": 39159,
+      "sha256": "4f45778780e6f30b9cdddd04273ca7a11daab5b453865a85d64d92045ca7951a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/8E168857-47F4-349F-A718-A18DB144FCB0.symbolsarchive",
+      "bytes": 2382,
+      "sha256": "d2d0829b1bd12009e5170b0fce7059360c558f6125b63d98dfcc932202b04dde"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/E8618176-515C-39A6-9F9C-3887A723C463.symbolsarchive",
+      "bytes": 5085,
+      "sha256": "d056940f3c046d72fbc09340d84909d87b7849dedc7b4ffbea48162ef22ef695"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/12372585-DF92-33EF-B632-714FAA13260A.symbolsarchive",
+      "bytes": 2896,
+      "sha256": "c2d132b436671958fd480cfafa44146720534aa12173c511ed3504805ff2f825"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/873404F1-CC9D-30F9-AE06-8EA58D292005.symbolsarchive",
+      "bytes": 1683,
+      "sha256": "e45e105b39565d0d3c2c5c866bcb25d9981e413bb4a1d12b61768e6cbd9761d3"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/D77CEB62-AFF6-3CEC-BA9B-4F057FBE2EB5.symbolsarchive",
+      "bytes": 4862,
+      "sha256": "5eeefd75690e9ca17afc3598c1d609fe24a83b9c8783e3dedd4941bba9e53a33"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/15799128-6CBD-30D6-A2BB-B9D02B4470C0.symbolsarchive",
+      "bytes": 1695,
+      "sha256": "38742062a7a90ced61a43276b0bbcbc031c524ca8b4331183f4c2e4b45080ae1"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/3FF99846-E48C-3C9A-814C-35B45E5F60EC.symbolsarchive",
+      "bytes": 2500,
+      "sha256": "b6a6fca654c3a6a9aaa91932241de54c1ebea5761a3585449d0700bed70c4e3d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/949131E5-BDA2-39BA-AA50-62651BB51802.symbolsarchive",
+      "bytes": 660,
+      "sha256": "26d1aabdcdbf0ec613a2dc89f3f3a51e72ac322c856a40bdbaaac65e2d8437a6"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/93F1DD8C-6CD9-32B9-B222-D23DA5D161B4.symbolsarchive",
+      "bytes": 4016,
+      "sha256": "44f20a661da9cde7276f245543313cbb27f24b1c1f91fda5364fb43621959dd0"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/E0AC1231-27AA-3A13-8FAC-41D5802B1F3C.symbolsarchive",
+      "bytes": 1457,
+      "sha256": "ee6eeac65f29916e80bde2e885f1ce41e457378d94d5545ac0010d8c54d67d65"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/EDB83A19-EC17-32DE-9350-6145970A85D6.symbolsarchive",
+      "bytes": 2111,
+      "sha256": "ea10b8f747c536a27981ea3058498e5eb8b4cdcf05b93835d36737a2b32a6c88"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/3B110564-5278-3CB0-85F1-2CE8431FF935.symbolsarchive",
+      "bytes": 1071,
+      "sha256": "8af0fad0f97b969851d315ebfc69e0289846d88b8b7a746d3f905696629b6fc1"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/53A3E31E-06A8-325E-B5A8-316B88AA3C92.symbolsarchive",
+      "bytes": 2996,
+      "sha256": "ec0bdde990e765f5f0addf882bbe8ce172d2810d9ad5542e62985970c39ae653"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/D884AF5B-23F7-313A-97ED-DD54518BA922.symbolsarchive",
+      "bytes": 2053,
+      "sha256": "57345ed174f6c1e2ebba0c6a7551720fc08036d60205e8df7659c8377ea61369"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/symbols/stores/D88EC709-9AA8-3083-B22B-D3CB39678D71.symbolsarchive",
+      "bytes": 1197,
+      "sha256": "f6b3d3025db9e6a9447febd60b6e19170466055b92bd12b056642d0d44805586"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/instrument_data/610A6C93-A4CB-4742-85BE-A45E7E5B6AEE/run_data/1.run.zip",
+      "bytes": 720,
+      "sha256": "62f565f3d71a0ad5a2324b4a5b0a575b9df9575a914e6c95a037972beac6133e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/instrument_data/0D5F276E-F2D5-40BF-A41A-C9BA97D2DEBA/run_data/1.run.zip",
+      "bytes": 1305,
+      "sha256": "cc71b915fc03900e70ff5e4592d062374940b649a6fd4a9a4c840efbadb2efee"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/instrument_data/7C93E634-EE9B-435A-B51F-9A952E7271E7/run_data/1.run.zip",
+      "bytes": 799,
+      "sha256": "1cb74a919ef84dc8912d1a827b1322a2693ffbc90775e3cc067bd320e6208751"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/instrument_data/4C871B32-D288-4E84-98A8-6CBCEE31A2DD/run_data/1.run.zip",
+      "bytes": 1506,
+      "sha256": "31a3c5d9d99d1dfba5325f906c183b08fa9b9f213f5e11ffa41c577af95cee77"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/instrument_data/D972EC20-B4AB-4342-AD75-153ABE2789FF/run_data/1.run.zip",
+      "bytes": 723,
+      "sha256": "811e139d9353ef5ade40233ab91a76acce06be91dc7276d3f2eda9bb7d6b8a23"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/instrument_data/72CACE2D-A74E-4226-9F32-21DCCCB4A9D6/run_data/1.run.zip",
+      "bytes": 1035,
+      "sha256": "61226e49182fd655640d85804ec2f93757fa67467012e224967ee5da91c94282"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/instrument_data/C053D989-D33E-4B4C-B6D1-E02A6A5DF375/run_data/1.run.zip",
+      "bytes": 930,
+      "sha256": "5fbc45d6425f30ace18b6c4394377c2e86591fd4408ad6c5e926db3091d31154"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/instrument_data/DC2DA4BE-DDD8-4D6A-A4CB-2457A8B896C8/run_data/1.run.zip",
+      "bytes": 940,
+      "sha256": "06174874b089fff0ca3226c46f0548852adc84e8a5c5f7e41ab7908dac16fbda"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/instrument_data/6745C4D3-4F2C-46CB-B63E-26C8760DFFF6/run_data/1.run.zip",
+      "bytes": 942,
+      "sha256": "281535ffec86c996a16575d0896184bc6e1a4dd1d86ac988c8c51f8a4355864b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/instrument_data/ECDCC63E-41BA-4E3D-89D4-71864E19BE86/run_data/1.run.zip",
+      "bytes": 706,
+      "sha256": "19ff5d5b188d5315260d2fe0f163a539fbd0f0cacb3f7e8fdd04fc744f89dee3"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/clock_before_trace/focused.trace/instrument_data/8492A384-21D7-4404-B7DA-5B51EB605934/run_data/1.run.zip",
+      "bytes": 878,
+      "sha256": "8e1038b309f2624f57c99f0104ea522914adabe1846073d275d7cbc0386b21ef"
+    }
+  ],
+  "originals_deleted": false,
+  "restore": "\u539f\u672c\u306f\u8a18\u8f09\u3057\u305f\u7d76\u5bfe\u30d1\u30b9\u306b\u4fdd\u6301\u3002\u5fa9\u5143\u6642\u306bSHA-256\u3092\u7167\u5408\u3059\u308b\u3002"
+}

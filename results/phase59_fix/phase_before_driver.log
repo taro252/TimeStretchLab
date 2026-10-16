@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/Users/taro252/Docker/TimeStretchLab/scripts/phase59_fix_phase_profile.py", line 75, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/Users/taro252/Docker/TimeStretchLab/scripts/phase59_fix_phase_profile.py", line 57, in main
+    summary=json.loads((folder/'summary.json').read_text());worker=list(csv.DictReader((folder/'worker.csv').open()))
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/usr/local/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/pathlib/__init__.py", line 787, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/pathlib/__init__.py", line 771, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/phase_before/00_probe_candidate_cpu2_detail/summary.json'
