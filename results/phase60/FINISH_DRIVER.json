@@ -1,0 +1,190 @@
+[
+  {
+    "name": "final_release_configure",
+    "command": [
+      "cmake",
+      "-S",
+      "/Users/taro252/Docker/TimeStretchLab",
+      "-B",
+      "build",
+      "-DCMAKE_BUILD_TYPE=Release",
+      "-DCMAKE_OSX_ARCHITECTURES=arm64"
+    ],
+    "exit": 0,
+    "wall_s": 2.4498918056488037,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/final_release_configure.log",
+    "audio": false
+  },
+  {
+    "name": "final_release_build",
+    "command": [
+      "cmake",
+      "--build",
+      "build",
+      "--target",
+      "phase60_playback_compare",
+      "phase60_lifecycle_tests",
+      "phase60_bridge_example",
+      "-j3"
+    ],
+    "exit": 0,
+    "wall_s": 12.214648246765137,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/final_release_build_attempt_2.log",
+    "audio": false
+  },
+  {
+    "name": "final_debug_configure",
+    "command": [
+      "cmake",
+      "-S",
+      "/Users/taro252/Docker/TimeStretchLab",
+      "-B",
+      "build/phase60/debug",
+      "-DCMAKE_BUILD_TYPE=Debug",
+      "-DCMAKE_OSX_ARCHITECTURES=arm64"
+    ],
+    "exit": 0,
+    "wall_s": 2.5747992992401123,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/final_debug_configure.log",
+    "audio": false
+  },
+  {
+    "name": "final_debug_build",
+    "command": [
+      "cmake",
+      "--build",
+      "build/phase60/debug",
+      "--target",
+      "phase60_playback_compare",
+      "phase60_lifecycle_tests",
+      "phase60_bridge_example",
+      "-j3"
+    ],
+    "exit": 0,
+    "wall_s": 10.31999683380127,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/final_debug_build.log",
+    "audio": false
+  },
+  {
+    "name": "extra_release",
+    "command": [
+      "/Users/taro252/Docker/TimeStretchLab/build/phase60_lifecycle_tests",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+    ],
+    "exit": 0,
+    "wall_s": 2.7051820755004883,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/extra_release.log",
+    "audio": true
+  },
+  {
+    "name": "extra_debug",
+    "command": [
+      "/Users/taro252/Docker/TimeStretchLab/build/phase60/debug/phase60_lifecycle_tests",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+    ],
+    "exit": 0,
+    "wall_s": 2.130082130432129,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/extra_debug.log",
+    "audio": true
+  },
+  {
+    "name": "final_host_smoke",
+    "command": [
+      "/Users/taro252/Docker/TimeStretchLab/build/phase60_playback_compare",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+      "--engine=progressive",
+      "--out=/Users/taro252/Docker/TimeStretchLab/build/phase60/final_host_smoke",
+      "--capture=/Users/taro252/Docker/TimeStretchLab/build/phase60/final_host_smoke.f32"
+    ],
+    "exit": 0,
+    "wall_s": 10.64909291267395,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/final_host_smoke.log",
+    "audio": true
+  },
+  {
+    "name": "final_host_reference",
+    "command": [
+      "/Users/taro252/Docker/TimeStretchLab/build/phase58_frozen/product_reference",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+      "1000000",
+      "candidate",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase60/final_host_smoke_reference.f32"
+    ],
+    "exit": 0,
+    "wall_s": 1.534031867980957,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/final_host_reference.log",
+    "audio": false
+  },
+  {
+    "name": "restart_driver",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase60_restart_compare.py"
+    ],
+    "exit": 0,
+    "wall_s": 83.01436495780945,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/restart_driver.log",
+    "audio": true
+  },
+  {
+    "name": "report_driver",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase60_report.py"
+    ],
+    "exit": 0,
+    "wall_s": 0.18438410758972168,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/report_driver.log",
+    "audio": false
+  },
+  {
+    "name": "inventory_driver",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase60_inventory.py"
+    ],
+    "exit": 0,
+    "wall_s": 13.631599187850952,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/inventory_driver.log",
+    "audio": false
+  },
+  {
+    "name": "delivery_audit",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase60_delivery_audit.py"
+    ],
+    "exit": 2,
+    "wall_s": 161.55279517173767,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/delivery_audit.log",
+    "audio": false
+  },
+  {
+    "name": "report_final",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase60_report.py"
+    ],
+    "exit": 0,
+    "wall_s": 0.36824607849121094,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/report_final.log",
+    "audio": false
+  },
+  {
+    "name": "delivery_audit_final",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/phase60_delivery_audit.py"
+    ],
+    "exit": -2,
+    "wall_s": 69.63100218772888,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/delivery_audit_final.log",
+    "audio": false
+  }
+]

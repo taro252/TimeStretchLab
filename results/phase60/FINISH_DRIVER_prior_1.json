@@ -1,0 +1,19 @@
+[
+  {
+    "name": "final_release_build",
+    "command": [
+      "cmake",
+      "--build",
+      "build",
+      "--target",
+      "phase60_playback_compare",
+      "phase60_lifecycle_tests",
+      "phase60_bridge_example",
+      "-j3"
+    ],
+    "exit": 2,
+    "wall_s": 10.386502742767334,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/final_release_build.log",
+    "audio": false
+  }
+]

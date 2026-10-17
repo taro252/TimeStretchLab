@@ -1,0 +1,41 @@
+{
+  "source": "/Users/taro252/Music/Music/Media.localized/vividblaze/PERIDOT/08 Esprit.m4a",
+  "source_sha256": "a64123f1360dfe19070ed1a3b6819320c85532686fd51773d0a58cb0ae7178af",
+  "source_bytes": 10801242,
+  "wav": "/Users/taro252/Docker/TimeStretchLab/build/phase60/inputs/esprit_44100_f32_pcm.wav",
+  "wav_sha256": "1fee0c9c5dd3302c02fe7f7215635a4478e0d058d4d636094998d92d29d65963",
+  "wav_bytes": 109648924,
+  "sample_rate": 44100,
+  "channels": 2,
+  "frames": 13706110,
+  "duration_s": 310.79614512471653,
+  "recipe": [
+    "/usr/bin/afconvert",
+    "-f",
+    "WAVE",
+    "-d",
+    "LEF32@44100",
+    "-c",
+    "2",
+    "/Users/taro252/Music/Music/Media.localized/vividblaze/PERIDOT/08 Esprit.m4a",
+    "build/phase60/inputs/esprit_44100_f32.wav"
+  ],
+  "merodoa_original_decoded_wav_identical": null,
+  "original_merodoa_device_confirmed": false,
+  "original_log_generated_frames": 17831214,
+  "note": "ユーザー指定M4Aからローカル変換。元Merodoaのデコード済みWAVと同一SHAかは未確認。正規化指定なし。通常sandbox下のcodec接続はfmt?で失敗し、許可されたmacOS codecサービス接続で変換成功。",
+  "afconvert_wav": "/Users/taro252/Docker/TimeStretchLab/build/phase60/inputs/esprit_44100_f32.wav",
+  "afconvert_wav_sha256": "8d457d1351a97a70bf1920494985d879bd48dc06451280ddc830ee6f9eccede3",
+  "afconvert_format": "WAVE_FORMAT_EXTENSIBLE Float32 GUID 3",
+  "pcm_payload_sha256": "2205d2613a195d7ebc6e5e6274b106f835fd706a2f455a274ad660dad1269f34",
+  "canonical_format_tag": 3,
+  "pcm_payload_unchanged": true,
+  "canonical_rewrap": "RIFF fmt16/IEEE_FLOAT tag3、原本data chunkをそのまま転写。拡張ヘッダーのみ変更。",
+  "rewrap_recipe": [
+    "python3",
+    "-B",
+    "scripts/phase60_prepare_wav.py",
+    "/Users/taro252/Docker/TimeStretchLab/build/phase60/inputs/esprit_44100_f32.wav",
+    "/Users/taro252/Docker/TimeStretchLab/build/phase60/inputs/esprit_44100_f32_pcm.wav"
+  ]
+}

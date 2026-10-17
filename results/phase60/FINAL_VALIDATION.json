@@ -1,0 +1,30 @@
+{
+  "completed": true,
+  "active_job": null,
+  "experimental_handoff": "PASS",
+  "gate_2_passed": false,
+  "general_release_ready": false,
+  "full_song_executions": 5,
+  "formal_native_executions": 21,
+  "formal_native_sessions": 27,
+  "formal_native_pcm_cases": 13,
+  "historical_files_sha256_verified": 92021,
+  "commit_or_push_performed": false,
+  "authoritative_results": [
+    "VERDICT.json",
+    "REPORT.md",
+    "DELIVERY_AUDIT.json",
+    "native_representative/summary_reviewed.json",
+    "native_user_canonical/summary.json",
+    "CURRENT_LEGACY.json",
+    "native_user_restart/summary.json"
+  ],
+  "preserved_infrastructure_failures": [
+    "native_user/summary.json",
+    "FINISH.json",
+    "FINISH_DRIVER_prior_1.json",
+    "DELIVERY_AUDIT_initial_full.json"
+  ],
+  "infrastructure_review": "拡張WAV拒否、空集合集計、Make再構成順序、Merodoa別途UI差分を訂正・区別。実際の音声/PCM試験は上記実測。元ファイルとログは保持。",
+  "current_legacy_wrapper_review": "再生プロセスexit0・PCM PASS。最終監査が別途MacLibraryView差分でwrapper exit1となった原本を保持し、接続7ファイル/HEAD/submoduleの不変とUI差分を区別した監査PASSを正とする。"
+}

@@ -1,0 +1,27 @@
+{
+  "source": "/Users/taro252/Music/Music/Media.localized/vividblaze/PERIDOT/08 Esprit.m4a",
+  "source_sha256": "a64123f1360dfe19070ed1a3b6819320c85532686fd51773d0a58cb0ae7178af",
+  "source_bytes": 10801242,
+  "wav": "/Users/taro252/Docker/TimeStretchLab/build/phase60/inputs/esprit_44100_f32.wav",
+  "wav_sha256": "8d457d1351a97a70bf1920494985d879bd48dc06451280ddc830ee6f9eccede3",
+  "wav_bytes": 109652976,
+  "sample_rate": 44100,
+  "channels": 2,
+  "frames": 13706110,
+  "duration_s": 310.79614512471653,
+  "recipe": [
+    "/usr/bin/afconvert",
+    "-f",
+    "WAVE",
+    "-d",
+    "LEF32@44100",
+    "-c",
+    "2",
+    "/Users/taro252/Music/Music/Media.localized/vividblaze/PERIDOT/08 Esprit.m4a",
+    "build/phase60/inputs/esprit_44100_f32.wav"
+  ],
+  "merodoa_original_decoded_wav_identical": null,
+  "original_merodoa_device_confirmed": false,
+  "original_log_generated_frames": 17831214,
+  "note": "ユーザー指定M4Aからローカル変換。元Merodoaのデコード済みWAVと同一SHAかは未確認。正規化指定なし。通常sandbox下のcodec接続はfmt?で失敗し、許可されたmacOS codecサービス接続で変換成功。"
+}

@@ -1,0 +1,79 @@
+{
+  "measurement_completed": false,
+  "executions": 0,
+  "sessions": 0,
+  "supply_and_callback_pass": true,
+  "progressive_worker_deadlines_pass": true,
+  "pcm_cases": 0,
+  "pcm_pass": true,
+  "failures": [
+    "user_0_legacy",
+    "user_1_progressive",
+    "user_2_progressive",
+    "user_3_legacy"
+  ],
+  "rows": [
+    {
+      "name": "user_0_legacy",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase60_playback_compare",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase60/inputs/esprit_44100_f32.wav",
+        "--engine=legacy",
+        "--preset=candidate",
+        "--speed=1",
+        "--out=/Users/taro252/Docker/TimeStretchLab/build/phase60/native_user/user_0_legacy"
+      ],
+      "exit": 1,
+      "wall_s": 0.02486896514892578,
+      "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/native_user/user_0_legacy.log",
+      "summary": null
+    },
+    {
+      "name": "user_1_progressive",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase60_playback_compare",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase60/inputs/esprit_44100_f32.wav",
+        "--engine=progressive",
+        "--preset=candidate",
+        "--speed=1",
+        "--out=/Users/taro252/Docker/TimeStretchLab/build/phase60/native_user/user_1_progressive"
+      ],
+      "exit": 1,
+      "wall_s": 0.014844894409179688,
+      "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/native_user/user_1_progressive.log",
+      "summary": null
+    },
+    {
+      "name": "user_2_progressive",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase60_playback_compare",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase60/inputs/esprit_44100_f32.wav",
+        "--engine=progressive",
+        "--preset=candidate",
+        "--speed=1",
+        "--out=/Users/taro252/Docker/TimeStretchLab/build/phase60/native_user/user_2_progressive",
+        "--capture=/Users/taro252/Docker/TimeStretchLab/build/phase60/native_user/user_2_progressive.f32"
+      ],
+      "exit": 1,
+      "wall_s": 0.014849185943603516,
+      "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/native_user/user_2_progressive.log",
+      "summary": null
+    },
+    {
+      "name": "user_3_legacy",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase60_playback_compare",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase60/inputs/esprit_44100_f32.wav",
+        "--engine=legacy",
+        "--preset=candidate",
+        "--speed=1",
+        "--out=/Users/taro252/Docker/TimeStretchLab/build/phase60/native_user/user_3_legacy",
+        "--verify-pcm"
+      ],
+      "exit": 1,
+      "wall_s": 0.014650106430053711,
+      "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/native_user/user_3_legacy.log",
+      "summary": null
+    }
+  ]
+}

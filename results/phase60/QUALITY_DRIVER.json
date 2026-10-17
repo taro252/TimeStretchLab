@@ -1,0 +1,183 @@
+[
+  {
+    "name": "release_build",
+    "command": [
+      "cmake",
+      "--build",
+      "build",
+      "--target",
+      "phase60_playback_compare",
+      "phase60_contract_tests",
+      "phase60_adapter_tests",
+      "phase60_bridge_example",
+      "phase59_tests",
+      "phase59_control_tests",
+      "phase58_tests",
+      "phase58_fix_tests",
+      "phase58_fix_mailbox_tests",
+      "phase58_fix_worker_tests",
+      "phase57_tests",
+      "phase56_tests",
+      "phase56_fixed_modes",
+      "phase54_analysis_tests",
+      "phase54_seek_tests",
+      "phase59_fix_vocoder_tests",
+      "phase59_fix_stereo_tests",
+      "phase56_check",
+      "phase56_reference",
+      "phase57_check",
+      "phase57_reference",
+      "phase59_reference",
+      "phase59_check",
+      "phase59_progressive_replay",
+      "phase59_captured_reference",
+      "phase58_check",
+      "phase58_product_reference",
+      "phase54_core_probe",
+      "-j3"
+    ],
+    "exit": 0,
+    "wall_s": 50.280797243118286,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/quality/release_build.log"
+  },
+  {
+    "name": "release_related",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "build",
+      "-R",
+      "^(phase60_|phase59_|phase58_|phase57_|phase56_|phase54_)",
+      "--output-on-failure",
+      "-j2"
+    ],
+    "exit": 0,
+    "wall_s": 45.163511991500854,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/quality/release_related.log"
+  },
+  {
+    "name": "debug_configure",
+    "command": [
+      "cmake",
+      "-S",
+      "/Users/taro252/Docker/TimeStretchLab",
+      "-B",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase60/debug",
+      "-DCMAKE_BUILD_TYPE=Debug",
+      "-DCMAKE_OSX_ARCHITECTURES=arm64",
+      "-DTIMESTRETCH_ENABLE_REALTIME_TESTS=OFF"
+    ],
+    "exit": 0,
+    "wall_s": 6.231036901473999,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/quality/debug_configure.log"
+  },
+  {
+    "name": "debug_build",
+    "command": [
+      "cmake",
+      "--build",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase60/debug",
+      "--target",
+      "phase60_playback_compare",
+      "phase60_contract_tests",
+      "phase60_adapter_tests",
+      "phase60_bridge_example",
+      "phase59_tests",
+      "phase59_control_tests",
+      "phase58_tests",
+      "phase58_fix_tests",
+      "phase58_fix_mailbox_tests",
+      "phase58_fix_worker_tests",
+      "phase57_tests",
+      "phase56_tests",
+      "phase56_fixed_modes",
+      "phase54_analysis_tests",
+      "phase54_seek_tests",
+      "phase59_fix_vocoder_tests",
+      "phase59_fix_stereo_tests",
+      "phase56_check",
+      "phase56_reference",
+      "phase57_check",
+      "phase57_reference",
+      "phase59_reference",
+      "phase59_check",
+      "phase59_progressive_replay",
+      "phase59_captured_reference",
+      "phase58_check",
+      "phase58_product_reference",
+      "phase54_core_probe",
+      "-j3"
+    ],
+    "exit": 0,
+    "wall_s": 122.79570889472961,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/quality/debug_build.log"
+  },
+  {
+    "name": "debug_related",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase60/debug",
+      "-R",
+      "^(phase60_|phase59_|phase58_|phase57_|phase56_|phase54_)",
+      "--output-on-failure",
+      "-j2"
+    ],
+    "exit": 0,
+    "wall_s": 146.57062602043152,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/quality/debug_related.log"
+  },
+  {
+    "name": "frozen_fixed",
+    "command": [
+      "/usr/local/opt/python@3.14/bin/python3.14",
+      "-B",
+      "tests/Phase58PcmSmoke.py",
+      "build/phase58_check",
+      "build/phase58_frozen/product_reference"
+    ],
+    "exit": 0,
+    "wall_s": 5.637376070022583,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/quality/frozen_fixed.log"
+  },
+  {
+    "name": "frozen_dynamic",
+    "command": [
+      "/usr/local/opt/python@3.14/bin/python3.14",
+      "-B",
+      "tests/Phase59PcmSmoke.py",
+      "build/phase59_frozen/dynamic_reference",
+      "build/phase59_check",
+      "build/phase59_progressive_replay",
+      "build/phase59_frozen/captured_reference"
+    ],
+    "exit": 0,
+    "wall_s": 24.39502787590027,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/quality/frozen_dynamic.log"
+  },
+  {
+    "name": "golden_25",
+    "command": [
+      "/usr/local/opt/python@3.14/bin/python3.14",
+      "-B",
+      "scripts/phase57_golden.py",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase60/quality/golden"
+    ],
+    "exit": 0,
+    "wall_s": 145.20362496376038,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/quality/golden_25.log"
+  },
+  {
+    "name": "blob_guard",
+    "command": [
+      "/usr/local/opt/python@3.14/bin/python3.14",
+      "-B",
+      "tests/GitBlobSizeGuardTests.py",
+      "-v"
+    ],
+    "exit": 0,
+    "wall_s": 7.4080188274383545,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/quality/blob_guard.log"
+  }
+]

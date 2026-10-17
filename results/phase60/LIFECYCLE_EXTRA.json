@@ -1,0 +1,28 @@
+{
+  "PASS": true,
+  "rows": [
+    {
+      "name": "extra_release",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase60_lifecycle_tests",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+      ],
+      "exit": 0,
+      "wall_s": 2.7051820755004883,
+      "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/extra_release.log",
+      "audio": true
+    },
+    {
+      "name": "extra_debug",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase60/debug/phase60_lifecycle_tests",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+      ],
+      "exit": 0,
+      "wall_s": 2.130082130432129,
+      "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/extra_debug.log",
+      "audio": true
+    }
+  ],
+  "scope": "prepare→auto-play取消3回、Playing/Paused要求中Stop、曲切替、入力消失/復旧、対応位置標本"
+}

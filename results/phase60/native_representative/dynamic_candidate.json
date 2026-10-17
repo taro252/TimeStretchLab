@@ -1,0 +1,180 @@
+{
+  "name": "dynamic_candidate",
+  "command": [
+    "/Users/taro252/Docker/TimeStretchLab/build/phase60_playback_compare",
+    "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+    "--engine=progressive",
+    "--preset=candidate",
+    "--speed=0.4",
+    "--out=/Users/taro252/Docker/TimeStretchLab/build/phase60/native_representative/dynamic_candidate",
+    "--actions=/Users/taro252/Docker/TimeStretchLab/build/phase60/native_representative/dynamic.csv",
+    "--capture=/Users/taro252/Docker/TimeStretchLab/build/phase60/native_representative/dynamic_candidate.f32"
+  ],
+  "exit": 0,
+  "wall_s": 11.84961199760437,
+  "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/native_representative/dynamic_candidate.log",
+  "summary": {
+    "capture_frames": 500838,
+    "capture_overflow": false,
+    "engine": "progressive",
+    "events": [
+      {
+        "action": "speed",
+        "at_s": 0.5026555000222288,
+        "ok": true,
+        "request_id": 1,
+        "value": 0.41
+      },
+      {
+        "action": "speed",
+        "at_s": 0.5026972499908879,
+        "ok": true,
+        "request_id": 2,
+        "value": 2
+      },
+      {
+        "action": "speed",
+        "at_s": 0.50269895902602,
+        "ok": true,
+        "request_id": 3,
+        "value": 0.49
+      },
+      {
+        "action": "pause",
+        "at_s": 1.02478279202478,
+        "ok": true,
+        "request_id": 0,
+        "value": 0
+      },
+      {
+        "action": "resume",
+        "at_s": 1.2161366670043208,
+        "ok": true,
+        "request_id": 0,
+        "value": 0
+      },
+      {
+        "action": "speed",
+        "at_s": 2.004103666986339,
+        "ok": true,
+        "request_id": 4,
+        "value": 0.5
+      },
+      {
+        "action": "speed",
+        "at_s": 3.001212834031321,
+        "ok": true,
+        "request_id": 5,
+        "value": 2
+      },
+      {
+        "action": "speed",
+        "at_s": 4.005659874994308,
+        "ok": true,
+        "request_id": 6,
+        "value": 1
+      }
+    ],
+    "gate_2_passed": false,
+    "initial_speed": 0.4,
+    "input_path": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+    "input_sha256": "789d4c159e35b4c133a17913ad5a9c47b85970185e5d86b074d146afc1bb311e",
+    "measurement_completed": true,
+    "physical_audio_continuity_verified": false,
+    "preset": "candidate",
+    "sessions": [
+      {
+        "analysis_done_at_ready": true,
+        "channels": 2,
+        "constructor_s": 0.05293054197682068,
+        "consumed_frames": 500838,
+        "eos": true,
+        "error": "",
+        "fifo_supply_pass": true,
+        "first_pcm_from_request_s": 0.1813585,
+        "generated_frames": 500838,
+        "input_at_ready": 441000,
+        "input_frames": 441000,
+        "input_generation": 1,
+        "input_sha256": "789d4c159e35b4c133a17913ad5a9c47b85970185e5d86b074d146afc1bb311e",
+        "memory_reservation_bytes": 273728876,
+        "missing_frames": 0,
+        "native": {
+          "callback_calls": 1067,
+          "callback_deadline_misses": 0,
+          "callback_max_ns": 18584,
+          "callback_records_dropped": 0,
+          "cpp_new_calls": null,
+          "cpp_new_measured": false,
+          "device_buffer_frames": 512,
+          "device_channels": 2,
+          "device_id": 72,
+          "device_latency_ms": 1.375,
+          "device_rate": 48000,
+          "error": "",
+          "first_pcm_mach_ns": 309591625033708,
+          "format_errors": 0,
+          "hal_window_misses": 0,
+          "host_backwards": 0,
+          "host_cadence_errors": 0,
+          "host_missing": 0,
+          "invalid_rate_scalar_calls": 0,
+          "invalid_sample_time_calls": 0,
+          "last_pcm_target_ns": 309603211781686,
+          "os_faults": null,
+          "output_stopped_ns": 309603224822291,
+          "route_changes": 0,
+          "sample_errors": 0,
+          "source_latency_ms": 1.375
+        },
+        "non_eos_published": 10240,
+        "os_faults": null,
+        "overall_audio_quality": null,
+        "pcm_correct": null,
+        "peak_rss_bytes": 88735744,
+        "play_return_s": 1.4209013897925615e-05,
+        "presented_frames": 500838,
+        "process_cpu_s": 2.393833,
+        "published_frames": 500838,
+        "ready_s": 0.1440782499848865,
+        "rejected_writes": 0,
+        "resident_input_bytes": 3528044,
+        "sampled_peak_rss_bytes": 88735744,
+        "session": 1,
+        "source_rate": 44100,
+        "state": "Ended",
+        "supply_and_callback_pass": true,
+        "temporary_source_bytes": 3528044,
+        "time_stretch_lab_base_sha": "e9482f037e29726071ff4988e45048189502be92",
+        "trigger": "eos",
+        "underrun_calls": 0,
+        "wall_s": 11.801123459008522,
+        "worker_cpu_s": 1.859455333,
+        "worker_deadline_misses": 0,
+        "workgroup": {
+          "active": false,
+          "interval_errors": 0,
+          "join_errors": 0,
+          "joins": 2,
+          "leaves": 2,
+          "policy_errors": 0,
+          "promotions": 2,
+          "query_errors": 0,
+          "restore_errors": 0,
+          "restores": 2,
+          "wait_errors": 0,
+          "wake_errors": 0
+        }
+      }
+    ],
+    "supply_and_callback_pass": true
+  },
+  "pcm": {
+    "PASS": true,
+    "scope": "callback受信raw全PCM",
+    "reference_sha256": "d4f1f64f7ba49b9d4782ef90a49c083679415d1fc4d496b01f209f28d74d87b6",
+    "reference_frames": 500838,
+    "actual_sha256": "d4f1f64f7ba49b9d4782ef90a49c083679415d1fc4d496b01f209f28d74d87b6",
+    "reference_binary_sha256": "1c860210fb6ea4a2075c5f2fdc9c1fd1afa97adb175413994be676a131d97818"
+  }
+}

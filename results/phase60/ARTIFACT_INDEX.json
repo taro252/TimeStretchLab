@@ -1,0 +1,54 @@
+{
+  "artifact_root": "/Users/taro252/Docker/TimeStretchLab/build/phase60",
+  "files": 3512,
+  "bytes": 864159499,
+  "file_manifest": "/Users/taro252/Docker/TimeStretchLab/build/phase60/artifact_files.jsonl",
+  "file_manifest_sha256": "309263016db0a39e5a9202c3c5a94d73a2c03c5cb1f539edfb72581d296d8e6c",
+  "large_files_not_in_git": [
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase60/inputs/esprit_44100_f32.wav",
+      "bytes": 109652976,
+      "sha256": "8d457d1351a97a70bf1920494985d879bd48dc06451280ddc830ee6f9eccede3"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase60/inputs/esprit_44100_f32_pcm.wav",
+      "bytes": 109648924,
+      "sha256": "1fee0c9c5dd3302c02fe7f7215635a4478e0d058d4d636094998d92d29d65963"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase60/native_user_canonical/user_2_progressive.f32",
+      "bytes": 109648880,
+      "sha256": "d1d5d8a43b5c2187c9c0831a8080703e28c19c956578449ebdf896a4a3db47ef"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase60/native_user_canonical/user_2_progressive_reference.f32",
+      "bytes": 109648880,
+      "sha256": "d1d5d8a43b5c2187c9c0831a8080703e28c19c956578449ebdf896a4a3db47ef"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase60/native_user_canonical/user_3_legacy_reference.f32",
+      "bytes": 109648880,
+      "sha256": "d1d5d8a43b5c2187c9c0831a8080703e28c19c956578449ebdf896a4a3db47ef"
+    }
+  ],
+  "excluded_self_referential_logs": [
+    "artifact_files.jsonl",
+    "delivery_audit.log",
+    "delivery_audit_final.log",
+    "finish_driver.log",
+    "inventory_driver.log",
+    "report_driver.log",
+    "report_final.log"
+  ],
+  "recipes": [
+    "M4A→拡張WAV: INPUT.jsonのafconvertコマンド。元M4Aはユーザーの保存場所で保持",
+    "拡張WAV→対応WAV: INPUT.jsonのrewrap_recipe。data chunk SHAが一致することを確認",
+    "承認Phase54: python3 -B scripts/phase60_build_legacy.py",
+    "代表Native: python3 -B scripts/phase60_native.py --suite representative --tag <新しいタグ>",
+    "指定音源: python3 -B scripts/phase60_native.py --suite user --tag <新しいタグ>",
+    "再始動: scripts/phase60_restart_compare.py。既存出力を残し、新しい保存先で実行",
+    "参照バイナリの元SHAと生成情報: results/phase59_fix/FROZEN_REFERENCES.json, results/phase58/frozen_product_reference.json, docs/PHASE59_TRANSITION_EXACTNESS.md。別環境での再構築はPCMで再検証"
+  ],
+  "restore": "原本はこの絶対artifact_rootに保持。各ファイルのSHAとサイズをJSONLで照合して復元する。別環境では先にユーザーのM4Aと既存固定参照を用意し、記録コマンドを新しい出力先で再実行する。元のFAIL、拡張WAV拒否、訂正前JSON、測定版ソースを上書きしない。",
+  "git_policy": "WAV/PCM/実行体/大きな証拠はbuild内で管理。新規blobは50,000,000 bytes未満。履歴変更/LFS移行なし。"
+}

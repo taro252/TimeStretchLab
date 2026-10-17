@@ -1,0 +1,9 @@
+{
+  "experimental_handoff": "新API、接続、ライフサイクル、代表PCMと今回の実機に限る。一般公開・Gate2・Sandbox保証ではない。",
+  "user_reproduction_wav_tested": "false。当時Merodoaのデコード済みWAV/SHA/装置/操作履歴は未確認。指定M4Aから新規変換した同一WAVのA/Bは別のtrue欄で示す。",
+  "missing_frames": "正式代表・指定音源全曲・同音源のprefix再始動を通したProgressive合計。旧版はREPORT別表。",
+  "legacy_regression_passed": "既存CTest/Golden、独立生成PCMと今回の供給を対象。過去のFIFO不足を否定しない。",
+  "pcm": "Progressive callback受信rawとLegacy公開rawを分ける。条件数はREPORT、通常計測の個別PCM正確性は未測定。",
+  "gate_2_passed": "Phase59 Fix2のfalseを維持。OS全区間、初回時計、物理出力を未解決のまま成功扱いしない。",
+  "commits": "このPhaseでcommit/Pushなし。GitHEAD診断はビルド元HEAD、変更全体の識別はソース/実行体manifestを併用する。"
+}

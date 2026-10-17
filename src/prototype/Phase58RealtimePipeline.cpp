@@ -105,6 +105,7 @@ struct RealtimePipeline::Impl {
     BorrowedSnapshotMailbox<phase56::AnalysisSnapshot> borrowedMailbox;
     BorrowedSnapshotMailbox<phase59::DynamicMap> dynamicMailbox;
     phase59::ValueMailbox<phase59::PlanningFrontier> frontierMailbox;
+    mutable phase59::ValueMailbox<PositionSample> positionMailbox;
     std::unique_ptr<phase59::ProgressiveTransitionPlanner> transitionPlanner;
     mutable std::mutex operationMutex;
     std::vector<phase59::SpeedOperation> operations;
@@ -262,6 +263,13 @@ struct RealtimePipeline::Impl {
     void transitionStep(const std::shared_ptr<const phase56::AnalysisSnapshot>& snapshot){
         if(!config.dynamicTransitions||!snapshot||cancelled.load()||failure.load())return;
         auto& planner=*transitionPlanner;
+        // Diagnostic only, normal planning owner. A proposal changes only the
+        // unpublished future; the consumed prefix is immutable even before ack.
+        if(auto view=planner.view();view&&view->map.starts().size()>=2){
+            const auto at=consumed.load();
+            if(at<=std::size_t(view->map.starts().back()))
+                positionMailbox.publish({session,view->version,at,std::min(input.frames,phase59::inverseInput(view->map,at)),elapsed()});
+        }
         if(pendingMap){
             if(!mapOffered){auto lease=pendingMap;if(dynamicMailbox.tryPublish(lease)){pendingMapTag=dynamicMailbox.publishedTag();mapOffered=true;realtime->signal();}return;}
             if(mapAckTag.load()!=pendingMapTag)return;
@@ -593,6 +601,7 @@ RenderResult RealtimePipeline::pullAudio(float*const* p,std::size_t n)noexcept{
 }
 bool RealtimePipeline::finished()const noexcept{return impl_->dspDone.load();}
 FifoCursors RealtimePipeline::diagnosticFifoCursors()const noexcept{return {impl_->fifo.readPosition(),impl_->fifo.writePosition()};}
+std::optional<PositionSample> RealtimePipeline::positionSample()const noexcept{return impl_->positionMailbox.read();}
 bool RealtimePipeline::drained()const noexcept{return finished()&&!available();}
 bool RealtimePipeline::failed()const noexcept{return impl_->failure.load();}
 phase59::RequestReceipt RealtimePipeline::requestSpeed(std::uint32_t speed,std::size_t position,std::uint64_t expectedSession,std::uint64_t expectedGeneration){

@@ -1,0 +1,10 @@
+{
+  "measured_cli_source": "/Users/taro252/Docker/TimeStretchLab/build/phase60/measured_source/src/playback/Phase60PlaybackCompare.mm",
+  "measured_cli_source_sha256": "119537cf651c856725578d5ce4396414570521eb5693ca9a52a2566f73ee58a3",
+  "field_correction": {
+    "analysis_done_at_ready": "測定版ではinputAtReady==inputFramesを保存していた。これはPipeline先行蓄積時の入力受領完了で、全解析完了を示さない。今回の報告ではこの欄から解析完了を推定しない。最終CLIではinput_complete_at_prefill_readyへ改名し、analysisDoneS/readySも別保存。",
+    "overall_audio_quality": "最終CLIはAPIの観測済みworker期限/失敗もfalseへ反映。未検証はnull。再生・DSP・ゲイン・PCM経路の変更なし。"
+  },
+  "actual_api_library_changed_by_correction": false,
+  "original_rows_preserved": true
+}

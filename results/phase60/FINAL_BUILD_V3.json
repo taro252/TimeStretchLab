@@ -1,0 +1,34 @@
+[
+  {
+    "command": [
+      "cmake",
+      "--build",
+      "build",
+      "--target",
+      "phase60_playback_compare",
+      "phase60_adapter_tests",
+      "phase60_bridge_example",
+      "phase60_contract_tests",
+      "-j3"
+    ],
+    "exit": 0,
+    "wall_s": 13.995081901550293,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/release_adapter_final_v3_build.log"
+  },
+  {
+    "command": [
+      "cmake",
+      "--build",
+      "build/phase60/debug",
+      "--target",
+      "phase60_playback_compare",
+      "phase60_adapter_tests",
+      "phase60_bridge_example",
+      "phase60_contract_tests",
+      "-j3"
+    ],
+    "exit": 0,
+    "wall_s": 15.008120775222778,
+    "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60/debug_adapter_final_v3_build.log"
+  }
+]
