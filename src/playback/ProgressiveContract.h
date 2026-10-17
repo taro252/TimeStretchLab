@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <stdexcept>
 #include <string>
+#include "playback/ProgressiveSeekContract.h"
 
 namespace ts::playback::progressive {
 enum class State { Empty, Accepted, Preparing, Ready, Playing, Paused, Draining, Ended, Stopped, Failed };
@@ -22,10 +23,13 @@ inline std::uint32_t speedMicros(double speed) {
     return static_cast<std::uint32_t>(percent)*10000;
 }
 struct Capabilities {
-    unsigned contractVersion=1,minSpeedPercent=40,maxSpeedPercent=200,speedStepPercent=1;
+    unsigned contractVersion=2,minSpeedPercent=40,maxSpeedPercent=200,speedStepPercent=1;
     bool experimental=true,seek=false,dynamicSpeed=true,incrementalReady=true;
     unsigned maxConcurrentSessions=1,maxSnapshots=3,maxDynamicMaps=3,maxAppliedPlans=512,maxOperations=4096;
     std::uint64_t maxInputBytes=512ULL*1024*1024,maxInputFrames=48000ULL*600;
+    bool seekRequests=true; // Implemented experimental v2 API; seek gate is separate.
+    unsigned maxRenderEpochs=2,maxSeekOperations=4096;
+    unsigned maxCheckpointStates=2;
 };
 // Admission reservation, not an allocator or RSS measurement. A single owner
 // covers prepare, play and pause in this process; EOS/stop release the input.

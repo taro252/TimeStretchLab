@@ -1,0 +1,710 @@
+{
+  "validated_driver.json": [
+    {
+      "name": "validated_release_configure",
+      "command": [
+        "cmake",
+        "-S",
+        "/Users/taro252/Docker/TimeStretchLab",
+        "-B",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/release",
+        "-DCMAKE_BUILD_TYPE=Release"
+      ],
+      "exit": 0,
+      "wall_s": 2.355731541989371
+    },
+    {
+      "name": "validated_release_build",
+      "command": [
+        "cmake",
+        "--build",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/release",
+        "--parallel",
+        "4",
+        "--target",
+        "phase61_contract_tests",
+        "phase61_checkpoint_tests",
+        "phase61_safety_tests",
+        "phase61_seek_check",
+        "phase61_seek_reference",
+        "phase61_native_tests",
+        "phase61_sandbox_app",
+        "phase61_device_route_tests",
+        "phase60_contract_tests",
+        "phase60_adapter_tests",
+        "phase60_lifecycle_tests",
+        "phase60_playback_compare",
+        "phase60_bridge_example",
+        "phase59_tests",
+        "phase59_control_tests",
+        "phase59_check",
+        "phase59_reference",
+        "phase59_progressive_replay",
+        "phase59_captured_reference",
+        "phase59_fix_vocoder_tests",
+        "phase59_fix_stereo_tests",
+        "phase58_tests",
+        "phase58_check",
+        "phase58_product_reference",
+        "phase58_fix_tests",
+        "phase58_fix_mailbox_tests",
+        "phase58_fix_worker_tests",
+        "phase57_tests",
+        "phase57_check",
+        "phase57_reference",
+        "phase56_tests",
+        "phase56_fixed_modes",
+        "phase56_check",
+        "phase56_reference",
+        "phase54_core_probe",
+        "phase54_analysis_tests",
+        "phase54_seek_tests"
+      ],
+      "exit": 0,
+      "wall_s": 46.672675459005404
+    },
+    {
+      "name": "validated_release_ctest",
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/release",
+        "-R",
+        "^(phase54_|phase56_|phase57_|phase58_|phase59_|phase60_|phase61_)",
+        "--output-on-failure",
+        "--no-tests=error",
+        "--output-junit",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/validated_release_ctest.xml",
+        "-j1"
+      ],
+      "exit": 0,
+      "wall_s": 94.15023362502689
+    },
+    {
+      "name": "verified_suffix_release",
+      "command": [
+        "python3",
+        "-B",
+        "tests/Phase61SeekSmoke.py",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/release/phase61_seek_check",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "--full",
+        "--output",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/verified_suffix_release"
+      ],
+      "exit": 0,
+      "wall_s": 173.42670508398442
+    },
+    {
+      "name": "validated_debug_configure",
+      "command": [
+        "cmake",
+        "-S",
+        "/Users/taro252/Docker/TimeStretchLab",
+        "-B",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/debug",
+        "-DCMAKE_BUILD_TYPE=Debug"
+      ],
+      "exit": 0,
+      "wall_s": 2.0487096669967286
+    },
+    {
+      "name": "validated_debug_build",
+      "command": [
+        "cmake",
+        "--build",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/debug",
+        "--parallel",
+        "4",
+        "--target",
+        "phase61_contract_tests",
+        "phase61_checkpoint_tests",
+        "phase61_safety_tests",
+        "phase61_seek_check",
+        "phase61_seek_reference",
+        "phase61_native_tests",
+        "phase61_sandbox_app",
+        "phase61_device_route_tests",
+        "phase60_contract_tests",
+        "phase60_adapter_tests",
+        "phase60_lifecycle_tests",
+        "phase60_playback_compare",
+        "phase60_bridge_example",
+        "phase59_tests",
+        "phase59_control_tests",
+        "phase59_check",
+        "phase59_reference",
+        "phase59_progressive_replay",
+        "phase59_captured_reference",
+        "phase59_fix_vocoder_tests",
+        "phase59_fix_stereo_tests",
+        "phase58_tests",
+        "phase58_check",
+        "phase58_product_reference",
+        "phase58_fix_tests",
+        "phase58_fix_mailbox_tests",
+        "phase58_fix_worker_tests",
+        "phase57_tests",
+        "phase57_check",
+        "phase57_reference",
+        "phase56_tests",
+        "phase56_fixed_modes",
+        "phase56_check",
+        "phase56_reference",
+        "phase54_core_probe",
+        "phase54_analysis_tests",
+        "phase54_seek_tests"
+      ],
+      "exit": 0,
+      "wall_s": 58.15482604195131
+    },
+    {
+      "name": "validated_debug_ctest",
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/debug",
+        "-R",
+        "^(phase54_|phase56_|phase57_|phase58_|phase59_|phase60_|phase61_)",
+        "--output-on-failure",
+        "--no-tests=error",
+        "--output-junit",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/validated_debug_ctest.xml",
+        "-j1"
+      ],
+      "exit": 0,
+      "wall_s": 261.98752770898864
+    },
+    {
+      "name": "verified_suffix_debug",
+      "command": [
+        "python3",
+        "-B",
+        "tests/Phase61SeekSmoke.py",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/debug/phase61_seek_check",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_debug_v1/phase61_frozen_reference",
+        "--full",
+        "--output",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/verified_suffix_debug"
+      ],
+      "exit": 0,
+      "wall_s": 466.6290890420205
+    },
+    {
+      "name": "validated_golden",
+      "command": [
+        "python3",
+        "-B",
+        "tests/Phase61Golden.py",
+        "--probe",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/release/phase54_core_probe",
+        "--output",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/validated_golden"
+      ],
+      "exit": 0,
+      "wall_s": 104.09616366698174
+    }
+  ],
+  "platform_final_driver.json": [
+    {
+      "name": "platform_final_release_rebuild",
+      "command": [
+        "cmake",
+        "--build",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/release",
+        "--parallel",
+        "4",
+        "--target",
+        "phase61_native_tests",
+        "phase61_sandbox_app",
+        "phase61_device_route_tests",
+        "phase60_adapter_tests",
+        "phase60_lifecycle_tests"
+      ],
+      "exit": 0,
+      "wall_s": 15.226365833019372
+    },
+    {
+      "name": "platform_final_debug_rebuild",
+      "command": [
+        "cmake",
+        "--build",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/debug",
+        "--parallel",
+        "4",
+        "--target",
+        "phase61_native_tests",
+        "phase61_sandbox_app",
+        "phase61_device_route_tests",
+        "phase60_adapter_tests",
+        "phase60_lifecycle_tests"
+      ],
+      "exit": 0,
+      "wall_s": 18.089742792013567
+    },
+    {
+      "name": "platform_final_release_phase60_adapter_tests",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/release/phase60_adapter_tests",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+      ],
+      "exit": 0,
+      "wall_s": 11.674596416996792
+    },
+    {
+      "name": "platform_final_release_phase60_lifecycle_tests",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/release/phase60_lifecycle_tests",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+      ],
+      "exit": 0,
+      "wall_s": 0.9498882499756292
+    },
+    {
+      "name": "platform_final_debug_phase60_adapter_tests",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/debug/phase60_adapter_tests",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+      ],
+      "exit": 0,
+      "wall_s": 12.796580000023823
+    },
+    {
+      "name": "platform_final_debug_phase60_lifecycle_tests",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/debug/phase60_lifecycle_tests",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+      ],
+      "exit": 0,
+      "wall_s": 1.7306172090466134
+    },
+    {
+      "name": "native_final_48000_2",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/release/phase61_native_tests",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_48000_2.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_final_48000_2"
+      ],
+      "exit": 0,
+      "wall_s": 34.77183570800116
+    },
+    {
+      "name": "native_final_verify_48000_2",
+      "command": [
+        "python3",
+        "-B",
+        "scripts/phase61_verify_native.py",
+        "--input",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_48000_2.wav",
+        "--sessions",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_final_48000_2",
+        "--reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "--output",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_final_verify_48000_2"
+      ],
+      "exit": 0,
+      "wall_s": 3.6087874999502674
+    },
+    {
+      "name": "native_final_44100_1",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/release/phase61_native_tests",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_44100_1.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_final_44100_1"
+      ],
+      "exit": 0,
+      "wall_s": 32.78452837502118
+    },
+    {
+      "name": "native_final_verify_44100_1",
+      "command": [
+        "python3",
+        "-B",
+        "scripts/phase61_verify_native.py",
+        "--input",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_44100_1.wav",
+        "--sessions",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_final_44100_1",
+        "--reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "--output",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_final_verify_44100_1"
+      ],
+      "exit": 0,
+      "wall_s": 1.8836631249869242
+    }
+  ],
+  "python_regressions.json": [
+    {
+      "name": "Phase59Fix2ForensicsTests",
+      "command": [
+        "python3",
+        "-B",
+        "tests/Phase59Fix2ForensicsTests.py"
+      ],
+      "exit": 0,
+      "output": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.018s\n\nOK\n"
+    },
+    {
+      "name": "Phase59Fix2SupplyAnalysisTests",
+      "command": [
+        "python3",
+        "-B",
+        "tests/Phase59Fix2SupplyAnalysisTests.py"
+      ],
+      "exit": 0,
+      "output": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.022s\n\nOK\n"
+    },
+    {
+      "name": "Phase60ResultTests",
+      "command": [
+        "python3",
+        "-B",
+        "tests/Phase60ResultTests.py"
+      ],
+      "exit": 0,
+      "output": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.005s\n\nOK\n"
+    }
+  ],
+  "deep_native_driver.json": [
+    {
+      "name": "deep_native_build",
+      "command": [
+        "cmake",
+        "--build",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/release",
+        "--parallel",
+        "4",
+        "--target",
+        "phase61_native_tests"
+      ],
+      "exit": 0,
+      "wall_s": 8.050031958031468
+    },
+    {
+      "name": "deep_native",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/release/phase61_native_tests",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/deep_native_v1",
+        "--deep"
+      ],
+      "exit": 0,
+      "wall_s": 17.14682945801178
+    },
+    {
+      "name": "deep_native_verify",
+      "command": [
+        "python3",
+        "-B",
+        "scripts/phase61_verify_native.py",
+        "--input",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "--sessions",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/deep_native_v1",
+        "--reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "--output",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/deep_native_verify_v1",
+        "--expected-sessions",
+        "1"
+      ],
+      "exit": 0,
+      "wall_s": 16.450262499973178
+    }
+  ],
+  "sandbox_final_launch.json": [
+    {
+      "command": [
+        "codesign",
+        "--force",
+        "--sign",
+        "-",
+        "--entitlements",
+        "tests/Phase61Sandbox.entitlements",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/release/phase61_sandbox_app.app"
+      ],
+      "exit": 0,
+      "output": "/Users/taro252/Docker/TimeStretchLab/build/phase61/release/phase61_sandbox_app.app: replacing existing signature\n"
+    },
+    {
+      "command": [
+        "codesign",
+        "--verify",
+        "--strict",
+        "--verbose=2",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/release/phase61_sandbox_app.app"
+      ],
+      "exit": 0,
+      "output": "/Users/taro252/Docker/TimeStretchLab/build/phase61/release/phase61_sandbox_app.app: valid on disk\n/Users/taro252/Docker/TimeStretchLab/build/phase61/release/phase61_sandbox_app.app: satisfies its Designated Requirement\n"
+    },
+    {
+      "command": [
+        "open",
+        "-n",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/release/phase61_sandbox_app.app"
+      ],
+      "exit": 0,
+      "output": ""
+    }
+  ],
+  "deep_offline_commands": [
+    {
+      "kind": "cold_seek",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/release/phase61_seek_check",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "500000",
+        "candidate",
+        "12960000",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/deep_checkpoint_v1/reference.f32",
+        "25919744",
+        "28800000",
+        "workgroup"
+      ],
+      "exit": 0,
+      "result": {
+        "PASS": true,
+        "output_start": 25919744,
+        "suffix_frames": 2880256,
+        "discarded": 25919744,
+        "sha256": "401c86a423a6ac8e77b9b2a53479cfba24a47113a9969baa7b91dd515169ff52",
+        "accepted_to_ready_s": 12.103,
+        "total_s": 14.9491,
+        "peak_rss_bytes": 110198784,
+        "input_generation": 1,
+        "source_bytes": 57600044,
+        "resident_bytes": 57600044,
+        "checkpoint_used": false,
+        "checkpoint_start": 0,
+        "checkpoint_states": 2,
+        "checkpoint_builds": 18,
+        "realtime_joins": 1,
+        "realtime_leaves": 1,
+        "realtime_restores": 1,
+        "worker_deadlines": 0
+      }
+    },
+    {
+      "checkpoint_on": false,
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/release/phase61_seek_check",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "500000",
+        "candidate",
+        "13680000",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/deep_checkpoint_v1/reference.f32",
+        "27359871",
+        "28800000",
+        "workgroup",
+        "12960000",
+        "25919744",
+        "0"
+      ],
+      "exit": 0,
+      "wall_s": 26.36701450002147,
+      "result": {
+        "PASS": true,
+        "output_start": 27359871,
+        "suffix_frames": 1440129,
+        "discarded": 27359871,
+        "sha256": "db1af060a41dbdd542bd120a728466531781f5efa45bc412b32dcf57bce3f89f",
+        "accepted_to_ready_s": 12.7035,
+        "total_s": 26.3518,
+        "peak_rss_bytes": 91930624,
+        "input_generation": 1,
+        "source_bytes": 57600044,
+        "resident_bytes": 57600044,
+        "checkpoint_used": false,
+        "checkpoint_start": 0,
+        "checkpoint_states": 0,
+        "checkpoint_builds": 0,
+        "realtime_joins": 1,
+        "realtime_leaves": 1,
+        "realtime_restores": 1,
+        "worker_deadlines": 0
+      }
+    },
+    {
+      "checkpoint_on": true,
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/release/phase61_seek_check",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "500000",
+        "candidate",
+        "13680000",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/deep_checkpoint_v1/reference.f32",
+        "27359871",
+        "28800000",
+        "workgroup",
+        "12960000",
+        "25919744",
+        "1"
+      ],
+      "exit": 0,
+      "wall_s": 14.561006582982372,
+      "result": {
+        "PASS": true,
+        "output_start": 27359871,
+        "suffix_frames": 1440129,
+        "discarded": 1421951,
+        "sha256": "db1af060a41dbdd542bd120a728466531781f5efa45bc412b32dcf57bce3f89f",
+        "accepted_to_ready_s": 0.695445,
+        "total_s": 14.5459,
+        "peak_rss_bytes": 111050752,
+        "input_generation": 1,
+        "source_bytes": 57600044,
+        "resident_bytes": 57600044,
+        "checkpoint_used": true,
+        "checkpoint_start": 25937920,
+        "checkpoint_states": 2,
+        "checkpoint_builds": 19,
+        "realtime_joins": 1,
+        "realtime_leaves": 1,
+        "realtime_restores": 1,
+        "worker_deadlines": 0
+      }
+    }
+  ],
+  "native_first_pass": [
+    {
+      "name": "native_release_rebuild",
+      "command": [
+        "cmake",
+        "--build",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/release",
+        "--parallel",
+        "4",
+        "--target",
+        "phase61_native_tests",
+        "phase61_sandbox_app",
+        "phase61_device_route_tests",
+        "phase60_adapter_tests",
+        "phase60_lifecycle_tests"
+      ],
+      "exit": 0,
+      "wall_s": 26.00119120895397
+    },
+    {
+      "name": "native_debug_rebuild",
+      "command": [
+        "cmake",
+        "--build",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/debug",
+        "--parallel",
+        "4",
+        "--target",
+        "phase61_native_tests",
+        "phase61_sandbox_app",
+        "phase61_device_route_tests",
+        "phase60_adapter_tests",
+        "phase60_lifecycle_tests"
+      ],
+      "exit": 0,
+      "wall_s": 23.178696707997005
+    },
+    {
+      "name": "native_release_phase60_adapter_tests",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/release/phase60_adapter_tests",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+      ],
+      "exit": 0,
+      "wall_s": 12.543198791972827
+    },
+    {
+      "name": "native_release_phase60_lifecycle_tests",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/release/phase60_lifecycle_tests",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+      ],
+      "exit": 0,
+      "wall_s": 0.9775438750511967
+    },
+    {
+      "name": "native_debug_phase60_adapter_tests",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/debug/phase60_adapter_tests",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+      ],
+      "exit": 0,
+      "wall_s": 12.889630375022534
+    },
+    {
+      "name": "native_debug_phase60_lifecycle_tests",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/debug/phase60_lifecycle_tests",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+      ],
+      "exit": 0,
+      "wall_s": 1.7073472919873893
+    },
+    {
+      "name": "native_release_48000_2",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/release/phase61_native_tests",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_48000_2.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_release_48000_2"
+      ],
+      "exit": 0,
+      "wall_s": 35.1002563330112
+    },
+    {
+      "name": "native_verify_48000_2",
+      "command": [
+        "python3",
+        "-B",
+        "scripts/phase61_verify_native.py",
+        "--input",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_48000_2.wav",
+        "--sessions",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_release_48000_2",
+        "--reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "--output",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_verify_48000_2"
+      ],
+      "exit": 0,
+      "wall_s": 3.619875500036869
+    },
+    {
+      "name": "native_release_44100_1",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/release/phase61_native_tests",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_44100_1.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_release_44100_1"
+      ],
+      "exit": 0,
+      "wall_s": 32.59475716704037
+    },
+    {
+      "name": "native_verify_44100_1",
+      "command": [
+        "python3",
+        "-B",
+        "scripts/phase61_verify_native.py",
+        "--input",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_44100_1.wav",
+        "--sessions",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_release_44100_1",
+        "--reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "--output",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_verify_44100_1"
+      ],
+      "exit": 0,
+      "wall_s": 1.8744471249519847
+    },
+    {
+      "name": "real_device_route",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/release/phase61_device_route_tests",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_48000_2.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/real_device_route.json"
+      ],
+      "exit": 0,
+      "wall_s": 1.0402438750024885
+    }
+  ]
+}

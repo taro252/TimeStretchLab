@@ -1,0 +1,48 @@
+{
+  "base_head": "fc28efd93",
+  "current_head": "fc28efd934895b7bca2accb9556d7fd35fb6e0f9",
+  "branch": "main",
+  "protected": {
+    "results/phase60/REPORT.md": {
+      "sha256": "4456155bcaab1e0e31f3967ef9ee2c0f3f99846b6019fce2a29b01de6794a6b6",
+      "unchanged": true
+    },
+    "results/phase60/VERDICT.json": {
+      "sha256": "46e1d41bc9c48929befc2e6a5e5ba4503611575e30a9f251f1f5dadcbd71d02b",
+      "unchanged": true
+    },
+    "results/phase60_fd_pinning/REGRESSION.json": {
+      "sha256": "7593d8d1a83e2e3557d97dd6b9b59f842dc89a105fbdc87ce9c3bbf7e766f06f",
+      "unchanged": true
+    },
+    "results/phase12/golden/manifest.csv": {
+      "sha256": "a767c8cf262810ce8573254615c922c7b6f1b31644afda2e759544ddb79a4013",
+      "unchanged": true
+    },
+    "results/phase28/golden/manifest.csv": {
+      "sha256": "5baf6bd1d6237006e2a2417b5dc1f614bd73423b17cfee571095b5115848cca4",
+      "unchanged": true
+    }
+  },
+  "working_tree_status": " M CMakeLists.txt\n M src/platform/macos/ProgressiveMacPlaybackEngine.h\n M src/platform/macos/ProgressiveMacPlaybackEngine.mm\n M src/playback/ProgressiveContract.h\n M src/prototype/Phase36SynthesisCore.h\n M src/prototype/Phase57ProgressiveSynthesis.cpp\n M src/prototype/Phase57ProgressiveSynthesis.h\n M src/prototype/Phase58RealtimePipeline.cpp\n M src/prototype/Phase58RealtimePipeline.h\n?? docs/PHASE61_SEEK_SPEC.md\n?? results/phase61/\n?? scripts/phase61_freeze_reference.py\n?? scripts/phase61_verify_native.py\n?? src/playback/ProgressiveSeekContract.h\n?? src/prototype/Phase61SeekReference.cpp\n?? tests/Phase61CheckpointTests.cpp\n?? tests/Phase61ContractTests.cpp\n?? tests/Phase61DeviceRouteTests.cpp\n?? tests/Phase61Golden.py\n?? tests/Phase61NativeTests.cpp\n?? tests/Phase61SafetyTests.cpp\n?? tests/Phase61Sandbox.entitlements\n?? tests/Phase61SandboxApp.mm\n?? tests/Phase61SeekCheck.cpp\n?? tests/Phase61SeekSmoke.py\n",
+  "staged_paths": "",
+  "large_changed_or_untracked_files": [],
+  "max_candidate_source_bytes": 65213,
+  "hooks_path": ".githooks",
+  "artifact_root_ignored": true,
+  "commit_or_push": false,
+  "other_repository_write_commands": false,
+  "phase62_started": false,
+  "existing_large_input_artifact": {
+    "path": "results/phase56/long/chain_300s.wav",
+    "bytes": 57600044,
+    "already_tracked": false,
+    "git_ignored": true,
+    "ignore_rule": ".gitignore:17:/results/**/*.wav\tresults/phase56/long/chain_300s.wav",
+    "newly_added_or_modified": false,
+    "sha256": "13c957e5c0f5e3d64c4973ac27117930bcc541ac67f4d21459417d8f5a4e0bd0",
+    "recipe_reproduction_sha256": "13c957e5c0f5e3d64c4973ac27117930bcc541ac67f4d21459417d8f5a4e0bd0"
+  },
+  "largest_new_result_bytes": 1166544,
+  "final_diff_whitespace_check": "PASS"
+}

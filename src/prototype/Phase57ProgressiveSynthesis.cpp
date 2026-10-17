@@ -12,6 +12,9 @@ struct ProgressiveSynthesisEngine::Impl final:ProgressiveAccess {
     std::optional<std::size_t> declaredFinalOutput;
     bool dynamicEnabled=false;
     const phase59::DynamicMap* dynamicMap=nullptr;
+    std::shared_ptr<const phase59::DynamicMap> checkpointMapOwner;
+    bool checkpointContext=false;
+    std::span<const unsigned char> residentIdentity;
     Phase36StreamingSpeedEngine::WorkProfile profile{};bool profileEnabled=false;
     Phase36StreamingSpeedEngine::WorkProfile::Observer preparedObserver=nullptr;
     mutable std::array<std::pair<double,double>,16> positionCache{};
@@ -24,7 +27,7 @@ struct ProgressiveSynthesisEngine::Impl final:ProgressiveAccess {
     std::array<std::vector<float>,2> pcm;std::array<const float*,2> pointers{};
     std::atomic<bool> cancelled{false},finished{false};bool failed=false,injected=false,finalLength=false;
     SynthesisState state=SynthesisState::NeedsMoreAnalysis;
-    Impl(const std::filesystem::path& path,std::uint32_t s,std::uint64_t g,std::function<void()> v,std::size_t budget,std::span<const unsigned char> pinnedBytes,int pinnedFd=-1):speed(s),generation(g),validate(std::move(v)){
+    Impl(const std::filesystem::path& path,std::uint32_t s,std::uint64_t g,std::function<void()> v,std::size_t budget,std::span<const unsigned char> pinnedBytes,int pinnedFd=-1):speed(s),generation(g),validate(std::move(v)),residentIdentity(pinnedBytes){
         if(s<400000||s>2000000||s%10000||!g)throw std::invalid_argument("Invalid Phase57 speed/generation");
         if(validate)validate();
         WavStreamReader reader=pinnedFd>=0&&pinnedBytes.empty()
@@ -172,6 +175,14 @@ bool ProgressiveSynthesisEngine::trySupplyBorrowedDynamicMap(const phase59::Dyna
         view->modes.size()>phase59::maximumChanges||view->receivedInput>x.snapshot->receivedInputFrames||
         (view->final&&!x.snapshot->isFinal)||x.finished.load()||x.failed||x.cancelled.load())return false;
     const auto f=dspFrontier();
+    if(x.checkpointContext){
+        // A saved fixed state may have advanced DSP. Rebinding is legal only
+        // when the entire immutable final map is identical, with no speed or
+        // density history. Subsequent changes use the original Phase59 guards.
+        if(!view->final||view->hasTransitions||!x.dynamicMap||!x.dynamicMap->final||
+            !view->modes.empty()||view->map.starts()!=x.dynamicMap->map.starts()||view->outputFrames!=x.output)return false;
+        x.dynamicMap=view;x.checkpointMapOwner.reset();x.checkpointContext=false;x.waiting=false;return true;
+    }
     if(x.dynamicMap){
         const auto& old=*x.dynamicMap;
         if(view->baseVersion!=old.version||view->version<=old.version||view->certifiedNodes<old.certifiedNodes||
@@ -218,5 +229,26 @@ SynthesisFrontier ProgressiveSynthesisEngine::frontier()const{const auto& x=*imp
     }
     f.firThrough={x.low[0]->finalizedOutputSample(),x.high[0]->finalizedOutputSample()};f.firSourceThrough={x.low[0]->firstUnprocessedSourceSample(),x.high[0]->firstUnprocessedSourceSample()};return f;}
 std::size_t ProgressiveSynthesisEngine::stateBytesEstimate()const{return impl_->stateBytesEstimate();}
+std::unique_ptr<ProgressiveSynthesisEngine> ProgressiveSynthesisEngine::cloneFixedCheckpoint(int fd,std::span<const unsigned char> bytes,std::function<void()> validate)const{
+    const auto& old=*impl_;
+    if(bytes.empty()||bytes.data()!=old.residentIdentity.data()||bytes.size()!=old.residentIdentity.size()||
+        !old.snapshot||!old.snapshot->isFinal||old.failed||old.cancelled.load()||old.finished.load()||old.generated!=old.published||
+        old.profileEnabled||old.preparedObserver||!old.modes.empty()||(old.dynamicEnabled&&(!old.dynamicMap||!old.dynamicMap->final||old.dynamicMap->hasTransitions)))return {};
+    auto copy=std::make_unique<ProgressiveSynthesisEngine>(fd,old.speed,old.generation,std::move(validate),16*1024*1024,bytes);
+    if(old.dynamicEnabled)copy->enableDynamicTransitions();
+    auto& x=*copy->impl_;x.output=old.output;x.generated=old.generated;x.published=old.published;x.declaredFinalOutput=old.declaredFinalOutput;
+    x.snapshotOwner=std::make_shared<const phase56::AnalysisSnapshot>(*old.snapshot);x.snapshot=x.snapshotOwner.get();
+    if(old.dynamicMap){x.checkpointMapOwner=std::make_shared<const phase59::DynamicMap>(*old.dynamicMap);x.dynamicMap=x.checkpointMapOwner.get();}
+    x.positionCache=old.positionCache;x.positionCacheCount=old.positionCacheCount;x.positionCacheNext=old.positionCacheNext;
+    x.waiting=old.waiting;x.waitedNodes=old.waitedNodes;x.waitedInput=old.waitedInput;x.waitedState=old.waitedState;
+    x.detection=old.detection;x.detection.progressive=&x;x.digests=old.digests;x.modes=old.modes;
+    for(std::size_t r=0;r<3;++r)x.resolution[r]->copyRuntimeStateFrom(*old.resolution[r]);
+    for(std::size_t c=0;c<x.channels;++c){x.low[c]->copyRuntimeStateFrom(*old.low[c]);x.high[c]->copyRuntimeStateFrom(*old.high[c]);x.pcm[c]=old.pcm[c];x.pointers[c]=x.pcm[c].data();}
+    x.finalLength=old.finalLength;x.state=old.state;return copy;
+}
+void ProgressiveSynthesisEngine::prepareCheckpointForEpoch(){auto& x=*impl_;
+    if(!x.snapshotOwner||!x.snapshotOwner->isFinal||x.generated!=x.published||x.cancelled.load()||x.finished.load())throw std::logic_error("Invalid checkpoint epoch");
+    x.snapshot=nullptr;x.snapshotOwner.reset();x.borrowedSnapshots=false;x.waiting=false;x.checkpointContext=x.dynamicEnabled;
+}
 void ProgressiveSynthesisEngine::injectFailureForTest(){impl_->injected=true;}
 }

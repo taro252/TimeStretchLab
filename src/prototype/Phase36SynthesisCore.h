@@ -113,6 +113,14 @@ struct Detection {
 // response, block order and accumulation order are identical to StreamingFIR.
 class LiveStreamingFIR {
 public:
+    // Normal exclusive owner only. FFT workspaces are overwritten completely
+    // by each transform; persistent FIR accumulation/positions are copied.
+    void copyRuntimeStateFrom(const LiveStreamingFIR& other){
+        if(taps_!=other.taps_||blockLength_!=other.blockLength_)throw std::invalid_argument("FIR checkpoint format");
+        length_=other.length_;nextBlock_=other.nextBlock_;base_=other.base_;
+        response_=other.response_;spectrum_=other.spectrum_;block_=other.block_;
+        transformed_=other.transformed_;accum_=other.accum_;
+    }
     void setWorkProfile(WorkProfile* profile){profile_=profile;}
     LiveStreamingFIR(const MultiResolutionCrossover::Filter& filter,std::size_t length,
                      WorkProfile* profile)
@@ -203,6 +211,18 @@ inline Detection makeDetection(const Phase13TransientAnalysis& analysis,
 }
 class ResolutionStream {
 public:
+    void copyRuntimeStateFrom(const ResolutionStream& other){
+        if(fftSize_!=other.fftSize_||hop_!=other.hop_||length_!=other.length_||
+            reader_.channels()!=other.reader_.channels()||tracker_||other.tracker_||resynchronizer_||other.resynchronizer_||stageTrace_||other.stageTrace_)
+            throw std::invalid_argument("Unsupported resolution checkpoint context");
+        outputLength_=other.outputLength_;coherence_=other.coherence_;sharedPeaks_=other.sharedPeaks_;
+        vocoders_=other.vocoders_;olas_=other.olas_;recordFrameHistory_=other.recordFrameHistory_;
+        recentInput_=other.recentInput_;recentOutput_=other.recentOutput_;recentCount_=other.recentCount_;
+        frame_=other.frame_;synthesized_=other.synthesized_;inputSpectra_=other.inputSpectra_;
+        outputSpectra_=other.outputSpectra_;alignedSpectra_=other.alignedSpectra_;combined_=other.combined_;cache_=other.cache_;
+        nextFrame_=other.nextFrame_;produced_=other.produced_;position_=other.position_;
+        lastProcessed_=other.lastProcessed_;nextEvent_=other.nextEvent_;done_=other.done_;previousStart_=other.previousStart_;
+    }
     void setWorkProfile(WorkProfile* profile){profile_=profile;}
     using Frontier=Phase36StreamingSpeedEngine::Frontier;
     ResolutionStream(const std::filesystem::path& path, const StretchConfig& config,

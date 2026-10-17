@@ -24,6 +24,7 @@ struct Configuration {
     unsigned promotionFailureOnAttemptForTest=0; // Explicit pre-promotion fault, max 2.
     std::array<std::pair<std::size_t,std::size_t>,4> phaseProbeWindows{};
     std::size_t phaseProbeWindowCount=0; // Detailed phase substages, at most 4 windows.
+    bool seekCheckpoints=true; // Phase61, exact resident fixed-state cache, max 2.
 };
 struct RenderResult {std::size_t wanted=0,received=0,outputBefore=0,fifoBefore=0;};
 struct FifoCursors {std::uint64_t read=0,write=0;};
@@ -64,6 +65,14 @@ struct Diagnostics {
     double samplerCpuS=0;
     bool analysisQos=false,dspQos=false,analysisDone=false,dspDone=false,cancelled=false,failed=false;
     std::string inputSha256,pcmSha256,error;
+    // Phase61: an input lease survives render epochs. Positions are absolute
+    // output coordinates; generated includes the exact discarded prefix.
+    std::uint64_t inputGeneration=0;
+    std::size_t outputStartFrame=0,discardedFrames=0;
+    bool reusedInput=false,reusedAnalysis=false;
+    std::size_t sourceHashPasses=0,sourceSnapshotCreations=0,residentLockCalls=0;
+    bool checkpointUsed=false;
+    std::size_t checkpointStartFrame=0,checkpointResidentStates=0,checkpointBuilds=0;
 };
 struct WorkerRecord {
     std::size_t outputStart=0,outputEnd=0,fifoBefore=0,fifoAfter=0,receivedInput=0;
@@ -110,10 +119,17 @@ public:
     std::uint32_t sampleRate()const noexcept;
     std::size_t channels()const noexcept;
     std::size_t inputFrames()const noexcept;
+    // Normal owner only. Shares protected bytes/FD and immutable analysis;
+    // creates only fresh DSP/FIFO/transition state. Caller starts the result.
+    std::unique_ptr<RealtimePipeline> createSeek(std::size_t inputFrame,std::uint32_t speedMicros)const;
+    std::size_t outputStartFrame()const noexcept;
+    std::uint64_t inputGeneration()const noexcept;
     double elapsedSeconds()const noexcept;
     Diagnostics diagnostics()const; // Control thread, never callback.
     std::vector<WorkerRecord> workerRecords()const; // Joined workers only.
     std::vector<DetailEvent> detailEvents()const; // Joined workers only.
     std::vector<ThreadSample> threadSamples()const; // Joined workers only.
+private:
+    explicit RealtimePipeline(std::unique_ptr<Impl>);
 };
 }

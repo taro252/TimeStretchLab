@@ -51,6 +51,13 @@ public:
     void fail();
     SynthesisFrontier frontier()const; // producer or quiescent caller only
     std::size_t stateBytesEstimate()const;
+    // Phase61: exclusive normal owner, final fixed map, same resident input.
+    // Returns null when this state cannot be checkpointed exactly. No audio or
+    // realtime callback may call this allocating deep copy.
+    std::unique_ptr<ProgressiveSynthesisEngine> cloneFixedCheckpoint(int pinnedFd,
+        std::span<const unsigned char> sameResidentBytes,std::function<void()> validateInput={})const;
+    // A clone adopts the new epoch's same final fixed map before producing PCM.
+    void prepareCheckpointForEpoch();
     void injectFailureForTest();
 };
 }

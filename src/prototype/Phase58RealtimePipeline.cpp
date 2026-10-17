@@ -22,6 +22,7 @@ struct Cancelled {};
 class Input {
     std::filesystem::path selected_;int fd_=-1,snapshotFd_=-1;struct stat identity_{};
     unsigned char* resident_=nullptr;std::size_t residentSize_=0;
+    std::size_t hashes_=0,snapshots_=0,locks_=0;
     static bool same(const struct stat& a,const struct stat& b){
         auto t=[](timespec x,timespec y){return x.tv_sec==y.tv_sec&&x.tv_nsec==y.tv_nsec;};
         return a.st_dev==b.st_dev&&a.st_ino==b.st_ino&&a.st_gen==b.st_gen&&a.st_size==b.st_size&&
@@ -42,11 +43,12 @@ public:
     int snapshotDescriptor()const{return snapshotFd_;}
     std::size_t snapshotBytes()const{return snapshotFd_>=0?std::size_t(identity_.st_size):0;}
     std::span<const unsigned char> residentBytes()const{return {resident_,residentSize_};}
+    std::size_t hashes()const{return hashes_;}std::size_t snapshots()const{return snapshots_;}std::size_t locks()const{return locks_;}
     void makeResident(){
         if(snapshotFd_<0||resident_)throw std::logic_error("Resident source preparation order");
         const auto bytes=snapshotBytes();void* memory=mmap(nullptr,bytes,PROT_READ,MAP_PRIVATE,snapshotFd_,0);
         if(memory==MAP_FAILED)throw std::runtime_error("Cannot map private encoded input");
-        if(mlock(memory,bytes)!=0){munmap(memory,bytes);throw std::runtime_error("Cannot lock private encoded input in memory");}
+        ++locks_;if(mlock(memory,bytes)!=0){munmap(memory,bytes);throw std::runtime_error("Cannot lock private encoded input in memory");}
         resident_=static_cast<unsigned char*>(memory);residentSize_=bytes;
         WavStreamReader validated(std::filesystem::path{},residentBytes());validated.validateEncodedSamples();
     }
@@ -57,10 +59,11 @@ public:
         if(!valid)throw std::runtime_error("Input changed/replaced/unavailable");
     }
     std::string identify(std::size_t budget){
+        ++hashes_;
         validate();Phase45PcmDigest hash;std::array<unsigned char,131072> b{};off_t at=0;
         if(std::uint64_t(identity_.st_size)>budget)throw std::length_error("Input snapshot budget exceeded");
         auto name=(std::filesystem::temp_directory_path()/"phase58-input-XXXXXX").string();
-        snapshotFd_=mkstemp(name.data());if(snapshotFd_<0)throw std::runtime_error("Cannot allocate private source snapshot");
+        ++snapshots_;snapshotFd_=mkstemp(name.data());if(snapshotFd_<0)throw std::runtime_error("Cannot allocate private source snapshot");
         if(unlink(name.c_str())!=0)throw std::runtime_error("Cannot unlink private source snapshot");
         if(fcntl(snapshotFd_,F_SETFD,FD_CLOEXEC)<0)throw std::runtime_error("Cannot protect source snapshot FD");
         while(at<identity_.st_size){const auto n=pread(fd_,b.data(),std::min<off_t>(b.size(),identity_.st_size-at),at);
@@ -70,6 +73,19 @@ public:
             hash.update(b.data(),std::size_t(n));at+=n;}
         validate();return hash.finish();
     }
+};
+// One source preparation, independently retained by at most two render epochs.
+// No mutable analysis/DSP state is shared between their workers.
+struct InputLease {
+    Input input;
+    std::uint64_t generation=0;
+    std::string sha;
+    std::shared_ptr<const phase56::AnalysisSnapshot> finalAnalysis;
+    std::atomic<bool> analysisFailed{false};
+    struct Checkpoint {std::uint32_t speed;std::size_t output;std::shared_ptr<const phase57::ProgressiveSynthesisEngine> state;};
+    std::mutex checkpointMutex;std::vector<Checkpoint> checkpoints;
+    std::size_t checkpointBuilds=0;
+    explicit InputLease(const std::filesystem::path& p):input(p){}
 };
 std::atomic<std::uint64_t> nextSession{1};
 static_assert(std::atomic<std::uint64_t>::is_always_lock_free);
@@ -96,7 +112,18 @@ template<class T>void prepareDiagnosticStorage(std::vector<T>& buffer,std::size_
 }
 }
 struct RealtimePipeline::Impl {
-    playback::StageClock origin;Configuration config;Input input;
+    playback::StageClock origin;Configuration config;
+    std::shared_ptr<InputLease> inputLease;Input& input;
+    bool seeking=false;std::size_t seekInput=0;
+    std::atomic<std::size_t> outputStart{0},discarded{0};
+    std::atomic<bool> seekMapReady{false};
+    std::array<std::array<float,2048>,2> seekPcm{};
+    std::size_t seekPcmOffset=0,seekPcmCount=0;
+    bool seekDspFinished=false;
+    Phase45PcmDigest seekHash;std::array<float,4096> seekInterleaved{};
+    phase57::ProgressiveSynthesisEngine* activeSynthesis=nullptr;
+    std::atomic<std::size_t> checkpointStart{0};
+    std::size_t lastCheckpointOutput=0;bool savedCheckpoint=false;
     const std::uint64_t session=nextSession.fetch_add(1);const std::size_t lead;
     Phase14AudioFifo fifo;
     std::thread analysisWorker,dspWorker,sampler;
@@ -148,7 +175,10 @@ struct RealtimePipeline::Impl {
     std::array<std::uint64_t,32> stageStack{};std::size_t stageDepth=0;
     std::vector<ThreadSample> samples;std::size_t sampleDropped=0,sampleErrors=0;
     std::atomic<double> samplerCpu{0};
-    Impl(const std::filesystem::path& p,Configuration c):config(c),input(p),lead(c.candidate?16384:12288),fifo(input.channels,16384){
+    Impl(const std::filesystem::path& p,Configuration c):Impl(std::make_shared<InputLease>(p),c,false,0){}
+    Impl(std::shared_ptr<InputLease> lease,Configuration c,bool seek,std::size_t at)
+        :config(c),inputLease(std::move(lease)),input(inputLease->input),seeking(seek),seekInput(at),
+         lead(c.candidate?16384:12288),fifo(input.channels,16384){
         if(c.speedMicros<400000||c.speedMicros>2000000||c.speedMicros%10000||!c.analysisChunk||c.analysisChunk>131072||!std::isfinite(c.analysisDelayMs)||c.analysisDelayMs<0||!std::isfinite(c.dspDelayMs)||c.dspDelayMs<0)throw std::invalid_argument("Invalid Phase58 configuration");
         if(c.diagnosticEventLimit>262144)throw std::invalid_argument("Unbounded detail diagnostics");
         if(c.scheduling==WorkerScheduling::AudioWorkgroup&&(!c.residentInput||c.dspDelayMs))throw std::invalid_argument("Audio workgroup requires resident input and no synthetic DSP sleep");
@@ -157,12 +187,93 @@ struct RealtimePipeline::Impl {
         if(c.promotionFailureOnAttemptForTest>2)throw std::invalid_argument("Invalid promotion fault control");
         if(c.phaseProbeWindowCount>c.phaseProbeWindows.size())throw std::invalid_argument("Too many phase probe windows");
         for(std::size_t w=0;w<c.phaseProbeWindowCount;++w)if(c.phaseProbeWindows[w].first>=c.phaseProbeWindows[w].second)throw std::invalid_argument("Invalid phase probe window");
-        error.reserve(256);verified=elapsed();inputSha=input.identify(config.sourceSnapshotBytes);identified=elapsed();
-        if(config.residentInput){input.makeResident();residentReady=elapsed();}
+        if(seeking&&seekInput>input.frames)throw std::out_of_range("Seek input frame out of range");
+        error.reserve(256);input.validate();verified=elapsed();
+        if(!seeking){
+            inputLease->generation=session;
+            inputLease->sha=input.identify(config.sourceSnapshotBytes);
+            if(config.residentInput){input.makeResident();residentReady=elapsed();}
+        }else if(config.residentInput&&input.residentBytes().empty())throw std::logic_error("Seek requires prepared resident input");
+        inputSha=inputLease->sha;identified=elapsed();
         realtime=std::make_unique<RealtimeWorkerSupport>(config.scheduling==WorkerScheduling::AudioWorkgroup,input.rate);
-        if(config.dynamicTransitions){operations.reserve(4096);transitionPlanner=std::make_unique<phase59::ProgressiveTransitionPlanner>(input.rate,input.frames,session,c.speedMicros,c.candidate);}
+        if(config.dynamicTransitions){operations.reserve(4096);transitionPlanner=std::make_unique<phase59::ProgressiveTransitionPlanner>(input.rate,input.frames,inputLease->generation,c.speedMicros,c.candidate);}
     }
     double elapsed()const{return origin.elapsed().wallSeconds;}
+    std::shared_ptr<const phase56::AnalysisSnapshot> seekAnalysis(){
+        std::shared_ptr<const phase56::AnalysisSnapshot> base;
+        while(!(base=std::atomic_load(&inputLease->finalAnalysis))){
+            check();if(inputLease->analysisFailed.load())throw std::runtime_error("Source analysis failed");
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        }
+        check();auto s=std::make_shared<phase56::AnalysisSnapshot>(*base);
+        if(s->speedCount!=1||s->speedMicros[0]!=config.speedMicros){
+            phase56::MapPrefixBuilder builder({config.speedMicros});
+            for(std::size_t i=0;i<s->closedEventCount;++i)builder.close(s->events.at(i),s->anchors.at(i));
+            builder.finish(s->featureThrough);
+            auto ledger=std::make_shared<phase56::MemoryLedger>(64*1024*1024);ledger->owner=ledger;
+            s->maps={};s->speedCount=1;s->speedMicros={};s->speedMicros[0]=config.speedMicros;
+            s->maps[0]=s->maps[0].extend(builder.nodes[0],builder.nodes[0].size(),ledger);
+            s->mapThroughNode=s->maps[0].size();
+        }
+        std::vector<long long> nodes;nodes.reserve(s->mapThroughNode);
+        for(std::size_t i=0;i<s->mapThroughNode;++i)nodes.push_back(s->maps[0].at(i));
+        const auto length=std::size_t(std::llround(input.frames*(1.0/(double(config.speedMicros)/1000000.0))));
+        const TimeMap map(1024,std::move(nodes),{});
+        const auto start=seekInput==input.frames?length:std::min(length,std::size_t(std::max(0LL,std::llround(map.outputPositionForInputSample(double(seekInput))))));
+        output=length;outputStart=start;published=start;consumed=start;seekMapReady=true;
+        return s;
+    }
+    void stageSeekPcm(std::uint64_t generation,std::size_t offset,const float*const* p,std::size_t n){
+        if(generation!=inputLease->generation||offset!=generated.load()||seekPcmCount)throw std::logic_error("Seek PCM identity/order");
+        generated=offset+n;
+        const auto skip=std::min(n,outputStart.load()>offset?outputStart.load()-offset:0);
+        discarded.fetch_add(skip);seekPcmCount=n-skip;seekPcmOffset=0;
+        for(std::size_t c=0;c<input.channels;++c)std::copy_n(p[c]+skip,seekPcmCount,seekPcm[c].data());
+    }
+    void flushSeekPcm(){
+        const auto room=std::min(fifo.free(),lead-std::min(lead,fifo.available()));
+        const auto n=std::min(room,seekPcmCount);if(!n)return;
+        std::array<const float*,2> p{};for(std::size_t c=0;c<input.channels;++c)p[c]=seekPcm[c].data()+seekPcmOffset;
+        if(!fifo.write(p.data(),n))throw std::logic_error("Seek FIFO rejected PCM");
+        if(config.verifyPcm){for(std::size_t i=0;i<n;++i)for(std::size_t c=0;c<input.channels;++c)seekInterleaved[i*input.channels+c]=p[c][i];seekHash.update(seekInterleaved.data(),n*input.channels*sizeof(float));}
+        seekPcmOffset+=n;seekPcmCount-=n;published.fetch_add(n);
+        if(firstPublished.load()<0)firstPublished=elapsed();
+        if(published.load()-outputStart.load()>=lead&&!ready.load()){
+            rememberCheckpoint(true);
+            {std::lock_guard lock(mutex);inputAtReady=received.load();readyTime=elapsed();ready=true;}
+            changed.notify_all();
+        }
+    }
+    void finishSeek(){
+        std::lock_guard lock(mutex);dspDone=true;
+        if(config.verifyPcm)pcmSha=seekHash.finish();
+        if(!ready.load()){inputAtReady=received.load();readyTime=elapsed();ready=true;}
+        changed.notify_all();
+    }
+    std::unique_ptr<phase57::ProgressiveSynthesisEngine> makeSynthesis(std::function<void()> validate){
+        if(seeking){while(!seekMapReady.load()){check(true);std::this_thread::sleep_for(std::chrono::milliseconds(1));}
+            if(config.seekCheckpoints&&!config.recordWorkerProfile&&!config.detailedDiagnostics&&seekInput!=input.frames){
+                std::shared_ptr<const phase57::ProgressiveSynthesisEngine> saved;std::size_t point=0;
+                {std::lock_guard lock(inputLease->checkpointMutex);
+                    for(const auto& cp:inputLease->checkpoints)if(cp.speed==config.speedMicros&&cp.output<=outputStart.load()&&cp.output>=point){saved=cp.state;point=cp.output;}}
+                if(saved){auto engine=saved->cloneFixedCheckpoint(input.snapshotDescriptor(),input.residentBytes(),validate);
+                    if(!engine)throw std::logic_error("Resident checkpoint identity changed");
+                    engine->prepareCheckpointForEpoch();checkpointStart=point;lastCheckpointOutput=point;generated=point;return engine;}
+            }
+        }
+        return std::make_unique<phase57::ProgressiveSynthesisEngine>(input.snapshotDescriptor(),config.speedMicros,inputLease->generation,std::move(validate),16*1024*1024,input.residentBytes());
+    }
+    void rememberCheckpoint(bool atReady=false){
+        if(!seeking||!config.seekCheckpoints||!activeSynthesis||ready.load()||realtime->active()||config.recordWorkerProfile||config.detailedDiagnostics)return;
+        const auto point=activeSynthesis->frontier().published;
+        if((savedCheckpoint&&point==lastCheckpointOutput)||(!atReady&&point-lastCheckpointOutput<input.rate*30ULL))return;
+        auto copy=activeSynthesis->cloneFixedCheckpoint(input.snapshotDescriptor(),input.residentBytes());if(!copy)return;
+        std::shared_ptr<const phase57::ProgressiveSynthesisEngine> immutable(std::move(copy));
+        {std::lock_guard lock(inputLease->checkpointMutex);auto& saved=inputLease->checkpoints;
+            if(!saved.empty()&&saved.back().speed==config.speedMicros&&point>=saved.back().output&&point-saved.back().output<input.rate*5ULL)saved.pop_back();
+            if(saved.size()==2)saved.erase(saved.begin());saved.push_back({config.speedMicros,point,std::move(immutable)});++inputLease->checkpointBuilds;}
+        lastCheckpointOutput=point;savedCheckpoint=true;
+    }
     static void detailObserver(void* context,std::size_t stage,std::size_t scope,bool begin,std::uint64_t ns,double cpu)noexcept{
         auto& x=*static_cast<Impl*>(context);
         if(begin){if(x.stageDepth<x.stageStack.size())x.stageStack[x.stageDepth++]=x.currentStage.load();x.currentStage=(stage<<16)|scope;}
@@ -351,23 +462,31 @@ struct RealtimePipeline::Impl {
             if(analysisQosQueried){analysisQosClass=actual;analysisQosRelative=relative;}
             pthread_setname_np("Phase58 analysis");
             analysisStart=elapsed();playback::StageClock cpu;
-            a=std::make_unique<phase56::ProgressiveAnalysisSession>(input.rate,input.channels,session,phase56::AnalysisLimits{},std::vector<std::uint32_t>{config.speedMicros});
-            phase56::PinnedWavSource source(input.snapshotDescriptor(),session);std::size_t at=0;
-            while(at<input.frames){check();if(config.analysisDelayMs)std::this_thread::sleep_for(std::chrono::duration<double,std::milli>(config.analysisDelayMs));
-                check();at+=source.appendNext(*a,config.analysisChunk);check();received=at;publish(a->getSnapshot());transitionStep(a->getSnapshot());}
-            check();source.finish(*a);check();analysisEnd=elapsed();analysisDone=true;publish(a->getSnapshot());transitionStep(a->getSnapshot());
-            const auto stats=a->statistics();snapshotPeak=stats.snapshotPeakBytes;snapshotCopies=stats.snapshotCopyBytes;
+            std::shared_ptr<const phase56::AnalysisSnapshot> completed;
+            if(seeking){completed=seekAnalysis();received=input.frames;}
+            else{
+                a=std::make_unique<phase56::ProgressiveAnalysisSession>(input.rate,input.channels,session,phase56::AnalysisLimits{},std::vector<std::uint32_t>{config.speedMicros});
+                phase56::PinnedWavSource source(input.snapshotDescriptor(),session);std::size_t at=0;
+                while(at<input.frames){check();if(config.analysisDelayMs)std::this_thread::sleep_for(std::chrono::duration<double,std::milli>(config.analysisDelayMs));
+                    check();at+=source.appendNext(*a,config.analysisChunk);check();received=at;publish(a->getSnapshot());transitionStep(a->getSnapshot());}
+                check();source.finish(*a);check();completed=a->getSnapshot();std::atomic_store(&inputLease->finalAnalysis,completed);
+                const auto stats=a->statistics();snapshotPeak=stats.snapshotPeakBytes;snapshotCopies=stats.snapshotCopyBytes;
+            }
+            analysisEnd=elapsed();analysisDone=true;publish(completed);transitionStep(completed);
             analysisCpu=cpu.elapsed().threadCpuSeconds;
             // Continue validating the selected source after analysis EOS. The
             // control/audio owner joins this worker before releasing the FD.
             while(!cancelled.load()&&!failure.load()){
-                transitionStep(a->getSnapshot());
+                transitionStep(completed);
                 std::unique_lock lock(mutex);changed.wait_for(lock,std::chrono::milliseconds(config.dynamicTransitions?1:10),[&]{return cancelled.load()||failure.load();});lock.unlock();
-                if(dspDone.load()&&fifo.available()==0)break;check();
+                // An EOF seek can remain Ready/Paused with an empty FIFO.
+                // Retain its source-identity watcher until the owner stops it.
+                if(!seeking&&dspDone.load()&&fifo.available()==0)break;check();
             }
-            if(config.dynamicTransitions)transitionStep(a->getSnapshot());
+            if(config.dynamicTransitions)transitionStep(completed);
         }catch(const Cancelled&){if(a)a->cancel();}
-        catch(const std::exception& e){if(dspDone.load()&&fifo.available()==0&&!failure.load())return;
+        catch(const std::exception& e){if(!seeking&&dspDone.load()&&fifo.available()==0&&!failure.load())return;
+            if(!analysisDone.load())inputLease->analysisFailed=true;
             if(a&&!analysisDone.load()){try{a->failInput(session,phase56::AnalysisError::InputRead);}catch(...){}}fail(e.what());}
         changed.notify_all();
     }
@@ -389,13 +508,13 @@ struct RealtimePipeline::Impl {
             if(dspQosQueried){dspQosClass=actual;dspQosRelative=relative;}
             if(config.detailedDiagnostics)prepareDiagnosticStorage(details,config.diagnosticEventLimit);
             phase57::ProgressiveSynthesisEngine* activeEngine=nullptr;
-            phase57::ProgressiveSynthesisEngine engine(input.snapshotDescriptor(),config.speedMicros,session,[&]{
+            auto ownedEngine=makeSynthesis([&]{
                 if(activeEngine){if(cancelled.load()||failure.load())activeEngine->cancel();}
                 else check(true);
-            },16*1024*1024,input.residentBytes());
+            });auto& engine=*ownedEngine;activeSynthesis=&engine;
             activeEngine=&engine;
             output=config.dynamicTransitions?0:std::size_t(std::llround(input.frames*(1.0/(double(config.speedMicros)/1000000.0))));
-            if(config.dynamicTransitions)engine.enableDynamicTransitions();else engine.setDeclaredFinalOutputFrames(output.load());
+            if(!checkpointStart.load()){if(config.dynamicTransitions)engine.enableDynamicTransitions();else engine.setDeclaredFinalOutputFrames(output.load());}
             if(config.recordWorkerProfile){prepareDiagnosticStorage(profiles,65536);engine.enableWorkProfiling();}
             if(config.detailedDiagnostics)engine.setWorkObserver(detailObserver,this);
             Phase45PcmDigest hash;std::vector<float> interleaved(config.verifyPcm?2048*input.channels:0);
@@ -408,7 +527,8 @@ struct RealtimePipeline::Impl {
             // std::function allocation, snapshot ownership, mutex or notification.
             const phase57::ProgressiveSynthesisEngine::Sink sink=[&](auto generation,auto offset,const float*const* p,std::size_t n){
                 if(cancelled.load()||failure.load()){engine.cancel();return;}
-                if(generation!=session||offset!=published.load())throw std::logic_error("PCM identity/offset mismatch");
+                if(seeking){stageSeekPcm(generation,offset,p,n);return;}
+                if(generation!=inputLease->generation||offset!=published.load())throw std::logic_error("PCM identity/offset mismatch");
                 generated=offset+n;if(firstGenerated.load()<0)firstGenerated=elapsed();
                 if(config.verifyPcm){DetailScope region{*this,15};for(std::size_t i=0;i<n;++i)for(std::size_t c=0;c<input.channels;++c)interleaved[i*input.channels+c]=p[c][i];hash.update(interleaved.data(),n*input.channels*sizeof(float));}
                 {DetailScope region{*this,16};if(!fifo.write(p,n))throw std::runtime_error("FIFO rejected PCM write");}
@@ -432,6 +552,13 @@ struct RealtimePipeline::Impl {
                     }else if(!renderingRequested.load()&&realtime->active()){
                         if(!demote())throw std::runtime_error("DSP normal-policy restore failed");
                     }
+                    if(seeking){
+                        flushSeekPcm();
+                        if((seekDspFinished&&!seekPcmCount)||(seekMapReady.load()&&output.load()&&outputStart.load()==output.load())){demote();finishSeek();return;}
+                        // Honour promotion/demotion even when a partial block
+                        // is waiting behind a full Ready FIFO.
+                        if(seekPcmCount){realtime->waitForSignal();continue;}
+                    }
                     if(auto lease=borrowedMailbox.acquire(seenTag)){
                         DetailScope region{*this,12};
                         const auto* view=lease->get();engine.supplyBorrowedSnapshot(view);
@@ -453,7 +580,7 @@ struct RealtimePipeline::Impl {
                         DetailScope region{*this,10};playback::StageClock wait;++analysisWaits;
                         realtime->waitForSignal();analysisWait=analysisWait.load()+wait.elapsed().wallSeconds;continue;
                     }
-                    if(fifo.free()<2048||fifo.available()+2048>lead){
+                    if(seeking?fifo.available()>=lead:(fifo.free()<2048||fifo.available()+2048>lead)){
                         DetailScope region{*this,13};playback::StageClock wait;
                         realtime->waitForSignal();backpressureWait=backpressureWait.load()+wait.elapsed().wallSeconds;continue;
                     }
@@ -469,6 +596,7 @@ struct RealtimePipeline::Impl {
                     try{DetailScope region{*this,14};state=engine.advance(sink);}
                     catch(...){realtime->finishInterval();demote();generated=engine.frontier().generated;throw;}
                     if(!realtime->finishInterval())throw std::runtime_error("DSP work interval finish failed");
+                    if(seeking)rememberCheckpoint();
                     publishFrontier();
                     const auto t=block.elapsed();dspCpu=dspCpu.load()+t.threadCpuSeconds;maxDspWall=std::max(maxDspWall.load(),t.wallSeconds);maxDspCpu=std::max(maxDspCpu.load(),t.threadCpuSeconds);
                     if(config.recordWorkerProfile){
@@ -477,6 +605,7 @@ struct RealtimePipeline::Impl {
                     if(cancelled.load()||failure.load())break;
                     if(state==phase57::SynthesisState::NeedsMoreAnalysis||state==phase57::SynthesisState::NeedsMoreInput){needSnapshot=true;continue;}
                     if(state==phase57::SynthesisState::Finished){
+                        if(seeking){seekDspFinished=true;continue;}
                         if(!demote())throw std::runtime_error("DSP final normal-policy restore failed");
                         if(engine.frontier().published!=output.load())throw std::logic_error("Final output length differs");
                         {std::lock_guard lock(mutex);if(config.verifyPcm)pcmSha=hash.finish();
@@ -503,15 +632,20 @@ struct RealtimePipeline::Impl {
             if(dspQosQueried){dspQosClass=actual;dspQosRelative=relative;}
             pthread_setname_np("Phase58 DSP");
             if(config.detailedDiagnostics)details.reserve(config.diagnosticEventLimit);
-            phase57::ProgressiveSynthesisEngine engine(input.snapshotDescriptor(),config.speedMicros,session,[this]{check(true);},16*1024*1024,input.residentBytes());
+            auto ownedEngine=makeSynthesis([this]{check(true);});auto& engine=*ownedEngine;activeSynthesis=&engine;
             output=std::size_t(std::llround(input.frames*(1.0/(double(config.speedMicros)/1000000.0))));
-            engine.setDeclaredFinalOutputFrames(output.load());
+            if(!checkpointStart.load())engine.setDeclaredFinalOutputFrames(output.load());
             if(config.recordWorkerProfile){profiles.reserve(65536);engine.enableWorkProfiling();}
             if(config.detailedDiagnostics)engine.setWorkObserver(detailObserver,this);
             Phase45PcmDigest hash;std::vector<float> interleaved(config.verifyPcm?2048*input.channels:0);
             std::uint64_t seen=0;
             bool needSnapshot=true,finalSnapshot=false;double previousPublished=-1;
             while(!cancelled.load()&&!failure.load()){
+                if(seeking){
+                    flushSeekPcm();
+                    if((seekDspFinished&&!seekPcmCount)||(seekMapReady.load()&&output.load()&&outputStart.load()==output.load())){finishSeek();return;}
+                    if(seekPcmCount){std::this_thread::sleep_for(std::chrono::milliseconds(1));continue;}
+                }
                 std::shared_ptr<const phase56::AnalysisSnapshot> next;
                 if(needSnapshot){
                     DetailScope region{*this,10};
@@ -529,7 +663,7 @@ struct RealtimePipeline::Impl {
                     engine.supplySnapshot(next);
                     finalSnapshot=next->isFinal;
                 }
-                if(fifo.free()<2048||fifo.available()+2048>lead){
+                if(seeking?fifo.available()>=lead:(fifo.free()<2048||fifo.available()+2048>lead)){
                     DetailScope region{*this,13};
                     playback::StageClock wait;std::unique_lock lock(mutex);
                     // Callback only reads atomics/FIFO. A bounded 2ms worker
@@ -541,7 +675,8 @@ struct RealtimePipeline::Impl {
                 if(config.dspDelayMs)std::this_thread::sleep_for(std::chrono::duration<double,std::milli>(config.dspDelayMs));
                 phase57::SynthesisState state;
                 try{DetailScope region{*this,14};state=engine.advance([&](auto generation,auto offset,const float*const* p,std::size_t n){
-                    check(true);if(generation!=session||offset!=published.load())throw std::logic_error("PCM identity/offset mismatch");
+                    if(seeking){check(true);stageSeekPcm(generation,offset,p,n);return;}
+                    check(true);if(generation!=inputLease->generation||offset!=published.load())throw std::logic_error("PCM identity/offset mismatch");
                     generated=offset+n;if(firstGenerated.load()<0)firstGenerated=elapsed();
                     if(config.verifyPcm){DetailScope digestRegion{*this,15};for(std::size_t i=0;i<n;++i)for(std::size_t c=0;c<input.channels;++c)interleaved[i*input.channels+c]=p[c][i];hash.update(interleaved.data(),n*input.channels*sizeof(float));}
                     {DetailScope fifoRegion{*this,16};if(!fifo.write(p,n))throw std::runtime_error("FIFO rejected PCM write");}
@@ -554,12 +689,14 @@ struct RealtimePipeline::Impl {
                         std::lock_guard lock(mutex);inputAtReady=received.load();readyTime=elapsed();ready=true;
                     }changed.notify_all();
                 });}catch(...){generated=engine.frontier().generated;throw;}
+                if(seeking)rememberCheckpoint();
                 const auto t=block.elapsed();dspCpu=dspCpu.load()+t.threadCpuSeconds;maxDspWall=std::max(maxDspWall.load(),t.wallSeconds);maxDspCpu=std::max(maxDspCpu.load(),t.threadCpuSeconds);
                 if(config.recordWorkerProfile&&published.load()!=startOutput){
                     if(profiles.size()<65536)profiles.push_back({startOutput,published.load(),fifoBefore,fifo.available(),received.load(),seen,finalSnapshot,began,atPublication,t.wallSeconds,t.threadCpuSeconds,gap,engine.workProfile()});else ++profileDropped;
                 }
                 if(state==phase57::SynthesisState::NeedsMoreAnalysis||state==phase57::SynthesisState::NeedsMoreInput){needSnapshot=true;continue;}
                 if(state==phase57::SynthesisState::Finished){
+                    if(seeking){seekDspFinished=true;continue;}
                     if(engine.frontier().published!=output.load())throw std::logic_error("Final output length differs");
                     {std::lock_guard lock(mutex);if(config.verifyPcm)pcmSha=hash.finish();
                         dspDone=true;if(published.load()&&!ready.load()){inputAtReady=received.load();readyTime=elapsed();ready=true;}}
@@ -574,6 +711,7 @@ struct RealtimePipeline::Impl {
     void stop(){{std::lock_guard lock(mutex);cancelled=true;}renderingRequested=false;realtime->signal();changed.notify_all();if(sampler.joinable())sampler.join();if(analysisWorker.joinable())analysisWorker.join();if(dspWorker.joinable())dspWorker.join();if(config.dynamicTransitions){finalizeTransition();cancelOperations();}}
 };
 RealtimePipeline::RealtimePipeline(const std::filesystem::path& p,Configuration c):impl_(std::make_unique<Impl>(p,c)){}
+RealtimePipeline::RealtimePipeline(std::unique_ptr<Impl> p):impl_(std::move(p)){}
 RealtimePipeline::~RealtimePipeline(){impl_->stop();}
 void RealtimePipeline::start(){if(impl_->started.exchange(true))throw std::logic_error("Create a fresh playback session");
     try{impl_->analysisWorker=std::thread([this]{impl_->analyze();});impl_->dspWorker=std::thread([this]{impl_->synthesize();});if(impl_->config.sampleDspThread)impl_->sampler=std::thread([this]{impl_->sampleThread();});}catch(...){impl_->stop();throw;}}
@@ -607,9 +745,9 @@ bool RealtimePipeline::failed()const noexcept{return impl_->failure.load();}
 phase59::RequestReceipt RealtimePipeline::requestSpeed(std::uint32_t speed,std::size_t position,std::uint64_t expectedSession,std::uint64_t expectedGeneration){
     auto& x=*impl_;std::lock_guard lock(x.operationMutex);
     const bool invalid=!x.config.dynamicTransitions||!phase59::formalSpeed(speed);
-    const bool stopped=!x.started.load()||x.cancelled.load()||x.failure.load()||x.dspDone.load()||(expectedSession&&expectedSession!=x.session)||(expectedGeneration&&expectedGeneration!=x.session);
+    const bool stopped=!x.started.load()||x.cancelled.load()||x.failure.load()||x.dspDone.load()||(expectedSession&&expectedSession!=x.session)||(expectedGeneration&&expectedGeneration!=x.inputLease->generation);
     if(x.operations.size()>=4096)return {0,invalid?Phase39RequestResult::Invalid:stopped?Phase39RequestResult::Stopped:Phase39RequestResult::LimitReached};
-    phase59::SpeedOperation op;op.id=x.operations.size()+1;op.session=x.session;op.inputGeneration=x.session;op.target=speed;op.logicalPresented=position;op.acceptedS=x.elapsed();
+    phase59::SpeedOperation op;op.id=x.operations.size()+1;op.session=x.session;op.inputGeneration=x.inputLease->generation;op.target=speed;op.logicalPresented=position;op.acceptedS=x.elapsed();
     if(invalid){op.acceptance=Phase39RequestResult::Invalid;op.change.plan.outcome=Phase39Outcome::Invalid;op.state=phase59::OperationState::Rejected;}
     else if(stopped){
         op.acceptance=Phase39RequestResult::Stopped;op.state=phase59::OperationState::Rejected;
@@ -625,10 +763,21 @@ std::size_t RealtimePipeline::available()const noexcept{return impl_->fifo.avail
 std::uint32_t RealtimePipeline::sampleRate()const noexcept{return impl_->input.rate;}
 std::size_t RealtimePipeline::channels()const noexcept{return impl_->input.channels;}
 std::size_t RealtimePipeline::inputFrames()const noexcept{return impl_->input.frames;}
+std::size_t RealtimePipeline::outputStartFrame()const noexcept{return impl_->outputStart.load();}
+std::uint64_t RealtimePipeline::inputGeneration()const noexcept{return impl_->inputLease->generation;}
+std::unique_ptr<RealtimePipeline> RealtimePipeline::createSeek(std::size_t frame,std::uint32_t speed)const{
+    auto& x=*impl_;if(x.failure.load()||x.cancelled.load())throw std::logic_error("Seek from a failed/stopped epoch");
+    auto c=x.config;c.speedMicros=speed;
+    return std::unique_ptr<RealtimePipeline>(new RealtimePipeline(std::make_unique<Impl>(x.inputLease,c,true,frame)));
+}
 double RealtimePipeline::elapsedSeconds()const noexcept{return impl_->elapsed();}
 Diagnostics RealtimePipeline::diagnostics()const{
     const auto& x=*impl_;Diagnostics d;std::lock_guard lock(x.mutex);
     d.session=x.session;d.analysisThread=x.analysisThread;d.dspThread=x.dspThread;d.snapshotVersion=x.version;
+    d.inputGeneration=x.inputLease->generation;d.outputStartFrame=x.outputStart;d.discardedFrames=x.discarded;d.reusedInput=d.reusedAnalysis=x.seeking;
+    d.sourceHashPasses=x.input.hashes();d.sourceSnapshotCreations=x.input.snapshots();d.residentLockCalls=x.input.locks();
+    d.checkpointUsed=x.checkpointStart.load()!=0;d.checkpointStartFrame=x.checkpointStart;
+    {std::lock_guard checkpointLock(x.inputLease->checkpointMutex);d.checkpointResidentStates=x.inputLease->checkpoints.size();d.checkpointBuilds=x.inputLease->checkpointBuilds;}
     d.inputFrames=x.input.frames;d.receivedInput=x.received;d.generated=x.generated;d.published=x.published;d.consumed=x.consumed;d.outputFrames=x.output;
     d.inputAtFirstPcm=x.inputAtFirstPcm;d.inputAtReady=x.inputAtReady;d.nonEosPublished=x.nonEosPublished;
     d.sourceSnapshotBytes=x.input.snapshotBytes();d.analysisWorkerCpuS=x.analysisWorkerCpu;
