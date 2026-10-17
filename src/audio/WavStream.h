@@ -10,6 +10,8 @@ namespace ts {
 class WavStreamReader {
 public:
     explicit WavStreamReader(const std::filesystem::path& path);
+    // Duplicates an already-open descriptor; caller retains ownership.
+    explicit WavStreamReader(int sourceFd);
     // Optional immutable encoded WAV bytes. The owner must outlive this reader.
     WavStreamReader(const std::filesystem::path& path,std::span<const unsigned char> pinnedBytes);
     ~WavStreamReader();
@@ -30,6 +32,7 @@ private:
     std::uint16_t format_ = 0;
     std::size_t cacheStart_ = 0, cacheCount_ = 0;
     std::vector<unsigned char> cache_;
+    void parse();
     void load(std::size_t frame);
 };
 
