@@ -1,0 +1,134 @@
+{
+  "stage": "completed",
+  "history": [
+    {
+      "name": "release_diagnostic_rebuild",
+      "command": [
+        "cmake",
+        "--build",
+        "build",
+        "-j3"
+      ],
+      "exit": 0,
+      "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/release_diagnostic_rebuild_queue.log"
+    },
+    {
+      "name": "old_math_build",
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/phase59_fix2_old_product.py"
+      ],
+      "exit": 1,
+      "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/old_math_build_queue.log"
+    },
+    {
+      "name": "old_math_build",
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/phase59_fix2_old_product.py"
+      ],
+      "exit": 0,
+      "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/old_math_build_queue_attempt_2.log"
+    },
+    {
+      "name": "startup_cde",
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/phase59_fix2_startup.py",
+        "--repeats",
+        "5"
+      ],
+      "exit": 0,
+      "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/startup_cde_queue.log"
+    },
+    {
+      "name": "trace_legacy_old_math",
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/phase59_fix2_trace.py",
+        "--name",
+        "legacy_old_math",
+        "--seconds",
+        "12",
+        "--",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/old_math_diagnostic_v2/legacy_old_probe",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+        "baseline",
+        "2.0",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_old_math_trace_native",
+        "smoke",
+        "64"
+      ],
+      "exit": 54,
+      "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_legacy_old_math_queue.log"
+    },
+    {
+      "name": "trace_dynamic_no_request",
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/phase59_fix2_trace.py",
+        "--name",
+        "dynamic_no_request",
+        "--seconds",
+        "8",
+        "--",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/startup_cde/phase59_fix2_dynamic_probe",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase59/native_smoke_v2/inputs/boundary_float_stereo_48000.wav",
+        "500000",
+        "candidate",
+        "capture",
+        "480002",
+        "-",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/dynamic_no_request_trace_native",
+        "normal",
+        "1.2",
+        "0",
+        "0",
+        "0",
+        "0",
+        "--worker=workgroup",
+        "--resident-input=on",
+        "--profile=block",
+        "--sample-thread=on",
+        "--output-notify=on",
+        "--capture-path=/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/dynamic_no_request_trace_capture.f32",
+        "--speed-requests=/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/startup_cde/no_requests.csv"
+      ],
+      "exit": 0,
+      "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request_queue.log"
+    },
+    {
+      "name": "trace_dynamic_no_request_analysis",
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/phase59_fix2_trace_analyze.py",
+        "--name",
+        "dynamic_no_request",
+        "--native",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/dynamic_no_request_trace_native"
+      ],
+      "exit": 0,
+      "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request_analysis_queue.log"
+    },
+    {
+      "name": "legacy_investigation_analysis",
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/phase59_fix2_legacy_analyze.py",
+        "--rows",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase59_fix2/legacy_investigation/rows.json",
+        "--name",
+        "investigation"
+      ],
+      "exit": 0,
+      "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_investigation_analysis_queue.log"
+    }
+  ]
+}

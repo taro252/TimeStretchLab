@@ -1,0 +1,1105 @@
+{
+  "PASS": true,
+  "head": "2a33e8dee5f3a5d8edfab1f36e2e44792d904169",
+  "branch": "main",
+  "historical_evidence_files_verified": 63983,
+  "historical_failures_preserved": true,
+  "final_candidate_checks": {
+    "src/phase23_main.cpp": true,
+    "src/wav_metrics.cpp": true,
+    "src/phase29_main.cpp": true,
+    "src/.DS_Store": true,
+    "src/phase17_seek_study.cpp": true,
+    "src/phase101_offline_events.cpp": true,
+    "src/wav_compare.cpp": true,
+    "src/realtime_main.cpp": true,
+    "src/phase17_cache_prefill_study.cpp": true,
+    "src/sinusoidal_residual_main.cpp": true,
+    "src/stereo_spectral_metrics.cpp": true,
+    "src/phase14_main.cpp": true,
+    "src/tonal_residual_main.cpp": true,
+    "src/bass_pitch_metrics.cpp": true,
+    "src/phase13_main.cpp": true,
+    "src/phase24_sim_main.cpp": true,
+    "src/main.cpp": true,
+    "src/wsola_main.cpp": true,
+    "src/prototype/Phase26BidirectionalTimeMap.cpp": true,
+    "src/prototype/Phase39Sim.cpp": true,
+    "src/prototype/Phase33TraceRender.cpp": true,
+    "src/prototype/Phase37HighSpeedMap.h": true,
+    "src/prototype/Phase39Reference.cpp": true,
+    "src/prototype/Phase35PhaseVocoder.cpp": true,
+    "src/prototype/Phase41MapTrace.cpp": true,
+    "src/prototype/Phase55AnalysisProbe.cpp": true,
+    "src/prototype/Phase32ResearchEngine.cpp": true,
+    "src/prototype/Phase35PhaseVocoder.h": true,
+    "src/prototype/Phase51BusyStudy.cpp": true,
+    "src/prototype/Phase57PinnedInput.h": true,
+    "src/prototype/Phase42DensityGuard.cpp": true,
+    "src/prototype/Phase50Boundary.h": true,
+    "src/prototype/Phase42DensityGuard.h": true,
+    "src/prototype/Phase35Render.cpp": true,
+    "src/prototype/Phase35StereoPhaseCoherence.h": true,
+    "src/prototype/Phase30PlaybackPipeline.h": true,
+    "src/prototype/Phase58LegacyStartup.cpp": true,
+    "src/prototype/Phase58Check.cpp": true,
+    "src/prototype/Phase59Check.cpp": true,
+    "src/prototype/Phase32ResearchEngine.h": true,
+    "src/prototype/Phase58FixSnapshotMailbox.h": true,
+    "src/prototype/Phase28ArbitraryTimeMap.cpp": true,
+    "src/prototype/Phase58Native.mm": true,
+    "src/prototype/Phase37SynthesisEngine.cpp": true,
+    "src/prototype/Phase35TimeMap.cpp": true,
+    "src/prototype/Phase45CallbackClock.h": true,
+    "src/prototype/Phase26BidirectionalTimeMap.h": true,
+    "src/prototype/Phase56Reference.cpp": true,
+    "src/prototype/Phase58ProductReference.cpp": true,
+    "src/prototype/Phase32Render.cpp": true,
+    "src/prototype/Phase46Statistics.h": true,
+    "src/prototype/Phase58RealtimePipeline.cpp": true,
+    "src/prototype/Phase59ReplaySupport.h": true,
+    "src/prototype/Phase33Crossover.cpp": true,
+    "src/prototype/Phase47EvidenceFile.h": true,
+    "src/prototype/Phase37HighSpeedMap.cpp": true,
+    "src/prototype/Phase22VariableTimeMap.cpp": true,
+    "src/prototype/Phase36PlaybackPipeline.h": true,
+    "src/prototype/Phase22BResponsiveMap.cpp": true,
+    "src/prototype/Phase22BResponsiveMap.h": true,
+    "src/prototype/Phase58RealtimePipeline.h": true,
+    "src/prototype/Phase35DensityControl.cpp": true,
+    "src/prototype/Phase57ProgressiveSynthesis.cpp": true,
+    "src/prototype/Phase37SynthesisEngine.h": true,
+    "src/prototype/Phase33TraceEngine.h": true,
+    "src/prototype/Phase51CommandControl.h": true,
+    "src/prototype/Phase45DeviceRate.cpp": true,
+    "src/prototype/Phase57Reference.cpp": true,
+    "src/prototype/Phase46HostClock.h": true,
+    "src/prototype/Phase50DeviceBuffer.cpp": true,
+    "src/prototype/Phase36SynthesisCore.h": true,
+    "src/prototype/Phase45PcmDigest.h": true,
+    "src/prototype/Phase36StreamingSpeedEngine.cpp": true,
+    "src/prototype/Phase31ResearchEngine.cpp": true,
+    "src/prototype/Phase23VariableSpeedEngine.h": true,
+    "src/prototype/Phase36PlaybackPipeline.cpp": true,
+    "src/prototype/Phase39TimeMap.h": true,
+    "src/prototype/Phase31Render.cpp": true,
+    "src/prototype/Phase28ArbitraryTimeMap.h": true,
+    "src/prototype/Phase35TransitionEngine.h": true,
+    "src/prototype/Phase58Diagnostics.h": true,
+    "src/prototype/Phase36Reference.cpp": true,
+    "src/prototype/Phase22VariableTimeMap.h": true,
+    "src/prototype/Phase56ImmutableSeries.h": true,
+    "src/prototype/Phase59CapturedReference.cpp": true,
+    "src/prototype/Phase31ResearchEngine.h": true,
+    "src/prototype/Phase58FixRealtimeWorker.cpp": true,
+    "src/prototype/Phase24StreamingSpeedEngine.h": true,
+    "src/prototype/Phase39Probe.cpp": true,
+    "src/prototype/Phase35StereoPhaseCoherence.cpp": true,
+    "src/prototype/Phase59Diagnostics.h": true,
+    "src/prototype/Phase36Sim.cpp": true,
+    "src/prototype/Phase23VariableSpeedEngine.cpp": true,
+    "src/prototype/Phase37Render.cpp": true,
+    "src/prototype/Phase38EventDump.cpp": true,
+    "src/prototype/Phase26PlaybackPipeline.h": true,
+    "src/prototype/Phase58FixSchedulingProbe.mm": true,
+    "src/prototype/Phase31Feasibility.cpp": true,
+    "src/prototype/Phase30PlaybackPipeline.cpp": true,
+    "src/prototype/Phase58FixRealtimeWorker.h": true,
+    "src/prototype/Phase59ProgressiveTransition.cpp": true,
+    "src/prototype/Phase58FixAllocationProbe.h": true,
+    "src/prototype/Phase24PlaybackPipeline.cpp": true,
+    "src/prototype/Phase56ProgressiveAnalysis.h": true,
+    "src/prototype/Phase56PinnedWav.h": true,
+    "src/prototype/Phase36StreamingSpeedEngine.h": true,
+    "src/prototype/Phase56ProgressiveAnalysis.cpp": true,
+    "src/prototype/Phase33TraceEngine.cpp": true,
+    "src/prototype/Phase35TransitionEngine.cpp": true,
+    "src/prototype/Phase48ReplayBlocks.cpp": true,
+    "src/prototype/Phase59PlanningContract.h": true,
+    "src/prototype/Phase55StartupStudy.cpp": true,
+    "src/prototype/Phase24StreamingSpeedEngine.cpp": true,
+    "src/prototype/Phase26PlaybackPipeline.cpp": true,
+    "src/prototype/Phase59ProgressiveTransition.h": true,
+    "src/prototype/Phase59Reference.cpp": true,
+    "src/prototype/Phase39PlaybackPipeline.h": true,
+    "src/prototype/Phase59Control.h": true,
+    "src/prototype/Phase45PcmHash.cpp": true,
+    "src/prototype/Phase57ProgressiveSynthesis.h": true,
+    "src/prototype/Phase40PacedSim.cpp": true,
+    "src/prototype/Phase39PlaybackPipeline.cpp": true,
+    "src/prototype/Phase56Check.cpp": true,
+    "src/prototype/Phase57Check.cpp": true,
+    "src/prototype/Phase39TimeMap.cpp": true,
+    "src/prototype/Phase24PlaybackPipeline.h": true,
+    "src/prototype/Phase51Counterfactual.cpp": true,
+    "src/prototype/Phase35TimeMap.h": true,
+    "src/prototype/Phase39PacedSim.cpp": true,
+    "src/prototype/Phase56ReferenceData.h": true,
+    "src/prototype/Phase59ProgressiveReplay.cpp": true,
+    "src/audio/WavReader.h": true,
+    "src/audio/WavStream.h": true,
+    "src/audio/WavFile.h": true,
+    "src/audio/WavWriter.h": true,
+    "src/audio/WavWriter.cpp": true,
+    "src/audio/WavReader.cpp": true,
+    "src/audio/WavStream.cpp": true,
+    "src/playback/Phase54FadeStudy.cpp": true,
+    "src/playback/StartupDiagnostics.h": true,
+    "src/playback/Phase54ReferenceCheck.h": true,
+    "src/playback/PlaybackEngine.cpp": true,
+    "src/playback/Phase54StartupProbe.cpp": true,
+    "src/playback/PlaybackEngine.h": true,
+    "src/playback/Phase54SeekStudy.cpp": true,
+    "src/playback/PlaybackReference.cpp": true,
+    "src/playback/Phase54NativeStudy.cpp": true,
+    "src/playback/PlaybackAnalysisCache.cpp": true,
+    "src/playback/PlaybackDemo.cpp": true,
+    "src/playback/Phase54CoreProbe.cpp": true,
+    "src/playback/PlaybackAnalysisCache.h": true,
+    "src/dsp/RingOverlapAdd.h": true,
+    "src/dsp/Phase18PcmCache.h": true,
+    "src/dsp/OverlapAdd.h": true,
+    "src/dsp/PhaseVocoder.h": true,
+    "src/dsp/TransientDetector.cpp": true,
+    "src/dsp/WSOLAEngine.cpp": true,
+    "src/dsp/Phase14PlaybackPipeline.cpp": true,
+    "src/dsp/Phase13StreamingEngine.cpp": true,
+    "src/dsp/STFT.cpp": true,
+    "src/dsp/TonalResidualEngine.h": true,
+    "src/dsp/PeriodicResynchronizer.h": true,
+    "src/dsp/TransientEventMap.cpp": true,
+    "src/dsp/TimeStretchProcessor.cpp": true,
+    "src/dsp/TimeMap.h": true,
+    "src/dsp/TonalResidualEngine.cpp": true,
+    "src/dsp/TransientAnchor.cpp": true,
+    "src/dsp/PartialTracker.cpp": true,
+    "src/dsp/Phase13StreamingEngine.h": true,
+    "src/dsp/SinusoidalResidualEngine.cpp": true,
+    "src/dsp/OverlapAdd.cpp": true,
+    "src/dsp/TimeStretchProcessor.h": true,
+    "src/dsp/FFTAccelerate.cpp": true,
+    "src/dsp/WSOLAEngine.h": true,
+    "src/dsp/PartialTracker.h": true,
+    "src/dsp/PhaseLocker.cpp": true,
+    "src/dsp/STFT.h": true,
+    "src/dsp/ChunkedTimeStretchEngine.h": true,
+    "src/dsp/MultiResolutionCrossover.h": true,
+    "src/dsp/MultiResolutionCrossover.cpp": true,
+    "src/dsp/StereoPhaseCoherence.cpp": true,
+    "src/dsp/StereoPhaseCoherence.h": true,
+    "src/dsp/PhaseVocoder.cpp": true,
+    "src/dsp/Phase14PlaybackPipeline.h": true,
+    "src/dsp/TransientAnchor.h": true,
+    "src/dsp/Phase18PcmCache.cpp": true,
+    "src/dsp/TimeStretchEngine.h": true,
+    "src/dsp/TransientDetector.h": true,
+    "src/dsp/StreamingCrossover.h": true,
+    "src/dsp/RingOverlapAdd.cpp": true,
+    "src/dsp/SinusoidalResidualEngine.h": true,
+    "src/dsp/PhaseLocker.h": true,
+    "src/dsp/TimeMap.cpp": true,
+    "src/dsp/ChunkedTimeStretchEngine.cpp": true,
+    "src/dsp/TimeStretchEngine.cpp": true,
+    "src/dsp/FFTAccelerate.h": true,
+    "src/dsp/PeriodicResynchronizer.cpp": true,
+    "src/dsp/TransientEventMap.h": true,
+    "src/dsp/Phase18SeekQueue.h": true,
+    "src/dsp/StreamingCrossover.cpp": true,
+    "src/platform/macos/MacPlaybackEngine.h": true,
+    "src/platform/macos/Phase59Fix2SourceNode.mm": true,
+    "src/platform/macos/Phase15MacPlayback.mm": true,
+    "src/platform/macos/Phase26MacPlayback.mm": true,
+    "src/platform/macos/Phase36MacPlayback.mm": true,
+    "src/platform/macos/Phase24MacPlayback.mm": true,
+    "src/platform/macos/Phase43MacPlayback.mm": true,
+    "src/platform/macos/Phase27MacPlayback.mm": true,
+    "src/platform/macos/Phase30MacPlayback.mm": true,
+    "src/platform/macos/MacPlaybackEngine.mm": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/phase59_native": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/phase59_check": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/phase59_progressive_replay": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/phase58_native": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/phase58_check": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/phase57_check": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/phase54_native": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/phase54_core_probe": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/phase56_check": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/phase56_reference": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/phase58_product_reference": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/phase59_reference": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/phase59_captured_reference": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/phase59_fix_fixed_probe": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/phase59_fix_startup_probe": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/phase59_fix2_sourcenode": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/phase59_fix2_fixed_probe": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/phase59_fix2_dynamic_probe": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/phase59_fix_eos_probe": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/phase59_fix_vocoder_tests": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/phase59_fix_vocoder_bench": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/phase59_fix_stereo_tests": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/libphase58_realtime.a": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/libphase57_synthesis.a": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/libphase59_transition.a": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/libphase56_incremental.a": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/libphase39_variable.a": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/libphase36_variable.a": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/libphase24_variable.a": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/libtimestretch_core.a": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/libmacos_playback_engine.a": true,
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/libplayback_engine.a": true
+  },
+  "real_index_unchanged": true,
+  "actual_staged_check": "Git blob容量検査: 合格（新規対象は50,000,000バイト未満）\n",
+  "proposed_index_check": "Git blob容量検査: 合格（新規対象は50,000,000バイト未満）\n",
+  "proposed_blobs": [
+    {
+      "path": "CMakeLists.txt",
+      "blob": "bda0e379ee452365b45375d74f85b6b0235602c9",
+      "bytes": 45254
+    },
+    {
+      "path": "docs/PHASE59_FIX2_CLOCK_FORENSICS.md",
+      "blob": "ac6868a1fa87e374bdbe6052fd9e612860e849a3",
+      "bytes": 11279
+    },
+    {
+      "path": "docs/PHASE59_FIX2_LEGACY_FIFO.md",
+      "blob": "59d19f6502489e5d35d331d818ca201dbf528ce5",
+      "bytes": 7906
+    },
+    {
+      "path": "docs/PHASE59_FIX2_REALTIME_VALIDATION.md",
+      "blob": "f4d69179b828325891faa4cc6cd341a78a3097f4",
+      "bytes": 7296
+    },
+    {
+      "path": "results/phase59_fix2/APPLE_TIMESTAMP_CONTRACT.json",
+      "blob": "33661c05bb0e3b81f7e1ce8acbc0640fb92ddc9d",
+      "bytes": 2386
+    },
+    {
+      "path": "results/phase59_fix2/ARTIFACT_INDEX.json",
+      "blob": "4abfadd52955696c6de178dfd14f76f96ec81da8",
+      "bytes": 20274
+    },
+    {
+      "path": "results/phase59_fix2/COMPLETION_QUEUE.json",
+      "blob": "357dfba5828c30b9dffb63c093c078a6318594a3",
+      "bytes": 2698
+    },
+    {
+      "path": "results/phase59_fix2/DEEP_LEGACY_BUILD.json",
+      "blob": "f9658c7eebb219ca1f1ae5338284d956b3dff9e9",
+      "bytes": 36971
+    },
+    {
+      "path": "results/phase59_fix2/DEEP_LEGACY_BUILD_prior_1.json",
+      "blob": "a289eed6f71408606e23a908c5b8309c388710d1",
+      "bytes": 36971
+    },
+    {
+      "path": "results/phase59_fix2/ENGINE_STATE_REVIEW.json",
+      "blob": "a0a7634be0ec4726a5fa109b8c462ebc1ed9c828",
+      "bytes": 769
+    },
+    {
+      "path": "results/phase59_fix2/EOS_FINAL_SCHEDULER_REVIEW.json",
+      "blob": "13f546472264345bea6fa4ecac0b4cd95ca8fb6c",
+      "bytes": 4147
+    },
+    {
+      "path": "results/phase59_fix2/FINAL_CANDIDATE.json",
+      "blob": "a02e019c271954e191dd0a76a71f20267c6b0ec6",
+      "bytes": 110549
+    },
+    {
+      "path": "results/phase59_fix2/FINAL_MEASUREMENTS.json",
+      "blob": "87ab42efb2ca7f1f8b9ebec2eff1bb4f1d4d7b70",
+      "bytes": 285070
+    },
+    {
+      "path": "results/phase59_fix2/FIRST_RENDER_CROSSCHECK.json",
+      "blob": "a40e99357c1047a843e1a7c48d91ee8bd61f4644",
+      "bytes": 276
+    },
+    {
+      "path": "results/phase59_fix2/GIT_DELIVERY_AUDIT.json",
+      "blob": "20b46b6ea1cabe322d37a9cdd5dbfefe7b2e6fb0",
+      "bytes": 39382
+    },
+    {
+      "path": "results/phase59_fix2/INITIAL_CLOCK_DSP_WINDOW.json",
+      "blob": "216b81ffd8d1b0a77b44738503e0393a7705e998",
+      "bytes": 2966
+    },
+    {
+      "path": "results/phase59_fix2/INVESTIGATION_QUEUE.json",
+      "blob": "ed8beb47834d4af89c6db4828375f26a463883ac",
+      "bytes": 4438
+    },
+    {
+      "path": "results/phase59_fix2/LEGACY_ANALYSIS_final.json",
+      "blob": "e8c61ca37fd94c02c6ed45877fd93e384186d9d0",
+      "bytes": 838
+    },
+    {
+      "path": "results/phase59_fix2/LEGACY_ANALYSIS_investigation.json",
+      "blob": "a3db6a2ffc09a768b3934ceda6605df769c1876b",
+      "bytes": 902
+    },
+    {
+      "path": "results/phase59_fix2/LEGACY_ANALYSIS_same_rate.json",
+      "blob": "1f6681d541335ce7798e0b93dae6891942e97c5f",
+      "bytes": 843
+    },
+    {
+      "path": "results/phase59_fix2/LEGACY_DEEP_ANALYSIS.json",
+      "blob": "29b95d8888c2609ea3637cf57b980069fd9cd16d",
+      "bytes": 95449
+    },
+    {
+      "path": "results/phase59_fix2/LEGACY_MARKER_INTERPRETATION.json",
+      "blob": "3d17d987825f5c27cd153ae52a522f6d666c86ce",
+      "bytes": 835
+    },
+    {
+      "path": "results/phase59_fix2/LEGACY_PROBE_BUILD.json",
+      "blob": "1291d84ae9e06ebb162e41190699ea7e28795359",
+      "bytes": 2545
+    },
+    {
+      "path": "results/phase59_fix2/LEGACY_PROBE_SCOPE.json",
+      "blob": "7fd90b0434addc06f682ac5ca937dceecf82869b",
+      "bytes": 593
+    },
+    {
+      "path": "results/phase59_fix2/LEGACY_SAME_RATE_INPUT.json",
+      "blob": "ef05f06cc891cd72f21b7513b83e93d60beb2cf8",
+      "bytes": 1411
+    },
+    {
+      "path": "results/phase59_fix2/LEGACY_SUPPLY_FAILURE.json",
+      "blob": "b659ffd4b77f717c98a9c6e9cbaf76876bd32714",
+      "bytes": 3339
+    },
+    {
+      "path": "results/phase59_fix2/LEGACY_TRACE_ANALYSIS_legacy_current.json",
+      "blob": "b9222b065ef75cdb3651ddfb6181e37cdd216a79",
+      "bytes": 4533
+    },
+    {
+      "path": "results/phase59_fix2/LEGACY_TRACE_ANALYSIS_legacy_current_reviewed.json",
+      "blob": "3fed1e2bd3cefb613702cad1ecbe76eb54c66f8e",
+      "bytes": 4807
+    },
+    {
+      "path": "results/phase59_fix2/LEGACY_TRACE_ANALYSIS_legacy_delayed_reviewed.json",
+      "blob": "9898e42fb8adfe6a9c4f1166d8cd55a2ab35146f",
+      "bytes": 4829
+    },
+    {
+      "path": "results/phase59_fix2/LEGACY_TRACE_ANALYSIS_legacy_old_math.json",
+      "blob": "eaf68a966f4d9261b54f946b8266641ba68dccdb",
+      "bytes": 4582
+    },
+    {
+      "path": "results/phase59_fix2/LEGACY_TRACE_ANALYSIS_legacy_old_math_reviewed.json",
+      "blob": "d2bb33a24f587b2e13bfbe9b715d3a8c0e718a73",
+      "bytes": 4858
+    },
+    {
+      "path": "results/phase59_fix2/LEGACY_TRACE_ANALYSIS_legacy_synced.json",
+      "blob": "af0d1a35064c9b74d6adad177efae278a3b41fc1",
+      "bytes": 4628
+    },
+    {
+      "path": "results/phase59_fix2/LEGACY_TRACE_ANALYSIS_legacy_synced_reviewed.json",
+      "blob": "5a6810d46decf58f0abcb6995ebcd9ca092e7fe8",
+      "bytes": 4799
+    },
+    {
+      "path": "results/phase59_fix2/LOOPBACK_CAPABILITY.json",
+      "blob": "d8b2a2adb06bd6125fdfde4df9b5db8db44fbb3b",
+      "bytes": 1126
+    },
+    {
+      "path": "results/phase59_fix2/MEMORY_AND_CONSOLE_REVIEW.json",
+      "blob": "9ad737ca9d09b60fe83ade486fc8aaead414a480",
+      "bytes": 1775
+    },
+    {
+      "path": "results/phase59_fix2/MIDPLAY_HAL_REVIEW.json",
+      "blob": "a169db4aae8b21728008b332fe846d525a02323d",
+      "bytes": 18907
+    },
+    {
+      "path": "results/phase59_fix2/OLD_HAL_SERVER_REVIEW.json",
+      "blob": "703329fae07a6bf951da47cdc42e8358bbe6b43a",
+      "bytes": 119465
+    },
+    {
+      "path": "results/phase59_fix2/OLD_MATH_DIAGNOSTIC_BUILD.json",
+      "blob": "7514d3fc446106d17261dc0e1567a9d3011ac34f",
+      "bytes": 37906
+    },
+    {
+      "path": "results/phase59_fix2/OUTPUT_AUDIOUNIT_REVIEW.json",
+      "blob": "229d81a14f36c8195ed2643f42a1cf0663e5f5bf",
+      "bytes": 10289
+    },
+    {
+      "path": "results/phase59_fix2/PROTECTED_REFERENCES.json",
+      "blob": "6a0bc0fe2d7bb870f532f9808c1e25bdb7e5aa6b",
+      "bytes": 15594
+    },
+    {
+      "path": "results/phase59_fix2/REALTIME_WORKER_TRACE.json",
+      "blob": "2fdbd513f3229f6cf3c4e5c6f3af551012397000",
+      "bytes": 933
+    },
+    {
+      "path": "results/phase59_fix2/REPAIR_DECISION.json",
+      "blob": "126d35e5244beb0eb1276a98226968110dd55c0e",
+      "bytes": 1802
+    },
+    {
+      "path": "results/phase59_fix2/REPORT.md",
+      "blob": "a5ebdaecb73afd916c220a3d6408c8e21a96a416",
+      "bytes": 12059
+    },
+    {
+      "path": "results/phase59_fix2/START_STATE.json",
+      "blob": "6c66011fc04ffa70ca9e21c4b8fb824ab1e24f49",
+      "bytes": 9580
+    },
+    {
+      "path": "results/phase59_fix2/START_STATE_SCOPE.json",
+      "blob": "69437bfd6fa1abe55b13d8de3a8cd622419e793b",
+      "bytes": 510
+    },
+    {
+      "path": "results/phase59_fix2/SUPPLY_ANALYSIS_TESTS.json",
+      "blob": "92aeaf38b8c5d825e5ed5b40502d8e84cd3ac96c",
+      "bytes": 679
+    },
+    {
+      "path": "results/phase59_fix2/TIMELINE_DATA.json",
+      "blob": "71532a9b5d8b9ced93dc45a1106cc549dbb7c317",
+      "bytes": 2223
+    },
+    {
+      "path": "results/phase59_fix2/TRACE_ANALYSIS_dynamic_no_request.json",
+      "blob": "77ca259e7d802efee2c27f559896117bf61a2090",
+      "bytes": 9637
+    },
+    {
+      "path": "results/phase59_fix2/TRACE_ANALYSIS_dynamic_no_request_reviewed.json",
+      "blob": "a84e5c3811033bceed37a006c473ca564c6cba47",
+      "bytes": 9755
+    },
+    {
+      "path": "results/phase59_fix2/TRACE_ANALYSIS_minimal_launch.json",
+      "blob": "21eaf42e9c76e1d9f0044976c4693263a4361661",
+      "bytes": 4796
+    },
+    {
+      "path": "results/phase59_fix2/TRACE_BUDGET.json",
+      "blob": "4c616dbb36c605936bd8e8e1a3d0a6f1ac3d7b4a",
+      "bytes": 264
+    },
+    {
+      "path": "results/phase59_fix2/TRACE_BUDGET_V2.json",
+      "blob": "8d811eb752deebbf919915fb733245876a18eb64",
+      "bytes": 563
+    },
+    {
+      "path": "results/phase59_fix2/TRACE_BUDGET_V3.json",
+      "blob": "f48a554a322f171ad2e339514ee0fac8dc480136",
+      "bytes": 627
+    },
+    {
+      "path": "results/phase59_fix2/VERDICT.json",
+      "blob": "933030c557afadca465b636a7b7823269b234507",
+      "bytes": 1116
+    },
+    {
+      "path": "results/phase59_fix2/VERDICT_SCOPE.json",
+      "blob": "fedd41f34627a781539c33bc621b9b21fe23a748",
+      "bytes": 1277
+    },
+    {
+      "path": "results/phase59_fix2/WORKGROUP_MINIMAL_BUILD.json",
+      "blob": "460bc22145a16f567cf3fcfb2596dc88ce252d7f",
+      "bytes": 2296
+    },
+    {
+      "path": "results/phase59_fix2/WORKGROUP_MINIMAL_BUILD_prior_1.json",
+      "blob": "bb8b38c72969effe3e2f2c3ca30d4052f0e366ab",
+      "bytes": 2279
+    },
+    {
+      "path": "results/phase59_fix2/WORKGROUP_MINIMAL_BUILD_prior_2.json",
+      "blob": "80eff17ab72e4074be35d2297d1073d688f6d6d6",
+      "bytes": 2279
+    },
+    {
+      "path": "results/phase59_fix2/WORK_PROGRESS.json",
+      "blob": "cc3503dcb1f47792369fcb9a04d3067223ba35ab",
+      "bytes": 2306
+    },
+    {
+      "path": "results/phase59_fix2/checks_final/artifacts.json",
+      "blob": "d35ee4e7cad8f5eb1b9305aff5823e9515e31c82",
+      "bytes": 22449
+    },
+    {
+      "path": "results/phase59_fix2/checks_final/driver.json",
+      "blob": "425baabca2ba5fa83641052cc3edaa5544d62eee",
+      "bytes": 8763
+    },
+    {
+      "path": "results/phase59_fix2/checks_final/summary.json",
+      "blob": "ce6a0ffeaa4c8d289516faf9ef5f88c987a7474b",
+      "bytes": 24853
+    },
+    {
+      "path": "results/phase59_fix2/device_final/driver.json",
+      "blob": "b392833eb69dc86ef5ea3cc608fca9caa1a9d4d1",
+      "bytes": 90930
+    },
+    {
+      "path": "results/phase59_fix2/device_final/fixed_long_rows.json",
+      "blob": "f0abc8ff47e1e5a6b9f7f36d749658577f2975df",
+      "bytes": 67321
+    },
+    {
+      "path": "results/phase59_fix2/device_final/manifest.json",
+      "blob": "7c410b1a50e872dcd6d2f6a59545c46df682ae8a",
+      "bytes": 5657
+    },
+    {
+      "path": "results/phase59_fix2/device_final/summary.json",
+      "blob": "786ce71a0231000828597fef338135c509b9bedc",
+      "bytes": 96490
+    },
+    {
+      "path": "results/phase59_fix2/eos_final/manifest.json",
+      "blob": "e2df1f9c2e9b49761a9bae65d3c18b641e387f1c",
+      "bytes": 24399
+    },
+    {
+      "path": "results/phase59_fix2/eos_final/rows.json",
+      "blob": "f25cdba10ce1c900053f90290752d7dbb897473c",
+      "bytes": 51929
+    },
+    {
+      "path": "results/phase59_fix2/eos_final/summary.json",
+      "blob": "c68d9513eb24dd5c3dc4e14d3291305bfc1b5b4e",
+      "bytes": 55013
+    },
+    {
+      "path": "results/phase59_fix2/figures/legacy_fifo_software.png",
+      "blob": "688a9333f862082c3d2516f52b4c8510855f5da5",
+      "bytes": 184825
+    },
+    {
+      "path": "results/phase59_fix2/figures/midplay_os.png",
+      "blob": "a91819646298935e798fb8bf8f26e0aee8edafa5",
+      "bytes": 174073
+    },
+    {
+      "path": "results/phase59_fix2/figures/startup_software.png",
+      "blob": "6e291e68ae9e9f539bb5780202fb1dbc0ccf1a92",
+      "bytes": 160672
+    },
+    {
+      "path": "results/phase59_fix2/legacy_deep/rows.json",
+      "blob": "b31d2a5ed67453f52efcdc3f1c48d4ae288018fc",
+      "bytes": 13174
+    },
+    {
+      "path": "results/phase59_fix2/legacy_deep/summary.json",
+      "blob": "fcdd023b4e5cb953c8d963e55a91f06704dc0e0e",
+      "bytes": 131
+    },
+    {
+      "path": "results/phase59_fix2/legacy_final/manifest.json",
+      "blob": "ee139e6b6bc54d3509d99707789be65310568038",
+      "bytes": 3455
+    },
+    {
+      "path": "results/phase59_fix2/legacy_final/rows.json",
+      "blob": "a6ea8623c1c9def55748e101a3ab1910a20c9b2f",
+      "bytes": 42104
+    },
+    {
+      "path": "results/phase59_fix2/legacy_final/summary.json",
+      "blob": "3dd341b24cec547c646c5524f56e55bcde668880",
+      "bytes": 165
+    },
+    {
+      "path": "results/phase59_fix2/legacy_investigation/manifest.json",
+      "blob": "afe895601ee262f178b508247c5ea4af0f182f93",
+      "bytes": 946
+    },
+    {
+      "path": "results/phase59_fix2/legacy_investigation/rows.json",
+      "blob": "7ba19fddfc13625d666711e0834edaddefd9765d",
+      "bytes": 128629
+    },
+    {
+      "path": "results/phase59_fix2/legacy_investigation/summary.json",
+      "blob": "5afe97199189230f36dbb4999638e382807672ec",
+      "bytes": 81
+    },
+    {
+      "path": "results/phase59_fix2/legacy_same_rate/manifest.json",
+      "blob": "1d105bb9dcd953c7756104257baf1eabe74f7e87",
+      "bytes": 1002
+    },
+    {
+      "path": "results/phase59_fix2/legacy_same_rate/rows.json",
+      "blob": "2ce833ed7586cd2612ba5191bf187e07ec6a2fa7",
+      "bytes": 44445
+    },
+    {
+      "path": "results/phase59_fix2/legacy_same_rate/summary.json",
+      "blob": "2613985236a2174f3ae6dc1e75d98a152b5060f8",
+      "bytes": 161
+    },
+    {
+      "path": "results/phase59_fix2/minimal_initial/manifest.json",
+      "blob": "e9f830b9b8c690b730a357fc27b3bf218009b202",
+      "bytes": 837
+    },
+    {
+      "path": "results/phase59_fix2/minimal_initial/rows.json",
+      "blob": "eb204f2f241e901c911d712407b59255e635c1d5",
+      "bytes": 383180
+    },
+    {
+      "path": "results/phase59_fix2/minimal_initial/summary.json",
+      "blob": "26635e9faf7899d4cdd3ad6cce6c32e3d23579c7",
+      "bytes": 233
+    },
+    {
+      "path": "results/phase59_fix2/minimal_long/manifest.json",
+      "blob": "f9e17e3fcbbb79d72700c13eca8a12b7b9cffae9",
+      "bytes": 651
+    },
+    {
+      "path": "results/phase59_fix2/minimal_long/rows.json",
+      "blob": "363740fdbf895f14264b7e5c9daed081d9997da2",
+      "bytes": 19219
+    },
+    {
+      "path": "results/phase59_fix2/minimal_long/summary.json",
+      "blob": "91fddf259db14ec636c9f281ccc69269f55f0f4a",
+      "bytes": 184
+    },
+    {
+      "path": "results/phase59_fix2/startup_cde/manifest.json",
+      "blob": "47dbc30d8e33eb82f979ec670ce91aef32126de8",
+      "bytes": 2030
+    },
+    {
+      "path": "results/phase59_fix2/startup_cde/rows.json",
+      "blob": "cae66188846afebe0a493a4fe08ee91a2f1d7e91",
+      "bytes": 136836
+    },
+    {
+      "path": "results/phase59_fix2/startup_cde/summary.json",
+      "blob": "c52f8c3188d04a6dbe42161363226665ae0eafed",
+      "bytes": 380
+    },
+    {
+      "path": "results/phase59_fix2/startup_cde_final/manifest.json",
+      "blob": "33ca4dceab497b9ca56eb9edb52d8d3ef70255d5",
+      "bytes": 2031
+    },
+    {
+      "path": "results/phase59_fix2/startup_cde_final/rows.json",
+      "blob": "24254f838de64bc4936637dd98575765db690887",
+      "bytes": 27411
+    },
+    {
+      "path": "results/phase59_fix2/startup_cde_final/summary.json",
+      "blob": "3363ae3563428dbabc1c164f22ae07b802efa450",
+      "bytes": 378
+    },
+    {
+      "path": "results/phase59_fix2/trace_dynamic_no_request/manifest.json",
+      "blob": "6f299dea9e360a19413878c0d0de6c381267cb7e",
+      "bytes": 152299
+    },
+    {
+      "path": "results/phase59_fix2/trace_dynamic_no_request/record.log",
+      "blob": "4591d830b88f178b9d191533e6fc9932dc562077",
+      "bytes": 271
+    },
+    {
+      "path": "results/phase59_fix2/trace_legacy_current/manifest.json",
+      "blob": "26a6351c159a8b5e9c009f4bd900bed7e83da1ea",
+      "bytes": 137566
+    },
+    {
+      "path": "results/phase59_fix2/trace_legacy_current/record.log",
+      "blob": "3488d51466b6efa8d50988e2c05f79886810cad0",
+      "bytes": 269
+    },
+    {
+      "path": "results/phase59_fix2/trace_legacy_delayed/manifest.json",
+      "blob": "820a36e17e2b7054ef53d72d6c9fe64d67180271",
+      "bytes": 269681
+    },
+    {
+      "path": "results/phase59_fix2/trace_legacy_delayed/record.log",
+      "blob": "51ad5c41bd66d5ba9f4eeb2d074fd6a918c779c3",
+      "bytes": 261
+    },
+    {
+      "path": "results/phase59_fix2/trace_legacy_old_math/manifest.json",
+      "blob": "e4ff3d6c7674e7489d3314402a3244cc54a01260",
+      "bytes": 146643
+    },
+    {
+      "path": "results/phase59_fix2/trace_legacy_old_math/record.log",
+      "blob": "b784ac76c0a1e418c63a25fe00b23774fb9b8f7f",
+      "bytes": 273
+    },
+    {
+      "path": "results/phase59_fix2/trace_legacy_synced/manifest.json",
+      "blob": "667bda27ba66f028071ac71d56742c8884d6269e",
+      "bytes": 329996
+    },
+    {
+      "path": "results/phase59_fix2/trace_legacy_synced/record.log",
+      "blob": "51ad5c41bd66d5ba9f4eeb2d074fd6a918c779c3",
+      "bytes": 261
+    },
+    {
+      "path": "results/phase59_fix2/trace_minimal_launch/manifest.json",
+      "blob": "68b4765fd6e9406f6d2429c31094b97b12164b60",
+      "bytes": 155612
+    },
+    {
+      "path": "results/phase59_fix2/trace_minimal_launch/record.log",
+      "blob": "9f708a9ea012c58ca3593106469a72a6595006e5",
+      "bytes": 262
+    },
+    {
+      "path": "results/phase59_fix2/validation_final/artifacts.json",
+      "blob": "70c18792c1471975876cae94242a08b2ef329898",
+      "bytes": 5233178
+    },
+    {
+      "path": "results/phase59_fix2/validation_final/driver.json",
+      "blob": "94460f94a480385ba3cb1ccf8e4e4d0c7a07f33d",
+      "bytes": 34857
+    },
+    {
+      "path": "results/phase59_fix2/validation_final/fixed57_long.json",
+      "blob": "9cdd6152cf597d1595423550b65834c7816612f6",
+      "bytes": 1100
+    },
+    {
+      "path": "results/phase59_fix2/validation_final/fixed57_natural.json",
+      "blob": "51b21aca8c3792fb1f8356a0ca107c2ff75f83b1",
+      "bytes": 1116
+    },
+    {
+      "path": "results/phase59_fix2/validation_final/fixed57_rejections.json",
+      "blob": "c1a70e3ef9cdddb275670cc84b3444ab8d56b772",
+      "bytes": 1127
+    },
+    {
+      "path": "results/phase59_fix2/validation_final/fixed57_stage1.json",
+      "blob": "5cdaa8dedccf79947261ac9ac7d16ce31acf4ce8",
+      "bytes": 7672
+    },
+    {
+      "path": "results/phase59_fix2/validation_final/fixed57_stage2.json",
+      "blob": "c688e7bd89640e5366870faa8a2f06e37f001c45",
+      "bytes": 8751
+    },
+    {
+      "path": "results/phase59_fix2/validation_final/manifest.json",
+      "blob": "7db8101a54a4dd1321c35174fee25970930407d0",
+      "bytes": 27643
+    },
+    {
+      "path": "results/phase59_fix2/validation_final/summary.json",
+      "blob": "073190bf7c35b03a18b5fd4937b1722845cd8858",
+      "bytes": 266
+    },
+    {
+      "path": "results/phase59_fix2/workgroup_minimal/rows.json",
+      "blob": "2b664071315538f88873f7053672965d3803df13",
+      "bytes": 134513
+    },
+    {
+      "path": "results/phase59_fix2/workgroup_minimal/summary.json",
+      "blob": "d7eeeb2c5df96b2a951fc941f71977cec0dc9527",
+      "bytes": 322
+    },
+    {
+      "path": "scripts/phase59_fix2_checks.py",
+      "blob": "11694376a1edd020863f0fe7def2be8f7a22f7e0",
+      "bytes": 3834
+    },
+    {
+      "path": "scripts/phase59_fix2_completion_queue.py",
+      "blob": "f5624e56ad120f45dce92dd56b9540de28640a43",
+      "bytes": 2869
+    },
+    {
+      "path": "scripts/phase59_fix2_deep_analyze.py",
+      "blob": "ed69ca1970c23e885c1eae293ecdeb8a6cd5d790",
+      "bytes": 6730
+    },
+    {
+      "path": "scripts/phase59_fix2_deep_legacy.py",
+      "blob": "92653f07ee27094243786b6cdda437c223a8ec61",
+      "bytes": 13457
+    },
+    {
+      "path": "scripts/phase59_fix2_delayed_trace.py",
+      "blob": "7090da04fefbd3ccf210c45c742de151e036cfbe",
+      "bytes": 6036
+    },
+    {
+      "path": "scripts/phase59_fix2_delivery_audit.py",
+      "blob": "62fe7b3b0b90e154b8d7677f98459dbd6c03013a",
+      "bytes": 5310
+    },
+    {
+      "path": "scripts/phase59_fix2_device.py",
+      "blob": "86e965b4797bb8cdb5cb773f4388bc49221289d7",
+      "bytes": 8875
+    },
+    {
+      "path": "scripts/phase59_fix2_eos.py",
+      "blob": "24f27f0eff33f07852c1b15605ee4fa340affe7b",
+      "bytes": 5430
+    },
+    {
+      "path": "scripts/phase59_fix2_eos_review.py",
+      "blob": "3a0feb045a9a56f3482f942215b3662c1c1d8d35",
+      "bytes": 4652
+    },
+    {
+      "path": "scripts/phase59_fix2_freeze.py",
+      "blob": "048745b4ba8e6a3f2dbf474405c11060afaeb10f",
+      "bytes": 2971
+    },
+    {
+      "path": "scripts/phase59_fix2_inventory.py",
+      "blob": "38f9dc970671bc4070533d8818d387a1679bde32",
+      "bytes": 4270
+    },
+    {
+      "path": "scripts/phase59_fix2_investigation_queue.py",
+      "blob": "814b9bc755c3cde6080fb27e9702a97bb0150e40",
+      "bytes": 3105
+    },
+    {
+      "path": "scripts/phase59_fix2_legacy.py",
+      "blob": "782ad402dbd0b282b72538b2951cb21259a1eb7c",
+      "bytes": 11344
+    },
+    {
+      "path": "scripts/phase59_fix2_legacy_analyze.py",
+      "blob": "fba0ad25ab8b0402f3fef4f9d623074f9c00d996",
+      "bytes": 5211
+    },
+    {
+      "path": "scripts/phase59_fix2_legacy_same_rate.py",
+      "blob": "528d8aa9a119691a13bdd98196077666cb709fde",
+      "bytes": 1884
+    },
+    {
+      "path": "scripts/phase59_fix2_legacy_trace_analyze.py",
+      "blob": "6c54b16e4b8c0cead67821ccb36feee1e99167e1",
+      "bytes": 7539
+    },
+    {
+      "path": "scripts/phase59_fix2_measurements.py",
+      "blob": "70289277c6d5857f484b5aecaa4d471543c3941b",
+      "bytes": 4884
+    },
+    {
+      "path": "scripts/phase59_fix2_minimal.py",
+      "blob": "a105d17c10645b669e175bda5208abaa0168951c",
+      "bytes": 6035
+    },
+    {
+      "path": "scripts/phase59_fix2_minimal_long.py",
+      "blob": "b8bc6a15dc0cf3e8224ef2fe0bae47b545026d6c",
+      "bytes": 2649
+    },
+    {
+      "path": "scripts/phase59_fix2_old_hal_export.py",
+      "blob": "f069058a9489bf30ad7df96dc509f21c48350385",
+      "bytes": 2732
+    },
+    {
+      "path": "scripts/phase59_fix2_old_product.py",
+      "blob": "61b94b35b2f31ae0c695ba56c574bcf374c60695",
+      "bytes": 3495
+    },
+    {
+      "path": "scripts/phase59_fix2_output_notify_review.py",
+      "blob": "02bb1faf5f594e1322d1b678b0b54be2510d5b40",
+      "bytes": 3684
+    },
+    {
+      "path": "scripts/phase59_fix2_report.py",
+      "blob": "145e47082cff2ba2f35ee7313f7980ff0d37d5db",
+      "bytes": 19198
+    },
+    {
+      "path": "scripts/phase59_fix2_start_state.py",
+      "blob": "f88f2d51fd23070e6e84e7c84d79c3b4d5b79528",
+      "bytes": 3866
+    },
+    {
+      "path": "scripts/phase59_fix2_startup.py",
+      "blob": "df125e893b2171c06a4437f2d5e69fb4c8d918bb",
+      "bytes": 5460
+    },
+    {
+      "path": "scripts/phase59_fix2_synced_trace.py",
+      "blob": "671878a439d741e91711e8d87c56b1624a50e16b",
+      "bytes": 5408
+    },
+    {
+      "path": "scripts/phase59_fix2_timeline.swift",
+      "blob": "cf372e8b69ebf9c3581d1afe167b41c30266d65c",
+      "bytes": 5777
+    },
+    {
+      "path": "scripts/phase59_fix2_timeline_data.py",
+      "blob": "f505238ce3c2bc9b10bc9fc5e7f79a4fe866e35e",
+      "bytes": 6663
+    },
+    {
+      "path": "scripts/phase59_fix2_trace.py",
+      "blob": "822b91ed3f6565b4d4f43e2316d88fcf6cade9fd",
+      "bytes": 4732
+    },
+    {
+      "path": "scripts/phase59_fix2_trace_analyze.py",
+      "blob": "dac69782f6dd76e2e5b492e42b42641b001fd3c4",
+      "bytes": 7063
+    },
+    {
+      "path": "scripts/phase59_fix2_validation.py",
+      "blob": "bfebfc87612a7334fd323c9f80c1eec2e134e810",
+      "bytes": 8359
+    },
+    {
+      "path": "scripts/phase59_fix2_worker_trace.py",
+      "blob": "8b991d72552724c3e35c463e37eb9ba012e7e2d0",
+      "bytes": 3453
+    },
+    {
+      "path": "scripts/phase59_fix2_workgroup_minimal.py",
+      "blob": "b33417965699e8f7e30ecc6156105695799d5e15",
+      "bytes": 8470
+    },
+    {
+      "path": "src/dsp/Phase14PlaybackPipeline.h",
+      "blob": "c6e925d26c2958753b83b408183c745b428d9801",
+      "bytes": 5361
+    },
+    {
+      "path": "src/platform/macos/MacPlaybackEngine.h",
+      "blob": "50a832a303b13df7d63dca8e6ad75fd2507c4999",
+      "bytes": 3290
+    },
+    {
+      "path": "src/platform/macos/MacPlaybackEngine.mm",
+      "blob": "f7f7e0ac3abbba0c04d91728f2ece2e52f63cbff",
+      "bytes": 17093
+    },
+    {
+      "path": "src/platform/macos/Phase59Fix2SourceNode.mm",
+      "blob": "6f05ffc66d97ee678cc3c807dd11d80d8dd135ce",
+      "bytes": 16629
+    },
+    {
+      "path": "src/playback/PlaybackEngine.cpp",
+      "blob": "c780c49906005b821de935c03c30cf4756c8a7e2",
+      "bytes": 28000
+    },
+    {
+      "path": "src/playback/PlaybackEngine.h",
+      "blob": "0796f37814e1d2be1cf94fd71b4d969c77d7bb1b",
+      "bytes": 8706
+    },
+    {
+      "path": "src/prototype/Phase39PlaybackPipeline.cpp",
+      "blob": "4839997aaafe1bbea478e35ca8d7a009f24577ab",
+      "bytes": 49626
+    },
+    {
+      "path": "src/prototype/Phase39PlaybackPipeline.h",
+      "blob": "1481421cfe798c8dd945641cce21b06a9f45ec9d",
+      "bytes": 13215
+    },
+    {
+      "path": "src/prototype/Phase58Diagnostics.h",
+      "blob": "12cbad20b268ae41924e137c0ab7f9f20aabb7c8",
+      "bytes": 6252
+    },
+    {
+      "path": "src/prototype/Phase58FixRealtimeWorker.cpp",
+      "blob": "0c8ddee06db624695101aba27818330dbc9e3bf3",
+      "bytes": 8260
+    },
+    {
+      "path": "src/prototype/Phase58FixRealtimeWorker.h",
+      "blob": "cfa874927d7f07211ea40d2307afdf102498684f",
+      "bytes": 1460
+    },
+    {
+      "path": "src/prototype/Phase58Native.mm",
+      "blob": "f4b8c0ba8f477f32d2dd92d41a3d55e2be1cb811",
+      "bytes": 34946
+    },
+    {
+      "path": "src/prototype/Phase58RealtimePipeline.cpp",
+      "blob": "57f6beeae78d732421dd23a60641ab3db4332874",
+      "bytes": 53592
+    },
+    {
+      "path": "src/prototype/Phase58RealtimePipeline.h",
+      "blob": "bccb2c964d28c53229afa3488c9d753e85d7b443",
+      "bytes": 6039
+    },
+    {
+      "path": "tests/Phase59Fix2ForensicsTests.py",
+      "blob": "c561c7d6eab5235e6a1fe1ed3e9b1d7438b78d2a",
+      "bytes": 3033
+    },
+    {
+      "path": "tests/Phase59Fix2SupplyAnalysisTests.py",
+      "blob": "f1d68efbc346cc3500466c7597eabf35d5decb1a",
+      "bytes": 2883
+    },
+    {
+      "path": "tests/Phase59FixEOSProbe.cpp",
+      "blob": "93ea4dbb365684374f00b7a40999fdbf18294148",
+      "bytes": 8061
+    }
+  ],
+  "local_outgoing_history_check": "Git blob容量検査: 合格（新規対象は50,000,000バイト未満）\n",
+  "network_remote_refs_checked": false,
+  "hooks_path": ".githooks",
+  "commits_created": 0,
+  "pushes": 0,
+  "history_rewritten": false,
+  "lfs_migration": false,
+  "diff_check_pass": true,
+  "scope": "検査用index/objectは/tmpのみ。既存Git objectは読み取りだけ。Push先の最新広告refはPush時のpre-pushで検査する。"
+}

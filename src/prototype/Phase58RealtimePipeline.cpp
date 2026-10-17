@@ -592,6 +592,7 @@ RenderResult RealtimePipeline::pullAudio(float*const* p,std::size_t n)noexcept{
     return r;
 }
 bool RealtimePipeline::finished()const noexcept{return impl_->dspDone.load();}
+FifoCursors RealtimePipeline::diagnosticFifoCursors()const noexcept{return {impl_->fifo.readPosition(),impl_->fifo.writePosition()};}
 bool RealtimePipeline::drained()const noexcept{return finished()&&!available();}
 bool RealtimePipeline::failed()const noexcept{return impl_->failure.load();}
 phase59::RequestReceipt RealtimePipeline::requestSpeed(std::uint32_t speed,std::size_t position,std::uint64_t expectedSession,std::uint64_t expectedGeneration){

@@ -1,0 +1,26 @@
+{
+  "sources": [
+    {
+      "url": "https://developer.apple.com/documentation/avfaudio/avaudiosourcenoderenderblock",
+      "finding": "SourceNodeのtimestampはデータをレンダリングするHAL時刻。frameCountは要求されたサンプルフレーム数。timestamp差から返却フレーム数を逆算する契約ではない。"
+    },
+    {
+      "url": "https://developer.apple.com/documentation/coreaudiotypes/audiotimestamp/mflags",
+      "finding": "mFlagsで有効な時刻表現を判定する。mSampleTimeは絶対サンプル時刻、mHostTimeはホスト時計、mRateScalarは実際と公称のhost ticks/sample比。無効な値を有効時刻として計算しない。"
+    },
+    {
+      "url": "https://developer.apple.com/documentation/audiotoolbox/analyzing-audio-performance-with-instruments",
+      "finding": "Audio System Traceはクライアント/サーバー、スレッド状態、VM、syscallを観測する。overload、clock discontinuity、reanchorは区別される。clock discontinuity検出時にCore Audioは装置時計の再anchorを試みる。今回の初回異常を正当な再anchorと説明できる個別証拠はまだない。"
+    },
+    {
+      "url": "https://developer.apple.com/documentation/audiotoolbox/understanding-audio-workgroups",
+      "finding": "音声サーバーとアプリの実時間スレッドは音声周期の共通期限で協調する。音声serverは周期ごとにclientを起こし、出力を待つ。callback内の短い実行時間だけでは周期全体の期限成立を証明しない。"
+    },
+    {
+      "url": "https://developer.apple.com/library/archive/documentation/Darwin/Conceptual/KernelProgramming/scheduler/scheduler.html",
+      "finding": "実時間契約を超えてブロックせず計算を続けるスレッドは通常優先度へ下げられ得る。過去4.8秒停止のカーネル内部の降格理由を直接測定した証拠ではない。"
+    }
+  ],
+  "local_tool_contract": "xcrun xctrace recordのローカルhelpは--launch -- commandを正式サポート。Fix 2はこの起動記録を使用し、最初のcallbackの実coverageをMach時計で別に確認する。",
+  "interpretation": "成功例だけで原因解決・正常な時刻切替とは判定しない。OS Client OverloadとNative独自HAL window指標は相互に代用しない。"
+}

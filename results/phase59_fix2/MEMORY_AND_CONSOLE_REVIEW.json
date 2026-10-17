@@ -1,0 +1,40 @@
+{
+  "worker_fault_stages": {
+    "before_policy_applied": {
+      "File Backed Page In": 6,
+      "Zero Fill": 2183,
+      "Page Cache Hit": 2,
+      "Copy On Write": 2
+    },
+    "after_workgroup_leave": {
+      "Zero Fill": 1
+    }
+  },
+  "source_payload": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/worker_os_timeline.json",
+  "source_sha256": "ad779dba5d8fcf75f164112601e607dc135ccabb2199bd6a1cc746d47052940f",
+  "console_events": [
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_legacy_current/target.log",
+      "line": "2026-10-17 07:12:54.124606+0900 legacy_probe[58828:7374975] [AMCP]          HALC_ProxyIOContext.cpp:1623  HALC_ProxyIOContext::IOWorkLoop: skipping cycle due to overload"
+    }
+  ],
+  "timeline_images": [
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59_fix2/figures/startup_software.png",
+      "bytes": 160672,
+      "sha256": "63fe911de7e5c7dbdf4c76149479fd71286686e965f8321a185202f0725ec007"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59_fix2/figures/midplay_os.png",
+      "bytes": 174073,
+      "sha256": "3a5676c492b2ac6354b28a2b5e26f36229cd8c76fbf96fd8e6493230d296b338"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59_fix2/figures/legacy_fifo_software.png",
+      "bytes": 184825,
+      "sha256": "98c3e8ecb366128063b38f9421e6504b6a6dd6e84b1d87b4c4718585fdf38952"
+    }
+  ],
+  "physical_audio_continuity_verified": false,
+  "scope": "OSに実測されたworkerイベントのみ。promoted全寿命と実時間合成区間を別に数える。コンソール過負荷はtrace epoch以前にも出る。画像はApple Swift Charts、共通Mach軸。"
+}

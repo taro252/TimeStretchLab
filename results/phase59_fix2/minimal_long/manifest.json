@@ -1,0 +1,22 @@
+{
+  "binary": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/minimal_long/sourcenode_frozen",
+  "binary_sha256": "410477ac9a66fc8cf17bf4ef1639d89479799f6d0eced47126126fc7d0f0ebae",
+  "scope": "短尺休止後起動と90秒途中再生。休止は自分の試験のみであり、他アプリを含む装置idleの証明ではない。",
+  "plan": [
+    {
+      "mode": "direct",
+      "seconds": 2,
+      "own_audio_quiet_seconds": 30
+    },
+    {
+      "mode": "direct",
+      "seconds": 90,
+      "own_audio_quiet_seconds": 0
+    },
+    {
+      "mode": "fifo",
+      "seconds": 90,
+      "own_audio_quiet_seconds": 0
+    }
+  ]
+}

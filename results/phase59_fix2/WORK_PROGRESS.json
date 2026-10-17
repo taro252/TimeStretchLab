@@ -1,0 +1,37 @@
+{
+  "stage": "Stage 8 全PCM・CTest進行中、研究用対照ビルド追加",
+  "completed": [
+    "既存19実行体・37879証拠ファイルのSHA固定",
+    "独立参照10件とGolden保護",
+    "最小SourceNode/FIFO 60/60",
+    "初回以前のlaunchトレース保存",
+    "C/D/E起動比較15/15",
+    "要求なし動的経路のlaunch trace: 113 callback全区間既知、最初3回を含む",
+    "旧製品3版×3反復36件: 旧8016不足、旧初回518余分、現行2482不足を保持",
+    "旧演算対照trace: 2918不足・PCM一致・時計合格"
+  ],
+  "active": [
+    "completion_queue: 24666 (PCM + checks, then serial native/EOS)",
+    "deeper legacy observer build: 29105"
+  ],
+  "pending": [
+    "全58700PCM、Release/Debug/Golden/Sanitizer完了",
+    "実機190+36+8+40+旧12、同形式旧12",
+    "昇格有無固定PCM20、精密供給6試行、最終CDE3",
+    "旧trace解析の再集計(reviewed版: 未公開/重複/対象PID/初回coverage)",
+    "console overloadと全formal失敗の抽出",
+    "17節報告・3docs・VERDICT・manifest・Git容量監査"
+  ],
+  "gate_2_passed": false,
+  "merodoa_changed": false,
+  "failure_notes": [
+    "旧演算対照の初回構成失敗はexamples未コピー。原本を保持しv2で再構成成功。",
+    "xctrace exit54の旧演算試行は保存成功かつ対象Native不合格。成功率から除外しない。"
+  ],
+  "caution": "pcm_ready_mach_nsはpublish入口でありfeedの入力確認後。DSP生成完了そのものではない。LEGACY_MARKER_INTERPRETATION.jsonが旧説明を訂正。",
+  "frozen_candidate": "build/phase59_fix2_artifacts/final",
+  "source_change_forbidden_during_regression": true,
+  "additional_observer": "scripts/phase59_fix2_deep_legacy.py: 別ソース/別リンク、feed入口・validate・publish・FIFO wait/write、主制御側のMach標本。main candidateのソース/実行体は不変。",
+  "workgroup_comparison": "scripts/phase59_fix2_workgroup_minimal.py: 同じ共有adapter/2ms待機、昇格有無。ビルドV3が最新。DSP実行なし。",
+  "evidence_no_synthesis_overlap": "INITIAL_CLOCK_DSP_WINDOW.json: 初回異常の2callback間に記録された合成advanceなし、次開始まで22.426ms。全OS/全thread状態の証明ではない。"
+}

@@ -19,6 +19,7 @@ inline void writeDiagnostics(std::ostream& out,const Diagnostics& d){
     const auto& rt=d.scheduling;
     n("workgroup_enabled",rt.enabled);n("workgroup_policy_measured",rt.policyMeasured);n("workgroup_active_after_stop",rt.active);
     n("workgroup_promotions",rt.promotions);n("workgroup_joins",rt.joins);n("workgroup_leaves",rt.leaves);n("workgroup_restores",rt.restores);
+    n("workgroup_created_ticks",rt.createdTicks);n("workgroup_policy_applied_ticks",rt.policyAppliedTicks);n("workgroup_joined_ticks",rt.joinedTicks);n("workgroup_left_ticks",rt.leftTicks);n("workgroup_restored_ticks",rt.restoredTicks);
     n("workgroup_interval_starts",rt.intervalStarts);n("workgroup_interval_finishes",rt.intervalFinishes);n("workgroup_deadline_misses",rt.deadlineMisses);
     n("workgroup_policy_errors",rt.policyErrors);n("workgroup_join_errors",rt.joinErrors);n("workgroup_restore_errors",rt.restoreErrors);n("workgroup_interval_errors",rt.intervalErrors);n("workgroup_query_errors",rt.queryErrors);
     n("workgroup_wait_calls",rt.waitCalls);n("workgroup_wait_errors",rt.waitErrors);n("workgroup_wake_errors",rt.wakeErrors);

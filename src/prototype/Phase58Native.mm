@@ -16,6 +16,7 @@
 #include <iostream>
 #include <cstring>
 #include <sys/resource.h>
+#include <pthread.h>
 
 // Verification executable only: all C++ allocation entry points are counted.
 thread_local bool phase58InCallback=false;
@@ -36,7 +37,12 @@ void operator delete(void* p,const std::nothrow_t&)noexcept{std::free(p);}void o
 void operator delete(void* p,std::align_val_t,const std::nothrow_t&)noexcept{std::free(p);}void operator delete[](void* p,std::align_val_t,const std::nothrow_t&)noexcept{std::free(p);}
 using namespace ts::prototype;
 namespace {
-struct Record {std::uint64_t start=0,end=0,host=0,epoch=0;double sample=0;std::uint32_t flags=0,frames=0;phase58::RenderResult raw;};
+struct Record {std::uint64_t start=0,end=0,host=0,epoch=0;double sample=0;std::uint32_t flags=0,frames=0;phase58::RenderResult raw;
+#ifdef PHASE59_FIX2_CLOCK
+    std::uint64_t beginTicks=0,endTicks=0,hostTicks=0,thread=0;double scalar=0;
+    phase58::FifoCursors before{},after{};
+#endif
+};
 struct Context {
     phase58::RealtimePipeline* pipeline=nullptr;const float* reference=nullptr;std::size_t referenceFrames=0,channels=0;double rate=0;
     float* capture=nullptr;
@@ -58,6 +64,9 @@ struct Context {
 };
 OSStatus render(Context* c,BOOL* silent,const AudioTimeStamp* stamp,AVAudioFrameCount n,AudioBufferList* b)noexcept{
     c->inRender.fetch_add(1);phase58InCallback=true;const auto start=c->now();
+#ifdef PHASE59_FIX2_CLOCK
+    const auto beginTicks=mach_absolute_time();
+#endif
 #ifdef PHASE59_FIX_STARTUP
     const auto entry=c->renderEntryCalls.fetch_add(1,std::memory_order_relaxed);
     if(entry<c->renderEntries.size()){
@@ -70,7 +79,13 @@ OSStatus render(Context* c,BOOL* silent,const AudioTimeStamp* stamp,AVAudioFrame
     for(unsigned i=0;i<b->mNumberBuffers;++i){auto& v=b->mBuffers[i];if(i<2)p[i]=static_cast<float*>(v.mData);valid&=v.mData&&v.mNumberChannels==1&&v.mDataByteSize>=n*sizeof(float);}
     phase58::RenderResult raw;
     if(c->active.load()&&valid){
+#ifdef PHASE59_FIX2_CLOCK
+        const auto fifoBefore=c->pipeline->diagnosticFifoCursors();
+#endif
         raw=c->pipeline->pullAudio(p,n);
+#ifdef PHASE59_FIX2_CLOCK
+        const auto fifoAfter=c->pipeline->diagnosticFifoCursors();
+#endif
         // Reference was read and touched before rendering. No file IO or hash in callback.
         for(std::size_t i=0;i<raw.received;++i)for(std::size_t ch=0;ch<c->channels;++ch){
             const auto frame=raw.outputBefore+i;const auto actual=std::bit_cast<std::uint32_t>(p[ch][i]);
@@ -85,6 +100,10 @@ OSStatus render(Context* c,BOOL* silent,const AudioTimeStamp* stamp,AVAudioFrame
         c->hostMissing+=evidence.hostMissing;c->hostBackwards+=evidence.hostBackwards;c->hostCadence+=evidence.cadenceError||evidence.offsetOutlier;c->sampleErrors+=evidence.sampleError;c->sampleValid+=(flags&kAudioTimeStampSampleTimeValid)!=0;
         if(raw.received)c->lastTarget=(host?host:io)+std::uint64_t(raw.received*1e9/c->rate);
         Record* record=nullptr;if(c->calls<c->records.size()){record=&c->records[c->calls];*record={start,0,host,c->epoch,sample,flags,n,raw};}else ++c->dropped;++c->calls;
+#ifdef PHASE59_FIX2_CLOCK
+        if(record){record->beginTicks=beginTicks;record->hostTicks=stamp?stamp->mHostTime:0;record->scalar=stamp?stamp->mRateScalar:0;
+            record->before=fifoBefore;record->after=fifoAfter;pthread_threadid_np(nullptr,&record->thread);record->endTicks=mach_absolute_time();}
+#endif
         const auto end=c->now();if(record)record->end=end;
         c->halMisses+=host&&end>host+std::max(100000.,2e9/c->rate);c->deadlines+=end-start>n*1e9/c->rate;c->maximum=std::max(c->maximum,end-start);
     }else{
@@ -129,6 +148,7 @@ struct OutputLifetime {
 };
 }
 int runOne(int argc,char** argv){@autoreleasepool{try{
+    [[maybe_unused]] const auto runEntryTicks=mach_absolute_time();
     if(argc<10)throw std::invalid_argument("input speed_micros preset ref.f32 frames sha output normal|pause|route window_s [cpu_threads memory_mib analysis_delay_ms dsp_delay_ms]");
     const std::filesystem::path out=argv[7];if(std::filesystem::exists(out))throw std::runtime_error("Fresh output directory required");std::filesystem::create_directories(out);
     phase58::Configuration config;config.recordWorkerProfile=true;config.speedMicros=std::stoul(argv[2]);const std::string preset=argv[3],mode=argv[8];
@@ -177,7 +197,9 @@ int runOne(int argc,char** argv){@autoreleasepool{try{
     if(!captureMode){std::ifstream raw(argv[4],std::ios::binary);if(!raw.read(reinterpret_cast<char*>(reference.data()),reference.size()*sizeof(float))||raw.peek()!=EOF)throw std::runtime_error("Reference size mismatch");
         Phase45PcmDigest digest;digest.update(reference.data(),reference.size()*sizeof(float));if(digest.finish()!=argv[6])throw std::runtime_error("Reference SHA differs");}
     else if(capturePath.empty()||requestPath.empty())throw std::invalid_argument("Bounded capture path and speed request file required");
-    Load load(cpu,memory);const auto processCpu=[](){rusage u{};getrusage(RUSAGE_SELF,&u);return u.ru_utime.tv_sec+u.ru_utime.tv_usec*1e-6+u.ru_stime.tv_sec+u.ru_stime.tv_usec*1e-6;};const auto cpuStart=processCpu();phase58::RealtimePipeline pipeline(argv[1],config);Context ctx;ctx.pipeline=&pipeline;ctx.reference=reference.data();ctx.referenceFrames=expectedFrames;ctx.rate=pipeline.sampleRate();ctx.channels=pipeline.channels();ctx.records.resize(262144);
+    Load load(cpu,memory);const auto processCpu=[](){rusage u{};getrusage(RUSAGE_SELF,&u);return u.ru_utime.tv_sec+u.ru_utime.tv_usec*1e-6+u.ru_stime.tv_sec+u.ru_stime.tv_usec*1e-6;};const auto cpuStart=processCpu();
+    [[maybe_unused]] const auto pipelineConstructRequest=mach_absolute_time();phase58::RealtimePipeline pipeline(argv[1],config);[[maybe_unused]] const auto pipelineConstructReturn=mach_absolute_time();
+    Context ctx;ctx.pipeline=&pipeline;ctx.reference=reference.data();ctx.referenceFrames=expectedFrames;ctx.rate=pipeline.sampleRate();ctx.channels=pipeline.channels();ctx.records.resize(262144);
     if(captureMode)ctx.capture=reference.data();
 #ifdef PHASE59_RESEARCH
     const auto requests=phase59::readOperations(requestPath);std::size_t nextRequest=0;
@@ -185,20 +207,28 @@ int runOne(int argc,char** argv){@autoreleasepool{try{
     OutputLifetime lifetime(&ctx);mach_timebase_info_data_t tb{};mach_timebase_info(&tb);ctx.numer=tb.numer;ctx.denom=tb.denom;
 #ifdef PHASE59_FIX_STARTUP
     struct StartupMark {const char* name;std::uint64_t ns;};
-    std::array<StartupMark,16> startupMarks{};std::size_t startupCount=0;
+    std::array<StartupMark,32> startupMarks{};std::size_t startupCount=0;
     auto* entryBytes=reinterpret_cast<volatile unsigned char*>(ctx.renderEntries.data());
     for(std::size_t i=0;i<sizeof(ctx.renderEntries);++i)entryBytes[i]=0;
     const auto startupMark=[&](const char* name){startupMarks[startupCount++]={name,ctx.now()};};
+    const auto savedMark=[&](const char* name,std::uint64_t ticks){startupMarks[startupCount++]={name,std::uint64_t(static_cast<long double>(ticks)*ctx.numer/ctx.denom)};};
+    savedMark("process_run_entry",runEntryTicks);savedMark("pipeline_construct_request",pipelineConstructRequest);savedMark("pipeline_construct_return",pipelineConstructReturn);
     startupMark("pipeline_start_request");
 #else
     const auto startupMark=[](const char*){};
+#endif
+#ifdef PHASE59_FIX2_CLOCK
+    const auto touch=[](void* data,std::size_t bytes){auto* p=static_cast<volatile unsigned char*>(data);for(std::size_t i=0;i<bytes;++i)p[i]=p[i];};
+    touch(ctx.records.data(),ctx.records.size()*sizeof(Record));touch(reference.data(),reference.size()*sizeof(float));
 #endif
     const auto allocationBase=phase58Allocations.load();const auto bridgeBefore=pipeline.elapsedSeconds();const auto bridgeMach=ctx.now();const auto bridgeAfter=pipeline.elapsedSeconds();const auto bridgeElapsed=(bridgeBefore+bridgeAfter)/2;const auto bridgeUncertainty=bridgeAfter-bridgeBefore;pipeline.start();
     startupMark("engine_construct_request");
     AVAudioEngine* audio=[[AVAudioEngine alloc]init];lifetime.audio=audio;startupMark("engine_construct_return");const auto device=defaultDevice();auto deviceFormat=[audio.outputNode outputFormatForBus:0];const double deviceRate=deviceFormat.sampleRate;const auto deviceChannels=deviceFormat.channelCount;const auto buffer=bufferFrames(device);
     startupMark("device_format_resolved");
     auto format=[[AVAudioFormat alloc]initWithCommonFormat:AVAudioPCMFormatFloat32 sampleRate:ctx.rate channels:static_cast<AVAudioChannelCount>(ctx.channels) interleaved:NO];
+    startupMark("source_construct_request");
     Context* state=&ctx;auto source=[[AVAudioSourceNode alloc]initWithFormat:format renderBlock:^OSStatus(BOOL* s,const AudioTimeStamp* t,AVAudioFrameCount n,AudioBufferList* b){return render(state,s,t,n,b);}];
+    startupMark("source_construct_return");
     lifetime.source=source;[audio attachNode:source];[audio connect:source to:audio.mainMixerNode format:format];audio.mainMixerNode.outputVolume=.5f;
     startupMark("nodes_connected");startupMark("engine_prepare_request");[audio prepare];startupMark("engine_prepare_return");
 #ifdef PHASE59_FIX_STARTUP
@@ -260,6 +290,14 @@ int runOne(int argc,char** argv){@autoreleasepool{try{
 #endif
     std::ofstream csv(out/"callbacks.csv");csv<<"sequence,epoch,start_ns,end_ns,host_ns,sample_time,flags,requested,wanted,received,output_before,fifo_before\n"<<std::setprecision(17);std::vector<std::uint64_t> durations;
     for(std::size_t i=0;i<std::min<std::size_t>(ctx.calls,ctx.records.size());++i){const auto& r=ctx.records[i];durations.push_back(r.end-r.start);csv<<i+1<<','<<r.epoch<<','<<r.start<<','<<r.end<<','<<r.host<<','<<r.sample<<','<<r.flags<<','<<r.frames<<','<<r.raw.wanted<<','<<r.raw.received<<','<<r.raw.outputBefore<<','<<r.raw.fifoBefore<<'\n';}
+#ifdef PHASE59_FIX2_CLOCK
+    std::ofstream regions(out/"memory_regions.csv");regions<<"name,address,bytes,prepared_write_touch\n";
+    regions<<"callback_records,"<<reinterpret_cast<std::uintptr_t>(ctx.records.data())<<','<<ctx.records.size()*sizeof(Record)<<",1\nreference_or_capture,"<<reinterpret_cast<std::uintptr_t>(reference.data())<<','<<reference.size()*sizeof(float)<<",1\ninitial_entries,"<<reinterpret_cast<std::uintptr_t>(ctx.renderEntries.data())<<','<<sizeof(ctx.renderEntries)<<",1\noutput_notify,"<<reinterpret_cast<std::uintptr_t>(ctx.outputRecords.data())<<','<<sizeof(ctx.outputRecords)<<','<<captureOutputNotify<<'\n';
+    std::ofstream extra(out/"callback_timestamps.csv");extra<<"sequence,session,epoch,begin_ticks,end_ticks,host_ticks,rate_scalar,thread,read_before,read_after,write_before,write_after,format_id,engine_state_id,timebase_numer,timebase_denom\n"<<std::setprecision(17);
+    const auto stateAt=[&](std::uint64_t ns){unsigned state=0;for(std::size_t i=0;i<startupCount;++i){const auto& m=startupMarks[i];if(m.ns>ns)continue;
+        if(!std::strcmp(m.name,"engine_prepare_return"))state=1;else if(!std::strcmp(m.name,"engine_start_request"))state=2;else if(!std::strcmp(m.name,"engine_start_return"))state=3;}return state;};
+    for(std::size_t i=0;i<std::min<std::size_t>(ctx.calls,ctx.records.size());++i){const auto& r=ctx.records[i];extra<<i+1<<",1,"<<r.epoch<<','<<r.beginTicks<<','<<r.endTicks<<','<<r.hostTicks<<','<<r.scalar<<','<<r.thread<<','<<r.before.read<<','<<r.after.read<<','<<r.before.write<<','<<r.after.write<<",1,"<<stateAt(r.start)<<','<<ctx.numer<<','<<ctx.denom<<'\n';}
+#endif
     std::sort(durations.begin(),durations.end());const auto percentile=[&](double q){return durations.empty()?0:durations[std::min(durations.size()-1,std::size_t(std::ceil(q*durations.size())-1))];};
 #ifdef PHASE59_FIX_STARTUP
     std::ofstream startupCsv(out/"startup.csv");startupCsv<<"event,mach_ns\n";

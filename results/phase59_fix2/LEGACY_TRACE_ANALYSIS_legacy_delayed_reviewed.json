@@ -1,0 +1,135 @@
+{
+  "native_summary": {
+    "AUDIO_QUALITY": "PASS",
+    "MEASUREMENT_QUALITY": "PASS",
+    "PCM_CORRECTNESS": "PASS",
+    "VERDICT": "PASS",
+    "cpu_load_threads": "0",
+    "control_dropped": "0",
+    "bridge_steady_ns": "325718298626520",
+    "bridge_mach_ns": "304804538848583",
+    "bridge_uncertainty_ns": "41",
+    "mode": "smoke",
+    "source_rate": "44100",
+    "channels": "2",
+    "device": "72",
+    "device_rate": "48000",
+    "device_buffer": "512",
+    "prepare_wall_s": "0.2138555",
+    "prepare_thread_cpu_s": "0.086721917000000009",
+    "play_wall_s": "0.20677445899999999",
+    "play_thread_cpu_s": "0.012007165999999986",
+    "missing_frames": "0",
+    "lifetime_missing_frames": "0",
+    "callback_rows": "819",
+    "callback_max_ms": "0.0054999999999999997",
+    "callback_overruns": "0",
+    "callback_allocations": "0",
+    "worker_max_wall_s": "0.038271125000000003",
+    "worker_max_cpu_s": "0.038270917000000002",
+    "analysis_hit": "1",
+    "analysis_runs": "1",
+    "cache_hits": "6",
+    "analysis_bytes": "20755",
+    "cache_resident_bytes": "20755",
+    "playback_rss_bytes": "98353152",
+    "playback_process_cpu_s": "4.9458830000000003",
+    "eos": "1",
+    "route": "0",
+    "silent": "0",
+    "fade": "64",
+    "seek_count": "5",
+    "expected_frames": "220500",
+    "consumed_frames": "220500"
+  },
+  "raw_profile_records": 285,
+  "non_publication_profile_records": 67,
+  "duplicate_profile_records": 0,
+  "workers": 218,
+  "fully_observed_workers": 98,
+  "unknown_or_unobserved_workers": 120,
+  "missing_callbacks": 0,
+  "target_pids": [
+    30590
+  ],
+  "callbacks": 819,
+  "fully_observed_callbacks": 371,
+  "first_three_callback_coverage": [
+    false,
+    false,
+    false
+  ],
+  "missing_frames": 0,
+  "target_os_client_overloads": 0,
+  "observed_priorities": [
+    "Default - 31"
+  ],
+  "payload": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_legacy_delayed/legacy_os_timeline_reviewed.json",
+  "payload_sha256": "7b97c14adeea1e6573d74c15e67d500e39dec9e1f3aab0e710615307da082580",
+  "exports": [
+    {
+      "schema": "time-info",
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_legacy_delayed/xml/time-info.xml",
+      "bytes": 1391,
+      "sha256": "dcef8ce396ec3da8e2d7f9d1f1cbfe37c18e14a4840e13899b5d2823bcf651c3",
+      "exit": 0,
+      "capacity_interrupted": false,
+      "complete": true
+    },
+    {
+      "schema": "thread-state",
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_legacy_delayed/xml/thread-state.xml",
+      "bytes": 188850531,
+      "sha256": "92e26579e47bec286f35ec132d5c20260f502c61fbdaf9e21e92504b72204ea9",
+      "exit": 0,
+      "capacity_interrupted": false,
+      "complete": true
+    },
+    {
+      "schema": "syscall",
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_legacy_delayed/xml/syscall.xml",
+      "bytes": 255870212,
+      "sha256": "3635288a5e1ef0c9464f29664a81aefe80e5538e3e311e50de4b26e916c0c941",
+      "exit": 0,
+      "capacity_interrupted": false,
+      "complete": true
+    },
+    {
+      "schema": "virtual-memory",
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_legacy_delayed/xml/virtual-memory.xml",
+      "bytes": 5926724,
+      "sha256": "ea0db38dde553b9b9979b262563893d826e316bfa1d0f84ecc0e83502556eacc",
+      "exit": 0,
+      "capacity_interrupted": false,
+      "complete": true
+    },
+    {
+      "schema": "audio-hal-client-poi",
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_legacy_delayed/xml/audio-hal-client-poi.xml",
+      "bytes": 707,
+      "sha256": "47b1b8c5dea28db6ac9001ba23b455a0e1577e45cff9a731421a4639c2525f52",
+      "exit": 0,
+      "capacity_interrupted": false,
+      "complete": true
+    },
+    {
+      "schema": "audio-hal-client-io-cycle-ioproc",
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_legacy_delayed/xml/audio-hal-client-io-cycle-ioproc.xml",
+      "bytes": 126903,
+      "sha256": "653673e8045c4164760eb03cebb9a5973ee5756d634b228b7426e6cc59c68c5e",
+      "exit": 0,
+      "capacity_interrupted": false,
+      "complete": true
+    },
+    {
+      "schema": "audio-hal-io-cycle-hardware",
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_legacy_delayed/xml/audio-hal-io-cycle-hardware.xml",
+      "bytes": 128496,
+      "sha256": "dbb5b529307624ec0b940424529a65b5a7447169fd97aff5f8ff34f683fe7cc6",
+      "exit": 0,
+      "capacity_interrupted": false,
+      "complete": true
+    }
+  ],
+  "scope": "旧製品workerの周期は実時間Workgroup区間ではない。publish入口前の区間にはDSP/WAV/計画/前回後処理が含まれ、Wall-CPUだけでPreemptedと呼ばない。"
+}

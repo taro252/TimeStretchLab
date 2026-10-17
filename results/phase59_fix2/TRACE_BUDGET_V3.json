@@ -1,0 +1,12 @@
+{
+  "maximum_captures": 6,
+  "maximum_simultaneous_capture_bytes": 4294967296,
+  "maximum_cumulative_bytes": 17179869184,
+  "admission_free_bytes": 12884901888,
+  "minimum_free_bytes": 8589934592,
+  "maximum_seconds": 12,
+  "xml_export_budget_bytes": 2147483648,
+  "retained_before_bytes": 5949881786,
+  "free_before_bytes": 41344327680,
+  "reason": "通知後起動でも最初のcallbackはtrace epochより約1.44秒早かった。最終追加1回は通知後3秒待ち、worker名と精密供給記録を持つ別ビルドを使う。累積16GiB/1回4GiB/空き8GiBを維持し、以後の新規取得は行わない。"
+}

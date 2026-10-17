@@ -80,9 +80,11 @@ struct SegmentEvidence {
     std::uint64_t missingFrames=0;
     std::string rawPcmSha256,contentSha256,workerError;
     std::vector<prototype::Phase39PlanMetric> plans;
+    std::vector<prototype::Phase39BlockProfile> workerProfiles; // Explicit detailed diagnostics only.
 };
 struct UnderrunEvent {std::uint64_t timestampNs=0,outputFrame=0,requested=0,received=0,available=0,generation=0;};
-struct RenderResult {std::size_t received=0,wanted=0,fifoBefore=0;std::uint64_t outputBefore=0,generation=0,lastPublicationNs=0;std::uint64_t session=0;};
+struct RenderResult {std::size_t received=0,wanted=0,fifoBefore=0;std::uint64_t outputBefore=0,generation=0,lastPublicationNs=0;std::uint64_t session=0;
+    std::uint64_t fifoReadBefore=0,fifoReadAfter=0,fifoWriteBefore=0,fifoWriteAfter=0;};
 
 // Control APIs may lock, allocate, read files and wait: use an app work queue.
 // Only renderAudio() may be called from an audio render callback.

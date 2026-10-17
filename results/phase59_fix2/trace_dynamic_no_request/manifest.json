@@ -1,0 +1,3108 @@
+{
+  "command": [
+    "xcrun",
+    "xctrace",
+    "record",
+    "--template",
+    "Audio System Trace",
+    "--time-limit",
+    "8s",
+    "--output",
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace",
+    "--target-stdout",
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/target.log",
+    "--launch",
+    "--",
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/startup_cde/phase59_fix2_dynamic_probe",
+    "/Users/taro252/Docker/TimeStretchLab/results/phase59/native_smoke_v2/inputs/boundary_float_stereo_48000.wav",
+    "500000",
+    "candidate",
+    "capture",
+    "480002",
+    "-",
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/dynamic_no_request_trace_native",
+    "normal",
+    "1.2",
+    "0",
+    "0",
+    "0",
+    "0",
+    "--worker=workgroup",
+    "--resident-input=on",
+    "--profile=block",
+    "--sample-thread=on",
+    "--output-notify=on",
+    "--capture-path=/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/dynamic_no_request_trace_capture.f32",
+    "--speed-requests=/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/startup_cde/no_requests.csv"
+  ],
+  "exit": 0,
+  "capacity_interrupted": false,
+  "budget": {
+    "maximum_captures": 4,
+    "maximum_simultaneous_capture_bytes": 4294967296,
+    "maximum_cumulative_bytes": 17179869184,
+    "admission_free_bytes": 12884901888,
+    "minimum_free_bytes": 8589934592,
+    "maximum_seconds": 12,
+    "xml_export_budget_bytes": 2147483648
+  },
+  "recording_method": "xctrace record --launch。実際のtime-info epochと最初のcallbackで開始前coverageを検証する。",
+  "trace_bundle": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace",
+  "previous_retained_bytes": 2080003479,
+  "maximum_observed_bytes": 1865013105,
+  "minimum_free_bytes": 56366227456,
+  "checkpoints": [
+    {
+      "unix": 1792188652.729259,
+      "temporary_bytes": 0,
+      "saved_bytes": 0,
+      "free_bytes": 57213067264
+    },
+    {
+      "unix": 1792188652.960601,
+      "temporary_bytes": 0,
+      "saved_bytes": 0,
+      "free_bytes": 57213042688
+    },
+    {
+      "unix": 1792188653.188344,
+      "temporary_bytes": 0,
+      "saved_bytes": 0,
+      "free_bytes": 57213042688
+    },
+    {
+      "unix": 1792188653.418827,
+      "temporary_bytes": 0,
+      "saved_bytes": 0,
+      "free_bytes": 57213038592
+    },
+    {
+      "unix": 1792188653.6500502,
+      "temporary_bytes": 0,
+      "saved_bytes": 0,
+      "free_bytes": 57212456960
+    },
+    {
+      "unix": 1792188653.881901,
+      "temporary_bytes": 0,
+      "saved_bytes": 0,
+      "free_bytes": 57212858368
+    },
+    {
+      "unix": 1792188654.1158972,
+      "temporary_bytes": 0,
+      "saved_bytes": 0,
+      "free_bytes": 57217011712
+    },
+    {
+      "unix": 1792188654.345372,
+      "temporary_bytes": 0,
+      "saved_bytes": 0,
+      "free_bytes": 57217011712
+    },
+    {
+      "unix": 1792188654.5723789,
+      "temporary_bytes": 0,
+      "saved_bytes": 0,
+      "free_bytes": 57215557632
+    },
+    {
+      "unix": 1792188654.802212,
+      "temporary_bytes": 0,
+      "saved_bytes": 0,
+      "free_bytes": 57215508480
+    },
+    {
+      "unix": 1792188655.0265589,
+      "temporary_bytes": 0,
+      "saved_bytes": 0,
+      "free_bytes": 57215483904
+    },
+    {
+      "unix": 1792188655.2545578,
+      "temporary_bytes": 0,
+      "saved_bytes": 0,
+      "free_bytes": 57217077248
+    },
+    {
+      "unix": 1792188655.481367,
+      "temporary_bytes": 0,
+      "saved_bytes": 0,
+      "free_bytes": 57216966656
+    },
+    {
+      "unix": 1792188655.709871,
+      "temporary_bytes": 0,
+      "saved_bytes": 0,
+      "free_bytes": 57216794624
+    },
+    {
+      "unix": 1792188655.9358552,
+      "temporary_bytes": 0,
+      "saved_bytes": 0,
+      "free_bytes": 57220534272
+    },
+    {
+      "unix": 1792188656.163268,
+      "temporary_bytes": 0,
+      "saved_bytes": 0,
+      "free_bytes": 57227104256
+    },
+    {
+      "unix": 1792188656.390713,
+      "temporary_bytes": 0,
+      "saved_bytes": 0,
+      "free_bytes": 57227112448
+    },
+    {
+      "unix": 1792188656.614051,
+      "temporary_bytes": 0,
+      "saved_bytes": 0,
+      "free_bytes": 57230872576
+    },
+    {
+      "unix": 1792188656.839733,
+      "temporary_bytes": 0,
+      "saved_bytes": 0,
+      "free_bytes": 57230352384
+    },
+    {
+      "unix": 1792188657.0625489,
+      "temporary_bytes": 0,
+      "saved_bytes": 0,
+      "free_bytes": 57232551936
+    },
+    {
+      "unix": 1792188657.285053,
+      "temporary_bytes": 0,
+      "saved_bytes": 0,
+      "free_bytes": 57232232448
+    },
+    {
+      "unix": 1792188657.606006,
+      "temporary_bytes": 0,
+      "saved_bytes": 0,
+      "free_bytes": 58161864704
+    },
+    {
+      "unix": 1792188657.826546,
+      "temporary_bytes": 0,
+      "saved_bytes": 0,
+      "free_bytes": 58175287296
+    },
+    {
+      "unix": 1792188658.054637,
+      "temporary_bytes": 0,
+      "saved_bytes": 0,
+      "free_bytes": 58175094784
+    },
+    {
+      "unix": 1792188658.284391,
+      "temporary_bytes": 0,
+      "saved_bytes": 0,
+      "free_bytes": 58175004672
+    },
+    {
+      "unix": 1792188658.510698,
+      "temporary_bytes": 0,
+      "saved_bytes": 53248,
+      "free_bytes": 58174545920
+    },
+    {
+      "unix": 1792188658.735231,
+      "temporary_bytes": 0,
+      "saved_bytes": 53248,
+      "free_bytes": 58174963712
+    },
+    {
+      "unix": 1792188658.9595442,
+      "temporary_bytes": 0,
+      "saved_bytes": 53248,
+      "free_bytes": 58174922752
+    },
+    {
+      "unix": 1792188659.1861398,
+      "temporary_bytes": 0,
+      "saved_bytes": 53248,
+      "free_bytes": 58162049024
+    },
+    {
+      "unix": 1792188659.410683,
+      "temporary_bytes": 0,
+      "saved_bytes": 53248,
+      "free_bytes": 58161717248
+    },
+    {
+      "unix": 1792188659.680953,
+      "temporary_bytes": 0,
+      "saved_bytes": 53248,
+      "free_bytes": 58161860608
+    },
+    {
+      "unix": 1792188659.900558,
+      "temporary_bytes": 0,
+      "saved_bytes": 53248,
+      "free_bytes": 58150801408
+    },
+    {
+      "unix": 1792188660.122879,
+      "temporary_bytes": 0,
+      "saved_bytes": 53248,
+      "free_bytes": 58150801408
+    },
+    {
+      "unix": 1792188660.344257,
+      "temporary_bytes": 0,
+      "saved_bytes": 53248,
+      "free_bytes": 58150793216
+    },
+    {
+      "unix": 1792188660.565572,
+      "temporary_bytes": 0,
+      "saved_bytes": 53248,
+      "free_bytes": 58150776832
+    },
+    {
+      "unix": 1792188660.7866082,
+      "temporary_bytes": 0,
+      "saved_bytes": 53248,
+      "free_bytes": 58150739968
+    },
+    {
+      "unix": 1792188661.0103838,
+      "temporary_bytes": 0,
+      "saved_bytes": 53248,
+      "free_bytes": 58150727680
+    },
+    {
+      "unix": 1792188661.232996,
+      "temporary_bytes": 0,
+      "saved_bytes": 53248,
+      "free_bytes": 58150727680
+    },
+    {
+      "unix": 1792188661.456034,
+      "temporary_bytes": 0,
+      "saved_bytes": 53248,
+      "free_bytes": 58150686720
+    },
+    {
+      "unix": 1792188661.677624,
+      "temporary_bytes": 0,
+      "saved_bytes": 53248,
+      "free_bytes": 58150682624
+    },
+    {
+      "unix": 1792188661.895901,
+      "temporary_bytes": 0,
+      "saved_bytes": 53248,
+      "free_bytes": 58165919744
+    },
+    {
+      "unix": 1792188662.130615,
+      "temporary_bytes": 0,
+      "saved_bytes": 53441,
+      "free_bytes": 58164314112
+    },
+    {
+      "unix": 1792188662.3553789,
+      "temporary_bytes": 0,
+      "saved_bytes": 53720,
+      "free_bytes": 58164154368
+    },
+    {
+      "unix": 1792188662.5768828,
+      "temporary_bytes": 0,
+      "saved_bytes": 53720,
+      "free_bytes": 58164187136
+    },
+    {
+      "unix": 1792188662.80186,
+      "temporary_bytes": 0,
+      "saved_bytes": 53720,
+      "free_bytes": 58164072448
+    },
+    {
+      "unix": 1792188663.026247,
+      "temporary_bytes": 0,
+      "saved_bytes": 53720,
+      "free_bytes": 58164039680
+    },
+    {
+      "unix": 1792188663.249225,
+      "temporary_bytes": 0,
+      "saved_bytes": 53720,
+      "free_bytes": 58164019200
+    },
+    {
+      "unix": 1792188663.471335,
+      "temporary_bytes": 0,
+      "saved_bytes": 53720,
+      "free_bytes": 58163896320
+    },
+    {
+      "unix": 1792188663.708447,
+      "temporary_bytes": 146497544,
+      "saved_bytes": 53761,
+      "free_bytes": 58016972800
+    },
+    {
+      "unix": 1792188663.935613,
+      "temporary_bytes": 356212744,
+      "saved_bytes": 53761,
+      "free_bytes": 57819095040
+    },
+    {
+      "unix": 1792188664.1615202,
+      "temporary_bytes": 548102152,
+      "saved_bytes": 53761,
+      "free_bytes": 57616855040
+    },
+    {
+      "unix": 1792188664.396137,
+      "temporary_bytes": 737370120,
+      "saved_bytes": 53761,
+      "free_bytes": 57427939328
+    },
+    {
+      "unix": 1792188664.6341891,
+      "temporary_bytes": 920682496,
+      "saved_bytes": 53761,
+      "free_bytes": 57232896000
+    },
+    {
+      "unix": 1792188664.8567731,
+      "temporary_bytes": 920682496,
+      "saved_bytes": 53761,
+      "free_bytes": 57232846848
+    },
+    {
+      "unix": 1792188665.081899,
+      "temporary_bytes": 920682496,
+      "saved_bytes": 53761,
+      "free_bytes": 57232818176
+    },
+    {
+      "unix": 1792188665.30756,
+      "temporary_bytes": 920682496,
+      "saved_bytes": 53761,
+      "free_bytes": 57232683008
+    },
+    {
+      "unix": 1792188665.5324218,
+      "temporary_bytes": 920682496,
+      "saved_bytes": 53761,
+      "free_bytes": 57232683008
+    },
+    {
+      "unix": 1792188665.757837,
+      "temporary_bytes": 920682496,
+      "saved_bytes": 53761,
+      "free_bytes": 57232683008
+    },
+    {
+      "unix": 1792188665.982371,
+      "temporary_bytes": 920682496,
+      "saved_bytes": 53761,
+      "free_bytes": 57232670720
+    },
+    {
+      "unix": 1792188666.210878,
+      "temporary_bytes": 920682496,
+      "saved_bytes": 53761,
+      "free_bytes": 57232654336
+    },
+    {
+      "unix": 1792188666.42766,
+      "temporary_bytes": 920682496,
+      "saved_bytes": 53761,
+      "free_bytes": 57232646144
+    },
+    {
+      "unix": 1792188666.6473029,
+      "temporary_bytes": 920682496,
+      "saved_bytes": 53761,
+      "free_bytes": 57232633856
+    },
+    {
+      "unix": 1792188666.9227011,
+      "temporary_bytes": 920682496,
+      "saved_bytes": 53761,
+      "free_bytes": 57232588800
+    },
+    {
+      "unix": 1792188667.1610339,
+      "temporary_bytes": 920682496,
+      "saved_bytes": 53761,
+      "free_bytes": 57232519168
+    },
+    {
+      "unix": 1792188667.392313,
+      "temporary_bytes": 920682496,
+      "saved_bytes": 53761,
+      "free_bytes": 57232515072
+    },
+    {
+      "unix": 1792188668.04294,
+      "temporary_bytes": 920682496,
+      "saved_bytes": 53761,
+      "free_bytes": 57232371712
+    },
+    {
+      "unix": 1792188668.271337,
+      "temporary_bytes": 920682496,
+      "saved_bytes": 53761,
+      "free_bytes": 57232367616
+    },
+    {
+      "unix": 1792188668.50325,
+      "temporary_bytes": 920682496,
+      "saved_bytes": 53761,
+      "free_bytes": 57232338944
+    },
+    {
+      "unix": 1792188668.7275689,
+      "temporary_bytes": 920682496,
+      "saved_bytes": 53761,
+      "free_bytes": 57232244736
+    },
+    {
+      "unix": 1792188668.954554,
+      "temporary_bytes": 920682496,
+      "saved_bytes": 53761,
+      "free_bytes": 57232289792
+    },
+    {
+      "unix": 1792188669.183191,
+      "temporary_bytes": 920682496,
+      "saved_bytes": 53761,
+      "free_bytes": 57232281600
+    },
+    {
+      "unix": 1792188669.410879,
+      "temporary_bytes": 920682496,
+      "saved_bytes": 53761,
+      "free_bytes": 57232273408
+    },
+    {
+      "unix": 1792188669.638072,
+      "temporary_bytes": 920943257,
+      "saved_bytes": 53761,
+      "free_bytes": 57232199680
+    },
+    {
+      "unix": 1792188669.8649778,
+      "temporary_bytes": 920943257,
+      "saved_bytes": 53761,
+      "free_bytes": 57232195584
+    },
+    {
+      "unix": 1792188670.088806,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 53761,
+      "free_bytes": 57232195584
+    },
+    {
+      "unix": 1792188670.3101811,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 53761,
+      "free_bytes": 57232199680
+    },
+    {
+      "unix": 1792188670.528607,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 53761,
+      "free_bytes": 57232199680
+    },
+    {
+      "unix": 1792188670.742744,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 53761,
+      "free_bytes": 57232199680
+    },
+    {
+      "unix": 1792188670.9604979,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 53761,
+      "free_bytes": 57232072704
+    },
+    {
+      "unix": 1792188671.178729,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 53761,
+      "free_bytes": 57232068608
+    },
+    {
+      "unix": 1792188671.397109,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 53761,
+      "free_bytes": 57232650240
+    },
+    {
+      "unix": 1792188671.620203,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 53761,
+      "free_bytes": 57232601088
+    },
+    {
+      "unix": 1792188671.841581,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 53761,
+      "free_bytes": 57232564224
+    },
+    {
+      "unix": 1792188672.062397,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 53761,
+      "free_bytes": 57232543744
+    },
+    {
+      "unix": 1792188672.280714,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 53761,
+      "free_bytes": 57232543744
+    },
+    {
+      "unix": 1792188672.504471,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 53761,
+      "free_bytes": 57243222016
+    },
+    {
+      "unix": 1792188672.725376,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57243611136
+    },
+    {
+      "unix": 1792188672.949512,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57243475968
+    },
+    {
+      "unix": 1792188673.1698859,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57243410432
+    },
+    {
+      "unix": 1792188673.3918889,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57243365376
+    },
+    {
+      "unix": 1792188673.611557,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57243361280
+    },
+    {
+      "unix": 1792188673.830614,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57243340800
+    },
+    {
+      "unix": 1792188674.052187,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57243312128
+    },
+    {
+      "unix": 1792188674.27403,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57243172864
+    },
+    {
+      "unix": 1792188674.492784,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57243111424
+    },
+    {
+      "unix": 1792188674.721618,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57243111424
+    },
+    {
+      "unix": 1792188674.941015,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57243107328
+    },
+    {
+      "unix": 1792188675.16644,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57243086848
+    },
+    {
+      "unix": 1792188675.388546,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57209499648
+    },
+    {
+      "unix": 1792188675.608327,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57209507840
+    },
+    {
+      "unix": 1792188675.825203,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57209507840
+    },
+    {
+      "unix": 1792188676.041031,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57209442304
+    },
+    {
+      "unix": 1792188676.265547,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57210212352
+    },
+    {
+      "unix": 1792188676.48525,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57210216448
+    },
+    {
+      "unix": 1792188676.70787,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57210163200
+    },
+    {
+      "unix": 1792188676.93196,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57210150912
+    },
+    {
+      "unix": 1792188677.1534688,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57210109952
+    },
+    {
+      "unix": 1792188677.378298,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57210093568
+    },
+    {
+      "unix": 1792188677.6001768,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57210060800
+    },
+    {
+      "unix": 1792188677.8245802,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57210060800
+    },
+    {
+      "unix": 1792188678.050905,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57209913344
+    },
+    {
+      "unix": 1792188678.2711759,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57209872384
+    },
+    {
+      "unix": 1792188678.491529,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57209872384
+    },
+    {
+      "unix": 1792188678.711265,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57209872384
+    },
+    {
+      "unix": 1792188678.931689,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57209851904
+    },
+    {
+      "unix": 1792188679.150738,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57209819136
+    },
+    {
+      "unix": 1792188679.372711,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57209794560
+    },
+    {
+      "unix": 1792188679.594338,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57104916480
+    },
+    {
+      "unix": 1792188679.813416,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57102757888
+    },
+    {
+      "unix": 1792188680.035378,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57102491648
+    },
+    {
+      "unix": 1792188680.252728,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57102479360
+    },
+    {
+      "unix": 1792188680.479574,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57102348288
+    },
+    {
+      "unix": 1792188680.702414,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57102233600
+    },
+    {
+      "unix": 1792188680.9246871,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57101180928
+    },
+    {
+      "unix": 1792188681.143498,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57101180928
+    },
+    {
+      "unix": 1792188681.3601348,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 932533433,
+      "free_bytes": 57101180928
+    },
+    {
+      "unix": 1792188681.584297,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 53761,
+      "free_bytes": 57101148160
+    },
+    {
+      "unix": 1792188681.8099499,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 53761,
+      "free_bytes": 57101131776
+    },
+    {
+      "unix": 1792188682.035488,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 53761,
+      "free_bytes": 57101127680
+    },
+    {
+      "unix": 1792188682.260421,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 53761,
+      "free_bytes": 57101103104
+    },
+    {
+      "unix": 1792188682.481632,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 53761,
+      "free_bytes": 56891346944
+    },
+    {
+      "unix": 1792188682.707063,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 53761,
+      "free_bytes": 56891322368
+    },
+    {
+      "unix": 1792188682.941254,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 17232826,
+      "free_bytes": 56765353984
+    },
+    {
+      "unix": 1792188683.165798,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 17616620,
+      "free_bytes": 56461045760
+    },
+    {
+      "unix": 1792188683.425848,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 17635806,
+      "free_bytes": 56417976320
+    },
+    {
+      "unix": 1792188683.703385,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 17726764,
+      "free_bytes": 56416677888
+    },
+    {
+      "unix": 1792188684.766294,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 28599890,
+      "free_bytes": 56403091456
+    },
+    {
+      "unix": 1792188685.033658,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 31358325,
+      "free_bytes": 56403091456
+    },
+    {
+      "unix": 1792188685.301156,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 36948539,
+      "free_bytes": 56397406208
+    },
+    {
+      "unix": 1792188685.575467,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 36948539,
+      "free_bytes": 56397398016
+    },
+    {
+      "unix": 1792188685.838013,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 36948539,
+      "free_bytes": 56397393920
+    },
+    {
+      "unix": 1792188686.104092,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 45080401,
+      "free_bytes": 56389259264
+    },
+    {
+      "unix": 1792188686.361092,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 56445555,
+      "free_bytes": 56377880576
+    },
+    {
+      "unix": 1792188686.614243,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 56445555,
+      "free_bytes": 56377880576
+    },
+    {
+      "unix": 1792188686.8689,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 56445555,
+      "free_bytes": 56377876480
+    },
+    {
+      "unix": 1792188687.110071,
+      "temporary_bytes": 932479672,
+      "saved_bytes": 68071582,
+      "free_bytes": 56366227456
+    }
+  ],
+  "temporary_traces": [
+    {
+      "path": "/var/folders/ft/xsqp1bg15lvcr2m90ynsllmr0000gn/T/instrumentsv8Vtjy.ktrace",
+      "bytes": 932479672,
+      "sha256": "2493542b5420f1bad465e598a6ff64c392f1c9b11106f77dc50f56bf5377b5fe"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/target.log",
+      "bytes": 513,
+      "sha256": "62c6e799abfd6f59a7870a2e93dfea6b125a0e83217161baa962af343984038f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/UI_state_metadata.bin",
+      "bytes": 490,
+      "sha256": "eb2d80090bf225c12ee210b4192a31071e493720954b4bc0c66e20ed35193c67"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/open.creq",
+      "bytes": 14433,
+      "sha256": "0f6fb4677c4bb8743198692f81b5dc8ff62dd89809dbffd8718386f43cd7633e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/form.template",
+      "bytes": 17179065,
+      "sha256": "8af19831346da455536ec29c5404b13fc14634ccdbe400516fe4de42d8cecaf6"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/MANIFEST.plist",
+      "bytes": 290,
+      "sha256": "35365bc545a73b5662fa33a5933919dc76c024b737002465a1449b9ac30a94fb"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/Trace1.run/RunIssues.storedata",
+      "bytes": 53248,
+      "sha256": "ddaab1d980fe089eed529314b9686778df18ff2e807186890d94848072488aa3"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/MANIFEST.plist",
+      "bytes": 8169,
+      "sha256": "7cee6d473852e80e3a71e88c4d971a0ec20fb09bfcd0e3bae223cc7cc71e14b9"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/uniquing/TOC",
+      "bytes": 344,
+      "sha256": "28bb5344b4c59bce7a3535796580fa23c79eb51ac6edbbbc6576069075596ee9"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/uniquing/strings",
+      "bytes": 33760,
+      "sha256": "a128ab55d6d13e7604314c48073a4e79b2bf47ab52a7d1d2e19ffd9ff9fdeaa9"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/uniquing/EngineeringTypes.etypes",
+      "bytes": 7769,
+      "sha256": "11b4fedc3bbdd1d9ee4537a94acc8fd3d891d7e8f94737ad5dc867dc9cca3139"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/core-config/exposedTableInfo.plist",
+      "bytes": 5865,
+      "sha256": "292136cbc7295034021189b2a38489016bcf291747fbdbacaa9359c95f3d6257"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/table-manager/tables.plist",
+      "bytes": 17889,
+      "sha256": "ca3a2fd725e8c8c24007a4d729782693bbf01218c8a23125e05307724cdd118a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-25/spec.plist",
+      "bytes": 428,
+      "sha256": "35a4d4b0ec7cfc5fdcc735935791d723244f7dccc74b57d0be1c5476c8355b1a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-25/bulkstore",
+      "bytes": 20306,
+      "sha256": "0f9e2fa7c24a4addb04e671594762903045099510effab35ba925ae57b3d0918"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-25/spindex.0",
+      "bytes": 29847,
+      "sha256": "7ab3c0ca9648af3c24de4207548056ae2aacea72f9e0da30411e9d3c13b28b6e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-25/bulkstore_descriptor",
+      "bytes": 1284,
+      "sha256": "0d271e229bb86de97da8f84a1abc804aa586159d2e7925e7e868927a00c75945"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-25/schema.xml",
+      "bytes": 332,
+      "sha256": "a23107b7c7b70ea732954613db4f2a0cb962d36f5fb2ce65015f7513392144d7"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-22/spec.plist",
+      "bytes": 390,
+      "sha256": "70516c68fae18cace10236faa456c1175658858c72889c184432c9479d2eecfe"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-22/bulkstore",
+      "bytes": 8896,
+      "sha256": "d1608afa303831583c7d011ff5256957409e785bb2c842b6e2f382504a406f05"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-22/spindex.0",
+      "bytes": 6885,
+      "sha256": "d7b617186c4d031e72f9c8526997d2c6589dc40a3e41ad20bd8c677809a594f9"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-22/bulkstore_descriptor",
+      "bytes": 1286,
+      "sha256": "c7a0e69e0c7f86502c0c7b0dae6c15962b1fc712a4d9fb637d16723b797b9297"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-22/schema.xml",
+      "bytes": 315,
+      "sha256": "571aac4a2d180181e01ba213cca4342deaacab1ee1ff39bfd50b62a1d746297d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-14/spec.plist",
+      "bytes": 455,
+      "sha256": "b40f51168873af603ac6c2e296ad8fe0c73c5960001a8e554fd2659a1beb6cb1"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-14/bulkstore",
+      "bytes": 49,
+      "sha256": "4431ec7c1ea8adee8113815385eb755cf3e873e86cdad904ba8f001dffa0de66"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-14/bulkstore_descriptor",
+      "bytes": 1285,
+      "sha256": "7671fb90207eb0c760fe6b5eff5d5950399e4d26a100319a6f4c9a92b61b2cc1"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-14/schema.xml",
+      "bytes": 268,
+      "sha256": "d29291c260b62086190d778555d3dee1bc4b46688bfef73a46ea2cf9a96d3afb"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-13/spec.plist",
+      "bytes": 406,
+      "sha256": "ee82edbbe7be30dd9e66905f86ddd010295fd6c05267edf9d7a0327011774ea4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-13/bulkstore",
+      "bytes": 9151,
+      "sha256": "c29ec8f4d0b29c4106d00c5b50257fd0fa2117671f4c3b9ebd1ca0c709601b53"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-13/spindex.0",
+      "bytes": 3951,
+      "sha256": "4828aca14c52dfb293d7715cf0eb5cf4e780a83c2da78e5b595e020472cfe85b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-13/bulkstore_descriptor",
+      "bytes": 1615,
+      "sha256": "036b29d71dafcd7e9b2821fa5d92c71e32f0e803eb74a80cb409ce4fb939a73d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-13/schema.xml",
+      "bytes": 399,
+      "sha256": "b1fff67e5284ae64a115d6fbcdf4007863ae2d56442e87cce4d4ada9be5d7f9a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-47/spec.plist",
+      "bytes": 527,
+      "sha256": "051309c4f916fa5d460ad6da6f3ae92a2e1c6757eb5f97d0a6b3e84786375311"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-47/bulkstore",
+      "bytes": 13582,
+      "sha256": "33139e6b4d5e26e3e612a999d94e43fce87d10c9126913d004c600ada78fd3ed"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-47/spindex.0",
+      "bytes": 9479,
+      "sha256": "010566217d5d9cf1ea68b9dda38fc3cd49ae3045dc0187dec9a7143239a60916"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-47/bulkstore_descriptor",
+      "bytes": 2034,
+      "sha256": "febbf76d722b571d37f01a09edb02d46c1dd25e970e1209bfd125e5eee57c750"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-47/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-40/spec.plist",
+      "bytes": 499,
+      "sha256": "adb279eaf19830860f5fbcc646693585853f8d2a46d11916c68c234382b9c6d5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-40/bulkstore",
+      "bytes": 7993,
+      "sha256": "59b8f1c349e9b2735c5a62916d61bd268d1d32495a34c852a0f1bcb3bb74dcd6"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-40/spindex.0",
+      "bytes": 3184,
+      "sha256": "ff679eec4924290d6c30ef154110814a69d8c84b2cfdc7f25d8331e47ab5c590"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-40/bulkstore_descriptor",
+      "bytes": 2033,
+      "sha256": "b014927806feea6e94478b55ab343b2b75a8f8dcf2f8e0112d61422ed80eae08"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-40/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-49/spec.plist",
+      "bytes": 527,
+      "sha256": "c7fda7082f002ca7f140676b6d3b8f6acdfc9d33fdfdbc42d6877e382776f7d5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-49/bulkstore",
+      "bytes": 50,
+      "sha256": "c4b2bc95c3d700934461bc3a4d2c7498d500c003c4cc91c0fec69eea148083d5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-49/bulkstore_descriptor",
+      "bytes": 2028,
+      "sha256": "5c887b851a393e8a963486d8b55a90c3bea4d255691fe1d559a4a7c7ea50762c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-49/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-12/spec.plist",
+      "bytes": 460,
+      "sha256": "18fbb47bc7cf8d1e71a645d11b6fd9565ac027c9f442542df48d96112f15d8f2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-12/bulkstore",
+      "bytes": 50,
+      "sha256": "aaa4b1d47104646c44949c99648127b7f0b91d22b2d8a96067f52346410f3b51"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-12/bulkstore_descriptor",
+      "bytes": 1995,
+      "sha256": "53521c419ff9821067ad92201670f3d362fe056f02337b942252bc5e4de6a7ff"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-12/schema.xml",
+      "bytes": 437,
+      "sha256": "ab923e6a6764fcd1a6a4d0b399b1a2c94f627c11d8053a17ea318fd73fce863a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-15/spec.plist",
+      "bytes": 530,
+      "sha256": "d7842c36da2b37cb4b59a7f596e566973c8046227a66fc4ef73d2f5436fe9579"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-15/bulkstore",
+      "bytes": 47,
+      "sha256": "de61dc3d74ec1b31a40c8e634ead79efb5d65421536daa1888686d6ac56cf0e5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-15/bulkstore_descriptor",
+      "bytes": 1757,
+      "sha256": "697d2bab1edb9030f8b1d691dc4ff1e4a55071196445c9d8366e6ece66f58d46"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-15/schema.xml",
+      "bytes": 433,
+      "sha256": "964add3b9b2c78c1517e781d5b2a220e72e7709960744e2235c66d40956f032c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-23/spec.plist",
+      "bytes": 455,
+      "sha256": "f60e4c51ab94def9dbaa74e28820ba4bdfe01df1509738868fad20080d8d0371"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-23/bulkstore",
+      "bytes": 2758435,
+      "sha256": "83e3b01d58de285e646026a211d4031e361cf1df1b0a774273965cfe3faec426"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-23/spindex.0",
+      "bytes": 5590214,
+      "sha256": "05ba9a9e669cdfee2f12a9a25922c8e397ed49fb420e95947815f2fe0908eee5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-23/bulkstore_descriptor",
+      "bytes": 1285,
+      "sha256": "051a05c0f5551f427333ce236c408ac67dc7873ef82b73a23d7c644f596406d6"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-23/schema.xml",
+      "bytes": 360,
+      "sha256": "10eb92a2bbe22678e850a58704069f08d27f9330474eed13011e8c2a369d82ff"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-24/spec.plist",
+      "bytes": 430,
+      "sha256": "dc64a53a1aeb7fcf6cd96f75e9e3511652461d77f8d56a49c9baf2583cd8c1b5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-24/bulkstore",
+      "bytes": 1869,
+      "sha256": "33ee5502067498c48c4572d3f9a2a1951412e3437f2c9bf31accb3cb405e0f68"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-24/spindex.0",
+      "bytes": 123,
+      "sha256": "78a21b4dd72e1628d1347a69403746ec61306ab1f596c60d5d46a4ffb0d8df9e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-24/bulkstore_descriptor",
+      "bytes": 1296,
+      "sha256": "8e2cc0e808eee0d26ac60c1ce1ea7374c38f510ed52a4a45d8d93331b95ec15d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-24/schema.xml",
+      "bytes": 313,
+      "sha256": "dee3a737ee2df8a9d8c0e0af16bb46d1c08499e713e63ad395cf274859af3f4c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-48/spec.plist",
+      "bytes": 527,
+      "sha256": "9284367074bbf4305a0df6dc050e53d4bb8c2aac0e30582456eb70dcae621029"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-48/bulkstore",
+      "bytes": 50,
+      "sha256": "c4b2bc95c3d700934461bc3a4d2c7498d500c003c4cc91c0fec69eea148083d5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-48/bulkstore_descriptor",
+      "bytes": 2028,
+      "sha256": "5c887b851a393e8a963486d8b55a90c3bea4d255691fe1d559a4a7c7ea50762c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-48/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-41/spec.plist",
+      "bytes": 525,
+      "sha256": "b3fb989ac37c3183b2b903443da027b68b55fb21803631d92feb37a1bdf8bb87"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-41/bulkstore",
+      "bytes": 40810,
+      "sha256": "19c5b80f166c662bcb8a13c61d9c9b98a11893ab1d085f6845517f040579a92d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-41/spindex.0",
+      "bytes": 40855,
+      "sha256": "6f6d160aa113ce5e04c2344624053c528d8087df01e86794840f3fcbc55e3681"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-41/bulkstore_descriptor",
+      "bytes": 2035,
+      "sha256": "5ca5cf6aba55b3e2b7775227d943dfaf882e00793ff7c6b86644fed03e3f7f75"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-41/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-46/spec.plist",
+      "bytes": 556,
+      "sha256": "17def02723ef4954ed34b11f0b2662a52503e485d5a084e2f98688b21f2eca59"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-46/bulkstore",
+      "bytes": 5562,
+      "sha256": "efee71b2bc6f45d7906ed799cfcfc08eb8dca50006005e5ad766c6d95a3669ce"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-46/spindex.0",
+      "bytes": 580,
+      "sha256": "0ed33cf25aa988815b59943a5551b2355d737a7d6259be6352feac89cc987764"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-46/bulkstore_descriptor",
+      "bytes": 2034,
+      "sha256": "4891a2e75de62b1e24c11e210bf9c1ae330c95adab6181e6d5f79b966889ecb6"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-46/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-5/spec.plist",
+      "bytes": 449,
+      "sha256": "044d5005ebfbcfc92eb5c373306ec4ad20d4a32727ecc5ddd1ea744f98a0b04a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-5/bulkstore",
+      "bytes": 1316,
+      "sha256": "14807521ce53c4caaa704c6d140d0bdb2db75805e7f0a077cf85717730366a0b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-5/spindex.0",
+      "bytes": 687,
+      "sha256": "ca4894be1fe793335be039b7035307ed464a00c77be0d2827ff04c1270e03518"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-5/bulkstore_descriptor",
+      "bytes": 1078,
+      "sha256": "37492cbf7a570e5576c48769d8a7444c28edae3aea301e98a86418a6c05d8d86"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-5/schema.xml",
+      "bytes": 351,
+      "sha256": "014009df985a50a5a1f44a440177f98bb1d36b584aa99e29ba47e35ec033a642"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-2/spec.plist",
+      "bytes": 545,
+      "sha256": "0c67f4b63d7b77f4b5fb6c329d753e3fa11d3b6db7471030b4f88ca6c51ed44b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-2/bulkstore",
+      "bytes": 49,
+      "sha256": "48836cee49c33f15ac3c31cd707f6cc63b75b484eb95b25039964d6dea429f61"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-2/bulkstore_descriptor",
+      "bytes": 1614,
+      "sha256": "77445bd9bff9dc3607050c663d748e547e96edd6370a6128c14a344ce9e31a61"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-2/schema.xml",
+      "bytes": 351,
+      "sha256": "da1c1bd97c1a6b732b53aaa5007919fe7bb84a997bbde40d19b6366ab3075234"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-3/spec.plist",
+      "bytes": 436,
+      "sha256": "cfdd32c136f78628289b78070fa47dc87327d56fe9bd7c027ec2f060f03a3f06"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-3/bulkstore",
+      "bytes": 3748,
+      "sha256": "da9645754ee1477a8591fb9c4804af6e4798898d51409da024e26bb0d948d41f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-3/spindex.0",
+      "bytes": 2153,
+      "sha256": "b741f8324310e23c13c7a5430defe7c3aacb583d31b8f0239f7f04cb58f0a125"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-3/bulkstore_descriptor",
+      "bytes": 1366,
+      "sha256": "99ca5c5ad013c5348b83ec765174dfac685e4de1a76d3bef4b2dda2d7c3a5694"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-3/schema.xml",
+      "bytes": 356,
+      "sha256": "3487d06bd688e12f64f37dd29091498e1369767e3c73f77b7158c127e364eccb"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-4/spec.plist",
+      "bytes": 426,
+      "sha256": "3d8f9538aa99a3af9a47a39acb1c61f6febf142994d6307c63c73e79cc6f7904"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-4/bulkstore",
+      "bytes": 18067,
+      "sha256": "51b88678ca5d8d84bea1e56c62e73ac7be4d3a575609c357f6aa5b51ec6f798a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-4/spindex.0",
+      "bytes": 48632,
+      "sha256": "53c55058351f5649b6541624949b92503ea0241edda834968e333d3c1864a5c6"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-4/bulkstore_descriptor",
+      "bytes": 1224,
+      "sha256": "b6b20f86172d07e5d86237a3f5c1a6bd6dfc7832ec82c716038956f49a191514"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-4/schema.xml",
+      "bytes": 308,
+      "sha256": "307b86017d0bec50c17504e471b9c5b0852ec74fce741b72089447cad303fc7f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-64/spec.plist",
+      "bytes": 398,
+      "sha256": "101e03cc64f4410d2200c82c2f3ac430524697887b352ab7069738cbae22435d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-64/bulkstore",
+      "bytes": 11988,
+      "sha256": "d7a45f9384c8875d515f306ce6bbf4c692e3991eda98687d9755470729b327e7"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-64/spindex.0",
+      "bytes": 4180,
+      "sha256": "dc524ab8cca600b268504cf9f7bdb46368d6634077d273329d7d1a7e78fb8024"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-64/bulkstore_descriptor",
+      "bytes": 1853,
+      "sha256": "27c4787f5aef6d9c38ac331bff30153c961feec14d1015da8b66bfb62dbe4cc2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-64/schema.xml",
+      "bytes": 469,
+      "sha256": "43f8c814bddc343fbf136a8434e5ce70b9dcc3a1289461c4cd630fc9052c4c35"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-63/spec.plist",
+      "bytes": 421,
+      "sha256": "87d18c8b87966d7be88108298b0e3919ae98ac3c2b602adbaa691238ee6d24ce"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-63/bulkstore",
+      "bytes": 263947,
+      "sha256": "54d47b687b043eefc0fe576d2be80aeb4df06a258b164dd29e6648a86f34fcb4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-63/spindex.0",
+      "bytes": 269113,
+      "sha256": "bec3ecd5cdcf62fbb7878f5021cd07e868cd5732f9bb36d19a84024ee4fa9d95"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-63/bulkstore_descriptor",
+      "bytes": 2022,
+      "sha256": "48b2aabd8b568a07fba885bbf6fceb64132922fb9e887b0c45feb5096ec707ae"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-63/schema.xml",
+      "bytes": 496,
+      "sha256": "d99c52c6086056eca739ed7542782178f166de4f1be898a4a16c19602e798cc1"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-55/spec.plist",
+      "bytes": 409,
+      "sha256": "21526240d6c3e3a907910b03e55b93f899149726faac16897a3e5bfb2503118b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-55/bulkstore",
+      "bytes": 3120,
+      "sha256": "424bb7de8d7ac066aa9038b600a67c60556b7818ac1817f4fb504f7dfd10711a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-55/spindex.0",
+      "bytes": 85,
+      "sha256": "d19f65ec38aa809e116de609d833525623dda71cf6cb8e51370c31615d6b9899"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-55/bulkstore_descriptor",
+      "bytes": 1439,
+      "sha256": "8f149d634d5f9a196b0639be15888e527283dea820f2198531c0eec50b3f00ee"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-55/schema.xml",
+      "bytes": 355,
+      "sha256": "ad87176bda621672716d9c2c79e782d57b7c3bae48206467bc823522f8e27ad4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-52/spec.plist",
+      "bytes": 571,
+      "sha256": "c001a673e4a61a476cc36afe9835fbc89dc22e9d9f123360bd932f9c1ab38bdf"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-52/bulkstore",
+      "bytes": 59963,
+      "sha256": "9c95d7a2c5086b5ffae6a2b3d0d9a00da5c5d945b9e46b994fc95a1bb6e08218"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-52/spindex.0",
+      "bytes": 118248,
+      "sha256": "7bf80036128574429f493c3f25e651aaa7deacc80366e840ca9c13c45cb94cb6"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-52/bulkstore_descriptor",
+      "bytes": 2035,
+      "sha256": "888cb3e81839154e0b278d8dc1b2844823f113a401dcec34cb90e7931d7a3c61"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-52/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-39/spec.plist",
+      "bytes": 586,
+      "sha256": "3c2f4115bc94c76f59bc850f579d8bed64e4dfd1c5a02dbc4f0f68162266bb59"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-39/bulkstore",
+      "bytes": 264358,
+      "sha256": "1694ac28abcadde677cd5ffe70b51d011b3cd5a061acb28ce1dbdb47aa645be2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-39/spindex.0",
+      "bytes": 390283,
+      "sha256": "ef3c338bec9e2a5a3661c209aedb76e1dac2aeb96eb19755433b2ad732455500"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-39/bulkstore_descriptor",
+      "bytes": 2035,
+      "sha256": "345105f9c6ea65d433fb3b1220e21c361445e698c3e1bb85ab4ab425a9bdd33e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-39/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-37/spec.plist",
+      "bytes": 512,
+      "sha256": "42d2635bd373c5c4e2d1ff1f13fd32dec12efcb9125d3d16099ed433ee4de4c2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-37/bulkstore",
+      "bytes": 8131862,
+      "sha256": "403fda60a63de0d94e748803e8b437acbb78ac116d527aac9230432a97f51b04"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-37/spindex.0",
+      "bytes": 11365154,
+      "sha256": "0510ea020007ad43f8ad843b7ac0c57ae30fffd99e3ac69bae87a86210bedc78"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-37/bulkstore_descriptor",
+      "bytes": 2036,
+      "sha256": "5ca1b38fb52b65348bf30522b7fe37a5142291c5c8f0b87facff6b8af2640a8d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-37/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-30/spec.plist",
+      "bytes": 411,
+      "sha256": "ea1fddf656cfb896f5ae13ea1571d700978d1c34c98f38bc566bd8d26dbb4464"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-30/bulkstore",
+      "bytes": 6164,
+      "sha256": "336a6a9e3283eaabe5c99901cb3037cb094e20ee40733997c1aa91e7f4768614"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-30/spindex.0",
+      "bytes": 202,
+      "sha256": "f1ed052bce3bd83e1b1548f3525447260e1c7237881bb70bf628d293d1036606"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-30/bulkstore_descriptor",
+      "bytes": 1926,
+      "sha256": "484f4d970e8f2bf0860c47d949d2024ca1a8a063aec376ecbfc20cc95752ccf2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-30/schema.xml",
+      "bytes": 423,
+      "sha256": "0c5efb6bbd38b0c788315efc0dcbe21d86c51b5b9f36485b1c3dd9011857dee8"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-53/spec.plist",
+      "bytes": 581,
+      "sha256": "29dc20634913daf63f7cf9981f874c016c1899ea4b65e4d4a0a5af45403b802b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-53/bulkstore",
+      "bytes": 6251,
+      "sha256": "fe6876c44e7beaf8173bf10b4dd0ac890ef854804b0b2a514b75b25f92df061a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-53/spindex.0",
+      "bytes": 5841,
+      "sha256": "4e1b8608988b66ea39bccbf758a2db3d648029188adea07006cf8c80bc8858cc"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-53/bulkstore_descriptor",
+      "bytes": 1423,
+      "sha256": "fc97fb9de6bdf473dca252393ab77488e17ec6f1503846c55b93b736c5c1c207"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-53/schema.xml",
+      "bytes": 387,
+      "sha256": "5518c0c96c0f4cd164cd46ddc5e0ebe0222033d7a0c57e1a1f12d7c56145a16d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-54/spec.plist",
+      "bytes": 436,
+      "sha256": "da6b57e1da340be1c1fc54a7f667977e5f662b82457f400bbd63c549a60b37db"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-54/bulkstore",
+      "bytes": 3429,
+      "sha256": "8b38f9609938b42197e20db3177925f7a2d0d433ec611f541259ab3be96fe8be"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-54/spindex.0",
+      "bytes": 117,
+      "sha256": "d91a7d1f0f34bc28ebe57c72aba22cbdc828311bff0d71ee809626771b264827"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-54/bulkstore_descriptor",
+      "bytes": 1627,
+      "sha256": "472ae653cf11f929b96a8e73481a1fdb231527b6e955abba59c265b74d823e9f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-54/schema.xml",
+      "bytes": 385,
+      "sha256": "b20f7829a787fda2f11ccc7243b950e4dac246be5fb80c865c52a51693df1c15"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-62/spec.plist",
+      "bytes": 424,
+      "sha256": "bdc81c619ca712580c4beaa936132ae0d8c606d5d3d6ab9f681b523e454f1795"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-62/bulkstore",
+      "bytes": 123827,
+      "sha256": "5677afd8663decf661017542e49fa1faa31f4b5f4136dfbc463dd3dde9b1a02b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-62/spindex.0",
+      "bytes": 276415,
+      "sha256": "cd0dba16d1d5d027b0b729c3e004ca0c8584f2beb4cd4b17f68c56a58227d19e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-62/bulkstore_descriptor",
+      "bytes": 1415,
+      "sha256": "e2ef20b15c242356e735b123017835412678d162565f385b24dd3c980d7bd895"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-62/schema.xml",
+      "bytes": 348,
+      "sha256": "4c652b7d4d4f838955c3f17787b1be6c038c7297c5c7dfff6ccb6f3c0c4ead8c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-65/spec.plist",
+      "bytes": 590,
+      "sha256": "81036f7006606715bd8419dc02aad4bcdc99cb8082084c7c2b7dbe70d80fb647"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-65/bulkstore",
+      "bytes": 50,
+      "sha256": "fad053ab9be24f150fffd04f9f9c10e3753c256b7f2d5f9ef9cdd5e68812dbe9"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-65/bulkstore_descriptor",
+      "bytes": 2215,
+      "sha256": "2d491c0cfa222d54bc9cbf0905f9560fa4f3b05b5d4ddce2214a672584af6655"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-65/schema.xml",
+      "bytes": 488,
+      "sha256": "f2df8f8753d6b2dd048e74a1fdc2750544257d39b3f86c712360eff6eb2cd328"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-31/spec.plist",
+      "bytes": 456,
+      "sha256": "cbfdb606584d0b40ff008b3348f5c881fe1c7618cfc88bb4953291bbb28a6e9d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-31/bulkstore",
+      "bytes": 237999,
+      "sha256": "b0f281148ce8c04a3bb4d7239c7b681d83a51e6188ca599ca8cfd3aae4fd6939"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-31/spindex.0",
+      "bytes": 416635,
+      "sha256": "97ef57fd52696093ca48577c778ef456352f6540a6d7e8f2849e08ff1344a060"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-31/bulkstore_descriptor",
+      "bytes": 2071,
+      "sha256": "39bf69288c90c861f968a486e963b9d69e91222319be787c0dcab75abdaeb597"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-31/schema.xml",
+      "bytes": 537,
+      "sha256": "6cb177520cee48876c50076b85925b3408d20d4473eae1c435cb821077319593"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-36/spec.plist",
+      "bytes": 387,
+      "sha256": "51f6fc22a0938113370271e51dbb4d5ffdabbc20da3e58291181493d1520d232"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-36/bulkstore",
+      "bytes": 803153,
+      "sha256": "7a05ac2dd1451990af7be54e3d1ff331e2a360c63f9129a7e6b6a796cf99d16d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-36/spindex.0",
+      "bytes": 1645806,
+      "sha256": "49f500e278d0a089af4146c161835618bae3b8548279db771938689aaefd76eb"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-36/bulkstore_descriptor",
+      "bytes": 1221,
+      "sha256": "aab6357293be592ceba502251731c968912f352b6fd483a7c7a6e05f2f8223f2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-36/schema.xml",
+      "bytes": 368,
+      "sha256": "5757169a327aadc2c404667a38f855b761aa29795fc45db428155d756e53011c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-38/spec.plist",
+      "bytes": 501,
+      "sha256": "8c19bb9e67ec438dd93ed4e6f8899afee0f5c208aadbd5c7665b9afe18800b52"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-38/bulkstore",
+      "bytes": 11626027,
+      "sha256": "e11f1122d0235c11f8af79cc80c7bcb760db35e7881b9d16233cf89d3e88def9"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-38/spindex.1",
+      "bytes": 699012,
+      "sha256": "c8bb6104685c1884d1cafecddb48b0c14839165adf446e6b877d68d3fc2e9565"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-38/spindex.0",
+      "bytes": 16176839,
+      "sha256": "e3f2a7898ffe6491a4c43fa1f7cc2a4deb23daf79a9670d76bda66ffcc6b3a71"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-38/bulkstore_descriptor",
+      "bytes": 2035,
+      "sha256": "868ef34a1d6c87e1f5de6307ddfc4a0f20e779dc104c08f751e35847772245f2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-38/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-43/spec.plist",
+      "bytes": 600,
+      "sha256": "a567d583e28a024f7295d974021eb5e7f5b68b9a91d110d164654d224be6bd10"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-43/bulkstore",
+      "bytes": 99535,
+      "sha256": "54dc0fe2e464937baca797a56c405dbeed7e94e57c84f198134554690bb54e1d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-43/spindex.0",
+      "bytes": 147502,
+      "sha256": "4361cee80de7f732d20421a7502e0fda2a1b5411c956394140e07449d53507b4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-43/bulkstore_descriptor",
+      "bytes": 2034,
+      "sha256": "4835643ddc8bd33ca135d07c06577bfdad700e1c6e5e5252cbab9ed0976f16ae"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-43/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-44/spec.plist",
+      "bytes": 575,
+      "sha256": "4fbddf73d75bdda13752107dcf0eee3a79597fdcb8be55215df37d83d31d6404"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-44/bulkstore",
+      "bytes": 96229,
+      "sha256": "4b1d14203293cc70850c69fcdc60bd277df0d43c6db0b22bbbb9e42b9fdaad46"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-44/spindex.0",
+      "bytes": 153203,
+      "sha256": "d6cdf9e07e9c8bffe1255fcad6582cddd4403c1348523594bf587c2872590a6b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-44/bulkstore_descriptor",
+      "bytes": 2035,
+      "sha256": "fdd6fe2af67c26c15e605fd392299bc04dfce6c7d31fe5343ab35e4bef1190b0"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-44/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-21/spec.plist",
+      "bytes": 581,
+      "sha256": "717bd97c9337281474e7cdc7df0f91fc2a9a2aee19a66d8fd3817c423aae9f60"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-21/bulkstore",
+      "bytes": 50,
+      "sha256": "be3f9541e9f3c5d70efd91b6233e6f13da13bb844ecea553d3632bcd792a6f3c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-21/bulkstore_descriptor",
+      "bytes": 1979,
+      "sha256": "9d94d35bfd6a40433b4eb87fe29102ccc5449f1f5d94de26e287411a78e5dc96"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-21/schema.xml",
+      "bytes": 494,
+      "sha256": "8682483bd7bc569bc1829fdf222cd726071949f8bf40564b83bf817efe80cbe8"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-26/spec.plist",
+      "bytes": 501,
+      "sha256": "88c30e61aabcddc14ca25606bd3469d54f9e9b6fd5c500e62860aac7f1bb54f1"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-26/bulkstore",
+      "bytes": 1024783,
+      "sha256": "5c7b7be93ebedb2d1c654efaca70f6d6f03e5a17b8ba899627777646084d1bc3"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-26/spindex.0",
+      "bytes": 1061594,
+      "sha256": "5e134e1a1f817f6f00df971003047ae9234dc492d28c809369d25dd18e58372b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-26/bulkstore_descriptor",
+      "bytes": 2925,
+      "sha256": "250e5545b78c2dc131f1bb8f091ad7e406f334015c49099910efdc03c83b5871"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-26/schema.xml",
+      "bytes": 665,
+      "sha256": "3c9206e79b1cb7ceb2800ea15c5963cd833f2da7e6afce305e2598794ab05f76"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-19/spec.plist",
+      "bytes": 614,
+      "sha256": "1208ffa91e524ba3bcaa4658605b7098ad4a1d24832321079c9af7d680844169"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-19/bulkstore",
+      "bytes": 50,
+      "sha256": "be3f9541e9f3c5d70efd91b6233e6f13da13bb844ecea553d3632bcd792a6f3c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-19/bulkstore_descriptor",
+      "bytes": 1979,
+      "sha256": "9d94d35bfd6a40433b4eb87fe29102ccc5449f1f5d94de26e287411a78e5dc96"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-19/schema.xml",
+      "bytes": 494,
+      "sha256": "8682483bd7bc569bc1829fdf222cd726071949f8bf40564b83bf817efe80cbe8"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-10/spec.plist",
+      "bytes": 430,
+      "sha256": "6525b785cfcf0749ceb57e5a9a10fcd2af8e31f82a99a6f8bae1aeedc3e4301b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-10/bulkstore",
+      "bytes": 1838,
+      "sha256": "61c4f4d5635f09549b89260a9a7bbb279d645575930b06784855bf79d61e6b94"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-10/spindex.0",
+      "bytes": 79,
+      "sha256": "8eadf1ca9f603349a23eaec9614bee260f2b17a16fc6c016d3af13342773d021"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-10/bulkstore_descriptor",
+      "bytes": 1222,
+      "sha256": "5f37e3cb382b08931aa59c2683325118f56bfd319ee4d31a82562fa361e8b615"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-10/schema.xml",
+      "bytes": 303,
+      "sha256": "8f35ed2bdce86532612c8c08cfc84f0e76c4e8e21e7f60ca7f83bddcc7363f63"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-17/spec.plist",
+      "bytes": 505,
+      "sha256": "b7849c5dce925187258a87f412f8dcb1331cf53815c05e35b05ad1fc971f5e67"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-17/bulkstore",
+      "bytes": 47,
+      "sha256": "de61dc3d74ec1b31a40c8e634ead79efb5d65421536daa1888686d6ac56cf0e5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-17/bulkstore_descriptor",
+      "bytes": 1749,
+      "sha256": "e9be5f2a8fa07f9312d6328a7907298c196cacbd1b8d68d2b5f23f3f0d07e267"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-17/schema.xml",
+      "bytes": 436,
+      "sha256": "56851457678caa0d4c659cf7045ef72eb112d55610dd54d0ac1e597a823b81fb"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-28/spec.plist",
+      "bytes": 530,
+      "sha256": "4a40ff3087881f86c0525ea6689ff2931767ae65efb09408025ebb9b494a5f46"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-28/bulkstore",
+      "bytes": 49,
+      "sha256": "806d3adc6fc56e7e2e2180005d69f403856e29fab08c1fbecd0854bc0432d505"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-28/bulkstore_descriptor",
+      "bytes": 1674,
+      "sha256": "3bbd6ca14554859bb4a8967e95baae80f3116257d55065e28a2e0f16f2b27c85"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-28/schema.xml",
+      "bytes": 399,
+      "sha256": "73dd276d35a85fabcd46f2ef6838d035ef328df6f598d4f8e9b905855f2b731f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-45/spec.plist",
+      "bytes": 558,
+      "sha256": "1ca88b22d899ade34b2a4fe44dd99a4b54af93d35976dba7351f25262e217ef3"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-45/bulkstore",
+      "bytes": 439237,
+      "sha256": "377d3e78cd1ceea81205bdaea2980f66fbfe472473ddb41761e5ce80a8186ee1"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-45/spindex.0",
+      "bytes": 632960,
+      "sha256": "0eb866b5c7f1d9768493711e812f9b25c967dfeb5d8a39ccf16932e77c1837ce"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-45/bulkstore_descriptor",
+      "bytes": 2035,
+      "sha256": "d02ab7111c21f4ffeb2e57175a1b5d2ce4f753b53cbcb4e8379f8bfead4b388c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-45/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-42/spec.plist",
+      "bytes": 503,
+      "sha256": "c09912cee959e3591987d244fe1215d839b428ee0538372ad086fff229ad2bd4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-42/bulkstore",
+      "bytes": 5387,
+      "sha256": "7ac9626b593c509b7a66f7fb7e05206253d2e5da756ad6b99ffa8b20ab523296"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-42/spindex.0",
+      "bytes": 407,
+      "sha256": "79bc4a7c37c2699d212e348c899925d73c949de830249dc0b271ab65ff740307"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-42/bulkstore_descriptor",
+      "bytes": 2034,
+      "sha256": "749041ddd4ce56524ec55e2c4d399079b8b67c7b4ed5a13fad514d4075cf0db3"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-42/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-16/spec.plist",
+      "bytes": 738,
+      "sha256": "dbf36f8ab4b7fe25d71cdbb929f780c6b99cfff3b279bd7b36d7c1d18e81557f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-16/bulkstore",
+      "bytes": 47,
+      "sha256": "de61dc3d74ec1b31a40c8e634ead79efb5d65421536daa1888686d6ac56cf0e5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-16/bulkstore_descriptor",
+      "bytes": 1757,
+      "sha256": "697d2bab1edb9030f8b1d691dc4ff1e4a55071196445c9d8366e6ece66f58d46"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-16/schema.xml",
+      "bytes": 433,
+      "sha256": "964add3b9b2c78c1517e781d5b2a220e72e7709960744e2235c66d40956f032c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-29/spec.plist",
+      "bytes": 503,
+      "sha256": "941d2d42dab20bd02119a67469112e0ce1dd7afe4ba685798460c40421667686"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-29/bulkstore",
+      "bytes": 5745,
+      "sha256": "29fec40f4319c6da197c0ae42416437fe133a5d5143f57a78cb23109c274000b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-29/spindex.0",
+      "bytes": 3784,
+      "sha256": "9840e7eca3038b2ace41b3cda68d2bff69a09b6ebca1c59150384038548e651e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-29/bulkstore_descriptor",
+      "bytes": 1362,
+      "sha256": "54a684ea695d0bb05cf04934ab60cbfa6d1267a5956a6af7ceb99074e778a6bc"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-29/schema.xml",
+      "bytes": 283,
+      "sha256": "4947536b455094d95f49bef9b9120f6dab960fc3c552773532de4562065e14cc"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-11/spec.plist",
+      "bytes": 389,
+      "sha256": "17d7c1102577f345cd289f291b82d7688f8751e9d9ff0de390b7af7c788d0e7a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-11/bulkstore",
+      "bytes": 1883,
+      "sha256": "b8c8c3f94e488e191f835494ab2af4d2935dac54dd3c850ac717c9fa21e7ea78"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-11/spindex.0",
+      "bytes": 137,
+      "sha256": "0cda62a1adeb29c12841bde8c5dd0e4a4a172fba4772c75b060fe0bd13c87222"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-11/bulkstore_descriptor",
+      "bytes": 1288,
+      "sha256": "8822e33f048efaad60512203b6968fc8279eb5c26aed607432d569690dcbcc20"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-11/schema.xml",
+      "bytes": 260,
+      "sha256": "6d0edad6073ff02a3281ad792a330dc955bfc8ac022083a4e72f69e3d4f7b3bb"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-27/spec.plist",
+      "bytes": 441,
+      "sha256": "71eebd15b23609d31c6d38ba07b112da0053f957d3aadc8aecad61f4f0eb54dc"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-27/bulkstore",
+      "bytes": 7586,
+      "sha256": "0eb69ff57ff3c4c167ca53b364fd7a81383fae9dc4048f77b107daf9c45f984d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-27/spindex.0",
+      "bytes": 3252,
+      "sha256": "ce11db3b683345c8b2c1a3ba09b6c67409bd695cbb76e97cc38215d184703849"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-27/bulkstore_descriptor",
+      "bytes": 1447,
+      "sha256": "338408dcb2d2cc9e002401933113112b69a9dbdf59aa0f839922b0627bffe0da"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-27/schema.xml",
+      "bytes": 362,
+      "sha256": "9dd7fcae263330af22bc6b203934113d97efe84ca7b0af33d4bd451c677bc076"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-18/spec.plist",
+      "bytes": 516,
+      "sha256": "35136420628b8cab81ecae181e0d5f6a46833426608f07adb938bfec3ee52960"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-18/bulkstore",
+      "bytes": 50,
+      "sha256": "be3f9541e9f3c5d70efd91b6233e6f13da13bb844ecea553d3632bcd792a6f3c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-18/bulkstore_descriptor",
+      "bytes": 1979,
+      "sha256": "9d94d35bfd6a40433b4eb87fe29102ccc5449f1f5d94de26e287411a78e5dc96"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-18/schema.xml",
+      "bytes": 494,
+      "sha256": "8682483bd7bc569bc1829fdf222cd726071949f8bf40564b83bf817efe80cbe8"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-20/spec.plist",
+      "bytes": 534,
+      "sha256": "b3ec79bbeb958d4a8a417fb4ae88a6b8a81583afc371bd36bbee3f290f605ccb"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-20/bulkstore",
+      "bytes": 50,
+      "sha256": "be3f9541e9f3c5d70efd91b6233e6f13da13bb844ecea553d3632bcd792a6f3c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-20/bulkstore_descriptor",
+      "bytes": 1979,
+      "sha256": "9d94d35bfd6a40433b4eb87fe29102ccc5449f1f5d94de26e287411a78e5dc96"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-20/schema.xml",
+      "bytes": 494,
+      "sha256": "8682483bd7bc569bc1829fdf222cd726071949f8bf40564b83bf817efe80cbe8"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-8/spec.plist",
+      "bytes": 439,
+      "sha256": "0192008c5048f50b4e40a9ce02ffd43a5432d724c583c45e06847f6b2cb0f8c3"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-8/bulkstore",
+      "bytes": 3497,
+      "sha256": "c319fba4bf82bd6b3adce19fa32774b612ba08e00eb5185438b4b565f7e26d44"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-8/spindex.0",
+      "bytes": 2126,
+      "sha256": "d7d1dda5de10d24ad942e03bb4fe68fada59d6407890c4ec7f4328f77c28f475"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-8/bulkstore_descriptor",
+      "bytes": 1296,
+      "sha256": "81b46cce8e5050551560fe19c4d7f0d7e694b427ebd4ea49766f3b4a01352f3f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-8/schema.xml",
+      "bytes": 349,
+      "sha256": "c221db5c68984d34ecf573c1f200121cc389752d09dfda59ad1577f86fd2188e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-1/spec.plist",
+      "bytes": 501,
+      "sha256": "47ab37a3db4c13a6e89ee0d96e573995c4d84e4eb38887cc48c7ec64d505ce6f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-1/bulkstore",
+      "bytes": 61222,
+      "sha256": "e8287b11e03ef9edd030ca81339f5d3d2cdd5cf05028f3ac2e4ae4cc582a8b76"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-1/spindex.0",
+      "bytes": 141377,
+      "sha256": "b4de3f11164926a2f6d4714c7b14f28e3b65476bceddd6ab07dd659e9c800a26"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-1/bulkstore_descriptor",
+      "bytes": 1374,
+      "sha256": "49b9c38df54bd6ced2f49e855bdaa2924816c3725a7f983a08427ff92aa43fa3"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-1/schema.xml",
+      "bytes": 310,
+      "sha256": "3fe32809a864de7b1b1d96451b1a10d85041135624314d96a249241f9e2bb3a2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-6/spec.plist",
+      "bytes": 449,
+      "sha256": "c68eef08df91c78a525036fa210bc398e58db400e0447b3b78e4dffa8ee7da15"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-6/bulkstore",
+      "bytes": 3097,
+      "sha256": "dbd5ba84a455e80076015baa3af488f6dcf400d0f9b5d3d4059807df037ce0dd"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-6/spindex.0",
+      "bytes": 4740,
+      "sha256": "0b6845900ee28f896ca05a2b4275bb962d662306022f2eb9f2f51c3370ff735d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-6/bulkstore_descriptor",
+      "bytes": 1079,
+      "sha256": "0c4ab60674c9965afcf43b281713f1e0412fa532b45b79ea704c1c018778eac9"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-6/schema.xml",
+      "bytes": 351,
+      "sha256": "014009df985a50a5a1f44a440177f98bb1d36b584aa99e29ba47e35ec033a642"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-7/spec.plist",
+      "bytes": 448,
+      "sha256": "f7214f1c3ed3487ba7048bbe605cb7ece9fce905b75a0a9b08242c2c0c402bc6"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-7/bulkstore",
+      "bytes": 1103,
+      "sha256": "36e3ed453cb79c3c3f84c0fd00dcde6168bb2dc2ce1f17c20f57be84b0d96fcb"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-7/spindex.0",
+      "bytes": 143,
+      "sha256": "c3d9b946e6a58da687a134201fc3d2f62471488df70b7cb1c0f28bdc7e5f055f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-7/bulkstore_descriptor",
+      "bytes": 1078,
+      "sha256": "ebbbd133eaddf75f69db3c145341e0ac57df1206c2357160452aa8416fc11036"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-7/schema.xml",
+      "bytes": 351,
+      "sha256": "014009df985a50a5a1f44a440177f98bb1d36b584aa99e29ba47e35ec033a642"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-0/spec.plist",
+      "bytes": 522,
+      "sha256": "87958b0291ae35a5a216d40521e4f6e2164f54916aa0b5917b0c7fa332a55754"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-0/bulkstore",
+      "bytes": 6928,
+      "sha256": "075d00b443be2b9b871e9cd83a5eabbda262a0a1b6e351212ccaf214fc10281f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-0/spindex.0",
+      "bytes": 4967,
+      "sha256": "ef560e1ae77ffbc09a033a120392d34fe42ddccaf27a8bc7f39f139bce3e8a4d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-0/bulkstore_descriptor",
+      "bytes": 1297,
+      "sha256": "28b12f8bc0b500b740ffb1bdb372d62e9504d82d08313e9e85692b43a203e79f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-0/schema.xml",
+      "bytes": 282,
+      "sha256": "78f96e169633132a5f3fd5fff40c98f1aa2d684d1f64449813a976dcabe4394c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-9/spec.plist",
+      "bytes": 512,
+      "sha256": "a248105dc4157ebec6b7bcfc54f94a3ad878ae48c6d09a7b9fc8ab1568510edf"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-9/bulkstore",
+      "bytes": 4003,
+      "sha256": "de9c9fc20203c1afed14d812cf6ca7822943900eda3b7663f443bd7fcfbaced4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-9/spindex.0",
+      "bytes": 1242,
+      "sha256": "adbc422d8cd33a07a2d78d0025bef0cc3b372e0c9897fc0855af1959c78cc33b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-9/bulkstore_descriptor",
+      "bytes": 1429,
+      "sha256": "c14f376e0511a893d66d4e0d02cfe3ffd93c233226ae0d681b86577938441858"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-9/schema.xml",
+      "bytes": 327,
+      "sha256": "eb6fd771440a098e561d54c1cf4c319f53f90847051f3b53e7de4d0964d5cb31"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-33/spec.plist",
+      "bytes": 436,
+      "sha256": "98e494577e906716eefb709c1cd6de36d80ee8d503ad5557a1aba0e4fdb2c454"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-33/bulkstore",
+      "bytes": 4335,
+      "sha256": "507a39ee9cf15cf6431712522d943289b427c69e796a030ee0570d4a9c8e2641"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-33/spindex.0",
+      "bytes": 206,
+      "sha256": "48bb059bf720d9e08815f425379e99ce91fd6c57627b95985057005789d82555"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-33/bulkstore_descriptor",
+      "bytes": 1635,
+      "sha256": "974e934b86071ac9a8a87df4b03fba56429627be85602b2e89fd8b6f764e69f3"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-33/schema.xml",
+      "bytes": 403,
+      "sha256": "740ec72bf10201ab9c6e986e39e7040cdd70f6608745c603a8a695ea042deb1c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-34/spec.plist",
+      "bytes": 407,
+      "sha256": "7049ea80ff0c37d659453c82aced9631dc1ab3f839d1588f51226389797a3ed8"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-34/bulkstore",
+      "bytes": 6755,
+      "sha256": "3c26073ddc2676aa0214581097c31d08ab78867bb99495797b79a2b4cc336663"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-34/spindex.0",
+      "bytes": 2183,
+      "sha256": "5088859983d8c88f61f19290d7634fa4dd5086194d9f7c2cfb16d844949dee08"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-34/bulkstore_descriptor",
+      "bytes": 1722,
+      "sha256": "3ad8005764e56bbe2ff40c1a860b0bdfcee0decd049daa23bc098019c77e7833"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-34/schema.xml",
+      "bytes": 386,
+      "sha256": "b41ff6d171b6dd05c6314b7fcfeb06912f3dcb1e90654d2f6cc7cb3d640b4419"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-60/spec.plist",
+      "bytes": 404,
+      "sha256": "b01f09d52023848edad864c8e672862a7412c10666b3018447101d436621b30d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-60/bulkstore",
+      "bytes": 5788,
+      "sha256": "2a5dcb1460698ed5ddb57d8a2eabea76ed0e267652c2663ecc5222af37850ee3"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-60/spindex.0",
+      "bytes": 6144,
+      "sha256": "f9b789263d9c9eae9ca23fe5ee10db94906a412614c48fd229af97922c5f5bf0"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-60/bulkstore_descriptor",
+      "bytes": 1295,
+      "sha256": "09ea47c053631ea0d3c4488059c3ddab649889a3570e7add01c2c824d052748d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-60/schema.xml",
+      "bytes": 288,
+      "sha256": "6d80e7172ea98f14692ce4e2aef388885c51f2cf46cf471814c72b53724c7f30"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-67/spec.plist",
+      "bytes": 437,
+      "sha256": "bb698d533e67f280c324da5195be9ab3cee0750ac5f29cd489c70b8f66058a4d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-67/bulkstore",
+      "bytes": 2361,
+      "sha256": "be100b634301bf7c772065f883e24ba3651068dc3542c3656ec4e9a8a95b81dd"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-67/spindex.0",
+      "bytes": 673,
+      "sha256": "5d575e639b60a1c214cf22bb49501356621f6da90bd5507e85e97eca1885cb54"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-67/bulkstore_descriptor",
+      "bytes": 1230,
+      "sha256": "46cceda3fec4048a7b93ee9cf33cc629965e0bc8bf45900fe1e96f303a679edb"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-67/schema.xml",
+      "bytes": 325,
+      "sha256": "30d72ad6992bcec5bf50ad484ac03734b920fca4fc84c5ef1db3f5cea6fd9076"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-58/spec.plist",
+      "bytes": 391,
+      "sha256": "e1603925a708bb07ed70ba45f5264bc8c0f6481fffcf220d2acf7c10a813e0cb"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-58/bulkstore",
+      "bytes": 55630,
+      "sha256": "73ad540c50253df6ec26011a8f38cec69b833dbf17095925d7782ecaf32c1e2a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-58/spindex.0",
+      "bytes": 46658,
+      "sha256": "6d3d253b1f345ea0235e2d0651e66b3d2689032a0c723a96b08f602a5d62f35e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-58/bulkstore_descriptor",
+      "bytes": 1414,
+      "sha256": "148ab03b54cce6cb3cd83919b13a3bb00fcbaa1be0446ea2b9c4b0e06f371cb0"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-58/schema.xml",
+      "bytes": 330,
+      "sha256": "927ffbca235a8d8cfcf9beac4a8ea8875a9a7c51ddbc9eb21a90abfef909d715"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-51/spec.plist",
+      "bytes": 526,
+      "sha256": "22edb868d06788a28763bab9c3340c4c48a9c6b43a17b5dd2c82d3cf6a1f9245"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-51/bulkstore",
+      "bytes": 50,
+      "sha256": "c4b2bc95c3d700934461bc3a4d2c7498d500c003c4cc91c0fec69eea148083d5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-51/bulkstore_descriptor",
+      "bytes": 2028,
+      "sha256": "5c887b851a393e8a963486d8b55a90c3bea4d255691fe1d559a4a7c7ea50762c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-51/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-56/spec.plist",
+      "bytes": 603,
+      "sha256": "0fa9f35c876aeb66ae734b9bf60cf1ac3998f0f44e7b2f70b86af40fadd50585"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-56/bulkstore",
+      "bytes": 6071,
+      "sha256": "3690f9f968bb881517c4dba5c1d41904fe2f22ad5cdc8f17ccadec734c8de961"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-56/spindex.0",
+      "bytes": 5705,
+      "sha256": "03ac3d2230ed3015a89586ca6818b97b3a03928b7e9288e1a60b7b293d7788ed"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-56/bulkstore_descriptor",
+      "bytes": 1438,
+      "sha256": "fc10f64ebe4d64fabe19032f8d0bcadcaadc8a1e00c570feddf80d38b7f2f563"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-56/schema.xml",
+      "bytes": 355,
+      "sha256": "7dcc8bd1c0b9b0369f78ed9729cd1d3fd05950c33f841ab611aec7b33dbec9f5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-69/spec.plist",
+      "bytes": 410,
+      "sha256": "7e7bbfa79e214de7902093409dd841d676fc4169611d31cdac4f3f820c7ed4ce"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-69/bulkstore",
+      "bytes": 2973,
+      "sha256": "6315aa7d96f50f64a258ee61961022136c30a2ed78cd29a4e37f3432d84556b0"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-69/spindex.0",
+      "bytes": 204,
+      "sha256": "11e266b845bae040de2d3e609c234b1d35385c52888cd7756b93527d23a8b3a6"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-69/bulkstore_descriptor",
+      "bytes": 1313,
+      "sha256": "60e859521e6e33662506bec801c888f1510fc36216c8c60d1ac0ab3cbdcc1cd5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-69/schema.xml",
+      "bytes": 343,
+      "sha256": "28418078b8565a5db83f39cbcadb77e32539af37af0c593ff17cdd83c3abf0db"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-35/spec.plist",
+      "bytes": 424,
+      "sha256": "3204d8b7fc171e7d2ea4ef89b47a8a12b5f1703cd59e0a8325d7919ce056f5ed"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-35/bulkstore",
+      "bytes": 62014,
+      "sha256": "7cbb864a3751ad8f0fd4fb6abf6fffaa453a960bb8da9e6a86bb8905b372a623"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-35/spindex.0",
+      "bytes": 90167,
+      "sha256": "69e0e48a3f7c6e0c39b2ac98578e96aa102ced232ed31734526aedbb5b6927e5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-35/bulkstore_descriptor",
+      "bytes": 1604,
+      "sha256": "a90446a63a1d229f0673a608e7358cc32d7b4c6fa129e2b09ef257020354e326"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-35/schema.xml",
+      "bytes": 436,
+      "sha256": "fd45dd04ec8065cc39bd640d5df1b4f4a34cadc944701d597fe721cf2aec7b82"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-32/spec.plist",
+      "bytes": 544,
+      "sha256": "204f5b88df69b98c38c7777b683a7756361b3e4e548d227a2086aceb082e722c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-32/bulkstore",
+      "bytes": 49,
+      "sha256": "d257c083436a5b5d483f1148eeed4e9fde0da519135ae4f7f9830e6b592f5c32"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-32/bulkstore_descriptor",
+      "bytes": 1144,
+      "sha256": "84619f3de55ec6f25b76e124bb2f9e84e004184d9a35648422f9f68796f539e7"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-32/schema.xml",
+      "bytes": 218,
+      "sha256": "afe799d478b45f0b79e2e55f711c9abe3f304d479a5fead8833462cea3795a60"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-57/spec.plist",
+      "bytes": 459,
+      "sha256": "a1457180d0120d2f54a4114c138eacfb91f1f68904dbb03b5962ee9af6925a5f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-57/bulkstore",
+      "bytes": 49,
+      "sha256": "4431ec7c1ea8adee8113815385eb755cf3e873e86cdad904ba8f001dffa0de66"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-57/bulkstore_descriptor",
+      "bytes": 1415,
+      "sha256": "f9fcf77b5090fccc4f0c4adffb4db84e78fb19e0a99ad3acfd1a56b5c6a3465f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-57/schema.xml",
+      "bytes": 334,
+      "sha256": "2531ef61a5ec02c79b8508e353dc42091b9296557cca003419edfe4194ad8cf9"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-68/spec.plist",
+      "bytes": 411,
+      "sha256": "8304c0879b92195b91a65a32bdd1bd589db920f802141b35897954372c8a715a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-68/bulkstore",
+      "bytes": 2148,
+      "sha256": "41ade3a75856fc60f5e353c52b5386b849633ccc5e49f2fe5423a7fb36bff187"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-68/spindex.0",
+      "bytes": 140,
+      "sha256": "26fbe9344b250ba737219971a9b5f69c5bcd1d2cf96d55dff77c2b3877192372"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-68/bulkstore_descriptor",
+      "bytes": 1238,
+      "sha256": "46f725bf8320aa06d42f45b39b4450af7ea292d0cf548874fafad3d7689a5669"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-68/schema.xml",
+      "bytes": 301,
+      "sha256": "2e77258fba2dea81ebf9e3e4021fcf9ccaa42ccff5b348cd5b6ce9efc86f644a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-50/spec.plist",
+      "bytes": 525,
+      "sha256": "671f3c9160400c8262e734e322fc150f68a667bbff7c01f1cc8c99423b6a6daf"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-50/bulkstore",
+      "bytes": 50,
+      "sha256": "c4b2bc95c3d700934461bc3a4d2c7498d500c003c4cc91c0fec69eea148083d5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-50/bulkstore_descriptor",
+      "bytes": 2028,
+      "sha256": "5c887b851a393e8a963486d8b55a90c3bea4d255691fe1d559a4a7c7ea50762c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-50/schema.xml",
+      "bytes": 452,
+      "sha256": "14870cd7b81332ec77c5a020f778385213f49af57215d008c3d94aa1b1feeca4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-66/spec.plist",
+      "bytes": 404,
+      "sha256": "03ae710aa5ffaae79076d410c38f89a6a45e2afd5a16122be40152534215b462"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-66/bulkstore",
+      "bytes": 2367,
+      "sha256": "fb1c2880f9afb22b460b142fc251aa18c854d14605b259c122ad157dcd19d5cb"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-66/spindex.0",
+      "bytes": 684,
+      "sha256": "dc604d31e7596f9b6e0ec19d7fb083dcdcaf51207c0936456c7026b6e12b589b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-66/bulkstore_descriptor",
+      "bytes": 1224,
+      "sha256": "8284ef756ff457302cf2fa3f0fe0943d06f01daac03e483ace60826133fb1d5f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-66/schema.xml",
+      "bytes": 263,
+      "sha256": "29147e324697504dc895c7264f273f091eb1066cc51c32ef261847701ce8427b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-59/spec.plist",
+      "bytes": 506,
+      "sha256": "802914417b580a6b4476194084dd1467a815bf4fb5cb62fb1dfed9170bc79726"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-59/bulkstore",
+      "bytes": 49,
+      "sha256": "18c5730fe4721c6cb38510d0245dc43fc525032f012cd32cb8971883ef518d81"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-59/bulkstore_descriptor",
+      "bytes": 1792,
+      "sha256": "75053eadba0d97412399eca4648c0e6780feff3b9b65c270ac4f76c6d81d1ae8"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-59/schema.xml",
+      "bytes": 532,
+      "sha256": "54d2549d12439638de9b2b23c3a0dab677a08d156621b149f26498a9b0e28b37"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-61/spec.plist",
+      "bytes": 421,
+      "sha256": "0b9891051abbdc6d856b98077c026a26cc2c404d9ba9d9f7e6875146d717caec"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-61/bulkstore",
+      "bytes": 3148,
+      "sha256": "cdb05bf9167fbcf44898ca23b903f51ee2f3eb63c6b8cf5f146303393d7504b6"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-61/spindex.0",
+      "bytes": 80,
+      "sha256": "3128421ae152c51947e436d531c970a103bb966bb8cc62c2a0043fb51233a754"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-61/bulkstore_descriptor",
+      "bytes": 1360,
+      "sha256": "9ba2f61598c125b336a71f8c325948019add602245b374e6cfb3bce52c72b0c8"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/stores/indexed-store-61/schema.xml",
+      "bytes": 344,
+      "sha256": "ae2fdef6570f18c80814f93574ca3f0ec3982a4cdcf8725f323c5bc1dc01c3a5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/uniquing/typedArrayUniquer/integeruniquer.index",
+      "bytes": 46973,
+      "sha256": "5f499c25eaab68d0f8c6eef71a6eb5d53714c0eafb2ca007e73470ba02d7e911"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/uniquing/typedArrayUniquer/integeruniquer.data",
+      "bytes": 165622,
+      "sha256": "ee3a935f88938de66b9e8c47d6d88d173fe71fb39ce1669fad5c36d48508cdd2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/uniquing/arrayUniquer/integeruniquer.index",
+      "bytes": 41733,
+      "sha256": "bda1eb4ce7f96cd72cedcb01ddc27676c391868720cac7b8564300aeb5f5795f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/run1/core/uniquing/arrayUniquer/integeruniquer.data",
+      "bytes": 167506,
+      "sha256": "28901fb623f663caaf323182b698cb6640dd4ec7be652f1f1961118b130f5aa6"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/currentRun/core/uniquing/typedArrayUniquer/integeruniquer.index",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/currentRun/core/uniquing/typedArrayUniquer/integeruniquer.data",
+      "bytes": 101947,
+      "sha256": "7ec09fb365c9a3c7455ab6cf59fb45b1ebf7d6dc9962114d87341f38700af6d6"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/currentRun/core/uniquing/arrayUniquer/integeruniquer.index",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/corespace/currentRun/core/uniquing/arrayUniquer/integeruniquer.data",
+      "bytes": 101947,
+      "sha256": "7ec09fb365c9a3c7455ab6cf59fb45b1ebf7d6dc9962114d87341f38700af6d6"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/1C7E652B-6B94-3180-93A6-EF8DBA3A5448.symbolsarchive",
+      "bytes": 3284,
+      "sha256": "192da1bcb4a6178c2f4ad97be56802b38c7cf8bf4d54c93e4877f464f893c902"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/D13AB14D-2B45-34D0-86DE-38DF75BF48E5.symbolsarchive",
+      "bytes": 36143,
+      "sha256": "957f7ea370c051545d8e4cfb4d5f6b75ef7be50ebe2372867e0b14dc0bafec4e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/8CABDD64-E6C6-3B77-B839-2E2B875CE0FE.symbolsarchive",
+      "bytes": 1102,
+      "sha256": "6ebcaa5f158b3799b3e502d83e48dc7ce8601d16da83ea0e68b2c41cbc06c778"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/DC26AFB1-EFAD-3BB8-9446-0FB18DDFE476.symbolsarchive",
+      "bytes": 5654,
+      "sha256": "90ab885c9168d18691330baec7db1212ec4d33b53d60603c5f170b6524e9e71d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/B0A62AD1-78DA-3A6F-A23A-BE1DC54C19F8.symbolsarchive",
+      "bytes": 3259,
+      "sha256": "25aff20ecc844558933d059a10c8f0f538be8ab87e4a5d672e866f265944529e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/4C851329-A9F4-3E9E-9E48-07FF4120DCF9.symbolsarchive",
+      "bytes": 2266,
+      "sha256": "3d06a77bbaa6527601ac7579cb77968445ca1e28263f1b2f9130dd8d2ee880c1"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/D4ACD2AC-5702-3C45-85A0-300B2C2D19E1.symbolsarchive",
+      "bytes": 1884,
+      "sha256": "d286e726c7615998e0600ecbb299e7b5fbbe8c44ca7f1dbcc1bc10f19bfa683d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/B54FBE99-DB0B-32C7-ABDD-C2206DF606A4.symbolsarchive",
+      "bytes": 1079,
+      "sha256": "984f1eab056914db7ee64284028deac50f9bff60d24778e7f6179dc243b17786"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/91DACE39-FA28-3191-818D-1FCC6A0E615A.symbolsarchive",
+      "bytes": 16585,
+      "sha256": "abc58c75ec3d28e0b21d60dc2b79c259e6a6afd7d1712476109934a1764fec32"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/9D0387FC-E8F6-3004-9C95-CA68EA715C8B.symbolsarchive",
+      "bytes": 7920,
+      "sha256": "9979a43dbeab727e96f3ef21cd4bb48a33e88add91ec05e271b709d056c7afba"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/9B5FB84B-31AD-3EA7-8F89-8C700D369DC8.symbolsarchive",
+      "bytes": 2553,
+      "sha256": "706589bddd84aa773cf6614505441dc87cc53b2dbae2798cc7af10c46552ef8c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/AD0B0769-76D4-3613-BAE4-DBBBE05F7E3E.symbolsarchive",
+      "bytes": 8252,
+      "sha256": "2ba86371cf9d0fa9e73114c5f33add223f7737bba968e8edaf287bf44dae77c4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/C4EF9A70-A6B4-3F21-B3D8-A0C740406419.symbolsarchive",
+      "bytes": 5207,
+      "sha256": "6c5419a82c4062857ed690818280f47e78d8b3f448ba5c63ccf1122aba97dedc"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/0C7397C6-D747-31F2-8BC1-4096213BDE5C.symbolsarchive",
+      "bytes": 1072,
+      "sha256": "98428fb1ff8c09926e7cf9e5351a0fd65800647cf95d9f1b5179f2c1ea7970a6"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/FEE12F9C-344B-33B3-8EDD-283580EF1C67.symbolsarchive",
+      "bytes": 1131,
+      "sha256": "4f03f4f50887f86aea78d2d507356cffd5a3aa30ccb3622cb5f19e29db3e535b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/A373F0B0-9880-326A-88B4-DD8BE4E33072.symbolsarchive",
+      "bytes": 3486,
+      "sha256": "3808ab43eb673d9093c201239d7041f44a88939996b1995f45987a3617a8a209"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/7C923545-F3BB-3215-9720-85196358D9F1.symbolsarchive",
+      "bytes": 2263,
+      "sha256": "02f9ce9c5fb539ed0bffe00fdd699ce4937030c1ef983a580394ca69a5913caa"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/B67E4205-32B5-3FF3-9FB5-9186C0B32A90.symbolsarchive",
+      "bytes": 3080,
+      "sha256": "7d01428c61200f07bad329caccab7eb21d489c0fa801df630613798440fd0a2e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/33E44C2D-D65E-37A6-B85F-1A4CF524A050.symbolsarchive",
+      "bytes": 8453,
+      "sha256": "7891276c9aeaf5569fe680f2f9369b606fcf241f0106e7a742484f7fd31912ae"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/F38A9C58-22AB-3798-BBAE-8DCD9CC0CE27.symbolsarchive",
+      "bytes": 2014,
+      "sha256": "1b58d76812f2ffa013aab63ff0909b58c9f6c188db36793f144b150930def4d4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/C7A04322-C1B4-39A6-9E88-1C8CEDB97264.symbolsarchive",
+      "bytes": 2112,
+      "sha256": "1a35a9838a0b9b946f0a83133a1e4f46e2cfecac0d506daf331ebffbd7dafc8c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/D8E7E31A-7D3E-3742-A3EE-469C6237FAF4.symbolsarchive",
+      "bytes": 2177,
+      "sha256": "2e3ba73452c1d0dd512247a07f1e3311cfe99b1aa6ce192ac68e97a6b5805359"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/465A74BC-F20D-3C05-9441-7E08EAA49FAF.symbolsarchive",
+      "bytes": 1621,
+      "sha256": "d56b44ab95a10e50f6a5481d085d72d191f6b74c82d3b32524e4dbdf9a95cdc7"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/03BD9E32-CF0A-37B0-898A-3CE8DE06D842.symbolsarchive",
+      "bytes": 8770,
+      "sha256": "792ffa28164383822897b6377f295a137060293696aed1c724047796db4ac56d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/75F77FEC-BE14-3C97-93DA-403C3B529D3B.symbolsarchive",
+      "bytes": 3568,
+      "sha256": "8616deae37f354d1f6af38dc7ac436db1e69cb1425e544055c446ede941bf68d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/ECABC024-8F02-374A-BB7E-29437CEA2ABD.symbolsarchive",
+      "bytes": 898,
+      "sha256": "74f85fb52722115560f40a7d9efac5a657ca7f546d3d9494f38787e310d539b5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/D446840E-E694-3D39-B9DA-A1FE13772F77.symbolsarchive",
+      "bytes": 5848,
+      "sha256": "f85cf0cb32c3caf7dbddc0dedd81480c6de9c9fc1ed8a93ea4deb002efb614d9"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/957F93B3-8805-39C7-9C51-EDD1715F550E.symbolsarchive",
+      "bytes": 2524,
+      "sha256": "4d1fed4050e580eb19abfec87e638d73c29bf968843bc3db3ded024fc6bc6875"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/63A6BBA0-CD50-30F8-9CD2-81B59264EA13.symbolsarchive",
+      "bytes": 2035,
+      "sha256": "a9c5d440df67ed5942a109178edb4161523f0d0251c23a9e48b0a7e8a7b7e9cd"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/10E144C3-CDC9-3E9C-8268-71423CCD0083.symbolsarchive",
+      "bytes": 2554,
+      "sha256": "243e58bb3a8781e2812bd386f827ca2a38ee0ae453f3e50c477801bd728a3f4b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/83794FB3-DE9B-3D23-AB5E-2C1D5D30F134.symbolsarchive",
+      "bytes": 19086,
+      "sha256": "7064f292cd6033aa104d006ad124b5015642ca92003a143bda9dd45b4208ea91"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/05FD0014-55B1-3B8A-A6BA-6C7A389C4123.symbolsarchive",
+      "bytes": 1068,
+      "sha256": "42d89a7124b701b0e06ee85dd1bf0091bc9adc575d110304e3806d7707fd9c01"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/8213B592-A79F-3A11-9F4E-90DA0CF53E34.symbolsarchive",
+      "bytes": 2638,
+      "sha256": "d20a5d44b2ee84745322916a974e8937c1c99936dc63d5f4275eb26a425bf005"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/F8473DF7-A883-3906-BA57-A2BABC84D0FC.symbolsarchive",
+      "bytes": 19276,
+      "sha256": "42fe8db5e6e7f144a546e6242a3e181f7645784eebb88ec34d924be3fe4ae34b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/D614ADAF-EEDD-3492-AEEB-7D03558D419C.symbolsarchive",
+      "bytes": 2463,
+      "sha256": "effa91b7254a19dd9b97ad613cc3f708c9d548eb58be7c94f934dec135c9d9e8"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/38C8FBEC-DE88-33FE-B742-A192F22CC754.symbolsarchive",
+      "bytes": 3991,
+      "sha256": "21b96b427cfcba82ad7490e6cd51a84ca4f94ed64310a24ceadebc1826709c1e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/B2000CD5-F580-314A-A141-E036719D854E.symbolsarchive",
+      "bytes": 11405,
+      "sha256": "af7dd5157304006ef8258291ad5cd7bef92615e20704b0f2a5dc5aff2f512bfa"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/1DB56DA9-CF6B-3023-ABDF-5A37CB79223C.symbolsarchive",
+      "bytes": 1300,
+      "sha256": "5e5590a2026cc280d9879bc5aea89d836543855ad90b1d40e126c9a490d2c506"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/016C5057-625C-30B1-AD32-7BC9D082F05B.symbolsarchive",
+      "bytes": 9406,
+      "sha256": "b172df305af05ddb0202f4701e4e23e866bb19f8576fa6341694a00acf8aa038"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/2186F196-EE17-3A59-B9DA-D6823BEDD35B.symbolsarchive",
+      "bytes": 1172,
+      "sha256": "834053bb095236534c48bcffc21a6c3f9353d91b6d02e6cc7eba1db63671df23"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/54688162-B50D-3D31-A1E8-7B9766D3530D.symbolsarchive",
+      "bytes": 1133,
+      "sha256": "781d5fa2e0d0e76f121bcd9866a6016c2b1d42718183d3ce6f12c89a185b572d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/724B28C1-873E-3674-95DE-A03F6714128F.symbolsarchive",
+      "bytes": 6534,
+      "sha256": "8fde2e5fc362e331aebb3596fddbaf9f05ac78ebfd223f3c0772307aa1c43a6f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/0C8F41C6-6D93-3DB3-B522-CA8CFF5C3B33.symbolsarchive",
+      "bytes": 3459,
+      "sha256": "83804df6b69648dc7a13ca112cc156dddc41441bbfb40094e34d64ab9054d60e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/1A63E9E1-2D64-3AF4-9CCD-6EF042397F84.symbolsarchive",
+      "bytes": 2982,
+      "sha256": "ff37c91db51d4d0749f6dce07332e06ce084a94c1cbb2802a1e4a47ff30a7932"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/C6A4A4CB-92E6-3BAF-AAE0-E8306259209A.symbolsarchive",
+      "bytes": 9661,
+      "sha256": "af33364c99855484854fd0f675ae4238f764bcce9c7b149df6d036b45351c326"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/F0FD393C-15BC-3C75-A19D-897F7B225C78.symbolsarchive",
+      "bytes": 6721,
+      "sha256": "ba9071aad38a3d19359745f279a81036b99d32f2d310c340d27f703564356242"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/F0B9A36E-CE82-3B73-B644-E9C05DF0AF71.symbolsarchive",
+      "bytes": 3240,
+      "sha256": "af41152282fa7c1378ef8cc665acd55858a153e7897cfe25048d9b3ba8fa9623"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/8AF1606D-5C93-3B80-BC81-60C5688628E2.symbolsarchive",
+      "bytes": 22596,
+      "sha256": "c9a727d5913c9a2b0e4e18e1224327c0f1ef308c3e162fe98f5267d02c58ba0c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/9B672762-7B1F-30BC-96DE-F176B372D66D.symbolsarchive",
+      "bytes": 25050,
+      "sha256": "e2bdf466a985f0b6b04a9800b0208e26728a9a64c6a232ec1f140f4bcb5da61b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/0642DDAD-4771-3C82-805C-E7C6701C1461.symbolsarchive",
+      "bytes": 1545,
+      "sha256": "9d23d405d0e7af61d01659ea2cd39d5d39af10f1e456b788486773411ea8547e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/8E07D22E-CE5A-38A0-B091-5B0338C326F5.symbolsarchive",
+      "bytes": 1033,
+      "sha256": "ddaa284a4a04c351018a95326c61ca277ebfe68a124c409a471bdbbb019abbbd"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/D969A907-3E43-3951-9365-8C2DB3812E9D.symbolsarchive",
+      "bytes": 4674,
+      "sha256": "2ae090f7ccb7a8f66051057892c9d850a024a4929c8d09700851795fb3b97fb2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/4FED5EE2-5D3E-35B1-A170-9859C4B683BB.symbolsarchive",
+      "bytes": 910,
+      "sha256": "1cf672025ad9f59b72338e0af08c9ea20653971f6da784188124af9b370afaf3"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/74E52480-C2BD-3C8D-812D-95FE2B74A096.symbolsarchive",
+      "bytes": 28684,
+      "sha256": "fad2d684153ac2a1935db29109f06c96b7e051cfbbff5c36ed122a94e2ed7b63"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/8E168857-47F4-349F-A718-A18DB144FCB0.symbolsarchive",
+      "bytes": 2475,
+      "sha256": "0496b86546be89fd902163eaa989104157a737315ca8b7ac4b2e645cb82938cd"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/E8618176-515C-39A6-9F9C-3887A723C463.symbolsarchive",
+      "bytes": 8111,
+      "sha256": "ce268141843ac2396759f23e2dbf25d3df5587bc5bc19eb2e9567d62dbb6e302"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/12372585-DF92-33EF-B632-714FAA13260A.symbolsarchive",
+      "bytes": 2896,
+      "sha256": "c2d132b436671958fd480cfafa44146720534aa12173c511ed3504805ff2f825"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/873404F1-CC9D-30F9-AE06-8EA58D292005.symbolsarchive",
+      "bytes": 1683,
+      "sha256": "e45e105b39565d0d3c2c5c866bcb25d9981e413bb4a1d12b61768e6cbd9761d3"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/D77CEB62-AFF6-3CEC-BA9B-4F057FBE2EB5.symbolsarchive",
+      "bytes": 4242,
+      "sha256": "3815df917a3b21aaa5bbdbcc2fdc6fedb4a996b29131ee59c8bbecb314e604d3"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/15799128-6CBD-30D6-A2BB-B9D02B4470C0.symbolsarchive",
+      "bytes": 1784,
+      "sha256": "2a06931c34a91050ff26ff0af60ff1dc04f95f094eff7090d309c9f54a66da34"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/3FF99846-E48C-3C9A-814C-35B45E5F60EC.symbolsarchive",
+      "bytes": 2372,
+      "sha256": "5c567151c9e78fedc0dc215ffc7f760d1bab566fb1d8ef9e592043bf3fccb964"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/949131E5-BDA2-39BA-AA50-62651BB51802.symbolsarchive",
+      "bytes": 660,
+      "sha256": "26d1aabdcdbf0ec613a2dc89f3f3a51e72ac322c856a40bdbaaac65e2d8437a6"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/93F1DD8C-6CD9-32B9-B222-D23DA5D161B4.symbolsarchive",
+      "bytes": 3940,
+      "sha256": "e5d160d53dc5b7ba2b9ca96f7c4d40534305f70cb99d2e30180e78c8809e6a4b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/E0AC1231-27AA-3A13-8FAC-41D5802B1F3C.symbolsarchive",
+      "bytes": 1513,
+      "sha256": "d61cc9e4f4714649149bc6ca7ebe82d4ecabd4e1d22ef2402d3a0e02fa9ce209"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/4D3C0DD6-7476-3A75-8B1B-F3FE45E6456C.symbolsarchive",
+      "bytes": 2620,
+      "sha256": "e8ff5179f8d0ded4edb285ab3d511532ce0871a86dcd36c8c7fd6edc26c60d83"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/EDB83A19-EC17-32DE-9350-6145970A85D6.symbolsarchive",
+      "bytes": 2097,
+      "sha256": "e19d1020982adbb79bf21917565c34f833cd476ca836721375d2d8345eadd83a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/3B110564-5278-3CB0-85F1-2CE8431FF935.symbolsarchive",
+      "bytes": 1117,
+      "sha256": "584a386019b9dca4e7f66c62061e56fa27c7799df6361d307e1ab44d13c1ac25"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/6CC4E8DB-0DC3-3CB6-827E-975B4C80777E.symbolsarchive",
+      "bytes": 3205,
+      "sha256": "03e548cc6142ebc00f8c310d8ccd3d93256c85b098d5f40e57a591a388c70d8c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/53A3E31E-06A8-325E-B5A8-316B88AA3C92.symbolsarchive",
+      "bytes": 2523,
+      "sha256": "bce88e588f14bdb7a0200ec8ad4a66bf6437d027d97f4cfa630ccb7718463877"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/D884AF5B-23F7-313A-97ED-DD54518BA922.symbolsarchive",
+      "bytes": 2170,
+      "sha256": "464dc092342699dc60d35fdd4edfc49e6ecf04731c90f4a901467b71c90fb881"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/symbols/stores/D88EC709-9AA8-3083-B22B-D3CB39678D71.symbolsarchive",
+      "bytes": 1275,
+      "sha256": "13b2884168900778f7613b6b0a6c0471e8333ad7803846a1f5ca0767b0463f0a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/instrument_data/610A6C93-A4CB-4742-85BE-A45E7E5B6AEE/run_data/1.run.zip",
+      "bytes": 723,
+      "sha256": "815897df52b0c26e1c3121a735a018a3a108b873060bf44693e3a94834eb3602"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/instrument_data/0D5F276E-F2D5-40BF-A41A-C9BA97D2DEBA/run_data/1.run.zip",
+      "bytes": 1299,
+      "sha256": "7f79d9afc18ee3150eb084948cf5ad38e3659de584b3633f9a92b1d8b9f3d2f2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/instrument_data/D972EC20-B4AB-4342-AD75-153ABE2789FF/run_data/1.run.zip",
+      "bytes": 727,
+      "sha256": "a07aefeb754365fb50e3fa808dfaf7f495902bb752c078a6afedcd978c1a9aab"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/instrument_data/848D55FA-14E9-4828-A252-2BC618B66D0F/run_data/1.run.zip",
+      "bytes": 1103,
+      "sha256": "51c9ed564261227990c72af347e9cdb59480d083fb3e84aafeb817216d680791"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/instrument_data/02449C65-0007-42B8-B34C-BE2BA9740A9D/run_data/1.run.zip",
+      "bytes": 1504,
+      "sha256": "cd45328c7a9fe31c42337574e3d39137e64a267f799805c467852f7c18f53ef2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/instrument_data/6745C4D3-4F2C-46CB-B63E-26C8760DFFF6/run_data/1.run.zip",
+      "bytes": 939,
+      "sha256": "c591441b680ebbc6c189a3d03ccac014d96a02daa5314a5fecfbd2b7547fe9fa"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/instrument_data/ECDCC63E-41BA-4E3D-89D4-71864E19BE86/run_data/1.run.zip",
+      "bytes": 709,
+      "sha256": "e18cdfd9437eb1d5e65bdf01bb5f95da83602f7baa270d9059873d3f3cf94e07"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/instrument_data/F9825D39-67AE-4089-9638-A46369FD6DC2/run_data/1.run.zip",
+      "bytes": 858,
+      "sha256": "b339dda4fa43bfce236fcf378b164c252c92ded44dd4d29e5b67a02869bea870"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/instrument_data/CCC10A35-E8E1-4848-99EF-E553B6DDA0D8/run_data/1.run.zip",
+      "bytes": 974,
+      "sha256": "262dc126d184b3168d40c3e0f56bb2098f263df6a3e24fffe1d6485e7dfb4fe8"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/recording.trace/instrument_data/58B5ABF9-7C88-48CC-94C8-F7ADE957E998/run_data/1.run.zip",
+      "bytes": 877,
+      "sha256": "9ac00b9da390287eb027519f1e81629ffefcc635957de4e6a498c9ab02240ca1"
+    }
+  ],
+  "original_deleted": false,
+  "restore": "原本は絶対パスに保持。SHA-256を照合して読む。既存使用中ktraceや他プロセスには触れない。"
+}

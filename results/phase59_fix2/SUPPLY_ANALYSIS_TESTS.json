@@ -1,0 +1,15 @@
+{
+  "PASS": true,
+  "tests": 3,
+  "command": [
+    "python3",
+    "-B",
+    "tests/Phase59Fix2SupplyAnalysisTests.py",
+    "-v"
+  ],
+  "source_sha256": "a21d18d13b21636b6be3094d142b077949c87dae658b16fe001062f5cf461fa0",
+  "analysis_source_sha256": "4169cdd6ca38743e8e2bc891d530969cee00482e7ea9805a1fe7bfca10d32f6e",
+  "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/supply_analysis_tests_final.log",
+  "log_sha256": "5eb96096fd8f33f7708eb74588b07cbde37f191ec13aa0d3fdb5f94cc8e9fd32",
+  "scope": "寿命外/取得失敗標本を除外し、PCM到達の正の証拠と後着markerからの逆推論を区別。FIFO write cursor増分も確認する。"
+}

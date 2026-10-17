@@ -1,0 +1,20 @@
+{
+  "binary": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/minimal_initial/sourcenode_frozen",
+  "binary_sha256": "ec446567dff7b9e4efe385b38e3f58afcd262a83eca625a4b573b05b460f18f9",
+  "script_sha256": "00da19c049ac2222038ec9858c0bc0286a5248f4092b25c16fb0af7538bdc4b1",
+  "repeats": 20,
+  "seconds": 2.0,
+  "callback_allocations_scope": "C++ new全入口。C/Objective-C malloc全般は未計測。",
+  "configurations": [
+    "A_direct",
+    "B_fifo_candidate",
+    "B_fifo_baseline"
+  ],
+  "fifo_capacity": 16384,
+  "candidate_lead": 16384,
+  "baseline_lead": 12288,
+  "block": 2048,
+  "operation": "速度・装置設定は変えず、同じ48kHz Float32 stereo形式・ミキサー利得0.5。",
+  "idle_caveat": "試験間休止は装置全体のidle状態を証明しない。",
+  "free_before": 60597104640
+}

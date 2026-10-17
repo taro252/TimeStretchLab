@@ -1,0 +1,72 @@
+{
+  "source": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/device_final/dynamic_normal/case_000/native",
+  "first_two_callbacks": [
+    {
+      "sequence": "1",
+      "epoch": "1",
+      "start_ns": "276533920487083",
+      "end_ns": "276533920495333",
+      "host_ns": "276533933204416",
+      "sample_time": "0",
+      "flags": "7",
+      "requested": "512",
+      "wanted": "512",
+      "received": "512",
+      "output_before": "0",
+      "fifo_before": "16384"
+    },
+    {
+      "sequence": "2",
+      "epoch": "1",
+      "start_ns": "276533944382833",
+      "end_ns": "276533944385333",
+      "host_ns": "276533957371083",
+      "sample_time": "1160",
+      "flags": "7",
+      "requested": "512",
+      "wanted": "512",
+      "received": "512",
+      "output_before": "512",
+      "fifo_before": "15872"
+    }
+  ],
+  "pipeline_window_s": [
+    2.183644125,
+    2.207542375
+  ],
+  "bridge_uncertainty_s": 7.499999999938112e-07,
+  "overlapping_recorded_dsp_advances": [],
+  "next_dsp_advance": {
+    "output_start": "16384",
+    "output_end": "18432",
+    "fifo_before": "14336",
+    "fifo_after": "16384",
+    "received_input": "192000",
+    "snapshot_version": "7",
+    "final_snapshot": "1",
+    "start_s": "2.2299683340000001",
+    "published_s": "2.236242625",
+    "wall_s": "0.0062868749999999999",
+    "cpu_s": "0.0062865830000000053",
+    "publication_gap_s": "2.1119069580000001",
+    "wav_wall_s": "0.00031495900000000002",
+    "wav_cpu_s": "0.00031475000000000947",
+    "fft_wall_s": "0.00018679300000000004",
+    "fft_cpu_s": "0.00018725199999999192",
+    "phase_wall_s": "0.0039321670000000003",
+    "phase_cpu_s": "0.0039341250000000105",
+    "ola_wall_s": "0.000447584",
+    "ola_cpu_s": "0.00044850300000000287",
+    "fir_wall_s": "0.00023404200000000001",
+    "fir_cpu_s": "0.00023420899999999911",
+    "realtime": "1"
+  },
+  "gap_second_callback_to_next_advance_ms": 22.425958999999995,
+  "scope": "記録された合成advance区間との重なりを、較正の不確かさを拡張して検査。全OS状態・解析/計画threadの連続状態を測定したものではない。",
+  "conclusion": "最初の2回の間に合成advanceは記録されず、FIFOも16384→15872。動的要求前であり、当該窓の合成計算負荷とPCM欠乏だけでは時計の飛びを説明できない。",
+  "source_sha256": {
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/device_final/dynamic_normal/case_000/native/summary.json": "8b2b6dc8d1d1b6812413dd4a3bb8ef03a0f3c0ebe590bd1305deb9bb44d1dafd",
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/device_final/dynamic_normal/case_000/native/callbacks.csv": "fb9af7d3e81aabf25bb1b18ac00bb4ac1ff044cd765d2ec6a321be12fbb5eb74",
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/device_final/dynamic_normal/case_000/native/worker.csv": "ed53c35774addadb1474c5271a29088f29e656c6ea6686c5894f6b750e65f63b"
+  }
+}

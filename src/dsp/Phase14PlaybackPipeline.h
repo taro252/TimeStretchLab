@@ -22,6 +22,9 @@ public:
     std::size_t free() const noexcept;
     std::size_t channels() const noexcept { return data_.size(); }
     std::size_t capacity() const noexcept { return capacity_; }
+    // Research diagnostics: independent atomic observations, not a paired snapshot.
+    std::uint64_t readPosition() const noexcept { return readIndex_.load(std::memory_order_acquire); }
+    std::uint64_t writePosition() const noexcept { return writeIndex_.load(std::memory_order_acquire); }
     std::size_t read(float* const* output, std::size_t frames) noexcept;
     bool write(const float* const* input, std::size_t frames) noexcept;
     void clearQuiescent() noexcept;

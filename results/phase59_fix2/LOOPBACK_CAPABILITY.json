@@ -1,0 +1,25 @@
+{
+  "source": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/audio_devices_native_access.json",
+  "source_sha256": "f01a5e30fd7ffb7c23c195a7f0ad496277f0d32b59ab8ebf729e9e37e9eb87a5",
+  "devices": [
+    {
+      "name": "MacBook Airのマイク",
+      "input_channels": 1,
+      "output_channels": 0,
+      "rate": 48000,
+      "transport": "coreaudio_device_type_builtin"
+    },
+    {
+      "name": "MacBook Airのスピーカー",
+      "input_channels": 0,
+      "output_channels": 2,
+      "rate": 48000,
+      "transport": "coreaudio_device_type_builtin"
+    }
+  ],
+  "independent_loopback_configured": false,
+  "physical_audio_continuity_verified": false,
+  "recording_performed": false,
+  "reason": "既存の装置一覧は内蔵マイクと内蔵スピーカーのみ。独立した電気的/物理的ループバック配線や録音器は確認できず、内蔵マイクを無条件に物理連続性の計測器として使用しない。",
+  "sandbox_inventory_note": "通常権限の空一覧は装置なしの証拠にせず、CoreAudioへ到達できる権限で読み取り直した。"
+}

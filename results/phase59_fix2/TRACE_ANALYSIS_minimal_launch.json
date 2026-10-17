@@ -1,0 +1,130 @@
+{
+  "trace": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_minimal_launch/recording.trace",
+  "native": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/minimal_launch_native",
+  "trace_epoch_ns": 291630740312083.3,
+  "process_entry_ns": 291633578084750.0,
+  "trace_epoch_before_process_entry": true,
+  "thread_ids": [
+    7310921
+  ],
+  "callbacks": 285,
+  "fully_observed": 285,
+  "first_three_fully_observed": [
+    true,
+    true,
+    true
+  ],
+  "first_callback_trace_ns": 2959480666.6875,
+  "os_client_overloads_all_processes": 0,
+  "os_client_overloads_target_attributed": 0,
+  "os_client_overloads_unattributed": 0,
+  "callback_vm_observations": 0,
+  "original_native_summary": {
+    "PASS": true,
+    "mode": "direct",
+    "preset": "candidate",
+    "pid": 49604,
+    "device": 72,
+    "device_rate": 48000,
+    "device_channels": 2,
+    "device_buffer": 512,
+    "source_rate": 48000,
+    "source_channels": 2,
+    "gain": 0.5,
+    "format_id": 1,
+    "engine_state_id": 1,
+    "timebase_numer": 125,
+    "timebase_denom": 3,
+    "frames": 144000,
+    "consumed": 144000,
+    "calls": 285,
+    "missing_frames": 0,
+    "pcm_mismatches": 0,
+    "sample_errors": 0,
+    "host_errors": 0,
+    "invalid_host": 0,
+    "invalid_sample": 0,
+    "callback_deadlines": 0,
+    "hal_window_misses": 0,
+    "format_errors": 0,
+    "dropped": 0,
+    "callback_cpp_new": 0,
+    "worker_thread": 0,
+    "rejected_writes": 0,
+    "notify_calls": 570,
+    "notify_dropped": 0,
+    "timeout": false,
+    "physical_audio_continuity_verified": false,
+    "workgroup_applicable": false
+  },
+  "payload": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_minimal_launch/callback_os_timeline.json",
+  "payload_sha256": "47c6822ff57d8b8b9de2d9a94d9d07d2e3f3ef9965b3eca5f1bdc24c7ace3f48",
+  "exports": [
+    {
+      "schema": "time-info",
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_minimal_launch/xml/time-info.xml",
+      "bytes": 1390,
+      "sha256": "82121d6c1014795597a51170e984b0be82df51f639446a3e50d025dcdcde6e01",
+      "exit": 0,
+      "capacity_interrupted": false,
+      "complete": true
+    },
+    {
+      "schema": "thread-state",
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_minimal_launch/xml/thread-state.xml",
+      "bytes": 4169983,
+      "sha256": "f328c07dd3ee6df15db7973cd318cd310a8e3e82bae595d9b9f87d6f0e63a158",
+      "exit": 0,
+      "capacity_interrupted": false,
+      "complete": true
+    },
+    {
+      "schema": "syscall",
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_minimal_launch/xml/syscall.xml",
+      "bytes": 5061677,
+      "sha256": "9b755fe5abd634b55d78911f1eb317bef671ea1cf2d72b5c7c4322e62aac3c20",
+      "exit": 0,
+      "capacity_interrupted": false,
+      "complete": true
+    },
+    {
+      "schema": "virtual-memory",
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_minimal_launch/xml/virtual-memory.xml",
+      "bytes": 1447088,
+      "sha256": "3027b76732ff2a88e211df8f6e97b8350d3ec6278106b454e9113fb82e725648",
+      "exit": 0,
+      "capacity_interrupted": false,
+      "complete": true
+    },
+    {
+      "schema": "audio-hal-client-poi",
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_minimal_launch/xml/audio-hal-client-poi.xml",
+      "bytes": 2985,
+      "sha256": "f7c91fac230bef09314e713f8de9a36610e2f53cbd5e54ee2b56d13f1ea51d80",
+      "exit": 0,
+      "capacity_interrupted": false,
+      "complete": true
+    },
+    {
+      "schema": "audio-hal-client-io-cycle-ioproc",
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_minimal_launch/xml/audio-hal-client-io-cycle-ioproc.xml",
+      "bytes": 50014,
+      "sha256": "a5ea2344e38ad44243f8381977dd537cfa2da6c2a44cc6e6f17c73f435e5998c",
+      "exit": 0,
+      "capacity_interrupted": false,
+      "complete": true
+    },
+    {
+      "schema": "audio-hal-io-cycle-hardware",
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_minimal_launch/xml/audio-hal-io-cycle-hardware.xml",
+      "bytes": 99781,
+      "sha256": "d5b138fa27dc15f3dc816afcae6d0a204d7b959aa7eca81984bc1ab7ba6ace4b",
+      "exit": 0,
+      "capacity_interrupted": false,
+      "complete": true
+    }
+  ],
+  "physical_audio_continuity_verified": false,
+  "scope": "コールバック実行区間のcoverage。待機中・全worker・物理出力の連続性とは別。未観測を0で補わない。",
+  "conversion": "Mach absolute ticks × timebase_numer/timebase_denom − trace mabs-epoch(ns)。float変換誤差の1nsだけcoverage集計で許容。音声閾値は変更しない。"
+}

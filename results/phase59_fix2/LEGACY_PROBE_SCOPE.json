@@ -1,0 +1,5 @@
+{
+  "scope": "旧原本バイナリは変更なし。現行診断版のcallbackはhostTicks/rateScalar保存と、detailedDiagnostics時のFIFO cursor atomic読取りが追加される。生成した検査器の操作列・SourceNode制御と、FIFO/DSP算術は維持。診断による実行時影響を完全にゼロとは仮定しない。",
+  "clarifies": "LEGACY_PROBE_BUILD.jsonおよび初期recipeの「callback不変」は生成検査器側の制御を指す。リンク先の診断追加も含めたバイナリ同一性の意味ではない。",
+  "raw_evidence_unchanged": true
+}

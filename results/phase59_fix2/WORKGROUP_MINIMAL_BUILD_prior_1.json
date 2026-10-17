@@ -1,0 +1,41 @@
+{
+  "source_template": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/source/src/platform/macos/Phase59Fix2SourceNode.mm",
+  "source_template_sha256": "7f802af9391c9f32aa1681d2e59a607a2c5645cb24c7c67fe7dbaf6f1b7df1d2",
+  "generated_source": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/workgroup_minimal/build_1/sourcenode.mm",
+  "generated_source_sha256": "21c6c207b26d2f6de61f3317d0525210d6b3b77921854c5211fadf6203fe265c",
+  "command": [
+    "/usr/bin/c++",
+    "-arch",
+    "arm64",
+    "-std=c++20",
+    "-O3",
+    "-DNDEBUG",
+    "-fobjc-arc",
+    "-I/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/source/src",
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/workgroup_minimal/build_1/sourcenode.mm",
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/libphase58_realtime.a",
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/libtimestretch_core.a",
+    "-framework",
+    "AVFoundation",
+    "-framework",
+    "Foundation",
+    "-framework",
+    "CoreAudio",
+    "-framework",
+    "AudioToolbox",
+    "-framework",
+    "Accelerate",
+    "-o",
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/workgroup_minimal/build_1/sourcenode"
+  ],
+  "binary": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/workgroup_minimal/build_1/sourcenode",
+  "binary_sha256": "9de29736fe82e4605e78409a9ed89d50b91fb4bf9bd3598a039783aa129819f6",
+  "library_sha256": {
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/libphase58_realtime.a": "ac5103e515f1ed5b4f1e35cb5e0a400ccfc9f659f45e86319e9eb01e8d6f342a",
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/libtimestretch_core.a": "400e97deb03484e63552d821a0aea7281c602f4701317bb4c004892470f30c94"
+  },
+  "hypothesis": "元の初回異常窓では合成advanceなし。FIFO固定PCMの同じ実行体で、AudioWorkgroup昇格の有無だけを比較。DSP/解析/TimeMapは実行しない。",
+  "period_seconds": 0.042666666666666665,
+  "computation_seconds": 0.038400000000000004,
+  "scope": "研究用の独立対照。製品の昇格時期や品質ゲートを変更する修正ではない。"
+}

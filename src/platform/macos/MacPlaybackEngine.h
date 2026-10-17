@@ -28,6 +28,8 @@ struct MacCallbackRecord {
     double sampleTime=0;
     std::uint32_t timestampFlags=0,requested=0;
     RenderResult raw{};
+    std::uint64_t hostTicks=0;
+    double rateScalar=0;
 };
 // All lifecycle calls belong on an application control/work queue, never render.
 class MacPlaybackEngine {

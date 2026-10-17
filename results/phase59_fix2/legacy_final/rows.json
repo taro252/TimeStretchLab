@@ -1,0 +1,1094 @@
+[
+  {
+    "label": "original",
+    "repeat": 0,
+    "mode": "smoke",
+    "preset": "candidate",
+    "input": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+    "input_sha256": "789d4c159e35b4c133a17913ad5a9c47b85970185e5d86b074d146afc1bb311e",
+    "cpu": 0,
+    "command": [
+      "/Users/taro252/Docker/TimeStretchLab/build/phase58_fix_frozen/phase54_native",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+      "candidate",
+      "2.0",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_original_smoke_candidate",
+      "smoke",
+      "64"
+    ],
+    "exit": 2,
+    "wall_s": 16.76971411705017,
+    "summary": {
+      "AUDIO_QUALITY": "FAIL",
+      "MEASUREMENT_QUALITY": "PASS",
+      "PCM_CORRECTNESS": "PASS",
+      "VERDICT": "FAIL",
+      "mode": "smoke",
+      "source_rate": "44100",
+      "channels": "2",
+      "device": "72",
+      "device_rate": "48000",
+      "device_buffer": "512",
+      "prepare_wall_s": "0.31050283299999998",
+      "prepare_thread_cpu_s": "0.128091542",
+      "play_wall_s": "0.33975525000000001",
+      "play_thread_cpu_s": "0.025221083999999977",
+      "missing_frames": "1290",
+      "lifetime_missing_frames": "1290",
+      "callback_rows": "819",
+      "callback_max_ms": "0.021624999999999998",
+      "callback_overruns": "0",
+      "callback_allocations": "0",
+      "worker_max_wall_s": "0.165715417",
+      "worker_max_cpu_s": "0.081571250000000012",
+      "analysis_hit": "1",
+      "analysis_runs": "1",
+      "cache_hits": "6",
+      "analysis_bytes": "20755",
+      "cache_resident_bytes": "20755",
+      "playback_rss_bytes": "75530240",
+      "playback_process_cpu_s": "8.2707099999999993",
+      "eos": "1",
+      "route": "0",
+      "silent": "0",
+      "fade": "64",
+      "seek_count": "5",
+      "expected_frames": "220500",
+      "consumed_frames": "220500"
+    },
+    "PASS": false,
+    "artifacts": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_original_smoke_candidate/callbacks_0.csv",
+        "bytes": 30637,
+        "sha256": "71e48f73f58b514393beef8764eebcf716073e06d6a357767a287e27e638cfcc"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_original_smoke_candidate/callbacks_1.csv",
+        "bytes": 41855,
+        "sha256": "4bdb1be5b80751f2a90cd4bf54a96fb31ff5c86f46bbe006d35a91fa14c3193e"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_original_smoke_candidate/summary.txt",
+        "bytes": 770,
+        "sha256": "bed053e1eecca616ce8e7fe9092b540ccb0e5b4493cf623f442135e9400966a1"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_original_smoke_candidate/seeks.csv",
+        "bytes": 357,
+        "sha256": "c60817e41779b283fd9294eee41b11661ad36aa3866e5ec8bba6fc0af6b16b9f"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_original_smoke_candidate/actions.csv",
+        "bytes": 273,
+        "sha256": "e9aba95c862bf9f3aaf8a459ad25e3e87ec18e9896a6a29b50bfede8be91aca5"
+      }
+    ]
+  },
+  {
+    "label": "original",
+    "repeat": 0,
+    "mode": "smoke",
+    "preset": "baseline",
+    "input": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+    "input_sha256": "789d4c159e35b4c133a17913ad5a9c47b85970185e5d86b074d146afc1bb311e",
+    "cpu": 0,
+    "command": [
+      "/Users/taro252/Docker/TimeStretchLab/build/phase58_fix_frozen/phase54_native",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+      "baseline",
+      "2.0",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_original_smoke_baseline",
+      "smoke",
+      "64"
+    ],
+    "exit": 0,
+    "wall_s": 16.384681940078735,
+    "summary": {
+      "AUDIO_QUALITY": "PASS",
+      "MEASUREMENT_QUALITY": "PASS",
+      "PCM_CORRECTNESS": "PASS",
+      "VERDICT": "PASS",
+      "mode": "smoke",
+      "source_rate": "44100",
+      "channels": "2",
+      "device": "72",
+      "device_rate": "48000",
+      "device_buffer": "512",
+      "prepare_wall_s": "0.24004520800000001",
+      "prepare_thread_cpu_s": "0.099620375000000011",
+      "play_wall_s": "0.25847645800000002",
+      "play_thread_cpu_s": "0.015128749999999982",
+      "missing_frames": "0",
+      "lifetime_missing_frames": "0",
+      "callback_rows": "819",
+      "callback_max_ms": "0.011791999999999999",
+      "callback_overruns": "0",
+      "callback_allocations": "0",
+      "worker_max_wall_s": "0.075979375000000002",
+      "worker_max_cpu_s": "0.075873916",
+      "analysis_hit": "1",
+      "analysis_runs": "1",
+      "cache_hits": "6",
+      "analysis_bytes": "20755",
+      "cache_resident_bytes": "20755",
+      "playback_rss_bytes": "75087872",
+      "playback_process_cpu_s": "7.4634159999999996",
+      "eos": "1",
+      "route": "0",
+      "silent": "0",
+      "fade": "64",
+      "seek_count": "5",
+      "expected_frames": "220500",
+      "consumed_frames": "220500"
+    },
+    "PASS": true,
+    "artifacts": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_original_smoke_baseline/callbacks_0.csv",
+        "bytes": 30677,
+        "sha256": "e6a9ddbc504ae8081e44749a63284d6c330063efa626ab5ed519e38557c017bf"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_original_smoke_baseline/callbacks_1.csv",
+        "bytes": 41856,
+        "sha256": "2f73e5fe1638d84aa653c3fe5765c99b58da5505317b8e3de9d79ba0d6bfbb7f"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_original_smoke_baseline/summary.txt",
+        "bytes": 773,
+        "sha256": "9c9316a658bc876f203678199e4c73351de701a245ba50414389c3c04fbde791"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_original_smoke_baseline/seeks.csv",
+        "bytes": 361,
+        "sha256": "9d2cf09598fc71d69e8f38e65e4419f7f6079d61822abb72dce0bb870a05ef11"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_original_smoke_baseline/actions.csv",
+        "bytes": 270,
+        "sha256": "f1e8d602026aa6276564d3991537ab719a04c6c31c7be586d45245738cb82c9b"
+      }
+    ]
+  },
+  {
+    "label": "original",
+    "repeat": 0,
+    "mode": "eos",
+    "preset": "candidate",
+    "input": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+    "input_sha256": "789d4c159e35b4c133a17913ad5a9c47b85970185e5d86b074d146afc1bb311e",
+    "cpu": 0,
+    "command": [
+      "/Users/taro252/Docker/TimeStretchLab/build/phase58_fix_frozen/phase54_native",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+      "candidate",
+      "2.0",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_original_eos_candidate",
+      "eos",
+      "64"
+    ],
+    "exit": 0,
+    "wall_s": 8.431982040405273,
+    "summary": {
+      "AUDIO_QUALITY": "PASS",
+      "MEASUREMENT_QUALITY": "PASS",
+      "PCM_CORRECTNESS": "PASS",
+      "VERDICT": "PASS",
+      "mode": "eos",
+      "source_rate": "44100",
+      "channels": "2",
+      "device": "72",
+      "device_rate": "48000",
+      "device_buffer": "512",
+      "prepare_wall_s": "0.241643625",
+      "prepare_thread_cpu_s": "0.104721667",
+      "play_wall_s": "0.32895208399999998",
+      "play_thread_cpu_s": "0.022811124999999988",
+      "missing_frames": "0",
+      "lifetime_missing_frames": "0",
+      "callback_rows": "471",
+      "callback_max_ms": "0.010874999999999999",
+      "callback_overruns": "0",
+      "callback_allocations": "0",
+      "worker_max_wall_s": "0.133897709",
+      "worker_max_cpu_s": "0.096795375000000017",
+      "analysis_hit": "0",
+      "analysis_runs": "1",
+      "cache_hits": "0",
+      "analysis_bytes": "20755",
+      "cache_resident_bytes": "20755",
+      "playback_rss_bytes": "60588032",
+      "playback_process_cpu_s": "2.9732400000000001",
+      "eos": "1",
+      "route": "0",
+      "silent": "0",
+      "fade": "64",
+      "seek_count": "0",
+      "expected_frames": "220500",
+      "consumed_frames": "220500"
+    },
+    "PASS": true,
+    "artifacts": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_original_eos_candidate/callbacks_0.csv",
+        "bytes": 41856,
+        "sha256": "645ec3c39cde32583a8707f6032527f20a8620032f3d9ed67c95991694609d68"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_original_eos_candidate/summary.txt",
+        "bytes": 754,
+        "sha256": "1d70534a34dc90dc8c7c8652f67cbe96f522d7e34058a34ca3cb8b98655cf221"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_original_eos_candidate/seeks.csv",
+        "bytes": 66,
+        "sha256": "7f85eafea41d10cf489ccd04501ae5a484247bb96e17954a225b5c5df8f16063"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_original_eos_candidate/actions.csv",
+        "bytes": 29,
+        "sha256": "69aad1dc5060fbcb00b67dee982854ad12efe186cae1f229802597b876a45543"
+      }
+    ]
+  },
+  {
+    "label": "original",
+    "repeat": 0,
+    "mode": "eos",
+    "preset": "baseline",
+    "input": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+    "input_sha256": "789d4c159e35b4c133a17913ad5a9c47b85970185e5d86b074d146afc1bb311e",
+    "cpu": 0,
+    "command": [
+      "/Users/taro252/Docker/TimeStretchLab/build/phase58_fix_frozen/phase54_native",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+      "baseline",
+      "2.0",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_original_eos_baseline",
+      "eos",
+      "64"
+    ],
+    "exit": 0,
+    "wall_s": 7.863292932510376,
+    "summary": {
+      "AUDIO_QUALITY": "PASS",
+      "MEASUREMENT_QUALITY": "PASS",
+      "PCM_CORRECTNESS": "PASS",
+      "VERDICT": "PASS",
+      "mode": "eos",
+      "source_rate": "44100",
+      "channels": "2",
+      "device": "72",
+      "device_rate": "48000",
+      "device_buffer": "512",
+      "prepare_wall_s": "0.19172800000000001",
+      "prepare_thread_cpu_s": "0.084512083000000016",
+      "play_wall_s": "0.221519875",
+      "play_thread_cpu_s": "0.010721416999999997",
+      "missing_frames": "0",
+      "lifetime_missing_frames": "0",
+      "callback_rows": "471",
+      "callback_max_ms": "0.010999999999999999",
+      "callback_overruns": "0",
+      "callback_allocations": "0",
+      "worker_max_wall_s": "0.17483679199999999",
+      "worker_max_cpu_s": "0.076719916999999999",
+      "analysis_hit": "0",
+      "analysis_runs": "1",
+      "cache_hits": "0",
+      "analysis_bytes": "20755",
+      "cache_resident_bytes": "20755",
+      "playback_rss_bytes": "61358080",
+      "playback_process_cpu_s": "2.6058920000000003",
+      "eos": "1",
+      "route": "0",
+      "silent": "0",
+      "fade": "64",
+      "seek_count": "0",
+      "expected_frames": "220500",
+      "consumed_frames": "220500"
+    },
+    "PASS": true,
+    "artifacts": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_original_eos_baseline/callbacks_0.csv",
+        "bytes": 41828,
+        "sha256": "de850e268e4ca184c3496b8bd6434eb3547d494075c42bfcc41696a9f3c57bba"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_original_eos_baseline/summary.txt",
+        "bytes": 771,
+        "sha256": "9dd8f3751ff9715c67ade15c3f2c814c36165554a431642576b0208f7d47d02f"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_original_eos_baseline/seeks.csv",
+        "bytes": 66,
+        "sha256": "7f85eafea41d10cf489ccd04501ae5a484247bb96e17954a225b5c5df8f16063"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_original_eos_baseline/actions.csv",
+        "bytes": 29,
+        "sha256": "69aad1dc5060fbcb00b67dee982854ad12efe186cae1f229802597b876a45543"
+      }
+    ]
+  },
+  {
+    "label": "phase59_before",
+    "repeat": 0,
+    "mode": "smoke",
+    "preset": "candidate",
+    "input": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+    "input_sha256": "789d4c159e35b4c133a17913ad5a9c47b85970185e5d86b074d146afc1bb311e",
+    "cpu": 0,
+    "command": [
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/final/phase54_native",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+      "candidate",
+      "2.0",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_phase59_before_smoke_candidate",
+      "smoke",
+      "64"
+    ],
+    "exit": 0,
+    "wall_s": 15.92999792098999,
+    "summary": {
+      "AUDIO_QUALITY": "PASS",
+      "MEASUREMENT_QUALITY": "PASS",
+      "PCM_CORRECTNESS": "PASS",
+      "VERDICT": "PASS",
+      "mode": "smoke",
+      "source_rate": "44100",
+      "channels": "2",
+      "device": "72",
+      "device_rate": "48000",
+      "device_buffer": "512",
+      "prepare_wall_s": "0.19022233299999999",
+      "prepare_thread_cpu_s": "0.084461792000000008",
+      "play_wall_s": "0.28410983299999998",
+      "play_thread_cpu_s": "0.016845499999999999",
+      "missing_frames": "0",
+      "lifetime_missing_frames": "0",
+      "callback_rows": "819",
+      "callback_max_ms": "0.012083999999999999",
+      "callback_overruns": "0",
+      "callback_allocations": "0",
+      "worker_max_wall_s": "0.051231417000000001",
+      "worker_max_cpu_s": "0.051185500000000009",
+      "analysis_hit": "1",
+      "analysis_runs": "1",
+      "cache_hits": "6",
+      "analysis_bytes": "20755",
+      "cache_resident_bytes": "20755",
+      "playback_rss_bytes": "76201984",
+      "playback_process_cpu_s": "6.4373680000000002",
+      "eos": "1",
+      "route": "0",
+      "silent": "0",
+      "fade": "64",
+      "seek_count": "5",
+      "expected_frames": "220500",
+      "consumed_frames": "220500"
+    },
+    "PASS": true,
+    "artifacts": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_phase59_before_smoke_candidate/callbacks_0.csv",
+        "bytes": 30685,
+        "sha256": "de7b1f4bba361a901c99257e8fd20db0442249796566d6c700de8f7abc411eca"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_phase59_before_smoke_candidate/callbacks_1.csv",
+        "bytes": 41856,
+        "sha256": "7631a71eb5e70f5af813c0fbe3562d7bfbc94480317040316c7b7af829c745e4"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_phase59_before_smoke_candidate/summary.txt",
+        "bytes": 782,
+        "sha256": "106b73ffbea1729cc0f5df74d3bb8acc6efb086eebefadb3f68e892a0ff4f7f8"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_phase59_before_smoke_candidate/seeks.csv",
+        "bytes": 361,
+        "sha256": "6c306647ecf955867fd558c6628bec3de150ea36a41068ecf262b3c15b6373bc"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_phase59_before_smoke_candidate/actions.csv",
+        "bytes": 272,
+        "sha256": "f52ce395b681be8a8796314c07b910fd88a9e90ba2beac70d1452be7458a038c"
+      }
+    ]
+  },
+  {
+    "label": "phase59_before",
+    "repeat": 0,
+    "mode": "smoke",
+    "preset": "baseline",
+    "input": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+    "input_sha256": "789d4c159e35b4c133a17913ad5a9c47b85970185e5d86b074d146afc1bb311e",
+    "cpu": 0,
+    "command": [
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/final/phase54_native",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+      "baseline",
+      "2.0",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_phase59_before_smoke_baseline",
+      "smoke",
+      "64"
+    ],
+    "exit": 0,
+    "wall_s": 14.789561748504639,
+    "summary": {
+      "AUDIO_QUALITY": "PASS",
+      "MEASUREMENT_QUALITY": "PASS",
+      "PCM_CORRECTNESS": "PASS",
+      "VERDICT": "PASS",
+      "mode": "smoke",
+      "source_rate": "44100",
+      "channels": "2",
+      "device": "72",
+      "device_rate": "48000",
+      "device_buffer": "512",
+      "prepare_wall_s": "0.18491891699999999",
+      "prepare_thread_cpu_s": "0.080004333000000011",
+      "play_wall_s": "0.21167745900000001",
+      "play_thread_cpu_s": "0.0094195000000000112",
+      "missing_frames": "0",
+      "lifetime_missing_frames": "0",
+      "callback_rows": "819",
+      "callback_max_ms": "0.010832999999999999",
+      "callback_overruns": "0",
+      "callback_allocations": "0",
+      "worker_max_wall_s": "0.062812000000000007",
+      "worker_max_cpu_s": "0.062672834000000011",
+      "analysis_hit": "1",
+      "analysis_runs": "1",
+      "cache_hits": "6",
+      "analysis_bytes": "20755",
+      "cache_resident_bytes": "20755",
+      "playback_rss_bytes": "74940416",
+      "playback_process_cpu_s": "6.3853029999999995",
+      "eos": "1",
+      "route": "0",
+      "silent": "0",
+      "fade": "64",
+      "seek_count": "5",
+      "expected_frames": "220500",
+      "consumed_frames": "220500"
+    },
+    "PASS": true,
+    "artifacts": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_phase59_before_smoke_baseline/callbacks_0.csv",
+        "bytes": 30678,
+        "sha256": "909f6cd5ee5746725b5d77360de5b953a25d64b874091d39d4d517dd391c8dc5"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_phase59_before_smoke_baseline/callbacks_1.csv",
+        "bytes": 41856,
+        "sha256": "27d76342fc00a6dc203c881f5a3e954304f4ad61b9f009fbfb945c0b30b21b21"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_phase59_before_smoke_baseline/summary.txt",
+        "bytes": 783,
+        "sha256": "9b0bc80a7ff501300465aa6a300d2279427058e44fa655691d286dbf526bf17e"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_phase59_before_smoke_baseline/seeks.csv",
+        "bytes": 361,
+        "sha256": "08c4404be21f5d98aa22a1f0acf551bb25fdfc244bfd90b5a81a3f1ced47b344"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_phase59_before_smoke_baseline/actions.csv",
+        "bytes": 273,
+        "sha256": "a3b9c6e9740a107a2dd192706979946e54d2e1e74f996d8b6fc125a865f92a0f"
+      }
+    ]
+  },
+  {
+    "label": "phase59_before",
+    "repeat": 0,
+    "mode": "eos",
+    "preset": "candidate",
+    "input": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+    "input_sha256": "789d4c159e35b4c133a17913ad5a9c47b85970185e5d86b074d146afc1bb311e",
+    "cpu": 0,
+    "command": [
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/final/phase54_native",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+      "candidate",
+      "2.0",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_phase59_before_eos_candidate",
+      "eos",
+      "64"
+    ],
+    "exit": 0,
+    "wall_s": 7.590942144393921,
+    "summary": {
+      "AUDIO_QUALITY": "PASS",
+      "MEASUREMENT_QUALITY": "PASS",
+      "PCM_CORRECTNESS": "PASS",
+      "VERDICT": "PASS",
+      "mode": "eos",
+      "source_rate": "44100",
+      "channels": "2",
+      "device": "72",
+      "device_rate": "48000",
+      "device_buffer": "512",
+      "prepare_wall_s": "0.18655274999999999",
+      "prepare_thread_cpu_s": "0.081012416000000004",
+      "play_wall_s": "0.248003",
+      "play_thread_cpu_s": "0.012275791999999994",
+      "missing_frames": "0",
+      "lifetime_missing_frames": "0",
+      "callback_rows": "471",
+      "callback_max_ms": "0.0079589999999999991",
+      "callback_overruns": "0",
+      "callback_allocations": "0",
+      "worker_max_wall_s": "0.116871167",
+      "worker_max_cpu_s": "0.0723105",
+      "analysis_hit": "0",
+      "analysis_runs": "1",
+      "cache_hits": "0",
+      "analysis_bytes": "20755",
+      "cache_resident_bytes": "20755",
+      "playback_rss_bytes": "61669376",
+      "playback_process_cpu_s": "2.4956079999999998",
+      "eos": "1",
+      "route": "0",
+      "silent": "0",
+      "fade": "64",
+      "seek_count": "0",
+      "expected_frames": "220500",
+      "consumed_frames": "220500"
+    },
+    "PASS": true,
+    "artifacts": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_phase59_before_eos_candidate/callbacks_0.csv",
+        "bytes": 41853,
+        "sha256": "c197896ff710912c30d7a9600aacb4745808fda0ccfc72ee949fb322df08f235"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_phase59_before_eos_candidate/summary.txt",
+        "bytes": 750,
+        "sha256": "0803134826152c24370c39995f549a94ab51ede5af499dbc6c5fc9fc36fdffd6"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_phase59_before_eos_candidate/seeks.csv",
+        "bytes": 66,
+        "sha256": "7f85eafea41d10cf489ccd04501ae5a484247bb96e17954a225b5c5df8f16063"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_phase59_before_eos_candidate/actions.csv",
+        "bytes": 29,
+        "sha256": "69aad1dc5060fbcb00b67dee982854ad12efe186cae1f229802597b876a45543"
+      }
+    ]
+  },
+  {
+    "label": "phase59_before",
+    "repeat": 0,
+    "mode": "eos",
+    "preset": "baseline",
+    "input": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+    "input_sha256": "789d4c159e35b4c133a17913ad5a9c47b85970185e5d86b074d146afc1bb311e",
+    "cpu": 0,
+    "command": [
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/final/phase54_native",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+      "baseline",
+      "2.0",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_phase59_before_eos_baseline",
+      "eos",
+      "64"
+    ],
+    "exit": 0,
+    "wall_s": 7.71032190322876,
+    "summary": {
+      "AUDIO_QUALITY": "PASS",
+      "MEASUREMENT_QUALITY": "PASS",
+      "PCM_CORRECTNESS": "PASS",
+      "VERDICT": "PASS",
+      "mode": "eos",
+      "source_rate": "44100",
+      "channels": "2",
+      "device": "72",
+      "device_rate": "48000",
+      "device_buffer": "512",
+      "prepare_wall_s": "0.16313829099999999",
+      "prepare_thread_cpu_s": "0.070861500000000008",
+      "play_wall_s": "0.18975604200000001",
+      "play_thread_cpu_s": "0.0077910840000000037",
+      "missing_frames": "0",
+      "lifetime_missing_frames": "0",
+      "callback_rows": "471",
+      "callback_max_ms": "0.0079589999999999991",
+      "callback_overruns": "0",
+      "callback_allocations": "0",
+      "worker_max_wall_s": "0.087482584000000002",
+      "worker_max_cpu_s": "0.063161917000000012",
+      "analysis_hit": "0",
+      "analysis_runs": "1",
+      "cache_hits": "0",
+      "analysis_bytes": "20755",
+      "cache_resident_bytes": "20755",
+      "playback_rss_bytes": "61603840",
+      "playback_process_cpu_s": "2.4379089999999999",
+      "eos": "1",
+      "route": "0",
+      "silent": "0",
+      "fade": "64",
+      "seek_count": "0",
+      "expected_frames": "220500",
+      "consumed_frames": "220500"
+    },
+    "PASS": true,
+    "artifacts": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_phase59_before_eos_baseline/callbacks_0.csv",
+        "bytes": 41839,
+        "sha256": "18ef3507cc292b91c1fe662282daa260174e582a1d187ca9c49da2d96baf1807"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_phase59_before_eos_baseline/summary.txt",
+        "bytes": 782,
+        "sha256": "d3a20e0dd19a91dd746224c397a01e94d8a2fb6bacdd1877fd7eba7bb1ee10dc"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_phase59_before_eos_baseline/seeks.csv",
+        "bytes": 66,
+        "sha256": "7f85eafea41d10cf489ccd04501ae5a484247bb96e17954a225b5c5df8f16063"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_phase59_before_eos_baseline/actions.csv",
+        "bytes": 29,
+        "sha256": "69aad1dc5060fbcb00b67dee982854ad12efe186cae1f229802597b876a45543"
+      }
+    ]
+  },
+  {
+    "label": "probe",
+    "repeat": 0,
+    "mode": "smoke",
+    "preset": "candidate",
+    "input": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+    "input_sha256": "789d4c159e35b4c133a17913ad5a9c47b85970185e5d86b074d146afc1bb311e",
+    "cpu": 0,
+    "command": [
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/legacy_probe",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+      "candidate",
+      "2.0",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_smoke_candidate",
+      "smoke",
+      "64"
+    ],
+    "exit": 0,
+    "wall_s": 14.541661024093628,
+    "summary": {
+      "AUDIO_QUALITY": "PASS",
+      "MEASUREMENT_QUALITY": "PASS",
+      "PCM_CORRECTNESS": "PASS",
+      "VERDICT": "PASS",
+      "cpu_load_threads": "0",
+      "control_dropped": "0",
+      "bridge_steady_ns": "325388001972666",
+      "bridge_mach_ns": "304474242194708",
+      "bridge_uncertainty_ns": "83",
+      "mode": "smoke",
+      "source_rate": "44100",
+      "channels": "2",
+      "device": "72",
+      "device_rate": "48000",
+      "device_buffer": "512",
+      "prepare_wall_s": "0.198746542",
+      "prepare_thread_cpu_s": "0.088836208999999999",
+      "play_wall_s": "0.21749791700000001",
+      "play_thread_cpu_s": "0.011282458999999995",
+      "missing_frames": "0",
+      "lifetime_missing_frames": "0",
+      "callback_rows": "819",
+      "callback_max_ms": "0.010832999999999999",
+      "callback_overruns": "0",
+      "callback_allocations": "0",
+      "worker_max_wall_s": "0.046657791999999997",
+      "worker_max_cpu_s": "0.043396917000000007",
+      "analysis_hit": "1",
+      "analysis_runs": "1",
+      "cache_hits": "6",
+      "analysis_bytes": "20755",
+      "cache_resident_bytes": "20755",
+      "playback_rss_bytes": "91504640",
+      "playback_process_cpu_s": "5.5792409999999997",
+      "eos": "1",
+      "route": "0",
+      "silent": "0",
+      "fade": "64",
+      "seek_count": "5",
+      "expected_frames": "220500",
+      "consumed_frames": "220500"
+    },
+    "PASS": true,
+    "artifacts": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_smoke_candidate/callbacks_0.csv",
+        "bytes": 54330,
+        "sha256": "546b05e03c978cc08f6ee54cf1b2acb21b332d6df2c3811bb55c7f4c82a9b321"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_smoke_candidate/callbacks_1.csv",
+        "bytes": 76647,
+        "sha256": "84a5892f2e11361188b6d62df90c8e0173242a753f5819c41d3c57577c914dad"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_smoke_candidate/worker_1.csv",
+        "bytes": 21470,
+        "sha256": "01ec5365d9337bebc916835cd2ba811354fae054375b615e5e14b477509c4d5e"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_smoke_candidate/control.csv",
+        "bytes": 396532,
+        "sha256": "ef3e44c4b985a80fe2919f8f75af99cd7cc40b49301545ffe1f648521c7a76ab"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_smoke_candidate/summary.txt",
+        "bytes": 900,
+        "sha256": "e90358bee748b8f4d1c342d70c9e041a99ba475ceed74fbc35c350b235baf9c0"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_smoke_candidate/worker_0.csv",
+        "bytes": 4480,
+        "sha256": "56ed7c6e3a6aaa0242e674247cf84cf25acc8e307380a08ea52c3b33ccd0beb7"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_smoke_candidate/seeks.csv",
+        "bytes": 361,
+        "sha256": "9ada99ac59c6ec07f954d98e78765a0072480940863c5d80bfc949d9d1fd240f"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_smoke_candidate/retired_worker_1.csv",
+        "bytes": 7952,
+        "sha256": "a8cd7b91b60bcc52cc4c35b31b6c41b07ddd7d6b26bd8317803133de877dcfd6"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_smoke_candidate/retired_worker_2.csv",
+        "bytes": 8799,
+        "sha256": "f43bf285d652a7ef226d0cd30de50955347dd78582109dcea751c1f4973eb956"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_smoke_candidate/actions.csv",
+        "bytes": 789,
+        "sha256": "e61e88e5a6c75432056adca4816e374acd7cd45bd5c04f7bc07da6c066c604d7"
+      }
+    ]
+  },
+  {
+    "label": "probe",
+    "repeat": 0,
+    "mode": "smoke",
+    "preset": "baseline",
+    "input": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+    "input_sha256": "789d4c159e35b4c133a17913ad5a9c47b85970185e5d86b074d146afc1bb311e",
+    "cpu": 0,
+    "command": [
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/legacy_probe",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+      "baseline",
+      "2.0",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_smoke_baseline",
+      "smoke",
+      "64"
+    ],
+    "exit": 0,
+    "wall_s": 13.533080101013184,
+    "summary": {
+      "AUDIO_QUALITY": "PASS",
+      "MEASUREMENT_QUALITY": "PASS",
+      "PCM_CORRECTNESS": "PASS",
+      "VERDICT": "PASS",
+      "cpu_load_threads": "0",
+      "control_dropped": "0",
+      "bridge_steady_ns": "325401807711437",
+      "bridge_mach_ns": "304488047933458",
+      "bridge_uncertainty_ns": "42",
+      "mode": "smoke",
+      "source_rate": "44100",
+      "channels": "2",
+      "device": "72",
+      "device_rate": "48000",
+      "device_buffer": "512",
+      "prepare_wall_s": "0.15044566700000001",
+      "prepare_thread_cpu_s": "0.064806375000000013",
+      "play_wall_s": "0.15173049999999999",
+      "play_thread_cpu_s": "0.0058624999999999927",
+      "missing_frames": "0",
+      "lifetime_missing_frames": "0",
+      "callback_rows": "818",
+      "callback_max_ms": "0.014874999999999999",
+      "callback_overruns": "0",
+      "callback_allocations": "0",
+      "worker_max_wall_s": "0.048828166999999999",
+      "worker_max_cpu_s": "0.039917415999999997",
+      "analysis_hit": "1",
+      "analysis_runs": "1",
+      "cache_hits": "6",
+      "analysis_bytes": "20755",
+      "cache_resident_bytes": "20755",
+      "playback_rss_bytes": "87687168",
+      "playback_process_cpu_s": "5.0523829999999998",
+      "eos": "1",
+      "route": "0",
+      "silent": "0",
+      "fade": "64",
+      "seek_count": "5",
+      "expected_frames": "220500",
+      "consumed_frames": "220500"
+    },
+    "PASS": true,
+    "artifacts": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_smoke_baseline/callbacks_0.csv",
+        "bytes": 54190,
+        "sha256": "9f1f0129b626e819d2c38d006a8ef5d5a068daa1270fc02026520bc659a6b4e0"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_smoke_baseline/callbacks_1.csv",
+        "bytes": 77146,
+        "sha256": "c9aa7e8942b52d6fe163f647ed0366824fa7f222b623a288c2fa6aa2c3d08e47"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_smoke_baseline/worker_1.csv",
+        "bytes": 21385,
+        "sha256": "752207d1d9224ad98c2c643fae5f0cc6a79574adf7a8d920d52082df194f054a"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_smoke_baseline/control.csv",
+        "bytes": 396374,
+        "sha256": "9421b6efa0c0976ce1f81ac976041c7498f5addd1b9241f28f19b83438e801ad"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_smoke_baseline/summary.txt",
+        "bytes": 909,
+        "sha256": "b0cefeac9d8baaa3994ad0b638f993b04aebfc1ebbb39a8c467dba9f1b376b89"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_smoke_baseline/worker_0.csv",
+        "bytes": 4253,
+        "sha256": "4acf700ae67d81fa8105a31c8b3826cbd4ed0ea2573bd5ec7d9ba978f06c2132"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_smoke_baseline/seeks.csv",
+        "bytes": 361,
+        "sha256": "97d7981624b25980d414947020e3d9fa62018932e45b574c1310b95bd7adfe4d"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_smoke_baseline/retired_worker_1.csv",
+        "bytes": 7554,
+        "sha256": "434c4d654f7f3c536da254fae7e9bbc3f39e032bf041280d330323c3040c61e4"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_smoke_baseline/retired_worker_2.csv",
+        "bytes": 8279,
+        "sha256": "e2577960ad5199c776307951cf2c3bc0532e2a9665ebea07487d004338c3e034"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_smoke_baseline/actions.csv",
+        "bytes": 788,
+        "sha256": "0e49a2ea9d6260fd034918914a3cce0cb4210ebeff8aa43b39ee5ae7b326b264"
+      }
+    ]
+  },
+  {
+    "label": "probe",
+    "repeat": 0,
+    "mode": "eos",
+    "preset": "candidate",
+    "input": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+    "input_sha256": "789d4c159e35b4c133a17913ad5a9c47b85970185e5d86b074d146afc1bb311e",
+    "cpu": 0,
+    "command": [
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/legacy_probe",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+      "candidate",
+      "2.0",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_eos_candidate",
+      "eos",
+      "64"
+    ],
+    "exit": 0,
+    "wall_s": 7.395464897155762,
+    "summary": {
+      "AUDIO_QUALITY": "PASS",
+      "MEASUREMENT_QUALITY": "PASS",
+      "PCM_CORRECTNESS": "PASS",
+      "VERDICT": "PASS",
+      "cpu_load_threads": "0",
+      "control_dropped": "0",
+      "bridge_steady_ns": "325410951332479",
+      "bridge_mach_ns": "304497191554541",
+      "bridge_uncertainty_ns": "42",
+      "mode": "eos",
+      "source_rate": "44100",
+      "channels": "2",
+      "device": "72",
+      "device_rate": "48000",
+      "device_buffer": "512",
+      "prepare_wall_s": "0.14872408400000001",
+      "prepare_thread_cpu_s": "0.062748333000000003",
+      "play_wall_s": "0.17180175",
+      "play_thread_cpu_s": "0.0053503329999999988",
+      "missing_frames": "0",
+      "lifetime_missing_frames": "0",
+      "callback_rows": "471",
+      "callback_max_ms": "0.0069999999999999993",
+      "callback_overruns": "0",
+      "callback_allocations": "0",
+      "worker_max_wall_s": "0.049142290999999998",
+      "worker_max_cpu_s": "0.047666375000000004",
+      "analysis_hit": "0",
+      "analysis_runs": "1",
+      "cache_hits": "0",
+      "analysis_bytes": "20755",
+      "cache_resident_bytes": "20755",
+      "playback_rss_bytes": "74596352",
+      "playback_process_cpu_s": "2.0691289999999998",
+      "eos": "1",
+      "route": "0",
+      "silent": "0",
+      "fade": "64",
+      "seek_count": "0",
+      "expected_frames": "220500",
+      "consumed_frames": "220500"
+    },
+    "PASS": true,
+    "artifacts": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_eos_candidate/callbacks_0.csv",
+        "bytes": 76580,
+        "sha256": "aa947c5ae4815c7bbbdc37ebc3a481b795c30ad483c9d1d4951104a13c238e81"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_eos_candidate/control.csv",
+        "bytes": 216829,
+        "sha256": "da2e0d4370261339a0a69d07dbe6054d426b9d9f123ef17b359a50733adffa9a"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_eos_candidate/summary.txt",
+        "bytes": 899,
+        "sha256": "64eee85ca997a5ce2cd6a398025f75bb393ad5edb8f17d39b68587849a5abe8b"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_eos_candidate/worker_0.csv",
+        "bytes": 21422,
+        "sha256": "91485f8cd43c37f83ee92e3921adcf3c7906c31a02f4c21e35642bcdf70f8fb1"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_eos_candidate/seeks.csv",
+        "bytes": 66,
+        "sha256": "7f85eafea41d10cf489ccd04501ae5a484247bb96e17954a225b5c5df8f16063"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_eos_candidate/actions.csv",
+        "bytes": 65,
+        "sha256": "d191656f6443634a72022bd84cdc269e8fd7f53bac62a5f7a53c8256e735c350"
+      }
+    ]
+  },
+  {
+    "label": "probe",
+    "repeat": 0,
+    "mode": "eos",
+    "preset": "baseline",
+    "input": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+    "input_sha256": "789d4c159e35b4c133a17913ad5a9c47b85970185e5d86b074d146afc1bb311e",
+    "cpu": 0,
+    "command": [
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/legacy_probe",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+      "baseline",
+      "2.0",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_eos_baseline",
+      "eos",
+      "64"
+    ],
+    "exit": 0,
+    "wall_s": 7.396512269973755,
+    "summary": {
+      "AUDIO_QUALITY": "PASS",
+      "MEASUREMENT_QUALITY": "PASS",
+      "PCM_CORRECTNESS": "PASS",
+      "VERDICT": "PASS",
+      "cpu_load_threads": "0",
+      "control_dropped": "0",
+      "bridge_steady_ns": "325418376615854",
+      "bridge_mach_ns": "304504616837875",
+      "bridge_uncertainty_ns": "42",
+      "mode": "eos",
+      "source_rate": "44100",
+      "channels": "2",
+      "device": "72",
+      "device_rate": "48000",
+      "device_buffer": "512",
+      "prepare_wall_s": "0.160716791",
+      "prepare_thread_cpu_s": "0.071500042",
+      "play_wall_s": "0.16756637499999999",
+      "play_thread_cpu_s": "0.0078378749999999942",
+      "missing_frames": "0",
+      "lifetime_missing_frames": "0",
+      "callback_rows": "471",
+      "callback_max_ms": "0.011290999999999999",
+      "callback_overruns": "0",
+      "callback_allocations": "0",
+      "worker_max_wall_s": "0.21393633300000001",
+      "worker_max_cpu_s": "0.053553125",
+      "analysis_hit": "0",
+      "analysis_runs": "1",
+      "cache_hits": "0",
+      "analysis_bytes": "20755",
+      "cache_resident_bytes": "20755",
+      "playback_rss_bytes": "74596352",
+      "playback_process_cpu_s": "2.2271480000000001",
+      "eos": "1",
+      "route": "0",
+      "silent": "0",
+      "fade": "64",
+      "seek_count": "0",
+      "expected_frames": "220500",
+      "consumed_frames": "220500"
+    },
+    "PASS": true,
+    "artifacts": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_eos_baseline/callbacks_0.csv",
+        "bytes": 76567,
+        "sha256": "429584adf1ee9ad50f66f7dccf9a1eed5d52ebe5c238d25e1537bed67c7db3a2"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_eos_baseline/control.csv",
+        "bytes": 213484,
+        "sha256": "f88a6e1ced46c7f11e5321476f073329bdf1ca145b1771e3ae5e6f746d1dcbe3"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_eos_baseline/summary.txt",
+        "bytes": 880,
+        "sha256": "b85fc1cf6c911400466e18a5f268d1ae9a5f496a2960dbdd88ad452ec7c222cf"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_eos_baseline/worker_0.csv",
+        "bytes": 21310,
+        "sha256": "ca08e84ffd73a82ed49fea51241cd14f310f048b9c8cc9f54e30fdcfa2251470"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_eos_baseline/seeks.csv",
+        "bytes": 66,
+        "sha256": "7f85eafea41d10cf489ccd04501ae5a484247bb96e17954a225b5c5df8f16063"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/0_probe_eos_baseline/actions.csv",
+        "bytes": 65,
+        "sha256": "d191656f6443634a72022bd84cdc269e8fd7f53bac62a5f7a53c8256e735c350"
+      }
+    ]
+  }
+]

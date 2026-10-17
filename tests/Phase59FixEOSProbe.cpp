@@ -29,7 +29,8 @@ int main(int argc,char** argv){try{
     require(initial>=400000&&initial<=2000000&&initial%10000==0&&timeout>0&&timeout<=60,"Invalid bounded parameters");
     require(!std::filesystem::exists(out),"Fresh output required");std::filesystem::create_directories(out);
     std::ofstream events(out/"lifetime.csv");events<<"run,event,mach_ns,published,consumed,fifo,dsp_done,analysis_done,active,session,pipeline_s,bridge_uncertainty_ns\n"<<std::setprecision(17);
-    std::ofstream summary(out/"summary.csv");summary<<"run,drained,failed,session,joins,leaves,restores,active,deadline_misses,rt_new,rt_new_measured,max_wall_s,max_cpu_s,pcm_sha256,old_request_rejected,terminal_operations,dsp_thread,sample_dropped,sample_errors\n";
+    mach_timebase_info_data_t timebase{};mach_timebase_info(&timebase);
+    std::ofstream summary(out/"summary.csv");summary<<"run,drained,failed,session,joins,leaves,restores,active,deadline_misses,rt_new,rt_new_measured,max_wall_s,max_cpu_s,pcm_sha256,old_request_rejected,terminal_operations,dsp_thread,sample_dropped,sample_errors,group_created_ticks,policy_applied_ticks,joined_ticks,left_ticks,restored_ticks,timebase_numer,timebase_denom\n";
     bool all=true;std::uint64_t previous=0;
     for(unsigned run=0;run<2;++run){
         events<<run<<",construct_request,"<<nowNs()<<",0,0,0,0,0,0,0,-1,0\n";
@@ -65,7 +66,7 @@ int main(int argc,char** argv){try{
         bool terminal=true;for(const auto& op:p->speedOperations())terminal&=op.state!=phase59::OperationState::Pending&&op.state!=phase59::OperationState::Submitted&&op.state!=phase59::OperationState::Applied;
         const bool good=drained&&!d.failed&&d.dspDone&&!d.scheduling.active&&d.scheduling.joins==d.scheduling.leaves&&d.scheduling.leaves==d.scheduling.restores&&stale&&terminal;
         all&=good;
-        summary<<std::setprecision(17)<<run<<','<<drained<<','<<d.failed<<','<<session<<','<<d.scheduling.joins<<','<<d.scheduling.leaves<<','<<d.scheduling.restores<<','<<d.scheduling.active<<','<<d.scheduling.deadlineMisses<<','<<d.realtimeNewCalls<<','<<d.realtimeAllocationsMeasured<<','<<d.maxDspWallS<<','<<d.maxDspCpuS<<','<<d.pcmSha256<<','<<stale<<','<<terminal<<','<<d.dspThread<<','<<d.threadSamplesDropped<<','<<d.threadSampleErrors<<'\n';summary.flush();
+        summary<<std::setprecision(17)<<run<<','<<drained<<','<<d.failed<<','<<session<<','<<d.scheduling.joins<<','<<d.scheduling.leaves<<','<<d.scheduling.restores<<','<<d.scheduling.active<<','<<d.scheduling.deadlineMisses<<','<<d.realtimeNewCalls<<','<<d.realtimeAllocationsMeasured<<','<<d.maxDspWallS<<','<<d.maxDspCpuS<<','<<d.pcmSha256<<','<<stale<<','<<terminal<<','<<d.dspThread<<','<<d.threadSamplesDropped<<','<<d.threadSampleErrors<<','<<d.scheduling.createdTicks<<','<<d.scheduling.policyAppliedTicks<<','<<d.scheduling.joinedTicks<<','<<d.scheduling.leftTicks<<','<<d.scheduling.restoredTicks<<','<<timebase.numer<<','<<timebase.denom<<'\n';summary.flush();
         std::ofstream workers(out/("worker_"+std::to_string(run)+".csv"));workers<<"output_start,output_end,start_s,published_s,wall_s,cpu_s,realtime,start_ticks,end_ticks,deadline_ticks\n";
         for(const auto& r:p->workerRecords())workers<<std::setprecision(17)<<r.outputStart<<','<<r.outputEnd<<','<<r.startedS<<','<<r.publishedS<<','<<r.wallS<<','<<r.cpuS<<','<<r.realtime<<','<<r.intervalTiming.startTicks<<','<<r.intervalTiming.endTicks<<','<<r.intervalTiming.deadlineTicks<<'\n';
         std::ofstream samplesFile(out/("thread_samples_"+std::to_string(run)+".csv"));samplesFile<<"before_s,after_s,result,state,policy,priority,user_ns,system_ns\n";

@@ -1,0 +1,8 @@
+{
+  "supersedes_interpretation_only": "results/phase59_fix2/LEGACY_SUPPLY_FAILURE.json",
+  "raw_evidence_unchanged": true,
+  "checkpoint": "pcm_ready_mach_ns は publish入口。feed入口ではない。",
+  "correction": "feedには、その前に入力identity確認とSeek suffixの再構成がある。publish入口到達の遅れから、DSP計算完了そのものの遅れとは断定できない。",
+  "supported_conclusion": "公開入口より前に遅れがある。公開直前だけのFIFO write遅延ではない。DSP/WAV/計画/生成後確認/再構成/前回後処理/OS待機の区別は追加観測が必要。",
+  "new_research_build": "scripts/phase59_fix2_deep_legacy.py: engine PCM sink入口と確認区間を分離し、別ビルドで有界記録する。固定候補と全PCM回帰は変更しない。"
+}

@@ -1,0 +1,85 @@
+{
+  "stage": "required_regressions_completed",
+  "history": [
+    {
+      "name": "release_final_build",
+      "command": [
+        "cmake",
+        "--build",
+        "build",
+        "-j3"
+      ],
+      "exit": 0,
+      "wall_s": 31.228025197982788,
+      "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/release_final_build_completion.log"
+    },
+    {
+      "name": "freeze_final",
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/phase59_fix2_freeze.py"
+      ],
+      "exit": 0,
+      "wall_s": 2.708711862564087,
+      "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/freeze_final_completion.log"
+    },
+    {
+      "name": "checks_final",
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/phase59_fix2_checks.py",
+        "--debug-build",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_debug"
+      ],
+      "exit": 0,
+      "wall_s": 2694.3455848693848,
+      "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/checks_final_completion.log"
+    },
+    {
+      "name": "quality_final",
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/phase59_fix2_validation.py",
+        "--frozen",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final"
+      ],
+      "exit": 0,
+      "wall_s": 6874.917481184006,
+      "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/quality_final_completion.log"
+    },
+    {
+      "name": "device_final",
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/phase59_fix2_device.py",
+        "--frozen",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final"
+      ],
+      "exit": 2,
+      "wall_s": 3889.211688041687,
+      "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/device_final_completion.log"
+    },
+    {
+      "name": "eos_final",
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/phase59_fix2_eos.py",
+        "--tag",
+        "final",
+        "--release",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/final/phase59_fix_eos_probe",
+        "--debug",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_debug/phase59_fix_eos_probe"
+      ],
+      "exit": 2,
+      "wall_s": 70.02734518051147,
+      "log": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final_completion.log"
+    }
+  ],
+  "measurement_failures_retained": true
+}

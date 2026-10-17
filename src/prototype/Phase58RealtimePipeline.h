@@ -26,6 +26,7 @@ struct Configuration {
     std::size_t phaseProbeWindowCount=0; // Detailed phase substages, at most 4 windows.
 };
 struct RenderResult {std::size_t wanted=0,received=0,outputBefore=0,fifoBefore=0;};
+struct FifoCursors {std::uint64_t read=0,write=0;};
 struct Diagnostics {
     std::uint64_t session=0,analysisThread=0,dspThread=0,snapshotVersion=0;
     std::size_t inputFrames=0,receivedInput=0,generated=0,published=0,consumed=0,outputFrames=0;
@@ -95,6 +96,7 @@ public:
     bool setRealtimeRendering(bool,std::chrono::milliseconds timeout=std::chrono::seconds(1));
     void stop(); // Consumer must be quiescent before stop/destruction.
     RenderResult pullAudio(float*const*,std::size_t)noexcept;
+    FifoCursors diagnosticFifoCursors()const noexcept; // Separate atomic loads, diagnostic use only.
     bool finished()const noexcept;
     bool drained()const noexcept;
     bool failed()const noexcept;

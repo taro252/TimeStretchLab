@@ -1,0 +1,12 @@
+{
+  "completion": "B：条件付き成立、Gate 2未合格",
+  "dynamic_native_passed": "今回の正式190件だけ。過去の189/190、原因未特定を取り消さない。",
+  "legacy_native_passed": "今回の正式12件だけ。初期36件・別ビルド・追加48kHzの失敗を取り消さない。",
+  "legacy_fifo_regression_passed": "現行診断版を含むPhase内の不足が残るためfalse。",
+  "timestamp_discontinuity_classified": "C/D等の挙動分類はできたが、正当な時計切替・不具合・測定不良の最終分類は未成立。",
+  "callback_deadline_verified": "本体の実測判定とOS/HALの全期限証明を区別。OS欠測と過去Client Overloadが残る。",
+  "workgroup_deadline_verified": "個別試験の計数を参照。全EOSストレス/OS状態の包括的な証明は未成立。",
+  "eos_restart_verified": "実機40件と合成12セッションのEOS機能・世代分離・Workgroup寿命を確認。期限超過の有無は別に判定する。",
+  "os_trace_coverage_complete": "旧worker・過去初回・一部EOSのOS欠測と物理loopback未実施。",
+  "git_blob_limit_verified": "実indexと一時提案index、ローカルorigin/main..HEAD検査。実Push時の最新広告ref検査は別。"
+}

@@ -1,0 +1,27 @@
+{
+  "intervals": 28,
+  "fully_observed": 28,
+  "unknown_or_unobserved": 0,
+  "state_rows": 4049,
+  "syscall_rows": 5282,
+  "fault_rows": 2194,
+  "realtime_interval_fault_observations": 0,
+  "observed_priorities": [
+    "Background - 0",
+    "Default - 31",
+    "Kernel - 81",
+    "Kernel - 91",
+    "Real Time - 97",
+    "User Interactive - 46"
+  ],
+  "operations": {
+    "File Backed Page In": 6,
+    "Zero Fill": 2184,
+    "Page Cache Hit": 2,
+    "Copy On Write": 2
+  },
+  "address_registered_region_matches": 0,
+  "payload": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/trace_dynamic_no_request/worker_os_timeline.json",
+  "payload_sha256": "ad779dba5d8fcf75f164112601e607dc135ccabb2199bd6a1cc746d47052940f",
+  "scope": "短尺・変更要求なしの28実時間区間だけ。登録領域は診断/capture配列のみ。DSP scratch/Accelerate全領域の帰属と、圧縮復帰の排除は未成立。"
+}

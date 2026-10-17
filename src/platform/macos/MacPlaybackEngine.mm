@@ -51,7 +51,7 @@ OSStatus render(RenderState* s,BOOL* silent,const AudioTimeStamp* stamp,AVAudioF
         auto evidence=s->hostClock.observe(s->epoch,start,io,host!=0,host,(flags&kAudioTimeStampSampleTimeValid)!=0,sample,frames,s->rate);
         s->missingHost.fetch_add(evidence.hostMissing);s->backwards.fetch_add(evidence.hostBackwards);s->cadence.fetch_add(evidence.cadenceError||evidence.offsetOutlier);s->sampleErrors.fetch_add(evidence.sampleError);
         const auto index=s->recordCount.fetch_add(1);MacCallbackRecord* record=nullptr;
-        if(!s->records.empty()){if(index<s->records.size()){record=&s->records[index];*record={seq,s->epoch,start,0,io,host,sample,flags,frames,raw};}else s->dropped.fetch_add(1);}
+        if(!s->records.empty()){if(index<s->records.size()){record=&s->records[index];*record={seq,s->epoch,start,0,io,host,sample,flags,frames,raw};record->hostTicks=stamp?stamp->mHostTime:0;record->rateScalar=stamp?stamp->mRateScalar:0;}else s->dropped.fetch_add(1);}
         const auto end=s->ns();if(record)record->endNs=end;
         auto maximum=s->maximum.load();while(end-start>maximum&&!s->maximum.compare_exchange_weak(maximum,end-start)){}
         s->overruns.fetch_add(end-start>frames*1e9/s->rate);

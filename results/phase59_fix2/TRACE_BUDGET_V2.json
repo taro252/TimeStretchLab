@@ -1,0 +1,12 @@
+{
+  "maximum_captures": 5,
+  "maximum_simultaneous_capture_bytes": 4294967296,
+  "maximum_cumulative_bytes": 17179869184,
+  "admission_free_bytes": 12884901888,
+  "minimum_free_bytes": 8589934592,
+  "maximum_seconds": 12,
+  "xml_export_budget_bytes": 2147483648,
+  "retained_before_bytes": 4223199956,
+  "free_before_bytes": 54833737728,
+  "reason": "launch取得でも旧製品の初回とworkerが未観測。開始通知後にprocessを起動する追加1回。累積16GiB、1回4GiB、空き下限8GiBを維持。PCM/FIFO/品質基準は変更しない。"
+}

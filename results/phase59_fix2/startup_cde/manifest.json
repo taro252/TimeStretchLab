@@ -1,0 +1,46 @@
+{
+  "input": "/Users/taro252/Docker/TimeStretchLab/results/phase59/native_smoke_v2/inputs/boundary_float_stereo_48000.wav",
+  "input_sha256": "ebb61d453dde2d99eef3731c8bf17bd65679541dc942d9a7bcc8a6bb3238cacd",
+  "requests": "/Users/taro252/Docker/TimeStretchLab/results/phase59/native_smoke_v2/case_000/requests.csv",
+  "requests_sha256": "6c121164e1901c95cd7786b4dea6dfc593de4e01a88796797e8e2732c65c8327",
+  "fixed_reference": {
+    "PASS": true,
+    "speed_micros": 500000,
+    "preset": "candidate",
+    "rate": 48000,
+    "channels": 2,
+    "input_frames": 192000,
+    "output_frames": 384000,
+    "pcm_sha256": "a3c6384b6268371f6866057826fbb7a56e53cc03a05f64968edf448eec9b4d4d",
+    "analysis_wall_s": 0.014263125,
+    "analysis_cpu_s": 0.013081042000000001,
+    "dsp_wall_s": 0.507661,
+    "dsp_cpu_s": 0.5061447910000001,
+    "wall_s": 0.521933,
+    "cpu_s": 0.5192342080000001,
+    "peak_rss_bytes": 16973824,
+    "first_event_s": 0.014263125,
+    "first_map_s": 0.014271417,
+    "first_generated_s": 0.023274,
+    "first_published_s": 0.023348125,
+    "lead_ready_s": 0.044737625,
+    "analysis_done_s": 0.014263125
+  },
+  "reference_binary_sha256": "3a3b04454f754c35afa4cac121a726fa31c44a6854761a7de5f71aa057f2a957",
+  "binaries": {
+    "phase59_fix2_fixed_probe": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/startup_cde/phase59_fix2_fixed_probe",
+      "sha256": "f7bacbe3df1dca3dd2952fd00e699e5dbc4fc3305ffa0974ed66461e954d8a54"
+    },
+    "phase59_fix2_dynamic_probe": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/startup_cde/phase59_fix2_dynamic_probe",
+      "sha256": "3b5bc6d3475598c358576304fd4b69a39046e7318de1ecc47e66684916bbc5d6"
+    }
+  },
+  "repeats": 5,
+  "initial_speed": 500000,
+  "preset": "candidate",
+  "window_seconds": 1.2,
+  "serial_audio": true,
+  "comparison": "同じ初期速度・入力・SourceNode形式。Cは固定、Dは要求0件、Eは元のPhase59要求列。PCMは独立旧参照で接頭部を照合。"
+}

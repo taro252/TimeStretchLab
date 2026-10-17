@@ -1,0 +1,1477 @@
+[
+  {
+    "build": "release",
+    "mode": "paced",
+    "command": [
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/release_probe",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/drums.wav",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/release_paced",
+      "paced",
+      "2000000",
+      "30"
+    ],
+    "exit": 0,
+    "wall_s": 14.263950824737549,
+    "sessions": [
+      {
+        "summary": {
+          "run": "0",
+          "drained": "1",
+          "failed": "0",
+          "session": "1",
+          "joins": "1",
+          "leaves": "1",
+          "restores": "1",
+          "active": "0",
+          "deadline_misses": "0",
+          "rt_new": "0",
+          "rt_new_measured": "1",
+          "max_wall_s": "0.063805792",
+          "max_cpu_s": "0.059600959000000009",
+          "pcm_sha256": "ac475b7989f8ae5bfee2a064f74d97a053aed4954fc79301891f84de793d4c38",
+          "old_request_rejected": "1",
+          "terminal_operations": "1",
+          "dsp_thread": "7887240",
+          "sample_dropped": "0",
+          "sample_errors": "0",
+          "group_created_ticks": "7317338104126",
+          "policy_applied_ticks": "7317343141907",
+          "joined_ticks": "7317343141992",
+          "left_ticks": "7317488098637",
+          "restored_ticks": "7317488099565",
+          "timebase_numer": "125",
+          "timebase_denom": "3"
+        },
+        "realtime_blocks": 130,
+        "worst_non_cpu_blocks": [
+          {
+            "output_start": "18432",
+            "output_end": "20480",
+            "start_s": "0.51102904199999999",
+            "published_s": "0.52776975000000004",
+            "wall_s": "0.016748790999999999",
+            "cpu_s": "0.016742582999999978",
+            "realtime": "1",
+            "start_ticks": "7317345405510",
+            "end_ticks": "7317345807300",
+            "deadline_ticks": "7317346520067",
+            "non_cpu_s": 6.208000000021419e-06,
+            "sampled_run_states": {
+              "1": 7
+            },
+            "sampled_policy_priority": {
+              "2:97": 7
+            }
+          },
+          {
+            "output_start": "188416",
+            "output_end": "190464",
+            "start_s": "4.3679967919999996",
+            "published_s": "4.3774062499999999",
+            "wall_s": "0.0094130840000000004",
+            "cpu_s": "0.0094130410000001774",
+            "realtime": "1",
+            "start_ticks": "7317437972731",
+            "end_ticks": "7317438198560",
+            "deadline_ticks": "7317439087288",
+            "non_cpu_s": 4.299999982297631e-08,
+            "sampled_run_states": {
+              "1": 4
+            },
+            "sampled_policy_priority": {
+              "2:97": 4
+            }
+          },
+          {
+            "output_start": "272384",
+            "output_end": "274432",
+            "start_s": "6.2689842919999998",
+            "published_s": "6.2726625829999998",
+            "wall_s": "0.0036822500000000002",
+            "cpu_s": "0.0036822079999998536",
+            "realtime": "1",
+            "start_ticks": "7317483596431",
+            "end_ticks": "7317483684710",
+            "deadline_ticks": "7317484710988",
+            "non_cpu_s": 4.200000014659491e-08,
+            "sampled_run_states": {},
+            "sampled_policy_priority": {}
+          },
+          {
+            "output_start": "174080",
+            "output_end": "176128",
+            "start_s": "4.0414727920000004",
+            "published_s": "4.0567344580000002",
+            "wall_s": "0.015268209",
+            "cpu_s": "0.015268166999999888",
+            "realtime": "1",
+            "start_ticks": "7317430136156",
+            "end_ticks": "7317430502453",
+            "deadline_ticks": "7317431250713",
+            "non_cpu_s": 4.200000011146676e-08,
+            "sampled_run_states": {
+              "1": 5
+            },
+            "sampled_policy_priority": {
+              "2:97": 5
+            }
+          },
+          {
+            "output_start": "147456",
+            "output_end": "149504",
+            "start_s": "3.4368575830000001",
+            "published_s": "3.4391686670000001",
+            "wall_s": "0.0023149170000000001",
+            "cpu_s": "0.0023148749999999385",
+            "realtime": "1",
+            "start_ticks": "7317415625389",
+            "end_ticks": "7317415680858",
+            "deadline_ticks": "7317416739946",
+            "non_cpu_s": 4.200000006159346e-08,
+            "sampled_run_states": {},
+            "sampled_policy_priority": {}
+          }
+        ]
+      },
+      {
+        "summary": {
+          "run": "1",
+          "drained": "1",
+          "failed": "0",
+          "session": "2",
+          "joins": "1",
+          "leaves": "1",
+          "restores": "1",
+          "active": "0",
+          "deadline_misses": "0",
+          "rt_new": "0",
+          "rt_new_measured": "1",
+          "max_wall_s": "0.032140000000000002",
+          "max_cpu_s": "0.032112625000000006",
+          "pcm_sha256": "eb1bfda9da26ee08b90a89d0ca7a24c4a109d180a9f267a666f2f82f50e40525",
+          "old_request_rejected": "1",
+          "terminal_operations": "1",
+          "dsp_thread": "7887313",
+          "sample_dropped": "0",
+          "sample_errors": "0",
+          "group_created_ticks": "7317497328883",
+          "policy_applied_ticks": "7317500565420",
+          "joined_ticks": "7317500565505",
+          "left_ticks": "7317648092130",
+          "restored_ticks": "7317648092237",
+          "timebase_numer": "125",
+          "timebase_denom": "3"
+        },
+        "realtime_blocks": 144,
+        "worst_non_cpu_blocks": [
+          {
+            "output_start": "18432",
+            "output_end": "20480",
+            "start_s": "0.227089125",
+            "published_s": "0.23962191599999999",
+            "wall_s": "0.0125375",
+            "cpu_s": "0.012527167000000006",
+            "realtime": "1",
+            "start_ticks": "7317502621704",
+            "end_ticks": "7317502922491",
+            "deadline_ticks": "7317503645704",
+            "non_cpu_s": 1.0332999999994319e-05,
+            "sampled_run_states": {
+              "1": 4
+            },
+            "sampled_policy_priority": {
+              "2:97": 4
+            }
+          },
+          {
+            "output_start": "20480",
+            "output_end": "22528",
+            "start_s": "0.27179237499999997",
+            "published_s": "0.29449712500000003",
+            "wall_s": "0.022709832999999999",
+            "cpu_s": "0.022703834000000006",
+            "realtime": "1",
+            "start_ticks": "7317503694592",
+            "end_ticks": "7317504239496",
+            "deadline_ticks": "7317504718592",
+            "non_cpu_s": 5.998999999992649e-06,
+            "sampled_run_states": {
+              "1": 11
+            },
+            "sampled_policy_priority": {
+              "2:97": 11
+            }
+          },
+          {
+            "output_start": "16384",
+            "output_end": "18432",
+            "start_s": "0.184375541",
+            "published_s": "0.210984333",
+            "wall_s": "0.026614708000000001",
+            "cpu_s": "0.026608790999999993",
+            "realtime": "1",
+            "start_ticks": "7317501596588",
+            "end_ticks": "7317502235191",
+            "deadline_ticks": "7317502620588",
+            "non_cpu_s": 5.917000000008055e-06,
+            "sampled_run_states": {
+              "1": 14
+            },
+            "sampled_policy_priority": {
+              "2:97": 14
+            }
+          },
+          {
+            "output_start": "129024",
+            "output_end": "131072",
+            "start_s": "2.5315347080000001",
+            "published_s": "2.5379865000000001",
+            "wall_s": "0.0064575420000000001",
+            "cpu_s": "0.0064574580000000825",
+            "realtime": "1",
+            "start_ticks": "7317557928391",
+            "end_ticks": "7317558083237",
+            "deadline_ticks": "7317558952391",
+            "non_cpu_s": 8.399999991762219e-08,
+            "sampled_run_states": {
+              "1": 3
+            },
+            "sampled_policy_priority": {
+              "2:97": 3
+            }
+          },
+          {
+            "output_start": "172032",
+            "output_end": "174080",
+            "start_s": "3.4298134999999998",
+            "published_s": "3.434859125",
+            "wall_s": "0.005053208",
+            "cpu_s": "0.0050531249999999917",
+            "realtime": "1",
+            "start_ticks": "7317579487083",
+            "end_ticks": "7317579608181",
+            "deadline_ticks": "7317580511083",
+            "non_cpu_s": 8.300000000835417e-08,
+            "sampled_run_states": {
+              "1": 2
+            },
+            "sampled_policy_priority": {
+              "2:97": 2
+            }
+          }
+        ]
+      }
+    ],
+    "external_timeout": false,
+    "external_timeout_seconds": 100,
+    "joined_exports_valid": true,
+    "functional_pass": true,
+    "interval_deadline_pass": true,
+    "realtime_cpp_new_pass": true,
+    "artifacts": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/release_paced/summary.csv",
+        "bytes": 751,
+        "sha256": "ed55ca11b160e7fa2df0ba44a0205095ab9c86636b7e4039473c62189f2f4919"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/release_paced/lifetime.csv",
+        "bytes": 1306,
+        "sha256": "2cb005e4b06788cb35ab0199ce9607df9cc2cd7c353304168e88e57e8307f44e"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/release_paced/thread_samples_1.csv",
+        "bytes": 124842,
+        "sha256": "a615ce65c030d682ce6a60f33e989b7f976a5aa14ba12e5dec5094fd424dbbad"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/release_paced/thread_samples_0.csv",
+        "bytes": 123952,
+        "sha256": "d759c225908b98e85ee562aafde6b1f92e757b38b79e0d54d83f5ff5b41128f2"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/release_paced/worker_1.csv",
+        "bytes": 20102,
+        "sha256": "6748c7790556f2d5b34b69c73e8847014ea6d8cb89b769bcec0b20a10b548b1d"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/release_paced/worker_0.csv",
+        "bytes": 18521,
+        "sha256": "53cfc8a4e0bd9a0ab91ad2063b8468e9aef91961e6a602327852d21616be40e5"
+      }
+    ]
+  },
+  {
+    "build": "release",
+    "mode": "unpaced",
+    "command": [
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/release_probe",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/drums.wav",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/release_unpaced",
+      "unpaced",
+      "500000",
+      "20"
+    ],
+    "exit": 0,
+    "wall_s": 5.433651924133301,
+    "sessions": [
+      {
+        "summary": {
+          "run": "0",
+          "drained": "1",
+          "failed": "0",
+          "session": "1",
+          "joins": "1",
+          "leaves": "1",
+          "restores": "1",
+          "active": "0",
+          "deadline_misses": "5",
+          "rt_new": "0",
+          "rt_new_measured": "1",
+          "max_wall_s": "0.25345066700000002",
+          "max_cpu_s": "0.038284833999999712",
+          "pcm_sha256": "ccdb58f730a0185edc4b80baa32542a170c7f19afd82d99dd399e6d690d523f3",
+          "old_request_rejected": "1",
+          "terminal_operations": "1",
+          "dsp_thread": "7887476",
+          "sample_dropped": "0",
+          "sample_errors": "0",
+          "group_created_ticks": "7317660577649",
+          "policy_applied_ticks": "7317661845732",
+          "joined_ticks": "7317661845836",
+          "left_ticks": "7317731597809",
+          "restored_ticks": "7317731598001",
+          "timebase_numer": "125",
+          "timebase_denom": "3"
+        },
+        "realtime_blocks": 149,
+        "worst_non_cpu_blocks": [
+          {
+            "output_start": "206848",
+            "output_end": "208896",
+            "start_s": "1.649292542",
+            "published_s": "1.9027345",
+            "wall_s": "0.25345066700000002",
+            "cpu_s": "0.020939124999999947",
+            "realtime": "1",
+            "start_ticks": "7317698180649",
+            "end_ticks": "7317704263280",
+            "deadline_ticks": "7317699295206",
+            "non_cpu_s": 0.23251154200000007,
+            "sampled_run_states": {
+              "1": 112
+            },
+            "sampled_policy_priority": {
+              "1:0": 112
+            }
+          },
+          {
+            "output_start": "192512",
+            "output_end": "194560",
+            "start_s": "1.350294584",
+            "published_s": "1.5002987919999999",
+            "wall_s": "0.15000983300000001",
+            "cpu_s": "0.028320250000000158",
+            "realtime": "1",
+            "start_ticks": "7317691004697",
+            "end_ticks": "7317694604820",
+            "deadline_ticks": "7317692119254",
+            "non_cpu_s": 0.12168958299999985,
+            "sampled_run_states": {
+              "1": 29
+            },
+            "sampled_policy_priority": {
+              "1:0": 29
+            }
+          },
+          {
+            "output_start": "208896",
+            "output_end": "210944",
+            "start_s": "1.902744625",
+            "published_s": "1.958331625",
+            "wall_s": "0.056018708",
+            "cpu_s": "0.014647499999999924",
+            "realtime": "1",
+            "start_ticks": "7317704263499",
+            "end_ticks": "7317705597628",
+            "deadline_ticks": "7317705378056",
+            "non_cpu_s": 0.041371208000000076,
+            "sampled_run_states": {
+              "1": 25
+            },
+            "sampled_policy_priority": {
+              "1:0": 25
+            }
+          },
+          {
+            "output_start": "198656",
+            "output_end": "200704",
+            "start_s": "1.550334125",
+            "published_s": "1.602663084",
+            "wall_s": "0.052338584",
+            "cpu_s": "0.025211625000000071",
+            "realtime": "1",
+            "start_ticks": "7317695805648",
+            "end_ticks": "7317697061559",
+            "deadline_ticks": "7317696920205",
+            "non_cpu_s": 0.02712695899999993,
+            "sampled_run_states": {
+              "1": 18
+            },
+            "sampled_policy_priority": {
+              "1:0": 18
+            }
+          },
+          {
+            "output_start": "178176",
+            "output_end": "180224",
+            "start_s": "1.1591137499999999",
+            "published_s": "1.2029939169999999",
+            "wall_s": "0.043888249999999997",
+            "cpu_s": "0.016974124999999951",
+            "realtime": "1",
+            "start_ticks": "7317686416358",
+            "end_ticks": "7317687469501",
+            "deadline_ticks": "7317687530915",
+            "non_cpu_s": 0.026914125000000046,
+            "sampled_run_states": {
+              "1": 18
+            },
+            "sampled_policy_priority": {
+              "1:0": 18
+            }
+          }
+        ]
+      },
+      {
+        "summary": {
+          "run": "1",
+          "drained": "1",
+          "failed": "0",
+          "session": "2",
+          "joins": "1",
+          "leaves": "1",
+          "restores": "1",
+          "active": "0",
+          "deadline_misses": "1",
+          "rt_new": "0",
+          "rt_new_measured": "1",
+          "max_wall_s": "0.042950916999999998",
+          "max_cpu_s": "0.038514417000000023",
+          "pcm_sha256": "61e696bbd59a954540798bb5ee34a920e6a2b745b2b9c786d5e03fc336b13c01",
+          "old_request_rejected": "1",
+          "terminal_operations": "1",
+          "dsp_thread": "7887639",
+          "sample_dropped": "0",
+          "sample_errors": "0",
+          "group_created_ticks": "7317731961760",
+          "policy_applied_ticks": "7317733083012",
+          "joined_ticks": "7317733083091",
+          "left_ticks": "7317786878887",
+          "restored_ticks": "7317786879070",
+          "timebase_numer": "125",
+          "timebase_denom": "3"
+        },
+        "realtime_blocks": 158,
+        "worst_non_cpu_blocks": [
+          {
+            "output_start": "231424",
+            "output_end": "233472",
+            "start_s": "1.2928273749999999",
+            "published_s": "1.321285",
+            "wall_s": "0.028466583",
+            "cpu_s": "0.017782249999999999",
+            "realtime": "1",
+            "start_ticks": "7317762833325",
+            "end_ticks": "7317763516332",
+            "deadline_ticks": "7317763857325",
+            "non_cpu_s": 0.010684333,
+            "sampled_run_states": {
+              "1": 14
+            },
+            "sampled_policy_priority": {
+              "1:0": 14
+            }
+          },
+          {
+            "output_start": "303104",
+            "output_end": "305152",
+            "start_s": "1.9877618749999999",
+            "published_s": "2.0228129579999998",
+            "wall_s": "0.035076583000000001",
+            "cpu_s": "0.028264666999999966",
+            "realtime": "1",
+            "start_ticks": "7317779511753",
+            "end_ticks": "7317780353422",
+            "deadline_ticks": "7317780535753",
+            "non_cpu_s": 0.006811916000000036,
+            "sampled_run_states": {
+              "1": 12
+            },
+            "sampled_policy_priority": {
+              "1:0": 12
+            }
+          },
+          {
+            "output_start": "235520",
+            "output_end": "237568",
+            "start_s": "1.3345469999999999",
+            "published_s": "1.3624218749999999",
+            "wall_s": "0.027882457999999999",
+            "cpu_s": "0.022149999999999892",
+            "realtime": "1",
+            "start_ticks": "7317763834596",
+            "end_ticks": "7317764503622",
+            "deadline_ticks": "7317764858596",
+            "non_cpu_s": 0.005732458000000107,
+            "sampled_run_states": {
+              "1": 10
+            },
+            "sampled_policy_priority": {
+              "1:0": 10
+            }
+          },
+          {
+            "output_start": "237568",
+            "output_end": "239616",
+            "start_s": "1.3624309999999999",
+            "published_s": "1.3824787080000001",
+            "wall_s": "0.020055750000000001",
+            "cpu_s": "0.015274915999999861",
+            "realtime": "1",
+            "start_ticks": "7317764503811",
+            "end_ticks": "7317764984981",
+            "deadline_ticks": "7317765527811",
+            "non_cpu_s": 0.00478083400000014,
+            "sampled_run_states": {
+              "1": 8
+            },
+            "sampled_policy_priority": {
+              "1:0": 8
+            }
+          },
+          {
+            "output_start": "296960",
+            "output_end": "299008",
+            "start_s": "1.915302292",
+            "published_s": "1.9447752920000001",
+            "wall_s": "0.029484208000000001",
+            "cpu_s": "0.024951665999999983",
+            "realtime": "1",
+            "start_ticks": "7317777772733",
+            "end_ticks": "7317778480110",
+            "deadline_ticks": "7317778796733",
+            "non_cpu_s": 0.004532542000000018,
+            "sampled_run_states": {
+              "1": 9
+            },
+            "sampled_policy_priority": {
+              "1:0": 9
+            }
+          }
+        ]
+      }
+    ],
+    "external_timeout": false,
+    "external_timeout_seconds": 100,
+    "joined_exports_valid": true,
+    "functional_pass": true,
+    "interval_deadline_pass": false,
+    "realtime_cpp_new_pass": true,
+    "artifacts": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/release_unpaced/summary.csv",
+        "bytes": 759,
+        "sha256": "23dd80984c9168bcad79da1d34e284df7f73640f2938618b06588b96108e82b5"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/release_unpaced/lifetime.csv",
+        "bytes": 1344,
+        "sha256": "0eec759a24a066e57ce1d3bc8398c48da5c89f4777aaac48b26dee9e115aa2ec"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/release_unpaced/thread_samples_1.csv",
+        "bytes": 60998,
+        "sha256": "7f76a9d999981c71538f38c136f6e9eace7c6f47f89a354903af7c04136379da"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/release_unpaced/thread_samples_0.csv",
+        "bytes": 70431,
+        "sha256": "ff0344e43a9d200e9be1fe40dfe2e57de60c4da16fa6c2a7c56187b79cfe2e39"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/release_unpaced/worker_1.csv",
+        "bytes": 21912,
+        "sha256": "9464bfc5ae1faa8061d602e70d3ab7fef4c7f30f51e23763b2b3ab2dfa6c6d54"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/release_unpaced/worker_0.csv",
+        "bytes": 20740,
+        "sha256": "8d5da9c7954ddcd2d6b7ec3376f61086374d28505333930b8af8f90898e22da8"
+      }
+    ]
+  },
+  {
+    "build": "release",
+    "mode": "normal",
+    "command": [
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/release_probe",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/drums.wav",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/release_normal",
+      "normal",
+      "500000",
+      "30"
+    ],
+    "exit": 0,
+    "wall_s": 4.133688926696777,
+    "sessions": [
+      {
+        "summary": {
+          "run": "0",
+          "drained": "1",
+          "failed": "0",
+          "session": "1",
+          "joins": "1",
+          "leaves": "1",
+          "restores": "1",
+          "active": "0",
+          "deadline_misses": "0",
+          "rt_new": "0",
+          "rt_new_measured": "1",
+          "max_wall_s": "0.11335516700000001",
+          "max_cpu_s": "0.030705917000000138",
+          "pcm_sha256": "ccdb58f730a0185edc4b80baa32542a170c7f19afd82d99dd399e6d690d523f3",
+          "old_request_rejected": "1",
+          "terminal_operations": "1",
+          "dsp_thread": "7887722",
+          "sample_dropped": "0",
+          "sample_errors": "0",
+          "group_created_ticks": "7317790614438",
+          "policy_applied_ticks": "7317791961444",
+          "joined_ticks": "7317791961540",
+          "left_ticks": "7317792386475",
+          "restored_ticks": "7317792386911",
+          "timebase_numer": "125",
+          "timebase_denom": "3"
+        },
+        "realtime_blocks": 0,
+        "worst_non_cpu_blocks": []
+      },
+      {
+        "summary": {
+          "run": "1",
+          "drained": "1",
+          "failed": "0",
+          "session": "2",
+          "joins": "1",
+          "leaves": "1",
+          "restores": "1",
+          "active": "0",
+          "deadline_misses": "0",
+          "rt_new": "0",
+          "rt_new_measured": "1",
+          "max_wall_s": "0.030136083000000001",
+          "max_cpu_s": "0.030112165999999996",
+          "pcm_sha256": "61e696bbd59a954540798bb5ee34a920e6a2b745b2b9c786d5e03fc336b13c01",
+          "old_request_rejected": "1",
+          "terminal_operations": "1",
+          "dsp_thread": "7887844",
+          "sample_dropped": "0",
+          "sample_errors": "0",
+          "group_created_ticks": "7317838790734",
+          "policy_applied_ticks": "7317840336927",
+          "joined_ticks": "7317840337020",
+          "left_ticks": "7317840576765",
+          "restored_ticks": "7317840577177",
+          "timebase_numer": "125",
+          "timebase_denom": "3"
+        },
+        "realtime_blocks": 0,
+        "worst_non_cpu_blocks": []
+      }
+    ],
+    "external_timeout": false,
+    "external_timeout_seconds": 100,
+    "joined_exports_valid": true,
+    "functional_pass": true,
+    "interval_deadline_pass": true,
+    "realtime_cpp_new_pass": true,
+    "artifacts": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/release_normal/summary.csv",
+        "bytes": 759,
+        "sha256": "a34279d996cac7d1b7b9130cbb419cd44f6ac899b1e6a9e452c8fe570a56dc68"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/release_normal/lifetime.csv",
+        "bytes": 1483,
+        "sha256": "cbb613e13d351ae4fcc682e12137a406d1588383aad6becbd2d8621393214b78"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/release_normal/thread_samples_1.csv",
+        "bytes": 54085,
+        "sha256": "229050c8ccacc071f11ae57a4fade49386a04c2e74a5225afea260ff1a73add1"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/release_normal/thread_samples_0.csv",
+        "bytes": 46524,
+        "sha256": "3c38a6b933e1979bbc2432535962897fde6e01d5bd5eb7bccc0ea3d383839040"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/release_normal/worker_1.csv",
+        "bytes": 16111,
+        "sha256": "4a0fbbab87e6707c75178fea97f2968181cddee46be0b7178e10351a6c93ba8a"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/release_normal/worker_0.csv",
+        "bytes": 15085,
+        "sha256": "2a311caf7c213c4ec1f783453333d4423aa26b02060084a679ce63444f5b5073"
+      }
+    ]
+  },
+  {
+    "build": "debug",
+    "mode": "paced",
+    "command": [
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/debug_probe",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/drums.wav",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/debug_paced",
+      "paced",
+      "2000000",
+      "30"
+    ],
+    "exit": 0,
+    "wall_s": 14.51662802696228,
+    "sessions": [
+      {
+        "summary": {
+          "run": "0",
+          "drained": "1",
+          "failed": "0",
+          "session": "1",
+          "joins": "1",
+          "leaves": "1",
+          "restores": "1",
+          "active": "0",
+          "deadline_misses": "20",
+          "rt_new": "0",
+          "rt_new_measured": "1",
+          "max_wall_s": "0.128233083",
+          "max_cpu_s": "0.12623179200000001",
+          "pcm_sha256": "dfac7db3deb957d85e3b47ffa24b72b708191bb0832adb8ab345fbb6202f1518",
+          "old_request_rejected": "1",
+          "terminal_operations": "1",
+          "dsp_thread": "7887891",
+          "sample_dropped": "0",
+          "sample_errors": "0",
+          "group_created_ticks": "7317900450155",
+          "policy_applied_ticks": "7317913127672",
+          "joined_ticks": "7317913127760",
+          "left_ticks": "7318058065302",
+          "restored_ticks": "7318058065746",
+          "timebase_numer": "125",
+          "timebase_denom": "3"
+        },
+        "realtime_blocks": 130,
+        "worst_non_cpu_blocks": [
+          {
+            "output_start": "16384",
+            "output_end": "18432",
+            "start_s": "0.66878241699999996",
+            "published_s": "0.730694917",
+            "wall_s": "0.061923249999999999",
+            "cpu_s": "0.061915666999999952",
+            "realtime": "1",
+            "start_ticks": "7317914290852",
+            "end_ticks": "7317915776772",
+            "deadline_ticks": "7317915405409",
+            "non_cpu_s": 7.58300000004708e-06,
+            "sampled_run_states": {
+              "1": 24
+            },
+            "sampled_policy_priority": {
+              "2:97": 24
+            }
+          },
+          {
+            "output_start": "172032",
+            "output_end": "174080",
+            "start_s": "4.2098225420000004",
+            "published_s": "4.227211917",
+            "wall_s": "0.017394916999999999",
+            "cpu_s": "0.01739466700000003",
+            "realtime": "1",
+            "start_ticks": "7317999275802",
+            "end_ticks": "7317999693155",
+            "deadline_ticks": "7318000390359",
+            "non_cpu_s": 2.49999999969025e-07,
+            "sampled_run_states": {
+              "1": 5
+            },
+            "sampled_policy_priority": {
+              "2:97": 5
+            }
+          },
+          {
+            "output_start": "256000",
+            "output_end": "258048",
+            "start_s": "6.1026582500000002",
+            "published_s": "6.1280104169999996",
+            "wall_s": "0.025358042000000001",
+            "cpu_s": "0.025358041000000053",
+            "realtime": "1",
+            "start_ticks": "7318044703859",
+            "end_ticks": "7318045312321",
+            "deadline_ticks": "7318045818416",
+            "non_cpu_s": 9.999999474319399e-10,
+            "sampled_run_states": {
+              "1": 7
+            },
+            "sampled_policy_priority": {
+              "2:97": 7
+            }
+          },
+          {
+            "output_start": "264192",
+            "output_end": "266240",
+            "start_s": "6.2877060419999999",
+            "published_s": "6.3219634999999998",
+            "wall_s": "0.034263374999999999",
+            "cpu_s": "0.034263374999999208",
+            "realtime": "1",
+            "start_ticks": "7318049145006",
+            "end_ticks": "7318049967199",
+            "deadline_ticks": "7318050259563",
+            "non_cpu_s": 7.91033905045424e-16,
+            "sampled_run_states": {
+              "1": 11
+            },
+            "sampled_policy_priority": {
+              "2:97": 11
+            }
+          },
+          {
+            "output_start": "208896",
+            "output_end": "210944",
+            "start_s": "5.0359569999999998",
+            "published_s": "5.0523992499999997",
+            "wall_s": "0.016445999999999999",
+            "cpu_s": "0.016445999999999739",
+            "realtime": "1",
+            "start_ticks": "7318019103029",
+            "end_ticks": "7318019497647",
+            "deadline_ticks": "7318020217586",
+            "non_cpu_s": 2.6020852139652106e-16,
+            "sampled_run_states": {
+              "1": 3
+            },
+            "sampled_policy_priority": {
+              "2:97": 3
+            }
+          }
+        ]
+      },
+      {
+        "summary": {
+          "run": "1",
+          "drained": "1",
+          "failed": "0",
+          "session": "2",
+          "joins": "1",
+          "leaves": "1",
+          "restores": "1",
+          "active": "0",
+          "deadline_misses": "24",
+          "rt_new": "0",
+          "rt_new_measured": "1",
+          "max_wall_s": "0.092708833000000004",
+          "max_cpu_s": "0.091701708000000007",
+          "pcm_sha256": "1c78a242e51644e2991b8fc3377193f10395550eee0f734180f5418e70d9dff8",
+          "old_request_rejected": "1",
+          "terminal_operations": "1",
+          "dsp_thread": "7888091",
+          "sample_dropped": "0",
+          "sample_errors": "0",
+          "group_created_ticks": "7318067601661",
+          "policy_applied_ticks": "7318078954504",
+          "joined_ticks": "7318078954574",
+          "left_ticks": "7318226455941",
+          "restored_ticks": "7318226456059",
+          "timebase_numer": "125",
+          "timebase_denom": "3"
+        },
+        "realtime_blocks": 144,
+        "worst_non_cpu_blocks": [
+          {
+            "output_start": "16384",
+            "output_end": "18432",
+            "start_s": "0.53543562499999997",
+            "published_s": "0.58654220800000001",
+            "wall_s": "0.051118041000000003",
+            "cpu_s": "0.051107125000000031",
+            "realtime": "1",
+            "start_ticks": "7318080049042",
+            "end_ticks": "7318081275621",
+            "deadline_ticks": "7318081073042",
+            "non_cpu_s": 1.0915999999971948e-05,
+            "sampled_run_states": {
+              "1": 17
+            },
+            "sampled_policy_priority": {
+              "2:97": 17
+            }
+          },
+          {
+            "output_start": "36864",
+            "output_end": "38912",
+            "start_s": "0.96187166700000004",
+            "published_s": "0.98311654199999998",
+            "wall_s": "0.021253874999999998",
+            "cpu_s": "0.021253833000000055",
+            "realtime": "1",
+            "start_ticks": "7318090283497",
+            "end_ticks": "7318090793394",
+            "deadline_ticks": "7318091307497",
+            "non_cpu_s": 4.1999999943198585e-08,
+            "sampled_run_states": {
+              "1": 5
+            },
+            "sampled_policy_priority": {
+              "2:97": 5
+            }
+          },
+          {
+            "output_start": "165888",
+            "output_end": "167936",
+            "start_s": "3.648759708",
+            "published_s": "3.6691989170000001",
+            "wall_s": "0.020444084000000001",
+            "cpu_s": "0.020444082999999669",
+            "realtime": "1",
+            "start_ticks": "7318154768804",
+            "end_ticks": "7318155259349",
+            "deadline_ticks": "7318155792804",
+            "non_cpu_s": 1.0000003325405515e-09,
+            "sampled_run_states": {
+              "1": 7
+            },
+            "sampled_policy_priority": {
+              "2:97": 7
+            }
+          },
+          {
+            "output_start": "182272",
+            "output_end": "184320",
+            "start_s": "3.9920625830000001",
+            "published_s": "4.0188250419999996",
+            "wall_s": "0.026766834",
+            "cpu_s": "0.026766832999999934",
+            "realtime": "1",
+            "start_ticks": "7318163008070",
+            "end_ticks": "7318163650374",
+            "deadline_ticks": "7318164032070",
+            "non_cpu_s": 1.0000000653931362e-09,
+            "sampled_run_states": {
+              "1": 7
+            },
+            "sampled_policy_priority": {
+              "2:97": 7
+            }
+          },
+          {
+            "output_start": "186368",
+            "output_end": "188416",
+            "start_s": "4.0767907079999999",
+            "published_s": "4.0902233749999999",
+            "wall_s": "0.013436834",
+            "cpu_s": "0.013436833000000092",
+            "realtime": "1",
+            "start_ticks": "7318165041550",
+            "end_ticks": "7318165363935",
+            "deadline_ticks": "7318166065550",
+            "non_cpu_s": 9.999999075333e-10,
+            "sampled_run_states": {
+              "1": 4
+            },
+            "sampled_policy_priority": {
+              "2:97": 4
+            }
+          }
+        ]
+      }
+    ],
+    "external_timeout": false,
+    "external_timeout_seconds": 100,
+    "joined_exports_valid": true,
+    "functional_pass": true,
+    "interval_deadline_pass": false,
+    "realtime_cpp_new_pass": true,
+    "artifacts": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/debug_paced/summary.csv",
+        "bytes": 752,
+        "sha256": "e06ab95ea7015c069c093eb3a80a7a9fe59fcb0ab8b7a47c92de0e42f20b63eb"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/debug_paced/lifetime.csv",
+        "bytes": 1330,
+        "sha256": "3080b8ee8ee9bdde5f0f0e11a7590e45735da3e1dbb427051f5cab81ff24f902"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/debug_paced/thread_samples_1.csv",
+        "bytes": 142641,
+        "sha256": "80b8b0723a6acbe0a6be897266b10bf258cffc7452581fc0e950c062e4fbd7b3"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/debug_paced/thread_samples_0.csv",
+        "bytes": 129958,
+        "sha256": "48ca0d4ee3ecffc848d4dc412567c9219e39d2b7374af0fbb9414594a3632447"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/debug_paced/worker_1.csv",
+        "bytes": 20218,
+        "sha256": "5dacc1d5295b9d05f9764f291935fa7ff3f3bffbbe6f2dcea64db2f2f30265c1"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/debug_paced/worker_0.csv",
+        "bytes": 18320,
+        "sha256": "1e476133eb6861f81205dca183379d0c2c7fef0843438ac37fbea117966d1d86"
+      }
+    ]
+  },
+  {
+    "build": "debug",
+    "mode": "unpaced",
+    "command": [
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/debug_probe",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/drums.wav",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/debug_unpaced",
+      "unpaced",
+      "500000",
+      "20"
+    ],
+    "exit": 0,
+    "wall_s": 21.485348224639893,
+    "sessions": [
+      {
+        "summary": {
+          "run": "0",
+          "drained": "1",
+          "failed": "0",
+          "session": "1",
+          "joins": "1",
+          "leaves": "1",
+          "restores": "1",
+          "active": "0",
+          "deadline_misses": "82",
+          "rt_new": "0",
+          "rt_new_measured": "1",
+          "max_wall_s": "0.532343542",
+          "max_cpu_s": "0.16849833299999961",
+          "pcm_sha256": "6ab10b471c8138de50ac00d3bb875b8014e41edb47bbd48d7a62db0ef4d4e631",
+          "old_request_rejected": "1",
+          "terminal_operations": "1",
+          "dsp_thread": "7888264",
+          "sample_dropped": "0",
+          "sample_errors": "0",
+          "group_created_ticks": "7318239354938",
+          "policy_applied_ticks": "7318243501145",
+          "joined_ticks": "7318243501237",
+          "left_ticks": "7318498106771",
+          "restored_ticks": "7318498106997",
+          "timebase_numer": "125",
+          "timebase_denom": "3"
+        },
+        "realtime_blocks": 149,
+        "worst_non_cpu_blocks": [
+          {
+            "output_start": "288768",
+            "output_end": "290816",
+            "start_s": "9.0559434999999997",
+            "published_s": "9.5882767500000003",
+            "wall_s": "0.532343542",
+            "cpu_s": "0.076177707999999456",
+            "realtime": "1",
+            "start_ticks": "7318454436421",
+            "end_ticks": "7318467212461",
+            "deadline_ticks": "7318455550978",
+            "non_cpu_s": 0.45616583400000055,
+            "sampled_run_states": {
+              "1": 95
+            },
+            "sampled_policy_priority": {
+              "1:0": 95
+            }
+          },
+          {
+            "output_start": "98304",
+            "output_end": "100352",
+            "start_s": "1.4148151659999999",
+            "published_s": "1.660688583",
+            "wall_s": "0.24590175",
+            "cpu_s": "0.066860624999999896",
+            "realtime": "1",
+            "start_ticks": "7318271049348",
+            "end_ticks": "7318276950358",
+            "deadline_ticks": "7318272163905",
+            "non_cpu_s": 0.1790411250000001,
+            "sampled_run_states": {
+              "1": 17
+            },
+            "sampled_policy_priority": {
+              "1:0": 17
+            }
+          },
+          {
+            "output_start": "210944",
+            "output_end": "212992",
+            "start_s": "5.9129120410000002",
+            "published_s": "6.1584534580000003",
+            "wall_s": "0.24555120799999999",
+            "cpu_s": "0.094689374999999742",
+            "realtime": "1",
+            "start_ticks": "7318379003664",
+            "end_ticks": "7318384896705",
+            "deadline_ticks": "7318380118221",
+            "non_cpu_s": 0.15086183300000025,
+            "sampled_run_states": {
+              "1": 96
+            },
+            "sampled_policy_priority": {
+              "1:0": 96
+            }
+          },
+          {
+            "output_start": "290816",
+            "output_end": "292864",
+            "start_s": "9.5883005830000005",
+            "published_s": "9.7659296659999999",
+            "wall_s": "0.17764154200000001",
+            "cpu_s": "0.043507999999999214",
+            "realtime": "1",
+            "start_ticks": "7318467212990",
+            "end_ticks": "7318471476130",
+            "deadline_ticks": "7318468327547",
+            "non_cpu_s": 0.1341335420000008,
+            "sampled_run_states": {
+              "1": 75
+            },
+            "sampled_policy_priority": {
+              "1:0": 74,
+              "2:97": 1
+            }
+          },
+          {
+            "output_start": "278528",
+            "output_end": "280576",
+            "start_s": "8.5461014580000008",
+            "published_s": "8.7289803330000009",
+            "wall_s": "0.18289095799999999",
+            "cpu_s": "0.07167254199999995",
+            "realtime": "1",
+            "start_ticks": "7318442200211",
+            "end_ticks": "7318446589352",
+            "deadline_ticks": "7318443314768",
+            "non_cpu_s": 0.11121841600000004,
+            "sampled_run_states": {
+              "1": 95
+            },
+            "sampled_policy_priority": {
+              "1:0": 95
+            }
+          }
+        ]
+      },
+      {
+        "summary": {
+          "run": "1",
+          "drained": "1",
+          "failed": "0",
+          "session": "2",
+          "joins": "1",
+          "leaves": "1",
+          "restores": "1",
+          "active": "0",
+          "deadline_misses": "90",
+          "rt_new": "0",
+          "rt_new_measured": "1",
+          "max_wall_s": "0.26715499999999998",
+          "max_cpu_s": "0.10837787499999996",
+          "pcm_sha256": "ea9e0abd62a0d424455426912dff99870e6c1afc8f1d7293cf963c267c93b660",
+          "old_request_rejected": "1",
+          "terminal_operations": "1",
+          "dsp_thread": "7888606",
+          "sample_dropped": "0",
+          "sample_errors": "0",
+          "group_created_ticks": "7318499098651",
+          "policy_applied_ticks": "7318502578997",
+          "joined_ticks": "7318502579091",
+          "left_ticks": "7318748673352",
+          "restored_ticks": "7318748673531",
+          "timebase_numer": "125",
+          "timebase_denom": "3"
+        },
+        "realtime_blocks": 162,
+        "worst_non_cpu_blocks": [
+          {
+            "output_start": "280576",
+            "output_end": "282624",
+            "start_s": "7.6011029170000004",
+            "published_s": "7.8682473750000002",
+            "wall_s": "0.26715499999999998",
+            "cpu_s": "0.032189000000000689",
+            "realtime": "1",
+            "start_ticks": "7318681030659",
+            "end_ticks": "7318687442168",
+            "deadline_ticks": "7318682054659",
+            "non_cpu_s": 0.2349659999999993,
+            "sampled_run_states": {
+              "1": 127
+            },
+            "sampled_policy_priority": {
+              "1:0": 127
+            }
+          },
+          {
+            "output_start": "321536",
+            "output_end": "323584",
+            "start_s": "9.3593699590000003",
+            "published_s": "9.6012245000000007",
+            "wall_s": "0.24186437499999999",
+            "cpu_s": "0.078251749999999731",
+            "realtime": "1",
+            "start_ticks": "7318723229067",
+            "end_ticks": "7318729033611",
+            "deadline_ticks": "7318724253067",
+            "non_cpu_s": 0.16361262500000026,
+            "sampled_run_states": {
+              "1": 115
+            },
+            "sampled_policy_priority": {
+              "1:0": 115
+            }
+          },
+          {
+            "output_start": "202752",
+            "output_end": "204800",
+            "start_s": "4.6995166670000001",
+            "published_s": "4.8947495840000004",
+            "wall_s": "0.195246166",
+            "cpu_s": "0.070049916999999962",
+            "realtime": "1",
+            "start_ticks": "7318611392589",
+            "end_ticks": "7318616078240",
+            "deadline_ticks": "7318612416589",
+            "non_cpu_s": 0.12519624900000004,
+            "sampled_run_states": {
+              "1": 48
+            },
+            "sampled_policy_priority": {
+              "1:0": 48
+            }
+          },
+          {
+            "output_start": "282624",
+            "output_end": "284672",
+            "start_s": "7.8682627089999997",
+            "published_s": "8.0364540840000007",
+            "wall_s": "0.16820220799999999",
+            "cpu_s": "0.074589125000000145",
+            "realtime": "1",
+            "start_ticks": "7318687442493",
+            "end_ticks": "7318691479126",
+            "deadline_ticks": "7318688466493",
+            "non_cpu_s": 0.09361308299999985,
+            "sampled_run_states": {
+              "1": 65
+            },
+            "sampled_policy_priority": {
+              "1:0": 65
+            }
+          },
+          {
+            "output_start": "208896",
+            "output_end": "210944",
+            "start_s": "5.1259817500000002",
+            "published_s": "5.2542039589999998",
+            "wall_s": "0.1282345",
+            "cpu_s": "0.042842499999999895",
+            "realtime": "1",
+            "start_ticks": "7318621627753",
+            "end_ticks": "7318624705139",
+            "deadline_ticks": "7318622651753",
+            "non_cpu_s": 0.0853920000000001,
+            "sampled_run_states": {
+              "1": 61
+            },
+            "sampled_policy_priority": {
+              "1:0": 61
+            }
+          }
+        ]
+      }
+    ],
+    "external_timeout": false,
+    "external_timeout_seconds": 100,
+    "joined_exports_valid": true,
+    "functional_pass": true,
+    "interval_deadline_pass": false,
+    "realtime_cpp_new_pass": true,
+    "artifacts": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/debug_unpaced/summary.csv",
+        "bytes": 750,
+        "sha256": "6ef922cda26e548e0ff981014b6843c76c9aa2bedca0def23efd81a07da21501"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/debug_unpaced/lifetime.csv",
+        "bytes": 1320,
+        "sha256": "2cab12231a6d6c35afebe7f2301ff4b5c9b3645c3cd40bab5c3d93f2fb6d249f"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/debug_unpaced/thread_samples_1.csv",
+        "bytes": 289423,
+        "sha256": "ae2bfca4e7e9d1f6fa1e744c869e3b07412d20fb5f3bd89d0d7c36201c0960e5"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/debug_unpaced/thread_samples_0.csv",
+        "bytes": 281250,
+        "sha256": "e42cfbdfce958f513066ff563f5d5b0069a0fdc1486e6d694c72ebab05b47ad5"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/debug_unpaced/worker_1.csv",
+        "bytes": 22435,
+        "sha256": "4dc8b299365148e2c4bf926310918159129347d5340a25b94410a9fbf2e34c8f"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/debug_unpaced/worker_0.csv",
+        "bytes": 20581,
+        "sha256": "7b2ebc921f7ff29d3a3fb4b814adc0bbc1837ed656c36e950fdc1c9f62c6f6fb"
+      }
+    ]
+  },
+  {
+    "build": "debug",
+    "mode": "normal",
+    "command": [
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/debug_probe",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/drums.wav",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/debug_normal",
+      "normal",
+      "500000",
+      "30"
+    ],
+    "exit": 0,
+    "wall_s": 9.187924861907959,
+    "sessions": [
+      {
+        "summary": {
+          "run": "0",
+          "drained": "1",
+          "failed": "0",
+          "session": "1",
+          "joins": "1",
+          "leaves": "1",
+          "restores": "1",
+          "active": "0",
+          "deadline_misses": "0",
+          "rt_new": "0",
+          "rt_new_measured": "1",
+          "max_wall_s": "0.12040187500000001",
+          "max_cpu_s": "0.066875000000000018",
+          "pcm_sha256": "6ab10b471c8138de50ac00d3bb875b8014e41edb47bbd48d7a62db0ef4d4e631",
+          "old_request_rejected": "1",
+          "terminal_operations": "1",
+          "dsp_thread": "7888870",
+          "sample_dropped": "0",
+          "sample_errors": "0",
+          "group_created_ticks": "7318755146868",
+          "policy_applied_ticks": "7318758889330",
+          "joined_ticks": "7318758889419",
+          "left_ticks": "7318761150932",
+          "restored_ticks": "7318761151468",
+          "timebase_numer": "125",
+          "timebase_denom": "3"
+        },
+        "realtime_blocks": 0,
+        "worst_non_cpu_blocks": []
+      },
+      {
+        "summary": {
+          "run": "1",
+          "drained": "1",
+          "failed": "0",
+          "session": "2",
+          "joins": "1",
+          "leaves": "1",
+          "restores": "1",
+          "active": "0",
+          "deadline_misses": "0",
+          "rt_new": "0",
+          "rt_new_measured": "1",
+          "max_wall_s": "0.057437207999999997",
+          "max_cpu_s": "0.057380834000000158",
+          "pcm_sha256": "79cd20ded4962a9a08920a894b28249b7b22effccb376cf295010641e1a28cd2",
+          "old_request_rejected": "1",
+          "terminal_operations": "1",
+          "dsp_thread": "7889067",
+          "sample_dropped": "0",
+          "sample_errors": "0",
+          "group_created_ticks": "7318863156640",
+          "policy_applied_ticks": "7318867642994",
+          "joined_ticks": "7318867643087",
+          "left_ticks": "7318870596213",
+          "restored_ticks": "7318870596760",
+          "timebase_numer": "125",
+          "timebase_denom": "3"
+        },
+        "realtime_blocks": 0,
+        "worst_non_cpu_blocks": []
+      }
+    ],
+    "external_timeout": false,
+    "external_timeout_seconds": 100,
+    "joined_exports_valid": true,
+    "functional_pass": true,
+    "interval_deadline_pass": true,
+    "realtime_cpp_new_pass": true,
+    "artifacts": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/debug_normal/summary.csv",
+        "bytes": 759,
+        "sha256": "51d00a1fda21e354b688b58add4a175ab1c2700318785750a0665c4301c5752c"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/debug_normal/lifetime.csv",
+        "bytes": 1495,
+        "sha256": "67742a01679d07c3ce4449fc278ec571cfe4dec3ea8ca8871cf3546f7e2d05d6"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/debug_normal/thread_samples_1.csv",
+        "bytes": 132200,
+        "sha256": "99a7f0ee40a6f0a8a85ce5fdd07de982e3f82a896210152e1d7c2c7a2fc70079"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/debug_normal/thread_samples_0.csv",
+        "bytes": 122836,
+        "sha256": "afc3a517ca6e53715105c498165559728ec53d92da91079556b10604db4fc6bc"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/debug_normal/worker_1.csv",
+        "bytes": 16094,
+        "sha256": "979090c7a27ecc3f3209d9762e143c1d5e779a13fc536e6460dfaaf4f26369db"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/debug_normal/worker_0.csv",
+        "bytes": 15296,
+        "sha256": "4f06b1fa942d38364f11fc11882d7f50787d786cc371b6eaf9b7afdc5707eb43"
+      }
+    ]
+  }
+]

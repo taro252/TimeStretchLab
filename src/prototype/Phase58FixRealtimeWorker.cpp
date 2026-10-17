@@ -23,6 +23,7 @@ struct RealtimeWorkerSupport::Impl {
     std::atomic<std::uint64_t> policyErrors{0},joinErrors{0},restoreErrors{0},intervalErrors{0},queryErrors{0},waitCalls{0},waitErrors{0},wakeErrors{0},misses{0};
     std::atomic<int> observedPolicy{-1},observedPriority{-1},restoredPolicy{-1},lastError{0},errorStage{0};
     std::atomic<double> maxInterval{0};
+    std::atomic<std::uint64_t> createdTicks{0},policyAppliedTicks{0},joinedTicks{0},leftTicks{0},restoredTicks{0};
     Impl(bool on,std::uint32_t rate):enabled(on),period(rate?2048./rate:0),computation(.9*period){
         if(!enabled)return;
         if(rate!=44100&&rate!=48000)throw std::invalid_argument("Realtime worker rate");
@@ -31,6 +32,7 @@ struct RealtimeWorkerSupport::Impl {
         periodTicks=ticks(period);computationTicks=ticks(computation);
         group=AudioWorkIntervalCreate("TimeStretchLab Phase58 Fix DSP",OS_CLOCK_MACH_ABSOLUTE_TIME,nullptr);
         if(!group)throw std::runtime_error("Cannot create audio workgroup interval");
+        createdTicks=mach_absolute_time();
         if(semaphore_create(mach_task_self(),&semaphore,SYNC_POLICY_FIFO,0)!=KERN_SUCCESS){os_release(group);group=nullptr;throw std::runtime_error("Cannot create DSP semaphore");}
     }
     ~Impl(){if(semaphore!=MACH_PORT_NULL)semaphore_destroy(mach_task_self(),semaphore);if(group)os_release(group);}
@@ -45,12 +47,12 @@ struct RealtimeWorkerSupport::Impl {
     }
     bool demote()noexcept{
         bool success=finish();
-        if(joined){os_workgroup_leave(group,&token);joined=false;++leaves;}
+        if(joined){os_workgroup_leave(group,&token);leftTicks=mach_absolute_time();joined=false;++leaves;}
         if(policySet){
             const auto thread=pthread_mach_thread_np(pthread_self());
             const auto result=thread_policy_set(thread,THREAD_EXTENDED_POLICY,reinterpret_cast<thread_policy_t>(&normal),THREAD_EXTENDED_POLICY_COUNT);
             if(result!=KERN_SUCCESS){++restoreErrors;error(5,result);success=false;}
-            else{++restores;policySet=false;thread_extended_info_data_t info{};mach_msg_type_number_t count=THREAD_EXTENDED_INFO_COUNT;
+            else{restoredTicks=mach_absolute_time();++restores;policySet=false;thread_extended_info_data_t info{};mach_msg_type_number_t count=THREAD_EXTENDED_INFO_COUNT;
                 const auto queried=thread_info(thread,THREAD_EXTENDED_INFO,reinterpret_cast<thread_info_t>(&info),&count);
                 if(queried==KERN_SUCCESS)restoredPolicy=info.pth_policy;else{++queryErrors;error(8,queried);success=false;}}
         }
@@ -67,9 +69,11 @@ bool RealtimeWorkerSupport::promote()noexcept{
     thread_time_constraint_policy_data_t policy{x.periodTicks,x.computationTicks,x.periodTicks,true};
     result=thread_policy_set(thread,THREAD_TIME_CONSTRAINT_POLICY,reinterpret_cast<thread_policy_t>(&policy),THREAD_TIME_CONSTRAINT_POLICY_COUNT);
     if(result!=KERN_SUCCESS){++x.policyErrors;x.error(1,result);return false;}
+    x.policyAppliedTicks=mach_absolute_time();
     x.policySet=true;++x.promotions;
     const auto join=os_workgroup_join(x.group,&x.token);
     if(join){++x.joinErrors;x.error(2,join);x.demote();return false;}
+    x.joinedTicks=mach_absolute_time();
     x.joined=true;++x.joins;
     thread_extended_info_data_t info{};count=THREAD_EXTENDED_INFO_COUNT;
     result=thread_info(thread,THREAD_EXTENDED_INFO,reinterpret_cast<thread_info_t>(&info),&count);
@@ -104,6 +108,7 @@ RealtimeWorkerMetrics RealtimeWorkerSupport::metrics()const noexcept{
     r.policyErrors=x.policyErrors;r.joinErrors=x.joinErrors;r.restoreErrors=x.restoreErrors;r.intervalErrors=x.intervalErrors;r.queryErrors=x.queryErrors;
     r.waitCalls=x.waitCalls;r.waitErrors=x.waitErrors;r.wakeErrors=x.wakeErrors;r.deadlineMisses=x.misses;
     r.observedPolicy=x.observedPolicy;r.observedPriority=x.observedPriority;r.restoredPolicy=x.restoredPolicy;r.lastError=x.lastError;r.errorStage=x.errorStage;
+    r.createdTicks=x.createdTicks;r.policyAppliedTicks=x.policyAppliedTicks;r.joinedTicks=x.joinedTicks;r.leftTicks=x.leftTicks;r.restoredTicks=x.restoredTicks;
     r.periodS=x.period;r.computationS=x.computation;r.maxIntervalS=x.maxInterval;return r;
 }
 }

@@ -1,0 +1,28 @@
+{
+  "original": "/Users/taro252/Docker/TimeStretchLab/results/phase59/native_smoke_v2/inputs/boundary_float_stereo_48000.wav",
+  "original_sha256": "ebb61d453dde2d99eef3731c8bf17bd65679541dc942d9a7bcc8a6bb3238cacd",
+  "generated": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_same_rate_input/boundary_repeated_12s_float_stereo_48000.wav",
+  "generated_sha256": "15cef3ec7028ff964958ba19dba98b47571b84661f8edf3b8dd30a356d2b23f9",
+  "metadata": {
+    "encoding": 3,
+    "channels": 2,
+    "rate": 48000,
+    "bits": 32,
+    "frames": 576000,
+    "data_offset": 44,
+    "data_bytes": 4608000
+  },
+  "recipe": "元のFloat32 PCM生バイトを反復して12秒で切る。再サンプル・量子化なし。smokeの6秒Seekと操作列を保つため長さだけ確保。",
+  "command": [
+    "/usr/local/opt/python@3.14/bin/python3.14",
+    "-B",
+    "scripts/phase59_fix2_legacy.py",
+    "--tag",
+    "same_rate",
+    "--probe",
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_final/legacy_probe",
+    "--input",
+    "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_same_rate_input/boundary_repeated_12s_float_stereo_48000.wav"
+  ],
+  "scope": "正式な既存44.1kHz製品12比較に追加。A/B/C/D/Eと同じSourceNode形式を持つFの比較。装置・source形式と操作列は統一し、素材長の差は明記。"
+}

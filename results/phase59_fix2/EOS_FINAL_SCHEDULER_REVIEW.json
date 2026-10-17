@@ -1,0 +1,130 @@
+{
+  "sessions": 12,
+  "functional_pass": true,
+  "rows": [
+    {
+      "build": "release",
+      "mode": "paced",
+      "run": "0",
+      "clock_bridge_valid": true,
+      "clock_bridge_width_ns": 334.5,
+      "non_time_constraint_policy_samples_before_app_leave": 0,
+      "realtime_blocks": 130,
+      "max_realtime_interval_s": 0.028564625
+    },
+    {
+      "build": "release",
+      "mode": "paced",
+      "run": "1",
+      "clock_bridge_valid": true,
+      "clock_bridge_width_ns": 210.0,
+      "non_time_constraint_policy_samples_before_app_leave": 0,
+      "realtime_blocks": 144,
+      "max_realtime_interval_s": 0.030048875
+    },
+    {
+      "build": "release",
+      "mode": "unpaced",
+      "run": "0",
+      "clock_bridge_valid": true,
+      "clock_bridge_width_ns": 211.0,
+      "non_time_constraint_policy_samples_before_app_leave": 784,
+      "realtime_blocks": 149,
+      "max_realtime_interval_s": 0.2534429583333333
+    },
+    {
+      "build": "release",
+      "mode": "unpaced",
+      "run": "1",
+      "clock_bridge_valid": true,
+      "clock_bridge_width_ns": 210.0,
+      "non_time_constraint_policy_samples_before_app_leave": 532,
+      "realtime_blocks": 158,
+      "max_realtime_interval_s": 0.04293795833333333
+    },
+    {
+      "build": "release",
+      "mode": "normal",
+      "run": "0",
+      "clock_bridge_valid": true,
+      "clock_bridge_width_ns": 252.0,
+      "non_time_constraint_policy_samples_before_app_leave": 0,
+      "realtime_blocks": 0,
+      "max_realtime_interval_s": 0
+    },
+    {
+      "build": "release",
+      "mode": "normal",
+      "run": "1",
+      "clock_bridge_valid": true,
+      "clock_bridge_width_ns": 253.5,
+      "non_time_constraint_policy_samples_before_app_leave": 0,
+      "realtime_blocks": 0,
+      "max_realtime_interval_s": 0
+    },
+    {
+      "build": "debug",
+      "mode": "paced",
+      "run": "0",
+      "clock_bridge_valid": true,
+      "clock_bridge_width_ns": 377.0,
+      "non_time_constraint_policy_samples_before_app_leave": 0,
+      "realtime_blocks": 130,
+      "max_realtime_interval_s": 0.074676375
+    },
+    {
+      "build": "debug",
+      "mode": "paced",
+      "run": "1",
+      "clock_bridge_valid": true,
+      "clock_bridge_width_ns": 376.5,
+      "non_time_constraint_policy_samples_before_app_leave": 0,
+      "realtime_blocks": 144,
+      "max_realtime_interval_s": 0.05967616666666666
+    },
+    {
+      "build": "debug",
+      "mode": "unpaced",
+      "run": "0",
+      "clock_bridge_valid": true,
+      "clock_bridge_width_ns": 418.0,
+      "non_time_constraint_policy_samples_before_app_leave": 3900,
+      "realtime_blocks": 149,
+      "max_realtime_interval_s": 0.5323349999999999
+    },
+    {
+      "build": "debug",
+      "mode": "unpaced",
+      "run": "1",
+      "clock_bridge_valid": true,
+      "clock_bridge_width_ns": 336.0,
+      "non_time_constraint_policy_samples_before_app_leave": 3960,
+      "realtime_blocks": 162,
+      "max_realtime_interval_s": 0.2671462083333333
+    },
+    {
+      "build": "debug",
+      "mode": "normal",
+      "run": "0",
+      "clock_bridge_valid": true,
+      "clock_bridge_width_ns": 460.0,
+      "non_time_constraint_policy_samples_before_app_leave": 0,
+      "realtime_blocks": 0,
+      "max_realtime_interval_s": 0
+    },
+    {
+      "build": "debug",
+      "mode": "normal",
+      "run": "1",
+      "clock_bridge_valid": true,
+      "clock_bridge_width_ns": 461.0,
+      "non_time_constraint_policy_samples_before_app_leave": 0,
+      "realtime_blocks": 0,
+      "max_realtime_interval_s": 0
+    }
+  ],
+  "payload": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/eos_final/scheduler_review.json",
+  "payload_sha256": "ff6a0bcfe1c36dad682e296874b31d04f1910662a28e1cb98fb3bb08772ce8d3",
+  "historical_4_8s_explained": false,
+  "scope": "lifetime.csvの実測Mach括弧から時刻差の共通区間を求め、join後/leave前に全体が収まる取得成功標本だけ使う。state1は実行可能で連続CPUの証明ではない。低policyはOSからの観測で、降格理由や過去4.8秒の全因果は未特定。normalは排出前にappが降格している。"
+}

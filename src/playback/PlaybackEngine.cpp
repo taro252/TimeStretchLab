@@ -11,6 +11,7 @@ void silence(float*const* out,std::size_t channels,std::size_t first,std::size_t
 }
 struct PlaybackEngine::RenderCounters {
     Phase39PlaybackPipeline* pipeline=nullptr;std::uint64_t session=0;
+    bool detailedDiagnostics=false;
     std::atomic<std::uint64_t> calls{0},consumed{0},presented{0},missing{0},underruns{0},continuous{0},maxContinuous{0};
     std::atomic<std::uint64_t> firstMissing{0},lastMissing{0},eventSequence{0},concurrent{0};
     std::array<UnderrunEvent,2048> events{};
@@ -24,6 +25,7 @@ void PlaybackEngine::record(const SpeedOperation& op){if(history_.size()==4096){
 void PlaybackEngine::cancelCommands(){for(auto* op:{&pending_,&active_})if(*op){(*op)->status=SpeedStatus::Cancelled;record(**op);op->reset();}}
 void PlaybackEngine::resetSession(std::size_t start,std::shared_ptr<RenderCounters> ready){
     if(!ready)ready=std::make_shared<RenderCounters>();
+    ready->detailedDiagnostics=config_.detailedDiagnostics;
     ready->consumed=start;ready->presented=start;ready->session=++session_;ready->pipeline=pipeline_.get();
     auto previous=renderCounters_;
     renderCounters_=std::move(ready);renderCountersPtr_.store(renderCounters_.get(),std::memory_order_seq_cst);
@@ -177,6 +179,7 @@ void PlaybackEngine::performSeek(std::unique_lock<std::mutex>& lock){
         while(inRender_.load(std::memory_order_seq_cst))std::this_thread::sleep_for(std::chrono::microseconds(100));
         if(old.pipeline){
             old.pipeline->stop();auto snap=old.pipeline->snapshot();audit.session=old.counters->session;
+            if(config.detailedDiagnostics)audit.workerProfiles=old.pipeline->allBlockProfiles();
             audit.outputStart=old.pipeline->outputStartFrame();audit.publishedEnd=snap.produced;audit.consumedEnd=old.counters->consumed;
             audit.outputLength=snap.outputLength;audit.sampleRate=old.pipeline->sampleRate();audit.channels=old.pipeline->channels();
             audit.initialSpeed=snap.initial.value();audit.preset=config.preset;audit.missingFrames=old.counters->missing;
@@ -228,7 +231,9 @@ RenderResult PlaybackEngine::renderAudio(float*const* output,std::size_t frames,
         const auto marker=p->realtimeMarkers();const auto available=p->available();result.fifoBefore=available;
         result.wanted=std::min<std::size_t>(frames,marker.outputLength>result.outputBefore?marker.outputLength-result.outputBefore:0);
         result.generation=marker.generation;result.lastPublicationNs=p->lastPublishedMachNs();
+        if(render->detailedDiagnostics){result.fifoReadBefore=p->fifoReadPosition();result.fifoWriteBefore=p->fifoWritePosition();}
         result.received=p->pullAudio(output,result.wanted);render->calls.fetch_add(1);render->consumed.fetch_add(result.received);render->presented.fetch_add(result.wanted);
+        if(render->detailedDiagnostics){result.fifoReadAfter=p->fifoReadPosition();result.fifoWriteAfter=p->fifoWritePosition();}
         const auto missing=result.wanted-result.received;
         if(missing){lifetimeMissing_.fetch_add(missing);lifetimeUnderruns_.fetch_add(1);render->missing.fetch_add(missing);render->underruns.fetch_add(1);render->lastMissing=timestamp;std::uint64_t zero=0;render->firstMissing.compare_exchange_strong(zero,timestamp);
             auto run=render->continuous.fetch_add(missing)+missing;auto max=render->maxContinuous.load();while(run>max&&!render->maxContinuous.compare_exchange_weak(max,run)){}

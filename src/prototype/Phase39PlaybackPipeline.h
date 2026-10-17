@@ -116,6 +116,7 @@ struct Phase39BlockProfile {
     std::uint64_t cppNewCalls=0;
     Phase36StreamingSpeedEngine::WorkProfile work{};
     std::uint64_t startMachNs=0,publishedMachNs=0;
+    std::uint64_t pcmReadyMachNs=0,writeBeginMachNs=0;
     std::uint64_t cycleSequence=0;
     std::size_t publicationFrames=0,fifoBeforeWrite=0,fifoAfterWrite=0;
     double injectedPauseWallSeconds=0,injectedPauseCpuSeconds=0;
@@ -190,6 +191,8 @@ public:
     void rethrowWorkerError() const;
     std::uint32_t sampleRate() const noexcept { return sampleRate_; }
     std::size_t channels() const noexcept { return channels_; }
+    std::uint64_t fifoReadPosition() const noexcept { return fifo_.readPosition(); }
+    std::uint64_t fifoWritePosition() const noexcept { return fifo_.writePosition(); }
     std::size_t inputFrames() const noexcept { return analysis_.inputFrames(); }
 private:
     ts::playback::StageClock constructorClock_;

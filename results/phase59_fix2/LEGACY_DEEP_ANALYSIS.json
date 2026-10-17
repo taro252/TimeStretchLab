@@ -1,0 +1,3333 @@
+{
+  "trials": [
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/deep_legacy/trials/0_baseline",
+      "events": 2682,
+      "samples": 7356,
+      "valid_lifetime_samples": 7356,
+      "invalid_or_outside_lifetime_samples": 0,
+      "complete_worker_lifetimes": 7,
+      "unpaired_events": 0,
+      "measurement_export_complete": true,
+      "missing_callbacks": 0,
+      "missing_frames": 0,
+      "fifo_write_scopes": 204,
+      "confirmed_write_scopes": 204,
+      "shortages_with_positive_generated_pcm_evidence": 0,
+      "sampled_states": {
+        "3": 2927,
+        "1": 4428,
+        "4": 1
+      },
+      "sampled_priorities": {
+        "31": 7020,
+        "46": 3,
+        "28": 47,
+        "29": 48,
+        "22": 6,
+        "26": 91,
+        "30": 39,
+        "27": 52,
+        "25": 24,
+        "23": 9,
+        "21": 17
+      },
+      "max_validation_ms": 0.017166666666666663,
+      "longest_scopes": [
+        {
+          "kind": 20,
+          "owner": 33978073088,
+          "thread": 7880564,
+          "begin": {
+            "before_ticks": 7313290518550,
+            "after_ticks": 7313290518562,
+            "thread": 7880564,
+            "owner": 33978073088,
+            "kind": 20,
+            "logical": 77824,
+            "frames": 2048,
+            "read": 66327,
+            "write": 77824,
+            "cpu_ns": 832553791
+          },
+          "end": {
+            "before_ticks": 7313297104435,
+            "after_ticks": 7313297104441,
+            "thread": 7880564,
+            "owner": 33978073088,
+            "kind": 21,
+            "logical": 77824,
+            "frames": 2048,
+            "read": 66327,
+            "write": 77824,
+            "cpu_ns": 840798708
+          },
+          "wall_ns": 274411375.0,
+          "cpu_ns": 8244917,
+          "wall_minus_sampled_cpu_ns": 266166458.0,
+          "interior_samples": 162,
+          "sampled_states": {
+            "3": 80,
+            "1": 82
+          }
+        },
+        {
+          "kind": 30,
+          "owner": 33978073088,
+          "thread": 7880564,
+          "begin": {
+            "before_ticks": 7313290518699,
+            "after_ticks": 7313290518706,
+            "thread": 7880564,
+            "owner": 33978073088,
+            "kind": 30,
+            "logical": 77824,
+            "frames": 2048,
+            "read": 66327,
+            "write": 77824,
+            "cpu_ns": 832559791
+          },
+          "end": {
+            "before_ticks": 7313297104314,
+            "after_ticks": 7313297104321,
+            "thread": 7880564,
+            "owner": 33978073088,
+            "kind": 31,
+            "logical": 77824,
+            "frames": 2048,
+            "read": 66327,
+            "write": 77824,
+            "cpu_ns": 840793666
+          },
+          "wall_ns": 274400333.3333333,
+          "cpu_ns": 8233875,
+          "wall_minus_sampled_cpu_ns": 266166458.3333333,
+          "interior_samples": 162,
+          "sampled_states": {
+            "3": 80,
+            "1": 82
+          }
+        },
+        {
+          "kind": 40,
+          "owner": 33978073088,
+          "thread": 7880564,
+          "begin": {
+            "before_ticks": 7313290518866,
+            "after_ticks": 7313290518872,
+            "thread": 7880564,
+            "owner": 33978073088,
+            "kind": 40,
+            "logical": 77824,
+            "frames": 2048,
+            "read": 66327,
+            "write": 77824,
+            "cpu_ns": 832566708
+          },
+          "end": {
+            "before_ticks": 7313297103482,
+            "after_ticks": 7313297103494,
+            "thread": 7880564,
+            "owner": 33978073088,
+            "kind": 41,
+            "logical": 77824,
+            "frames": 2048,
+            "read": 66327,
+            "write": 77824,
+            "cpu_ns": 840759208
+          },
+          "wall_ns": 274358750.0,
+          "cpu_ns": 8192500,
+          "wall_minus_sampled_cpu_ns": 266166250.0,
+          "interior_samples": 162,
+          "sampled_states": {
+            "3": 80,
+            "1": 82
+          }
+        },
+        {
+          "kind": 20,
+          "owner": 33978074880,
+          "thread": 7880724,
+          "begin": {
+            "before_ticks": 7313297235679,
+            "after_ticks": 7313297235695,
+            "thread": 7880724,
+            "owner": 33978074880,
+            "kind": 20,
+            "logical": 14336,
+            "frames": 2048,
+            "read": 471,
+            "write": 12288,
+            "cpu_ns": 188832375
+          },
+          "end": {
+            "before_ticks": 7313298674513,
+            "after_ticks": 7313298674518,
+            "thread": 7880724,
+            "owner": 33978074880,
+            "kind": 21,
+            "logical": 14336,
+            "frames": 2048,
+            "read": 2823,
+            "write": 14336,
+            "cpu_ns": 189565250
+          },
+          "wall_ns": 59950750.0,
+          "cpu_ns": 732875,
+          "wall_minus_sampled_cpu_ns": 59217875.0,
+          "interior_samples": 10,
+          "sampled_states": {
+            "3": 8,
+            "1": 2
+          }
+        },
+        {
+          "kind": 30,
+          "owner": 33978074880,
+          "thread": 7880724,
+          "begin": {
+            "before_ticks": 7313297235955,
+            "after_ticks": 7313297235964,
+            "thread": 7880724,
+            "owner": 33978074880,
+            "kind": 30,
+            "logical": 14092,
+            "frames": 2048,
+            "read": 471,
+            "write": 12288,
+            "cpu_ns": 188843625
+          },
+          "end": {
+            "before_ticks": 7313298674490,
+            "after_ticks": 7313298674495,
+            "thread": 7880724,
+            "owner": 33978074880,
+            "kind": 31,
+            "logical": 14092,
+            "frames": 2048,
+            "read": 2823,
+            "write": 14336,
+            "cpu_ns": 189564333
+          },
+          "wall_ns": 59938583.33333333,
+          "cpu_ns": 720708,
+          "wall_minus_sampled_cpu_ns": 59217875.33333333,
+          "interior_samples": 10,
+          "sampled_states": {
+            "3": 8,
+            "1": 2
+          }
+        },
+        {
+          "kind": 40,
+          "owner": 33978074880,
+          "thread": 7880724,
+          "begin": {
+            "before_ticks": 7313297236210,
+            "after_ticks": 7313297236218,
+            "thread": 7880724,
+            "owner": 33978074880,
+            "kind": 40,
+            "logical": 14092,
+            "frames": 2048,
+            "read": 471,
+            "write": 12288,
+            "cpu_ns": 188854208
+          },
+          "end": {
+            "before_ticks": 7313298673996,
+            "after_ticks": 7313298674024,
+            "thread": 7880724,
+            "owner": 33978074880,
+            "kind": 41,
+            "logical": 14092,
+            "frames": 2048,
+            "read": 2823,
+            "write": 12288,
+            "cpu_ns": 189544625
+          },
+          "wall_ns": 59907416.666666664,
+          "cpu_ns": 690417,
+          "wall_minus_sampled_cpu_ns": 59216999.666666664,
+          "interior_samples": 10,
+          "sampled_states": {
+            "3": 8,
+            "1": 2
+          }
+        },
+        {
+          "kind": 20,
+          "owner": 33978073088,
+          "thread": 7880903,
+          "begin": {
+            "before_ticks": 7313357911642,
+            "after_ticks": 7313357911661,
+            "thread": 7880903,
+            "owner": 33978073088,
+            "kind": 20,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 0,
+            "write": 12288,
+            "cpu_ns": 182580083
+          },
+          "end": {
+            "before_ticks": 7313359321597,
+            "after_ticks": 7313359321603,
+            "thread": 7880903,
+            "owner": 33978073088,
+            "kind": 21,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 2352,
+            "write": 14336,
+            "cpu_ns": 185960458
+          },
+          "wall_ns": 58747333.33333333,
+          "cpu_ns": 3380375,
+          "wall_minus_sampled_cpu_ns": 55366958.33333333,
+          "interior_samples": 39,
+          "sampled_states": {
+            "1": 6,
+            "3": 33
+          }
+        },
+        {
+          "kind": 30,
+          "owner": 33978073088,
+          "thread": 7880903,
+          "begin": {
+            "before_ticks": 7313357911793,
+            "after_ticks": 7313357911800,
+            "thread": 7880903,
+            "owner": 33978073088,
+            "kind": 30,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 0,
+            "write": 12288,
+            "cpu_ns": 182585916
+          },
+          "end": {
+            "before_ticks": 7313359321588,
+            "after_ticks": 7313359321594,
+            "thread": 7880903,
+            "owner": 33978073088,
+            "kind": 31,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 2352,
+            "write": 14336,
+            "cpu_ns": 185960083
+          },
+          "wall_ns": 58741166.666666664,
+          "cpu_ns": 3374167,
+          "wall_minus_sampled_cpu_ns": 55366999.666666664,
+          "interior_samples": 39,
+          "sampled_states": {
+            "1": 6,
+            "3": 33
+          }
+        },
+        {
+          "kind": 40,
+          "owner": 33978073088,
+          "thread": 7880903,
+          "begin": {
+            "before_ticks": 7313357911969,
+            "after_ticks": 7313357911976,
+            "thread": 7880903,
+            "owner": 33978073088,
+            "kind": 40,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 0,
+            "write": 12288,
+            "cpu_ns": 182593208
+          },
+          "end": {
+            "before_ticks": 7313359321139,
+            "after_ticks": 7313359321161,
+            "thread": 7880903,
+            "owner": 33978073088,
+            "kind": 41,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 2352,
+            "write": 12288,
+            "cpu_ns": 185942041
+          },
+          "wall_ns": 58715125.0,
+          "cpu_ns": 3348833,
+          "wall_minus_sampled_cpu_ns": 55366292.0,
+          "interior_samples": 39,
+          "sampled_states": {
+            "1": 6,
+            "3": 33
+          }
+        },
+        {
+          "kind": 20,
+          "owner": 33978073088,
+          "thread": 7880564,
+          "begin": {
+            "before_ticks": 7313253388881,
+            "after_ticks": 7313253388887,
+            "thread": 7880564,
+            "owner": 33978073088,
+            "kind": 20,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 0,
+            "write": 12288,
+            "cpu_ns": 181041458
+          },
+          "end": {
+            "before_ticks": 7313254747391,
+            "after_ticks": 7313254747397,
+            "thread": 7880564,
+            "owner": 33978073088,
+            "kind": 21,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 2352,
+            "write": 14336,
+            "cpu_ns": 183255666
+          },
+          "wall_ns": 56604333.33333333,
+          "cpu_ns": 2214208,
+          "wall_minus_sampled_cpu_ns": 54390125.33333333,
+          "interior_samples": 40,
+          "sampled_states": {
+            "3": 31,
+            "1": 9
+          }
+        },
+        {
+          "kind": 30,
+          "owner": 33978073088,
+          "thread": 7880564,
+          "begin": {
+            "before_ticks": 7313253388991,
+            "after_ticks": 7313253388998,
+            "thread": 7880564,
+            "owner": 33978073088,
+            "kind": 30,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 0,
+            "write": 12288,
+            "cpu_ns": 181046083
+          },
+          "end": {
+            "before_ticks": 7313254747380,
+            "after_ticks": 7313254747386,
+            "thread": 7880564,
+            "owner": 33978073088,
+            "kind": 31,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 2352,
+            "write": 14336,
+            "cpu_ns": 183255166
+          },
+          "wall_ns": 56599250.0,
+          "cpu_ns": 2209083,
+          "wall_minus_sampled_cpu_ns": 54390167.0,
+          "interior_samples": 40,
+          "sampled_states": {
+            "3": 31,
+            "1": 9
+          }
+        },
+        {
+          "kind": 40,
+          "owner": 33978073088,
+          "thread": 7880564,
+          "begin": {
+            "before_ticks": 7313253389157,
+            "after_ticks": 7313253389163,
+            "thread": 7880564,
+            "owner": 33978073088,
+            "kind": 40,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 0,
+            "write": 12288,
+            "cpu_ns": 181052958
+          },
+          "end": {
+            "before_ticks": 7313254746936,
+            "after_ticks": 7313254746953,
+            "thread": 7880564,
+            "owner": 33978073088,
+            "kind": 41,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 2352,
+            "write": 12288,
+            "cpu_ns": 183237041
+          },
+          "wall_ns": 56573875.0,
+          "cpu_ns": 2184083,
+          "wall_minus_sampled_cpu_ns": 54389792.0,
+          "interior_samples": 40,
+          "sampled_states": {
+            "3": 31,
+            "1": 9
+          }
+        }
+      ],
+      "payload": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/deep_legacy/analysis/0_baseline.json",
+      "payload_sha256": "2250cff36a1d79322500c01448ba04e9ef39fafb10a90ac58c9b0a1ac38da769"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/deep_legacy/trials/0_candidate",
+      "events": 2786,
+      "samples": 8251,
+      "valid_lifetime_samples": 8251,
+      "invalid_or_outside_lifetime_samples": 0,
+      "complete_worker_lifetimes": 7,
+      "unpaired_events": 0,
+      "measurement_export_complete": true,
+      "missing_callbacks": 0,
+      "missing_frames": 0,
+      "fifo_write_scopes": 211,
+      "confirmed_write_scopes": 211,
+      "shortages_with_positive_generated_pcm_evidence": 0,
+      "sampled_states": {
+        "3": 3329,
+        "1": 4922
+      },
+      "sampled_priorities": {
+        "31": 8250,
+        "46": 1
+      },
+      "max_validation_ms": 0.06975,
+      "longest_scopes": [
+        {
+          "kind": 20,
+          "owner": 45898399744,
+          "thread": 7878922,
+          "begin": {
+            "before_ticks": 7312880248172,
+            "after_ticks": 7312880248179,
+            "thread": 7878922,
+            "owner": 45898399744,
+            "kind": 20,
+            "logical": 81920,
+            "frames": 2048,
+            "read": 66327,
+            "write": 81920,
+            "cpu_ns": 849945875
+          },
+          "end": {
+            "before_ticks": 7312888107586,
+            "after_ticks": 7312888107592,
+            "thread": 7878922,
+            "owner": 45898399744,
+            "kind": 21,
+            "logical": 81920,
+            "frames": 2048,
+            "read": 67738,
+            "write": 83968,
+            "cpu_ns": 859417958
+          },
+          "wall_ns": 327475291.6666666,
+          "cpu_ns": 9472083,
+          "wall_minus_sampled_cpu_ns": 318003208.6666666,
+          "interior_samples": 172,
+          "sampled_states": {
+            "3": 112,
+            "1": 60
+          }
+        },
+        {
+          "kind": 30,
+          "owner": 45898399744,
+          "thread": 7878922,
+          "begin": {
+            "before_ticks": 7312880248252,
+            "after_ticks": 7312880248258,
+            "thread": 7878922,
+            "owner": 45898399744,
+            "kind": 30,
+            "logical": 81920,
+            "frames": 2048,
+            "read": 66327,
+            "write": 81920,
+            "cpu_ns": 849949166
+          },
+          "end": {
+            "before_ticks": 7312888107579,
+            "after_ticks": 7312888107585,
+            "thread": 7878922,
+            "owner": 45898399744,
+            "kind": 31,
+            "logical": 81920,
+            "frames": 2048,
+            "read": 67738,
+            "write": 83968,
+            "cpu_ns": 859417666
+          },
+          "wall_ns": 327471708.3333333,
+          "cpu_ns": 9468500,
+          "wall_minus_sampled_cpu_ns": 318003208.3333333,
+          "interior_samples": 172,
+          "sampled_states": {
+            "3": 112,
+            "1": 60
+          }
+        },
+        {
+          "kind": 40,
+          "owner": 45898399744,
+          "thread": 7878922,
+          "begin": {
+            "before_ticks": 7312880248464,
+            "after_ticks": 7312880248470,
+            "thread": 7878922,
+            "owner": 45898399744,
+            "kind": 40,
+            "logical": 81920,
+            "frames": 2048,
+            "read": 66327,
+            "write": 81920,
+            "cpu_ns": 849958000
+          },
+          "end": {
+            "before_ticks": 7312888107162,
+            "after_ticks": 7312888107171,
+            "thread": 7878922,
+            "owner": 45898399744,
+            "kind": 41,
+            "logical": 81920,
+            "frames": 2048,
+            "read": 67738,
+            "write": 81920,
+            "cpu_ns": 859400416
+          },
+          "wall_ns": 327445500.0,
+          "cpu_ns": 9442416,
+          "wall_minus_sampled_cpu_ns": 318003084.0,
+          "interior_samples": 172,
+          "sampled_states": {
+            "3": 112,
+            "1": 60
+          }
+        },
+        {
+          "kind": 20,
+          "owner": 45898399744,
+          "thread": 7879205,
+          "begin": {
+            "before_ticks": 7312949068897,
+            "after_ticks": 7312949068904,
+            "thread": 7879205,
+            "owner": 45898399744,
+            "kind": 20,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 0,
+            "write": 16384,
+            "cpu_ns": 202599625
+          },
+          "end": {
+            "before_ticks": 7312951049062,
+            "after_ticks": 7312951049068,
+            "thread": 7879205,
+            "owner": 45898399744,
+            "kind": 21,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 2352,
+            "write": 18432,
+            "cpu_ns": 207447875
+          },
+          "wall_ns": 82506583.33333333,
+          "cpu_ns": 4848250,
+          "wall_minus_sampled_cpu_ns": 77658333.33333333,
+          "interior_samples": 39,
+          "sampled_states": {
+            "3": 29,
+            "1": 10
+          }
+        },
+        {
+          "kind": 30,
+          "owner": 45898399744,
+          "thread": 7879205,
+          "begin": {
+            "before_ticks": 7312949069097,
+            "after_ticks": 7312949069104,
+            "thread": 7879205,
+            "owner": 45898399744,
+            "kind": 30,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 0,
+            "write": 16384,
+            "cpu_ns": 202607958
+          },
+          "end": {
+            "before_ticks": 7312951049053,
+            "after_ticks": 7312951049059,
+            "thread": 7879205,
+            "owner": 45898399744,
+            "kind": 31,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 2352,
+            "write": 18432,
+            "cpu_ns": 207447500
+          },
+          "wall_ns": 82497875.0,
+          "cpu_ns": 4839542,
+          "wall_minus_sampled_cpu_ns": 77658333.0,
+          "interior_samples": 39,
+          "sampled_states": {
+            "3": 29,
+            "1": 10
+          }
+        },
+        {
+          "kind": 40,
+          "owner": 45898399744,
+          "thread": 7879205,
+          "begin": {
+            "before_ticks": 7312949069275,
+            "after_ticks": 7312949069281,
+            "thread": 7879205,
+            "owner": 45898399744,
+            "kind": 40,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 0,
+            "write": 16384,
+            "cpu_ns": 202615333
+          },
+          "end": {
+            "before_ticks": 7312951048632,
+            "after_ticks": 7312951048652,
+            "thread": 7879205,
+            "owner": 45898399744,
+            "kind": 41,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 2352,
+            "write": 16384,
+            "cpu_ns": 207430416
+          },
+          "wall_ns": 82472958.33333333,
+          "cpu_ns": 4815083,
+          "wall_minus_sampled_cpu_ns": 77657875.33333333,
+          "interior_samples": 39,
+          "sampled_states": {
+            "3": 29,
+            "1": 10
+          }
+        },
+        {
+          "kind": 20,
+          "owner": 45898399744,
+          "thread": 7879205,
+          "begin": {
+            "before_ticks": 7313050175596,
+            "after_ticks": 7313050175600,
+            "thread": 7879205,
+            "owner": 45898399744,
+            "kind": 20,
+            "logical": 200704,
+            "frames": 2048,
+            "read": 184397,
+            "write": 200704,
+            "cpu_ns": 1701748791
+          },
+          "end": {
+            "before_ticks": 7313051397143,
+            "after_ticks": 7313051397147,
+            "thread": 7879205,
+            "owner": 45898399744,
+            "kind": 21,
+            "logical": 200704,
+            "frames": 2048,
+            "read": 186749,
+            "write": 202752,
+            "cpu_ns": 1703257250
+          },
+          "wall_ns": 50897625.0,
+          "cpu_ns": 1508459,
+          "wall_minus_sampled_cpu_ns": 49389166.0,
+          "interior_samples": 45,
+          "sampled_states": {
+            "3": 42,
+            "1": 3
+          }
+        },
+        {
+          "kind": 30,
+          "owner": 45898399744,
+          "thread": 7879205,
+          "begin": {
+            "before_ticks": 7313050175679,
+            "after_ticks": 7313050175683,
+            "thread": 7879205,
+            "owner": 45898399744,
+            "kind": 30,
+            "logical": 200704,
+            "frames": 2048,
+            "read": 184397,
+            "write": 200704,
+            "cpu_ns": 1701752250
+          },
+          "end": {
+            "before_ticks": 7313051397137,
+            "after_ticks": 7313051397143,
+            "thread": 7879205,
+            "owner": 45898399744,
+            "kind": 31,
+            "logical": 200704,
+            "frames": 2048,
+            "read": 186749,
+            "write": 202752,
+            "cpu_ns": 1703257041
+          },
+          "wall_ns": 50893916.666666664,
+          "cpu_ns": 1504791,
+          "wall_minus_sampled_cpu_ns": 49389125.666666664,
+          "interior_samples": 45,
+          "sampled_states": {
+            "3": 42,
+            "1": 3
+          }
+        },
+        {
+          "kind": 40,
+          "owner": 45898399744,
+          "thread": 7879205,
+          "begin": {
+            "before_ticks": 7313050175785,
+            "after_ticks": 7313050175790,
+            "thread": 7879205,
+            "owner": 45898399744,
+            "kind": 40,
+            "logical": 200704,
+            "frames": 2048,
+            "read": 184397,
+            "write": 200704,
+            "cpu_ns": 1701756708
+          },
+          "end": {
+            "before_ticks": 7313051396793,
+            "after_ticks": 7313051396811,
+            "thread": 7879205,
+            "owner": 45898399744,
+            "kind": 41,
+            "logical": 200704,
+            "frames": 2048,
+            "read": 186749,
+            "write": 200704,
+            "cpu_ns": 1703243208
+          },
+          "wall_ns": 50875125.0,
+          "cpu_ns": 1486500,
+          "wall_minus_sampled_cpu_ns": 49388625.0,
+          "interior_samples": 44,
+          "sampled_states": {
+            "3": 42,
+            "1": 2
+          }
+        },
+        {
+          "kind": 20,
+          "owner": 45898401536,
+          "thread": 7879059,
+          "begin": {
+            "before_ticks": 7312896125837,
+            "after_ticks": 7312896125843,
+            "thread": 7879059,
+            "owner": 45898401536,
+            "kind": 20,
+            "logical": 28672,
+            "frames": 2048,
+            "read": 10349,
+            "write": 26624,
+            "cpu_ns": 325178208
+          },
+          "end": {
+            "before_ticks": 7312897321404,
+            "after_ticks": 7312897321410,
+            "thread": 7879059,
+            "owner": 45898401536,
+            "kind": 21,
+            "logical": 28672,
+            "frames": 2048,
+            "read": 12701,
+            "write": 28672,
+            "cpu_ns": 327084000
+          },
+          "wall_ns": 49815041.666666664,
+          "cpu_ns": 1905792,
+          "wall_minus_sampled_cpu_ns": 47909249.666666664,
+          "interior_samples": 39,
+          "sampled_states": {
+            "3": 32,
+            "1": 7
+          }
+        },
+        {
+          "kind": 30,
+          "owner": 45898401536,
+          "thread": 7879059,
+          "begin": {
+            "before_ticks": 7312896125956,
+            "after_ticks": 7312896125964,
+            "thread": 7879059,
+            "owner": 45898401536,
+            "kind": 30,
+            "logical": 28428,
+            "frames": 2048,
+            "read": 10349,
+            "write": 26624,
+            "cpu_ns": 325183291
+          },
+          "end": {
+            "before_ticks": 7312897321380,
+            "after_ticks": 7312897321385,
+            "thread": 7879059,
+            "owner": 45898401536,
+            "kind": 31,
+            "logical": 28428,
+            "frames": 2048,
+            "read": 12701,
+            "write": 28672,
+            "cpu_ns": 327083000
+          },
+          "wall_ns": 49809000.0,
+          "cpu_ns": 1899709,
+          "wall_minus_sampled_cpu_ns": 47909291.0,
+          "interior_samples": 39,
+          "sampled_states": {
+            "3": 32,
+            "1": 7
+          }
+        },
+        {
+          "kind": 40,
+          "owner": 45898401536,
+          "thread": 7879059,
+          "begin": {
+            "before_ticks": 7312896126099,
+            "after_ticks": 7312896126104,
+            "thread": 7879059,
+            "owner": 45898401536,
+            "kind": 40,
+            "logical": 28428,
+            "frames": 2048,
+            "read": 10349,
+            "write": 26624,
+            "cpu_ns": 325189125
+          },
+          "end": {
+            "before_ticks": 7312897320988,
+            "after_ticks": 7312897321005,
+            "thread": 7879059,
+            "owner": 45898401536,
+            "kind": 41,
+            "logical": 28428,
+            "frames": 2048,
+            "read": 12701,
+            "write": 26624,
+            "cpu_ns": 327067083
+          },
+          "wall_ns": 49786833.33333333,
+          "cpu_ns": 1877958,
+          "wall_minus_sampled_cpu_ns": 47908875.33333333,
+          "interior_samples": 39,
+          "sampled_states": {
+            "3": 32,
+            "1": 7
+          }
+        }
+      ],
+      "payload": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/deep_legacy/analysis/0_candidate.json",
+      "payload_sha256": "1686fb0b0c3b73dc321a407ceaa46ea9016d674c557a934f260820297d217cd0"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/deep_legacy/trials/1_baseline",
+      "events": 2770,
+      "samples": 8497,
+      "valid_lifetime_samples": 8497,
+      "invalid_or_outside_lifetime_samples": 0,
+      "complete_worker_lifetimes": 7,
+      "unpaired_events": 0,
+      "measurement_export_complete": true,
+      "missing_callbacks": 0,
+      "missing_frames": 0,
+      "fifo_write_scopes": 204,
+      "confirmed_write_scopes": 204,
+      "shortages_with_positive_generated_pcm_evidence": 0,
+      "sampled_states": {
+        "3": 4224,
+        "1": 4266,
+        "4": 7
+      },
+      "sampled_priorities": {
+        "31": 8349,
+        "46": 8,
+        "30": 78,
+        "28": 62
+      },
+      "max_validation_ms": 0.009708333333333333,
+      "longest_scopes": [
+        {
+          "kind": 20,
+          "owner": 37363040256,
+          "thread": 7882325,
+          "begin": {
+            "before_ticks": 7313963745160,
+            "after_ticks": 7313963745167,
+            "thread": 7882325,
+            "owner": 37363040256,
+            "kind": 20,
+            "logical": 77824,
+            "frames": 2048,
+            "read": 65856,
+            "write": 77824,
+            "cpu_ns": 657142416
+          },
+          "end": {
+            "before_ticks": 7313970456438,
+            "after_ticks": 7313970456445,
+            "thread": 7882325,
+            "owner": 37363040256,
+            "kind": 21,
+            "logical": 77824,
+            "frames": 2048,
+            "read": 65856,
+            "write": 77824,
+            "cpu_ns": 672262583
+          },
+          "wall_ns": 279636291.6666666,
+          "cpu_ns": 15120167,
+          "wall_minus_sampled_cpu_ns": 264516124.66666663,
+          "interior_samples": 218,
+          "sampled_states": {
+            "3": 164,
+            "1": 54
+          }
+        },
+        {
+          "kind": 30,
+          "owner": 37363040256,
+          "thread": 7882325,
+          "begin": {
+            "before_ticks": 7313963745254,
+            "after_ticks": 7313963745264,
+            "thread": 7882325,
+            "owner": 37363040256,
+            "kind": 30,
+            "logical": 77824,
+            "frames": 2048,
+            "read": 65856,
+            "write": 77824,
+            "cpu_ns": 657146500
+          },
+          "end": {
+            "before_ticks": 7313970456286,
+            "after_ticks": 7313970456303,
+            "thread": 7882325,
+            "owner": 37363040256,
+            "kind": 31,
+            "logical": 77824,
+            "frames": 2048,
+            "read": 65856,
+            "write": 77824,
+            "cpu_ns": 672256625
+          },
+          "wall_ns": 279625916.6666666,
+          "cpu_ns": 15110125,
+          "wall_minus_sampled_cpu_ns": 264515791.66666663,
+          "interior_samples": 218,
+          "sampled_states": {
+            "3": 164,
+            "1": 54
+          }
+        },
+        {
+          "kind": 40,
+          "owner": 37363040256,
+          "thread": 7882325,
+          "begin": {
+            "before_ticks": 7313963745442,
+            "after_ticks": 7313963745448,
+            "thread": 7882325,
+            "owner": 37363040256,
+            "kind": 40,
+            "logical": 77824,
+            "frames": 2048,
+            "read": 65856,
+            "write": 77824,
+            "cpu_ns": 657154125
+          },
+          "end": {
+            "before_ticks": 7313970454983,
+            "after_ticks": 7313970455005,
+            "thread": 7882325,
+            "owner": 37363040256,
+            "kind": 41,
+            "logical": 77824,
+            "frames": 2048,
+            "read": 65856,
+            "write": 77824,
+            "cpu_ns": 672209208
+          },
+          "wall_ns": 279563958.3333333,
+          "cpu_ns": 15055083,
+          "wall_minus_sampled_cpu_ns": 264508875.3333333,
+          "interior_samples": 218,
+          "sampled_states": {
+            "3": 164,
+            "1": 54
+          }
+        },
+        {
+          "kind": 20,
+          "owner": 37363040256,
+          "thread": 7882684,
+          "begin": {
+            "before_ticks": 7314029954796,
+            "after_ticks": 7314029954802,
+            "thread": 7882684,
+            "owner": 37363040256,
+            "kind": 20,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 0,
+            "write": 12288,
+            "cpu_ns": 124116625
+          },
+          "end": {
+            "before_ticks": 7314031514987,
+            "after_ticks": 7314031514991,
+            "thread": 7882684,
+            "owner": 37363040256,
+            "kind": 21,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 2352,
+            "write": 14336,
+            "cpu_ns": 126360125
+          },
+          "wall_ns": 65007708.33333333,
+          "cpu_ns": 2243500,
+          "wall_minus_sampled_cpu_ns": 62764208.33333333,
+          "interior_samples": 43,
+          "sampled_states": {
+            "3": 40,
+            "1": 3
+          }
+        },
+        {
+          "kind": 30,
+          "owner": 37363040256,
+          "thread": 7882684,
+          "begin": {
+            "before_ticks": 7314029954920,
+            "after_ticks": 7314029954924,
+            "thread": 7882684,
+            "owner": 37363040256,
+            "kind": 30,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 0,
+            "write": 12288,
+            "cpu_ns": 124121708
+          },
+          "end": {
+            "before_ticks": 7314031514980,
+            "after_ticks": 7314031514985,
+            "thread": 7882684,
+            "owner": 37363040256,
+            "kind": 31,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 2352,
+            "write": 14336,
+            "cpu_ns": 126359833
+          },
+          "wall_ns": 65002333.33333333,
+          "cpu_ns": 2238125,
+          "wall_minus_sampled_cpu_ns": 62764208.33333333,
+          "interior_samples": 43,
+          "sampled_states": {
+            "3": 40,
+            "1": 3
+          }
+        },
+        {
+          "kind": 40,
+          "owner": 37363040256,
+          "thread": 7882684,
+          "begin": {
+            "before_ticks": 7314029955049,
+            "after_ticks": 7314029955053,
+            "thread": 7882684,
+            "owner": 37363040256,
+            "kind": 40,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 0,
+            "write": 12288,
+            "cpu_ns": 124127083
+          },
+          "end": {
+            "before_ticks": 7314031514582,
+            "after_ticks": 7314031514606,
+            "thread": 7882684,
+            "owner": 37363040256,
+            "kind": 41,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 2352,
+            "write": 12288,
+            "cpu_ns": 126344041
+          },
+          "wall_ns": 64980375.0,
+          "cpu_ns": 2216958,
+          "wall_minus_sampled_cpu_ns": 62763417.0,
+          "interior_samples": 43,
+          "sampled_states": {
+            "3": 40,
+            "1": 3
+          }
+        },
+        {
+          "kind": 20,
+          "owner": 37363040256,
+          "thread": 7882325,
+          "begin": {
+            "before_ticks": 7313927032654,
+            "after_ticks": 7313927032659,
+            "thread": 7882325,
+            "owner": 37363040256,
+            "kind": 20,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 0,
+            "write": 12288,
+            "cpu_ns": 131215750
+          },
+          "end": {
+            "before_ticks": 7313928556921,
+            "after_ticks": 7313928556925,
+            "thread": 7882325,
+            "owner": 37363040256,
+            "kind": 21,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 2352,
+            "write": 14336,
+            "cpu_ns": 132871916
+          },
+          "wall_ns": 63510916.666666664,
+          "cpu_ns": 1656166,
+          "wall_minus_sampled_cpu_ns": 61854750.666666664,
+          "interior_samples": 43,
+          "sampled_states": {
+            "3": 38,
+            "1": 5
+          }
+        },
+        {
+          "kind": 30,
+          "owner": 37363040256,
+          "thread": 7882325,
+          "begin": {
+            "before_ticks": 7313927032717,
+            "after_ticks": 7313927032722,
+            "thread": 7882325,
+            "owner": 37363040256,
+            "kind": 30,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 0,
+            "write": 12288,
+            "cpu_ns": 131218375
+          },
+          "end": {
+            "before_ticks": 7313928556914,
+            "after_ticks": 7313928556918,
+            "thread": 7882325,
+            "owner": 37363040256,
+            "kind": 31,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 2352,
+            "write": 14336,
+            "cpu_ns": 132871625
+          },
+          "wall_ns": 63508000.0,
+          "cpu_ns": 1653250,
+          "wall_minus_sampled_cpu_ns": 61854750.0,
+          "interior_samples": 43,
+          "sampled_states": {
+            "3": 38,
+            "1": 5
+          }
+        },
+        {
+          "kind": 40,
+          "owner": 37363040256,
+          "thread": 7882325,
+          "begin": {
+            "before_ticks": 7313927032832,
+            "after_ticks": 7313927032837,
+            "thread": 7882325,
+            "owner": 37363040256,
+            "kind": 40,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 0,
+            "write": 12288,
+            "cpu_ns": 131223166
+          },
+          "end": {
+            "before_ticks": 7313928556452,
+            "after_ticks": 7313928556472,
+            "thread": 7882325,
+            "owner": 37363040256,
+            "kind": 41,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 2352,
+            "write": 12288,
+            "cpu_ns": 132852958
+          },
+          "wall_ns": 63483958.33333333,
+          "cpu_ns": 1629792,
+          "wall_minus_sampled_cpu_ns": 61854166.33333333,
+          "interior_samples": 43,
+          "sampled_states": {
+            "3": 38,
+            "1": 5
+          }
+        },
+        {
+          "kind": 20,
+          "owner": 37363042048,
+          "thread": 7882463,
+          "begin": {
+            "before_ticks": 7313970574442,
+            "after_ticks": 7313970574451,
+            "thread": 7882463,
+            "owner": 37363042048,
+            "kind": 20,
+            "logical": 14336,
+            "frames": 2048,
+            "read": 0,
+            "write": 12288,
+            "cpu_ns": 179216000
+          },
+          "end": {
+            "before_ticks": 7313971939089,
+            "after_ticks": 7313971939095,
+            "thread": 7882463,
+            "owner": 37363042048,
+            "kind": 21,
+            "logical": 14336,
+            "frames": 2048,
+            "read": 2352,
+            "write": 14336,
+            "cpu_ns": 181448500
+          },
+          "wall_ns": 56859916.666666664,
+          "cpu_ns": 2232500,
+          "wall_minus_sampled_cpu_ns": 54627416.666666664,
+          "interior_samples": 41,
+          "sampled_states": {
+            "1": 8,
+            "3": 33
+          }
+        },
+        {
+          "kind": 30,
+          "owner": 37363042048,
+          "thread": 7882463,
+          "begin": {
+            "before_ticks": 7313970574624,
+            "after_ticks": 7313970574631,
+            "thread": 7882463,
+            "owner": 37363042048,
+            "kind": 30,
+            "logical": 14092,
+            "frames": 2048,
+            "read": 0,
+            "write": 12288,
+            "cpu_ns": 179223500
+          },
+          "end": {
+            "before_ticks": 7313971939066,
+            "after_ticks": 7313971939071,
+            "thread": 7882463,
+            "owner": 37363042048,
+            "kind": 31,
+            "logical": 14092,
+            "frames": 2048,
+            "read": 2352,
+            "write": 14336,
+            "cpu_ns": 181447541
+          },
+          "wall_ns": 56851458.33333333,
+          "cpu_ns": 2224041,
+          "wall_minus_sampled_cpu_ns": 54627417.33333333,
+          "interior_samples": 41,
+          "sampled_states": {
+            "1": 8,
+            "3": 33
+          }
+        },
+        {
+          "kind": 40,
+          "owner": 37363042048,
+          "thread": 7882463,
+          "begin": {
+            "before_ticks": 7313970574785,
+            "after_ticks": 7313970574791,
+            "thread": 7882463,
+            "owner": 37363042048,
+            "kind": 40,
+            "logical": 14092,
+            "frames": 2048,
+            "read": 0,
+            "write": 12288,
+            "cpu_ns": 179230166
+          },
+          "end": {
+            "before_ticks": 7313971938633,
+            "after_ticks": 7313971938656,
+            "thread": 7882463,
+            "owner": 37363042048,
+            "kind": 41,
+            "logical": 14092,
+            "frames": 2048,
+            "read": 2352,
+            "write": 12288,
+            "cpu_ns": 181430166
+          },
+          "wall_ns": 56826750.0,
+          "cpu_ns": 2200000,
+          "wall_minus_sampled_cpu_ns": 54626750.0,
+          "interior_samples": 41,
+          "sampled_states": {
+            "1": 8,
+            "3": 33
+          }
+        }
+      ],
+      "payload": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/deep_legacy/analysis/1_baseline.json",
+      "payload_sha256": "3bc531a3e70591132f60d9c49da7b05359109ad7b5a48b50be4b0e54f04abe1d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/deep_legacy/trials/1_candidate",
+      "events": 2874,
+      "samples": 8567,
+      "valid_lifetime_samples": 8567,
+      "invalid_or_outside_lifetime_samples": 0,
+      "complete_worker_lifetimes": 7,
+      "unpaired_events": 0,
+      "measurement_export_complete": true,
+      "missing_callbacks": 0,
+      "missing_frames": 0,
+      "fifo_write_scopes": 211,
+      "confirmed_write_scopes": 211,
+      "shortages_with_positive_generated_pcm_evidence": 0,
+      "sampled_states": {
+        "3": 4682,
+        "1": 3885
+      },
+      "sampled_priorities": {
+        "31": 8288,
+        "30": 72,
+        "29": 38,
+        "27": 19,
+        "26": 65,
+        "25": 8,
+        "24": 19,
+        "28": 33,
+        "23": 11,
+        "22": 9,
+        "21": 5
+      },
+      "max_validation_ms": 0.007875,
+      "longest_scopes": [
+        {
+          "kind": 20,
+          "owner": 38470483968,
+          "thread": 7881868,
+          "begin": {
+            "before_ticks": 7313649240015,
+            "after_ticks": 7313649240023,
+            "thread": 7881868,
+            "owner": 38470483968,
+            "kind": 20,
+            "logical": 81920,
+            "frames": 2048,
+            "read": 65856,
+            "write": 81920,
+            "cpu_ns": 686157625
+          },
+          "end": {
+            "before_ticks": 7313656186476,
+            "after_ticks": 7313656186483,
+            "thread": 7881868,
+            "owner": 38470483968,
+            "kind": 21,
+            "logical": 81920,
+            "frames": 2048,
+            "read": 65856,
+            "write": 81920,
+            "cpu_ns": 696241125
+          },
+          "wall_ns": 289435541.6666666,
+          "cpu_ns": 10083500,
+          "wall_minus_sampled_cpu_ns": 279352041.6666666,
+          "interior_samples": 241,
+          "sampled_states": {
+            "3": 196,
+            "1": 45
+          }
+        },
+        {
+          "kind": 30,
+          "owner": 38470483968,
+          "thread": 7881868,
+          "begin": {
+            "before_ticks": 7313649240105,
+            "after_ticks": 7313649240112,
+            "thread": 7881868,
+            "owner": 38470483968,
+            "kind": 30,
+            "logical": 81920,
+            "frames": 2048,
+            "read": 65856,
+            "write": 81920,
+            "cpu_ns": 686161333
+          },
+          "end": {
+            "before_ticks": 7313656186340,
+            "after_ticks": 7313656186350,
+            "thread": 7881868,
+            "owner": 38470483968,
+            "kind": 31,
+            "logical": 81920,
+            "frames": 2048,
+            "read": 65856,
+            "write": 81920,
+            "cpu_ns": 696235541
+          },
+          "wall_ns": 289426166.6666666,
+          "cpu_ns": 10074208,
+          "wall_minus_sampled_cpu_ns": 279351958.6666666,
+          "interior_samples": 241,
+          "sampled_states": {
+            "3": 196,
+            "1": 45
+          }
+        },
+        {
+          "kind": 40,
+          "owner": 38470483968,
+          "thread": 7881868,
+          "begin": {
+            "before_ticks": 7313649240267,
+            "after_ticks": 7313649240273,
+            "thread": 7881868,
+            "owner": 38470483968,
+            "kind": 40,
+            "logical": 81920,
+            "frames": 2048,
+            "read": 65856,
+            "write": 81920,
+            "cpu_ns": 686168041
+          },
+          "end": {
+            "before_ticks": 7313656185237,
+            "after_ticks": 7313656185251,
+            "thread": 7881868,
+            "owner": 38470483968,
+            "kind": 41,
+            "logical": 81920,
+            "frames": 2048,
+            "read": 65856,
+            "write": 81920,
+            "cpu_ns": 696198916
+          },
+          "wall_ns": 289373500.0,
+          "cpu_ns": 10030875,
+          "wall_minus_sampled_cpu_ns": 279342625.0,
+          "interior_samples": 241,
+          "sampled_states": {
+            "3": 196,
+            "1": 45
+          }
+        },
+        {
+          "kind": 20,
+          "owner": 38470483968,
+          "thread": 7881868,
+          "begin": {
+            "before_ticks": 7313612669150,
+            "after_ticks": 7313612669155,
+            "thread": 7881868,
+            "owner": 38470483968,
+            "kind": 20,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 0,
+            "write": 16384,
+            "cpu_ns": 160196583
+          },
+          "end": {
+            "before_ticks": 7313614146485,
+            "after_ticks": 7313614146489,
+            "thread": 7881868,
+            "owner": 38470483968,
+            "kind": 21,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 2352,
+            "write": 18432,
+            "cpu_ns": 162306166
+          },
+          "wall_ns": 61555416.666666664,
+          "cpu_ns": 2109583,
+          "wall_minus_sampled_cpu_ns": 59445833.666666664,
+          "interior_samples": 42,
+          "sampled_states": {
+            "3": 40,
+            "1": 2
+          }
+        },
+        {
+          "kind": 30,
+          "owner": 38470483968,
+          "thread": 7881868,
+          "begin": {
+            "before_ticks": 7313612669264,
+            "after_ticks": 7313612669270,
+            "thread": 7881868,
+            "owner": 38470483968,
+            "kind": 30,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 0,
+            "write": 16384,
+            "cpu_ns": 160201375
+          },
+          "end": {
+            "before_ticks": 7313614146477,
+            "after_ticks": 7313614146482,
+            "thread": 7881868,
+            "owner": 38470483968,
+            "kind": 31,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 2352,
+            "write": 18432,
+            "cpu_ns": 162305875
+          },
+          "wall_ns": 61550291.666666664,
+          "cpu_ns": 2104500,
+          "wall_minus_sampled_cpu_ns": 59445791.666666664,
+          "interior_samples": 42,
+          "sampled_states": {
+            "3": 40,
+            "1": 2
+          }
+        },
+        {
+          "kind": 40,
+          "owner": 38470483968,
+          "thread": 7881868,
+          "begin": {
+            "before_ticks": 7313612669395,
+            "after_ticks": 7313612669399,
+            "thread": 7881868,
+            "owner": 38470483968,
+            "kind": 40,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 0,
+            "write": 16384,
+            "cpu_ns": 160206750
+          },
+          "end": {
+            "before_ticks": 7313614146154,
+            "after_ticks": 7313614146169,
+            "thread": 7881868,
+            "owner": 38470483968,
+            "kind": 41,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 2352,
+            "write": 16384,
+            "cpu_ns": 162292791
+          },
+          "wall_ns": 61531458.33333333,
+          "cpu_ns": 2086041,
+          "wall_minus_sampled_cpu_ns": 59445417.33333333,
+          "interior_samples": 42,
+          "sampled_states": {
+            "3": 40,
+            "1": 2
+          }
+        },
+        {
+          "kind": 20,
+          "owner": 38470483968,
+          "thread": 7882049,
+          "begin": {
+            "before_ticks": 7313715961074,
+            "after_ticks": 7313715961080,
+            "thread": 7882049,
+            "owner": 38470483968,
+            "kind": 20,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 0,
+            "write": 16384,
+            "cpu_ns": 140364125
+          },
+          "end": {
+            "before_ticks": 7313717202543,
+            "after_ticks": 7313717202547,
+            "thread": 7882049,
+            "owner": 38470483968,
+            "kind": 21,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 2352,
+            "write": 18432,
+            "cpu_ns": 142008583
+          },
+          "wall_ns": 51727625.0,
+          "cpu_ns": 1644458,
+          "wall_minus_sampled_cpu_ns": 50083167.0,
+          "interior_samples": 42,
+          "sampled_states": {
+            "3": 38,
+            "1": 4
+          }
+        },
+        {
+          "kind": 30,
+          "owner": 38470483968,
+          "thread": 7882049,
+          "begin": {
+            "before_ticks": 7313715961344,
+            "after_ticks": 7313715961350,
+            "thread": 7882049,
+            "owner": 38470483968,
+            "kind": 30,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 0,
+            "write": 16384,
+            "cpu_ns": 140372958
+          },
+          "end": {
+            "before_ticks": 7313717202536,
+            "after_ticks": 7313717202540,
+            "thread": 7882049,
+            "owner": 38470483968,
+            "kind": 31,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 2352,
+            "write": 18432,
+            "cpu_ns": 142008291
+          },
+          "wall_ns": 51716083.33333333,
+          "cpu_ns": 1635333,
+          "wall_minus_sampled_cpu_ns": 50080750.33333333,
+          "interior_samples": 42,
+          "sampled_states": {
+            "3": 38,
+            "1": 4
+          }
+        },
+        {
+          "kind": 40,
+          "owner": 38470483968,
+          "thread": 7882049,
+          "begin": {
+            "before_ticks": 7313715961512,
+            "after_ticks": 7313715961517,
+            "thread": 7882049,
+            "owner": 38470483968,
+            "kind": 40,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 0,
+            "write": 16384,
+            "cpu_ns": 140379916
+          },
+          "end": {
+            "before_ticks": 7313717202216,
+            "after_ticks": 7313717202234,
+            "thread": 7882049,
+            "owner": 38470483968,
+            "kind": 41,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 2352,
+            "write": 16384,
+            "cpu_ns": 141995458
+          },
+          "wall_ns": 51695791.666666664,
+          "cpu_ns": 1615542,
+          "wall_minus_sampled_cpu_ns": 50080249.666666664,
+          "interior_samples": 42,
+          "sampled_states": {
+            "3": 38,
+            "1": 4
+          }
+        },
+        {
+          "kind": 20,
+          "owner": 38470483968,
+          "thread": 7882049,
+          "begin": {
+            "before_ticks": 7313816324134,
+            "after_ticks": 7313816324139,
+            "thread": 7882049,
+            "owner": 38470483968,
+            "kind": 20,
+            "logical": 200704,
+            "frames": 2048,
+            "read": 184397,
+            "write": 200704,
+            "cpu_ns": 1316751708
+          },
+          "end": {
+            "before_ticks": 7313817550568,
+            "after_ticks": 7313817550573,
+            "thread": 7882049,
+            "owner": 38470483968,
+            "kind": 21,
+            "logical": 200704,
+            "frames": 2048,
+            "read": 186749,
+            "write": 202752,
+            "cpu_ns": 1318639625
+          },
+          "wall_ns": 51101208.33333333,
+          "cpu_ns": 1887917,
+          "wall_minus_sampled_cpu_ns": 49213291.33333333,
+          "interior_samples": 42,
+          "sampled_states": {
+            "3": 37,
+            "1": 5
+          }
+        },
+        {
+          "kind": 30,
+          "owner": 38470483968,
+          "thread": 7882049,
+          "begin": {
+            "before_ticks": 7313816324213,
+            "after_ticks": 7313816324218,
+            "thread": 7882049,
+            "owner": 38470483968,
+            "kind": 30,
+            "logical": 200704,
+            "frames": 2048,
+            "read": 184397,
+            "write": 200704,
+            "cpu_ns": 1316755000
+          },
+          "end": {
+            "before_ticks": 7313817550561,
+            "after_ticks": 7313817550566,
+            "thread": 7882049,
+            "owner": 38470483968,
+            "kind": 31,
+            "logical": 200704,
+            "frames": 2048,
+            "read": 186749,
+            "write": 202752,
+            "cpu_ns": 1318639333
+          },
+          "wall_ns": 51097625.0,
+          "cpu_ns": 1884333,
+          "wall_minus_sampled_cpu_ns": 49213292.0,
+          "interior_samples": 42,
+          "sampled_states": {
+            "3": 37,
+            "1": 5
+          }
+        },
+        {
+          "kind": 40,
+          "owner": 38470483968,
+          "thread": 7882049,
+          "begin": {
+            "before_ticks": 7313816324315,
+            "after_ticks": 7313816324319,
+            "thread": 7882049,
+            "owner": 38470483968,
+            "kind": 40,
+            "logical": 200704,
+            "frames": 2048,
+            "read": 184397,
+            "write": 200704,
+            "cpu_ns": 1316759208
+          },
+          "end": {
+            "before_ticks": 7313817550208,
+            "after_ticks": 7313817550235,
+            "thread": 7882049,
+            "owner": 38470483968,
+            "kind": 41,
+            "logical": 200704,
+            "frames": 2048,
+            "read": 186749,
+            "write": 200704,
+            "cpu_ns": 1318625416
+          },
+          "wall_ns": 51078708.33333333,
+          "cpu_ns": 1866208,
+          "wall_minus_sampled_cpu_ns": 49212500.33333333,
+          "interior_samples": 42,
+          "sampled_states": {
+            "3": 37,
+            "1": 5
+          }
+        }
+      ],
+      "payload": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/deep_legacy/analysis/1_candidate.json",
+      "payload_sha256": "b6ffd4f1aaf1056a5d9def42ec457fb4b55f97927de3ee6579a25cfe430b4564"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/deep_legacy/trials/2_baseline",
+      "events": 2822,
+      "samples": 8669,
+      "valid_lifetime_samples": 8669,
+      "invalid_or_outside_lifetime_samples": 0,
+      "complete_worker_lifetimes": 7,
+      "unpaired_events": 0,
+      "measurement_export_complete": true,
+      "missing_callbacks": 0,
+      "missing_frames": 0,
+      "fifo_write_scopes": 206,
+      "confirmed_write_scopes": 206,
+      "shortages_with_positive_generated_pcm_evidence": 0,
+      "sampled_states": {
+        "3": 5191,
+        "1": 3478
+      },
+      "sampled_priorities": {
+        "31": 8668,
+        "46": 1
+      },
+      "max_validation_ms": 0.005416666666666666,
+      "longest_scopes": [
+        {
+          "kind": 20,
+          "owner": 48838656000,
+          "thread": 7883379,
+          "begin": {
+            "before_ticks": 7314621756967,
+            "after_ticks": 7314621756973,
+            "thread": 7883379,
+            "owner": 48838656000,
+            "kind": 20,
+            "logical": 77824,
+            "frames": 2048,
+            "read": 65856,
+            "write": 77824,
+            "cpu_ns": 653022208
+          },
+          "end": {
+            "before_ticks": 7314627705343,
+            "after_ticks": 7314627705349,
+            "thread": 7883379,
+            "owner": 48838656000,
+            "kind": 21,
+            "logical": 77824,
+            "frames": 2048,
+            "read": 65856,
+            "write": 77824,
+            "cpu_ns": 661962375
+          },
+          "wall_ns": 247848750.0,
+          "cpu_ns": 8940167,
+          "wall_minus_sampled_cpu_ns": 238908583.0,
+          "interior_samples": 209,
+          "sampled_states": {
+            "1": 71,
+            "3": 138
+          }
+        },
+        {
+          "kind": 30,
+          "owner": 48838656000,
+          "thread": 7883379,
+          "begin": {
+            "before_ticks": 7314621757067,
+            "after_ticks": 7314621757075,
+            "thread": 7883379,
+            "owner": 48838656000,
+            "kind": 30,
+            "logical": 77824,
+            "frames": 2048,
+            "read": 65856,
+            "write": 77824,
+            "cpu_ns": 653026416
+          },
+          "end": {
+            "before_ticks": 7314627705242,
+            "after_ticks": 7314627705248,
+            "thread": 7883379,
+            "owner": 48838656000,
+            "kind": 31,
+            "logical": 77824,
+            "frames": 2048,
+            "read": 65856,
+            "write": 77824,
+            "cpu_ns": 661958166
+          },
+          "wall_ns": 247840291.66666666,
+          "cpu_ns": 8931750,
+          "wall_minus_sampled_cpu_ns": 238908541.66666666,
+          "interior_samples": 209,
+          "sampled_states": {
+            "1": 71,
+            "3": 138
+          }
+        },
+        {
+          "kind": 40,
+          "owner": 48838656000,
+          "thread": 7883379,
+          "begin": {
+            "before_ticks": 7314621757224,
+            "after_ticks": 7314621757230,
+            "thread": 7883379,
+            "owner": 48838656000,
+            "kind": 40,
+            "logical": 77824,
+            "frames": 2048,
+            "read": 65856,
+            "write": 77824,
+            "cpu_ns": 653032875
+          },
+          "end": {
+            "before_ticks": 7314627704599,
+            "after_ticks": 7314627704613,
+            "thread": 7883379,
+            "owner": 48838656000,
+            "kind": 41,
+            "logical": 77824,
+            "frames": 2048,
+            "read": 65856,
+            "write": 77824,
+            "cpu_ns": 661931750
+          },
+          "wall_ns": 247807041.66666666,
+          "cpu_ns": 8898875,
+          "wall_minus_sampled_cpu_ns": 238908166.66666666,
+          "interior_samples": 209,
+          "sampled_states": {
+            "1": 71,
+            "3": 138
+          }
+        },
+        {
+          "kind": 20,
+          "owner": 48838657792,
+          "thread": 7883528,
+          "begin": {
+            "before_ticks": 7314627806470,
+            "after_ticks": 7314627806475,
+            "thread": 7883528,
+            "owner": 48838657792,
+            "kind": 20,
+            "logical": 14336,
+            "frames": 2048,
+            "read": 0,
+            "write": 12288,
+            "cpu_ns": 156834250
+          },
+          "end": {
+            "before_ticks": 7314629925952,
+            "after_ticks": 7314629925957,
+            "thread": 7883528,
+            "owner": 48838657792,
+            "kind": 21,
+            "logical": 14336,
+            "frames": 2048,
+            "read": 2352,
+            "write": 14336,
+            "cpu_ns": 160011041
+          },
+          "wall_ns": 88311541.66666666,
+          "cpu_ns": 3176791,
+          "wall_minus_sampled_cpu_ns": 85134750.66666666,
+          "interior_samples": 68,
+          "sampled_states": {
+            "3": 66,
+            "1": 2
+          }
+        },
+        {
+          "kind": 30,
+          "owner": 48838657792,
+          "thread": 7883528,
+          "begin": {
+            "before_ticks": 7314627806527,
+            "after_ticks": 7314627806533,
+            "thread": 7883528,
+            "owner": 48838657792,
+            "kind": 30,
+            "logical": 14092,
+            "frames": 2048,
+            "read": 0,
+            "write": 12288,
+            "cpu_ns": 156836625
+          },
+          "end": {
+            "before_ticks": 7314629925929,
+            "after_ticks": 7314629925934,
+            "thread": 7883528,
+            "owner": 48838657792,
+            "kind": 31,
+            "logical": 14092,
+            "frames": 2048,
+            "read": 2352,
+            "write": 14336,
+            "cpu_ns": 160010041
+          },
+          "wall_ns": 88308166.66666666,
+          "cpu_ns": 3173416,
+          "wall_minus_sampled_cpu_ns": 85134750.66666666,
+          "interior_samples": 68,
+          "sampled_states": {
+            "3": 66,
+            "1": 2
+          }
+        },
+        {
+          "kind": 40,
+          "owner": 48838657792,
+          "thread": 7883528,
+          "begin": {
+            "before_ticks": 7314627806649,
+            "after_ticks": 7314627806654,
+            "thread": 7883528,
+            "owner": 48838657792,
+            "kind": 40,
+            "logical": 14092,
+            "frames": 2048,
+            "read": 0,
+            "write": 12288,
+            "cpu_ns": 156841708
+          },
+          "end": {
+            "before_ticks": 7314629925560,
+            "after_ticks": 7314629925574,
+            "thread": 7883528,
+            "owner": 48838657792,
+            "kind": 41,
+            "logical": 14092,
+            "frames": 2048,
+            "read": 2352,
+            "write": 12288,
+            "cpu_ns": 159995000
+          },
+          "wall_ns": 88287750.0,
+          "cpu_ns": 3153292,
+          "wall_minus_sampled_cpu_ns": 85134458.0,
+          "interior_samples": 68,
+          "sampled_states": {
+            "3": 66,
+            "1": 2
+          }
+        },
+        {
+          "kind": 20,
+          "owner": 48838656000,
+          "thread": 7883379,
+          "begin": {
+            "before_ticks": 7314585094210,
+            "after_ticks": 7314585094215,
+            "thread": 7883379,
+            "owner": 48838656000,
+            "kind": 20,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 0,
+            "write": 12288,
+            "cpu_ns": 137387416
+          },
+          "end": {
+            "before_ticks": 7314586555247,
+            "after_ticks": 7314586555252,
+            "thread": 7883379,
+            "owner": 48838656000,
+            "kind": 21,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 2352,
+            "write": 14336,
+            "cpu_ns": 139467291
+          },
+          "wall_ns": 60876333.33333333,
+          "cpu_ns": 2079875,
+          "wall_minus_sampled_cpu_ns": 58796458.33333333,
+          "interior_samples": 44,
+          "sampled_states": {
+            "3": 42,
+            "1": 2
+          }
+        },
+        {
+          "kind": 30,
+          "owner": 48838656000,
+          "thread": 7883379,
+          "begin": {
+            "before_ticks": 7314585094292,
+            "after_ticks": 7314585094297,
+            "thread": 7883379,
+            "owner": 48838656000,
+            "kind": 30,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 0,
+            "write": 12288,
+            "cpu_ns": 137390833
+          },
+          "end": {
+            "before_ticks": 7314586555240,
+            "after_ticks": 7314586555245,
+            "thread": 7883379,
+            "owner": 48838656000,
+            "kind": 31,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 2352,
+            "write": 14336,
+            "cpu_ns": 139467000
+          },
+          "wall_ns": 60872625.0,
+          "cpu_ns": 2076167,
+          "wall_minus_sampled_cpu_ns": 58796458.0,
+          "interior_samples": 44,
+          "sampled_states": {
+            "3": 42,
+            "1": 2
+          }
+        },
+        {
+          "kind": 40,
+          "owner": 48838656000,
+          "thread": 7883379,
+          "begin": {
+            "before_ticks": 7314585094419,
+            "after_ticks": 7314585094424,
+            "thread": 7883379,
+            "owner": 48838656000,
+            "kind": 40,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 0,
+            "write": 12288,
+            "cpu_ns": 137396166
+          },
+          "end": {
+            "before_ticks": 7314586554830,
+            "after_ticks": 7314586554846,
+            "thread": 7883379,
+            "owner": 48838656000,
+            "kind": 41,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 2352,
+            "write": 12288,
+            "cpu_ns": 139450291
+          },
+          "wall_ns": 60850250.0,
+          "cpu_ns": 2054125,
+          "wall_minus_sampled_cpu_ns": 58796125.0,
+          "interior_samples": 44,
+          "sampled_states": {
+            "3": 42,
+            "1": 2
+          }
+        },
+        {
+          "kind": 20,
+          "owner": 48838656000,
+          "thread": 7883546,
+          "begin": {
+            "before_ticks": 7314687676900,
+            "after_ticks": 7314687676905,
+            "thread": 7883546,
+            "owner": 48838656000,
+            "kind": 20,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 0,
+            "write": 12288,
+            "cpu_ns": 112888125
+          },
+          "end": {
+            "before_ticks": 7314688952414,
+            "after_ticks": 7314688952418,
+            "thread": 7883546,
+            "owner": 48838656000,
+            "kind": 21,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 2352,
+            "write": 14336,
+            "cpu_ns": 114478416
+          },
+          "wall_ns": 53146208.33333333,
+          "cpu_ns": 1590291,
+          "wall_minus_sampled_cpu_ns": 51555917.33333333,
+          "interior_samples": 46,
+          "sampled_states": {
+            "3": 46
+          }
+        },
+        {
+          "kind": 30,
+          "owner": 48838656000,
+          "thread": 7883546,
+          "begin": {
+            "before_ticks": 7314687676956,
+            "after_ticks": 7314687676961,
+            "thread": 7883546,
+            "owner": 48838656000,
+            "kind": 30,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 0,
+            "write": 12288,
+            "cpu_ns": 112890416
+          },
+          "end": {
+            "before_ticks": 7314688952407,
+            "after_ticks": 7314688952411,
+            "thread": 7883546,
+            "owner": 48838656000,
+            "kind": 31,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 2352,
+            "write": 14336,
+            "cpu_ns": 114478125
+          },
+          "wall_ns": 53143583.33333333,
+          "cpu_ns": 1587709,
+          "wall_minus_sampled_cpu_ns": 51555874.33333333,
+          "interior_samples": 46,
+          "sampled_states": {
+            "3": 46
+          }
+        },
+        {
+          "kind": 40,
+          "owner": 48838656000,
+          "thread": 7883546,
+          "begin": {
+            "before_ticks": 7314687677057,
+            "after_ticks": 7314687677061,
+            "thread": 7883546,
+            "owner": 48838656000,
+            "kind": 40,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 0,
+            "write": 12288,
+            "cpu_ns": 112894583
+          },
+          "end": {
+            "before_ticks": 7314688952118,
+            "after_ticks": 7314688952129,
+            "thread": 7883546,
+            "owner": 48838656000,
+            "kind": 41,
+            "logical": 12288,
+            "frames": 2048,
+            "read": 2352,
+            "write": 12288,
+            "cpu_ns": 114466375
+          },
+          "wall_ns": 53127375.0,
+          "cpu_ns": 1571792,
+          "wall_minus_sampled_cpu_ns": 51555583.0,
+          "interior_samples": 46,
+          "sampled_states": {
+            "3": 46
+          }
+        }
+      ],
+      "payload": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/deep_legacy/analysis/2_baseline.json",
+      "payload_sha256": "3025ddcdc66f8bc7978d6803860f799957ec4d9a7207eff59342ba2b30038b55"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/deep_legacy/trials/2_candidate",
+      "events": 2882,
+      "samples": 8505,
+      "valid_lifetime_samples": 8505,
+      "invalid_or_outside_lifetime_samples": 0,
+      "complete_worker_lifetimes": 7,
+      "unpaired_events": 0,
+      "measurement_export_complete": true,
+      "missing_callbacks": 0,
+      "missing_frames": 0,
+      "fifo_write_scopes": 211,
+      "confirmed_write_scopes": 211,
+      "shortages_with_positive_generated_pcm_evidence": 0,
+      "sampled_states": {
+        "3": 4394,
+        "1": 4110,
+        "4": 1
+      },
+      "sampled_priorities": {
+        "31": 8356,
+        "30": 33,
+        "24": 68,
+        "22": 18,
+        "18": 10,
+        "16": 19,
+        "46": 1
+      },
+      "max_validation_ms": 0.010875,
+      "longest_scopes": [
+        {
+          "kind": 20,
+          "owner": 30551638016,
+          "thread": 7882931,
+          "begin": {
+            "before_ticks": 7314300971065,
+            "after_ticks": 7314300971074,
+            "thread": 7882931,
+            "owner": 30551638016,
+            "kind": 20,
+            "logical": 81920,
+            "frames": 2048,
+            "read": 66327,
+            "write": 81920,
+            "cpu_ns": 722945666
+          },
+          "end": {
+            "before_ticks": 7314308461947,
+            "after_ticks": 7314308461952,
+            "thread": 7882931,
+            "owner": 30551638016,
+            "kind": 21,
+            "logical": 81920,
+            "frames": 2048,
+            "read": 66798,
+            "write": 81920,
+            "cpu_ns": 736330250
+          },
+          "wall_ns": 312119708.3333333,
+          "cpu_ns": 13384584,
+          "wall_minus_sampled_cpu_ns": 298735124.3333333,
+          "interior_samples": 239,
+          "sampled_states": {
+            "3": 197,
+            "1": 42
+          }
+        },
+        {
+          "kind": 30,
+          "owner": 30551638016,
+          "thread": 7882931,
+          "begin": {
+            "before_ticks": 7314300971183,
+            "after_ticks": 7314300971189,
+            "thread": 7882931,
+            "owner": 30551638016,
+            "kind": 30,
+            "logical": 81920,
+            "frames": 2048,
+            "read": 66327,
+            "write": 81920,
+            "cpu_ns": 722950458
+          },
+          "end": {
+            "before_ticks": 7314308461842,
+            "after_ticks": 7314308461848,
+            "thread": 7882931,
+            "owner": 30551638016,
+            "kind": 31,
+            "logical": 81920,
+            "frames": 2048,
+            "read": 66798,
+            "write": 81920,
+            "cpu_ns": 736325916
+          },
+          "wall_ns": 312110541.6666666,
+          "cpu_ns": 13375458,
+          "wall_minus_sampled_cpu_ns": 298735083.6666666,
+          "interior_samples": 239,
+          "sampled_states": {
+            "3": 197,
+            "1": 42
+          }
+        },
+        {
+          "kind": 40,
+          "owner": 30551638016,
+          "thread": 7882931,
+          "begin": {
+            "before_ticks": 7314300971341,
+            "after_ticks": 7314300971347,
+            "thread": 7882931,
+            "owner": 30551638016,
+            "kind": 40,
+            "logical": 81920,
+            "frames": 2048,
+            "read": 66327,
+            "write": 81920,
+            "cpu_ns": 722957041
+          },
+          "end": {
+            "before_ticks": 7314308461066,
+            "after_ticks": 7314308461077,
+            "thread": 7882931,
+            "owner": 30551638016,
+            "kind": 41,
+            "logical": 81920,
+            "frames": 2048,
+            "read": 66798,
+            "write": 81920,
+            "cpu_ns": 736293791
+          },
+          "wall_ns": 312071625.0,
+          "cpu_ns": 13336750,
+          "wall_minus_sampled_cpu_ns": 298734875.0,
+          "interior_samples": 239,
+          "sampled_states": {
+            "3": 197,
+            "1": 42
+          }
+        },
+        {
+          "kind": 20,
+          "owner": 30551638016,
+          "thread": 7882931,
+          "begin": {
+            "before_ticks": 7314264406807,
+            "after_ticks": 7314264406812,
+            "thread": 7882931,
+            "owner": 30551638016,
+            "kind": 20,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 0,
+            "write": 16384,
+            "cpu_ns": 164965416
+          },
+          "end": {
+            "before_ticks": 7314265881191,
+            "after_ticks": 7314265881197,
+            "thread": 7882931,
+            "owner": 30551638016,
+            "kind": 21,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 2352,
+            "write": 18432,
+            "cpu_ns": 167655250
+          },
+          "wall_ns": 61432458.33333333,
+          "cpu_ns": 2689834,
+          "wall_minus_sampled_cpu_ns": 58742624.33333333,
+          "interior_samples": 42,
+          "sampled_states": {
+            "3": 35,
+            "1": 7
+          }
+        },
+        {
+          "kind": 30,
+          "owner": 30551638016,
+          "thread": 7882931,
+          "begin": {
+            "before_ticks": 7314264407016,
+            "after_ticks": 7314264407021,
+            "thread": 7882931,
+            "owner": 30551638016,
+            "kind": 30,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 0,
+            "write": 16384,
+            "cpu_ns": 164974166
+          },
+          "end": {
+            "before_ticks": 7314265881183,
+            "after_ticks": 7314265881188,
+            "thread": 7882931,
+            "owner": 30551638016,
+            "kind": 31,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 2352,
+            "write": 18432,
+            "cpu_ns": 167654916
+          },
+          "wall_ns": 61423416.666666664,
+          "cpu_ns": 2680750,
+          "wall_minus_sampled_cpu_ns": 58742666.666666664,
+          "interior_samples": 42,
+          "sampled_states": {
+            "3": 35,
+            "1": 7
+          }
+        },
+        {
+          "kind": 40,
+          "owner": 30551638016,
+          "thread": 7882931,
+          "begin": {
+            "before_ticks": 7314264407151,
+            "after_ticks": 7314264407156,
+            "thread": 7882931,
+            "owner": 30551638016,
+            "kind": 40,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 0,
+            "write": 16384,
+            "cpu_ns": 164979750
+          },
+          "end": {
+            "before_ticks": 7314265880627,
+            "after_ticks": 7314265880656,
+            "thread": 7882931,
+            "owner": 30551638016,
+            "kind": 41,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 2352,
+            "write": 16384,
+            "cpu_ns": 167632583
+          },
+          "wall_ns": 61394625.0,
+          "cpu_ns": 2652833,
+          "wall_minus_sampled_cpu_ns": 58741792.0,
+          "interior_samples": 42,
+          "sampled_states": {
+            "3": 35,
+            "1": 7
+          }
+        },
+        {
+          "kind": 20,
+          "owner": 30551638016,
+          "thread": 7882931,
+          "begin": {
+            "before_ticks": 7314287262175,
+            "after_ticks": 7314287262180,
+            "thread": 7882931,
+            "owner": 30551638016,
+            "kind": 20,
+            "logical": 57344,
+            "frames": 2048,
+            "read": 41396,
+            "write": 57344,
+            "cpu_ns": 490590375
+          },
+          "end": {
+            "before_ticks": 7314288722002,
+            "after_ticks": 7314288722007,
+            "thread": 7882931,
+            "owner": 30551638016,
+            "kind": 21,
+            "logical": 57344,
+            "frames": 2048,
+            "read": 44218,
+            "write": 59392,
+            "cpu_ns": 491943833
+          },
+          "wall_ns": 60825916.666666664,
+          "cpu_ns": 1353458,
+          "wall_minus_sampled_cpu_ns": 59472458.666666664,
+          "interior_samples": 31,
+          "sampled_states": {
+            "1": 3,
+            "3": 28
+          }
+        },
+        {
+          "kind": 30,
+          "owner": 30551638016,
+          "thread": 7882931,
+          "begin": {
+            "before_ticks": 7314287262237,
+            "after_ticks": 7314287262244,
+            "thread": 7882931,
+            "owner": 30551638016,
+            "kind": 30,
+            "logical": 57344,
+            "frames": 2048,
+            "read": 41396,
+            "write": 57344,
+            "cpu_ns": 490593000
+          },
+          "end": {
+            "before_ticks": 7314288721994,
+            "after_ticks": 7314288721999,
+            "thread": 7882931,
+            "owner": 30551638016,
+            "kind": 31,
+            "logical": 57344,
+            "frames": 2048,
+            "read": 44218,
+            "write": 59392,
+            "cpu_ns": 491943458
+          },
+          "wall_ns": 60822916.666666664,
+          "cpu_ns": 1350458,
+          "wall_minus_sampled_cpu_ns": 59472458.666666664,
+          "interior_samples": 31,
+          "sampled_states": {
+            "1": 3,
+            "3": 28
+          }
+        },
+        {
+          "kind": 40,
+          "owner": 30551638016,
+          "thread": 7882931,
+          "begin": {
+            "before_ticks": 7314287262375,
+            "after_ticks": 7314287262381,
+            "thread": 7882931,
+            "owner": 30551638016,
+            "kind": 40,
+            "logical": 57344,
+            "frames": 2048,
+            "read": 41396,
+            "write": 57344,
+            "cpu_ns": 490598708
+          },
+          "end": {
+            "before_ticks": 7314288721575,
+            "after_ticks": 7314288721583,
+            "thread": 7882931,
+            "owner": 30551638016,
+            "kind": 41,
+            "logical": 57344,
+            "frames": 2048,
+            "read": 44218,
+            "write": 57344,
+            "cpu_ns": 491926125
+          },
+          "wall_ns": 60799750.0,
+          "cpu_ns": 1327417,
+          "wall_minus_sampled_cpu_ns": 59472333.0,
+          "interior_samples": 31,
+          "sampled_states": {
+            "1": 3,
+            "3": 28
+          }
+        },
+        {
+          "kind": 20,
+          "owner": 30551638016,
+          "thread": 7883193,
+          "begin": {
+            "before_ticks": 7314368088261,
+            "after_ticks": 7314368088275,
+            "thread": 7883193,
+            "owner": 30551638016,
+            "kind": 20,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 0,
+            "write": 16384,
+            "cpu_ns": 153438541
+          },
+          "end": {
+            "before_ticks": 7314369404167,
+            "after_ticks": 7314369404172,
+            "thread": 7883193,
+            "owner": 30551638016,
+            "kind": 21,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 2352,
+            "write": 18432,
+            "cpu_ns": 155622791
+          },
+          "wall_ns": 54828833.33333333,
+          "cpu_ns": 2184250,
+          "wall_minus_sampled_cpu_ns": 52644583.33333333,
+          "interior_samples": 42,
+          "sampled_states": {
+            "3": 40,
+            "1": 2
+          }
+        },
+        {
+          "kind": 30,
+          "owner": 30551638016,
+          "thread": 7883193,
+          "begin": {
+            "before_ticks": 7314368088493,
+            "after_ticks": 7314368088499,
+            "thread": 7883193,
+            "owner": 30551638016,
+            "kind": 30,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 0,
+            "write": 16384,
+            "cpu_ns": 153447916
+          },
+          "end": {
+            "before_ticks": 7314369404158,
+            "after_ticks": 7314369404163,
+            "thread": 7883193,
+            "owner": 30551638016,
+            "kind": 31,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 2352,
+            "write": 18432,
+            "cpu_ns": 155622416
+          },
+          "wall_ns": 54819125.0,
+          "cpu_ns": 2174500,
+          "wall_minus_sampled_cpu_ns": 52644625.0,
+          "interior_samples": 42,
+          "sampled_states": {
+            "3": 40,
+            "1": 2
+          }
+        },
+        {
+          "kind": 40,
+          "owner": 30551638016,
+          "thread": 7883193,
+          "begin": {
+            "before_ticks": 7314368088625,
+            "after_ticks": 7314368088630,
+            "thread": 7883193,
+            "owner": 30551638016,
+            "kind": 40,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 0,
+            "write": 16384,
+            "cpu_ns": 153453375
+          },
+          "end": {
+            "before_ticks": 7314369403778,
+            "after_ticks": 7314369403796,
+            "thread": 7883193,
+            "owner": 30551638016,
+            "kind": 41,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 2352,
+            "write": 16384,
+            "cpu_ns": 155607083
+          },
+          "wall_ns": 54797833.33333333,
+          "cpu_ns": 2153708,
+          "wall_minus_sampled_cpu_ns": 52644125.33333333,
+          "interior_samples": 42,
+          "sampled_states": {
+            "3": 40,
+            "1": 2
+          }
+        }
+      ],
+      "payload": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/deep_legacy/analysis/2_candidate.json",
+      "payload_sha256": "71f84c76b18f358f974205023acd6869db76b2e5be072790a7c23a937985c3bc"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/legacy_delayed_trace_native",
+      "events": 2974,
+      "samples": 8650,
+      "valid_lifetime_samples": 8650,
+      "invalid_or_outside_lifetime_samples": 0,
+      "complete_worker_lifetimes": 7,
+      "unpaired_events": 0,
+      "measurement_export_complete": true,
+      "missing_callbacks": 0,
+      "missing_frames": 0,
+      "fifo_write_scopes": 218,
+      "confirmed_write_scopes": 218,
+      "shortages_with_positive_generated_pcm_evidence": 0,
+      "sampled_states": {
+        "3": 4595,
+        "1": 4055
+      },
+      "sampled_priorities": {
+        "31": 8650
+      },
+      "max_validation_ms": 0.008583333333333332,
+      "longest_scopes": [
+        {
+          "kind": 20,
+          "owner": 49241458432,
+          "thread": 7884678,
+          "begin": {
+            "before_ticks": 7315243406973,
+            "after_ticks": 7315243406991,
+            "thread": 7884678,
+            "owner": 49241458432,
+            "kind": 20,
+            "logical": 106496,
+            "frames": 2048,
+            "read": 0,
+            "write": 16384,
+            "cpu_ns": 829024583
+          },
+          "end": {
+            "before_ticks": 7315248608298,
+            "after_ticks": 7315248608316,
+            "thread": 7884678,
+            "owner": 49241458432,
+            "kind": 21,
+            "logical": 106496,
+            "frames": 2048,
+            "read": 0,
+            "write": 16384,
+            "cpu_ns": 839876916
+          },
+          "wall_ns": 216721125.0,
+          "cpu_ns": 10852333,
+          "wall_minus_sampled_cpu_ns": 205868792.0,
+          "interior_samples": 194,
+          "sampled_states": {
+            "3": 125,
+            "1": 69
+          }
+        },
+        {
+          "kind": 30,
+          "owner": 49241458432,
+          "thread": 7884678,
+          "begin": {
+            "before_ticks": 7315243407117,
+            "after_ticks": 7315243407138,
+            "thread": 7884678,
+            "owner": 49241458432,
+            "kind": 30,
+            "logical": 104699,
+            "frames": 2048,
+            "read": 0,
+            "write": 16384,
+            "cpu_ns": 829030625
+          },
+          "end": {
+            "before_ticks": 7315248608201,
+            "after_ticks": 7315248608220,
+            "thread": 7884678,
+            "owner": 49241458432,
+            "kind": 31,
+            "logical": 104699,
+            "frames": 2048,
+            "read": 0,
+            "write": 16384,
+            "cpu_ns": 839872916
+          },
+          "wall_ns": 216710958.3333333,
+          "cpu_ns": 10842291,
+          "wall_minus_sampled_cpu_ns": 205868667.3333333,
+          "interior_samples": 194,
+          "sampled_states": {
+            "3": 125,
+            "1": 69
+          }
+        },
+        {
+          "kind": 40,
+          "owner": 49241458432,
+          "thread": 7884678,
+          "begin": {
+            "before_ticks": 7315243407312,
+            "after_ticks": 7315243407331,
+            "thread": 7884678,
+            "owner": 49241458432,
+            "kind": 40,
+            "logical": 104699,
+            "frames": 2048,
+            "read": 0,
+            "write": 16384,
+            "cpu_ns": 829038666
+          },
+          "end": {
+            "before_ticks": 7315248607477,
+            "after_ticks": 7315248607503,
+            "thread": 7884678,
+            "owner": 49241458432,
+            "kind": 41,
+            "logical": 104699,
+            "frames": 2048,
+            "read": 0,
+            "write": 16384,
+            "cpu_ns": 839842958
+          },
+          "wall_ns": 216672750.0,
+          "cpu_ns": 10804292,
+          "wall_minus_sampled_cpu_ns": 205868458.0,
+          "interior_samples": 194,
+          "sampled_states": {
+            "3": 125,
+            "1": 69
+          }
+        },
+        {
+          "kind": 20,
+          "owner": 49241456640,
+          "thread": 7884684,
+          "begin": {
+            "before_ticks": 7315248887342,
+            "after_ticks": 7315248887360,
+            "thread": 7884684,
+            "owner": 49241456640,
+            "kind": 20,
+            "logical": 18432,
+            "frames": 2048,
+            "read": 0,
+            "write": 16384,
+            "cpu_ns": 171660791
+          },
+          "end": {
+            "before_ticks": 7315250911675,
+            "after_ticks": 7315250911692,
+            "thread": 7884684,
+            "owner": 49241456640,
+            "kind": 21,
+            "logical": 18432,
+            "frames": 2048,
+            "read": 2352,
+            "write": 18432,
+            "cpu_ns": 175604208
+          },
+          "wall_ns": 84346458.33333333,
+          "cpu_ns": 3943417,
+          "wall_minus_sampled_cpu_ns": 80403041.33333333,
+          "interior_samples": 61,
+          "sampled_states": {
+            "3": 57,
+            "1": 4
+          }
+        },
+        {
+          "kind": 30,
+          "owner": 49241456640,
+          "thread": 7884684,
+          "begin": {
+            "before_ticks": 7315248887449,
+            "after_ticks": 7315248887468,
+            "thread": 7884684,
+            "owner": 49241456640,
+            "kind": 30,
+            "logical": 18188,
+            "frames": 2048,
+            "read": 0,
+            "write": 16384,
+            "cpu_ns": 171665250
+          },
+          "end": {
+            "before_ticks": 7315250911639,
+            "after_ticks": 7315250911657,
+            "thread": 7884684,
+            "owner": 49241456640,
+            "kind": 31,
+            "logical": 18188,
+            "frames": 2048,
+            "read": 2352,
+            "write": 18432,
+            "cpu_ns": 175602750
+          },
+          "wall_ns": 84340458.33333333,
+          "cpu_ns": 3937500,
+          "wall_minus_sampled_cpu_ns": 80402958.33333333,
+          "interior_samples": 61,
+          "sampled_states": {
+            "3": 57,
+            "1": 4
+          }
+        },
+        {
+          "kind": 40,
+          "owner": 49241456640,
+          "thread": 7884684,
+          "begin": {
+            "before_ticks": 7315248887627,
+            "after_ticks": 7315248887646,
+            "thread": 7884684,
+            "owner": 49241456640,
+            "kind": 40,
+            "logical": 18188,
+            "frames": 2048,
+            "read": 0,
+            "write": 16384,
+            "cpu_ns": 171672666
+          },
+          "end": {
+            "before_ticks": 7315250911240,
+            "after_ticks": 7315250911273,
+            "thread": 7884684,
+            "owner": 49241456640,
+            "kind": 41,
+            "logical": 18188,
+            "frames": 2048,
+            "read": 2352,
+            "write": 16384,
+            "cpu_ns": 175586708
+          },
+          "wall_ns": 84316416.66666666,
+          "cpu_ns": 3914042,
+          "wall_minus_sampled_cpu_ns": 80402374.66666666,
+          "interior_samples": 61,
+          "sampled_states": {
+            "3": 57,
+            "1": 4
+          }
+        },
+        {
+          "kind": 20,
+          "owner": 49241456640,
+          "thread": 7884615,
+          "begin": {
+            "before_ticks": 7315206021256,
+            "after_ticks": 7315206021278,
+            "thread": 7884615,
+            "owner": 49241456640,
+            "kind": 20,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 0,
+            "write": 16384,
+            "cpu_ns": 187214458
+          },
+          "end": {
+            "before_ticks": 7315207480454,
+            "after_ticks": 7315207480473,
+            "thread": 7884615,
+            "owner": 49241456640,
+            "kind": 21,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 2352,
+            "write": 18432,
+            "cpu_ns": 190378708
+          },
+          "wall_ns": 60799000.0,
+          "cpu_ns": 3164250,
+          "wall_minus_sampled_cpu_ns": 57634750.0,
+          "interior_samples": 40,
+          "sampled_states": {
+            "3": 36,
+            "1": 4
+          }
+        },
+        {
+          "kind": 30,
+          "owner": 49241456640,
+          "thread": 7884615,
+          "begin": {
+            "before_ticks": 7315206021419,
+            "after_ticks": 7315206021442,
+            "thread": 7884615,
+            "owner": 49241456640,
+            "kind": 30,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 0,
+            "write": 16384,
+            "cpu_ns": 187221208
+          },
+          "end": {
+            "before_ticks": 7315207480431,
+            "after_ticks": 7315207480451,
+            "thread": 7884615,
+            "owner": 49241456640,
+            "kind": 31,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 2352,
+            "write": 18432,
+            "cpu_ns": 190377750
+          },
+          "wall_ns": 60791208.33333333,
+          "cpu_ns": 3156542,
+          "wall_minus_sampled_cpu_ns": 57634666.33333333,
+          "interior_samples": 40,
+          "sampled_states": {
+            "3": 36,
+            "1": 4
+          }
+        },
+        {
+          "kind": 40,
+          "owner": 49241456640,
+          "thread": 7884615,
+          "begin": {
+            "before_ticks": 7315206021637,
+            "after_ticks": 7315206021658,
+            "thread": 7884615,
+            "owner": 49241456640,
+            "kind": 40,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 0,
+            "write": 16384,
+            "cpu_ns": 187230208
+          },
+          "end": {
+            "before_ticks": 7315207479997,
+            "after_ticks": 7315207480033,
+            "thread": 7884615,
+            "owner": 49241456640,
+            "kind": 41,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 2352,
+            "write": 16384,
+            "cpu_ns": 190360208
+          },
+          "wall_ns": 60764125.0,
+          "cpu_ns": 3130000,
+          "wall_minus_sampled_cpu_ns": 57634125.0,
+          "interior_samples": 40,
+          "sampled_states": {
+            "3": 36,
+            "1": 4
+          }
+        },
+        {
+          "kind": 20,
+          "owner": 49241456640,
+          "thread": 7884720,
+          "begin": {
+            "before_ticks": 7315309169152,
+            "after_ticks": 7315309169172,
+            "thread": 7884720,
+            "owner": 49241456640,
+            "kind": 20,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 0,
+            "write": 16384,
+            "cpu_ns": 134076666
+          },
+          "end": {
+            "before_ticks": 7315310499384,
+            "after_ticks": 7315310499400,
+            "thread": 7884720,
+            "owner": 49241456640,
+            "kind": 21,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 2352,
+            "write": 18432,
+            "cpu_ns": 136646875
+          },
+          "wall_ns": 55425500.0,
+          "cpu_ns": 2570209,
+          "wall_minus_sampled_cpu_ns": 52855291.0,
+          "interior_samples": 40,
+          "sampled_states": {
+            "3": 37,
+            "1": 3
+          }
+        },
+        {
+          "kind": 30,
+          "owner": 49241456640,
+          "thread": 7884720,
+          "begin": {
+            "before_ticks": 7315309169267,
+            "after_ticks": 7315309169285,
+            "thread": 7884720,
+            "owner": 49241456640,
+            "kind": 30,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 0,
+            "write": 16384,
+            "cpu_ns": 134081375
+          },
+          "end": {
+            "before_ticks": 7315310499364,
+            "after_ticks": 7315310499381,
+            "thread": 7884720,
+            "owner": 49241456640,
+            "kind": 31,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 2352,
+            "write": 18432,
+            "cpu_ns": 136646083
+          },
+          "wall_ns": 55419958.33333333,
+          "cpu_ns": 2564708,
+          "wall_minus_sampled_cpu_ns": 52855250.33333333,
+          "interior_samples": 40,
+          "sampled_states": {
+            "3": 37,
+            "1": 3
+          }
+        },
+        {
+          "kind": 40,
+          "owner": 49241456640,
+          "thread": 7884720,
+          "begin": {
+            "before_ticks": 7315309169443,
+            "after_ticks": 7315309169460,
+            "thread": 7884720,
+            "owner": 49241456640,
+            "kind": 40,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 0,
+            "write": 16384,
+            "cpu_ns": 134088708
+          },
+          "end": {
+            "before_ticks": 7315310499006,
+            "after_ticks": 7315310499031,
+            "thread": 7884720,
+            "owner": 49241456640,
+            "kind": 41,
+            "logical": 16384,
+            "frames": 2048,
+            "read": 2352,
+            "write": 16384,
+            "cpu_ns": 136631416
+          },
+          "wall_ns": 55397750.0,
+          "cpu_ns": 2542708,
+          "wall_minus_sampled_cpu_ns": 52855042.0,
+          "interior_samples": 40,
+          "sampled_states": {
+            "3": 37,
+            "1": 3
+          }
+        }
+      ],
+      "payload": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/deep_legacy/analysis/legacy_delayed_trace_native.json",
+      "payload_sha256": "5fa47d2fdefaad6f5094d45751ae656f92e77ea8158f82dadad1cb35901c84ef"
+    }
+  ],
+  "scope": "供給観測だけの別ビルド。実時間workerへ昇格していない。state 1=RUNNINGは実行可能の標本で連続CPUの証明ではない。state 3=WAITINGも待機先や因果を特定しない。寿命外・取得失敗は未観測。記録関数の前後を除いた内部だけを区間とする。"
+}

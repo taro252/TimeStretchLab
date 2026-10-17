@@ -207,6 +207,7 @@ void Phase39PlaybackPipeline::start() {
             std::array<std::size_t,3> controlledNextInput{};
             const auto publish=[&](const float* const* data,std::size_t frames,
                                    const std::function<void()>& poll) {
+                const auto pcmReady=enableProfile_?machNs():0;
                 if(preparedInput_&&preparedInput_->validate)preparedInput_->validate();
                 if(stop_.load(std::memory_order_acquire))throw Stopped{};
                 if (!stalled && injectedStallMs>0 && produced_.load()>=65536) {
@@ -232,6 +233,7 @@ void Phase39PlaybackPipeline::start() {
                     latestProfile.cycleSequence=cycleSequence+1;
                     latestProfile.startUnixNs=previousUnix;
                     latestProfile.startMachNs=previousMach;
+                    latestProfile.pcmReadyMachNs=pcmReady;
                     latestProfile.threadId=workerTid;
                     latestProfile.chunkWallSeconds=seconds;
                     latestProfile.chunkCpuSeconds=cpuSeconds;
@@ -273,6 +275,7 @@ void Phase39PlaybackPipeline::start() {
                 poll();
                 const auto writeStart=Clock::now();
                 const auto fifoBefore=fifo_.available();
+                if(enableProfile_)latestProfile.writeBeginMachNs=machNs();
                 if (!fifo_.write(data,frames)) throw std::runtime_error("Phase 39 FIFO overflow");
                 if(explicitOptions_ && workerPcmHashEnabled_)
                     pcmDigest.update(interleaved.data(),frames*channels_*sizeof(float));

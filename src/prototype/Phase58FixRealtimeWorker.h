@@ -9,6 +9,7 @@ struct RealtimeWorkerMetrics {
     std::uint64_t waitCalls=0,waitErrors=0,wakeErrors=0,deadlineMisses=0;
     int observedPolicy=-1,observedPriority=-1,restoredPolicy=-1,lastError=0,errorStage=0;
     double periodS=0,computationS=0,maxIntervalS=0;
+    std::uint64_t createdTicks=0,policyAppliedTicks=0,joinedTicks=0,leftTicks=0,restoredTicks=0;
 };
 struct RealtimeIntervalTiming {
     std::uint64_t startTicks=0,endTicks=0,deadlineTicks=0;

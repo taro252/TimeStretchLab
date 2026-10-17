@@ -1,0 +1,33 @@
+{
+  "stage": "Stage 7完了・Stage 8完全回帰へ",
+  "startup_clock_root_cause_identified": false,
+  "mid_playback_clock_root_cause_identified": false,
+  "legacy_fifo_root_cause_identified": false,
+  "confirmed": "現行診断版の2482不足は、次PCMのpublish入口到達前に発生。160.7ms区間のCPUは36.7ms。公開直前だけの遅延ではない。非CPU時間の全因果は未観測。",
+  "selected_changes": [
+    "独立SourceNode/FIFO再現器",
+    "Mach時刻・rateScalar・FIFO実cursor・操作/退役worker履歴",
+    "Workgroup生成/昇格/参加/離脱/復元ticks",
+    "診断配列の準備時write-touch",
+    "未公開・重複profileをOS観測数へ加えない解析"
+  ],
+  "dsp_quality_contract_unchanged": true,
+  "optimized_dsp_source_checks": {
+    "src/dsp/PhaseLocker.cpp": true,
+    "src/prototype/Phase35PhaseVocoder.cpp": true,
+    "src/prototype/Phase35PhaseVocoder.h": true,
+    "src/prototype/Phase35StereoPhaseCoherence.cpp": true,
+    "src/prototype/Phase35StereoPhaseCoherence.h": true,
+    "src/prototype/Phase36SynthesisCore.h": true
+  },
+  "thresholds_unchanged": true,
+  "fifo_unchanged": true,
+  "gain_unchanged": true,
+  "realtime_policy_repair_applied": false,
+  "reason": "実装上の時計不具合や供給worker停止理由の因果が未確定。根拠のない時計補正・除外・優先度変更は採用せず、観測改善を最小の変更とする。",
+  "expected_verdict_if_pcm_regressions_pass": "B",
+  "gate_2_passed": false,
+  "merodoa_changed": false,
+  "full_regressions_required": true,
+  "observed_coverage": "SourceNode単体285と要求なし動的113のcallback全区間は既知。製品workerのtrace欠測は正常扱いしない。追加同期traceの詳細coverageは別資料で再照合する。"
+}
