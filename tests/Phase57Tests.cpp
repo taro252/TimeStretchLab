@@ -7,6 +7,7 @@
 #include <bit>
 #include <iostream>
 #include <unistd.h>
+#include <fcntl.h>
 using namespace ts;using namespace ts::prototype::phase56;using namespace ts::prototype::phase57;
 void check(bool b,const char* why){if(!b)throw std::runtime_error(why);}
 template<class F>void rejects(F f){bool threw=false;try{f();}catch(...){threw=true;}check(threw,"Expected failure");}
@@ -18,6 +19,32 @@ int main(){const auto dir=std::filesystem::temp_directory_path()/std::filesystem
     auto before=waiting.frontier();for(unsigned i=0;i<10;++i)check(waiting.advance(sink)==SynthesisState::NeedsMoreAnalysis,"Temporary input became EOS");auto after=waiting.frontier();check(before.nextInput==after.nextInput&&before.olaThrough==after.olaThrough&&before.generated==after.generated&&published==0,"Waiting advanced DSP");
     const float* rest[]={audio.channels[0].data()+2048};a.appendInput(10,2048,rest,21952);auto ready=a.getSnapshot();a.finishInput(10);auto final=a.getSnapshot();waiting.supplySnapshot(final);while(waiting.advance(sink)==SynthesisState::Produced){}
     check(waiting.frontier().state==SynthesisState::Finished&&published>0,"Final completion");waiting.cancel();check(waiting.advance(sink)==SynthesisState::Finished,"Completed EOS cancelled");rejects([&]{waiting.supplySnapshot(final);});check(waiting.frontier().state==SynthesisState::Finished,"Duplicate EOS corrupted completion");check(held->receivedInputFrames==2048&&!held->isFinal,"Old snapshot mutated");
+    {
+        // All resolution readers must keep their own FD after the unlinked
+        // snapshot and the caller's descriptor become unavailable by pathname.
+        const auto snapshotPath=dir/"unlinked.wav";std::filesystem::copy_file(path,snapshotPath);
+        struct Descriptor {int fd;~Descriptor(){if(fd>=0)close(fd);}} source{open(snapshotPath.c_str(),O_RDONLY|O_CLOEXEC)};
+        check(source.fd>=0,"Could not open synthesis snapshot");
+        std::filesystem::remove(snapshotPath);
+        check(lseek(source.fd,17,SEEK_SET)==17,"Could not position borrowed FD");
+        ProgressiveSynthesisEngine pinned(source.fd,500000,10),disk(path,500000,10);
+        check(lseek(source.fd,0,SEEK_CUR)==17,"Synthesis changed the borrowed FD offset");
+        close(source.fd);source.fd=-1;
+        auto drain=[&](ProgressiveSynthesisEngine& engine){
+            engine.supplySnapshot(final);std::vector<float> pcm;
+            auto capture=[&](auto generation,auto offset,auto block,std::size_t n){
+                check(generation==10&&offset==pcm.size(),"FD synthesis output identity/order");
+                pcm.insert(pcm.end(),block[0],block[0]+n);
+            };
+            while(engine.advance(capture)==SynthesisState::Produced){}
+            check(engine.frontier().state==SynthesisState::Finished,"FD synthesis did not finish");return pcm;
+        };
+        const auto expected=drain(disk),actual=drain(pinned);
+        check(!actual.empty()&&actual.size()==expected.size(),"FD synthesis output length differs");
+        for(std::size_t i=0;i<actual.size();++i)
+            check(std::bit_cast<std::uint32_t>(actual[i])==std::bit_cast<std::uint32_t>(expected[i]),"FD synthesis PCM bits differ");
+        rejects([&]{ProgressiveSynthesisEngine invalid(-1,500000,10);});
+    }
     {ProgressiveAnalysisSession early(48000,1,10,{},{500000});early.appendInput(10,0,p,2048);early.finishInput(10);ProgressiveSynthesisEngine dsp(path,500000,10);rejects([&]{dsp.supplySnapshot(early.getSnapshot());});check(dsp.advance(sink)==SynthesisState::Failed,"Truncated analysis accepted as full-file EOS");}
     {ProgressiveSynthesisEngine wrong(path,500000,11);rejects([&]{wrong.supplySnapshot(final);});check(wrong.advance(sink)==SynthesisState::Failed,"Generation accepted");}
     {ProgressiveSynthesisEngine wrongSpeed(path,510000,10);rejects([&]{wrongSpeed.supplySnapshot(final);});check(wrongSpeed.advance(sink)==SynthesisState::Failed,"Unrequested speed accepted");}

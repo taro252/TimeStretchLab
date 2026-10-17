@@ -1,0 +1,512 @@
+{
+  "PASS": true,
+  "completed_utc": "2026-10-17T05:41:40.203732+00:00",
+  "branch": "fix/phase60-sandbox-fd-pinning",
+  "base_head": "c34d2f81fc506f4e9247beac996f853d1f215c2a",
+  "uncommitted_source_changes": true,
+  "fix": "Phase58の通常/実時間合成をsnapshotDescriptor()経由のFD入口へ接続。Phase57/各解像度readerはFDを複製して保持し、常駐入力は既存の借用byte領域を使用。",
+  "source_sha256": {
+    "src/prototype/Phase36SynthesisCore.h": "439e0890bcbbd35c4b39952c9d49ed953b957aaf5ee054910473db6ac415bec9",
+    "src/prototype/Phase57ProgressiveSynthesis.cpp": "8b6d4eddac01cee72a489a5fd9e23ac64f15d103dc82871e624e123d75718a5a",
+    "src/prototype/Phase57ProgressiveSynthesis.h": "224002f1fd9b2438212662959672354b8ce2531fc16c62719da3aa9bb8c3efb7",
+    "src/prototype/Phase58RealtimePipeline.cpp": "907819f93b7c821782d0df839f06b33eff4147c03f2c00cce040d21112b43f11",
+    "tests/Phase57Tests.cpp": "5834857461c023805d86f738698cd9635245229ae6dfb14e2c042f115df6350e"
+  },
+  "regression": {
+    "Release": {
+      "Phase56": {
+        "passed": 3,
+        "total": 3
+      },
+      "Phase58": {
+        "passed": 6,
+        "total": 6
+      },
+      "additional_Phase57": {
+        "passed": 2,
+        "total": 2
+      },
+      "ctest_total": 11,
+      "ctest_failures": 0,
+      "frozen_phase56_sessions_passed": 9,
+      "frozen_phase56_speeds_per_session": 161,
+      "frozen_phase58_full_pcm_sessions_passed": 12
+    },
+    "Debug": {
+      "Phase56": {
+        "passed": 3,
+        "total": 3
+      },
+      "Phase58": {
+        "passed": 6,
+        "total": 6
+      },
+      "additional_Phase57": {
+        "passed": 2,
+        "total": 2
+      },
+      "ctest_total": 11,
+      "ctest_failures": 0,
+      "frozen_phase56_sessions_passed": 9,
+      "frozen_phase56_speeds_per_session": 161,
+      "frozen_phase58_full_pcm_sessions_passed": 12
+    }
+  },
+  "new_fd_test": "パス削除済みsnapshotから合成engineを構築し、借用FDのseek位置不変・元FD close後のEOS到達・パス経由との全PCM bit一致・負FD拒否を確認。",
+  "phase58_smoke_scope": {
+    "speeds": [
+      0.4,
+      1.0,
+      2.0
+    ],
+    "presets": [
+      "candidate",
+      "baseline"
+    ],
+    "analysis_chunks": [
+      7168,
+      5003
+    ],
+    "input": "48kHz stereo Float32 synthetic boundary 1.5s",
+    "comparison": "全フレーム/全channelのFloat32生bit・長さ・順序・SHA-256、FIFO不足/拒否0。通常consumer待ち付き。実時間期限試験ではない。"
+  },
+  "frozen_references": {
+    "Phase56": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase56_frozen/reference_percent",
+      "sha256": "8a7a7ee9e2f9760b79682feab5c08fe794de00512eb4163e1d9d79abe2d8dd2a"
+    },
+    "Phase58_Release": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase58_frozen/product_reference",
+      "sha256": "3a3b04454f754c35afa4cac121a726fa31c44a6854761a7de5f71aa057f2a957"
+    },
+    "Phase58_Debug": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug_frozen_reference/product_reference_debug",
+      "sha256": "fef03e96d1a4b24dee147f2a200d524d8c464004b1a40d889ac104ce2ad38438",
+      "legacy_source_commit": "ec087019626d9ff0d9f157245729b74ddb6847d7",
+      "legacy_source_sha256": "4ffec7c4db196f51e89bd4ebaf336020ae71d0969c31393a40752b4a37ed3899",
+      "build_recipe": "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug_frozen_reference/build_recipe.json",
+      "build_recipe_sha256": "ca80e94b279e92bc75f2bc3f3074f473102e6516f7780d3ca414190c6d216f01"
+    }
+  },
+  "preserved_cross_build_difference": {
+    "status": "Release固定参照対Debugの比較はFAILのまま保存。同じ差をPhase60時点の変更前Debugでも確認。修正前後のDebugを独立した旧DSPのDebug参照と比較した12件ずつは全PCM bit一致。Debug/Release間のbit一致は主張しない。",
+    "probe": {
+      "release_reference": {
+        "PASS": true,
+        "speed_micros": 400000,
+        "preset": "candidate",
+        "rate": 48000,
+        "channels": 2,
+        "input_frames": 72000,
+        "output_frames": 180000,
+        "pcm_sha256": "b3dbd4b8ab59ca0d2e90872a21120989b70d814606377794b06044134d9fb2a5",
+        "analysis_wall_s": 0.005863584,
+        "analysis_cpu_s": 0.005692875000000001,
+        "dsp_wall_s": 0.311805125,
+        "dsp_cpu_s": 0.308760541,
+        "wall_s": 0.317675917,
+        "cpu_s": 0.31446012500000003,
+        "peak_rss_bytes": 16891904,
+        "first_event_s": 0.005863584,
+        "first_map_s": 0.005870375,
+        "first_generated_s": 0.02035175,
+        "first_published_s": 0.020472834,
+        "lead_ready_s": 0.061213084,
+        "analysis_done_s": 0.005863584
+      },
+      "checks": [
+        {
+          "name": "before_fd_fix",
+          "binary": "/Users/taro252/Docker/TimeStretchLab/build/phase60/debug/phase58_check",
+          "binary_sha256": "c88f460b5273a632e87bb32fdeebc6dd613387eb8c581efbd9cef1bbad80a6b1",
+          "exit": 2,
+          "stdout": "",
+          "stderr": "Mismatch frame=0 channel=0 actual=0xb9c57d1e expected=0xb9c57ce4\n"
+        },
+        {
+          "name": "after_fd_fix",
+          "binary": "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug/phase58_check",
+          "binary_sha256": "1863d04b60a0d98afcc7b271b5e49ac9fd1782dc8ca7524f8125dea32694d344",
+          "exit": 2,
+          "stdout": "",
+          "stderr": "Mismatch frame=0 channel=0 actual=0xb9c57d1e expected=0xb9c57ce4\n"
+        }
+      ],
+      "same_existing_mismatch": true
+    },
+    "pre_fix_debug_artifact": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase60/debug/phase58_check",
+      "bytes": 2794400,
+      "sha256": "c88f460b5273a632e87bb32fdeebc6dd613387eb8c581efbd9cef1bbad80a6b1"
+    },
+    "pre_fix_artifact_manifest": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase60/artifact_files.jsonl",
+      "sha256": "309263016db0a39e5a9202c3c5a94d73a2c03c5cb1f539edfb72581d296d8e6c"
+    },
+    "original_attempt": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/summary.json",
+      "sha256": "28ff103e91c3cf66d557ae6ad2298e8836ff0c6db212cc109a4734189bcd0974"
+    },
+    "debug_matched_build_validation": {
+      "PASS": true,
+      "reference_recipe": "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug_frozen_reference/build_recipe.json",
+      "reference_recipe_sha256": "ca80e94b279e92bc75f2bc3f3074f473102e6516f7780d3ca414190c6d216f01",
+      "rows": [
+        {
+          "name": "before_fd_fix_debug",
+          "command": [
+            "/usr/local/opt/python@3.14/bin/python3.14",
+            "-B",
+            "/Users/taro252/Docker/TimeStretchLab/tests/Phase58PcmSmoke.py",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase60/debug/phase58_check",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug_frozen_reference/product_reference_debug"
+          ],
+          "exit": 0,
+          "wall_s": 11.140143917000387,
+          "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug_frozen_reference/before_fd_fix_debug.log",
+          "log_sha256": "060001180fa68f81e08c19f419b4172049c3f177a4b5dc8d0ec80cc5c83d57e0",
+          "checker_sha256": "c88f460b5273a632e87bb32fdeebc6dd613387eb8c581efbd9cef1bbad80a6b1"
+        },
+        {
+          "name": "after_fd_fix_debug",
+          "command": [
+            "/usr/local/opt/python@3.14/bin/python3.14",
+            "-B",
+            "/Users/taro252/Docker/TimeStretchLab/tests/Phase58PcmSmoke.py",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug/phase58_check",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug_frozen_reference/product_reference_debug"
+          ],
+          "exit": 0,
+          "wall_s": 10.216974665992893,
+          "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug_frozen_reference/after_fd_fix_debug.log",
+          "log_sha256": "060001180fa68f81e08c19f419b4172049c3f177a4b5dc8d0ec80cc5c83d57e0",
+          "checker_sha256": "1863d04b60a0d98afcc7b271b5e49ac9fd1782dc8ca7524f8125dea32694d344"
+        }
+      ],
+      "case_count_per_checker": 12
+    }
+  },
+  "reproduction": {
+    "runner": "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/run_regression.py",
+    "runner_sha256": "2b277eebd429302041297abd57a1dcaba5a3b85e6aa3f91168fff2bcf96fee0c",
+    "tested_patch": "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/tested_changes.patch",
+    "tested_patch_sha256": "28b44d5bb3e4770a54e2bf6739d994cc629067cb9960ae7251538ff32552478c",
+    "commands": [
+      {
+        "name": "release_configure",
+        "command": [
+          "cmake",
+          "-S",
+          "/Users/taro252/Docker/TimeStretchLab",
+          "-B",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/release",
+          "-DCMAKE_BUILD_TYPE=Release",
+          "-DBUILD_TESTING=ON",
+          "-DTIMESTRETCH_ENABLE_REALTIME_TESTS=OFF"
+        ],
+        "exit": 0,
+        "wall_s": 3.914362999959849,
+        "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/release_configure.log",
+        "log_sha256": "40460dc76e8e825fcf4a967444289e824af4879b3b6bcc1f70cbfb1f22637481"
+      },
+      {
+        "name": "release_build",
+        "command": [
+          "cmake",
+          "--build",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/release",
+          "--target",
+          "phase56_tests",
+          "phase56_fixed_modes",
+          "phase56_check",
+          "phase56_reference",
+          "phase57_tests",
+          "phase57_check",
+          "phase57_reference",
+          "phase58_tests",
+          "phase58_check",
+          "phase58_product_reference",
+          "phase58_fix_tests",
+          "phase58_fix_mailbox_tests",
+          "phase58_fix_worker_tests",
+          "phase60_playback_compare",
+          "-j3"
+        ],
+        "exit": 0,
+        "wall_s": 75.36204624996753,
+        "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/release_build.log",
+        "log_sha256": "c2b3a2396f73563f2b8825f128100caa0ea3247f8c684738f1039e395d3a4e25"
+      },
+      {
+        "name": "release_ctest",
+        "command": [
+          "ctest",
+          "--test-dir",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/release",
+          "-R",
+          "^phase(56|57|58)_",
+          "--output-on-failure",
+          "--no-tests=error",
+          "--output-junit",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/release_ctest.xml",
+          "-j1"
+        ],
+        "exit": 0,
+        "wall_s": 16.539689959026873,
+        "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/release_ctest.log",
+        "log_sha256": "9a2057e13e5d67c0127e17ad9087480779d5a4bd1afcefe33c6f490793ec1cf6"
+      },
+      {
+        "name": "release_frozen_phase56",
+        "command": [
+          "/usr/local/opt/python@3.14/bin/python3.14",
+          "-B",
+          "tests/Phase56Smoke.py",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/release/phase56_check",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase56_frozen/reference_percent"
+        ],
+        "exit": 0,
+        "wall_s": 1.3663094579824246,
+        "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/release_frozen_phase56.log",
+        "log_sha256": "c7bde0d8d5994d30baff8b0ce28aa0cbe7812b3e573dc56a40c3484854a8585d"
+      },
+      {
+        "name": "release_frozen_phase58",
+        "command": [
+          "/usr/local/opt/python@3.14/bin/python3.14",
+          "-B",
+          "tests/Phase58PcmSmoke.py",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/release/phase58_check",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase58_frozen/product_reference"
+        ],
+        "exit": 0,
+        "wall_s": 4.428268624993507,
+        "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/release_frozen_phase58.log",
+        "log_sha256": "060001180fa68f81e08c19f419b4172049c3f177a4b5dc8d0ec80cc5c83d57e0"
+      },
+      {
+        "name": "debug_configure",
+        "command": [
+          "cmake",
+          "-S",
+          "/Users/taro252/Docker/TimeStretchLab",
+          "-B",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug",
+          "-DCMAKE_BUILD_TYPE=Debug",
+          "-DBUILD_TESTING=ON",
+          "-DTIMESTRETCH_ENABLE_REALTIME_TESTS=OFF"
+        ],
+        "exit": 0,
+        "wall_s": 3.827559957979247,
+        "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug_configure.log",
+        "log_sha256": "787de4942d4eedabf66a00e196dba53c784f76d1a019505729afaa38d6ac4c8a"
+      },
+      {
+        "name": "debug_build",
+        "command": [
+          "cmake",
+          "--build",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug",
+          "--target",
+          "phase56_tests",
+          "phase56_fixed_modes",
+          "phase56_check",
+          "phase56_reference",
+          "phase57_tests",
+          "phase57_check",
+          "phase57_reference",
+          "phase58_tests",
+          "phase58_check",
+          "phase58_product_reference",
+          "phase58_fix_tests",
+          "phase58_fix_mailbox_tests",
+          "phase58_fix_worker_tests",
+          "phase60_playback_compare",
+          "-j3"
+        ],
+        "exit": 0,
+        "wall_s": 80.2995014169719,
+        "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug_build.log",
+        "log_sha256": "e66a3a7027dca611602da25c57f29599d01566bcf06ed33614df68cf3315e5bb"
+      },
+      {
+        "name": "debug_ctest",
+        "command": [
+          "ctest",
+          "--test-dir",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug",
+          "-R",
+          "^phase(56|57|58)_",
+          "--output-on-failure",
+          "--no-tests=error",
+          "--output-junit",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug_ctest.xml",
+          "-j1"
+        ],
+        "exit": 0,
+        "wall_s": 34.59889041597489,
+        "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug_ctest.log",
+        "log_sha256": "0992b4cdab45622a10217dd24753f564b0400e1982f5ebdfe55602f3da255c36"
+      },
+      {
+        "name": "debug_frozen_phase56",
+        "command": [
+          "/usr/local/opt/python@3.14/bin/python3.14",
+          "-B",
+          "tests/Phase56Smoke.py",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug/phase56_check",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase56_frozen/reference_percent"
+        ],
+        "exit": 0,
+        "wall_s": 1.9388877500314265,
+        "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug_frozen_phase56.log",
+        "log_sha256": "c7bde0d8d5994d30baff8b0ce28aa0cbe7812b3e573dc56a40c3484854a8585d"
+      },
+      {
+        "name": "debug_frozen_phase58",
+        "command": [
+          "/usr/local/opt/python@3.14/bin/python3.14",
+          "-B",
+          "tests/Phase58PcmSmoke.py",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug/phase58_check",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase58_frozen/product_reference"
+        ],
+        "exit": 1,
+        "wall_s": 0.728495167044457,
+        "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug_frozen_phase58.log",
+        "log_sha256": "d1793d99ee2d65eb6b60aec64d8e9d09151cacd5a2a5ea11044d06964184ecee"
+      }
+    ],
+    "debug_reference_recipe": {
+      "legacy_source_commit": "ec087019626d9ff0d9f157245729b74ddb6847d7",
+      "source_path": "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug_frozen_reference/Phase36Legacy.cpp",
+      "source_sha256": "4ffec7c4db196f51e89bd4ebaf336020ae71d0969c31393a40752b4a37ed3899",
+      "commands": [
+        [
+          "/usr/bin/c++",
+          "-std=c++20",
+          "-arch",
+          "arm64",
+          "-g",
+          "-I/Users/taro252/Docker/TimeStretchLab/src",
+          "-c",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug_frozen_reference/Phase36Legacy.cpp",
+          "-o",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug_frozen_reference/Phase36Legacy.o"
+        ],
+        [
+          "/usr/bin/c++",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug_frozen_reference/Phase36Legacy.o",
+          "-g",
+          "-Wl,-search_paths_first",
+          "-Wl,-headerpad_max_install_names",
+          "CMakeFiles/phase58_product_reference.dir/src/prototype/Phase58ProductReference.cpp.o",
+          "-o",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug_frozen_reference/product_reference_debug",
+          "libphase39_variable.a",
+          "libphase36_variable.a",
+          "libphase24_variable.a",
+          "libtimestretch_core.a",
+          "-framework",
+          "Accelerate"
+        ]
+      ],
+      "working_directory": "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug",
+      "length_contract": "Phase54 round(inputFrames*timeRatio); unchanged Phase58ProductReference host with pre-Phase57 legacy DSP object first in link order",
+      "shared_source_sha256": {
+        "src/prototype/Phase58ProductReference.cpp": "49fc9fdc21beb828fb22015e478b87e2ad86287791905ef8ecb1f47f0647cad1",
+        "src/prototype/Phase36StreamingSpeedEngine.h": "3a7a98100e5fafcde9314a0762bf3dd6a468350e779ab796aeb2c06e7fbf0179",
+        "src/prototype/Phase35PhaseVocoder.cpp": "8e49d29571635c2f50183a963a8ca1c9350e3a27d70aa2038002302a64cb1f84",
+        "src/prototype/Phase35StereoPhaseCoherence.cpp": "202b375db154cfe718425bb46245037afaa0ade4f12ae3fba5daa82cb1735633"
+      },
+      "binary_sha256": "fef03e96d1a4b24dee147f2a200d524d8c464004b1a40d889ac104ce2ad38438",
+      "binary_bytes": 1239496
+    },
+    "debug_match_commands": [
+      {
+        "name": "before_fd_fix_debug",
+        "command": [
+          "/usr/local/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taro252/Docker/TimeStretchLab/tests/Phase58PcmSmoke.py",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase60/debug/phase58_check",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug_frozen_reference/product_reference_debug"
+        ],
+        "exit": 0,
+        "wall_s": 11.140143917000387,
+        "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug_frozen_reference/before_fd_fix_debug.log",
+        "log_sha256": "060001180fa68f81e08c19f419b4172049c3f177a4b5dc8d0ec80cc5c83d57e0",
+        "checker_sha256": "c88f460b5273a632e87bb32fdeebc6dd613387eb8c581efbd9cef1bbad80a6b1"
+      },
+      {
+        "name": "after_fd_fix_debug",
+        "command": [
+          "/usr/local/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taro252/Docker/TimeStretchLab/tests/Phase58PcmSmoke.py",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug/phase58_check",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug_frozen_reference/product_reference_debug"
+        ],
+        "exit": 0,
+        "wall_s": 10.216974665992893,
+        "log": "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug_frozen_reference/after_fd_fix_debug.log",
+        "log_sha256": "060001180fa68f81e08c19f419b4172049c3f177a4b5dc8d0ec80cc5c83d57e0",
+        "checker_sha256": "1863d04b60a0d98afcc7b271b5e49ac9fd1782dc8ca7524f8125dea32694d344"
+      }
+    ],
+    "restore": "基準HEADとGit内の修正ソースを使用し、commandsにあるCMake/CTestを新規build出力先へ順に実行。旧DSPは指定commitのsrc/prototype/Phase36StreamingSpeedEngine.cppをgit showで復元し、Debug参照recipeの通りリンク。参照/ログ/PCMは記録したbuild配下で保持し、Gitへ追加しない。"
+  },
+  "runtime_binaries": {
+    "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/release/phase56_check": {
+      "sha256": "c92323bfc54133e19d1165a62467cd10dfe5bfc240594e3a8f1f42a0a3c0ce6e",
+      "bytes": 228224
+    },
+    "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/release/phase56_tests": {
+      "sha256": "b558e4c080025a45b8ae11ed81c3891f78811ff07b0f64114819c5e0cdea18f0",
+      "bytes": 253632
+    },
+    "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/release/phase57_tests": {
+      "sha256": "e9876fc8fbc2d3f4644019bb2dc69af744bd1bd5c258e24bbd46707d98a36aae",
+      "bytes": 471840
+    },
+    "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/release/phase58_check": {
+      "sha256": "0c1aff028d1fad0ba07f1fbd658f19658558c7028488e610b2054a8832d6c574",
+      "bytes": 683872
+    },
+    "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/release/phase58_tests": {
+      "sha256": "16a7e8310ef0c7a6be7a5343910799e58a455436399a52845e326763106b62fd",
+      "bytes": 666288
+    },
+    "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/release/phase60_playback_compare": {
+      "sha256": "0fdcfb3c0dd05de6bddfedbd7ec5bb752867b57b18d8aadfcd2d49142e3f48ba",
+      "bytes": 923464
+    },
+    "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug/phase56_check": {
+      "sha256": "0bb7727e75e7eff7437bf89873d26abd0ea6e8a50a7b3ea5c60180e336d9d637",
+      "bytes": 1032512
+    },
+    "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug/phase56_tests": {
+      "sha256": "f5af658d23cc0905176b37d7249f5f347281fecf4069aa093d09aea9a13a934e",
+      "bytes": 1070288
+    },
+    "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug/phase57_tests": {
+      "sha256": "87889046a5845e30529524230e7da69cf07d50beeb18e3178308538590133902",
+      "bytes": 1965936
+    },
+    "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug/phase58_check": {
+      "sha256": "1863d04b60a0d98afcc7b271b5e49ac9fd1782dc8ca7524f8125dea32694d344",
+      "bytes": 2797984
+    },
+    "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug/phase58_tests": {
+      "sha256": "d44d650bb386a5173c5850acfa6bbb82b9a2bb67c9f6919a99804ee772bb062d",
+      "bytes": 2773552
+    },
+    "/Users/taro252/Docker/TimeStretchLab/build/phase60_fd_pinning_regression/20261017T053542Z_fixed/debug/phase60_playback_compare": {
+      "sha256": "3813407edaf7626e10ca936961aa395adf595b90b7a62a45b9ca59a4a39e00da",
+      "bytes": 3902840
+    }
+  },
+  "application_sandbox_verified": false,
+  "physical_audio_verified": false,
+  "commit_or_push_performed": false
+}

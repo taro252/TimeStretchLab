@@ -24,9 +24,12 @@ struct ProgressiveSynthesisEngine::Impl final:ProgressiveAccess {
     std::array<std::vector<float>,2> pcm;std::array<const float*,2> pointers{};
     std::atomic<bool> cancelled{false},finished{false};bool failed=false,injected=false,finalLength=false;
     SynthesisState state=SynthesisState::NeedsMoreAnalysis;
-    Impl(const std::filesystem::path& path,std::uint32_t s,std::uint64_t g,std::function<void()> v,std::size_t budget,std::span<const unsigned char> pinnedBytes):speed(s),generation(g),validate(std::move(v)){
+    Impl(const std::filesystem::path& path,std::uint32_t s,std::uint64_t g,std::function<void()> v,std::size_t budget,std::span<const unsigned char> pinnedBytes,int pinnedFd=-1):speed(s),generation(g),validate(std::move(v)){
         if(s<400000||s>2000000||s%10000||!g)throw std::invalid_argument("Invalid Phase57 speed/generation");
-        if(validate)validate();WavStreamReader reader(path,pinnedBytes);length=reader.frames();channels=reader.channels();
+        if(validate)validate();
+        WavStreamReader reader=pinnedFd>=0&&pinnedBytes.empty()
+            ? WavStreamReader(pinnedFd) : WavStreamReader(path,pinnedBytes);
+        length=reader.frames();channels=reader.channels();
         if((reader.sampleRate()!=44100&&reader.sampleRate()!=48000)||(channels!=1&&channels!=2))throw std::invalid_argument("Unsupported input format");
         config.sampleRate=reader.sampleRate();config.channels=int(channels);config.timeRatio=1.0/(double(s)/1000000.0);
         config.qualityMode=QualityMode::Experimental;config.enableMultiResolution=true;config.enablePhaseLocking=true;config.enableTransientHandling=true;config.enableAdaptiveTimeMapping=true;config.enablePreciseTransientAnchoring=true;config.enableStereoCoherence=true;
@@ -37,7 +40,7 @@ struct ProgressiveSynthesisEngine::Impl final:ProgressiveAccess {
         if(budget<stateBytesEstimate())throw std::bad_alloc();
         for(auto* d:{&digests.fft,&digests.phase,&digests.ifft,&digests.ola})d->fill(hashSeed);digests.lowFir=digests.highFir=digests.fir=hashSeed;
         constexpr std::array<int,3> fft{8192,4096,1024},hop{2048,1024,256};
-        for(std::size_t r=0;r<3;++r)resolution[r]=std::make_unique<ResolutionStream>(path,config,fft[r],hop[r],detection,r==1,output,modes,digests,r,nullptr,0,nullptr,false,pinnedBytes);
+        for(std::size_t r=0;r<3;++r)resolution[r]=std::make_unique<ResolutionStream>(path,config,fft[r],hop[r],detection,r==1,output,modes,digests,r,nullptr,0,nullptr,false,pinnedBytes,pinnedFd);
         MultiResolutionCrossover filters(config.sampleRate,config.lowCrossoverHz,config.highCrossoverHz);
         for(std::size_t c=0;c<channels;++c){low.push_back(std::make_unique<LiveStreamingFIR>(filters.lowFilter(),output,nullptr));high.push_back(std::make_unique<LiveStreamingFIR>(filters.highFilter(),output,nullptr));pcm[c].resize(2048);pointers[c]=pcm[c].data();}
     }
@@ -112,6 +115,10 @@ struct ProgressiveSynthesisEngine::Impl final:ProgressiveAccess {
     }
 };
 ProgressiveSynthesisEngine::ProgressiveSynthesisEngine(const std::filesystem::path& p,std::uint32_t s,std::uint64_t g,std::function<void()> v,std::size_t b,std::span<const unsigned char> bytes):impl_(std::make_unique<Impl>(p,s,g,std::move(v),b,bytes)){}
+ProgressiveSynthesisEngine::ProgressiveSynthesisEngine(int fd,std::uint32_t s,std::uint64_t g,std::function<void()> v,std::size_t b,std::span<const unsigned char> bytes){
+    if(fd<0)throw std::invalid_argument("Invalid pinned input descriptor");
+    impl_=std::make_unique<Impl>(std::filesystem::path{},s,g,std::move(v),b,bytes,fd);
+}
 ProgressiveSynthesisEngine::~ProgressiveSynthesisEngine()=default;
 void ProgressiveSynthesisEngine::setDeclaredFinalOutputFrames(std::size_t frames){auto& x=*impl_;
     if(x.snapshot||x.generated||x.finished.load()||x.failed||x.cancelled.load())throw std::logic_error("Set output contract before input");

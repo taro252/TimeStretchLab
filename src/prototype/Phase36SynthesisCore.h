@@ -212,8 +212,11 @@ public:
                      Phase13StageDigests& digests,
                      std::size_t resolutionIndex,std::ostream* stageTrace,
                      std::size_t probeInputSample,WorkProfile* profile,
-                     bool recordFrameHistory,std::span<const unsigned char> pinnedBytes={})
-        : reader_(path,pinnedBytes), config_(config), detection_(detection), mid_(mid),
+                     bool recordFrameHistory,std::span<const unsigned char> pinnedBytes={},
+                     int pinnedFd=-1)
+        : reader_(pinnedFd>=0&&pinnedBytes.empty()
+              ? WavStreamReader(pinnedFd) : WavStreamReader(path,pinnedBytes)),
+          config_(config), detection_(detection), mid_(mid),
           fftSize_(fftSize), hop_(hop), padding_(fftSize/2),
           length_(reader_.frames()), outputLength_(outputLength),
           modeChanges_(modeChanges),

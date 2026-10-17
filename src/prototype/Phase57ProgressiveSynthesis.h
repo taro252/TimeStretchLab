@@ -23,6 +23,11 @@ public:
     ProgressiveSynthesisEngine(const std::filesystem::path& pinnedInput,std::uint32_t speedMicros,
         std::uint64_t generation,std::function<void()> validateInput={},std::size_t memoryBudget=16*1024*1024,
         std::span<const unsigned char> pinnedBytes={});
+    // Stream readers duplicate the FD without reopening a pathname; caller keeps
+    // ownership. Optional resident bytes are borrowed and must outlive the engine.
+    ProgressiveSynthesisEngine(int pinnedFd,std::uint32_t speedMicros,
+        std::uint64_t generation,std::function<void()> validateInput={},std::size_t memoryBudget=16*1024*1024,
+        std::span<const unsigned char> pinnedBytes={});
     ~ProgressiveSynthesisEngine();
     // Phase58: optional fixed PlaybackEngine output-length contract. Must be
     // selected before the first snapshot; the Phase57 default is unchanged.

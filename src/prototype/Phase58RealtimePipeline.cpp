@@ -389,7 +389,7 @@ struct RealtimePipeline::Impl {
             if(dspQosQueried){dspQosClass=actual;dspQosRelative=relative;}
             if(config.detailedDiagnostics)prepareDiagnosticStorage(details,config.diagnosticEventLimit);
             phase57::ProgressiveSynthesisEngine* activeEngine=nullptr;
-            phase57::ProgressiveSynthesisEngine engine(input.path(),config.speedMicros,session,[&]{
+            phase57::ProgressiveSynthesisEngine engine(input.snapshotDescriptor(),config.speedMicros,session,[&]{
                 if(activeEngine){if(cancelled.load()||failure.load())activeEngine->cancel();}
                 else check(true);
             },16*1024*1024,input.residentBytes());
@@ -503,7 +503,7 @@ struct RealtimePipeline::Impl {
             if(dspQosQueried){dspQosClass=actual;dspQosRelative=relative;}
             pthread_setname_np("Phase58 DSP");
             if(config.detailedDiagnostics)details.reserve(config.diagnosticEventLimit);
-            phase57::ProgressiveSynthesisEngine engine(input.path(),config.speedMicros,session,[this]{check(true);},16*1024*1024,input.residentBytes());
+            phase57::ProgressiveSynthesisEngine engine(input.snapshotDescriptor(),config.speedMicros,session,[this]{check(true);},16*1024*1024,input.residentBytes());
             output=std::size_t(std::llround(input.frames*(1.0/(double(config.speedMicros)/1000000.0))));
             engine.setDeclaredFinalOutputFrames(output.load());
             if(config.recordWorkerProfile){profiles.reserve(65536);engine.enableWorkProfiling();}
