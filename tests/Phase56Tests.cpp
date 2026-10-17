@@ -7,6 +7,7 @@
 #include <iostream>
 #include <thread>
 #include <unistd.h>
+#include <fcntl.h>
 using namespace ts;using namespace ts::prototype::phase56;
 void check(bool b,const char* text){if(!b)throw std::runtime_error(text);}
 template<class F>void rejects(F f){bool failed=false;try{f();}catch(...){failed=true;}check(failed,"Expected rejection");}
@@ -76,6 +77,20 @@ int main(){auto dir=std::filesystem::temp_directory_path()/("phase56_"+std::to_s
         auto second=std::async(std::launch::async,[&]{while(two.appendNext(y,7168)){}two.finish(y);});first.get();second.get();
         check(x.getSnapshot()->detectorThrough==y.getSnapshot()->detectorThrough,"Concurrent source readers differ");
         for(std::size_t i=0;i<x.getSnapshot()->mapThroughNode;++i)for(unsigned s=0;s<x.getSnapshot()->speedCount;++s)check(x.getSnapshot()->maps[s].at(i)==y.getSnapshot()->maps[s].at(i),"Shared source map differs");
+    }
+    // Unlinked snapshot must remain readable through a borrowed FD without path reopen.
+    {
+        auto snapshot=dir/"unlinked.wav";std::filesystem::copy_file(file,snapshot);
+        const int original=open(snapshot.c_str(),O_RDONLY|O_CLOEXEC);
+        check(original>=0,"Could not open snapshot fixture");
+        std::filesystem::remove(snapshot);
+        PinnedWavSource source(original,122);
+        close(original); // source owns a duplicate, not the caller's descriptor
+        ProgressiveAnalysisSession x(source.rate(),source.channels(),122);
+        while(source.appendNext(x,8192)){}
+        source.finish(x);
+        check(x.getSnapshot()->isFinal&&x.getSnapshot()->receivedInputFrames==pcm.size(),
+              "Unlinked descriptor snapshot was not fully consumed");
     }
     {PinnedWavSource source(file,12);ProgressiveAnalysisSession x(48000,1,12);source.appendNext(x,8192);auto replaced=dir/"new.wav";WavWriter::write(replaced,audio);std::filesystem::rename(replaced,file);rejects([&]{source.appendNext(x,8192);});check(x.getSnapshot()->hasError&&!x.getSnapshot()->isFinal,"Replacement accepted as EOS");}
     {PinnedWavSource source(file,121);ProgressiveAnalysisSession x(48000,1,121);x.cancel();rejects([&]{source.appendNext(x,8192);});check(x.getSnapshot()->isCancelled&&!x.getSnapshot()->isFinal,"File adapter cancellation became successful input");}
