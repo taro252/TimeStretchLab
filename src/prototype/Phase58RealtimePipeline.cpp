@@ -33,13 +33,13 @@ public:
         fd_=open(p.c_str(),O_RDONLY|O_CLOEXEC);
         try{
             if(fd_<0||fstat(fd_,&identity_)||!S_ISREG(identity_.st_mode))throw std::runtime_error("Cannot pin regular input");
-            WavStreamReader r(path());rate=r.sampleRate();channels=r.channels();frames=r.frames();
+            WavStreamReader r(fd_);rate=r.sampleRate();channels=r.channels();frames=r.frames();
             if(!frames||(rate!=44100&&rate!=48000)||(channels!=1&&channels!=2))throw std::invalid_argument("Unsupported Phase58 WAV");
             validate();
         }catch(...){if(fd_>=0)close(fd_);fd_=-1;throw;}
     }
     ~Input(){if(resident_){munlock(resident_,residentSize_);munmap(resident_,residentSize_);}if(snapshotFd_>=0)close(snapshotFd_);if(fd_>=0)close(fd_);}
-    std::filesystem::path path()const{return "/dev/fd/"+std::to_string(snapshotFd_>=0?snapshotFd_:fd_);}
+    int snapshotDescriptor()const{return snapshotFd_;}
     std::size_t snapshotBytes()const{return snapshotFd_>=0?std::size_t(identity_.st_size):0;}
     std::span<const unsigned char> residentBytes()const{return {resident_,residentSize_};}
     void makeResident(){
@@ -48,7 +48,7 @@ public:
         if(memory==MAP_FAILED)throw std::runtime_error("Cannot map private encoded input");
         if(mlock(memory,bytes)!=0){munmap(memory,bytes);throw std::runtime_error("Cannot lock private encoded input in memory");}
         resident_=static_cast<unsigned char*>(memory);residentSize_=bytes;
-        WavStreamReader validated(path(),residentBytes());validated.validateEncodedSamples();
+        WavStreamReader validated(std::filesystem::path{},residentBytes());validated.validateEncodedSamples();
     }
     void validate()const{
         struct stat actual{},selected{};const int choice=open(selected_.c_str(),O_RDONLY|O_CLOEXEC);
@@ -352,7 +352,7 @@ struct RealtimePipeline::Impl {
             pthread_setname_np("Phase58 analysis");
             analysisStart=elapsed();playback::StageClock cpu;
             a=std::make_unique<phase56::ProgressiveAnalysisSession>(input.rate,input.channels,session,phase56::AnalysisLimits{},std::vector<std::uint32_t>{config.speedMicros});
-            phase56::PinnedWavSource source(input.path(),session);std::size_t at=0;
+            phase56::PinnedWavSource source(input.snapshotDescriptor(),session);std::size_t at=0;
             while(at<input.frames){check();if(config.analysisDelayMs)std::this_thread::sleep_for(std::chrono::duration<double,std::milli>(config.analysisDelayMs));
                 check();at+=source.appendNext(*a,config.analysisChunk);check();received=at;publish(a->getSnapshot());transitionStep(a->getSnapshot());}
             check();source.finish(*a);check();analysisEnd=elapsed();analysisDone=true;publish(a->getSnapshot());transitionStep(a->getSnapshot());
