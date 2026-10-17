@@ -47,7 +47,14 @@ WavStreamReader::WavStreamReader(const std::filesystem::path& path,std::span<con
         auto fd=std::stoi(path.string().substr(8));descriptor_=fcntl(fd,F_DUPFD_CLOEXEC,0);
         if(descriptor_<0)throw std::runtime_error("Cannot duplicate pinned WAV");
     }else{input_.open(path,std::ios::binary);if(!input_)throw std::runtime_error("Cannot open WAV: "+path.string());}
-    try {
+    try {parse();}catch(...){if(descriptor_>=0){close(descriptor_);descriptor_=-1;}throw;}
+}
+WavStreamReader::WavStreamReader(int sourceFd) {
+    if(sourceFd<0||(descriptor_=fcntl(sourceFd,F_DUPFD_CLOEXEC,0))<0)
+        throw std::runtime_error("Cannot duplicate pinned WAV");
+    try{parse();}catch(...){close(descriptor_);descriptor_=-1;throw;}
+}
+void WavStreamReader::parse() {
     const bool pinned=descriptor_>=0||!pinnedBytes_.empty();
     std::streamoff position=0;
     const auto read=[&](void* p,std::size_t n){if(pinned){auto ok=readPinned(p,n,position);position+=n;return ok;}return bool(input_.read(static_cast<char*>(p),n));};
@@ -96,7 +103,6 @@ WavStreamReader::WavStreamReader(const std::filesystem::path& path,std::span<con
         throw std::runtime_error("Truncated WAV data");
     frames_ = dataBytes/blockAlign_;
     cache_.resize(cacheFrames_*blockAlign_);
-    }catch(...){if(descriptor_>=0){close(descriptor_);descriptor_=-1;}throw;}
 }
 void WavStreamReader::load(std::size_t frame) {
     cacheStart_ = frame/cacheFrames_*cacheFrames_;
