@@ -9,6 +9,7 @@ namespace ts::prototype::phase56 {
 // no completed-analysis cache, no hashing shortcut, no audio-callback access.
 class PinnedWavSource {
     std::filesystem::path selected_;std::uint64_t generation_;int fd_=-1;
+    bool validateSelectedPath_=true;
     struct stat identity_{};std::unique_ptr<WavStreamReader> reader_;std::size_t position_=0;
     static bool same(const struct stat& a,const struct stat& b){
         const auto time=[](timespec a,timespec b){return a.tv_sec==b.tv_sec&&a.tv_nsec==b.tv_nsec;};
@@ -18,8 +19,20 @@ class PinnedWavSource {
 public:
     PinnedWavSource(const std::filesystem::path& path,std::uint64_t generation):selected_(path),generation_(generation){
         fd_=open(path.c_str(),O_RDONLY|O_CLOEXEC);if(fd_<0)throw std::runtime_error("Cannot pin source");
-        try{if(fstat(fd_,&identity_)||!S_ISREG(identity_.st_mode))throw std::runtime_error("Regular source required");reader_=std::make_unique<WavStreamReader>("/dev/fd/"+std::to_string(fd_));}
+        try{if(fstat(fd_,&identity_)||!S_ISREG(identity_.st_mode))throw std::runtime_error("Regular source required");reader_=std::make_unique<WavStreamReader>(fd_);}
         catch(...){close(fd_);throw;}
+    }
+    // FD-only snapshot: do not reopen /dev/fd/N (which can trigger TCC checks).
+    // A private, unlinked snapshot has no pathname to compare; validate its FD.
+    PinnedWavSource(int sourceFd,std::uint64_t generation)
+        :generation_(generation),validateSelectedPath_(false){
+        if(sourceFd<0||(fd_=fcntl(sourceFd,F_DUPFD_CLOEXEC,0))<0)
+            throw std::runtime_error("Cannot duplicate pinned source");
+        try{
+            if(fstat(fd_,&identity_)||!S_ISREG(identity_.st_mode))
+                throw std::runtime_error("Regular source required");
+            reader_=std::make_unique<WavStreamReader>(fd_);
+        }catch(...){close(fd_);fd_=-1;throw;}
     }
     ~PinnedWavSource(){reader_.reset();if(fd_>=0)close(fd_);}
     PinnedWavSource(const PinnedWavSource&)=delete;
@@ -29,9 +42,13 @@ public:
     void validate(ProgressiveAnalysisSession& session){
         struct stat current{};
         if(fd_<0||fstat(fd_,&current)){session.failInput(generation_,AnalysisError::InputRead);throw std::runtime_error("Pinned source read failed");}
-        const int selected=open(selected_.c_str(),O_RDONLY|O_CLOEXEC);struct stat choice{};
-        const bool ok=selected>=0&&fstat(selected,&choice)==0&&same(identity_,current)&&same(identity_,choice);
-        if(selected>=0)close(selected);
+        bool ok=same(identity_,current);
+        if(validateSelectedPath_){
+            const int selected=open(selected_.c_str(),O_RDONLY|O_CLOEXEC);
+            struct stat choice{};
+            ok=ok&&selected>=0&&fstat(selected,&choice)==0&&same(identity_,choice);
+            if(selected>=0)close(selected);
+        }
         if(!ok){session.failInput(generation_,AnalysisError::InputChanged);throw std::runtime_error("Pinned source changed/replaced/unavailable");}
     }
     std::size_t appendNext(ProgressiveAnalysisSession& session,std::size_t maximum){
