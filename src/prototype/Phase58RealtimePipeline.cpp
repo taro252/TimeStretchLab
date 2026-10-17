@@ -3,6 +3,7 @@
 #include "prototype/Phase45PcmDigest.h"
 #include "prototype/Phase58FixAllocationProbe.h"
 #include "prototype/Phase58FixSnapshotMailbox.h"
+#include "prototype/Phase61SeekEnvelope.h"
 #include "playback/StartupDiagnostics.h"
 #include <condition_variable>
 #include <cerrno>
@@ -124,6 +125,9 @@ struct RealtimePipeline::Impl {
     phase57::ProgressiveSynthesisEngine* activeSynthesis=nullptr;
     std::atomic<std::size_t> checkpointStart{0};
     std::size_t lastCheckpointOutput=0;bool savedCheckpoint=false;
+    bool localInitialized=false;
+    std::atomic<std::size_t> localSeed{0},localBegin{0};std::atomic<double> localInitializeS{0};
+    phase61::PublicationEnvelope envelope;
     const std::uint64_t session=nextSession.fetch_add(1);const std::size_t lead;
     Phase14AudioFifo fifo;
     std::thread analysisWorker,dspWorker,sampler;
@@ -178,7 +182,7 @@ struct RealtimePipeline::Impl {
     Impl(const std::filesystem::path& p,Configuration c):Impl(std::make_shared<InputLease>(p),c,false,0){}
     Impl(std::shared_ptr<InputLease> lease,Configuration c,bool seek,std::size_t at)
         :config(c),inputLease(std::move(lease)),input(inputLease->input),seeking(seek),seekInput(at),
-         lead(c.candidate?16384:12288),fifo(input.channels,16384){
+         envelope(input.rate,input.channels),lead(c.candidate?16384:12288),fifo(input.channels,16384){
         if(c.speedMicros<400000||c.speedMicros>2000000||c.speedMicros%10000||!c.analysisChunk||c.analysisChunk>131072||!std::isfinite(c.analysisDelayMs)||c.analysisDelayMs<0||!std::isfinite(c.dspDelayMs)||c.dspDelayMs<0)throw std::invalid_argument("Invalid Phase58 configuration");
         if(c.diagnosticEventLimit>262144)throw std::invalid_argument("Unbounded detail diagnostics");
         if(c.scheduling==WorkerScheduling::AudioWorkgroup&&(!c.residentInput||c.dspDelayMs))throw std::invalid_argument("Audio workgroup requires resident input and no synthetic DSP sleep");
@@ -188,6 +192,7 @@ struct RealtimePipeline::Impl {
         if(c.phaseProbeWindowCount>c.phaseProbeWindows.size())throw std::invalid_argument("Too many phase probe windows");
         for(std::size_t w=0;w<c.phaseProbeWindowCount;++w)if(c.phaseProbeWindows[w].first>=c.phaseProbeWindows[w].second)throw std::invalid_argument("Invalid phase probe window");
         if(seeking&&seekInput>input.frames)throw std::out_of_range("Seek input frame out of range");
+        if(config.fastLocalSeek&&(!seeking||!config.residentInput||!config.localPrerollInputFrames||config.localPrerollInputFrames>input.rate*2ULL))throw std::invalid_argument("Invalid local seek configuration");
         error.reserve(256);input.validate();verified=elapsed();
         if(!seeking){
             inputLease->generation=session;
@@ -234,8 +239,9 @@ struct RealtimePipeline::Impl {
         const auto room=std::min(fifo.free(),lead-std::min(lead,fifo.available()));
         const auto n=std::min(room,seekPcmCount);if(!n)return;
         std::array<const float*,2> p{};for(std::size_t c=0;c<input.channels;++c)p[c]=seekPcm[c].data()+seekPcmOffset;
-        if(!fifo.write(p.data(),n))throw std::logic_error("Seek FIFO rejected PCM");
-        if(config.verifyPcm){for(std::size_t i=0;i<n;++i)for(std::size_t c=0;c<input.channels;++c)seekInterleaved[i*input.channels+c]=p[c][i];seekHash.update(seekInterleaved.data(),n*input.channels*sizeof(float));}
+        const auto* delivered=envelope.apply(p.data(),published.load(),n,config.fastLocalSeek,outputStart.load());
+        if(!fifo.write(delivered,n))throw std::logic_error("Seek FIFO rejected PCM");
+        if(config.verifyPcm){for(std::size_t i=0;i<n;++i)for(std::size_t c=0;c<input.channels;++c)seekInterleaved[i*input.channels+c]=delivered[c][i];seekHash.update(seekInterleaved.data(),n*input.channels*sizeof(float));}
         seekPcmOffset+=n;seekPcmCount-=n;published.fetch_add(n);
         if(firstPublished.load()<0)firstPublished=elapsed();
         if(published.load()-outputStart.load()>=lead&&!ready.load()){
@@ -252,7 +258,7 @@ struct RealtimePipeline::Impl {
     }
     std::unique_ptr<phase57::ProgressiveSynthesisEngine> makeSynthesis(std::function<void()> validate){
         if(seeking){while(!seekMapReady.load()){check(true);std::this_thread::sleep_for(std::chrono::milliseconds(1));}
-            if(config.seekCheckpoints&&!config.recordWorkerProfile&&!config.detailedDiagnostics&&seekInput!=input.frames){
+            if(!config.fastLocalSeek&&config.seekCheckpoints&&!config.recordWorkerProfile&&!config.detailedDiagnostics&&seekInput!=input.frames){
                 std::shared_ptr<const phase57::ProgressiveSynthesisEngine> saved;std::size_t point=0;
                 {std::lock_guard lock(inputLease->checkpointMutex);
                     for(const auto& cp:inputLease->checkpoints)if(cp.speed==config.speedMicros&&cp.output<=outputStart.load()&&cp.output>=point){saved=cp.state;point=cp.output;}}
@@ -264,7 +270,7 @@ struct RealtimePipeline::Impl {
         return std::make_unique<phase57::ProgressiveSynthesisEngine>(input.snapshotDescriptor(),config.speedMicros,inputLease->generation,std::move(validate),16*1024*1024,input.residentBytes());
     }
     void rememberCheckpoint(bool atReady=false){
-        if(!seeking||!config.seekCheckpoints||!activeSynthesis||ready.load()||realtime->active()||config.recordWorkerProfile||config.detailedDiagnostics)return;
+        if(!seeking||config.fastLocalSeek||!config.seekCheckpoints||!activeSynthesis||ready.load()||realtime->active()||config.recordWorkerProfile||config.detailedDiagnostics)return;
         const auto point=activeSynthesis->frontier().published;
         if((savedCheckpoint&&point==lastCheckpointOutput)||(!atReady&&point-lastCheckpointOutput<input.rate*30ULL))return;
         auto copy=activeSynthesis->cloneFixedCheckpoint(input.snapshotDescriptor(),input.residentBytes());if(!copy)return;
@@ -273,6 +279,14 @@ struct RealtimePipeline::Impl {
             if(!saved.empty()&&saved.back().speed==config.speedMicros&&point>=saved.back().output&&point-saved.back().output<input.rate*5ULL)saved.pop_back();
             if(saved.size()==2)saved.erase(saved.begin());saved.push_back({config.speedMicros,point,std::move(immutable)});++inputLease->checkpointBuilds;}
         lastCheckpointOutput=point;savedCheckpoint=true;
+    }
+    void initializeLocalIfNeeded(phase57::ProgressiveSynthesisEngine& engine){
+        if(!config.fastLocalSeek||localInitialized)return;
+        playback::StageClock timer;
+        const auto start=engine.initializeFastLocal(seekInput,config.localPrerollInputFrames);
+        if(start.requestedOutput!=outputStart.load())throw std::logic_error("Local seek map coordinate differs");
+        generated=start.beginOutput;localSeed=start.seedInput;localBegin=start.beginOutput;
+        localInitialized=true;localInitializeS=timer.elapsed().wallSeconds;
     }
     static void detailObserver(void* context,std::size_t stage,std::size_t scope,bool begin,std::uint64_t ns,double cpu)noexcept{
         auto& x=*static_cast<Impl*>(context);
@@ -530,6 +544,7 @@ struct RealtimePipeline::Impl {
                 if(seeking){stageSeekPcm(generation,offset,p,n);return;}
                 if(generation!=inputLease->generation||offset!=published.load())throw std::logic_error("PCM identity/offset mismatch");
                 generated=offset+n;if(firstGenerated.load()<0)firstGenerated=elapsed();
+                p=envelope.apply(p,offset,n,false,0);
                 if(config.verifyPcm){DetailScope region{*this,15};for(std::size_t i=0;i<n;++i)for(std::size_t c=0;c<input.channels;++c)interleaved[i*input.channels+c]=p[c][i];hash.update(interleaved.data(),n*input.channels*sizeof(float));}
                 {DetailScope region{*this,16};if(!fifo.write(p,n))throw std::runtime_error("FIFO rejected PCM write");}
                 atPublication=elapsed();gap=previousPublished<0?0:atPublication-previousPublished;previousPublished=atPublication;maxPublicationGap=std::max(maxPublicationGap.load(),gap);
@@ -580,6 +595,7 @@ struct RealtimePipeline::Impl {
                         DetailScope region{*this,10};playback::StageClock wait;++analysisWaits;
                         realtime->waitForSignal();analysisWait=analysisWait.load()+wait.elapsed().wallSeconds;continue;
                     }
+                    if(!config.dynamicTransitions||currentMapVersion)initializeLocalIfNeeded(engine);
                     if(seeking?fifo.available()>=lead:(fifo.free()<2048||fifo.available()+2048>lead)){
                         DetailScope region{*this,13};playback::StageClock wait;
                         realtime->waitForSignal();backpressureWait=backpressureWait.load()+wait.elapsed().wallSeconds;continue;
@@ -663,6 +679,7 @@ struct RealtimePipeline::Impl {
                     engine.supplySnapshot(next);
                     finalSnapshot=next->isFinal;
                 }
+                initializeLocalIfNeeded(engine);
                 if(seeking?fifo.available()>=lead:(fifo.free()<2048||fifo.available()+2048>lead)){
                     DetailScope region{*this,13};
                     playback::StageClock wait;std::unique_lock lock(mutex);
@@ -678,6 +695,7 @@ struct RealtimePipeline::Impl {
                     if(seeking){check(true);stageSeekPcm(generation,offset,p,n);return;}
                     check(true);if(generation!=inputLease->generation||offset!=published.load())throw std::logic_error("PCM identity/offset mismatch");
                     generated=offset+n;if(firstGenerated.load()<0)firstGenerated=elapsed();
+                    p=envelope.apply(p,offset,n,false,0);
                     if(config.verifyPcm){DetailScope digestRegion{*this,15};for(std::size_t i=0;i<n;++i)for(std::size_t c=0;c<input.channels;++c)interleaved[i*input.channels+c]=p[c][i];hash.update(interleaved.data(),n*input.channels*sizeof(float));}
                     {DetailScope fifoRegion{*this,16};if(!fifo.write(p,n))throw std::runtime_error("FIFO rejected PCM write");}
                     atPublication=elapsed();gap=previousPublished<0?0:atPublication-previousPublished;previousPublished=atPublication;maxPublicationGap=std::max(maxPublicationGap.load(),gap);
@@ -767,9 +785,16 @@ std::size_t RealtimePipeline::outputStartFrame()const noexcept{return impl_->out
 std::uint64_t RealtimePipeline::inputGeneration()const noexcept{return impl_->inputLease->generation;}
 std::unique_ptr<RealtimePipeline> RealtimePipeline::createSeek(std::size_t frame,std::uint32_t speed)const{
     auto& x=*impl_;if(x.failure.load()||x.cancelled.load())throw std::logic_error("Seek from a failed/stopped epoch");
-    auto c=x.config;c.speedMicros=speed;
+    auto c=x.config;c.speedMicros=speed;c.fastLocalSeek=false;c.localPrerollInputFrames=0;
     return std::unique_ptr<RealtimePipeline>(new RealtimePipeline(std::make_unique<Impl>(x.inputLease,c,true,frame)));
 }
+std::unique_ptr<RealtimePipeline> RealtimePipeline::createFastLocalSeek(std::size_t frame,std::uint32_t speed,std::size_t preroll)const{
+    auto& x=*impl_;if(x.failure.load()||x.cancelled.load())throw std::logic_error("Seek from a failed/stopped epoch");
+    auto c=x.config;c.speedMicros=speed;c.fastLocalSeek=true;c.localPrerollInputFrames=preroll?preroll:x.input.rate/2;
+    return std::unique_ptr<RealtimePipeline>(new RealtimePipeline(std::make_unique<Impl>(x.inputLease,c,true,frame)));
+}
+void RealtimePipeline::requestRetireFade(bool fade){impl_->envelope.retireRequested=fade;}
+bool RealtimePipeline::retireFadeDrained()const noexcept{const auto& x=*impl_;const auto end=x.envelope.retireEnd.load();return (end&&x.consumed.load()>=end)||drained();}
 double RealtimePipeline::elapsedSeconds()const noexcept{return impl_->elapsed();}
 Diagnostics RealtimePipeline::diagnostics()const{
     const auto& x=*impl_;Diagnostics d;std::lock_guard lock(x.mutex);
@@ -777,6 +802,8 @@ Diagnostics RealtimePipeline::diagnostics()const{
     d.inputGeneration=x.inputLease->generation;d.outputStartFrame=x.outputStart;d.discardedFrames=x.discarded;d.reusedInput=d.reusedAnalysis=x.seeking;
     d.sourceHashPasses=x.input.hashes();d.sourceSnapshotCreations=x.input.snapshots();d.residentLockCalls=x.input.locks();
     d.checkpointUsed=x.checkpointStart.load()!=0;d.checkpointStartFrame=x.checkpointStart;
+    d.fastLocalSeek=x.config.fastLocalSeek;d.localSeedInput=x.localSeed;d.localBeginOutput=x.localBegin;
+    d.localPrerollInputFrames=x.config.localPrerollInputFrames;d.localInitializeS=x.localInitializeS;
     {std::lock_guard checkpointLock(x.inputLease->checkpointMutex);d.checkpointResidentStates=x.inputLease->checkpoints.size();d.checkpointBuilds=x.inputLease->checkpointBuilds;}
     d.inputFrames=x.input.frames;d.receivedInput=x.received;d.generated=x.generated;d.published=x.published;d.consumed=x.consumed;d.outputFrames=x.output;
     d.inputAtFirstPcm=x.inputAtFirstPcm;d.inputAtReady=x.inputAtReady;d.nonEosPublished=x.nonEosPublished;

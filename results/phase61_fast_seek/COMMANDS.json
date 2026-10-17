@@ -1,0 +1,3511 @@
+{
+  "validation_commands": [
+    {
+      "name": "release_configure",
+      "command": [
+        "cmake",
+        "-S",
+        "/Users/taro252/Docker/TimeStretchLab",
+        "-B",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DBUILD_TESTING=ON"
+      ],
+      "exit": 0,
+      "wall_s": 3.509866458014585
+    },
+    {
+      "name": "release_build",
+      "command": [
+        "cmake",
+        "--build",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release",
+        "--target",
+        "phase61_fast_seek_tests",
+        "phase61_contract_tests",
+        "phase61_checkpoint_tests",
+        "phase61_safety_tests",
+        "phase61_seek_check",
+        "phase61_seek_reference",
+        "phase60_contract_tests",
+        "phase59_tests",
+        "phase59_control_tests",
+        "phase59_check",
+        "phase59_reference",
+        "phase59_progressive_replay",
+        "phase59_captured_reference",
+        "phase59_fix_vocoder_tests",
+        "phase59_fix_stereo_tests",
+        "phase58_tests",
+        "phase58_check",
+        "phase58_product_reference",
+        "phase58_fix_tests",
+        "phase58_fix_mailbox_tests",
+        "phase58_fix_worker_tests",
+        "phase57_tests",
+        "phase57_check",
+        "phase57_reference",
+        "phase56_tests",
+        "phase56_fixed_modes",
+        "phase56_check",
+        "phase56_reference",
+        "phase54_core_probe",
+        "phase54_analysis_tests",
+        "phase54_seek_tests",
+        "-j4"
+      ],
+      "exit": 0,
+      "wall_s": 97.21822945796885
+    },
+    {
+      "name": "release_ctest",
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release",
+        "-R",
+        "^(phase54_|phase56_|phase57_|phase58_|phase59_|phase60_|phase61_)",
+        "--output-on-failure",
+        "--no-tests=error",
+        "--output-junit",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release_ctest.xml",
+        "-j1"
+      ],
+      "exit": 8,
+      "wall_s": 129.44408466597088
+    }
+  ],
+  "final_validation_commands": [
+    {
+      "name": "release_configure",
+      "command": [
+        "cmake",
+        "-S",
+        "/Users/taro252/Docker/TimeStretchLab",
+        "-B",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DBUILD_TESTING=ON"
+      ],
+      "exit": 0,
+      "wall_s": 2.57554504199652
+    },
+    {
+      "name": "release_build",
+      "command": [
+        "cmake",
+        "--build",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release",
+        "--target",
+        "phase61_fast_seek_tests",
+        "phase61_fast_seek_study",
+        "phase60_adapter_tests",
+        "phase60_lifecycle_tests",
+        "phase61_fast_native_tests",
+        "phase61_native_tests",
+        "phase61_contract_tests",
+        "phase61_checkpoint_tests",
+        "phase61_safety_tests",
+        "phase61_seek_check",
+        "phase61_seek_reference",
+        "phase60_contract_tests",
+        "phase59_tests",
+        "phase59_control_tests",
+        "phase59_check",
+        "phase59_reference",
+        "phase59_progressive_replay",
+        "phase59_captured_reference",
+        "phase59_fix_vocoder_tests",
+        "phase59_fix_stereo_tests",
+        "phase58_tests",
+        "phase58_check",
+        "phase58_product_reference",
+        "phase58_fix_tests",
+        "phase58_fix_mailbox_tests",
+        "phase58_fix_worker_tests",
+        "phase57_tests",
+        "phase57_check",
+        "phase57_reference",
+        "phase56_tests",
+        "phase56_fixed_modes",
+        "phase56_check",
+        "phase56_reference",
+        "phase54_core_probe",
+        "phase54_analysis_tests",
+        "phase54_seek_tests",
+        "-j4"
+      ],
+      "exit": 0,
+      "wall_s": 59.57034337497316
+    },
+    {
+      "name": "release_ctest",
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release",
+        "-R",
+        "^(phase54_|phase56_|phase57_|phase58_|phase59_|phase60_|phase61_)",
+        "--output-on-failure",
+        "--no-tests=error",
+        "--output-junit",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/final_release_ctest.xml",
+        "-j1"
+      ],
+      "exit": 0,
+      "wall_s": 114.49371000000974
+    },
+    {
+      "name": "release_exact_suffix",
+      "command": [
+        "python3",
+        "-B",
+        "/Users/taro252/Docker/TimeStretchLab/tests/Phase61SeekSmoke.py",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_seek_check",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "--full",
+        "--output",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/final_release_exact_suffix"
+      ],
+      "exit": 0,
+      "wall_s": 174.09440620796522
+    },
+    {
+      "name": "debug_configure",
+      "command": [
+        "cmake",
+        "-S",
+        "/Users/taro252/Docker/TimeStretchLab",
+        "-B",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/debug",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DBUILD_TESTING=ON"
+      ],
+      "exit": 0,
+      "wall_s": 3.680571625009179
+    },
+    {
+      "name": "debug_build",
+      "command": [
+        "cmake",
+        "--build",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/debug",
+        "--target",
+        "phase61_fast_seek_tests",
+        "phase61_fast_seek_study",
+        "phase60_adapter_tests",
+        "phase60_lifecycle_tests",
+        "phase61_fast_native_tests",
+        "phase61_native_tests",
+        "phase61_contract_tests",
+        "phase61_checkpoint_tests",
+        "phase61_safety_tests",
+        "phase61_seek_check",
+        "phase61_seek_reference",
+        "phase60_contract_tests",
+        "phase59_tests",
+        "phase59_control_tests",
+        "phase59_check",
+        "phase59_reference",
+        "phase59_progressive_replay",
+        "phase59_captured_reference",
+        "phase59_fix_vocoder_tests",
+        "phase59_fix_stereo_tests",
+        "phase58_tests",
+        "phase58_check",
+        "phase58_product_reference",
+        "phase58_fix_tests",
+        "phase58_fix_mailbox_tests",
+        "phase58_fix_worker_tests",
+        "phase57_tests",
+        "phase57_check",
+        "phase57_reference",
+        "phase56_tests",
+        "phase56_fixed_modes",
+        "phase56_check",
+        "phase56_reference",
+        "phase54_core_probe",
+        "phase54_analysis_tests",
+        "phase54_seek_tests",
+        "-j4"
+      ],
+      "exit": 0,
+      "wall_s": 128.43876929202816
+    },
+    {
+      "name": "debug_ctest",
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/debug",
+        "-R",
+        "^(phase54_|phase56_|phase57_|phase58_|phase59_|phase60_|phase61_)",
+        "--output-on-failure",
+        "--no-tests=error",
+        "--output-junit",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/final_debug_ctest.xml",
+        "-j1"
+      ],
+      "exit": 0,
+      "wall_s": 348.48493958299514
+    },
+    {
+      "name": "debug_exact_suffix",
+      "command": [
+        "python3",
+        "-B",
+        "/Users/taro252/Docker/TimeStretchLab/tests/Phase61SeekSmoke.py",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/debug/phase61_seek_check",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_debug_v1/phase61_frozen_reference",
+        "--full",
+        "--output",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/final_debug_exact_suffix"
+      ],
+      "exit": 0,
+      "wall_s": 549.2343726669787
+    },
+    {
+      "name": "golden",
+      "command": [
+        "python3",
+        "-B",
+        "tests/Phase61Golden.py",
+        "--probe",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase54_core_probe",
+        "--output",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/final_golden"
+      ],
+      "exit": 0,
+      "wall_s": 116.38798475003568
+    }
+  ],
+  "final_hosts_build": [
+    {
+      "command": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/phase61_fast_seek/release",
+        "-DCMAKE_BUILD_TYPE=Release"
+      ],
+      "exit": 0,
+      "wall_s": 2.7116576670086943
+    },
+    {
+      "command": [
+        "cmake",
+        "--build",
+        "build/phase61_fast_seek/release",
+        "--target",
+        "phase61_fast_sandbox_app",
+        "phase61_fast_native_tests",
+        "-j4"
+      ],
+      "exit": 0,
+      "wall_s": 12.564870458038058
+    },
+    {
+      "command": [
+        "cmake",
+        "--build",
+        "build/phase61_fast_seek/debug",
+        "--target",
+        "phase61_fast_native_tests",
+        "-j4"
+      ],
+      "exit": 0,
+      "wall_s": 4.810793667042162
+    }
+  ],
+  "gated_hosts_build": [
+    {
+      "command": [
+        "cmake",
+        "--build",
+        "build/phase61_fast_seek/release",
+        "--target",
+        "phase61_fast_native_tests",
+        "phase61_native_tests",
+        "phase60_adapter_tests",
+        "phase60_lifecycle_tests",
+        "phase61_fast_sandbox_app",
+        "-j4"
+      ],
+      "exit": 0,
+      "wall_s": 22.720007833035197
+    },
+    {
+      "command": [
+        "cmake",
+        "--build",
+        "build/phase61_fast_seek/debug",
+        "--target",
+        "phase61_fast_native_tests",
+        "phase61_native_tests",
+        "phase60_adapter_tests",
+        "phase60_lifecycle_tests",
+        "-j4"
+      ],
+      "exit": 0,
+      "wall_s": 15.258389416965656
+    }
+  ],
+  "performance_commands": [
+    {
+      "name": "chain",
+      "command": [
+        "/Users/taro252/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "scripts/phase61_fast_seek_study.py",
+        "--binary",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_seek_study",
+        "--reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "--suite",
+        "performance",
+        "--source",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "--output",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain",
+        "--preroll-ms",
+        "500",
+        "1000",
+        "2000"
+      ],
+      "exit": 0,
+      "wall_s": 347.4372224159888
+    },
+    {
+      "name": "music",
+      "command": [
+        "/Users/taro252/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "scripts/phase61_fast_seek_study.py",
+        "--binary",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_seek_study",
+        "--reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "--suite",
+        "performance",
+        "--source",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "--output",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music",
+        "--preroll-ms",
+        "500"
+      ],
+      "exit": 0,
+      "wall_s": 716.8175388749805
+    }
+  ],
+  "native_final_commands": [
+    {
+      "name": "native_performance_chain",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_native_tests",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/native_performance_chain",
+        "--performance"
+      ],
+      "exit": 0,
+      "wall_s": 161.44034779100912
+    },
+    {
+      "name": "native_early_chain",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_native_tests",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/native_early_chain",
+        "--early-performance"
+      ],
+      "exit": 0,
+      "wall_s": 42.3028734580148
+    },
+    {
+      "name": "native_performance_music",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_native_tests",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/native_performance_music",
+        "--performance"
+      ],
+      "exit": 2,
+      "wall_s": 224.93060199997853
+    },
+    {
+      "name": "native_early_music",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_native_tests",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/native_early_music",
+        "--early-performance"
+      ],
+      "exit": 0,
+      "wall_s": 66.36887183296494
+    },
+    {
+      "name": "native_final_48000_2",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_native_tests",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_48000_2.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/native_final_48000_2"
+      ],
+      "exit": 0,
+      "wall_s": 73.28275975002907
+    },
+    {
+      "name": "native_final_pcm_48000_2",
+      "command": [
+        "/Users/taro252/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "scripts/phase61_fast_verify_native.py",
+        "--input",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_48000_2.wav",
+        "--sessions",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/native_final_48000_2",
+        "--study",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_seek_study",
+        "--output",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/native_final_pcm_48000_2"
+      ],
+      "exit": 0,
+      "wall_s": 2.3496210830053315
+    },
+    {
+      "name": "native_final_44100_1",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_native_tests",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_44100_1.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/native_final_44100_1"
+      ],
+      "exit": 0,
+      "wall_s": 71.86074079200625
+    },
+    {
+      "name": "native_final_pcm_44100_1",
+      "command": [
+        "/Users/taro252/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "scripts/phase61_fast_verify_native.py",
+        "--input",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_44100_1.wav",
+        "--sessions",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/native_final_44100_1",
+        "--study",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_seek_study",
+        "--output",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/native_final_pcm_44100_1"
+      ],
+      "exit": 0,
+      "wall_s": 1.2960725000011735
+    },
+    {
+      "name": "native_release_phase60_adapter_tests",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase60_adapter_tests",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+      ],
+      "exit": 0,
+      "wall_s": 11.608957459044177
+    },
+    {
+      "name": "native_release_phase60_lifecycle_tests",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase60_lifecycle_tests",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+      ],
+      "exit": 0,
+      "wall_s": 0.9516824170132168
+    },
+    {
+      "name": "native_debug_phase60_adapter_tests",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/debug/phase60_adapter_tests",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+      ],
+      "exit": 0,
+      "wall_s": 12.86850800004322
+    },
+    {
+      "name": "native_debug_phase60_lifecycle_tests",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/debug/phase60_lifecycle_tests",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+      ],
+      "exit": 0,
+      "wall_s": 1.6806395419989713
+    },
+    {
+      "name": "native_exact_final",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_native_tests",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_48000_2.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/native_exact_final"
+      ],
+      "exit": 0,
+      "wall_s": 36.008878542052116
+    },
+    {
+      "name": "native_exact_final_pcm",
+      "command": [
+        "python3",
+        "-B",
+        "scripts/phase61_verify_native.py",
+        "--input",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_48000_2.wav",
+        "--sessions",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/native_exact_final",
+        "--reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "--output",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/native_exact_final_pcm"
+      ],
+      "exit": 0,
+      "wall_s": 4.843098415993154
+    }
+  ],
+  "native_diagnostic_v2_commands": [
+    {
+      "name": "v2_release_build",
+      "command": [
+        "cmake",
+        "--build",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release",
+        "--target",
+        "phase61_fast_native_tests",
+        "phase60_adapter_tests",
+        "phase60_lifecycle_tests",
+        "phase61_native_tests",
+        "phase61_fast_sandbox_app",
+        "-j4"
+      ],
+      "exit": 0,
+      "wall_s": 17.557498083042447
+    },
+    {
+      "name": "v2_debug_build",
+      "command": [
+        "cmake",
+        "--build",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/debug",
+        "--target",
+        "phase61_fast_native_tests",
+        "phase60_adapter_tests",
+        "phase60_lifecycle_tests",
+        "phase61_native_tests",
+        "-j4"
+      ],
+      "exit": 0,
+      "wall_s": 10.32202129199868
+    },
+    {
+      "name": "native_v2_performance_chain",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_native_tests",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/native_v2_performance_chain",
+        "--performance"
+      ],
+      "exit": 2,
+      "wall_s": 162.1954745000112
+    },
+    {
+      "name": "native_v2_early_chain",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_native_tests",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/native_v2_early_chain",
+        "--early-performance"
+      ],
+      "exit": 0,
+      "wall_s": 41.38113783398876
+    },
+    {
+      "name": "native_v2_performance_music",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_native_tests",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/native_v2_performance_music",
+        "--performance"
+      ],
+      "exit": 2,
+      "wall_s": 223.8566872079973
+    },
+    {
+      "name": "native_v2_early_music",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_native_tests",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/native_v2_early_music",
+        "--early-performance"
+      ],
+      "exit": 0,
+      "wall_s": 68.56189012504183
+    },
+    {
+      "name": "native_v2_release_48000_2",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_native_tests",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_48000_2.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/native_v2_release_48000_2"
+      ],
+      "exit": 0,
+      "wall_s": 73.22306520800339
+    },
+    {
+      "name": "native_v2_release_48000_2_pcm",
+      "command": [
+        "/Users/taro252/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "scripts/phase61_fast_verify_native.py",
+        "--input",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_48000_2.wav",
+        "--sessions",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/native_v2_release_48000_2",
+        "--study",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_seek_study",
+        "--output",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/native_v2_release_48000_2_pcm"
+      ],
+      "exit": 0,
+      "wall_s": 2.259034166985657
+    },
+    {
+      "name": "native_v2_release_44100_1",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_native_tests",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_44100_1.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/native_v2_release_44100_1"
+      ],
+      "exit": 0,
+      "wall_s": 71.9644326249836
+    },
+    {
+      "name": "native_v2_release_44100_1_pcm",
+      "command": [
+        "/Users/taro252/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "scripts/phase61_fast_verify_native.py",
+        "--input",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_44100_1.wav",
+        "--sessions",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/native_v2_release_44100_1",
+        "--study",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_seek_study",
+        "--output",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/native_v2_release_44100_1_pcm"
+      ],
+      "exit": 0,
+      "wall_s": 1.2697311249794438
+    },
+    {
+      "name": "native_v2_debug_48000_2",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/debug/phase61_fast_native_tests",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_48000_2.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/native_v2_debug_48000_2"
+      ],
+      "exit": 2,
+      "wall_s": 82.28058525000233
+    },
+    {
+      "name": "v2_release_phase60_adapter_tests",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase60_adapter_tests",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+      ],
+      "exit": 0,
+      "wall_s": 11.678438083967194
+    },
+    {
+      "name": "v2_release_phase60_lifecycle_tests",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase60_lifecycle_tests",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+      ],
+      "exit": 0,
+      "wall_s": 0.943333667004481
+    },
+    {
+      "name": "v2_debug_phase60_adapter_tests",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/debug/phase60_adapter_tests",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+      ],
+      "exit": 0,
+      "wall_s": 12.986715957988054
+    },
+    {
+      "name": "v2_debug_phase60_lifecycle_tests",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/debug/phase60_lifecycle_tests",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+      ],
+      "exit": 0,
+      "wall_s": 1.7129527499782853
+    },
+    {
+      "name": "native_v2_exact",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_native_tests",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_48000_2.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/native_v2_exact"
+      ],
+      "exit": 0,
+      "wall_s": 35.53129891701974
+    },
+    {
+      "name": "native_v2_exact_pcm",
+      "command": [
+        "python3",
+        "-B",
+        "scripts/phase61_verify_native.py",
+        "--input",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_48000_2.wav",
+        "--sessions",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/native_v2_exact",
+        "--reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "--output",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/native_v2_exact_pcm"
+      ],
+      "exit": 0,
+      "wall_s": 3.6675645409850404
+    },
+    {
+      "name": "sandbox_v2_signing_0",
+      "command": [
+        "codesign",
+        "--force",
+        "--sign",
+        "-",
+        "--entitlements",
+        "tests/Phase61Sandbox.entitlements",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_sandbox_app.app"
+      ],
+      "exit": 0,
+      "wall_s": 0.17682458402123302
+    },
+    {
+      "name": "sandbox_v2_signing_1",
+      "command": [
+        "codesign",
+        "--verify",
+        "--deep",
+        "--strict",
+        "--verbose=2",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_sandbox_app.app"
+      ],
+      "exit": 0,
+      "wall_s": 0.0235990000073798
+    },
+    {
+      "name": "sandbox_v2_signing_2",
+      "command": [
+        "codesign",
+        "-d",
+        "--entitlements",
+        ":-",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_sandbox_app.app"
+      ],
+      "exit": 0,
+      "wall_s": 0.019443208002485335
+    }
+  ],
+  "chain_context_command": [
+    "xcrun",
+    "clang++",
+    "-O3",
+    "-std=c++20",
+    "-arch",
+    "arm64",
+    "-Isrc",
+    "build/phase61_fast_seek/chain_context.cpp",
+    "build/phase61_fast_seek/release/libphase56_incremental.a",
+    "build/phase61_fast_seek/release/libtimestretch_core.a",
+    "-framework",
+    "Accelerate",
+    "-o",
+    "build/phase61_fast_seek/chain_context"
+  ],
+  "sandbox_verify_commands": [
+    {
+      "command": [
+        "/Users/taro252/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "scripts/phase61_fast_verify_native.py",
+        "--input",
+        "build/phase61_fast_seek/sandbox_io/run_62856/sandbox_decoded_4s.wav",
+        "--sessions",
+        "build/phase61_fast_seek/sandbox_io/run_62856/native",
+        "--study",
+        "build/phase61_fast_seek/release/phase61_fast_seek_study",
+        "--output",
+        "build/phase61_fast_seek/sandbox_pcm"
+      ],
+      "exit": 0,
+      "wall_s": 2.889985833026003
+    },
+    {
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/sandbox_io/run_62856/sandbox_decoded_4s.wav",
+        "500000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/sandbox_old_reference_candidate.f32",
+        "0"
+      ],
+      "exit": 0,
+      "wall_s": 0.495414792036172
+    },
+    {
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/sandbox_io/run_62856/sandbox_decoded_4s.wav",
+        "500000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/sandbox_old_reference_baseline.f32",
+        "0"
+      ],
+      "exit": 0,
+      "wall_s": 0.49096266698325053
+    }
+  ],
+  "EXTRA_COMMANDS": [
+    {
+      "command": [
+        "/Users/taro252/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "scripts/phase61_fast_verify_native.py",
+        "--input",
+        "build/phase61/native_inputs/boundary_48000_2.wav",
+        "--sessions",
+        "build/phase61_fast_seek/native_v2_debug_48000_2",
+        "--study",
+        "build/phase61_fast_seek/debug/phase61_fast_seek_study",
+        "--output",
+        "build/phase61_fast_seek/native_v2_debug_48000_2_pcm"
+      ],
+      "exit": 0,
+      "wall_s": null,
+      "note": "機能30/30、実時間28/30の結果を保持し、PCM照合だけを別途実行した。"
+    },
+    {
+      "command": [
+        "/Users/taro252/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "build/phase61_fast_seek/analyze_sandbox_silence.py"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "system_profiler",
+        "SPAudioDataType",
+        "-json"
+      ],
+      "exit": 0,
+      "purpose": "実機測定後の出力装置読み取り。設定変更なし。"
+    }
+  ],
+  "quality_v1": [
+    {
+      "name": "mix_local",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_seek_study",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_local",
+        "400000,500000,750000,1000000,1500000,2000000",
+        "22050,44100,88200",
+        "220517,330781",
+        "44100",
+        "1",
+        "local"
+      ],
+      "exit": 0,
+      "wall_s": 23.11546579102287,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_local.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_local.err"
+    },
+    {
+      "name": "mix_400000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+        "400000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_400000_candidate_reference.f32",
+        "220517",
+        "330781"
+      ],
+      "exit": 0,
+      "wall_s": 2.4235542499809526,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_400000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_400000_candidate_reference.err"
+    },
+    {
+      "name": "mix_400000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+        "400000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_400000_baseline_reference.f32",
+        "220517",
+        "330781"
+      ],
+      "exit": 0,
+      "wall_s": 2.4166780000086874,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_400000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_400000_baseline_reference.err"
+    },
+    {
+      "name": "mix_500000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+        "500000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_500000_candidate_reference.f32",
+        "220517",
+        "330781"
+      ],
+      "exit": 0,
+      "wall_s": 1.31880170898512,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_500000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_500000_candidate_reference.err"
+    },
+    {
+      "name": "mix_500000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+        "500000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_500000_baseline_reference.f32",
+        "220517",
+        "330781"
+      ],
+      "exit": 0,
+      "wall_s": 1.2840829999768175,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_500000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_500000_baseline_reference.err"
+    },
+    {
+      "name": "mix_750000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+        "750000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_750000_candidate_reference.f32",
+        "220517",
+        "330781"
+      ],
+      "exit": 0,
+      "wall_s": 1.2335347080370411,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_750000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_750000_candidate_reference.err"
+    },
+    {
+      "name": "mix_750000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+        "750000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_750000_baseline_reference.f32",
+        "220517",
+        "330781"
+      ],
+      "exit": 0,
+      "wall_s": 1.240221082989592,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_750000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_750000_baseline_reference.err"
+    },
+    {
+      "name": "mix_1000000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+        "1000000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_1000000_candidate_reference.f32",
+        "220517",
+        "330781"
+      ],
+      "exit": 0,
+      "wall_s": 1.1578404580359347,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_1000000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_1000000_candidate_reference.err"
+    },
+    {
+      "name": "mix_1000000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+        "1000000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_1000000_baseline_reference.f32",
+        "220517",
+        "330781"
+      ],
+      "exit": 0,
+      "wall_s": 1.17099962499924,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_1000000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_1000000_baseline_reference.err"
+    },
+    {
+      "name": "mix_1500000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+        "1500000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_1500000_candidate_reference.f32",
+        "220517",
+        "330781"
+      ],
+      "exit": 0,
+      "wall_s": 1.1934662910061888,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_1500000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_1500000_candidate_reference.err"
+    },
+    {
+      "name": "mix_1500000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+        "1500000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_1500000_baseline_reference.f32",
+        "220517",
+        "330781"
+      ],
+      "exit": 0,
+      "wall_s": 1.2649000409874134,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_1500000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_1500000_baseline_reference.err"
+    },
+    {
+      "name": "mix_2000000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+        "2000000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_2000000_candidate_reference.f32",
+        "220517",
+        "330781"
+      ],
+      "exit": 0,
+      "wall_s": 1.1622201669961214,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_2000000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_2000000_candidate_reference.err"
+    },
+    {
+      "name": "mix_2000000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav",
+        "2000000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_2000000_baseline_reference.f32",
+        "220517",
+        "330781"
+      ],
+      "exit": 0,
+      "wall_s": 1.158924667048268,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_2000000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/mix_2000000_baseline_reference.err"
+    },
+    {
+      "name": "bass_local",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_seek_study",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/bass.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_local",
+        "400000,500000,750000,1000000,1500000,2000000",
+        "24000,48000,96000",
+        "240017,360031",
+        "48000",
+        "1",
+        "local"
+      ],
+      "exit": 0,
+      "wall_s": 22.737606916984078,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_local.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_local.err"
+    },
+    {
+      "name": "bass_400000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/bass.wav",
+        "400000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_400000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 2.373507583979517,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_400000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_400000_candidate_reference.err"
+    },
+    {
+      "name": "bass_400000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/bass.wav",
+        "400000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_400000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 2.3956358329742216,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_400000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_400000_baseline_reference.err"
+    },
+    {
+      "name": "bass_500000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/bass.wav",
+        "500000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_500000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.2825017080176622,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_500000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_500000_candidate_reference.err"
+    },
+    {
+      "name": "bass_500000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/bass.wav",
+        "500000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_500000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.487877124978695,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_500000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_500000_baseline_reference.err"
+    },
+    {
+      "name": "bass_750000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/bass.wav",
+        "750000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_750000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.2256640829727985,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_750000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_750000_candidate_reference.err"
+    },
+    {
+      "name": "bass_750000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/bass.wav",
+        "750000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_750000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.2248428749735467,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_750000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_750000_baseline_reference.err"
+    },
+    {
+      "name": "bass_1000000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/bass.wav",
+        "1000000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_1000000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.1544512080145068,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_1000000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_1000000_candidate_reference.err"
+    },
+    {
+      "name": "bass_1000000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/bass.wav",
+        "1000000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_1000000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.1494485840084963,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_1000000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_1000000_baseline_reference.err"
+    },
+    {
+      "name": "bass_1500000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/bass.wav",
+        "1500000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_1500000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.190095875004772,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_1500000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_1500000_candidate_reference.err"
+    },
+    {
+      "name": "bass_1500000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/bass.wav",
+        "1500000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_1500000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.3586549590108916,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_1500000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_1500000_baseline_reference.err"
+    },
+    {
+      "name": "bass_2000000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/bass.wav",
+        "2000000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_2000000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.182446083985269,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_2000000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_2000000_candidate_reference.err"
+    },
+    {
+      "name": "bass_2000000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/bass.wav",
+        "2000000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_2000000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.142884959001094,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_2000000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/bass_2000000_baseline_reference.err"
+    },
+    {
+      "name": "drums_local",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_seek_study",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/drums.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_local",
+        "400000,500000,750000,1000000,1500000,2000000",
+        "24000,48000,96000",
+        "240017,360031",
+        "48000",
+        "1",
+        "local"
+      ],
+      "exit": 0,
+      "wall_s": 24.82184554100968,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_local.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_local.err"
+    },
+    {
+      "name": "drums_400000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/drums.wav",
+        "400000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_400000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 2.642706624988932,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_400000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_400000_candidate_reference.err"
+    },
+    {
+      "name": "drums_400000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/drums.wav",
+        "400000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_400000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 2.590086042007897,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_400000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_400000_baseline_reference.err"
+    },
+    {
+      "name": "drums_500000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/drums.wav",
+        "500000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_500000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.5100061250268482,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_500000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_500000_candidate_reference.err"
+    },
+    {
+      "name": "drums_500000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/drums.wav",
+        "500000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_500000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.4034439999959432,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_500000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_500000_baseline_reference.err"
+    },
+    {
+      "name": "drums_750000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/drums.wav",
+        "750000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_750000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.3312124169897288,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_750000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_750000_candidate_reference.err"
+    },
+    {
+      "name": "drums_750000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/drums.wav",
+        "750000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_750000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.3260004579788074,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_750000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_750000_baseline_reference.err"
+    },
+    {
+      "name": "drums_1000000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/drums.wav",
+        "1000000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_1000000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.242289834015537,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_1000000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_1000000_candidate_reference.err"
+    },
+    {
+      "name": "drums_1000000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/drums.wav",
+        "1000000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_1000000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.2422948339954019,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_1000000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_1000000_baseline_reference.err"
+    },
+    {
+      "name": "drums_1500000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/drums.wav",
+        "1500000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_1500000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.251848624960985,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_1500000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_1500000_candidate_reference.err"
+    },
+    {
+      "name": "drums_1500000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/drums.wav",
+        "1500000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_1500000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.2602358749718405,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_1500000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_1500000_baseline_reference.err"
+    },
+    {
+      "name": "drums_2000000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/drums.wav",
+        "2000000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_2000000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.2357650410267524,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_2000000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_2000000_candidate_reference.err"
+    },
+    {
+      "name": "drums_2000000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/drums.wav",
+        "2000000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_2000000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.2313299999805167,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_2000000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/drums_2000000_baseline_reference.err"
+    },
+    {
+      "name": "guitar_local",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_seek_study",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/guitar.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_local",
+        "400000,500000,750000,1000000,1500000,2000000",
+        "24000,48000,96000",
+        "240017,360031",
+        "48000",
+        "1",
+        "local"
+      ],
+      "exit": 0,
+      "wall_s": 24.005021499993745,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_local.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_local.err"
+    },
+    {
+      "name": "guitar_400000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/guitar.wav",
+        "400000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_400000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 2.571423167013563,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_400000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_400000_candidate_reference.err"
+    },
+    {
+      "name": "guitar_400000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/guitar.wav",
+        "400000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_400000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 2.522755458019674,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_400000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_400000_baseline_reference.err"
+    },
+    {
+      "name": "guitar_500000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/guitar.wav",
+        "500000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_500000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.3435070000123233,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_500000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_500000_candidate_reference.err"
+    },
+    {
+      "name": "guitar_500000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/guitar.wav",
+        "500000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_500000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.3449266669922508,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_500000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_500000_baseline_reference.err"
+    },
+    {
+      "name": "guitar_750000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/guitar.wav",
+        "750000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_750000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.3021340409759432,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_750000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_750000_candidate_reference.err"
+    },
+    {
+      "name": "guitar_750000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/guitar.wav",
+        "750000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_750000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.2916373750194907,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_750000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_750000_baseline_reference.err"
+    },
+    {
+      "name": "guitar_1000000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/guitar.wav",
+        "1000000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_1000000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.213831958011724,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_1000000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_1000000_candidate_reference.err"
+    },
+    {
+      "name": "guitar_1000000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/guitar.wav",
+        "1000000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_1000000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.2194165420369245,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_1000000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_1000000_baseline_reference.err"
+    },
+    {
+      "name": "guitar_1500000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/guitar.wav",
+        "1500000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_1500000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.21958287502639,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_1500000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_1500000_candidate_reference.err"
+    },
+    {
+      "name": "guitar_1500000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/guitar.wav",
+        "1500000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_1500000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.247434999968391,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_1500000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_1500000_baseline_reference.err"
+    },
+    {
+      "name": "guitar_2000000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/guitar.wav",
+        "2000000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_2000000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.2163499589660205,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_2000000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_2000000_candidate_reference.err"
+    },
+    {
+      "name": "guitar_2000000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/guitar.wav",
+        "2000000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_2000000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.417860625020694,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_2000000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/guitar_2000000_baseline_reference.err"
+    },
+    {
+      "name": "vocal_local",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_seek_study",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/vocal.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_local",
+        "400000,500000,750000,1000000,1500000,2000000",
+        "24000,48000,96000",
+        "240017,360031",
+        "48000",
+        "1",
+        "local"
+      ],
+      "exit": 0,
+      "wall_s": 27.03734620899195,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_local.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_local.err"
+    },
+    {
+      "name": "vocal_400000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/vocal.wav",
+        "400000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_400000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 3.0475912090041675,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_400000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_400000_candidate_reference.err"
+    },
+    {
+      "name": "vocal_400000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/vocal.wav",
+        "400000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_400000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 3.0461154999793507,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_400000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_400000_baseline_reference.err"
+    },
+    {
+      "name": "vocal_500000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/vocal.wav",
+        "500000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_500000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.5880963330273516,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_500000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_500000_candidate_reference.err"
+    },
+    {
+      "name": "vocal_500000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/vocal.wav",
+        "500000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_500000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.6187202499713749,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_500000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_500000_baseline_reference.err"
+    },
+    {
+      "name": "vocal_750000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/vocal.wav",
+        "750000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_750000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.5069265000056475,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_750000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_750000_candidate_reference.err"
+    },
+    {
+      "name": "vocal_750000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/vocal.wav",
+        "750000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_750000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.5471839999663644,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_750000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_750000_baseline_reference.err"
+    },
+    {
+      "name": "vocal_1000000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/vocal.wav",
+        "1000000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_1000000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.4385435829753987,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_1000000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_1000000_candidate_reference.err"
+    },
+    {
+      "name": "vocal_1000000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/vocal.wav",
+        "1000000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_1000000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.4999743329826742,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_1000000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_1000000_baseline_reference.err"
+    },
+    {
+      "name": "vocal_1500000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/vocal.wav",
+        "1500000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_1500000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.5258625840069726,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_1500000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_1500000_candidate_reference.err"
+    },
+    {
+      "name": "vocal_1500000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/vocal.wav",
+        "1500000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_1500000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.5013369160005823,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_1500000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_1500000_baseline_reference.err"
+    },
+    {
+      "name": "vocal_2000000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/vocal.wav",
+        "2000000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_2000000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.4813539590104483,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_2000000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_2000000_candidate_reference.err"
+    },
+    {
+      "name": "vocal_2000000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/vocal.wav",
+        "2000000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_2000000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.4621916249743663,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_2000000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/vocal_2000000_baseline_reference.err"
+    },
+    {
+      "name": "low_tone_local",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_seek_study",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/low_tone.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_local",
+        "400000,500000,750000,1000000,1500000,2000000",
+        "24000,48000,96000",
+        "240017,360031",
+        "48000",
+        "1",
+        "local"
+      ],
+      "exit": 0,
+      "wall_s": 22.966238583961967,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_local.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_local.err"
+    },
+    {
+      "name": "low_tone_400000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/low_tone.wav",
+        "400000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_400000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 2.3990937920170836,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_400000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_400000_candidate_reference.err"
+    },
+    {
+      "name": "low_tone_400000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/low_tone.wav",
+        "400000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_400000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 2.414113167033065,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_400000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_400000_baseline_reference.err"
+    },
+    {
+      "name": "low_tone_500000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/low_tone.wav",
+        "500000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_500000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.319079208013136,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_500000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_500000_candidate_reference.err"
+    },
+    {
+      "name": "low_tone_500000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/low_tone.wav",
+        "500000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_500000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.3299498750129715,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_500000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_500000_baseline_reference.err"
+    },
+    {
+      "name": "low_tone_750000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/low_tone.wav",
+        "750000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_750000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.26783616701141,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_750000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_750000_candidate_reference.err"
+    },
+    {
+      "name": "low_tone_750000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/low_tone.wav",
+        "750000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_750000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.2742695839842781,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_750000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_750000_baseline_reference.err"
+    },
+    {
+      "name": "low_tone_1000000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/low_tone.wav",
+        "1000000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_1000000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.2459980419953354,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_1000000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_1000000_candidate_reference.err"
+    },
+    {
+      "name": "low_tone_1000000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/low_tone.wav",
+        "1000000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_1000000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.2890763750183396,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_1000000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_1000000_baseline_reference.err"
+    },
+    {
+      "name": "low_tone_1500000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/low_tone.wav",
+        "1500000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_1500000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.2544802079792134,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_1500000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_1500000_candidate_reference.err"
+    },
+    {
+      "name": "low_tone_1500000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/low_tone.wav",
+        "1500000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_1500000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.21878687501885,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_1500000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_1500000_baseline_reference.err"
+    },
+    {
+      "name": "low_tone_2000000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/low_tone.wav",
+        "2000000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_2000000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.1746807500021532,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_2000000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_2000000_candidate_reference.err"
+    },
+    {
+      "name": "low_tone_2000000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/low_tone.wav",
+        "2000000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_2000000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.1837450829916634,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_2000000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/low_tone_2000000_baseline_reference.err"
+    },
+    {
+      "name": "crossovers_local",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_seek_study",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/crossovers.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_local",
+        "400000,500000,750000,1000000,1500000,2000000",
+        "24000,48000,96000",
+        "240017,360031",
+        "48000",
+        "1",
+        "local"
+      ],
+      "exit": 0,
+      "wall_s": 22.285484041960444,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_local.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_local.err"
+    },
+    {
+      "name": "crossovers_400000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/crossovers.wav",
+        "400000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_400000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 2.3353719579754397,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_400000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_400000_candidate_reference.err"
+    },
+    {
+      "name": "crossovers_400000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/crossovers.wav",
+        "400000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_400000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 2.278084833000321,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_400000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_400000_baseline_reference.err"
+    },
+    {
+      "name": "crossovers_500000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/crossovers.wav",
+        "500000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_500000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.2844707919866778,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_500000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_500000_candidate_reference.err"
+    },
+    {
+      "name": "crossovers_500000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/crossovers.wav",
+        "500000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_500000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.2833142920280807,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_500000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_500000_baseline_reference.err"
+    },
+    {
+      "name": "crossovers_750000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/crossovers.wav",
+        "750000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_750000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.2363220829865895,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_750000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_750000_candidate_reference.err"
+    },
+    {
+      "name": "crossovers_750000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/crossovers.wav",
+        "750000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_750000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.2503117910237052,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_750000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_750000_baseline_reference.err"
+    },
+    {
+      "name": "crossovers_1000000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/crossovers.wav",
+        "1000000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_1000000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.1832629169803113,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_1000000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_1000000_candidate_reference.err"
+    },
+    {
+      "name": "crossovers_1000000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/crossovers.wav",
+        "1000000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_1000000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.185458625026513,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_1000000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_1000000_baseline_reference.err"
+    },
+    {
+      "name": "crossovers_1500000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/crossovers.wav",
+        "1500000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_1500000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.1925882499781437,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_1500000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_1500000_candidate_reference.err"
+    },
+    {
+      "name": "crossovers_1500000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/crossovers.wav",
+        "1500000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_1500000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.1884032500092871,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_1500000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_1500000_baseline_reference.err"
+    },
+    {
+      "name": "crossovers_2000000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/crossovers.wav",
+        "2000000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_2000000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.15144487505313,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_2000000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_2000000_candidate_reference.err"
+    },
+    {
+      "name": "crossovers_2000000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/crossovers.wav",
+        "2000000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_2000000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.2824381249956787,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_2000000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/crossovers_2000000_baseline_reference.err"
+    },
+    {
+      "name": "stereo_local",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_seek_study",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/stereo.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_local",
+        "400000,500000,750000,1000000,1500000,2000000",
+        "24000,48000,96000",
+        "240017,360031",
+        "48000",
+        "1",
+        "local"
+      ],
+      "exit": 0,
+      "wall_s": 21.321670666977298,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_local.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_local.err"
+    },
+    {
+      "name": "stereo_400000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/stereo.wav",
+        "400000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_400000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 2.2734165000147186,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_400000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_400000_candidate_reference.err"
+    },
+    {
+      "name": "stereo_400000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/stereo.wav",
+        "400000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_400000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 2.254009374999441,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_400000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_400000_baseline_reference.err"
+    },
+    {
+      "name": "stereo_500000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/stereo.wav",
+        "500000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_500000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.2392404170241207,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_500000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_500000_candidate_reference.err"
+    },
+    {
+      "name": "stereo_500000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/stereo.wav",
+        "500000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_500000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.265707625017967,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_500000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_500000_baseline_reference.err"
+    },
+    {
+      "name": "stereo_750000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/stereo.wav",
+        "750000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_750000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.2066915829782374,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_750000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_750000_candidate_reference.err"
+    },
+    {
+      "name": "stereo_750000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/stereo.wav",
+        "750000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_750000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.2117543750209734,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_750000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_750000_baseline_reference.err"
+    },
+    {
+      "name": "stereo_1000000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/stereo.wav",
+        "1000000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_1000000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.13242329104105,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_1000000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_1000000_candidate_reference.err"
+    },
+    {
+      "name": "stereo_1000000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/stereo.wav",
+        "1000000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_1000000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.134880792000331,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_1000000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_1000000_baseline_reference.err"
+    },
+    {
+      "name": "stereo_1500000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/stereo.wav",
+        "1500000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_1500000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.1362392909941263,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_1500000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_1500000_candidate_reference.err"
+    },
+    {
+      "name": "stereo_1500000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/stereo.wav",
+        "1500000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_1500000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.1323061250150204,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_1500000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_1500000_baseline_reference.err"
+    },
+    {
+      "name": "stereo_2000000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/stereo.wav",
+        "2000000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_2000000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.0474308749544434,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_2000000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_2000000_candidate_reference.err"
+    },
+    {
+      "name": "stereo_2000000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/stereo.wav",
+        "2000000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_2000000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.137631042045541,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_2000000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/stereo_2000000_baseline_reference.err"
+    },
+    {
+      "name": "transients_local",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_seek_study",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/transients.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_local",
+        "400000,500000,750000,1000000,1500000,2000000",
+        "24000,48000,96000",
+        "240017,360031",
+        "48000",
+        "1",
+        "local"
+      ],
+      "exit": 0,
+      "wall_s": 15.099990624992643,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_local.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_local.err"
+    },
+    {
+      "name": "transients_400000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/transients.wav",
+        "400000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_400000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.5878774169832468,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_400000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_400000_candidate_reference.err"
+    },
+    {
+      "name": "transients_400000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/transients.wav",
+        "400000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_400000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 1.5969947500270791,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_400000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_400000_baseline_reference.err"
+    },
+    {
+      "name": "transients_500000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/transients.wav",
+        "500000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_500000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 0.8887853329651989,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_500000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_500000_candidate_reference.err"
+    },
+    {
+      "name": "transients_500000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/transients.wav",
+        "500000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_500000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 0.8971319159609266,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_500000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_500000_baseline_reference.err"
+    },
+    {
+      "name": "transients_750000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/transients.wav",
+        "750000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_750000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 0.8553694160073064,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_750000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_750000_candidate_reference.err"
+    },
+    {
+      "name": "transients_750000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/transients.wav",
+        "750000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_750000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 0.8458146250341088,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_750000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_750000_baseline_reference.err"
+    },
+    {
+      "name": "transients_1000000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/transients.wav",
+        "1000000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_1000000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 0.7945111250155605,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_1000000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_1000000_candidate_reference.err"
+    },
+    {
+      "name": "transients_1000000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/transients.wav",
+        "1000000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_1000000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 0.77285408397438,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_1000000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_1000000_baseline_reference.err"
+    },
+    {
+      "name": "transients_1500000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/transients.wav",
+        "1500000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_1500000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 0.7843182920478284,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_1500000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_1500000_candidate_reference.err"
+    },
+    {
+      "name": "transients_1500000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/transients.wav",
+        "1500000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_1500000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 0.7800442499574274,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_1500000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_1500000_baseline_reference.err"
+    },
+    {
+      "name": "transients_2000000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/transients.wav",
+        "2000000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_2000000_candidate_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 0.7807064169901423,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_2000000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_2000000_candidate_reference.err"
+    },
+    {
+      "name": "transients_2000000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/inputs/transients.wav",
+        "2000000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_2000000_baseline_reference.f32",
+        "240017",
+        "360031"
+      ],
+      "exit": 0,
+      "wall_s": 0.7745147499954328,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_2000000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/quality_v1/transients_2000000_baseline_reference.err"
+    }
+  ],
+  "performance_chain": [
+    {
+      "name": "chain_300s_local",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_seek_study",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_local",
+        "400000,500000,750000,1000000,1500000,2000000",
+        "24000,48000,96000",
+        "0,1440000,7200000,12960000,13680000,9363423,9591981,399191,1192034,11653778",
+        "48000",
+        "3",
+        "local"
+      ],
+      "exit": 0,
+      "wall_s": 119.50411941600032,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_local.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_local.err"
+    },
+    {
+      "name": "chain_300s_400000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "400000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_400000_candidate_reference.f32",
+        "0",
+        "1440000",
+        "7200000",
+        "12960000",
+        "13680000",
+        "9363423",
+        "9591981",
+        "399191",
+        "1192034",
+        "11653778"
+      ],
+      "exit": 0,
+      "wall_s": 26.312626416038256,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_400000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_400000_candidate_reference.err"
+    },
+    {
+      "name": "chain_300s_400000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "400000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_400000_baseline_reference.f32",
+        "0",
+        "1440000",
+        "7200000",
+        "12960000",
+        "13680000",
+        "9363423",
+        "9591981",
+        "399191",
+        "1192034",
+        "11653778"
+      ],
+      "exit": 0,
+      "wall_s": 30.09547304100124,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_400000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_400000_baseline_reference.err"
+    },
+    {
+      "name": "chain_300s_500000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "500000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_500000_candidate_reference.f32",
+        "0",
+        "1440000",
+        "7200000",
+        "12960000",
+        "13680000",
+        "9363423",
+        "9591981",
+        "399191",
+        "1192034",
+        "11653778"
+      ],
+      "exit": 0,
+      "wall_s": 19.272824999992736,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_500000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_500000_candidate_reference.err"
+    },
+    {
+      "name": "chain_300s_500000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "500000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_500000_baseline_reference.f32",
+        "0",
+        "1440000",
+        "7200000",
+        "12960000",
+        "13680000",
+        "9363423",
+        "9591981",
+        "399191",
+        "1192034",
+        "11653778"
+      ],
+      "exit": 0,
+      "wall_s": 17.52980858401861,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_500000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_500000_baseline_reference.err"
+    },
+    {
+      "name": "chain_300s_750000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "750000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_750000_candidate_reference.f32",
+        "0",
+        "1440000",
+        "7200000",
+        "12960000",
+        "13680000",
+        "9363423",
+        "9591981",
+        "399191",
+        "1192034",
+        "11653778"
+      ],
+      "exit": 0,
+      "wall_s": 16.154425250017084,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_750000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_750000_candidate_reference.err"
+    },
+    {
+      "name": "chain_300s_750000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "750000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_750000_baseline_reference.f32",
+        "0",
+        "1440000",
+        "7200000",
+        "12960000",
+        "13680000",
+        "9363423",
+        "9591981",
+        "399191",
+        "1192034",
+        "11653778"
+      ],
+      "exit": 0,
+      "wall_s": 16.050716083031148,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_750000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_750000_baseline_reference.err"
+    },
+    {
+      "name": "chain_300s_1000000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "1000000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_1000000_candidate_reference.f32",
+        "0",
+        "1440000",
+        "7200000",
+        "12960000",
+        "13680000",
+        "9363423",
+        "9591981",
+        "399191",
+        "1192034",
+        "11653778"
+      ],
+      "exit": 0,
+      "wall_s": 13.992619541997556,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_1000000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_1000000_candidate_reference.err"
+    },
+    {
+      "name": "chain_300s_1000000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "1000000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_1000000_baseline_reference.f32",
+        "0",
+        "1440000",
+        "7200000",
+        "12960000",
+        "13680000",
+        "9363423",
+        "9591981",
+        "399191",
+        "1192034",
+        "11653778"
+      ],
+      "exit": 0,
+      "wall_s": 14.29199962504208,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_1000000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_1000000_baseline_reference.err"
+    },
+    {
+      "name": "chain_300s_1500000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "1500000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_1500000_candidate_reference.f32",
+        "0",
+        "1440000",
+        "7200000",
+        "12960000",
+        "13680000",
+        "9363423",
+        "9591981",
+        "399191",
+        "1192034",
+        "11653778"
+      ],
+      "exit": 0,
+      "wall_s": 15.103320833004545,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_1500000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_1500000_candidate_reference.err"
+    },
+    {
+      "name": "chain_300s_1500000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "1500000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_1500000_baseline_reference.f32",
+        "0",
+        "1440000",
+        "7200000",
+        "12960000",
+        "13680000",
+        "9363423",
+        "9591981",
+        "399191",
+        "1192034",
+        "11653778"
+      ],
+      "exit": 0,
+      "wall_s": 14.95857287500985,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_1500000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_1500000_baseline_reference.err"
+    },
+    {
+      "name": "chain_300s_2000000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "2000000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_2000000_candidate_reference.f32",
+        "0",
+        "1440000",
+        "7200000",
+        "12960000",
+        "13680000",
+        "9363423",
+        "9591981",
+        "399191",
+        "1192034",
+        "11653778"
+      ],
+      "exit": 0,
+      "wall_s": 14.87288279097993,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_2000000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_2000000_candidate_reference.err"
+    },
+    {
+      "name": "chain_300s_2000000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "2000000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_2000000_baseline_reference.f32",
+        "0",
+        "1440000",
+        "7200000",
+        "12960000",
+        "13680000",
+        "9363423",
+        "9591981",
+        "399191",
+        "1192034",
+        "11653778"
+      ],
+      "exit": 0,
+      "wall_s": 14.34463266597595,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_2000000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_chain/chain_300s_2000000_baseline_reference.err"
+    }
+  ],
+  "performance_music": [
+    {
+      "name": "music_300s_local",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_seek_study",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_local",
+        "400000,500000,750000,1000000,1500000,2000000",
+        "22050",
+        "0,1323000,6615000,11907000,12568500,9359523,9588081,395291,1188134,11649878",
+        "44100",
+        "3",
+        "local"
+      ],
+      "exit": 0,
+      "wall_s": 96.43417458399199,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_local.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_local.err"
+    },
+    {
+      "name": "music_300s_400000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "400000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_400000_candidate_reference.f32",
+        "0",
+        "1323000",
+        "6615000",
+        "11907000",
+        "12568500",
+        "9359523",
+        "9588081",
+        "395291",
+        "1188134",
+        "11649878"
+      ],
+      "exit": 0,
+      "wall_s": 86.85512895800639,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_400000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_400000_candidate_reference.err"
+    },
+    {
+      "name": "music_300s_400000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "400000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_400000_baseline_reference.f32",
+        "0",
+        "1323000",
+        "6615000",
+        "11907000",
+        "12568500",
+        "9359523",
+        "9588081",
+        "395291",
+        "1188134",
+        "11649878"
+      ],
+      "exit": 0,
+      "wall_s": 86.87750241701724,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_400000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_400000_baseline_reference.err"
+    },
+    {
+      "name": "music_300s_500000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "500000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_500000_candidate_reference.f32",
+        "0",
+        "1323000",
+        "6615000",
+        "11907000",
+        "12568500",
+        "9359523",
+        "9588081",
+        "395291",
+        "1188134",
+        "11649878"
+      ],
+      "exit": 0,
+      "wall_s": 47.95243787497748,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_500000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_500000_candidate_reference.err"
+    },
+    {
+      "name": "music_300s_500000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "500000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_500000_baseline_reference.f32",
+        "0",
+        "1323000",
+        "6615000",
+        "11907000",
+        "12568500",
+        "9359523",
+        "9588081",
+        "395291",
+        "1188134",
+        "11649878"
+      ],
+      "exit": 0,
+      "wall_s": 48.34609362494666,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_500000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_500000_baseline_reference.err"
+    },
+    {
+      "name": "music_300s_750000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "750000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_750000_candidate_reference.f32",
+        "0",
+        "1323000",
+        "6615000",
+        "11907000",
+        "12568500",
+        "9359523",
+        "9588081",
+        "395291",
+        "1188134",
+        "11649878"
+      ],
+      "exit": 0,
+      "wall_s": 44.281620917026885,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_750000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_750000_candidate_reference.err"
+    },
+    {
+      "name": "music_300s_750000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "750000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_750000_baseline_reference.f32",
+        "0",
+        "1323000",
+        "6615000",
+        "11907000",
+        "12568500",
+        "9359523",
+        "9588081",
+        "395291",
+        "1188134",
+        "11649878"
+      ],
+      "exit": 0,
+      "wall_s": 43.87200249999296,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_750000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_750000_baseline_reference.err"
+    },
+    {
+      "name": "music_300s_1000000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "1000000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_1000000_candidate_reference.f32",
+        "0",
+        "1323000",
+        "6615000",
+        "11907000",
+        "12568500",
+        "9359523",
+        "9588081",
+        "395291",
+        "1188134",
+        "11649878"
+      ],
+      "exit": 0,
+      "wall_s": 41.60688808403211,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_1000000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_1000000_candidate_reference.err"
+    },
+    {
+      "name": "music_300s_1000000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "1000000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_1000000_baseline_reference.f32",
+        "0",
+        "1323000",
+        "6615000",
+        "11907000",
+        "12568500",
+        "9359523",
+        "9588081",
+        "395291",
+        "1188134",
+        "11649878"
+      ],
+      "exit": 0,
+      "wall_s": 40.83998312498443,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_1000000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_1000000_baseline_reference.err"
+    },
+    {
+      "name": "music_300s_1500000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "1500000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_1500000_candidate_reference.f32",
+        "0",
+        "1323000",
+        "6615000",
+        "11907000",
+        "12568500",
+        "9359523",
+        "9588081",
+        "395291",
+        "1188134",
+        "11649878"
+      ],
+      "exit": 0,
+      "wall_s": 42.270603250013664,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_1500000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_1500000_candidate_reference.err"
+    },
+    {
+      "name": "music_300s_1500000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "1500000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_1500000_baseline_reference.f32",
+        "0",
+        "1323000",
+        "6615000",
+        "11907000",
+        "12568500",
+        "9359523",
+        "9588081",
+        "395291",
+        "1188134",
+        "11649878"
+      ],
+      "exit": 0,
+      "wall_s": 42.03617883397965,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_1500000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_1500000_baseline_reference.err"
+    },
+    {
+      "name": "music_300s_2000000_candidate_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "2000000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_2000000_candidate_reference.f32",
+        "0",
+        "1323000",
+        "6615000",
+        "11907000",
+        "12568500",
+        "9359523",
+        "9588081",
+        "395291",
+        "1188134",
+        "11649878"
+      ],
+      "exit": 0,
+      "wall_s": 43.30389641603688,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_2000000_candidate_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_2000000_candidate_reference.err"
+    },
+    {
+      "name": "music_300s_2000000_baseline_reference",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "2000000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_2000000_baseline_reference.f32",
+        "0",
+        "1323000",
+        "6615000",
+        "11907000",
+        "12568500",
+        "9359523",
+        "9588081",
+        "395291",
+        "1188134",
+        "11649878"
+      ],
+      "exit": 0,
+      "wall_s": 41.19145520904567,
+      "stdout": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_2000000_baseline_reference.log",
+      "stderr": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/performance_music/music_300s_2000000_baseline_reference.err"
+    }
+  ],
+  "clock_build": {
+    "hypothesis": "local instantaneous frequency times absolute map/input displacement; no claim of exact phase history",
+    "core_sha256": "834193e4385e4916a2d2fb2614df604eb69e08f17163b0781de6bff786461e2b",
+    "binary_sha256": "a0ec76b2f86c38d94800f2627da78cc8ac2e54bcb9936510df16e6179939b1c3",
+    "commands": [
+      {
+        "command": [
+          "/usr/bin/c++",
+          "-O3",
+          "-DNDEBUG",
+          "-std=c++20",
+          "-arch",
+          "arm64",
+          "-I/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/clock_variant_v2/include",
+          "-I/Users/taro252/Docker/TimeStretchLab/src",
+          "-c",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/clock_variant_v2/Phase36StreamingSpeedEngine.cpp",
+          "-o",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/clock_variant_v2/Phase36StreamingSpeedEngine.o"
+        ],
+        "exit": 0
+      },
+      {
+        "command": [
+          "/usr/bin/c++",
+          "-O3",
+          "-DNDEBUG",
+          "-std=c++20",
+          "-arch",
+          "arm64",
+          "-I/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/clock_variant_v2/include",
+          "-I/Users/taro252/Docker/TimeStretchLab/src",
+          "-c",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/clock_variant_v2/Phase57ProgressiveSynthesis.cpp",
+          "-o",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/clock_variant_v2/Phase57ProgressiveSynthesis.o"
+        ],
+        "exit": 0
+      },
+      {
+        "command": [
+          "/usr/bin/c++",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/clock_variant_v2/Phase36StreamingSpeedEngine.o",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/clock_variant_v2/Phase57ProgressiveSynthesis.o",
+          "-O3",
+          "-DNDEBUG",
+          "-Wl,-search_paths_first",
+          "-Wl,-headerpad_max_install_names",
+          "CMakeFiles/phase61_fast_seek_study.dir/src/prototype/Phase61FastSeekStudy.cpp.o",
+          "-o",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/clock_variant_v2/phase61_clock_study",
+          "libphase58_realtime.a",
+          "libphase57_synthesis.a",
+          "libphase59_transition.a",
+          "libphase56_incremental.a",
+          "libphase39_variable.a",
+          "libphase36_variable.a",
+          "libphase24_variable.a",
+          "libtimestretch_core.a",
+          "-framework",
+          "Accelerate",
+          "-framework",
+          "AudioToolbox"
+        ],
+        "exit": 0
+      }
+    ]
+  },
+  "clock_recipe": {
+    "build": [
+      "python3",
+      "-B",
+      "scripts/phase61_fast_clock_experiment.py",
+      "--build",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release",
+      "--output",
+      "<new-clock-build>"
+    ],
+    "render": [
+      "<new-clock-build>/phase61_clock_study",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+      "<new-clock-raw>",
+      "400000,500000,750000,1000000,1500000,2000000",
+      "24000",
+      "1192034,9363423,9591981,12960000,13680000",
+      "48000",
+      "1",
+      "local"
+    ],
+    "compare": "phase61_fast_seek_study.metrics(actual, independent full-reference suffix, 48000, chain_300s); selected conditions and baseline metrics are in CLOCK_SUMMARY.json"
+  }
+}

@@ -25,6 +25,8 @@ struct Configuration {
     std::array<std::pair<std::size_t,std::size_t>,4> phaseProbeWindows{};
     std::size_t phaseProbeWindowCount=0; // Detailed phase substages, at most 4 windows.
     bool seekCheckpoints=true; // Phase61, exact resident fixed-state cache, max 2.
+    bool fastLocalSeek=false; // Explicit factory only; Exact remains the default.
+    std::size_t localPrerollInputFrames=0;
 };
 struct RenderResult {std::size_t wanted=0,received=0,outputBefore=0,fifoBefore=0;};
 struct FifoCursors {std::uint64_t read=0,write=0;};
@@ -73,6 +75,9 @@ struct Diagnostics {
     std::size_t sourceHashPasses=0,sourceSnapshotCreations=0,residentLockCalls=0;
     bool checkpointUsed=false;
     std::size_t checkpointStartFrame=0,checkpointResidentStates=0,checkpointBuilds=0;
+    bool fastLocalSeek=false;
+    std::size_t localSeedInput=0,localBeginOutput=0,localPrerollInputFrames=0;
+    double localInitializeS=0;
 };
 struct WorkerRecord {
     std::size_t outputStart=0,outputEnd=0,fifoBefore=0,fifoAfter=0,receivedInput=0;
@@ -122,6 +127,11 @@ public:
     // Normal owner only. Shares protected bytes/FD and immutable analysis;
     // creates only fresh DSP/FIFO/transition state. Caller starts the result.
     std::unique_ptr<RealtimePipeline> createSeek(std::size_t inputFrame,std::uint32_t speedMicros)const;
+    std::unique_ptr<RealtimePipeline> createFastLocalSeek(std::size_t inputFrame,std::uint32_t speedMicros,std::size_t prerollInputFrames=0)const;
+    // Normal owner only. Fade on DSP publication, then wait for its absolute
+    // end to be consumed. Cancelling restores gain through another 5ms ramp.
+    void requestRetireFade(bool);
+    bool retireFadeDrained()const noexcept;
     std::size_t outputStartFrame()const noexcept;
     std::uint64_t inputGeneration()const noexcept;
     double elapsedSeconds()const noexcept;

@@ -1,0 +1,152 @@
+{
+  "cases": 10,
+  "all_original_prefix_bit_equal": false,
+  "max_added_tail_vs_independent": 0,
+  "note": "元の30msの絶対無音長検査は20/30のまま保持。Esprit冒頭に既存の無音があり、10失敗の旧epoch先頭区間は独立参照も同じ1e-8の閾値で無音となる。双方のPCMの最大絶対差も記録し、ビット一致とは扱わない。原曲が無音だった例を一般的な無クリックの承認には使わない。",
+  "rows": [
+    {
+      "name": "candidate_playing",
+      "original_strict_test_pass": false,
+      "old_frames": 21168,
+      "actual_original_tail": 21168,
+      "independent_original_tail": 21168,
+      "original_prefix_bit_equal": false,
+      "actual_peak": 1.5176206645539647e-13,
+      "reference_peak": 3.6959020913163165e-12,
+      "max_abs_difference": 3.6959020913163165e-12,
+      "additional_zero_tail_vs_independent": 0,
+      "later_retired_epoch_tails": [],
+      "original_seam_step": 0
+    },
+    {
+      "name": "candidate_burst",
+      "original_strict_test_pass": false,
+      "old_frames": 21168,
+      "actual_original_tail": 21168,
+      "independent_original_tail": 21168,
+      "original_prefix_bit_equal": false,
+      "actual_peak": 1.5176206645539647e-13,
+      "reference_peak": 3.6959020913163165e-12,
+      "max_abs_difference": 3.6959020913163165e-12,
+      "additional_zero_tail_vs_independent": 0,
+      "later_retired_epoch_tails": [],
+      "original_seam_step": 0
+    },
+    {
+      "name": "candidate_chain",
+      "original_strict_test_pass": false,
+      "old_frames": 21168,
+      "actual_original_tail": 21168,
+      "independent_original_tail": 21168,
+      "original_prefix_bit_equal": false,
+      "actual_peak": 1.5176206645539647e-13,
+      "reference_peak": 3.6959020913163165e-12,
+      "max_abs_difference": 3.6959020913163165e-12,
+      "additional_zero_tail_vs_independent": 0,
+      "later_retired_epoch_tails": [
+        332
+      ],
+      "original_seam_step": 0
+    },
+    {
+      "name": "candidate_speed_after",
+      "original_strict_test_pass": false,
+      "old_frames": 21168,
+      "actual_original_tail": 21168,
+      "independent_original_tail": 21168,
+      "original_prefix_bit_equal": false,
+      "actual_peak": 1.5176206645539647e-13,
+      "reference_peak": 3.6959020913163165e-12,
+      "max_abs_difference": 3.6959020913163165e-12,
+      "additional_zero_tail_vs_independent": 0,
+      "later_retired_epoch_tails": [],
+      "original_seam_step": 0
+    },
+    {
+      "name": "baseline_playing",
+      "original_strict_test_pass": false,
+      "old_frames": 16935,
+      "actual_original_tail": 16935,
+      "independent_original_tail": 16935,
+      "original_prefix_bit_equal": false,
+      "actual_peak": 5.140087078590016e-20,
+      "reference_peak": 2.203118840533175e-18,
+      "max_abs_difference": 2.203118840533175e-18,
+      "additional_zero_tail_vs_independent": 0,
+      "later_retired_epoch_tails": [],
+      "original_seam_step": 0
+    },
+    {
+      "name": "baseline_burst",
+      "original_strict_test_pass": false,
+      "old_frames": 16935,
+      "actual_original_tail": 16935,
+      "independent_original_tail": 16935,
+      "original_prefix_bit_equal": false,
+      "actual_peak": 5.140087078590016e-20,
+      "reference_peak": 2.203118840533175e-18,
+      "max_abs_difference": 2.203118840533175e-18,
+      "additional_zero_tail_vs_independent": 0,
+      "later_retired_epoch_tails": [],
+      "original_seam_step": 0
+    },
+    {
+      "name": "baseline_chain",
+      "original_strict_test_pass": false,
+      "old_frames": 16935,
+      "actual_original_tail": 16935,
+      "independent_original_tail": 16935,
+      "original_prefix_bit_equal": false,
+      "actual_peak": 5.140087078590016e-20,
+      "reference_peak": 2.203118840533175e-18,
+      "max_abs_difference": 2.203118840533175e-18,
+      "additional_zero_tail_vs_independent": 0,
+      "later_retired_epoch_tails": [
+        194
+      ],
+      "original_seam_step": 0
+    },
+    {
+      "name": "baseline_speed_prepare",
+      "original_strict_test_pass": false,
+      "old_frames": 21168,
+      "actual_original_tail": 21168,
+      "independent_original_tail": 21168,
+      "original_prefix_bit_equal": false,
+      "actual_peak": 1.5176206645539647e-13,
+      "reference_peak": 3.6959020913163165e-12,
+      "max_abs_difference": 3.6959020913163165e-12,
+      "additional_zero_tail_vs_independent": 0,
+      "later_retired_epoch_tails": [],
+      "original_seam_step": 0
+    },
+    {
+      "name": "baseline_speed_after",
+      "original_strict_test_pass": false,
+      "old_frames": 16935,
+      "actual_original_tail": 16935,
+      "independent_original_tail": 16935,
+      "original_prefix_bit_equal": false,
+      "actual_peak": 5.140087078590016e-20,
+      "reference_peak": 2.203118840533175e-18,
+      "max_abs_difference": 2.203118840533175e-18,
+      "additional_zero_tail_vs_independent": 0,
+      "later_retired_epoch_tails": [],
+      "original_seam_step": 0
+    },
+    {
+      "name": "baseline_replace_ready",
+      "original_strict_test_pass": false,
+      "old_frames": 21168,
+      "actual_original_tail": 21168,
+      "independent_original_tail": 21168,
+      "original_prefix_bit_equal": false,
+      "actual_peak": 1.5176206645539647e-13,
+      "reference_peak": 3.6959020913163165e-12,
+      "max_abs_difference": 3.6959020913163165e-12,
+      "additional_zero_tail_vs_independent": 0,
+      "later_retired_epoch_tails": [],
+      "original_seam_step": 0
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "command": [
+      "codesign",
+      "--force",
+      "--sign",
+      "-",
+      "--entitlements",
+      "tests/Phase61Sandbox.entitlements",
+      "build/phase61_fast_seek/release/phase61_fast_sandbox_app.app"
+    ],
+    "exit": 0
+  },
+  {
+    "command": [
+      "codesign",
+      "--verify",
+      "--deep",
+      "--strict",
+      "--verbose=2",
+      "build/phase61_fast_seek/release/phase61_fast_sandbox_app.app"
+    ],
+    "exit": 0
+  },
+  {
+    "command": [
+      "codesign",
+      "-d",
+      "--entitlements",
+      ":-",
+      "build/phase61_fast_seek/release/phase61_fast_sandbox_app.app"
+    ],
+    "exit": 0
+  },
+  {
+    "binary_sha256": "93babc0763bb234d5a416b5291732dd375cbd8b2eb4431659c8a02ea4bf1b14e"
+  }
+]

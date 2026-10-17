@@ -5,6 +5,7 @@
 #include <string>
 
 namespace ts::playback::progressive {
+enum class SeekMode {Exact,FastLocal};
 enum class SeekState {Pending,Preparing,Ready,Completed,Replaced,Cancelled,Rejected,Failed};
 inline const char* name(SeekState s)noexcept{
     switch(s){case SeekState::Pending:return "Pending";case SeekState::Preparing:return "Preparing";
@@ -24,6 +25,8 @@ inline std::uint64_t inputFrameForSeconds(double seconds,std::uint32_t rate,std:
 }
 struct SeekReceipt {std::uint64_t id=0;bool accepted=false;std::string reason;};
 struct SeekOperation {
+    SeekMode mode=SeekMode::Exact;
+    std::uint32_t prerollMillis=0;
     std::uint64_t id=0,inputGeneration=0,sourceRenderEpoch=0,renderEpoch=0,session=0;
     std::uint64_t requestedInputFrame=0,outputStartFrame=0;
     SeekState state=SeekState::Rejected;

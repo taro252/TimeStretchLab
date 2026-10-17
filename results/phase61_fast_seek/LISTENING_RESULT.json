@@ -1,0 +1,57 @@
+{
+  "evaluator": "user",
+  "response": "違和感なし",
+  "scope": "提示した5つのA/Bクリップ。A=独立フルレンダー、B=局所初期化。各独立クリップの両端に5ms包絡を付与。実機切替音の試聴結果とは区別。",
+  "clips": [
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/listening/mix_A_reference_B_local.wav",
+      "sha256": "389d40ad86c5e999439a7a2175e30e8f9985abd71bdbfd9350949a8264768aed",
+      "source_case": "400000_candidate_22050_220517_0",
+      "A": "independent full-render reference",
+      "B": "fast local",
+      "edge_envelopes": "5ms fade in/out on each isolated clip; not the native switch boundary",
+      "subjective_listening": "user: 違和感なし（5クリップへの一括回答）",
+      "manifest_status_at_generation": "UNMEASURED"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/listening/low_tone_A_reference_B_local.wav",
+      "sha256": "a2ca65d3876a299c6b90d1a4cae81a0453f0c982bb772266e8c327341a11e61d",
+      "source_case": "500000_candidate_24000_240017_0",
+      "A": "independent full-render reference",
+      "B": "fast local",
+      "edge_envelopes": "5ms fade in/out on each isolated clip; not the native switch boundary",
+      "subjective_listening": "user: 違和感なし（5クリップへの一括回答）",
+      "manifest_status_at_generation": "UNMEASURED"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/listening/crossovers_A_reference_B_local.wav",
+      "sha256": "f02ab6a689cceaba008addcb3004290be811159f7e0f819089d1b714f3b00699",
+      "source_case": "1500000_candidate_24000_240017_0",
+      "A": "independent full-render reference",
+      "B": "fast local",
+      "edge_envelopes": "5ms fade in/out on each isolated clip; not the native switch boundary",
+      "subjective_listening": "user: 違和感なし（5クリップへの一括回答）",
+      "manifest_status_at_generation": "UNMEASURED"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/listening/stereo_A_reference_B_local.wav",
+      "sha256": "299d35bf58c4824046ecbd160b3dd9bcfbdc9e8d3a70812896f2d30949d6643a",
+      "source_case": "750000_candidate_24000_240017_0",
+      "A": "independent full-render reference",
+      "B": "fast local",
+      "edge_envelopes": "5ms fade in/out on each isolated clip; not the native switch boundary",
+      "subjective_listening": "user: 違和感なし（5クリップへの一括回答）",
+      "manifest_status_at_generation": "UNMEASURED"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/listening/transients_A_reference_B_local.wav",
+      "sha256": "eea0681338b4be3e2938e39cee4db659cb170ea0fa2dd9691c109bbbeb5510b6",
+      "source_case": "500000_candidate_24000_240017_0",
+      "A": "independent full-render reference",
+      "B": "fast local",
+      "edge_envelopes": "5ms fade in/out on each isolated clip; not the native switch boundary",
+      "subjective_listening": "user: 違和感なし（5クリップへの一括回答）",
+      "manifest_status_at_generation": "UNMEASURED"
+    }
+  ]
+}

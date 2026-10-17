@@ -1,0 +1,19 @@
+{
+  "platform_source": "build/phase61_fast_seek/platform_during_performance.mm",
+  "platform_source_sha256": "c1b3efd2f0a680903db5cfaee1e1f7b6652c20a163c65ecea8d1d1cd90eacf56",
+  "binaries": [
+    {
+      "path": "build/phase61_fast_seek/release/phase61_fast_native_tests",
+      "sha256": "dcd2e5a286e82893aadea00db35a8cdf9316bf69bcda1d113a6bc8944196758e"
+    },
+    {
+      "path": "build/phase61_fast_seek/debug/phase61_fast_native_tests",
+      "sha256": "39f3e0c5cc155a55029c20d7f7d53fba8e451b0161b48e75b567c68f547983f8"
+    }
+  ],
+  "host_before_diagnostic_extension": {
+    "path": "build/phase61_fast_seek/native_host_before_diagnostic_extension.cpp",
+    "sha256": "cc4f679b74ca0ab2e46729322b004d521c8630bb74771ea26fd297ddf891fd38",
+    "note": "Ready座標の試験追加後、性能用原因別カウンター追加前。先行性能版との差はReady試験の検査のみ。"
+  }
+}

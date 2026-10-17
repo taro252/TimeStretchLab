@@ -139,6 +139,8 @@ struct ProgressiveMacPlaybackEngine::Impl {
         std::unique_ptr<Pipeline> next,old;
         std::unique_ptr<RenderTarget> oldTarget;
         std::shared_ptr<RenderState> renderLease;
+        std::uint64_t fadingEpoch=0;
+        bool fastLocal=false;
         std::size_t index=std::size_t(-1);std::uint64_t version=0;
         try{
             {std::lock_guard lock(mutex);
@@ -146,7 +148,9 @@ struct ProgressiveMacPlaybackEngine::Impl {
                     index=pendingSeek;pendingSeek=std::size_t(-1);activeSeek=index;seekBusy=true;version=seekVersion;
                     auto& op=seeks[index];op.state=progressive::SeekState::Preparing;op.preparingNs=machNs();
                     op.speedMicros=progressive::speedMicros(requested);
-                    next=pipeline->createSeek(op.requestedInputFrame,op.speedMicros);
+                    fastLocal=op.mode==progressive::SeekMode::FastLocal;
+                    next=fastLocal?pipeline->createFastLocalSeek(op.requestedInputFrame,op.speedMicros,
+                        pipeline->sampleRate()*std::size_t(op.prerollMillis)/1000):pipeline->createSeek(op.requestedInputFrame,op.speedMicros);
                 }
             }
             if(!next){std::this_thread::sleep_for(std::chrono::milliseconds(2));continue;}
@@ -156,13 +160,35 @@ struct ProgressiveMacPlaybackEngine::Impl {
                 if(next->failed())throw std::runtime_error(next->diagnostics().error);
                 if(std::chrono::steady_clock::now()>deadline)throw std::runtime_error("シークの再構築が期限を超えました");
             }
+            if(fastLocal&&!cancelled()){
+                {std::lock_guard lock(mutex);auto& op=seeks[index];
+                    if(!cancelled()&&pipeline&&!progressive::terminal(op.state)&&op.speedMicros==progressive::speedMicros(requested)){
+                        op.outputStartFrame=next->outputStartFrame();
+                        op.state=progressive::SeekState::Ready;op.readyNs=machNs();
+                        if(state==State::Playing&&target){fadingEpoch=target->epoch;pipeline->requestRetireFade(true);}
+                    }
+                }
+                // Keep old ownership and callback code unchanged. Fade its future
+                // FIFO on its DSP worker and wait on this NORMAL seek worker.
+                while(fadingEpoch&&!cancelled()){
+                    bool complete=false;
+                    {std::lock_guard lock(mutex);
+                        complete=!pipeline||!target||target->epoch!=fadingEpoch||state!=State::Playing||
+                            pipeline->retireFadeDrained()||progressive::speedMicros(requested)!=seeks[index].speedMicros;
+                        if(pipeline&&pipeline->failed())throw std::runtime_error(pipeline->diagnostics().error);
+                    }
+                    if(complete)break;
+                    if(std::chrono::steady_clock::now()>deadline)throw std::runtime_error("旧区間のフェード完了が期限を超えました");
+                    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                }
+            }
             if(!cancelled()){
                 std::lock_guard lock(mutex);auto& op=seeks[index];
                 if(!cancelled()&&pipeline&&!progressive::terminal(op.state)){
                     if(op.speedMicros!=progressive::speedMicros(requested)){
                         ++op.replans;op.state=progressive::SeekState::Pending;pendingSeek=index;
                     }else{
-                        op.state=progressive::SeekState::Ready;op.readyNs=machNs();
+                        op.state=progressive::SeekState::Ready;if(!op.readyNs)op.readyNs=machNs();
                         op.outputStartFrame=next->outputStartFrame();
                         const auto restore=state.load();
                         if(restore!=State::Ready&&restore!=State::Playing&&restore!=State::Paused)throw std::runtime_error("シーク切替前に再生状態が変わりました");
@@ -184,6 +210,7 @@ struct ProgressiveMacPlaybackEngine::Impl {
             std::lock_guard lock(mutex);
             if(index<seeks.size()&&!progressive::terminal(seeks[index].state)){seeks[index].state=progressive::SeekState::Failed;seeks[index].reason=e.what();}
         }
+        if(fadingEpoch){std::lock_guard lock(mutex);if(pipeline&&target&&target->epoch==fadingEpoch)pipeline->requestRetireFade(false);}
         // Destruction and shared-lease release never occur on the callback.
         if(next){next->stop();next.reset();}
         if(old){
@@ -331,25 +358,39 @@ prototype::phase59::RequestReceipt ProgressiveMacPlaybackEngine::setSpeed(double
     if(epoch&&(!x.target||epoch!=x.target->epoch))return {0,prototype::Phase39RequestResult::Stopped};
     auto r=x.pipeline->requestSpeed(micros,x.target?x.target->presented.load():0,session,generation);if(r.result==prototype::Phase39RequestResult::Accepted)x.requested=s;return r;}
 progressive::SeekReceipt ProgressiveMacPlaybackEngine::requestSeekToInputFrame(std::uint64_t frame,std::uint64_t generation,std::uint64_t epoch){
+    return requestSeekFrame(frame,generation,epoch,progressive::SeekMode::Exact,0);
+}
+progressive::SeekReceipt ProgressiveMacPlaybackEngine::requestFastLocalSeekToInputFrame(std::uint64_t frame,std::uint64_t generation,std::uint64_t epoch,std::uint32_t preroll){
+    return requestSeekFrame(frame,generation,epoch,progressive::SeekMode::FastLocal,preroll);
+}
+progressive::SeekReceipt ProgressiveMacPlaybackEngine::requestSeekFrame(std::uint64_t frame,std::uint64_t generation,std::uint64_t epoch,progressive::SeekMode mode,std::uint32_t preroll){
     workQueue();auto& x=*impl_;std::lock_guard lock(x.mutex);progressive::SeekOperation op;
     if(x.seeks.size()>=4096)return {0,false,"シーク操作の上限4096件です"};
-    op.id=x.seeks.size()+1;op.requestedInputFrame=frame;op.acceptedNs=machNs();
+    op.id=x.seeks.size()+1;op.requestedInputFrame=frame;op.acceptedNs=machNs();op.mode=mode;op.prerollMillis=preroll;
     if(x.pipeline)op.inputGeneration=x.pipeline->inputGeneration();if(x.target)op.sourceRenderEpoch=x.target->epoch;
     if(!x.pipeline||(x.state!=State::Ready&&x.state!=State::Playing&&x.state!=State::Paused))op.reason="シークにはReady/Playing/Pausedが必要です";
     else if(frame>x.pipeline->inputFrames())op.reason="シーク位置が曲長を超えています";
     else if(generation&&generation!=op.inputGeneration)op.reason="古い入力世代です";
     else if(epoch&&epoch!=op.sourceRenderEpoch)op.reason="古い再生区間です";
+    else if(mode==progressive::SeekMode::FastLocal&&preroll!=500&&preroll!=1000&&preroll!=2000)op.reason="局所準備区間は500/1000/2000msです";
+    else if(mode==progressive::SeekMode::FastLocal&&!x.options.allowUnvalidatedFastLocalSeek)op.reason="Fast Local Seekは未承認の研究用途でのみ有効です";
     const bool accepted=op.reason.empty();
     if(accepted){for(auto& previous:x.seeks)if(!progressive::terminal(previous.state))previous.state=progressive::SeekState::Replaced;
         op.state=progressive::SeekState::Pending;op.speedMicros=progressive::speedMicros(x.requested);x.pendingSeek=x.seeks.size();++x.seekVersion;}
     x.seeks.push_back(op);return {op.id,accepted,op.reason};
 }
 progressive::SeekReceipt ProgressiveMacPlaybackEngine::requestSeekToInputSeconds(double value,std::uint64_t generation,std::uint64_t epoch){
+    return requestSeekSeconds(value,generation,epoch,progressive::SeekMode::Exact,0);
+}
+progressive::SeekReceipt ProgressiveMacPlaybackEngine::requestFastLocalSeekToInputSeconds(double value,std::uint64_t generation,std::uint64_t epoch,std::uint32_t preroll){
+    return requestSeekSeconds(value,generation,epoch,progressive::SeekMode::FastLocal,preroll);
+}
+progressive::SeekReceipt ProgressiveMacPlaybackEngine::requestSeekSeconds(double value,std::uint64_t generation,std::uint64_t epoch,progressive::SeekMode mode,std::uint32_t preroll){
     workQueue();auto& x=*impl_;std::uint64_t frame=0;std::string error;
     {std::lock_guard lock(x.mutex);try{if(!x.pipeline)throw std::logic_error("入力がありません");frame=progressive::inputFrameForSeconds(value,x.pipeline->sampleRate(),x.pipeline->inputFrames());}catch(const std::exception& e){error=e.what();}}
-    if(error.empty())return requestSeekToInputFrame(frame,generation,epoch);
+    if(error.empty())return requestSeekFrame(frame,generation,epoch,mode,preroll);
     std::lock_guard lock(x.mutex);if(x.seeks.size()>=4096)return {0,false,"シーク操作の上限4096件です"};
-    progressive::SeekOperation op;op.id=x.seeks.size()+1;op.reason=error;op.acceptedNs=machNs();
+    progressive::SeekOperation op;op.id=x.seeks.size()+1;op.reason=error;op.acceptedNs=machNs();op.mode=mode;op.prerollMillis=preroll;
     if(x.pipeline)op.inputGeneration=x.pipeline->inputGeneration();if(x.target)op.sourceRenderEpoch=x.target->epoch;
     x.seeks.push_back(op);return {op.id,false,error};
 }

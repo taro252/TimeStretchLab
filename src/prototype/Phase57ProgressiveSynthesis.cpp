@@ -14,6 +14,7 @@ struct ProgressiveSynthesisEngine::Impl final:ProgressiveAccess {
     const phase59::DynamicMap* dynamicMap=nullptr;
     std::shared_ptr<const phase59::DynamicMap> checkpointMapOwner;
     bool checkpointContext=false;
+    bool localInitialized=false;
     std::span<const unsigned char> residentIdentity;
     Phase36StreamingSpeedEngine::WorkProfile profile{};bool profileEnabled=false;
     Phase36StreamingSpeedEngine::WorkProfile::Observer preparedObserver=nullptr;
@@ -232,7 +233,7 @@ std::size_t ProgressiveSynthesisEngine::stateBytesEstimate()const{return impl_->
 std::unique_ptr<ProgressiveSynthesisEngine> ProgressiveSynthesisEngine::cloneFixedCheckpoint(int fd,std::span<const unsigned char> bytes,std::function<void()> validate)const{
     const auto& old=*impl_;
     if(bytes.empty()||bytes.data()!=old.residentIdentity.data()||bytes.size()!=old.residentIdentity.size()||
-        !old.snapshot||!old.snapshot->isFinal||old.failed||old.cancelled.load()||old.finished.load()||old.generated!=old.published||
+        old.localInitialized||!old.snapshot||!old.snapshot->isFinal||old.failed||old.cancelled.load()||old.finished.load()||old.generated!=old.published||
         old.profileEnabled||old.preparedObserver||!old.modes.empty()||(old.dynamicEnabled&&(!old.dynamicMap||!old.dynamicMap->final||old.dynamicMap->hasTransitions)))return {};
     auto copy=std::make_unique<ProgressiveSynthesisEngine>(fd,old.speed,old.generation,std::move(validate),16*1024*1024,bytes);
     if(old.dynamicEnabled)copy->enableDynamicTransitions();
@@ -249,6 +250,30 @@ std::unique_ptr<ProgressiveSynthesisEngine> ProgressiveSynthesisEngine::cloneFix
 void ProgressiveSynthesisEngine::prepareCheckpointForEpoch(){auto& x=*impl_;
     if(!x.snapshotOwner||!x.snapshotOwner->isFinal||x.generated!=x.published||x.cancelled.load()||x.finished.load())throw std::logic_error("Invalid checkpoint epoch");
     x.snapshot=nullptr;x.snapshotOwner.reset();x.borrowedSnapshots=false;x.waiting=false;x.checkpointContext=x.dynamicEnabled;
+}
+LocalSeekStart ProgressiveSynthesisEngine::initializeFastLocal(std::size_t input,std::size_t preroll){
+    auto& x=*impl_;
+    if(x.localInitialized||x.generated||x.published||!x.snapshot||!x.snapshot->isFinal||
+       x.failed||x.cancelled.load()||x.finished.load()||input>x.length||!preroll||
+       (x.dynamicEnabled&&(!x.dynamicMap||!x.dynamicMap->final||x.dynamicMap->hasTransitions)))
+        throw std::invalid_argument("Local seek requires an untouched final fixed map");
+    const auto output=x.dynamicEnabled?x.dynamicMap->outputFrames:
+        x.declaredFinalOutput.value_or(std::size_t(std::llround(x.position(double(x.length)))));
+    const auto target=input==x.length?output:std::min(output,std::size_t(std::llround(x.position(double(input)))));
+    const auto warm=input>preroll?input-preroll:0;
+    // LCM(4096-2049+1,4096-513+1) = LCM(2048,3584).
+    constexpr std::size_t commonFirBlock=14336;
+    const auto begin=std::min(target,std::size_t(std::llround(x.position(double(warm)))))/commonFirBlock*commonFirBlock;
+    const std::size_t step=x.config.timeRatio>2?1024:2048;
+    std::size_t lo=0,hi=x.length/step+1;
+    while(lo<hi){const auto mid=lo+(hi-lo)/2;
+        if(std::llround(x.position(double(mid*step)))<=static_cast<long long>(begin))lo=mid+1;else hi=mid;}
+    const auto seed=(lo?lo-1:0)*step;
+    for(auto& r:x.resolution)r->initializeLocalAt(seed,begin);
+    for(auto& f:x.low)f->initializeLocalAt(begin);
+    for(auto& f:x.high)f->initializeLocalAt(begin);
+    x.localInitialized=true;x.generated=x.published=begin;
+    return {input,target,seed,begin};
 }
 void ProgressiveSynthesisEngine::injectFailureForTest(){impl_->injected=true;}
 }

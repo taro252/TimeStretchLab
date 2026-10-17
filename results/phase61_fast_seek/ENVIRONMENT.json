@@ -1,0 +1,55 @@
+{
+  "time_utc": "2026-10-17T12:42:58.500474+00:00",
+  "python": "3.14.5 (main, May 10 2026, 10:21:34) [Clang 21.0.0 (clang-2100.0.123.102)]",
+  "commands": [
+    {
+      "command": [
+        "sw_vers"
+      ],
+      "exit": 0,
+      "output": "ProductName:\t\tmacOS\nProductVersion:\t\t26.6.2\nBuildVersion:\t\t25G83\n"
+    },
+    {
+      "command": [
+        "uname",
+        "-m"
+      ],
+      "exit": 0,
+      "output": "x86_64\n"
+    },
+    {
+      "command": [
+        "sysctl",
+        "-n",
+        "hw.model",
+        "hw.memsize",
+        "hw.physicalcpu",
+        "hw.logicalcpu"
+      ],
+      "exit": 0,
+      "output": "MacBookAir10,1\n17179869184\n8\n8\n"
+    },
+    {
+      "command": [
+        "xcrun",
+        "clang++",
+        "--version"
+      ],
+      "exit": 0,
+      "output": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin\n"
+    }
+  ],
+  "default_output_after_measurement": [
+    {
+      "_name": "MacBook Airのスピーカー",
+      "_properties": "coreaudio_default_audio_system_device",
+      "coreaudio_default_audio_output_device": "spaudio_yes",
+      "coreaudio_default_audio_system_device": "spaudio_yes",
+      "coreaudio_device_manufacturer": "Apple Inc.",
+      "coreaudio_device_output": 2,
+      "coreaudio_device_srate": 48000,
+      "coreaudio_device_transport": "coreaudio_device_type_builtin",
+      "coreaudio_output_source": "MacBook Airのスピーカー"
+    }
+  ]
+}

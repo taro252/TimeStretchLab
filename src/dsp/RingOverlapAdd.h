@@ -8,6 +8,8 @@ class RingOverlapAdd {
 public:
     explicit RingOverlapAdd(std::size_t capacity);
     void reset();
+    // Normal DSP owner only: empty local history at an absolute OLA position.
+    void resetAt(std::size_t absoluteSample);
     void add(const float* frame, const float* window, std::size_t size, long long start);
     float pop();
     float preview(std::size_t absoluteSample) const;

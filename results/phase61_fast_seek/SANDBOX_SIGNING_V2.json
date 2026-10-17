@@ -1,0 +1,44 @@
+[
+  {
+    "name": "sandbox_v2_signing_0",
+    "command": [
+      "codesign",
+      "--force",
+      "--sign",
+      "-",
+      "--entitlements",
+      "tests/Phase61Sandbox.entitlements",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_sandbox_app.app"
+    ],
+    "exit": 0,
+    "wall_s": 0.17682458402123302
+  },
+  {
+    "name": "sandbox_v2_signing_1",
+    "command": [
+      "codesign",
+      "--verify",
+      "--deep",
+      "--strict",
+      "--verbose=2",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_sandbox_app.app"
+    ],
+    "exit": 0,
+    "wall_s": 0.0235990000073798
+  },
+  {
+    "name": "sandbox_v2_signing_2",
+    "command": [
+      "codesign",
+      "-d",
+      "--entitlements",
+      ":-",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/release/phase61_fast_sandbox_app.app"
+    ],
+    "exit": 0,
+    "wall_s": 0.019443208002485335
+  },
+  {
+    "binary_sha256": "d31256f949ed188bb177a66e5b5e31f3ebe7b1d538bafa903fe9e493c37e9ca8"
+  }
+]

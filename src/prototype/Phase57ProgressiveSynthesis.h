@@ -14,6 +14,9 @@ struct SynthesisFrontier {
     std::size_t generated=0,published=0,outputFrames=0;
     SynthesisState state=SynthesisState::NeedsMoreAnalysis;
 };
+struct LocalSeekStart {
+    std::size_t requestedInput=0,requestedOutput=0,seedInput=0,beginOutput=0;
+};
 // One producer. Snapshot ownership is bounded to the newest lease; PCM is
 // borrowed only for the duration of the sink. No audio-callback API.
 class ProgressiveSynthesisEngine {
@@ -58,6 +61,10 @@ public:
         std::span<const unsigned char> sameResidentBytes,std::function<void()> validateInput={})const;
     // A clone adopts the new epoch's same final fixed map before producing PCM.
     void prepareCheckpointForEpoch();
+    // Experimental local phase origin, NOT Exact Seek. Final fixed analysis/map
+    // must already be supplied; call once, before advance, on the normal owner.
+    // Returned absolute output prefix is synthesized then discarded by caller.
+    LocalSeekStart initializeFastLocal(std::size_t inputFrame,std::size_t prerollInputFrames);
     void injectFailureForTest();
 };
 }

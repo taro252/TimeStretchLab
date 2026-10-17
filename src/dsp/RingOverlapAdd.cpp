@@ -8,9 +8,12 @@ RingOverlapAdd::RingOverlapAdd(std::size_t capacity)
     if (capacity == 0) throw std::invalid_argument("Empty OLA ring");
 }
 void RingOverlapAdd::reset() {
+    resetAt(0);
+}
+void RingOverlapAdd::resetAt(std::size_t absoluteSample) {
     std::fill(signal_.begin(),signal_.end(),0.0f);
     std::fill(weight_.begin(),weight_.end(),0.0f);
-    base_=0;
+    base_=absoluteSample;
 }
 void RingOverlapAdd::add(const float* frame, const float* window,
                          std::size_t size, long long start) {

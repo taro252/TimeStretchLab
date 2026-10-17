@@ -113,11 +113,18 @@ struct Detection {
 // response, block order and accumulation order are identical to StreamingFIR.
 class LiveStreamingFIR {
 public:
+    // Local experiment only. Keep the original FFT-convolution block grid.
+    // Missing preceding tails die out during the discarded warm-up interval.
+    void initializeLocalAt(std::size_t output){
+        if(base_||nextBlock_||output%blockLength_||output>length_)
+            throw std::invalid_argument("Invalid local FIR origin");
+        localBegin_=base_=nextBlock_=output;
+    }
     // Normal exclusive owner only. FFT workspaces are overwritten completely
     // by each transform; persistent FIR accumulation/positions are copied.
     void copyRuntimeStateFrom(const LiveStreamingFIR& other){
         if(taps_!=other.taps_||blockLength_!=other.blockLength_)throw std::invalid_argument("FIR checkpoint format");
-        length_=other.length_;nextBlock_=other.nextBlock_;base_=other.base_;
+        length_=other.length_;nextBlock_=other.nextBlock_;base_=other.base_;localBegin_=other.localBegin_;
         response_=other.response_;spectrum_=other.spectrum_;block_=other.block_;
         transformed_=other.transformed_;accum_=other.accum_;
     }
@@ -158,7 +165,7 @@ public:
             for (std::size_t i=0;i<valid;++i) {
                 const auto target=static_cast<long long>(nextBlock_+i)-
                     static_cast<long long>(center_);
-                if (target<0 || static_cast<std::size_t>(target)>=length_) continue;
+                if (target<0 || static_cast<std::size_t>(target)<localBegin_ || static_cast<std::size_t>(target)>=length_) continue;
                 const auto position=static_cast<std::size_t>(target);
                 if (position<base_ || position>=base_+accum_.size())
                     throw std::out_of_range("FIR ring capacity exceeded");
@@ -174,7 +181,7 @@ public:
     }
 private:
     FFTAccelerate fft_{4096};
-    std::size_t taps_,center_,blockLength_,length_,nextBlock_=0,base_=0;
+    std::size_t taps_,center_,blockLength_,length_,nextBlock_=0,base_=0,localBegin_=0;
     std::vector<std::complex<float>> response_,spectrum_;
     std::vector<float> block_,transformed_,accum_;
     WorkProfile* profile_;
@@ -211,6 +218,27 @@ inline Detection makeDetection(const Phase13TransientAnalysis& analysis,
 }
 class ResolutionStream {
 public:
+    // All resolutions use ONE input seed on their common hop lattice. Seeding
+    // each band independently can introduce a different phase offset per band.
+    void initializeLocalAt(std::size_t input,std::size_t output){
+        const auto step=hop_/(config_.timeRatio>2?2:1);
+        if(nextFrame_||produced_||position_||input%step||!modeChanges_.empty()||tracker_||resynchronizer_||stageTrace_)
+            throw std::invalid_argument("Invalid local resolution context");
+        position_=input;nextFrame_=input/step;
+        const auto start=std::llround(detection_.position(double(input)));
+        if(start<0||std::size_t(start)>output)throw std::invalid_argument("Local OLA origin after output");
+        produced_=std::size_t(start);
+        for(auto& ola:olas_)ola.resetAt(std::size_t(start));
+        if(input){
+            lastProcessed_=input-step;
+            previousStart_=std::llround(detection_.position(double(lastProcessed_)));
+            const auto precedingMidpoint=input-step/2;
+            std::size_t lo=0,hi=detection_.eventSize();
+            while(lo<hi){const auto mid=lo+(hi-lo)/2;
+                if(detection_.event(mid).peakFrame*1024<precedingMidpoint)lo=mid+1;else hi=mid;}
+            nextEvent_=lo;
+        }
+    }
     void copyRuntimeStateFrom(const ResolutionStream& other){
         if(fftSize_!=other.fftSize_||hop_!=other.hop_||length_!=other.length_||
             reader_.channels()!=other.reader_.channels()||tracker_||other.tracker_||resynchronizer_||other.resynchronizer_||stageTrace_||other.stageTrace_)

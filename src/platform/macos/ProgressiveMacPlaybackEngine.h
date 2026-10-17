@@ -20,6 +20,8 @@ struct ProgressiveOptions {
         std::uint64_t inputGeneration,std::uint64_t renderEpoch,std::uint64_t session)noexcept=nullptr;
     RenderAllocationHooks allocationHooks{}; // explicit verification host only
     bool seekCheckpoints=true;
+    // Research opt-in only: long impulse-train quality is NOT approved.
+    bool allowUnvalidatedFastLocalSeek=false;
 };
 struct ProgressivePosition {
     std::uint64_t session=0,outputFrame=0;
@@ -87,6 +89,10 @@ public:
     prototype::phase59::RequestReceipt setSpeed(double,std::uint64_t expectedSession=0,std::uint64_t expectedInputGeneration=0,std::uint64_t expectedRenderEpoch=0);
     progressive::SeekReceipt requestSeekToInputFrame(std::uint64_t,std::uint64_t expectedInputGeneration=0,std::uint64_t expectedRenderEpoch=0);
     progressive::SeekReceipt requestSeekToInputSeconds(double,std::uint64_t expectedInputGeneration=0,std::uint64_t expectedRenderEpoch=0);
+    // Explicit experimental local phase origin. Exact APIs above are unchanged.
+    // Preroll accepts 500/1000/2000ms; publication fades run on DSP workers only.
+    progressive::SeekReceipt requestFastLocalSeekToInputFrame(std::uint64_t,std::uint64_t expectedInputGeneration=0,std::uint64_t expectedRenderEpoch=0,std::uint32_t prerollMillis=500);
+    progressive::SeekReceipt requestFastLocalSeekToInputSeconds(double,std::uint64_t expectedInputGeneration=0,std::uint64_t expectedRenderEpoch=0,std::uint32_t prerollMillis=500);
     progressive::SeekSnapshot getSeekSnapshot()const;
     std::vector<progressive::SeekOperation> seekHistory()const;
     std::vector<ProgressiveClosedEpoch> closedEpochs()const;
@@ -103,6 +109,8 @@ public:
     TimeMap finalTimeMap()const; // stopped/ended, valid completed analysis only
     void simulateDeviceChangeForTest(); // follows the same safe-stop path
 private:
+    progressive::SeekReceipt requestSeekFrame(std::uint64_t,std::uint64_t,std::uint64_t,progressive::SeekMode,std::uint32_t);
+    progressive::SeekReceipt requestSeekSeconds(double,std::uint64_t,std::uint64_t,progressive::SeekMode,std::uint32_t);
     struct Impl;std::unique_ptr<Impl> impl_;
 };
 }

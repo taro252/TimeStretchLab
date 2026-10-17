@@ -1,0 +1,673 @@
+{
+  "status": "NO_GO",
+  "public_seek": false,
+  "research_opt_in_default": false,
+  "quality": {
+    "short_passed": 648,
+    "short_total": 648,
+    "long_mono_passed": 1002,
+    "long_mono_total": 1080,
+    "long_stereo_passed": 360,
+    "long_stereo_total": 360,
+    "threshold_changed": false,
+    "subjective_user_replies": [
+      "違和感なし",
+      "違和感なし"
+    ]
+  },
+  "performance_target_ms": 200,
+  "native_performance": [
+    {
+      "name": "native_performance_chain",
+      "overall": {
+        "cases": 360,
+        "timings_ms": {
+          "ready_ms": {
+            "n": 360,
+            "p50": 64.664,
+            "p95_linear": 93.17869,
+            "p95_nearest_rank": 93.1642,
+            "max": 139.52
+          },
+          "switch_ms": {
+            "n": 360,
+            "p50": 342.223,
+            "p95_linear": 435.89185,
+            "p95_nearest_rank": 435.883,
+            "max": 446.319
+          },
+          "first_pcm_ms": {
+            "n": 360,
+            "p50": 351.98249999999996,
+            "p95_linear": 445.69425,
+            "p95_nearest_rank": 445.69,
+            "max": 456.468
+          }
+        },
+        "stage_ms": {
+          "pipeline_ready_s": {
+            "n": 360,
+            "p50": 63.439400000000006,
+            "p95_linear": 91.10257,
+            "p95_nearest_rank": 91.0814,
+            "max": 137.50699999999998
+          },
+          "local_initialize_s": {
+            "n": 360,
+            "p50": 0.006875,
+            "p95_linear": 0.011173200000000001,
+            "p95_nearest_rank": 0.011167,
+            "max": 0.027250000000000003
+          },
+          "analysis_s": {
+            "n": 360,
+            "p50": 2.738525,
+            "p95_linear": 4.260422500000001,
+            "p95_nearest_rank": 4.260210000000001,
+            "max": 4.63054
+          },
+          "dsp_s": {
+            "n": 360,
+            "p50": 55.03,
+            "p95_linear": 81.66079,
+            "p95_nearest_rank": 81.6567,
+            "max": 89.9303
+          },
+          "seek_analysis_done_s": {
+            "n": 360,
+            "p50": 2.9506250000000005,
+            "p95_linear": 4.572983,
+            "p95_nearest_rank": 4.57287,
+            "max": 14.8269
+          }
+        },
+        "realtime_diagnostic_passed": 360,
+        "initial_analysis_complete": 360,
+        "max_peak_rss_bytes": 106332160,
+        "source_reuse_pass": true
+      },
+      "summary": {
+        "cases": 360,
+        "realtime_pass": true,
+        "first_visit_per_input_session": true,
+        "await_analysis": true
+      }
+    },
+    {
+      "name": "native_early_chain",
+      "overall": {
+        "cases": 36,
+        "timings_ms": {
+          "ready_ms": {
+            "n": 36,
+            "p50": 59.1974,
+            "p95_linear": 77.976675,
+            "p95_nearest_rank": 78.0948,
+            "max": 101.066
+          },
+          "switch_ms": {
+            "n": 36,
+            "p50": 361.8125,
+            "p95_linear": 385.15475,
+            "p95_nearest_rank": 385.379,
+            "max": 425.847
+          },
+          "first_pcm_ms": {
+            "n": 36,
+            "p50": 371.71299999999997,
+            "p95_linear": 394.60375,
+            "p95_nearest_rank": 394.621,
+            "max": 435.943
+          }
+        },
+        "stage_ms": {
+          "pipeline_ready_s": {
+            "n": 36,
+            "p50": 57.978300000000004,
+            "p95_linear": 75.49755,
+            "p95_nearest_rank": 75.7254,
+            "max": 98.8382
+          },
+          "local_initialize_s": {
+            "n": 36,
+            "p50": 0.0061455,
+            "p95_linear": 0.008365,
+            "p95_nearest_rank": 0.008584,
+            "max": 0.00925
+          },
+          "analysis_s": {
+            "n": 36,
+            "p50": 1.653565,
+            "p95_linear": 2.4017225,
+            "p95_nearest_rank": 2.4821299999999997,
+            "max": 2.78687
+          },
+          "dsp_s": {
+            "n": 36,
+            "p50": 51.2707,
+            "p95_linear": 69.66465000000001,
+            "p95_nearest_rank": 69.7416,
+            "max": 69.9454
+          },
+          "seek_analysis_done_s": {
+            "n": 36,
+            "p50": 1.784375,
+            "p95_linear": 2.7993449999999998,
+            "p95_nearest_rank": 2.8041300000000002,
+            "max": 4.7305
+          }
+        },
+        "realtime_diagnostic_passed": 36,
+        "initial_analysis_complete": 36,
+        "max_peak_rss_bytes": 100106240,
+        "source_reuse_pass": true
+      },
+      "summary": {
+        "cases": 36,
+        "realtime_pass": true,
+        "first_visit_per_input_session": true,
+        "await_analysis": false
+      }
+    },
+    {
+      "name": "native_performance_music",
+      "overall": {
+        "cases": 360,
+        "timings_ms": {
+          "ready_ms": {
+            "n": 360,
+            "p50": 164.1255,
+            "p95_linear": 251.8965,
+            "p95_nearest_rank": 251.891,
+            "max": 283.151
+          },
+          "switch_ms": {
+            "n": 360,
+            "p50": 500.1295,
+            "p95_linear": 624.91895,
+            "p95_nearest_rank": 624.886,
+            "max": 660.162
+          },
+          "first_pcm_ms": {
+            "n": 360,
+            "p50": 509.428,
+            "p95_linear": 635.1583,
+            "p95_nearest_rank": 635.152,
+            "max": 670.217
+          }
+        },
+        "stage_ms": {
+          "pipeline_ready_s": {
+            "n": 360,
+            "p50": 161.8625,
+            "p95_linear": 249.0988,
+            "p95_nearest_rank": 249.028,
+            "max": 281.584
+          },
+          "local_initialize_s": {
+            "n": 360,
+            "p50": 0.0155205,
+            "p95_linear": 0.02729105,
+            "p95_nearest_rank": 0.027291,
+            "max": 0.059916
+          },
+          "analysis_s": {
+            "n": 360,
+            "p50": 3.050315,
+            "p95_linear": 5.0975874999999995,
+            "p95_nearest_rank": 5.0969999999999995,
+            "max": 5.43429
+          },
+          "dsp_s": {
+            "n": 360,
+            "p50": 151.6,
+            "p95_linear": 236.04755000000003,
+            "p95_nearest_rank": 235.911,
+            "max": 267.686
+          },
+          "seek_analysis_done_s": {
+            "n": 360,
+            "p50": 2.607105,
+            "p95_linear": 4.416799,
+            "p95_nearest_rank": 4.414829999999999,
+            "max": 11.6215
+          }
+        },
+        "realtime_diagnostic_passed": 353,
+        "initial_analysis_complete": 360,
+        "max_peak_rss_bytes": 167641088,
+        "source_reuse_pass": true
+      },
+      "summary": {
+        "cases": 360,
+        "realtime_pass": false,
+        "first_visit_per_input_session": true,
+        "await_analysis": true
+      }
+    },
+    {
+      "name": "native_early_music",
+      "overall": {
+        "cases": 36,
+        "timings_ms": {
+          "ready_ms": {
+            "n": 36,
+            "p50": 1260.245,
+            "p95_linear": 1428.435,
+            "p95_nearest_rank": 1479.81,
+            "max": 1495.39
+          },
+          "switch_ms": {
+            "n": 36,
+            "p50": 1536.17,
+            "p95_linear": 1773.3,
+            "p95_nearest_rank": 1813.14,
+            "max": 1856.8
+          },
+          "first_pcm_ms": {
+            "n": 36,
+            "p50": 1546.005,
+            "p95_linear": 1783.5225,
+            "p95_nearest_rank": 1823.46,
+            "max": 1866.1
+          }
+        },
+        "stage_ms": {
+          "pipeline_ready_s": {
+            "n": 36,
+            "p50": 1259.85,
+            "p95_linear": 1427.79,
+            "p95_nearest_rank": 1477.29,
+            "max": 1495.3600000000001
+          },
+          "local_initialize_s": {
+            "n": 36,
+            "p50": 0.0115205,
+            "p95_linear": 0.01604125,
+            "p95_nearest_rank": 0.018165999999999998,
+            "max": 0.037375
+          },
+          "analysis_s": {
+            "n": 36,
+            "p50": 30.57815,
+            "p95_linear": 36.452775,
+            "p95_nearest_rank": 36.498000000000005,
+            "max": 41.178
+          },
+          "dsp_s": {
+            "n": 36,
+            "p50": 139.54700000000003,
+            "p95_linear": 210.74325,
+            "p95_nearest_rank": 211.689,
+            "max": 211.867
+          },
+          "seek_analysis_done_s": {
+            "n": 36,
+            "p50": 1098.415,
+            "p95_linear": 1278.7525,
+            "p95_nearest_rank": 1296.5500000000002,
+            "max": 1378.31
+          }
+        },
+        "realtime_diagnostic_passed": 36,
+        "initial_analysis_complete": 0,
+        "max_peak_rss_bytes": 157892608,
+        "source_reuse_pass": true
+      },
+      "summary": {
+        "cases": 36,
+        "realtime_pass": true,
+        "first_visit_per_input_session": true,
+        "await_analysis": false
+      }
+    },
+    {
+      "name": "native_v2_performance_chain",
+      "overall": {
+        "cases": 360,
+        "timings_ms": {
+          "ready_ms": {
+            "n": 360,
+            "p50": 66.1614,
+            "p95_linear": 98.258585,
+            "p95_nearest_rank": 98.2456,
+            "max": 112.194
+          },
+          "switch_ms": {
+            "n": 360,
+            "p50": 349.10900000000004,
+            "p95_linear": 445.3469,
+            "p95_nearest_rank": 445.342,
+            "max": 457.107
+          },
+          "first_pcm_ms": {
+            "n": 360,
+            "p50": 359.05,
+            "p95_linear": 455.21225000000004,
+            "p95_nearest_rank": 455.199,
+            "max": 467.171
+          },
+          "presentation_estimate_ms": {
+            "n": 360,
+            "p50": 372.0455,
+            "p95_linear": 468.18165,
+            "p95_nearest_rank": 468.167,
+            "max": 480.106
+          }
+        },
+        "stage_ms": {
+          "pipeline_ready_s": {
+            "n": 360,
+            "p50": 64.53639999999999,
+            "p95_linear": 96.53947000000001,
+            "p95_nearest_rank": 96.5279,
+            "max": 109.862
+          },
+          "local_initialize_s": {
+            "n": 360,
+            "p50": 0.0064795,
+            "p95_linear": 0.01112915,
+            "p95_nearest_rank": 0.011125,
+            "max": 0.042542
+          },
+          "analysis_s": {
+            "n": 360,
+            "p50": 3.13173,
+            "p95_linear": 4.283111,
+            "p95_nearest_rank": 4.28254,
+            "max": 4.44233
+          },
+          "dsp_s": {
+            "n": 360,
+            "p50": 56.4453,
+            "p95_linear": 86.43547000000002,
+            "p95_nearest_rank": 86.3807,
+            "max": 97.768
+          },
+          "seek_analysis_done_s": {
+            "n": 360,
+            "p50": 3.402685,
+            "p95_linear": 4.5902009999999995,
+            "p95_nearest_rank": 4.5900799999999995,
+            "max": 5.4185
+          }
+        },
+        "realtime_diagnostic_passed": 350,
+        "initial_analysis_complete": 360,
+        "max_peak_rss_bytes": 107298816,
+        "source_reuse_pass": true
+      },
+      "summary": {
+        "cases": 360,
+        "realtime_pass": false,
+        "first_visit_per_input_session": true,
+        "await_analysis": true
+      }
+    },
+    {
+      "name": "native_v2_early_chain",
+      "overall": {
+        "cases": 36,
+        "timings_ms": {
+          "ready_ms": {
+            "n": 36,
+            "p50": 57.16615,
+            "p95_linear": 75.743875,
+            "p95_nearest_rank": 78.1024,
+            "max": 81.7997
+          },
+          "switch_ms": {
+            "n": 36,
+            "p50": 362.32550000000003,
+            "p95_linear": 384.98325,
+            "p95_nearest_rank": 385.197,
+            "max": 427.623
+          },
+          "first_pcm_ms": {
+            "n": 36,
+            "p50": 372.54200000000003,
+            "p95_linear": 394.4735,
+            "p95_nearest_rank": 394.547,
+            "max": 437.038
+          },
+          "presentation_estimate_ms": {
+            "n": 36,
+            "p50": 385.49199999999996,
+            "p95_linear": 407.43275,
+            "p95_nearest_rank": 407.54,
+            "max": 450.016
+          }
+        },
+        "stage_ms": {
+          "pipeline_ready_s": {
+            "n": 36,
+            "p50": 55.895799999999994,
+            "p95_linear": 75.01750000000001,
+            "p95_nearest_rank": 75.5818,
+            "max": 79.7456
+          },
+          "local_initialize_s": {
+            "n": 36,
+            "p50": 0.005875,
+            "p95_linear": 0.00749,
+            "p95_nearest_rank": 0.009458,
+            "max": 0.010209
+          },
+          "analysis_s": {
+            "n": 36,
+            "p50": 1.610855,
+            "p95_linear": 1.8937,
+            "p95_nearest_rank": 1.9086699999999999,
+            "max": 1.95038
+          },
+          "dsp_s": {
+            "n": 36,
+            "p50": 50.4541,
+            "p95_linear": 68.3424,
+            "p95_nearest_rank": 69.1938,
+            "max": 70.0617
+          },
+          "seek_analysis_done_s": {
+            "n": 36,
+            "p50": 1.7787899999999999,
+            "p95_linear": 2.06947,
+            "p95_nearest_rank": 2.07025,
+            "max": 2.12729
+          }
+        },
+        "realtime_diagnostic_passed": 36,
+        "initial_analysis_complete": 36,
+        "max_peak_rss_bytes": 98123776,
+        "source_reuse_pass": true
+      },
+      "summary": {
+        "cases": 36,
+        "realtime_pass": true,
+        "first_visit_per_input_session": true,
+        "await_analysis": false
+      }
+    },
+    {
+      "name": "native_v2_performance_music",
+      "overall": {
+        "cases": 360,
+        "timings_ms": {
+          "ready_ms": {
+            "n": 360,
+            "p50": 160.47750000000002,
+            "p95_linear": 249.64140000000003,
+            "p95_nearest_rank": 249.532,
+            "max": 288.134
+          },
+          "switch_ms": {
+            "n": 360,
+            "p50": 500.0345,
+            "p95_linear": 616.7088,
+            "p95_nearest_rank": 616.698,
+            "max": 671.378
+          },
+          "first_pcm_ms": {
+            "n": 360,
+            "p50": 509.76300000000003,
+            "p95_linear": 626.46255,
+            "p95_nearest_rank": 626.434,
+            "max": 681.2
+          },
+          "presentation_estimate_ms": {
+            "n": 360,
+            "p50": 523.113,
+            "p95_linear": 639.8095999999999,
+            "p95_nearest_rank": 639.781,
+            "max": 694.562
+          }
+        },
+        "stage_ms": {
+          "pipeline_ready_s": {
+            "n": 360,
+            "p50": 159.9085,
+            "p95_linear": 246.35930000000002,
+            "p95_nearest_rank": 246.348,
+            "max": 286.213
+          },
+          "local_initialize_s": {
+            "n": 360,
+            "p50": 0.015458,
+            "p95_linear": 0.027583,
+            "p95_nearest_rank": 0.027583,
+            "max": 0.030583000000000003
+          },
+          "analysis_s": {
+            "n": 360,
+            "p50": 3.07821,
+            "p95_linear": 5.1109085,
+            "p95_nearest_rank": 5.1107499999999995,
+            "max": 5.388170000000001
+          },
+          "dsp_s": {
+            "n": 360,
+            "p50": 151.2755,
+            "p95_linear": 234.39159999999998,
+            "p95_nearest_rank": 234.37199999999999,
+            "max": 272.721
+          },
+          "seek_analysis_done_s": {
+            "n": 360,
+            "p50": 2.657915,
+            "p95_linear": 4.440378,
+            "p95_nearest_rank": 4.438669999999999,
+            "max": 7.38821
+          }
+        },
+        "realtime_diagnostic_passed": 356,
+        "initial_analysis_complete": 360,
+        "max_peak_rss_bytes": 168738816,
+        "source_reuse_pass": true
+      },
+      "summary": {
+        "cases": 360,
+        "realtime_pass": false,
+        "first_visit_per_input_session": true,
+        "await_analysis": true
+      }
+    },
+    {
+      "name": "native_v2_early_music",
+      "overall": {
+        "cases": 36,
+        "timings_ms": {
+          "ready_ms": {
+            "n": 36,
+            "p50": 1299.175,
+            "p95_linear": 1634.4099999999999,
+            "p95_nearest_rank": 1734.58,
+            "max": 1827.54
+          },
+          "switch_ms": {
+            "n": 36,
+            "p50": 1578.06,
+            "p95_linear": 1985.24,
+            "p95_nearest_rank": 2089.13,
+            "max": 2185.86
+          },
+          "first_pcm_ms": {
+            "n": 36,
+            "p50": 1588.125,
+            "p95_linear": 1995.41,
+            "p95_nearest_rank": 2099.6,
+            "max": 2195.78
+          },
+          "presentation_estimate_ms": {
+            "n": 36,
+            "p50": 1601.47,
+            "p95_linear": 2008.7624999999998,
+            "p95_nearest_rank": 2112.93,
+            "max": 2209.12
+          }
+        },
+        "stage_ms": {
+          "pipeline_ready_s": {
+            "n": 36,
+            "p50": 1297.9,
+            "p95_linear": 1634.385,
+            "p95_nearest_rank": 1734.54,
+            "max": 1827.52
+          },
+          "local_initialize_s": {
+            "n": 36,
+            "p50": 0.0121875,
+            "p95_linear": 0.01718775,
+            "p95_nearest_rank": 0.02175,
+            "max": 0.036209
+          },
+          "analysis_s": {
+            "n": 36,
+            "p50": 31.8248,
+            "p95_linear": 42.46165,
+            "p95_nearest_rank": 43.1971,
+            "max": 44.9924
+          },
+          "dsp_s": {
+            "n": 36,
+            "p50": 139.58,
+            "p95_linear": 206.06550000000001,
+            "p95_nearest_rank": 206.286,
+            "max": 207.27499999999998
+          },
+          "seek_analysis_done_s": {
+            "n": 36,
+            "p50": 1145.475,
+            "p95_linear": 1437.17,
+            "p95_nearest_rank": 1524.95,
+            "max": 1617.28
+          }
+        },
+        "realtime_diagnostic_passed": 36,
+        "initial_analysis_complete": 0,
+        "max_peak_rss_bytes": 157958144,
+        "source_reuse_pass": true
+      },
+      "summary": {
+        "cases": 36,
+        "realtime_pass": true,
+        "first_visit_per_input_session": true,
+        "await_analysis": false
+      }
+    }
+  ],
+  "exact_regression_passed": {
+    "Release": 896,
+    "Debug": 896
+  },
+  "golden_passed": 25,
+  "limitations": [
+    "長尺スペクトル検査78件未達",
+    "stereoのReady p95は200ms未達",
+    "実時間診断の失敗はNATIVE_PERFORMANCEに保持",
+    "Exact Debug PCM比較で67ケース・71回のDSP期限超過",
+    "Sandboxの総合20/30を保持。無音長10失敗の独立参照追加無音は0",
+    "無クリック・音響提示・malloc/VM・TCC失効・全装置を承認しない"
+  ],
+  "phase62_started": false,
+  "committed": false,
+  "pushed": false
+}
