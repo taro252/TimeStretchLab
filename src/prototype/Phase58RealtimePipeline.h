@@ -27,6 +27,7 @@ struct Configuration {
     bool seekCheckpoints=true; // Phase61, exact resident fixed-state cache, max 2.
     bool fastLocalSeek=false; // Explicit factory only; Exact remains the default.
     std::size_t localPrerollInputFrames=0;
+    bool localPublicationFade=true; // Legacy experiment; Interactive mixes at output.
 };
 struct RenderResult {std::size_t wanted=0,received=0,outputBefore=0,fifoBefore=0;};
 struct FifoCursors {std::uint64_t read=0,write=0;};
@@ -128,6 +129,8 @@ public:
     // creates only fresh DSP/FIFO/transition state. Caller starts the result.
     std::unique_ptr<RealtimePipeline> createSeek(std::size_t inputFrame,std::uint32_t speedMicros)const;
     std::unique_ptr<RealtimePipeline> createFastLocalSeek(std::size_t inputFrame,std::uint32_t speedMicros,std::size_t prerollInputFrames=0)const;
+    std::unique_ptr<RealtimePipeline> createInteractiveSeek(std::size_t inputFrame,std::uint32_t speedMicros,std::size_t prerollInputFrames=0)const;
+    bool finalAnalysisAvailable()const noexcept;
     // Normal owner only. Fade on DSP publication, then wait for its absolute
     // end to be consumed. Cancelling restores gain through another 5ms ramp.
     void requestRetireFade(bool);

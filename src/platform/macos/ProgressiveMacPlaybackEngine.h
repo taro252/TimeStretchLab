@@ -4,6 +4,11 @@
 #include "prototype/Phase58RealtimePipeline.h"
 
 namespace ts::playback {
+struct ProgressiveOutputSpan {
+    std::uint64_t newEpoch=0,oldEpoch=0,callbackFrame=0;
+    std::size_t newOutputOffset=0,oldOutputOffset=0,newReceivedFrames=0,oldReceivedFrames=0;
+    std::size_t frames=0,mixedFrames=0,transitionOffset=0,transitionLength=0;
+};
 struct ProgressiveOptions {
     Preset preset=Preset::Candidate;
     double initialSpeed=1.00;
@@ -22,6 +27,11 @@ struct ProgressiveOptions {
     bool seekCheckpoints=true;
     // Research opt-in only: long impulse-train quality is NOT approved.
     bool allowUnvalidatedFastLocalSeek=false;
+    // Post-mix output is NOT one epoch's raw suffix. Called before gain 0.5.
+    // first mixedFrames use both epochs; remaining frames use newEpoch alone.
+    // Same callback restrictions as observeEpochPcm. Optional bounded observer.
+    void(*observeOutputPcm)(void*,const float*const*,const ProgressiveOutputSpan&)noexcept=nullptr;
+    unsigned seekFailureForTest=0; // explicit verification only: 1 before promotion, 2 before publication
 };
 struct ProgressivePosition {
     std::uint64_t session=0,outputFrame=0;
@@ -62,6 +72,7 @@ struct ProgressiveDiagnostics {
     std::optional<std::uint64_t> callbackCppNew,osPageFaults;
     std::string error;
     std::uint64_t renderEpoch=0;
+    std::uint64_t workerDeadlineMisses=0,workerNewCalls=0,workgroupErrors=0;
 };
 struct ProgressiveNativeDiagnostics : MacDiagnostics {
     std::uint64_t invalidSampleTimeCalls=0,invalidRateScalarCalls=0;
@@ -71,6 +82,7 @@ struct ProgressiveClosedEpoch {
     prototype::phase58::Diagnostics pipeline;
     std::vector<prototype::phase59::SpeedOperation> operations;
     std::size_t droppedOperations=0;
+    bool preparedOnly=false; // cancelled/failed preparation; epoch=0 if never assigned
 };
 // Create, operate, query, stop and destroy on one serial application work queue.
 // prepare is Accepted, not Ready. Poll state/snapshot on that queue.
@@ -84,15 +96,20 @@ public:
     ProgressiveMacPlaybackEngine(const ProgressiveMacPlaybackEngine&)=delete;
     ProgressiveMacPlaybackEngine& operator=(const ProgressiveMacPlaybackEngine&)=delete;
     static progressive::Capabilities capabilities() noexcept {return {};}
+    progressive::SeekAvailability seekAvailability()const;
     bool prepare(const std::filesystem::path&,ProgressiveOptions={});
     bool play();bool pause();bool resume();void stop();
     prototype::phase59::RequestReceipt setSpeed(double,std::uint64_t expectedSession=0,std::uint64_t expectedInputGeneration=0,std::uint64_t expectedRenderEpoch=0);
     progressive::SeekReceipt requestSeekToInputFrame(std::uint64_t,std::uint64_t expectedInputGeneration=0,std::uint64_t expectedRenderEpoch=0);
     progressive::SeekReceipt requestSeekToInputSeconds(double,std::uint64_t expectedInputGeneration=0,std::uint64_t expectedRenderEpoch=0);
     // Explicit experimental local phase origin. Exact APIs above are unchanged.
-    // Preroll accepts 500/1000/2000ms; publication fades run on DSP workers only.
+    // Interactive output transition. Default 500ms; legacy research 1000/2000ms
+    // arguments remain accepted. The session-aware API below always uses 500ms.
     progressive::SeekReceipt requestFastLocalSeekToInputFrame(std::uint64_t,std::uint64_t expectedInputGeneration=0,std::uint64_t expectedRenderEpoch=0,std::uint32_t prerollMillis=500);
     progressive::SeekReceipt requestFastLocalSeekToInputSeconds(double,std::uint64_t expectedInputGeneration=0,std::uint64_t expectedRenderEpoch=0,std::uint32_t prerollMillis=500);
+    // Session-aware development API. All three identities are required/nonzero.
+    progressive::SeekReceipt requestInteractiveSeekToInputFrame(std::uint64_t,std::uint64_t inputGeneration,std::uint64_t renderEpoch,std::uint64_t session);
+    progressive::SeekReceipt requestInteractiveSeekToInputSeconds(double,std::uint64_t inputGeneration,std::uint64_t renderEpoch,std::uint64_t session);
     progressive::SeekSnapshot getSeekSnapshot()const;
     std::vector<progressive::SeekOperation> seekHistory()const;
     std::vector<ProgressiveClosedEpoch> closedEpochs()const;
@@ -109,8 +126,8 @@ public:
     TimeMap finalTimeMap()const; // stopped/ended, valid completed analysis only
     void simulateDeviceChangeForTest(); // follows the same safe-stop path
 private:
-    progressive::SeekReceipt requestSeekFrame(std::uint64_t,std::uint64_t,std::uint64_t,progressive::SeekMode,std::uint32_t);
-    progressive::SeekReceipt requestSeekSeconds(double,std::uint64_t,std::uint64_t,progressive::SeekMode,std::uint32_t);
+    progressive::SeekReceipt requestSeekFrame(std::uint64_t,std::uint64_t,std::uint64_t,progressive::SeekMode,std::uint32_t,std::uint64_t expectedSession=0);
+    progressive::SeekReceipt requestSeekSeconds(double,std::uint64_t,std::uint64_t,progressive::SeekMode,std::uint32_t,std::uint64_t expectedSession=0);
     struct Impl;std::unique_ptr<Impl> impl_;
 };
 }

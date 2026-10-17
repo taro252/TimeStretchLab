@@ -3,10 +3,21 @@
 #include <cstdint>
 #include <stdexcept>
 #include <string>
+#define PHASE61_INTERACTIVE_CONTRACT 1
 
 namespace ts::playback::progressive {
 enum class SeekMode {Exact,FastLocal};
 enum class SeekState {Pending,Preparing,Ready,Completed,Replaced,Cancelled,Rejected,Failed};
+enum class SeekStage {None,PreparingAnalysis,PreparingFifo,SwitchReady,Transitioning,Finished};
+inline const char* name(SeekStage s)noexcept{
+    switch(s){case SeekStage::None:return "None";case SeekStage::PreparingAnalysis:return "PreparingAnalysis";
+    case SeekStage::PreparingFifo:return "PreparingFifo";case SeekStage::SwitchReady:return "SwitchReady";
+    case SeekStage::Transitioning:return "Transitioning";case SeekStage::Finished:return "Finished";}return "Unknown";
+}
+struct SeekAvailability {
+    bool exactImplemented=true,interactiveImplemented=true;
+    bool interactiveOptIn=false,interactiveAllowed=false,publicSeekApproved=false;
+};
 inline const char* name(SeekState s)noexcept{
     switch(s){case SeekState::Pending:return "Pending";case SeekState::Preparing:return "Preparing";
     case SeekState::Ready:return "Ready";case SeekState::Completed:return "Completed";
@@ -36,6 +47,10 @@ struct SeekOperation {
     // API host-time estimate, never a measurement of acoustic output.
     std::uint64_t acceptedNs=0,preparingNs=0,readyNs=0,switchedNs=0;
     std::uint64_t firstCallbackNs=0,estimatedPresentationNs=0;
+    SeekStage stage=SeekStage::None;
+    std::uint64_t analysisReadyNs=0,switchReadyNs=0,transitionBeginNs=0,transitionEndNs=0;
+    std::uint64_t oldFifoAtSwitchFrames=0,discardedForSeekFrames=0,transitionFrames=0;
+    bool waitedForAnalysis=false;
 };
 struct SeekSnapshot {SeekOperation latest;std::uint64_t activeId=0,pendingId=0;};
 }

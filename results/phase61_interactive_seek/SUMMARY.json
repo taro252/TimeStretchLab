@@ -1,0 +1,511 @@
+{
+  "performance": {
+    "baseline_mono": {
+      "cases": 120,
+      "ready_ms": {
+        "n": 120,
+        "min": 42.1709,
+        "p50": 69.60575,
+        "p95": 96.96373999999999,
+        "max": 137.49
+      },
+      "first_new_pcm_callback_ms": {
+        "n": 120,
+        "min": 307.038,
+        "p50": 393.6335,
+        "p95": 455.2604,
+        "max": 465.288
+      },
+      "paired_fifo_ready_to_first_pcm_ms": {
+        "n": 120,
+        "min": 233.07125,
+        "p50": 295.6118755,
+        "p95": 360.380025,
+        "max": 361.527208
+      },
+      "hal_estimate_ms": {
+        "n": 120,
+        "min": 320.042291,
+        "p50": 406.61939600000005,
+        "p95": 468.25497470000005,
+        "max": 478.302167
+      },
+      "analysis_complete_at_play": 120,
+      "max_peak_rss_bytes": 106053632,
+      "operation_delta_totals": {
+        "delta_missing": 0,
+        "delta_callback_deadlines": 0,
+        "delta_host_errors": 0,
+        "delta_sample_errors": 0,
+        "delta_hal_errors": 0,
+        "delta_worker_deadlines": 0,
+        "delta_callback_new": 0,
+        "delta_heap_calls": 0,
+        "delta_heap_frees": 0
+      },
+      "lifetime_counter_maxima": {
+        "lifetime_missing": 0,
+        "lifetime_callback_deadlines": 0,
+        "lifetime_host_errors": 0,
+        "lifetime_sample_errors": 0,
+        "lifetime_hal_errors": 0,
+        "lifetime_worker_deadlines": 0,
+        "lifetime_callback_new": 0,
+        "lifetime_heap_calls": 0,
+        "lifetime_heap_frees": 0
+      },
+      "ready_over_200ms": 0
+    },
+    "performance_mono": {
+      "cases": 120,
+      "ready_ms": {
+        "n": 120,
+        "min": 36.1849,
+        "p50": 62.37545,
+        "p95": 75.52096,
+        "max": 279.228
+      },
+      "first_new_pcm_callback_ms": {
+        "n": 120,
+        "min": 40.0522,
+        "p50": 70.38115,
+        "p95": 84.544715,
+        "max": 287.369
+      },
+      "paired_fifo_ready_to_first_pcm_ms": {
+        "n": 120,
+        "min": 0.138208,
+        "p50": 5.980479,
+        "p95": 10.3131021,
+        "max": 10.760167
+      },
+      "hal_estimate_ms": {
+        "n": 120,
+        "min": 53.076167,
+        "p50": 83.3947295,
+        "p95": 97.52118300000001,
+        "max": 300.327334
+      },
+      "analysis_complete_at_play": 120,
+      "max_peak_rss_bytes": 99500032,
+      "operation_delta_totals": {
+        "delta_missing": 0,
+        "delta_callback_deadlines": 0,
+        "delta_host_errors": 0,
+        "delta_sample_errors": 0,
+        "delta_hal_errors": 0,
+        "delta_worker_deadlines": 0,
+        "delta_callback_new": 0,
+        "delta_heap_calls": 0,
+        "delta_heap_frees": 0
+      },
+      "lifetime_counter_maxima": {
+        "lifetime_missing": 0,
+        "lifetime_callback_deadlines": 0,
+        "lifetime_host_errors": 0,
+        "lifetime_sample_errors": 0,
+        "lifetime_hal_errors": 0,
+        "lifetime_worker_deadlines": 0,
+        "lifetime_callback_new": 0,
+        "lifetime_heap_calls": 0,
+        "lifetime_heap_frees": 0
+      },
+      "ready_over_200ms": 1,
+      "switch_ready_to_transition_begin_ms": {
+        "n": 120,
+        "min": 0.005208,
+        "p50": 5.845146,
+        "p95": 10.164102049999999,
+        "max": 10.624625
+      },
+      "preparing_to_analysis_ready_ms": {
+        "n": 120,
+        "min": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "old_fifo_at_switch_frames": {
+        "n": 120,
+        "min": 10752,
+        "p50": 13824.0,
+        "p95": 16384.0,
+        "max": 16384
+      },
+      "discarded_for_seek_frames": {
+        "n": 120,
+        "min": 10512,
+        "p50": 13704.0,
+        "p95": 16384.0,
+        "max": 16384
+      },
+      "transition_frames": [
+        240
+      ]
+    },
+    "baseline_stereo": {
+      "cases": 120,
+      "ready_ms": {
+        "n": 120,
+        "min": 99.9945,
+        "p50": 178.93349999999998,
+        "p95": 248.76155,
+        "max": 366.291
+      },
+      "first_new_pcm_callback_ms": {
+        "n": 120,
+        "min": 382.839,
+        "p50": 508.1785,
+        "p95": 636.4620500000001,
+        "max": 744.864
+      },
+      "paired_fifo_ready_to_first_pcm_ms": {
+        "n": 120,
+        "min": 237.371416,
+        "p50": 316.16922850000003,
+        "p95": 391.15815895000003,
+        "max": 393.441375
+      },
+      "hal_estimate_ms": {
+        "n": 120,
+        "min": 396.168166,
+        "p50": 521.490875,
+        "p95": 649.8355048,
+        "max": 758.226666
+      },
+      "analysis_complete_at_play": 120,
+      "max_peak_rss_bytes": 160579584,
+      "operation_delta_totals": {
+        "delta_missing": 0,
+        "delta_callback_deadlines": 0,
+        "delta_host_errors": 0,
+        "delta_sample_errors": 0,
+        "delta_hal_errors": 0,
+        "delta_worker_deadlines": 0,
+        "delta_callback_new": 0,
+        "delta_heap_calls": 0,
+        "delta_heap_frees": 0
+      },
+      "lifetime_counter_maxima": {
+        "lifetime_missing": 0,
+        "lifetime_callback_deadlines": 0,
+        "lifetime_host_errors": 0,
+        "lifetime_sample_errors": 0,
+        "lifetime_hal_errors": 0,
+        "lifetime_worker_deadlines": 0,
+        "lifetime_callback_new": 0,
+        "lifetime_heap_calls": 0,
+        "lifetime_heap_frees": 0
+      },
+      "ready_over_200ms": 45
+    },
+    "performance_stereo": {
+      "cases": 120,
+      "ready_ms": {
+        "n": 120,
+        "min": 95.1567,
+        "p50": 174.13,
+        "p95": 295.67814999999996,
+        "max": 614.669
+      },
+      "first_new_pcm_callback_ms": {
+        "n": 120,
+        "min": 104.14,
+        "p50": 178.9755,
+        "p95": 304.55325,
+        "max": 616.188
+      },
+      "paired_fifo_ready_to_first_pcm_ms": {
+        "n": 120,
+        "min": 0.199042,
+        "p50": 5.727396000000001,
+        "p95": 10.4048,
+        "max": 10.830667
+      },
+      "hal_estimate_ms": {
+        "n": 120,
+        "min": 117.506708,
+        "p50": 192.3266875,
+        "p95": 317.89988059999996,
+        "max": 629.492875
+      },
+      "analysis_complete_at_play": 120,
+      "max_peak_rss_bytes": 162201600,
+      "operation_delta_totals": {
+        "delta_missing": 0,
+        "delta_callback_deadlines": 0,
+        "delta_host_errors": 0,
+        "delta_sample_errors": 0,
+        "delta_hal_errors": 0,
+        "delta_worker_deadlines": 0,
+        "delta_callback_new": 0,
+        "delta_heap_calls": 0,
+        "delta_heap_frees": 0
+      },
+      "lifetime_counter_maxima": {
+        "lifetime_missing": 0,
+        "lifetime_callback_deadlines": 0,
+        "lifetime_host_errors": 0,
+        "lifetime_sample_errors": 0,
+        "lifetime_hal_errors": 0,
+        "lifetime_worker_deadlines": 0,
+        "lifetime_callback_new": 0,
+        "lifetime_heap_calls": 0,
+        "lifetime_heap_frees": 0
+      },
+      "ready_over_200ms": 31,
+      "switch_ready_to_transition_begin_ms": {
+        "n": 120,
+        "min": 0.053375,
+        "p50": 5.5920625,
+        "p95": 10.25214375,
+        "max": 10.689958
+      },
+      "preparing_to_analysis_ready_ms": {
+        "n": 120,
+        "min": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "old_fifo_at_switch_frames": {
+        "n": 120,
+        "min": 9660,
+        "p50": 12982.0,
+        "p95": 16384.0,
+        "max": 16384
+      },
+      "discarded_for_seek_frames": {
+        "n": 120,
+        "min": 10048,
+        "p50": 13230.5,
+        "p95": 16384.0,
+        "max": 16384
+      },
+      "transition_frames": [
+        220
+      ]
+    },
+    "early_stereo": {
+      "cases": 24,
+      "ready_ms": {
+        "n": 24,
+        "min": 1109.36,
+        "p50": 1495.495,
+        "p95": 1669.4774999999997,
+        "max": 1742.76
+      },
+      "first_new_pcm_callback_ms": {
+        "n": 24,
+        "min": 1118.93,
+        "p50": 1502.285,
+        "p95": 1677.5315,
+        "max": 1746.9
+      },
+      "paired_fifo_ready_to_first_pcm_ms": {
+        "n": 24,
+        "min": 0.159125,
+        "p50": 5.1153745,
+        "p95": 9.515123299999999,
+        "max": 10.565375
+      },
+      "hal_estimate_ms": {
+        "n": 24,
+        "min": 1132.275041,
+        "p50": 1515.622583,
+        "p95": 1690.8765732499999,
+        "max": 1760.235292
+      },
+      "analysis_complete_at_play": 0,
+      "max_peak_rss_bytes": 161595392,
+      "operation_delta_totals": {
+        "delta_missing": 0,
+        "delta_callback_deadlines": 0,
+        "delta_host_errors": 0,
+        "delta_sample_errors": 0,
+        "delta_hal_errors": 0,
+        "delta_worker_deadlines": 0,
+        "delta_callback_new": 0,
+        "delta_heap_calls": 0,
+        "delta_heap_frees": 0
+      },
+      "lifetime_counter_maxima": {
+        "lifetime_missing": 0,
+        "lifetime_callback_deadlines": 0,
+        "lifetime_host_errors": 0,
+        "lifetime_sample_errors": 0,
+        "lifetime_hal_errors": 0,
+        "lifetime_worker_deadlines": 0,
+        "lifetime_callback_new": 0,
+        "lifetime_heap_calls": 0,
+        "lifetime_heap_frees": 0
+      },
+      "ready_over_200ms": 24,
+      "switch_ready_to_transition_begin_ms": {
+        "n": 24,
+        "min": 0.017542,
+        "p50": 4.9698125,
+        "p95": 9.374473249999998,
+        "max": 10.420916
+      },
+      "preparing_to_analysis_ready_ms": {
+        "n": 24,
+        "min": 851.932833,
+        "p50": 1325.0654375,
+        "p95": 1520.4364956,
+        "max": 1618.079083
+      },
+      "old_fifo_at_switch_frames": {
+        "n": 24,
+        "min": 10000,
+        "p50": 13241.0,
+        "p95": 15617.65,
+        "max": 16310
+      },
+      "discarded_for_seek_frames": {
+        "n": 24,
+        "min": 10032,
+        "p50": 13021.0,
+        "p95": 15397.650000000001,
+        "max": 16090
+      },
+      "transition_frames": [
+        220
+      ]
+    }
+  },
+  "controls": {
+    "controls512_release": {
+      "cases": 54,
+      "functional_passed": 54,
+      "with_final_native_diagnostics": 50,
+      "measured_realtime_passed": 50,
+      "totals": {
+        "missing": 0,
+        "callback_new": 0,
+        "heap_calls": 0,
+        "heap_frees": 0,
+        "callback_deadlines": 0,
+        "worker_deadlines": 0,
+        "host_errors": 0,
+        "sample_errors": 0,
+        "hal_errors": 0,
+        "raw_errors": 0,
+        "output_errors": 0
+      },
+      "destroy_native_diagnostics": "unavailable; do not interpret null as zero",
+      "device_buffer_frames": [
+        512
+      ]
+    },
+    "controls64_debug_boundary_44100_1": {
+      "cases": 54,
+      "functional_passed": 54,
+      "with_final_native_diagnostics": 50,
+      "measured_realtime_passed": 50,
+      "totals": {
+        "missing": 0,
+        "callback_new": 0,
+        "heap_calls": 0,
+        "heap_frees": 0,
+        "callback_deadlines": 0,
+        "worker_deadlines": 0,
+        "host_errors": 0,
+        "sample_errors": 0,
+        "hal_errors": 0,
+        "raw_errors": 0,
+        "output_errors": 0
+      },
+      "destroy_native_diagnostics": "unavailable; do not interpret null as zero",
+      "device_buffer_frames": [
+        64
+      ]
+    },
+    "controls64_debug_boundary_48000_2": {
+      "cases": 54,
+      "functional_passed": 54,
+      "with_final_native_diagnostics": 50,
+      "measured_realtime_passed": 50,
+      "totals": {
+        "missing": 0,
+        "callback_new": 0,
+        "heap_calls": 0,
+        "heap_frees": 0,
+        "callback_deadlines": 0,
+        "worker_deadlines": 0,
+        "host_errors": 0,
+        "sample_errors": 0,
+        "hal_errors": 0,
+        "raw_errors": 0,
+        "output_errors": 0
+      },
+      "destroy_native_diagnostics": "unavailable; do not interpret null as zero",
+      "device_buffer_frames": [
+        64
+      ]
+    },
+    "controls64_release_boundary_44100_1": {
+      "cases": 54,
+      "functional_passed": 54,
+      "with_final_native_diagnostics": 50,
+      "measured_realtime_passed": 50,
+      "totals": {
+        "missing": 0,
+        "callback_new": 0,
+        "heap_calls": 0,
+        "heap_frees": 0,
+        "callback_deadlines": 0,
+        "worker_deadlines": 0,
+        "host_errors": 0,
+        "sample_errors": 0,
+        "hal_errors": 0,
+        "raw_errors": 0,
+        "output_errors": 0
+      },
+      "destroy_native_diagnostics": "unavailable; do not interpret null as zero",
+      "device_buffer_frames": [
+        64
+      ]
+    },
+    "controls64_release_boundary_48000_2": {
+      "cases": 54,
+      "functional_passed": 54,
+      "with_final_native_diagnostics": 50,
+      "measured_realtime_passed": 50,
+      "totals": {
+        "missing": 0,
+        "callback_new": 0,
+        "heap_calls": 0,
+        "heap_frees": 0,
+        "callback_deadlines": 0,
+        "worker_deadlines": 0,
+        "host_errors": 0,
+        "sample_errors": 0,
+        "hal_errors": 0,
+        "raw_errors": 0,
+        "output_errors": 0
+      },
+      "destroy_native_diagnostics": "unavailable; do not interpret null as zero",
+      "device_buffer_frames": [
+        64
+      ]
+    }
+  },
+  "exact_native": {
+    "exact_debug": {
+      "cases": 20,
+      "functional_passed": 20,
+      "realtime_quality_passed": 18,
+      "worker_deadlines": 2,
+      "callback_deadlines": 0
+    },
+    "exact_release": {
+      "cases": 20,
+      "functional_passed": 20,
+      "realtime_quality_passed": 20,
+      "worker_deadlines": 0,
+      "callback_deadlines": 0
+    }
+  },
+  "driver_sha256": "3be3e3efe6951ea2117478b91c99fc9abf88b20db1e29c23c45422d3c2034069"
+}

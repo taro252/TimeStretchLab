@@ -239,7 +239,7 @@ struct RealtimePipeline::Impl {
         const auto room=std::min(fifo.free(),lead-std::min(lead,fifo.available()));
         const auto n=std::min(room,seekPcmCount);if(!n)return;
         std::array<const float*,2> p{};for(std::size_t c=0;c<input.channels;++c)p[c]=seekPcm[c].data()+seekPcmOffset;
-        const auto* delivered=envelope.apply(p.data(),published.load(),n,config.fastLocalSeek,outputStart.load());
+        const auto* delivered=envelope.apply(p.data(),published.load(),n,config.fastLocalSeek&&config.localPublicationFade,outputStart.load());
         if(!fifo.write(delivered,n))throw std::logic_error("Seek FIFO rejected PCM");
         if(config.verifyPcm){for(std::size_t i=0;i<n;++i)for(std::size_t c=0;c<input.channels;++c)seekInterleaved[i*input.channels+c]=delivered[c][i];seekHash.update(seekInterleaved.data(),n*input.channels*sizeof(float));}
         seekPcmOffset+=n;seekPcmCount-=n;published.fetch_add(n);
@@ -794,6 +794,10 @@ std::unique_ptr<RealtimePipeline> RealtimePipeline::createFastLocalSeek(std::siz
     return std::unique_ptr<RealtimePipeline>(new RealtimePipeline(std::make_unique<Impl>(x.inputLease,c,true,frame)));
 }
 void RealtimePipeline::requestRetireFade(bool fade){impl_->envelope.retireRequested=fade;}
+std::unique_ptr<RealtimePipeline> RealtimePipeline::createInteractiveSeek(std::size_t frame,std::uint32_t speed,std::size_t preroll)const{
+    auto result=createFastLocalSeek(frame,speed,preroll);result->impl_->config.localPublicationFade=false;return result;
+}
+bool RealtimePipeline::finalAnalysisAvailable()const noexcept{return bool(std::atomic_load(&impl_->inputLease->finalAnalysis));}
 bool RealtimePipeline::retireFadeDrained()const noexcept{const auto& x=*impl_;const auto end=x.envelope.retireEnd.load();return (end&&x.consumed.load()>=end)||drained();}
 double RealtimePipeline::elapsedSeconds()const noexcept{return impl_->elapsed();}
 Diagnostics RealtimePipeline::diagnostics()const{

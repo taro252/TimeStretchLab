@@ -1,0 +1,3511 @@
+{
+  "ctest": {
+    "release": {
+      "passed": 25,
+      "total": 25
+    },
+    "debug": {
+      "passed": 25,
+      "total": 25
+    }
+  },
+  "golden": {
+    "PASS": true,
+    "passed": 25,
+    "total": 25,
+    "probe_sha256": "eb58b61691529a9ea52890c3c9de350e105699ba240111af332169b17e95c83b",
+    "results": [
+      {
+        "name": "mix",
+        "speed": "0.50",
+        "PASS": true,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase54_core_probe",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/input/mix.wav",
+          "0.50"
+        ],
+        "exit": 0,
+        "golden_sha256": "a729f3764c7a387262ec2c139a1d9bb0ff1a9669fe817ddd837545a9847e01f1",
+        "expected_pcm_sha256": "3e30676ffb3273ebf58eb03abec16bbd4d33cc3047d2a2c00a43db72c3b19b5a",
+        "expected_frames": 3969000,
+        "summary": {
+          "state": "Ended",
+          "eos": "1",
+          "raw_pcm_sha256": "3e30676ffb3273ebf58eb03abec16bbd4d33cc3047d2a2c00a43db72c3b19b5a",
+          "produced_frames": "3969000",
+          "consumed_frames": "3969000",
+          "missing_frames": "0",
+          "worker_error": ""
+        }
+      },
+      {
+        "name": "mix",
+        "speed": "0.75",
+        "PASS": true,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase54_core_probe",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/input/mix.wav",
+          "0.75"
+        ],
+        "exit": 0,
+        "golden_sha256": "ef1ed78c06dff4d7040afe0ed6516ae7e718503d7e5923e6f9e635d4d6149aec",
+        "expected_pcm_sha256": "635734d135079ef89ccee6c19d01e201d098da5b568bc9a5bc965a025aafd60d",
+        "expected_frames": 2646000,
+        "summary": {
+          "state": "Ended",
+          "eos": "1",
+          "raw_pcm_sha256": "635734d135079ef89ccee6c19d01e201d098da5b568bc9a5bc965a025aafd60d",
+          "produced_frames": "2646000",
+          "consumed_frames": "2646000",
+          "missing_frames": "0",
+          "worker_error": ""
+        }
+      },
+      {
+        "name": "vocal",
+        "speed": "0.50",
+        "PASS": true,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase54_core_probe",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/input/vocal.wav",
+          "0.50"
+        ],
+        "exit": 0,
+        "golden_sha256": "44c33a2e1edbc879cdb533d90bb572aefacf735d0a39ea43cb85e048de0e0e1a",
+        "expected_pcm_sha256": "50663cd3e57a08ccc768e249bd5320e09007d8a4d35234bb623d925892678f79",
+        "expected_frames": 4320000,
+        "summary": {
+          "state": "Ended",
+          "eos": "1",
+          "raw_pcm_sha256": "50663cd3e57a08ccc768e249bd5320e09007d8a4d35234bb623d925892678f79",
+          "produced_frames": "4320000",
+          "consumed_frames": "4320000",
+          "missing_frames": "0",
+          "worker_error": ""
+        }
+      },
+      {
+        "name": "vocal",
+        "speed": "0.75",
+        "PASS": true,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase54_core_probe",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/input/vocal.wav",
+          "0.75"
+        ],
+        "exit": 0,
+        "golden_sha256": "109816b81df96523ffb6b351d34258708b08d9cb4d97bb82ae5db8891fe18512",
+        "expected_pcm_sha256": "e944e8105ad299e8b0a9ffd86f090c331582ebcd510ff5a239182a6ec172ccb5",
+        "expected_frames": 2880000,
+        "summary": {
+          "state": "Ended",
+          "eos": "1",
+          "raw_pcm_sha256": "e944e8105ad299e8b0a9ffd86f090c331582ebcd510ff5a239182a6ec172ccb5",
+          "produced_frames": "2880000",
+          "consumed_frames": "2880000",
+          "missing_frames": "0",
+          "worker_error": ""
+        }
+      },
+      {
+        "name": "bass",
+        "speed": "0.50",
+        "PASS": true,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase54_core_probe",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/input/bass.wav",
+          "0.50"
+        ],
+        "exit": 0,
+        "golden_sha256": "70ba7adafe873aecbb76c3563b74a0fe99198a9587c5786de9f4f655e2a39bc8",
+        "expected_pcm_sha256": "336d776f9d862c00c6e0b60f97e44e07dd899a1731bb7b5bc3bfceeb2d2049b2",
+        "expected_frames": 4320000,
+        "summary": {
+          "state": "Ended",
+          "eos": "1",
+          "raw_pcm_sha256": "336d776f9d862c00c6e0b60f97e44e07dd899a1731bb7b5bc3bfceeb2d2049b2",
+          "produced_frames": "4320000",
+          "consumed_frames": "4320000",
+          "missing_frames": "0",
+          "worker_error": ""
+        }
+      },
+      {
+        "name": "bass",
+        "speed": "0.75",
+        "PASS": true,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase54_core_probe",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/input/bass.wav",
+          "0.75"
+        ],
+        "exit": 0,
+        "golden_sha256": "10558461001d1e71732fd84334f37e59e37a0c9ba2d1c80d0267ccd69f82b04f",
+        "expected_pcm_sha256": "f34329ffcb11f3a5ce4dbd4e3039fd8628d0df5b8d7c22c5fbbdc0f36d6163d3",
+        "expected_frames": 2880000,
+        "summary": {
+          "state": "Ended",
+          "eos": "1",
+          "raw_pcm_sha256": "f34329ffcb11f3a5ce4dbd4e3039fd8628d0df5b8d7c22c5fbbdc0f36d6163d3",
+          "produced_frames": "2880000",
+          "consumed_frames": "2880000",
+          "missing_frames": "0",
+          "worker_error": ""
+        }
+      },
+      {
+        "name": "drums",
+        "speed": "0.50",
+        "PASS": true,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase54_core_probe",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/input/drums.wav",
+          "0.50"
+        ],
+        "exit": 0,
+        "golden_sha256": "7cd350cee36ad5a6b9791074e0ee4fe50cba271bb20466339e2f451b3de2c663",
+        "expected_pcm_sha256": "3414a5369939a4fa6fcb40fbeaf8ca3beb667cfd4700310bab2a23bba7a3fb65",
+        "expected_frames": 960000,
+        "summary": {
+          "state": "Ended",
+          "eos": "1",
+          "raw_pcm_sha256": "3414a5369939a4fa6fcb40fbeaf8ca3beb667cfd4700310bab2a23bba7a3fb65",
+          "produced_frames": "960000",
+          "consumed_frames": "960000",
+          "missing_frames": "0",
+          "worker_error": ""
+        }
+      },
+      {
+        "name": "drums",
+        "speed": "0.75",
+        "PASS": true,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase54_core_probe",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/input/drums.wav",
+          "0.75"
+        ],
+        "exit": 0,
+        "golden_sha256": "bfa18f2ab42df3dbeeb445dc02bcad02604eff475f2d918212f204bb96e086ac",
+        "expected_pcm_sha256": "817bef5ea76ab896aa8791c5886477bea607a3f94bd9dad06d3a106c91818a03",
+        "expected_frames": 640000,
+        "summary": {
+          "state": "Ended",
+          "eos": "1",
+          "raw_pcm_sha256": "817bef5ea76ab896aa8791c5886477bea607a3f94bd9dad06d3a106c91818a03",
+          "produced_frames": "640000",
+          "consumed_frames": "640000",
+          "missing_frames": "0",
+          "worker_error": ""
+        }
+      },
+      {
+        "name": "guitar",
+        "speed": "0.50",
+        "PASS": true,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase54_core_probe",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/input/guitar.wav",
+          "0.50"
+        ],
+        "exit": 0,
+        "golden_sha256": "871653d181b5b2124e233bc6258ae005ab75215786072435356abdab68628466",
+        "expected_pcm_sha256": "ba2cba0ea541e68ecd067961984383b8740cff9c0697b75add991da44558d3d3",
+        "expected_frames": 960000,
+        "summary": {
+          "state": "Ended",
+          "eos": "1",
+          "raw_pcm_sha256": "ba2cba0ea541e68ecd067961984383b8740cff9c0697b75add991da44558d3d3",
+          "produced_frames": "960000",
+          "consumed_frames": "960000",
+          "missing_frames": "0",
+          "worker_error": ""
+        }
+      },
+      {
+        "name": "guitar",
+        "speed": "0.75",
+        "PASS": true,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase54_core_probe",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/input/guitar.wav",
+          "0.75"
+        ],
+        "exit": 0,
+        "golden_sha256": "0052694fab45da49eea0afbd8e1852dc801f484b96dcefcd7c52d04e949e3619",
+        "expected_pcm_sha256": "f5d64945850c3daca7865603b3b4b3045c1e49da489ed6df80ef97018dbe61d9",
+        "expected_frames": 640000,
+        "summary": {
+          "state": "Ended",
+          "eos": "1",
+          "raw_pcm_sha256": "f5d64945850c3daca7865603b3b4b3045c1e49da489ed6df80ef97018dbe61d9",
+          "produced_frames": "640000",
+          "consumed_frames": "640000",
+          "missing_frames": "0",
+          "worker_error": ""
+        }
+      },
+      {
+        "name": "mix",
+        "speed": "0.60",
+        "PASS": true,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase54_core_probe",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/input/mix.wav",
+          "0.60"
+        ],
+        "exit": 0,
+        "golden_sha256": "e306b9199ed606c5f0ea1d93e7c5acd161dc71ed3c19275d141e4a7018827c78",
+        "expected_pcm_sha256": "386870403652e46f358f5ff042c27a3e37313c69faea15789235a6fc81d7d46e",
+        "expected_frames": 3307500,
+        "summary": {
+          "state": "Ended",
+          "eos": "1",
+          "raw_pcm_sha256": "386870403652e46f358f5ff042c27a3e37313c69faea15789235a6fc81d7d46e",
+          "produced_frames": "3307500",
+          "consumed_frames": "3307500",
+          "missing_frames": "0",
+          "worker_error": ""
+        }
+      },
+      {
+        "name": "mix",
+        "speed": "0.70",
+        "PASS": true,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase54_core_probe",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/input/mix.wav",
+          "0.70"
+        ],
+        "exit": 0,
+        "golden_sha256": "0484291ea8d5f28f62400bd873a699a8fa627a53789dae3f19226d56a04e1c63",
+        "expected_pcm_sha256": "0c4ed2d8339f630415fbac1798943f78fc21d6e5357defa1eda9d191fa773335",
+        "expected_frames": 2835000,
+        "summary": {
+          "state": "Ended",
+          "eos": "1",
+          "raw_pcm_sha256": "0c4ed2d8339f630415fbac1798943f78fc21d6e5357defa1eda9d191fa773335",
+          "produced_frames": "2835000",
+          "consumed_frames": "2835000",
+          "missing_frames": "0",
+          "worker_error": ""
+        }
+      },
+      {
+        "name": "mix",
+        "speed": "0.80",
+        "PASS": true,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase54_core_probe",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/input/mix.wav",
+          "0.80"
+        ],
+        "exit": 0,
+        "golden_sha256": "a4f05fab65a16c35c903c614a3a50257052c9790c99b0e33d90de6d5f431997a",
+        "expected_pcm_sha256": "bd90c25d6662b43bdb3f28e76bdb90b23f2ffc8f16cec30a3d5b2b397cf714bf",
+        "expected_frames": 2480625,
+        "summary": {
+          "state": "Ended",
+          "eos": "1",
+          "raw_pcm_sha256": "bd90c25d6662b43bdb3f28e76bdb90b23f2ffc8f16cec30a3d5b2b397cf714bf",
+          "produced_frames": "2480625",
+          "consumed_frames": "2480625",
+          "missing_frames": "0",
+          "worker_error": ""
+        }
+      },
+      {
+        "name": "vocal",
+        "speed": "0.60",
+        "PASS": true,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase54_core_probe",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/input/vocal.wav",
+          "0.60"
+        ],
+        "exit": 0,
+        "golden_sha256": "6b2bd1c97ac0b40a7aaddc60dc5bf5a6b3fbd56a5bf6a7cc53c77254d0bab335",
+        "expected_pcm_sha256": "d1e5ff7fcd3f2b45826216cbd850173a20398482057f7f2c95385527872e1d63",
+        "expected_frames": 3600000,
+        "summary": {
+          "state": "Ended",
+          "eos": "1",
+          "raw_pcm_sha256": "d1e5ff7fcd3f2b45826216cbd850173a20398482057f7f2c95385527872e1d63",
+          "produced_frames": "3600000",
+          "consumed_frames": "3600000",
+          "missing_frames": "0",
+          "worker_error": ""
+        }
+      },
+      {
+        "name": "vocal",
+        "speed": "0.70",
+        "PASS": true,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase54_core_probe",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/input/vocal.wav",
+          "0.70"
+        ],
+        "exit": 0,
+        "golden_sha256": "910b54fb77fc8b8f00f35497392a79eb96ac727c1082301b5bc1c689c0006df3",
+        "expected_pcm_sha256": "c7bb80b552fea47285bf1682240db5e900e1cbc645e317b46fc91a87ace6372a",
+        "expected_frames": 3085714,
+        "summary": {
+          "state": "Ended",
+          "eos": "1",
+          "raw_pcm_sha256": "c7bb80b552fea47285bf1682240db5e900e1cbc645e317b46fc91a87ace6372a",
+          "produced_frames": "3085714",
+          "consumed_frames": "3085714",
+          "missing_frames": "0",
+          "worker_error": ""
+        }
+      },
+      {
+        "name": "vocal",
+        "speed": "0.80",
+        "PASS": true,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase54_core_probe",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/input/vocal.wav",
+          "0.80"
+        ],
+        "exit": 0,
+        "golden_sha256": "bf0e928db83551d2fca474eaca86e7b1a5d437f72a37fa5f693243ab66863a2d",
+        "expected_pcm_sha256": "50666a2d66c8a18f8034ce674e8ca1750239a4dc02a49807f200276e3aea3289",
+        "expected_frames": 2700000,
+        "summary": {
+          "state": "Ended",
+          "eos": "1",
+          "raw_pcm_sha256": "50666a2d66c8a18f8034ce674e8ca1750239a4dc02a49807f200276e3aea3289",
+          "produced_frames": "2700000",
+          "consumed_frames": "2700000",
+          "missing_frames": "0",
+          "worker_error": ""
+        }
+      },
+      {
+        "name": "bass",
+        "speed": "0.60",
+        "PASS": true,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase54_core_probe",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/input/bass.wav",
+          "0.60"
+        ],
+        "exit": 0,
+        "golden_sha256": "b12791d7fea8693737953a9e6cd7673c471cf46c3dd2eb4ce2a442eb7a546d22",
+        "expected_pcm_sha256": "c9041cd278c45ecad7697382ca14bd73e4939d1547175a4c7d64c647c6d669ce",
+        "expected_frames": 3600000,
+        "summary": {
+          "state": "Ended",
+          "eos": "1",
+          "raw_pcm_sha256": "c9041cd278c45ecad7697382ca14bd73e4939d1547175a4c7d64c647c6d669ce",
+          "produced_frames": "3600000",
+          "consumed_frames": "3600000",
+          "missing_frames": "0",
+          "worker_error": ""
+        }
+      },
+      {
+        "name": "bass",
+        "speed": "0.70",
+        "PASS": true,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase54_core_probe",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/input/bass.wav",
+          "0.70"
+        ],
+        "exit": 0,
+        "golden_sha256": "6078a2ff5c89af76797807b01a718528b21d4f0842c43b59c011b1434ddd6cec",
+        "expected_pcm_sha256": "ab1940f5a402122cdfa173cfa280b8f51542551f0747efbdaf0f34fba2655185",
+        "expected_frames": 3085714,
+        "summary": {
+          "state": "Ended",
+          "eos": "1",
+          "raw_pcm_sha256": "ab1940f5a402122cdfa173cfa280b8f51542551f0747efbdaf0f34fba2655185",
+          "produced_frames": "3085714",
+          "consumed_frames": "3085714",
+          "missing_frames": "0",
+          "worker_error": ""
+        }
+      },
+      {
+        "name": "bass",
+        "speed": "0.80",
+        "PASS": true,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase54_core_probe",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/input/bass.wav",
+          "0.80"
+        ],
+        "exit": 0,
+        "golden_sha256": "6c54388e0cfc7f78eebdb52037f3f8f27497043d8cde315ca0cb2097318425b4",
+        "expected_pcm_sha256": "2547be1c195276be7e30a709dd0ea7d922f277598760674fab1db1aa1a02bdf6",
+        "expected_frames": 2700000,
+        "summary": {
+          "state": "Ended",
+          "eos": "1",
+          "raw_pcm_sha256": "2547be1c195276be7e30a709dd0ea7d922f277598760674fab1db1aa1a02bdf6",
+          "produced_frames": "2700000",
+          "consumed_frames": "2700000",
+          "missing_frames": "0",
+          "worker_error": ""
+        }
+      },
+      {
+        "name": "drums",
+        "speed": "0.60",
+        "PASS": true,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase54_core_probe",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/input/drums.wav",
+          "0.60"
+        ],
+        "exit": 0,
+        "golden_sha256": "1f4711169863c185be4fe545b660d244d756ff1a8ade1d44c3ba979ea770e3d4",
+        "expected_pcm_sha256": "40c9fa8a78b1c10e46ba8da68e60c5806d1fec4ba7a8653733250ff74ae22de8",
+        "expected_frames": 800000,
+        "summary": {
+          "state": "Ended",
+          "eos": "1",
+          "raw_pcm_sha256": "40c9fa8a78b1c10e46ba8da68e60c5806d1fec4ba7a8653733250ff74ae22de8",
+          "produced_frames": "800000",
+          "consumed_frames": "800000",
+          "missing_frames": "0",
+          "worker_error": ""
+        }
+      },
+      {
+        "name": "drums",
+        "speed": "0.70",
+        "PASS": true,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase54_core_probe",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/input/drums.wav",
+          "0.70"
+        ],
+        "exit": 0,
+        "golden_sha256": "5d788bb47d593af25eaf4871846e73969620e73a860a1ad2a20ff76b7d2246c8",
+        "expected_pcm_sha256": "15056997ac9fd81aadd2b281e95294e601166d7d058852bcc4549729076b4383",
+        "expected_frames": 685714,
+        "summary": {
+          "state": "Ended",
+          "eos": "1",
+          "raw_pcm_sha256": "15056997ac9fd81aadd2b281e95294e601166d7d058852bcc4549729076b4383",
+          "produced_frames": "685714",
+          "consumed_frames": "685714",
+          "missing_frames": "0",
+          "worker_error": ""
+        }
+      },
+      {
+        "name": "drums",
+        "speed": "0.80",
+        "PASS": true,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase54_core_probe",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/input/drums.wav",
+          "0.80"
+        ],
+        "exit": 0,
+        "golden_sha256": "2c9fb17396fecea8a72b88bc1404b1683a4705d1196fbb0a1c7a37ff055ca03e",
+        "expected_pcm_sha256": "83cf8b56c5572c572b0240299feb3faac25efecb5d15ac9c737c189d5e7aa640",
+        "expected_frames": 600000,
+        "summary": {
+          "state": "Ended",
+          "eos": "1",
+          "raw_pcm_sha256": "83cf8b56c5572c572b0240299feb3faac25efecb5d15ac9c737c189d5e7aa640",
+          "produced_frames": "600000",
+          "consumed_frames": "600000",
+          "missing_frames": "0",
+          "worker_error": ""
+        }
+      },
+      {
+        "name": "guitar",
+        "speed": "0.60",
+        "PASS": true,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase54_core_probe",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/input/guitar.wav",
+          "0.60"
+        ],
+        "exit": 0,
+        "golden_sha256": "22b6f937ed9d333fb62bb8cf5a1d52b4c1c94b6ed85a82ffdca528be7e1a3fe5",
+        "expected_pcm_sha256": "bf4a832656bb5370b023bfb6ceefcb2b14079853422b569b81efd962b087983f",
+        "expected_frames": 800000,
+        "summary": {
+          "state": "Ended",
+          "eos": "1",
+          "raw_pcm_sha256": "bf4a832656bb5370b023bfb6ceefcb2b14079853422b569b81efd962b087983f",
+          "produced_frames": "800000",
+          "consumed_frames": "800000",
+          "missing_frames": "0",
+          "worker_error": ""
+        }
+      },
+      {
+        "name": "guitar",
+        "speed": "0.70",
+        "PASS": true,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase54_core_probe",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/input/guitar.wav",
+          "0.70"
+        ],
+        "exit": 0,
+        "golden_sha256": "37356db0d6dd75c28bb0f8b88fe6ffe4556f29c2fe7ecbdfcf5de36a5319aa70",
+        "expected_pcm_sha256": "606a3cb9e391137cc91ac1ec4a0509fd9d8dd271e7a14ef7781927d220379ea9",
+        "expected_frames": 685714,
+        "summary": {
+          "state": "Ended",
+          "eos": "1",
+          "raw_pcm_sha256": "606a3cb9e391137cc91ac1ec4a0509fd9d8dd271e7a14ef7781927d220379ea9",
+          "produced_frames": "685714",
+          "consumed_frames": "685714",
+          "missing_frames": "0",
+          "worker_error": ""
+        }
+      },
+      {
+        "name": "guitar",
+        "speed": "0.80",
+        "PASS": true,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase54_core_probe",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/input/guitar.wav",
+          "0.80"
+        ],
+        "exit": 0,
+        "golden_sha256": "09190f1273b63aa601f478305f4e8bbaf334e224d5d3e17f1eb14987b6713277",
+        "expected_pcm_sha256": "b13f44a5a15c339fbae4dcb4be3590e33fac78209ce3261a013db3da60fb9584",
+        "expected_frames": 600000,
+        "summary": {
+          "state": "Ended",
+          "eos": "1",
+          "raw_pcm_sha256": "b13f44a5a15c339fbae4dcb4be3590e33fac78209ce3261a013db3da60fb9584",
+          "produced_frames": "600000",
+          "consumed_frames": "600000",
+          "missing_frames": "0",
+          "worker_error": ""
+        }
+      }
+    ]
+  },
+  "exact_full_release": {
+    "PASS": true,
+    "passed": 896,
+    "failed": 0,
+    "expected": 896,
+    "checkpoint_hits": 448,
+    "max_checkpoint_states": 1,
+    "full": true,
+    "output": "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/regression_final/exact_full_release",
+    "manifest_sha256": "e809b1fd39b2a8f08604ed40584c3a6a9d0b8e5bda9863d28b29f8a53a172544",
+    "worker_deadlines": 1,
+    "deadline_failures": [
+      {
+        "name": "48000_2_1_2000000_candidate",
+        "input_frame": 0,
+        "output_start": 0,
+        "mode": "workgroup",
+        "exit": 0,
+        "log": "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/regression_final/exact_full_release/48000_2_1_2000000_candidate/0_workgroup.log",
+        "result": {
+          "PASS": true,
+          "output_start": 0,
+          "suffix_frames": 36000,
+          "discarded": 0,
+          "sha256": "49ccc497719ea427da958bc97dbbfa10b8a4a769d185bb1565cbf3373e4509e0",
+          "accepted_to_ready_s": 0.089811,
+          "total_s": 0.450507,
+          "peak_rss_bytes": 49905664,
+          "input_generation": 1,
+          "source_bytes": 288044,
+          "resident_bytes": 288044,
+          "checkpoint_used": false,
+          "checkpoint_start": 0,
+          "checkpoint_states": 1,
+          "checkpoint_builds": 2,
+          "realtime_joins": 1,
+          "realtime_leaves": 1,
+          "realtime_restores": 1,
+          "worker_deadlines": 1
+        },
+        "reference_pcm_sha256": "49ccc497719ea427da958bc97dbbfa10b8a4a769d185bb1565cbf3373e4509e0"
+      }
+    ]
+  },
+  "exact_release_deadline_recheck": {
+    "rows": [
+      {
+        "repeat": 0,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase61_seek_check",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/regression_final/exact_full_release/boundary_48000_2_1.wav",
+          "2000000",
+          "candidate",
+          "0",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/exact_release_deadline_recheck/reference.f32",
+          "0",
+          "36000",
+          "workgroup",
+          "0",
+          "0",
+          "1"
+        ],
+        "exit": 0,
+        "result": {
+          "PASS": true,
+          "output_start": 0,
+          "suffix_frames": 36000,
+          "discarded": 0,
+          "sha256": "49ccc497719ea427da958bc97dbbfa10b8a4a769d185bb1565cbf3373e4509e0",
+          "accepted_to_ready_s": 0.0916044,
+          "total_s": 0.434919,
+          "peak_rss_bytes": 49364992,
+          "input_generation": 1,
+          "source_bytes": 288044,
+          "resident_bytes": 288044,
+          "checkpoint_used": false,
+          "checkpoint_start": 0,
+          "checkpoint_states": 1,
+          "checkpoint_builds": 2,
+          "realtime_joins": 1,
+          "realtime_leaves": 1,
+          "realtime_restores": 1,
+          "worker_deadlines": 0
+        }
+      },
+      {
+        "repeat": 1,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase61_seek_check",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/regression_final/exact_full_release/boundary_48000_2_1.wav",
+          "2000000",
+          "candidate",
+          "0",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/exact_release_deadline_recheck/reference.f32",
+          "0",
+          "36000",
+          "workgroup",
+          "0",
+          "0",
+          "1"
+        ],
+        "exit": 0,
+        "result": {
+          "PASS": true,
+          "output_start": 0,
+          "suffix_frames": 36000,
+          "discarded": 0,
+          "sha256": "49ccc497719ea427da958bc97dbbfa10b8a4a769d185bb1565cbf3373e4509e0",
+          "accepted_to_ready_s": 0.0921487,
+          "total_s": 0.41011,
+          "peak_rss_bytes": 49479680,
+          "input_generation": 1,
+          "source_bytes": 288044,
+          "resident_bytes": 288044,
+          "checkpoint_used": false,
+          "checkpoint_start": 0,
+          "checkpoint_states": 1,
+          "checkpoint_builds": 2,
+          "realtime_joins": 1,
+          "realtime_leaves": 1,
+          "realtime_restores": 1,
+          "worker_deadlines": 0
+        }
+      },
+      {
+        "repeat": 2,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase61_seek_check",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/regression_final/exact_full_release/boundary_48000_2_1.wav",
+          "2000000",
+          "candidate",
+          "0",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/exact_release_deadline_recheck/reference.f32",
+          "0",
+          "36000",
+          "workgroup",
+          "0",
+          "0",
+          "1"
+        ],
+        "exit": 0,
+        "result": {
+          "PASS": true,
+          "output_start": 0,
+          "suffix_frames": 36000,
+          "discarded": 0,
+          "sha256": "49ccc497719ea427da958bc97dbbfa10b8a4a769d185bb1565cbf3373e4509e0",
+          "accepted_to_ready_s": 0.0917779,
+          "total_s": 0.405536,
+          "peak_rss_bytes": 49463296,
+          "input_generation": 1,
+          "source_bytes": 288044,
+          "resident_bytes": 288044,
+          "checkpoint_used": false,
+          "checkpoint_start": 0,
+          "checkpoint_states": 1,
+          "checkpoint_builds": 2,
+          "realtime_joins": 1,
+          "realtime_leaves": 1,
+          "realtime_restores": 1,
+          "worker_deadlines": 0
+        }
+      },
+      {
+        "repeat": 3,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase61_seek_check",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/regression_final/exact_full_release/boundary_48000_2_1.wav",
+          "2000000",
+          "candidate",
+          "0",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/exact_release_deadline_recheck/reference.f32",
+          "0",
+          "36000",
+          "workgroup",
+          "0",
+          "0",
+          "1"
+        ],
+        "exit": 0,
+        "result": {
+          "PASS": true,
+          "output_start": 0,
+          "suffix_frames": 36000,
+          "discarded": 0,
+          "sha256": "49ccc497719ea427da958bc97dbbfa10b8a4a769d185bb1565cbf3373e4509e0",
+          "accepted_to_ready_s": 0.0916,
+          "total_s": 0.407024,
+          "peak_rss_bytes": 49643520,
+          "input_generation": 1,
+          "source_bytes": 288044,
+          "resident_bytes": 288044,
+          "checkpoint_used": false,
+          "checkpoint_start": 0,
+          "checkpoint_states": 1,
+          "checkpoint_builds": 2,
+          "realtime_joins": 1,
+          "realtime_leaves": 1,
+          "realtime_restores": 1,
+          "worker_deadlines": 0
+        }
+      },
+      {
+        "repeat": 4,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase61_seek_check",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/regression_final/exact_full_release/boundary_48000_2_1.wav",
+          "2000000",
+          "candidate",
+          "0",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/exact_release_deadline_recheck/reference.f32",
+          "0",
+          "36000",
+          "workgroup",
+          "0",
+          "0",
+          "1"
+        ],
+        "exit": 0,
+        "result": {
+          "PASS": true,
+          "output_start": 0,
+          "suffix_frames": 36000,
+          "discarded": 0,
+          "sha256": "49ccc497719ea427da958bc97dbbfa10b8a4a769d185bb1565cbf3373e4509e0",
+          "accepted_to_ready_s": 0.0940297,
+          "total_s": 0.411273,
+          "peak_rss_bytes": 49840128,
+          "input_generation": 1,
+          "source_bytes": 288044,
+          "resident_bytes": 288044,
+          "checkpoint_used": false,
+          "checkpoint_start": 0,
+          "checkpoint_states": 1,
+          "checkpoint_builds": 2,
+          "realtime_joins": 1,
+          "realtime_leaves": 1,
+          "realtime_restores": 1,
+          "worker_deadlines": 0
+        }
+      },
+      {
+        "repeat": 5,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase61_seek_check",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/regression_final/exact_full_release/boundary_48000_2_1.wav",
+          "2000000",
+          "candidate",
+          "0",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/exact_release_deadline_recheck/reference.f32",
+          "0",
+          "36000",
+          "workgroup",
+          "0",
+          "0",
+          "1"
+        ],
+        "exit": 0,
+        "result": {
+          "PASS": true,
+          "output_start": 0,
+          "suffix_frames": 36000,
+          "discarded": 0,
+          "sha256": "49ccc497719ea427da958bc97dbbfa10b8a4a769d185bb1565cbf3373e4509e0",
+          "accepted_to_ready_s": 0.0941405,
+          "total_s": 0.418949,
+          "peak_rss_bytes": 49561600,
+          "input_generation": 1,
+          "source_bytes": 288044,
+          "resident_bytes": 288044,
+          "checkpoint_used": false,
+          "checkpoint_start": 0,
+          "checkpoint_states": 1,
+          "checkpoint_builds": 2,
+          "realtime_joins": 1,
+          "realtime_leaves": 1,
+          "realtime_restores": 1,
+          "worker_deadlines": 0
+        }
+      },
+      {
+        "repeat": 6,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase61_seek_check",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/regression_final/exact_full_release/boundary_48000_2_1.wav",
+          "2000000",
+          "candidate",
+          "0",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/exact_release_deadline_recheck/reference.f32",
+          "0",
+          "36000",
+          "workgroup",
+          "0",
+          "0",
+          "1"
+        ],
+        "exit": 0,
+        "result": {
+          "PASS": true,
+          "output_start": 0,
+          "suffix_frames": 36000,
+          "discarded": 0,
+          "sha256": "49ccc497719ea427da958bc97dbbfa10b8a4a769d185bb1565cbf3373e4509e0",
+          "accepted_to_ready_s": 0.0952376,
+          "total_s": 0.426341,
+          "peak_rss_bytes": 49397760,
+          "input_generation": 1,
+          "source_bytes": 288044,
+          "resident_bytes": 288044,
+          "checkpoint_used": false,
+          "checkpoint_start": 0,
+          "checkpoint_states": 1,
+          "checkpoint_builds": 2,
+          "realtime_joins": 1,
+          "realtime_leaves": 1,
+          "realtime_restores": 1,
+          "worker_deadlines": 0
+        }
+      },
+      {
+        "repeat": 7,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase61_seek_check",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/regression_final/exact_full_release/boundary_48000_2_1.wav",
+          "2000000",
+          "candidate",
+          "0",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/exact_release_deadline_recheck/reference.f32",
+          "0",
+          "36000",
+          "workgroup",
+          "0",
+          "0",
+          "1"
+        ],
+        "exit": 0,
+        "result": {
+          "PASS": true,
+          "output_start": 0,
+          "suffix_frames": 36000,
+          "discarded": 0,
+          "sha256": "49ccc497719ea427da958bc97dbbfa10b8a4a769d185bb1565cbf3373e4509e0",
+          "accepted_to_ready_s": 0.0915125,
+          "total_s": 0.411102,
+          "peak_rss_bytes": 49627136,
+          "input_generation": 1,
+          "source_bytes": 288044,
+          "resident_bytes": 288044,
+          "checkpoint_used": false,
+          "checkpoint_start": 0,
+          "checkpoint_states": 1,
+          "checkpoint_builds": 2,
+          "realtime_joins": 1,
+          "realtime_leaves": 1,
+          "realtime_restores": 1,
+          "worker_deadlines": 1
+        }
+      },
+      {
+        "repeat": 8,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase61_seek_check",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/regression_final/exact_full_release/boundary_48000_2_1.wav",
+          "2000000",
+          "candidate",
+          "0",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/exact_release_deadline_recheck/reference.f32",
+          "0",
+          "36000",
+          "workgroup",
+          "0",
+          "0",
+          "1"
+        ],
+        "exit": 0,
+        "result": {
+          "PASS": true,
+          "output_start": 0,
+          "suffix_frames": 36000,
+          "discarded": 0,
+          "sha256": "49ccc497719ea427da958bc97dbbfa10b8a4a769d185bb1565cbf3373e4509e0",
+          "accepted_to_ready_s": 0.0915265,
+          "total_s": 0.407422,
+          "peak_rss_bytes": 49512448,
+          "input_generation": 1,
+          "source_bytes": 288044,
+          "resident_bytes": 288044,
+          "checkpoint_used": false,
+          "checkpoint_start": 0,
+          "checkpoint_states": 1,
+          "checkpoint_builds": 2,
+          "realtime_joins": 1,
+          "realtime_leaves": 1,
+          "realtime_restores": 1,
+          "worker_deadlines": 0
+        }
+      },
+      {
+        "repeat": 9,
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase61_seek_check",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/regression_final/exact_full_release/boundary_48000_2_1.wav",
+          "2000000",
+          "candidate",
+          "0",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/exact_release_deadline_recheck/reference.f32",
+          "0",
+          "36000",
+          "workgroup",
+          "0",
+          "0",
+          "1"
+        ],
+        "exit": 0,
+        "result": {
+          "PASS": true,
+          "output_start": 0,
+          "suffix_frames": 36000,
+          "discarded": 0,
+          "sha256": "49ccc497719ea427da958bc97dbbfa10b8a4a769d185bb1565cbf3373e4509e0",
+          "accepted_to_ready_s": 0.0919229,
+          "total_s": 0.410388,
+          "peak_rss_bytes": 49397760,
+          "input_generation": 1,
+          "source_bytes": 288044,
+          "resident_bytes": 288044,
+          "checkpoint_used": false,
+          "checkpoint_start": 0,
+          "checkpoint_states": 1,
+          "checkpoint_builds": 2,
+          "realtime_joins": 1,
+          "realtime_leaves": 1,
+          "realtime_restores": 1,
+          "worker_deadlines": 0
+        }
+      }
+    ],
+    "pcm_passed": 10,
+    "worker_deadlines": 1
+  },
+  "local_integration": {
+    "48000_2": {
+      "PASS": true,
+      "rows": [
+        {
+          "session": "baseline_burst",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 2048,
+          "compared_frames": 2048,
+          "expected_frames": 154553,
+          "raw_sha256": "4f65e486e8fbdf4e2bfe0d25e8f9aa38c873b823a43aa06668c84b01974125fe",
+          "local_reference_sha256": "f29eaad1e39c6a666cc848b91233700b2aeee63e6d551955148cc69711da2c33",
+          "PASS": true
+        },
+        {
+          "session": "baseline_burst_started",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 4336,
+          "compared_frames": 4336,
+          "expected_frames": 154579,
+          "raw_sha256": "c1a58437dc48a506236aa7376dffd1913182115b0a460e181ecf72ef0fc59745",
+          "local_reference_sha256": "0d7b6305eb240d316788ccbd381a6f23e92cc52d7fac6dd7e06a3c3f75211d63",
+          "PASS": true
+        },
+        {
+          "session": "baseline_burst_started",
+          "epoch": 3,
+          "scope": "prefix",
+          "frames": 2112,
+          "compared_frames": 2112,
+          "expected_frames": 154553,
+          "raw_sha256": "1365143aae38f39bdb119809fd36e7d916e38eb6cb8a13b1952a8070ca3f1e71",
+          "local_reference_sha256": "f29eaad1e39c6a666cc848b91233700b2aeee63e6d551955148cc69711da2c33",
+          "PASS": true
+        },
+        {
+          "session": "baseline_chain",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 4528,
+          "compared_frames": 4528,
+          "expected_frames": 154579,
+          "raw_sha256": "7f65d8fccc5cce17cf8e707ab098aefe11a196fb99f7f58d1b6fcf3399aa86bf",
+          "local_reference_sha256": "0d7b6305eb240d316788ccbd381a6f23e92cc52d7fac6dd7e06a3c3f75211d63",
+          "PASS": true
+        },
+        {
+          "session": "baseline_chain",
+          "epoch": 3,
+          "scope": "prefix",
+          "frames": 3824,
+          "compared_frames": 3824,
+          "expected_frames": 310539,
+          "raw_sha256": "a6b8db48f1a0efd90fd794a67b87e6d2c3c198cbe36d6d06d44cf890fd04956d",
+          "local_reference_sha256": "a2b5eb56c8060116219c7e88b5474feaf6a9423ed3c3bd0c60acbb1e4f388caa",
+          "PASS": true
+        },
+        {
+          "session": "baseline_chain",
+          "epoch": 4,
+          "scope": "prefix",
+          "frames": 4464,
+          "compared_frames": 4464,
+          "expected_frames": 230681,
+          "raw_sha256": "7a52da05a22d561944e4005f9846445061b7bb5a429e7e3d550b650686406a91",
+          "local_reference_sha256": "c94f79399fea4755ec8b596f03a0e2c89ce17b1efb3ff5f737d6a27dd6b1cfdb",
+          "PASS": true
+        },
+        {
+          "session": "baseline_chain",
+          "epoch": 5,
+          "scope": "prefix",
+          "frames": 2112,
+          "compared_frames": 2112,
+          "expected_frames": 154615,
+          "raw_sha256": "1d68f968e78e54b814580c6d10fd5d18177de028ac0ee72171cbc6aef6a0c9ec",
+          "local_reference_sha256": "5ee224ffd24c7f050ad5c075c5e5fd4fe75111e4e2c064cf06d71b6b9974720b",
+          "PASS": true
+        },
+        {
+          "session": "baseline_eof_paused",
+          "epoch": 2,
+          "scope": "empty_suffix",
+          "PASS": true
+        },
+        {
+          "session": "baseline_eof_playing",
+          "epoch": 2,
+          "scope": "empty_suffix",
+          "PASS": true
+        },
+        {
+          "session": "baseline_pause_prepare",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 1728,
+          "compared_frames": 1728,
+          "expected_frames": 154579,
+          "raw_sha256": "9a05555ea4607fbc8f7118303e028d6083fe4776e1e2c03896cb9dc3b047b727",
+          "local_reference_sha256": "0d7b6305eb240d316788ccbd381a6f23e92cc52d7fac6dd7e06a3c3f75211d63",
+          "PASS": true
+        },
+        {
+          "session": "baseline_pause_started",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 256,
+          "compared_frames": 256,
+          "expected_frames": 154579,
+          "raw_sha256": "d893e6d336f8fd256be5d4dfb0cce7669f842b93f3500d8bf5e9575f71cd1c44",
+          "local_reference_sha256": "0d7b6305eb240d316788ccbd381a6f23e92cc52d7fac6dd7e06a3c3f75211d63",
+          "PASS": true
+        },
+        {
+          "session": "baseline_paused",
+          "epoch": 2,
+          "scope": "full_suffix",
+          "frames": 154579,
+          "compared_frames": 154579,
+          "expected_frames": 154579,
+          "raw_sha256": "0d7b6305eb240d316788ccbd381a6f23e92cc52d7fac6dd7e06a3c3f75211d63",
+          "local_reference_sha256": "0d7b6305eb240d316788ccbd381a6f23e92cc52d7fac6dd7e06a3c3f75211d63",
+          "PASS": true
+        },
+        {
+          "session": "baseline_playing",
+          "epoch": 2,
+          "scope": "full_suffix",
+          "frames": 154579,
+          "compared_frames": 154579,
+          "expected_frames": 154579,
+          "raw_sha256": "0d7b6305eb240d316788ccbd381a6f23e92cc52d7fac6dd7e06a3c3f75211d63",
+          "local_reference_sha256": "0d7b6305eb240d316788ccbd381a6f23e92cc52d7fac6dd7e06a3c3f75211d63",
+          "PASS": true
+        },
+        {
+          "session": "baseline_ready",
+          "epoch": 2,
+          "scope": "full_suffix",
+          "frames": 154579,
+          "compared_frames": 154579,
+          "expected_frames": 154579,
+          "raw_sha256": "0d7b6305eb240d316788ccbd381a6f23e92cc52d7fac6dd7e06a3c3f75211d63",
+          "local_reference_sha256": "0d7b6305eb240d316788ccbd381a6f23e92cc52d7fac6dd7e06a3c3f75211d63",
+          "PASS": true
+        },
+        {
+          "session": "baseline_replace_ready",
+          "epoch": 3,
+          "scope": "prefix",
+          "frames": 2112,
+          "compared_frames": 2112,
+          "expected_frames": 98911,
+          "raw_sha256": "a658bd70402fd8b9105ceae6a7fc7215b5ef3f58ba0f0b892abc259c2b450f60",
+          "local_reference_sha256": "d62ff265a250393c766649d267bd7bfc302f21be34e2c647b39c5ed3fbdd9156",
+          "PASS": true
+        },
+        {
+          "session": "baseline_speed_after",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 45440,
+          "compared_frames": 4800,
+          "expected_frames": 154579,
+          "raw_sha256": "fda83c959e664b26b7f56978373d9ea3640430dccd7e93ab534692bd27ccf233",
+          "local_reference_sha256": "0d7b6305eb240d316788ccbd381a6f23e92cc52d7fac6dd7e06a3c3f75211d63",
+          "PASS": true
+        },
+        {
+          "session": "baseline_speed_prepare",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 2176,
+          "compared_frames": 2176,
+          "expected_frames": 193477,
+          "raw_sha256": "312a7fad2540663c24b06fb9e8b2e37734451f2c598bb2aeda71fc3728891abe",
+          "local_reference_sha256": "ceaa93539ec1f2033c397a332d83fae47f78834036c22243dacc16bc3e68bdb6",
+          "PASS": true
+        },
+        {
+          "session": "baseline_speed_same_ready",
+          "epoch": 3,
+          "scope": "prefix",
+          "frames": 2176,
+          "compared_frames": 2176,
+          "expected_frames": 154579,
+          "raw_sha256": "91b5c124c1816a1348f5634aa324605d47955eb92d94b4978de18117edb4c0c9",
+          "local_reference_sha256": "0d7b6305eb240d316788ccbd381a6f23e92cc52d7fac6dd7e06a3c3f75211d63",
+          "PASS": true
+        },
+        {
+          "session": "baseline_speed_started",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 2112,
+          "compared_frames": 2112,
+          "expected_frames": 154579,
+          "raw_sha256": "18ce089a65935bf2dc4d2c4da2dbdfc9bab3bc6a301a0f07bc1156e5e602c6ec",
+          "local_reference_sha256": "0d7b6305eb240d316788ccbd381a6f23e92cc52d7fac6dd7e06a3c3f75211d63",
+          "PASS": true
+        },
+        {
+          "session": "baseline_stop_started",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 320,
+          "compared_frames": 320,
+          "expected_frames": 154579,
+          "raw_sha256": "aeb4a9920c6b224ecaa3fccb63f1893112f652b3624eafaed9c46e6232c17815",
+          "local_reference_sha256": "0d7b6305eb240d316788ccbd381a6f23e92cc52d7fac6dd7e06a3c3f75211d63",
+          "PASS": true
+        },
+        {
+          "session": "candidate_burst",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 2048,
+          "compared_frames": 2048,
+          "expected_frames": 154553,
+          "raw_sha256": "4f65e486e8fbdf4e2bfe0d25e8f9aa38c873b823a43aa06668c84b01974125fe",
+          "local_reference_sha256": "f29eaad1e39c6a666cc848b91233700b2aeee63e6d551955148cc69711da2c33",
+          "PASS": true
+        },
+        {
+          "session": "candidate_burst_started",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 4464,
+          "compared_frames": 4464,
+          "expected_frames": 154579,
+          "raw_sha256": "850a5ba558d70de26e1eadcf52bd92d52955b5729559021df90764ef29fa6633",
+          "local_reference_sha256": "0d7b6305eb240d316788ccbd381a6f23e92cc52d7fac6dd7e06a3c3f75211d63",
+          "PASS": true
+        },
+        {
+          "session": "candidate_burst_started",
+          "epoch": 3,
+          "scope": "prefix",
+          "frames": 2240,
+          "compared_frames": 2240,
+          "expected_frames": 154553,
+          "raw_sha256": "f5f0b46123eb594dc9981e9673519270b8eaa986f280df65d1397d3bb005c905",
+          "local_reference_sha256": "f29eaad1e39c6a666cc848b91233700b2aeee63e6d551955148cc69711da2c33",
+          "PASS": true
+        },
+        {
+          "session": "candidate_chain",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 4656,
+          "compared_frames": 4656,
+          "expected_frames": 154579,
+          "raw_sha256": "bad5b67fa47e7426a1bf3f8c5791f15001f33230c4fc71f4d3d513d6715b0763",
+          "local_reference_sha256": "0d7b6305eb240d316788ccbd381a6f23e92cc52d7fac6dd7e06a3c3f75211d63",
+          "PASS": true
+        },
+        {
+          "session": "candidate_chain",
+          "epoch": 3,
+          "scope": "prefix",
+          "frames": 4016,
+          "compared_frames": 4016,
+          "expected_frames": 310539,
+          "raw_sha256": "d544fa3af4cb251e31e1818ee5b4eb7b05ffd2e68eff928f440e3aa559db1387",
+          "local_reference_sha256": "a2b5eb56c8060116219c7e88b5474feaf6a9423ed3c3bd0c60acbb1e4f388caa",
+          "PASS": true
+        },
+        {
+          "session": "candidate_chain",
+          "epoch": 4,
+          "scope": "prefix",
+          "frames": 4592,
+          "compared_frames": 4592,
+          "expected_frames": 230681,
+          "raw_sha256": "6a2aaba93db34821a2d1f6a51eba53040ad792743645126dd9876b6ec8ef275a",
+          "local_reference_sha256": "c94f79399fea4755ec8b596f03a0e2c89ce17b1efb3ff5f737d6a27dd6b1cfdb",
+          "PASS": true
+        },
+        {
+          "session": "candidate_chain",
+          "epoch": 5,
+          "scope": "prefix",
+          "frames": 2048,
+          "compared_frames": 2048,
+          "expected_frames": 154615,
+          "raw_sha256": "33ca09ee4551e235b8028023d51e8b41464f055cd6ed3e719b910a81b1490182",
+          "local_reference_sha256": "5ee224ffd24c7f050ad5c075c5e5fd4fe75111e4e2c064cf06d71b6b9974720b",
+          "PASS": true
+        },
+        {
+          "session": "candidate_eof_paused",
+          "epoch": 2,
+          "scope": "empty_suffix",
+          "PASS": true
+        },
+        {
+          "session": "candidate_eof_playing",
+          "epoch": 2,
+          "scope": "empty_suffix",
+          "PASS": true
+        },
+        {
+          "session": "candidate_pause_prepare",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 1792,
+          "compared_frames": 1792,
+          "expected_frames": 154579,
+          "raw_sha256": "ff6e28b03bdf064bd6bbd211e56465f76323d79d5ab2e9ad7f3c426e6a205f23",
+          "local_reference_sha256": "0d7b6305eb240d316788ccbd381a6f23e92cc52d7fac6dd7e06a3c3f75211d63",
+          "PASS": true
+        },
+        {
+          "session": "candidate_pause_started",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 256,
+          "compared_frames": 256,
+          "expected_frames": 154579,
+          "raw_sha256": "d893e6d336f8fd256be5d4dfb0cce7669f842b93f3500d8bf5e9575f71cd1c44",
+          "local_reference_sha256": "0d7b6305eb240d316788ccbd381a6f23e92cc52d7fac6dd7e06a3c3f75211d63",
+          "PASS": true
+        },
+        {
+          "session": "candidate_paused",
+          "epoch": 2,
+          "scope": "full_suffix",
+          "frames": 154579,
+          "compared_frames": 154579,
+          "expected_frames": 154579,
+          "raw_sha256": "0d7b6305eb240d316788ccbd381a6f23e92cc52d7fac6dd7e06a3c3f75211d63",
+          "local_reference_sha256": "0d7b6305eb240d316788ccbd381a6f23e92cc52d7fac6dd7e06a3c3f75211d63",
+          "PASS": true
+        },
+        {
+          "session": "candidate_playing",
+          "epoch": 2,
+          "scope": "full_suffix",
+          "frames": 154579,
+          "compared_frames": 154579,
+          "expected_frames": 154579,
+          "raw_sha256": "0d7b6305eb240d316788ccbd381a6f23e92cc52d7fac6dd7e06a3c3f75211d63",
+          "local_reference_sha256": "0d7b6305eb240d316788ccbd381a6f23e92cc52d7fac6dd7e06a3c3f75211d63",
+          "PASS": true
+        },
+        {
+          "session": "candidate_ready",
+          "epoch": 2,
+          "scope": "full_suffix",
+          "frames": 154579,
+          "compared_frames": 154579,
+          "expected_frames": 154579,
+          "raw_sha256": "0d7b6305eb240d316788ccbd381a6f23e92cc52d7fac6dd7e06a3c3f75211d63",
+          "local_reference_sha256": "0d7b6305eb240d316788ccbd381a6f23e92cc52d7fac6dd7e06a3c3f75211d63",
+          "PASS": true
+        },
+        {
+          "session": "candidate_replace_ready",
+          "epoch": 3,
+          "scope": "prefix",
+          "frames": 2176,
+          "compared_frames": 2176,
+          "expected_frames": 98911,
+          "raw_sha256": "4591a132ee41f3cf2cbb2630a8ade59db23597615f22eaefa9a56850af0706c6",
+          "local_reference_sha256": "d62ff265a250393c766649d267bd7bfc302f21be34e2c647b39c5ed3fbdd9156",
+          "PASS": true
+        },
+        {
+          "session": "candidate_speed_after",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 44928,
+          "compared_frames": 4800,
+          "expected_frames": 154579,
+          "raw_sha256": "25b47ec35da858776a06ed6a84e78ae8fba7b5b39e3bb39b1d47e04b4ac19a6b",
+          "local_reference_sha256": "0d7b6305eb240d316788ccbd381a6f23e92cc52d7fac6dd7e06a3c3f75211d63",
+          "PASS": true
+        },
+        {
+          "session": "candidate_speed_prepare",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 2048,
+          "compared_frames": 2048,
+          "expected_frames": 193477,
+          "raw_sha256": "5cebd1d15da5f8bb18684c7c7359ac8bda198d84bae3e2dec55541e234496af6",
+          "local_reference_sha256": "ceaa93539ec1f2033c397a332d83fae47f78834036c22243dacc16bc3e68bdb6",
+          "PASS": true
+        },
+        {
+          "session": "candidate_speed_same_ready",
+          "epoch": 3,
+          "scope": "prefix",
+          "frames": 1984,
+          "compared_frames": 1984,
+          "expected_frames": 154579,
+          "raw_sha256": "38e7f811f859b5c4ccc70670f664c7293348060e8b9ee9a965a8b05397395251",
+          "local_reference_sha256": "0d7b6305eb240d316788ccbd381a6f23e92cc52d7fac6dd7e06a3c3f75211d63",
+          "PASS": true
+        },
+        {
+          "session": "candidate_speed_started",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 2176,
+          "compared_frames": 2176,
+          "expected_frames": 154579,
+          "raw_sha256": "91b5c124c1816a1348f5634aa324605d47955eb92d94b4978de18117edb4c0c9",
+          "local_reference_sha256": "0d7b6305eb240d316788ccbd381a6f23e92cc52d7fac6dd7e06a3c3f75211d63",
+          "PASS": true
+        },
+        {
+          "session": "candidate_stop_started",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 256,
+          "compared_frames": 256,
+          "expected_frames": 154579,
+          "raw_sha256": "d893e6d336f8fd256be5d4dfb0cce7669f842b93f3500d8bf5e9575f71cd1c44",
+          "local_reference_sha256": "0d7b6305eb240d316788ccbd381a6f23e92cc52d7fac6dd7e06a3c3f75211d63",
+          "PASS": true
+        }
+      ],
+      "commands": [
+        {
+          "command": [
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase61_fast_seek_study",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_48000_2.wav",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/pcm_release_48000_2/500000_115229",
+            "500000",
+            "24000",
+            "115229",
+            "480000",
+            "1",
+            "local"
+          ],
+          "exit": 0
+        },
+        {
+          "command": [
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase61_fast_seek_study",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_48000_2.wav",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/pcm_release_48000_2/500000_115217",
+            "500000",
+            "24000",
+            "115217",
+            "480000",
+            "1",
+            "local"
+          ],
+          "exit": 0
+        },
+        {
+          "command": [
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase61_fast_seek_study",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_48000_2.wav",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/pcm_release_48000_2/500000_38400",
+            "500000",
+            "24000",
+            "38400",
+            "480000",
+            "1",
+            "local"
+          ],
+          "exit": 0
+        },
+        {
+          "command": [
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase61_fast_seek_study",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_48000_2.wav",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/pcm_release_48000_2/500000_76800",
+            "500000",
+            "24000",
+            "76800",
+            "480000",
+            "1",
+            "local"
+          ],
+          "exit": 0
+        },
+        {
+          "command": [
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase61_fast_seek_study",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_48000_2.wav",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/pcm_release_48000_2/500000_115200",
+            "500000",
+            "24000",
+            "115200",
+            "480000",
+            "1",
+            "local"
+          ],
+          "exit": 0
+        },
+        {
+          "command": [
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase61_fast_seek_study",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_48000_2.wav",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/pcm_release_48000_2/500000_192000",
+            "500000",
+            "24000",
+            "192000",
+            "480000",
+            "1",
+            "local"
+          ],
+          "exit": 0
+        },
+        {
+          "command": [
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase61_fast_seek_study",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_48000_2.wav",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/pcm_release_48000_2/500000_144031",
+            "500000",
+            "24000",
+            "144031",
+            "480000",
+            "1",
+            "local"
+          ],
+          "exit": 0
+        },
+        {
+          "command": [
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase61_fast_seek_study",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_48000_2.wav",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/pcm_release_48000_2/400000_115217",
+            "400000",
+            "24000",
+            "115217",
+            "480000",
+            "1",
+            "local"
+          ],
+          "exit": 0
+        }
+      ],
+      "input_sha256": "ebb61d453dde2d99eef3731c8bf17bd65679541dc942d9a7bcc8a6bb3238cacd",
+      "study_sha256": "8dd0f1e9f3ebb52391e5e16a2ef4b98d62848645cf3d2b307930957e8e372a0d",
+      "driver_sha256": "a7274a263a85bf293b6145cc52992420ec95e2c4f127139a364e67c5778e7364",
+      "oracle": "unchanged offline local DSP, NO publication fade, NOT independent quality reference",
+      "full_suffix": 6,
+      "prefix": 30,
+      "empty_suffix": 4
+    },
+    "44100_1": {
+      "PASS": true,
+      "rows": [
+        {
+          "session": "baseline_burst",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 1940,
+          "compared_frames": 1940,
+          "expected_frames": 142816,
+          "raw_sha256": "9c1dd623b664282e9524c9953b6a442c60419d8a8d1ba8b1c4393da7cdeda9ba",
+          "local_reference_sha256": "7b104941eb266360aa3889743156b4cea8555759f8fa1d157797cbbecf063613",
+          "PASS": true
+        },
+        {
+          "session": "baseline_burst_started",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 2337,
+          "compared_frames": 2337,
+          "expected_frames": 142842,
+          "raw_sha256": "f61c4835d6302cad1c57e9bfcadfe7bc3bbe2c241fbb3c8979958609727873de",
+          "local_reference_sha256": "8f7168f50f1196a5e495c1b2069d297a2c92b82c6dd281cd47631923b16d5d7c",
+          "PASS": true
+        },
+        {
+          "session": "baseline_burst_started",
+          "epoch": 3,
+          "scope": "prefix",
+          "frames": 2058,
+          "compared_frames": 2058,
+          "expected_frames": 142816,
+          "raw_sha256": "dee4f0a688f47ef2716ac56a82cad21003f682a184470c5f9e6dcaf36b797f32",
+          "local_reference_sha256": "7b104941eb266360aa3889743156b4cea8555759f8fa1d157797cbbecf063613",
+          "PASS": true
+        },
+        {
+          "session": "baseline_chain",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 2278,
+          "compared_frames": 2278,
+          "expected_frames": 142842,
+          "raw_sha256": "d47797f0feb07428536f296b059112ab0b32c0b11032ab329a8d393d4311da45",
+          "local_reference_sha256": "8f7168f50f1196a5e495c1b2069d297a2c92b82c6dd281cd47631923b16d5d7c",
+          "PASS": true
+        },
+        {
+          "session": "baseline_chain",
+          "epoch": 3,
+          "scope": "prefix",
+          "frames": 2102,
+          "compared_frames": 2102,
+          "expected_frames": 285169,
+          "raw_sha256": "66087492b50da559ab4a9d4d93ded2f1824266c06d9c00645bdb026ca1a519dc",
+          "local_reference_sha256": "89a5fe59451069b19230840303a7ae47216f8182127785d4f6a09f57632579f9",
+          "PASS": true
+        },
+        {
+          "session": "baseline_chain",
+          "epoch": 4,
+          "scope": "prefix",
+          "frames": 2278,
+          "compared_frames": 2278,
+          "expected_frames": 212061,
+          "raw_sha256": "cb05290d37c32c9379a6d37133a7568a2d6e63aff4081841f0db92427abbe940",
+          "local_reference_sha256": "16759c0ba36353b2aa64079d423673ded42d487954ed3f1b405ce21fbb521bab",
+          "PASS": true
+        },
+        {
+          "session": "baseline_chain",
+          "epoch": 5,
+          "scope": "prefix",
+          "frames": 1999,
+          "compared_frames": 1999,
+          "expected_frames": 142878,
+          "raw_sha256": "74c56df2037348c960b662b3bfa9e5b20b7a3b216fbf7820a9ec88a8b6a69ffe",
+          "local_reference_sha256": "acf5cf4642ce5a763de4862225392b89316fb22baedfc7590eff58444fcd7c06",
+          "PASS": true
+        },
+        {
+          "session": "baseline_eof_paused",
+          "epoch": 2,
+          "scope": "empty_suffix",
+          "PASS": true
+        },
+        {
+          "session": "baseline_eof_playing",
+          "epoch": 2,
+          "scope": "empty_suffix",
+          "PASS": true
+        },
+        {
+          "session": "baseline_pause_prepare",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 1822,
+          "compared_frames": 1822,
+          "expected_frames": 142842,
+          "raw_sha256": "60b534297ef057b46c3f31e0e39138c1293da821cfd7e28a3f01ff6c0e1f3347",
+          "local_reference_sha256": "8f7168f50f1196a5e495c1b2069d297a2c92b82c6dd281cd47631923b16d5d7c",
+          "PASS": true
+        },
+        {
+          "session": "baseline_pause_started",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 236,
+          "compared_frames": 236,
+          "expected_frames": 142842,
+          "raw_sha256": "b177de7b27d5cd1e6ea8a9331e3c9cfba213f51afdf60e0e88a69e314d210b70",
+          "local_reference_sha256": "8f7168f50f1196a5e495c1b2069d297a2c92b82c6dd281cd47631923b16d5d7c",
+          "PASS": true
+        },
+        {
+          "session": "baseline_paused",
+          "epoch": 2,
+          "scope": "full_suffix",
+          "frames": 142842,
+          "compared_frames": 142842,
+          "expected_frames": 142842,
+          "raw_sha256": "8f7168f50f1196a5e495c1b2069d297a2c92b82c6dd281cd47631923b16d5d7c",
+          "local_reference_sha256": "8f7168f50f1196a5e495c1b2069d297a2c92b82c6dd281cd47631923b16d5d7c",
+          "PASS": true
+        },
+        {
+          "session": "baseline_playing",
+          "epoch": 2,
+          "scope": "full_suffix",
+          "frames": 142842,
+          "compared_frames": 142842,
+          "expected_frames": 142842,
+          "raw_sha256": "8f7168f50f1196a5e495c1b2069d297a2c92b82c6dd281cd47631923b16d5d7c",
+          "local_reference_sha256": "8f7168f50f1196a5e495c1b2069d297a2c92b82c6dd281cd47631923b16d5d7c",
+          "PASS": true
+        },
+        {
+          "session": "baseline_ready",
+          "epoch": 2,
+          "scope": "full_suffix",
+          "frames": 142842,
+          "compared_frames": 142842,
+          "expected_frames": 142842,
+          "raw_sha256": "8f7168f50f1196a5e495c1b2069d297a2c92b82c6dd281cd47631923b16d5d7c",
+          "local_reference_sha256": "8f7168f50f1196a5e495c1b2069d297a2c92b82c6dd281cd47631923b16d5d7c",
+          "PASS": true
+        },
+        {
+          "session": "baseline_replace_ready",
+          "epoch": 3,
+          "scope": "prefix",
+          "frames": 2058,
+          "compared_frames": 2058,
+          "expected_frames": 90284,
+          "raw_sha256": "511b540656b4249cc5b1fd3c0111413c53610f1adcea90cee279b4ac2b7e1ea4",
+          "local_reference_sha256": "12bd508268c75344f98be886c967bd45afd0598f3dba6a20b10bf00d781da4e2",
+          "PASS": true
+        },
+        {
+          "session": "baseline_speed_after",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 33222,
+          "compared_frames": 4410,
+          "expected_frames": 142842,
+          "raw_sha256": "892c291a67422cecd1982a5300d13924b4d8baf26ef47733405ee98f12ece3a8",
+          "local_reference_sha256": "8f7168f50f1196a5e495c1b2069d297a2c92b82c6dd281cd47631923b16d5d7c",
+          "PASS": true
+        },
+        {
+          "session": "baseline_speed_prepare",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 1882,
+          "compared_frames": 1882,
+          "expected_frames": 178991,
+          "raw_sha256": "99c28d78a2c9fb54bee6e9fdc4d295de0d2c4da7de0d939d623cb341c10632c7",
+          "local_reference_sha256": "3c943583b70e8670f3955535aefb3c953c593d48361e89f87a018fd1b3dab5ae",
+          "PASS": true
+        },
+        {
+          "session": "baseline_speed_same_ready",
+          "epoch": 3,
+          "scope": "prefix",
+          "frames": 1881,
+          "compared_frames": 1881,
+          "expected_frames": 142842,
+          "raw_sha256": "29241a8b0463cc8ebc4884a75ce0e4234dc363d83918861fb30b3582824b50e8",
+          "local_reference_sha256": "8f7168f50f1196a5e495c1b2069d297a2c92b82c6dd281cd47631923b16d5d7c",
+          "PASS": true
+        },
+        {
+          "session": "baseline_speed_started",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 1999,
+          "compared_frames": 1999,
+          "expected_frames": 142842,
+          "raw_sha256": "da053f18ad9405f2c179a554cfa3091de9691d8f1d01b6527b1be20f0fe9162b",
+          "local_reference_sha256": "8f7168f50f1196a5e495c1b2069d297a2c92b82c6dd281cd47631923b16d5d7c",
+          "PASS": true
+        },
+        {
+          "session": "baseline_stop_started",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 235,
+          "compared_frames": 235,
+          "expected_frames": 142842,
+          "raw_sha256": "7a79709a2caa2557868e94d140d3138a076139d9cd0fcede9c6789afc5b2c6f6",
+          "local_reference_sha256": "8f7168f50f1196a5e495c1b2069d297a2c92b82c6dd281cd47631923b16d5d7c",
+          "PASS": true
+        },
+        {
+          "session": "candidate_burst",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 1882,
+          "compared_frames": 1882,
+          "expected_frames": 142816,
+          "raw_sha256": "c579a6388ff6a91c864e237b0098fd7cb05efe83fd76120a7ebb93cb7edfabe6",
+          "local_reference_sha256": "7b104941eb266360aa3889743156b4cea8555759f8fa1d157797cbbecf063613",
+          "PASS": true
+        },
+        {
+          "session": "candidate_burst_started",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 7629,
+          "compared_frames": 7629,
+          "expected_frames": 142842,
+          "raw_sha256": "85b1686611753b63fdb8e6a8109251c9f29e453c3bfdc45611a431d67817f3cd",
+          "local_reference_sha256": "8f7168f50f1196a5e495c1b2069d297a2c92b82c6dd281cd47631923b16d5d7c",
+          "PASS": true
+        },
+        {
+          "session": "candidate_burst_started",
+          "epoch": 3,
+          "scope": "prefix",
+          "frames": 1823,
+          "compared_frames": 1823,
+          "expected_frames": 142816,
+          "raw_sha256": "d8811e4555276905051fce8c0976b3c833c1a43cc46447c8287e1ed5572ef69a",
+          "local_reference_sha256": "7b104941eb266360aa3889743156b4cea8555759f8fa1d157797cbbecf063613",
+          "PASS": true
+        },
+        {
+          "session": "candidate_chain",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 2396,
+          "compared_frames": 2396,
+          "expected_frames": 142842,
+          "raw_sha256": "ec1636922d80b735a82aac8309ff744796d0dba5709e5d0e78676538cdf86efd",
+          "local_reference_sha256": "8f7168f50f1196a5e495c1b2069d297a2c92b82c6dd281cd47631923b16d5d7c",
+          "PASS": true
+        },
+        {
+          "session": "candidate_chain",
+          "epoch": 3,
+          "scope": "prefix",
+          "frames": 2219,
+          "compared_frames": 2219,
+          "expected_frames": 285169,
+          "raw_sha256": "5ccce2115b6bc82ff72f7daf65a3aba8ec2eca0e4a329932c2eec02de5e9aec4",
+          "local_reference_sha256": "89a5fe59451069b19230840303a7ae47216f8182127785d4f6a09f57632579f9",
+          "PASS": true
+        },
+        {
+          "session": "candidate_chain",
+          "epoch": 4,
+          "scope": "prefix",
+          "frames": 2278,
+          "compared_frames": 2278,
+          "expected_frames": 212061,
+          "raw_sha256": "cb05290d37c32c9379a6d37133a7568a2d6e63aff4081841f0db92427abbe940",
+          "local_reference_sha256": "16759c0ba36353b2aa64079d423673ded42d487954ed3f1b405ce21fbb521bab",
+          "PASS": true
+        },
+        {
+          "session": "candidate_chain",
+          "epoch": 5,
+          "scope": "prefix",
+          "frames": 1882,
+          "compared_frames": 1882,
+          "expected_frames": 142878,
+          "raw_sha256": "02807a041e7f9cd41772b572a9a74ffe77bd299706f50b15e7b1e12dfc70c59d",
+          "local_reference_sha256": "acf5cf4642ce5a763de4862225392b89316fb22baedfc7590eff58444fcd7c06",
+          "PASS": true
+        },
+        {
+          "session": "candidate_eof_paused",
+          "epoch": 2,
+          "scope": "empty_suffix",
+          "PASS": true
+        },
+        {
+          "session": "candidate_eof_playing",
+          "epoch": 2,
+          "scope": "empty_suffix",
+          "PASS": true
+        },
+        {
+          "session": "candidate_pause_prepare",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 1822,
+          "compared_frames": 1822,
+          "expected_frames": 142842,
+          "raw_sha256": "60b534297ef057b46c3f31e0e39138c1293da821cfd7e28a3f01ff6c0e1f3347",
+          "local_reference_sha256": "8f7168f50f1196a5e495c1b2069d297a2c92b82c6dd281cd47631923b16d5d7c",
+          "PASS": true
+        },
+        {
+          "session": "candidate_pause_started",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 235,
+          "compared_frames": 235,
+          "expected_frames": 142842,
+          "raw_sha256": "7a79709a2caa2557868e94d140d3138a076139d9cd0fcede9c6789afc5b2c6f6",
+          "local_reference_sha256": "8f7168f50f1196a5e495c1b2069d297a2c92b82c6dd281cd47631923b16d5d7c",
+          "PASS": true
+        },
+        {
+          "session": "candidate_paused",
+          "epoch": 2,
+          "scope": "full_suffix",
+          "frames": 142842,
+          "compared_frames": 142842,
+          "expected_frames": 142842,
+          "raw_sha256": "8f7168f50f1196a5e495c1b2069d297a2c92b82c6dd281cd47631923b16d5d7c",
+          "local_reference_sha256": "8f7168f50f1196a5e495c1b2069d297a2c92b82c6dd281cd47631923b16d5d7c",
+          "PASS": true
+        },
+        {
+          "session": "candidate_playing",
+          "epoch": 2,
+          "scope": "full_suffix",
+          "frames": 142842,
+          "compared_frames": 142842,
+          "expected_frames": 142842,
+          "raw_sha256": "8f7168f50f1196a5e495c1b2069d297a2c92b82c6dd281cd47631923b16d5d7c",
+          "local_reference_sha256": "8f7168f50f1196a5e495c1b2069d297a2c92b82c6dd281cd47631923b16d5d7c",
+          "PASS": true
+        },
+        {
+          "session": "candidate_ready",
+          "epoch": 2,
+          "scope": "full_suffix",
+          "frames": 142842,
+          "compared_frames": 142842,
+          "expected_frames": 142842,
+          "raw_sha256": "8f7168f50f1196a5e495c1b2069d297a2c92b82c6dd281cd47631923b16d5d7c",
+          "local_reference_sha256": "8f7168f50f1196a5e495c1b2069d297a2c92b82c6dd281cd47631923b16d5d7c",
+          "PASS": true
+        },
+        {
+          "session": "candidate_replace_ready",
+          "epoch": 3,
+          "scope": "prefix",
+          "frames": 2058,
+          "compared_frames": 2058,
+          "expected_frames": 90284,
+          "raw_sha256": "511b540656b4249cc5b1fd3c0111413c53610f1adcea90cee279b4ac2b7e1ea4",
+          "local_reference_sha256": "12bd508268c75344f98be886c967bd45afd0598f3dba6a20b10bf00d781da4e2",
+          "PASS": true
+        },
+        {
+          "session": "candidate_speed_after",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 30811,
+          "compared_frames": 4410,
+          "expected_frames": 142842,
+          "raw_sha256": "77f33f3ed0cfb12ac6f2dda8ec005c29a7929bcdc3998729d9649e43d8caee34",
+          "local_reference_sha256": "8f7168f50f1196a5e495c1b2069d297a2c92b82c6dd281cd47631923b16d5d7c",
+          "PASS": true
+        },
+        {
+          "session": "candidate_speed_prepare",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 1823,
+          "compared_frames": 1823,
+          "expected_frames": 178991,
+          "raw_sha256": "36d3be1a36ac59418e85d1cc00c08d0268fac9a3e2eb90909cf22fafe309ce10",
+          "local_reference_sha256": "3c943583b70e8670f3955535aefb3c953c593d48361e89f87a018fd1b3dab5ae",
+          "PASS": true
+        },
+        {
+          "session": "candidate_speed_same_ready",
+          "epoch": 3,
+          "scope": "prefix",
+          "frames": 1882,
+          "compared_frames": 1882,
+          "expected_frames": 142842,
+          "raw_sha256": "65a06b283ec38db8c49d22b651368be94e05f59e2a7bb02fcdbaf15aff1beb6d",
+          "local_reference_sha256": "8f7168f50f1196a5e495c1b2069d297a2c92b82c6dd281cd47631923b16d5d7c",
+          "PASS": true
+        },
+        {
+          "session": "candidate_speed_started",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 1999,
+          "compared_frames": 1999,
+          "expected_frames": 142842,
+          "raw_sha256": "da053f18ad9405f2c179a554cfa3091de9691d8f1d01b6527b1be20f0fe9162b",
+          "local_reference_sha256": "8f7168f50f1196a5e495c1b2069d297a2c92b82c6dd281cd47631923b16d5d7c",
+          "PASS": true
+        },
+        {
+          "session": "candidate_stop_started",
+          "epoch": 2,
+          "scope": "prefix",
+          "frames": 236,
+          "compared_frames": 236,
+          "expected_frames": 142842,
+          "raw_sha256": "b177de7b27d5cd1e6ea8a9331e3c9cfba213f51afdf60e0e88a69e314d210b70",
+          "local_reference_sha256": "8f7168f50f1196a5e495c1b2069d297a2c92b82c6dd281cd47631923b16d5d7c",
+          "PASS": true
+        }
+      ],
+      "commands": [
+        {
+          "command": [
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase61_fast_seek_study",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_44100_1.wav",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/pcm_release_44100_1/500000_105869",
+            "500000",
+            "22050",
+            "105869",
+            "441000",
+            "1",
+            "local"
+          ],
+          "exit": 0
+        },
+        {
+          "command": [
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase61_fast_seek_study",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_44100_1.wav",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/pcm_release_44100_1/500000_105857",
+            "500000",
+            "22050",
+            "105857",
+            "441000",
+            "1",
+            "local"
+          ],
+          "exit": 0
+        },
+        {
+          "command": [
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase61_fast_seek_study",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_44100_1.wav",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/pcm_release_44100_1/500000_35280",
+            "500000",
+            "22050",
+            "35280",
+            "441000",
+            "1",
+            "local"
+          ],
+          "exit": 0
+        },
+        {
+          "command": [
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase61_fast_seek_study",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_44100_1.wav",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/pcm_release_44100_1/500000_70560",
+            "500000",
+            "22050",
+            "70560",
+            "441000",
+            "1",
+            "local"
+          ],
+          "exit": 0
+        },
+        {
+          "command": [
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase61_fast_seek_study",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_44100_1.wav",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/pcm_release_44100_1/500000_105840",
+            "500000",
+            "22050",
+            "105840",
+            "441000",
+            "1",
+            "local"
+          ],
+          "exit": 0
+        },
+        {
+          "command": [
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase61_fast_seek_study",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_44100_1.wav",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/pcm_release_44100_1/500000_176400",
+            "500000",
+            "22050",
+            "176400",
+            "441000",
+            "1",
+            "local"
+          ],
+          "exit": 0
+        },
+        {
+          "command": [
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase61_fast_seek_study",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_44100_1.wav",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/pcm_release_44100_1/500000_132331",
+            "500000",
+            "22050",
+            "132331",
+            "441000",
+            "1",
+            "local"
+          ],
+          "exit": 0
+        },
+        {
+          "command": [
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/release/phase61_fast_seek_study",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61/native_inputs/boundary_44100_1.wav",
+            "/Users/taro252/Docker/TimeStretchLab/build/phase61_interactive_seek/pcm_release_44100_1/400000_105857",
+            "400000",
+            "22050",
+            "105857",
+            "441000",
+            "1",
+            "local"
+          ],
+          "exit": 0
+        }
+      ],
+      "input_sha256": "4da3c677625483c1e0ead42920b66e6bfb30c28298d796865136f564657fce1c",
+      "study_sha256": "8dd0f1e9f3ebb52391e5e16a2ef4b98d62848645cf3d2b307930957e8e372a0d",
+      "driver_sha256": "a7274a263a85bf293b6145cc52992420ec95e2c4f127139a364e67c5778e7364",
+      "oracle": "unchanged offline local DSP, NO publication fade, NOT independent quality reference",
+      "full_suffix": 6,
+      "prefix": 30,
+      "empty_suffix": 4
+    }
+  },
+  "native_exact_oracles": {
+    "release_48000_2": {
+      "PASS": true,
+      "measurement_completed": true,
+      "sessions": 20,
+      "full_suffix_passed": 12,
+      "prefix_passed": 14,
+      "empty_suffix_passed": 2,
+      "skipped_dynamic_prefixes": [
+        {
+          "session": "candidate_burst",
+          "epoch": 1,
+          "scope": "old dynamic prefix; checked for identity/order by capture but not compared to a fixed-speed oracle"
+        },
+        {
+          "session": "candidate_speed",
+          "epoch": 1,
+          "scope": "old dynamic prefix; checked for identity/order by capture but not compared to a fixed-speed oracle"
+        },
+        {
+          "session": "baseline_burst",
+          "epoch": 1,
+          "scope": "old dynamic prefix; checked for identity/order by capture but not compared to a fixed-speed oracle"
+        },
+        {
+          "session": "baseline_speed",
+          "epoch": 1,
+          "scope": "old dynamic prefix; checked for identity/order by capture but not compared to a fixed-speed oracle"
+        }
+      ],
+      "results": [
+        {
+          "session": "candidate_ready",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 133962,
+          "start": 250038,
+          "pcm_sha256": "5b79ce74852df3e1df17c1dfefd4b7a88994155f865d1fe2a1966cf882e5de54",
+          "reference_sha256": "a3c6384b6268371f6866057826fbb7a56e53cc03a05f64968edf448eec9b4d4d",
+          "error": ""
+        },
+        {
+          "session": "candidate_playing",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 17408,
+          "start": 0,
+          "pcm_sha256": "1f9acb48d9eb81fd8dbf01442b40d16135f9ed8538250e33c7d964a256fb83b5",
+          "reference_sha256": "a3c6384b6268371f6866057826fbb7a56e53cc03a05f64968edf448eec9b4d4d",
+          "error": ""
+        },
+        {
+          "session": "candidate_playing",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 133962,
+          "start": 250038,
+          "pcm_sha256": "5b79ce74852df3e1df17c1dfefd4b7a88994155f865d1fe2a1966cf882e5de54",
+          "reference_sha256": "a3c6384b6268371f6866057826fbb7a56e53cc03a05f64968edf448eec9b4d4d",
+          "error": ""
+        },
+        {
+          "session": "candidate_paused",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 512,
+          "start": 0,
+          "pcm_sha256": "656ee7c3c5307ee7df072d3982d8d0adfedbc0203c023a57ebe52c1c142d5616",
+          "reference_sha256": "8494eeb6dd0798e4e3a704844fc8007404de73678ff9ea0fb80fbbbf6590372e",
+          "error": ""
+        },
+        {
+          "session": "candidate_paused",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 167352,
+          "start": 312648,
+          "pcm_sha256": "fbb4c4878807e23629503cce62b9aa3bee9649a754be86814a2713b03fa45154",
+          "reference_sha256": "8494eeb6dd0798e4e3a704844fc8007404de73678ff9ea0fb80fbbbf6590372e",
+          "error": ""
+        },
+        {
+          "session": "candidate_burst",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 133937,
+          "start": 250063,
+          "pcm_sha256": "3d05fa3b534630cdd126ddfacacad30482a63200a8b9b0371f279f2da55dd591",
+          "reference_sha256": "a3c6384b6268371f6866057826fbb7a56e53cc03a05f64968edf448eec9b4d4d",
+          "error": ""
+        },
+        {
+          "session": "candidate_chain",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 22016,
+          "start": 0,
+          "pcm_sha256": "b0c68863f258c4f1a0c130e7796ae48e0df03f6e4a684dd8e6dec9d1a360aae1",
+          "reference_sha256": "a3c6384b6268371f6866057826fbb7a56e53cc03a05f64968edf448eec9b4d4d",
+          "error": ""
+        },
+        {
+          "session": "candidate_chain",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 6656,
+          "start": 250038,
+          "pcm_sha256": "79f5e66c6218b3dfaa451de9c96a62dbd97c4ad096e1ae710e68965926eb112e",
+          "reference_sha256": "a3c6384b6268371f6866057826fbb7a56e53cc03a05f64968edf448eec9b4d4d",
+          "error": ""
+        },
+        {
+          "session": "candidate_chain",
+          "epoch": 3,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 59385,
+          "start": 324615,
+          "pcm_sha256": "48a08e734467f7a613bb30a4819507de8463e8570997356e34f9773d99d8a6cf",
+          "reference_sha256": "a3c6384b6268371f6866057826fbb7a56e53cc03a05f64968edf448eec9b4d4d",
+          "error": ""
+        },
+        {
+          "session": "candidate_speed",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 54024,
+          "start": 99576,
+          "pcm_sha256": "c4b35128281cb7dbf96f80837491049ff1b121b5267e1acb31742e0c3e9a2a4c",
+          "reference_sha256": "3607e4b82fe6b17437e1f51534fc9543f466c8e605ef43b774517953388c4350",
+          "error": ""
+        },
+        {
+          "session": "candidate_stop",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 512,
+          "start": 0,
+          "pcm_sha256": "9663870d14d042e00dc4964fe166fcb54166116555b9d5abf765698753a59d02",
+          "reference_sha256": "a3c6384b6268371f6866057826fbb7a56e53cc03a05f64968edf448eec9b4d4d",
+          "error": ""
+        },
+        {
+          "session": "candidate_route",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 512,
+          "start": 0,
+          "pcm_sha256": "9663870d14d042e00dc4964fe166fcb54166116555b9d5abf765698753a59d02",
+          "reference_sha256": "a3c6384b6268371f6866057826fbb7a56e53cc03a05f64968edf448eec9b4d4d",
+          "error": ""
+        },
+        {
+          "session": "candidate_input",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 512,
+          "start": 0,
+          "pcm_sha256": "9663870d14d042e00dc4964fe166fcb54166116555b9d5abf765698753a59d02",
+          "reference_sha256": "a3c6384b6268371f6866057826fbb7a56e53cc03a05f64968edf448eec9b4d4d",
+          "error": ""
+        },
+        {
+          "session": "candidate_eof",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "empty_suffix",
+          "frames": 0,
+          "start": 384000
+        },
+        {
+          "session": "baseline_ready",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 133962,
+          "start": 250038,
+          "pcm_sha256": "5b79ce74852df3e1df17c1dfefd4b7a88994155f865d1fe2a1966cf882e5de54",
+          "reference_sha256": "a3c6384b6268371f6866057826fbb7a56e53cc03a05f64968edf448eec9b4d4d",
+          "error": ""
+        },
+        {
+          "session": "baseline_playing",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 14848,
+          "start": 0,
+          "pcm_sha256": "0ea5b62fdbb283183be0cc8cf88149627d4d68c7f3d553c98f7e132eba112d17",
+          "reference_sha256": "a3c6384b6268371f6866057826fbb7a56e53cc03a05f64968edf448eec9b4d4d",
+          "error": ""
+        },
+        {
+          "session": "baseline_playing",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 133962,
+          "start": 250038,
+          "pcm_sha256": "5b79ce74852df3e1df17c1dfefd4b7a88994155f865d1fe2a1966cf882e5de54",
+          "reference_sha256": "a3c6384b6268371f6866057826fbb7a56e53cc03a05f64968edf448eec9b4d4d",
+          "error": ""
+        },
+        {
+          "session": "baseline_paused",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 512,
+          "start": 0,
+          "pcm_sha256": "656ee7c3c5307ee7df072d3982d8d0adfedbc0203c023a57ebe52c1c142d5616",
+          "reference_sha256": "8494eeb6dd0798e4e3a704844fc8007404de73678ff9ea0fb80fbbbf6590372e",
+          "error": ""
+        },
+        {
+          "session": "baseline_paused",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 167352,
+          "start": 312648,
+          "pcm_sha256": "fbb4c4878807e23629503cce62b9aa3bee9649a754be86814a2713b03fa45154",
+          "reference_sha256": "8494eeb6dd0798e4e3a704844fc8007404de73678ff9ea0fb80fbbbf6590372e",
+          "error": ""
+        },
+        {
+          "session": "baseline_burst",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 133937,
+          "start": 250063,
+          "pcm_sha256": "3d05fa3b534630cdd126ddfacacad30482a63200a8b9b0371f279f2da55dd591",
+          "reference_sha256": "a3c6384b6268371f6866057826fbb7a56e53cc03a05f64968edf448eec9b4d4d",
+          "error": ""
+        },
+        {
+          "session": "baseline_chain",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 18944,
+          "start": 0,
+          "pcm_sha256": "63c5385263f55a88c4bc2fd10d528c75f16be15169af242f4060a4c826c1f653",
+          "reference_sha256": "a3c6384b6268371f6866057826fbb7a56e53cc03a05f64968edf448eec9b4d4d",
+          "error": ""
+        },
+        {
+          "session": "baseline_chain",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 6656,
+          "start": 250038,
+          "pcm_sha256": "79f5e66c6218b3dfaa451de9c96a62dbd97c4ad096e1ae710e68965926eb112e",
+          "reference_sha256": "a3c6384b6268371f6866057826fbb7a56e53cc03a05f64968edf448eec9b4d4d",
+          "error": ""
+        },
+        {
+          "session": "baseline_chain",
+          "epoch": 3,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 59385,
+          "start": 324615,
+          "pcm_sha256": "48a08e734467f7a613bb30a4819507de8463e8570997356e34f9773d99d8a6cf",
+          "reference_sha256": "a3c6384b6268371f6866057826fbb7a56e53cc03a05f64968edf448eec9b4d4d",
+          "error": ""
+        },
+        {
+          "session": "baseline_speed",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 54024,
+          "start": 99576,
+          "pcm_sha256": "c4b35128281cb7dbf96f80837491049ff1b121b5267e1acb31742e0c3e9a2a4c",
+          "reference_sha256": "3607e4b82fe6b17437e1f51534fc9543f466c8e605ef43b774517953388c4350",
+          "error": ""
+        },
+        {
+          "session": "baseline_stop",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 512,
+          "start": 0,
+          "pcm_sha256": "9663870d14d042e00dc4964fe166fcb54166116555b9d5abf765698753a59d02",
+          "reference_sha256": "a3c6384b6268371f6866057826fbb7a56e53cc03a05f64968edf448eec9b4d4d",
+          "error": ""
+        },
+        {
+          "session": "baseline_route",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 512,
+          "start": 0,
+          "pcm_sha256": "9663870d14d042e00dc4964fe166fcb54166116555b9d5abf765698753a59d02",
+          "reference_sha256": "a3c6384b6268371f6866057826fbb7a56e53cc03a05f64968edf448eec9b4d4d",
+          "error": ""
+        },
+        {
+          "session": "baseline_input",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 512,
+          "start": 0,
+          "pcm_sha256": "9663870d14d042e00dc4964fe166fcb54166116555b9d5abf765698753a59d02",
+          "reference_sha256": "a3c6384b6268371f6866057826fbb7a56e53cc03a05f64968edf448eec9b4d4d",
+          "error": ""
+        },
+        {
+          "session": "baseline_eof",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "empty_suffix",
+          "frames": 0,
+          "start": 384000
+        }
+      ],
+      "input_sha256": "ebb61d453dde2d99eef3731c8bf17bd65679541dc942d9a7bcc8a6bb3238cacd",
+      "reference_binary_sha256": "de70db5fbc4284fd13f3f9a7cf257cbca1d8d9a5755859067c7cfb234d1d5748",
+      "driver_sha256": "dfbafa6d49c9a5d143b90a2c409a88067b21c6896145deb86e74e53036d9153c"
+    },
+    "debug_44100_1": {
+      "PASS": true,
+      "measurement_completed": true,
+      "sessions": 20,
+      "full_suffix_passed": 12,
+      "prefix_passed": 14,
+      "empty_suffix_passed": 2,
+      "skipped_dynamic_prefixes": [
+        {
+          "session": "candidate_burst",
+          "epoch": 1,
+          "scope": "old dynamic prefix; checked for identity/order by capture but not compared to a fixed-speed oracle"
+        },
+        {
+          "session": "candidate_speed",
+          "epoch": 1,
+          "scope": "old dynamic prefix; checked for identity/order by capture but not compared to a fixed-speed oracle"
+        },
+        {
+          "session": "baseline_burst",
+          "epoch": 1,
+          "scope": "old dynamic prefix; checked for identity/order by capture but not compared to a fixed-speed oracle"
+        },
+        {
+          "session": "baseline_speed",
+          "epoch": 1,
+          "scope": "old dynamic prefix; checked for identity/order by capture but not compared to a fixed-speed oracle"
+        }
+      ],
+      "results": [
+        {
+          "session": "candidate_ready",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 124143,
+          "start": 228657,
+          "pcm_sha256": "9ac4c5c1fbc87b80161736fac700943c666f90e0ce15bf5ca9b7c9c922b0943f",
+          "reference_sha256": "a07d3fb47ed372b5ec039c435fc463eb655032e6faa7e636fa4884069c6cede6",
+          "error": ""
+        },
+        {
+          "session": "candidate_playing",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 16464,
+          "start": 0,
+          "pcm_sha256": "c3b3559fd99212f86ac8d8da30bc742513e1e12deaa503f2cbe4c2ee37849db3",
+          "reference_sha256": "a07d3fb47ed372b5ec039c435fc463eb655032e6faa7e636fa4884069c6cede6",
+          "error": ""
+        },
+        {
+          "session": "candidate_playing",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 124143,
+          "start": 228657,
+          "pcm_sha256": "9ac4c5c1fbc87b80161736fac700943c666f90e0ce15bf5ca9b7c9c922b0943f",
+          "reference_sha256": "a07d3fb47ed372b5ec039c435fc463eb655032e6faa7e636fa4884069c6cede6",
+          "error": ""
+        },
+        {
+          "session": "candidate_paused",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 471,
+          "start": 0,
+          "pcm_sha256": "bfd82283ddd394cfd908e47fea687899bc46f128cb16180819db8b3fcc54349c",
+          "reference_sha256": "5354ea648b583ec8a7902a62693d7d41387333b0d9da065d741051b0af75b2f6",
+          "error": ""
+        },
+        {
+          "session": "candidate_paused",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 155353,
+          "start": 285647,
+          "pcm_sha256": "15af988c973ecc09b6e3b65d8b13957ace42eff26531109d076e8a47968405de",
+          "reference_sha256": "5354ea648b583ec8a7902a62693d7d41387333b0d9da065d741051b0af75b2f6",
+          "error": ""
+        },
+        {
+          "session": "candidate_burst",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 124118,
+          "start": 228682,
+          "pcm_sha256": "cb29d2e6783aaa0172384a522b1e3a0cd9421ff99ff35a1b033c5f3383cfa00f",
+          "reference_sha256": "a07d3fb47ed372b5ec039c435fc463eb655032e6faa7e636fa4884069c6cede6",
+          "error": ""
+        },
+        {
+          "session": "candidate_chain",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 15524,
+          "start": 0,
+          "pcm_sha256": "029579b5250133aeeffd37f29db0024d30e73d249f2c7d8d0093ffa803b3973c",
+          "reference_sha256": "a07d3fb47ed372b5ec039c435fc463eb655032e6faa7e636fa4884069c6cede6",
+          "error": ""
+        },
+        {
+          "session": "candidate_chain",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 7056,
+          "start": 228657,
+          "pcm_sha256": "9e1f6c98f36630b73887db8d30f966220c311e3744475702e6ee769537f63527",
+          "reference_sha256": "a07d3fb47ed372b5ec039c435fc463eb655032e6faa7e636fa4884069c6cede6",
+          "error": ""
+        },
+        {
+          "session": "candidate_chain",
+          "epoch": 3,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 55161,
+          "start": 297639,
+          "pcm_sha256": "3840b8e048e597567de893abb268644c5a6cefe3ffe9dd41dcd6d66ec8d959cb",
+          "reference_sha256": "a07d3fb47ed372b5ec039c435fc463eb655032e6faa7e636fa4884069c6cede6",
+          "error": ""
+        },
+        {
+          "session": "candidate_speed",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 49344,
+          "start": 91776,
+          "pcm_sha256": "6d17c30942ce5bc4313517c9e19cab61530f4bb3ff77461f719a20d9de582818",
+          "reference_sha256": "89425afce91a299a7ed9d31e3482b10f33bd5388b7729edb74e774fc18677c8a",
+          "error": ""
+        },
+        {
+          "session": "candidate_stop",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 471,
+          "start": 0,
+          "pcm_sha256": "0e757fbbca0f0d7f75ba41e54ea1a91a7cf1d93aa18811161c2eb2b894b8e130",
+          "reference_sha256": "a07d3fb47ed372b5ec039c435fc463eb655032e6faa7e636fa4884069c6cede6",
+          "error": ""
+        },
+        {
+          "session": "candidate_route",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 471,
+          "start": 0,
+          "pcm_sha256": "0e757fbbca0f0d7f75ba41e54ea1a91a7cf1d93aa18811161c2eb2b894b8e130",
+          "reference_sha256": "a07d3fb47ed372b5ec039c435fc463eb655032e6faa7e636fa4884069c6cede6",
+          "error": ""
+        },
+        {
+          "session": "candidate_input",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 941,
+          "start": 0,
+          "pcm_sha256": "54be1e882f40bd2b6ffd35f0e545d2761189988375c6df201d7d151112216395",
+          "reference_sha256": "a07d3fb47ed372b5ec039c435fc463eb655032e6faa7e636fa4884069c6cede6",
+          "error": ""
+        },
+        {
+          "session": "candidate_eof",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "empty_suffix",
+          "frames": 0,
+          "start": 352800
+        },
+        {
+          "session": "baseline_ready",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 124143,
+          "start": 228657,
+          "pcm_sha256": "9ac4c5c1fbc87b80161736fac700943c666f90e0ce15bf5ca9b7c9c922b0943f",
+          "reference_sha256": "a07d3fb47ed372b5ec039c435fc463eb655032e6faa7e636fa4884069c6cede6",
+          "error": ""
+        },
+        {
+          "session": "baseline_playing",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 15524,
+          "start": 0,
+          "pcm_sha256": "029579b5250133aeeffd37f29db0024d30e73d249f2c7d8d0093ffa803b3973c",
+          "reference_sha256": "a07d3fb47ed372b5ec039c435fc463eb655032e6faa7e636fa4884069c6cede6",
+          "error": ""
+        },
+        {
+          "session": "baseline_playing",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 124143,
+          "start": 228657,
+          "pcm_sha256": "9ac4c5c1fbc87b80161736fac700943c666f90e0ce15bf5ca9b7c9c922b0943f",
+          "reference_sha256": "a07d3fb47ed372b5ec039c435fc463eb655032e6faa7e636fa4884069c6cede6",
+          "error": ""
+        },
+        {
+          "session": "baseline_paused",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 471,
+          "start": 0,
+          "pcm_sha256": "bfd82283ddd394cfd908e47fea687899bc46f128cb16180819db8b3fcc54349c",
+          "reference_sha256": "5354ea648b583ec8a7902a62693d7d41387333b0d9da065d741051b0af75b2f6",
+          "error": ""
+        },
+        {
+          "session": "baseline_paused",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 155353,
+          "start": 285647,
+          "pcm_sha256": "15af988c973ecc09b6e3b65d8b13957ace42eff26531109d076e8a47968405de",
+          "reference_sha256": "5354ea648b583ec8a7902a62693d7d41387333b0d9da065d741051b0af75b2f6",
+          "error": ""
+        },
+        {
+          "session": "baseline_burst",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 124118,
+          "start": 228682,
+          "pcm_sha256": "cb29d2e6783aaa0172384a522b1e3a0cd9421ff99ff35a1b033c5f3383cfa00f",
+          "reference_sha256": "a07d3fb47ed372b5ec039c435fc463eb655032e6faa7e636fa4884069c6cede6",
+          "error": ""
+        },
+        {
+          "session": "baseline_chain",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 15994,
+          "start": 0,
+          "pcm_sha256": "293edc39b21a2c7ec97d031089e5826b70792ca81a9967b469778b025f82455f",
+          "reference_sha256": "a07d3fb47ed372b5ec039c435fc463eb655032e6faa7e636fa4884069c6cede6",
+          "error": ""
+        },
+        {
+          "session": "baseline_chain",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 6586,
+          "start": 228657,
+          "pcm_sha256": "72bac5f78cacbf92b63d0e4c9432387f3e7ef8b818f3066b6b88e7993761c624",
+          "reference_sha256": "a07d3fb47ed372b5ec039c435fc463eb655032e6faa7e636fa4884069c6cede6",
+          "error": ""
+        },
+        {
+          "session": "baseline_chain",
+          "epoch": 3,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 55161,
+          "start": 297639,
+          "pcm_sha256": "3840b8e048e597567de893abb268644c5a6cefe3ffe9dd41dcd6d66ec8d959cb",
+          "reference_sha256": "a07d3fb47ed372b5ec039c435fc463eb655032e6faa7e636fa4884069c6cede6",
+          "error": ""
+        },
+        {
+          "session": "baseline_speed",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 49344,
+          "start": 91776,
+          "pcm_sha256": "6d17c30942ce5bc4313517c9e19cab61530f4bb3ff77461f719a20d9de582818",
+          "reference_sha256": "89425afce91a299a7ed9d31e3482b10f33bd5388b7729edb74e774fc18677c8a",
+          "error": ""
+        },
+        {
+          "session": "baseline_stop",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 471,
+          "start": 0,
+          "pcm_sha256": "0e757fbbca0f0d7f75ba41e54ea1a91a7cf1d93aa18811161c2eb2b894b8e130",
+          "reference_sha256": "a07d3fb47ed372b5ec039c435fc463eb655032e6faa7e636fa4884069c6cede6",
+          "error": ""
+        },
+        {
+          "session": "baseline_route",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 471,
+          "start": 0,
+          "pcm_sha256": "0e757fbbca0f0d7f75ba41e54ea1a91a7cf1d93aa18811161c2eb2b894b8e130",
+          "reference_sha256": "a07d3fb47ed372b5ec039c435fc463eb655032e6faa7e636fa4884069c6cede6",
+          "error": ""
+        },
+        {
+          "session": "baseline_input",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 941,
+          "start": 0,
+          "pcm_sha256": "54be1e882f40bd2b6ffd35f0e545d2761189988375c6df201d7d151112216395",
+          "reference_sha256": "a07d3fb47ed372b5ec039c435fc463eb655032e6faa7e636fa4884069c6cede6",
+          "error": ""
+        },
+        {
+          "session": "baseline_eof",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "empty_suffix",
+          "frames": 0,
+          "start": 352800
+        }
+      ],
+      "input_sha256": "4da3c677625483c1e0ead42920b66e6bfb30c28298d796865136f564657fce1c",
+      "reference_binary_sha256": "4ee8f3d61cab5aa7d8b39cb148525d7d81a65061efdfe3ce50d4cdc66f637f3f",
+      "driver_sha256": "dfbafa6d49c9a5d143b90a2c409a88067b21c6896145deb86e74e53036d9153c"
+    },
+    "release_44100_1": {
+      "PASS": true,
+      "measurement_completed": true,
+      "sessions": 20,
+      "full_suffix_passed": 12,
+      "prefix_passed": 14,
+      "empty_suffix_passed": 2,
+      "skipped_dynamic_prefixes": [
+        {
+          "session": "candidate_burst",
+          "epoch": 1,
+          "scope": "old dynamic prefix; checked for identity/order by capture but not compared to a fixed-speed oracle"
+        },
+        {
+          "session": "candidate_speed",
+          "epoch": 1,
+          "scope": "old dynamic prefix; checked for identity/order by capture but not compared to a fixed-speed oracle"
+        },
+        {
+          "session": "baseline_burst",
+          "epoch": 1,
+          "scope": "old dynamic prefix; checked for identity/order by capture but not compared to a fixed-speed oracle"
+        },
+        {
+          "session": "baseline_speed",
+          "epoch": 1,
+          "scope": "old dynamic prefix; checked for identity/order by capture but not compared to a fixed-speed oracle"
+        }
+      ],
+      "results": [
+        {
+          "session": "candidate_ready",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 124143,
+          "start": 228657,
+          "pcm_sha256": "6fc203824c651d4aac47a6ef55478d102f0cc60429cf4f26223af040e00fed76",
+          "reference_sha256": "6b32c4d0c356616a3e4b1faa3f7ab251e7579895a9ded25f57d95870f0b6e616",
+          "error": ""
+        },
+        {
+          "session": "candidate_playing",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 6116,
+          "start": 0,
+          "pcm_sha256": "94b25943df9c1f2534db4bafc7652144c8d1c8b660428f38dd29c0ee15fff8e8",
+          "reference_sha256": "6b32c4d0c356616a3e4b1faa3f7ab251e7579895a9ded25f57d95870f0b6e616",
+          "error": ""
+        },
+        {
+          "session": "candidate_playing",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 124143,
+          "start": 228657,
+          "pcm_sha256": "6fc203824c651d4aac47a6ef55478d102f0cc60429cf4f26223af040e00fed76",
+          "reference_sha256": "6b32c4d0c356616a3e4b1faa3f7ab251e7579895a9ded25f57d95870f0b6e616",
+          "error": ""
+        },
+        {
+          "session": "candidate_paused",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 471,
+          "start": 0,
+          "pcm_sha256": "6e14d83ff7fa213398de17c2292df32f7bac449176160d61ddb0569799e94a76",
+          "reference_sha256": "09ea379e1aa8cb5a1c826a2c3957cee82718b66a5c8196c7707aa4466deb8340",
+          "error": ""
+        },
+        {
+          "session": "candidate_paused",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 155353,
+          "start": 285647,
+          "pcm_sha256": "cfff1a93da331086fb1f4318a3a1ec655ae75b95152e617ed5ae6f9df2338c9c",
+          "reference_sha256": "09ea379e1aa8cb5a1c826a2c3957cee82718b66a5c8196c7707aa4466deb8340",
+          "error": ""
+        },
+        {
+          "session": "candidate_burst",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 124118,
+          "start": 228682,
+          "pcm_sha256": "93cd1b74fd037266837b91a5c92ccb7e61191b11d94a7a564c1fff17bef241f6",
+          "reference_sha256": "6b32c4d0c356616a3e4b1faa3f7ab251e7579895a9ded25f57d95870f0b6e616",
+          "error": ""
+        },
+        {
+          "session": "candidate_chain",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 6116,
+          "start": 0,
+          "pcm_sha256": "94b25943df9c1f2534db4bafc7652144c8d1c8b660428f38dd29c0ee15fff8e8",
+          "reference_sha256": "6b32c4d0c356616a3e4b1faa3f7ab251e7579895a9ded25f57d95870f0b6e616",
+          "error": ""
+        },
+        {
+          "session": "candidate_chain",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 3292,
+          "start": 228657,
+          "pcm_sha256": "0d83e02fcfed4982f9c4546874bef04f1bc202d60cdf21e7dc1e636eb89a82ca",
+          "reference_sha256": "6b32c4d0c356616a3e4b1faa3f7ab251e7579895a9ded25f57d95870f0b6e616",
+          "error": ""
+        },
+        {
+          "session": "candidate_chain",
+          "epoch": 3,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 55161,
+          "start": 297639,
+          "pcm_sha256": "40a73046b6d32f8c8c259cbbe1acb1e5ec51fb364b2106986c49f9224299512e",
+          "reference_sha256": "6b32c4d0c356616a3e4b1faa3f7ab251e7579895a9ded25f57d95870f0b6e616",
+          "error": ""
+        },
+        {
+          "session": "candidate_speed",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 49344,
+          "start": 91776,
+          "pcm_sha256": "422d3b64a58f73c6bc2b3d1cdbedc299667668135c3eaa9682a8edddd7558e78",
+          "reference_sha256": "42509d9940da93c150c58096470c58f20285ec3631a06bd310248fa21921a403",
+          "error": ""
+        },
+        {
+          "session": "candidate_stop",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 471,
+          "start": 0,
+          "pcm_sha256": "20bd9019e98b8d5ef1e4c45d8b70f50345dd2c97cd4f00b7475bdd863641a89e",
+          "reference_sha256": "6b32c4d0c356616a3e4b1faa3f7ab251e7579895a9ded25f57d95870f0b6e616",
+          "error": ""
+        },
+        {
+          "session": "candidate_route",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 471,
+          "start": 0,
+          "pcm_sha256": "20bd9019e98b8d5ef1e4c45d8b70f50345dd2c97cd4f00b7475bdd863641a89e",
+          "reference_sha256": "6b32c4d0c356616a3e4b1faa3f7ab251e7579895a9ded25f57d95870f0b6e616",
+          "error": ""
+        },
+        {
+          "session": "candidate_input",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 471,
+          "start": 0,
+          "pcm_sha256": "20bd9019e98b8d5ef1e4c45d8b70f50345dd2c97cd4f00b7475bdd863641a89e",
+          "reference_sha256": "6b32c4d0c356616a3e4b1faa3f7ab251e7579895a9ded25f57d95870f0b6e616",
+          "error": ""
+        },
+        {
+          "session": "candidate_eof",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "empty_suffix",
+          "frames": 0,
+          "start": 352800
+        },
+        {
+          "session": "baseline_ready",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 124143,
+          "start": 228657,
+          "pcm_sha256": "6fc203824c651d4aac47a6ef55478d102f0cc60429cf4f26223af040e00fed76",
+          "reference_sha256": "6b32c4d0c356616a3e4b1faa3f7ab251e7579895a9ded25f57d95870f0b6e616",
+          "error": ""
+        },
+        {
+          "session": "baseline_playing",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 6586,
+          "start": 0,
+          "pcm_sha256": "e9980838f8fdc3b77bf7cd8965a676d0ba275eb61a02f716477b48ee1d11bb6c",
+          "reference_sha256": "6b32c4d0c356616a3e4b1faa3f7ab251e7579895a9ded25f57d95870f0b6e616",
+          "error": ""
+        },
+        {
+          "session": "baseline_playing",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 124143,
+          "start": 228657,
+          "pcm_sha256": "6fc203824c651d4aac47a6ef55478d102f0cc60429cf4f26223af040e00fed76",
+          "reference_sha256": "6b32c4d0c356616a3e4b1faa3f7ab251e7579895a9ded25f57d95870f0b6e616",
+          "error": ""
+        },
+        {
+          "session": "baseline_paused",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 471,
+          "start": 0,
+          "pcm_sha256": "6e14d83ff7fa213398de17c2292df32f7bac449176160d61ddb0569799e94a76",
+          "reference_sha256": "09ea379e1aa8cb5a1c826a2c3957cee82718b66a5c8196c7707aa4466deb8340",
+          "error": ""
+        },
+        {
+          "session": "baseline_paused",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 155353,
+          "start": 285647,
+          "pcm_sha256": "cfff1a93da331086fb1f4318a3a1ec655ae75b95152e617ed5ae6f9df2338c9c",
+          "reference_sha256": "09ea379e1aa8cb5a1c826a2c3957cee82718b66a5c8196c7707aa4466deb8340",
+          "error": ""
+        },
+        {
+          "session": "baseline_burst",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 124118,
+          "start": 228682,
+          "pcm_sha256": "93cd1b74fd037266837b91a5c92ccb7e61191b11d94a7a564c1fff17bef241f6",
+          "reference_sha256": "6b32c4d0c356616a3e4b1faa3f7ab251e7579895a9ded25f57d95870f0b6e616",
+          "error": ""
+        },
+        {
+          "session": "baseline_chain",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 6116,
+          "start": 0,
+          "pcm_sha256": "94b25943df9c1f2534db4bafc7652144c8d1c8b660428f38dd29c0ee15fff8e8",
+          "reference_sha256": "6b32c4d0c356616a3e4b1faa3f7ab251e7579895a9ded25f57d95870f0b6e616",
+          "error": ""
+        },
+        {
+          "session": "baseline_chain",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 3763,
+          "start": 228657,
+          "pcm_sha256": "78c2ff4ecc2997c58435723d874bb6d4f009d5ad82708681b0690eaf7b705fef",
+          "reference_sha256": "6b32c4d0c356616a3e4b1faa3f7ab251e7579895a9ded25f57d95870f0b6e616",
+          "error": ""
+        },
+        {
+          "session": "baseline_chain",
+          "epoch": 3,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 55161,
+          "start": 297639,
+          "pcm_sha256": "40a73046b6d32f8c8c259cbbe1acb1e5ec51fb364b2106986c49f9224299512e",
+          "reference_sha256": "6b32c4d0c356616a3e4b1faa3f7ab251e7579895a9ded25f57d95870f0b6e616",
+          "error": ""
+        },
+        {
+          "session": "baseline_speed",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 49344,
+          "start": 91776,
+          "pcm_sha256": "422d3b64a58f73c6bc2b3d1cdbedc299667668135c3eaa9682a8edddd7558e78",
+          "reference_sha256": "42509d9940da93c150c58096470c58f20285ec3631a06bd310248fa21921a403",
+          "error": ""
+        },
+        {
+          "session": "baseline_stop",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 471,
+          "start": 0,
+          "pcm_sha256": "20bd9019e98b8d5ef1e4c45d8b70f50345dd2c97cd4f00b7475bdd863641a89e",
+          "reference_sha256": "6b32c4d0c356616a3e4b1faa3f7ab251e7579895a9ded25f57d95870f0b6e616",
+          "error": ""
+        },
+        {
+          "session": "baseline_route",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 471,
+          "start": 0,
+          "pcm_sha256": "20bd9019e98b8d5ef1e4c45d8b70f50345dd2c97cd4f00b7475bdd863641a89e",
+          "reference_sha256": "6b32c4d0c356616a3e4b1faa3f7ab251e7579895a9ded25f57d95870f0b6e616",
+          "error": ""
+        },
+        {
+          "session": "baseline_input",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 471,
+          "start": 0,
+          "pcm_sha256": "20bd9019e98b8d5ef1e4c45d8b70f50345dd2c97cd4f00b7475bdd863641a89e",
+          "reference_sha256": "6b32c4d0c356616a3e4b1faa3f7ab251e7579895a9ded25f57d95870f0b6e616",
+          "error": ""
+        },
+        {
+          "session": "baseline_eof",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "empty_suffix",
+          "frames": 0,
+          "start": 352800
+        }
+      ],
+      "input_sha256": "4da3c677625483c1e0ead42920b66e6bfb30c28298d796865136f564657fce1c",
+      "reference_binary_sha256": "de70db5fbc4284fd13f3f9a7cf257cbca1d8d9a5755859067c7cfb234d1d5748",
+      "driver_sha256": "dfbafa6d49c9a5d143b90a2c409a88067b21c6896145deb86e74e53036d9153c"
+    },
+    "debug_48000_2": {
+      "PASS": true,
+      "measurement_completed": true,
+      "sessions": 20,
+      "full_suffix_passed": 12,
+      "prefix_passed": 14,
+      "empty_suffix_passed": 2,
+      "skipped_dynamic_prefixes": [
+        {
+          "session": "candidate_burst",
+          "epoch": 1,
+          "scope": "old dynamic prefix; checked for identity/order by capture but not compared to a fixed-speed oracle"
+        },
+        {
+          "session": "candidate_speed",
+          "epoch": 1,
+          "scope": "old dynamic prefix; checked for identity/order by capture but not compared to a fixed-speed oracle"
+        },
+        {
+          "session": "baseline_burst",
+          "epoch": 1,
+          "scope": "old dynamic prefix; checked for identity/order by capture but not compared to a fixed-speed oracle"
+        },
+        {
+          "session": "baseline_speed",
+          "epoch": 1,
+          "scope": "old dynamic prefix; checked for identity/order by capture but not compared to a fixed-speed oracle"
+        }
+      ],
+      "results": [
+        {
+          "session": "candidate_ready",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 133962,
+          "start": 250038,
+          "pcm_sha256": "30f7c52b9f612fb8f8a50747603481b844899bc9117b10decd1cf4e2d1046700",
+          "reference_sha256": "07666936da783c498e1c448959aed643a7fbf194d095172d2a52658027df2f5c",
+          "error": ""
+        },
+        {
+          "session": "candidate_playing",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 46080,
+          "start": 0,
+          "pcm_sha256": "f9cef6dd7f5750f9d439b2bcff24164f775917eb612c316489057692f2bfa6b8",
+          "reference_sha256": "07666936da783c498e1c448959aed643a7fbf194d095172d2a52658027df2f5c",
+          "error": ""
+        },
+        {
+          "session": "candidate_playing",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 133962,
+          "start": 250038,
+          "pcm_sha256": "30f7c52b9f612fb8f8a50747603481b844899bc9117b10decd1cf4e2d1046700",
+          "reference_sha256": "07666936da783c498e1c448959aed643a7fbf194d095172d2a52658027df2f5c",
+          "error": ""
+        },
+        {
+          "session": "candidate_paused",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 512,
+          "start": 0,
+          "pcm_sha256": "6ff3f7599a8f59104c938f13786b84eab8d42c508ed0e8889400ba74c298c6de",
+          "reference_sha256": "42403fd51ef4f9cde3fb4bf4e4e1b10b0503e33d0921f177a72b929b180b6a2a",
+          "error": ""
+        },
+        {
+          "session": "candidate_paused",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 167352,
+          "start": 312648,
+          "pcm_sha256": "4e3902986bd37e602a4d9a6f385f5744ce27a3171550944560509d0624836ef2",
+          "reference_sha256": "42403fd51ef4f9cde3fb4bf4e4e1b10b0503e33d0921f177a72b929b180b6a2a",
+          "error": ""
+        },
+        {
+          "session": "candidate_burst",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 133937,
+          "start": 250063,
+          "pcm_sha256": "23174ec06984d2ba15a94ba694309343e47acba5ee69d4b6c521bd92defd173d",
+          "reference_sha256": "07666936da783c498e1c448959aed643a7fbf194d095172d2a52658027df2f5c",
+          "error": ""
+        },
+        {
+          "session": "candidate_chain",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 44544,
+          "start": 0,
+          "pcm_sha256": "15a1b32bd946cc4464d9aa7fd8078bc66e055f29884d443f8d1c287791ccb6a7",
+          "reference_sha256": "07666936da783c498e1c448959aed643a7fbf194d095172d2a52658027df2f5c",
+          "error": ""
+        },
+        {
+          "session": "candidate_chain",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 15872,
+          "start": 250038,
+          "pcm_sha256": "4e092dbb299183752518cca42a8267b7a18eea4b69e725dbd4d66c844c904603",
+          "reference_sha256": "07666936da783c498e1c448959aed643a7fbf194d095172d2a52658027df2f5c",
+          "error": ""
+        },
+        {
+          "session": "candidate_chain",
+          "epoch": 3,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 59385,
+          "start": 324615,
+          "pcm_sha256": "c3084d3ae37c55ceb6cdd7f1a570affcb280eb6a84dc840acc3ec6f18dcfd378",
+          "reference_sha256": "07666936da783c498e1c448959aed643a7fbf194d095172d2a52658027df2f5c",
+          "error": ""
+        },
+        {
+          "session": "candidate_speed",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 54024,
+          "start": 99576,
+          "pcm_sha256": "20dda1446e689a455ab78e74a53d6395c4f04cd45e8499bdeb3255dd00843a0c",
+          "reference_sha256": "2e0cf3e12c5dc44f6b77f10f823a4394efb656b686268c48129b630747e90d1e",
+          "error": ""
+        },
+        {
+          "session": "candidate_stop",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 512,
+          "start": 0,
+          "pcm_sha256": "865f4f4cc49dff002ba13b7f759e6f56bd7407626855c93fe67820aeb8dc5b20",
+          "reference_sha256": "07666936da783c498e1c448959aed643a7fbf194d095172d2a52658027df2f5c",
+          "error": ""
+        },
+        {
+          "session": "candidate_route",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 512,
+          "start": 0,
+          "pcm_sha256": "865f4f4cc49dff002ba13b7f759e6f56bd7407626855c93fe67820aeb8dc5b20",
+          "reference_sha256": "07666936da783c498e1c448959aed643a7fbf194d095172d2a52658027df2f5c",
+          "error": ""
+        },
+        {
+          "session": "candidate_input",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 512,
+          "start": 0,
+          "pcm_sha256": "865f4f4cc49dff002ba13b7f759e6f56bd7407626855c93fe67820aeb8dc5b20",
+          "reference_sha256": "07666936da783c498e1c448959aed643a7fbf194d095172d2a52658027df2f5c",
+          "error": ""
+        },
+        {
+          "session": "candidate_eof",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "empty_suffix",
+          "frames": 0,
+          "start": 384000
+        },
+        {
+          "session": "baseline_ready",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 133962,
+          "start": 250038,
+          "pcm_sha256": "30f7c52b9f612fb8f8a50747603481b844899bc9117b10decd1cf4e2d1046700",
+          "reference_sha256": "07666936da783c498e1c448959aed643a7fbf194d095172d2a52658027df2f5c",
+          "error": ""
+        },
+        {
+          "session": "baseline_playing",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 44544,
+          "start": 0,
+          "pcm_sha256": "15a1b32bd946cc4464d9aa7fd8078bc66e055f29884d443f8d1c287791ccb6a7",
+          "reference_sha256": "07666936da783c498e1c448959aed643a7fbf194d095172d2a52658027df2f5c",
+          "error": ""
+        },
+        {
+          "session": "baseline_playing",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 133962,
+          "start": 250038,
+          "pcm_sha256": "30f7c52b9f612fb8f8a50747603481b844899bc9117b10decd1cf4e2d1046700",
+          "reference_sha256": "07666936da783c498e1c448959aed643a7fbf194d095172d2a52658027df2f5c",
+          "error": ""
+        },
+        {
+          "session": "baseline_paused",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 512,
+          "start": 0,
+          "pcm_sha256": "6ff3f7599a8f59104c938f13786b84eab8d42c508ed0e8889400ba74c298c6de",
+          "reference_sha256": "42403fd51ef4f9cde3fb4bf4e4e1b10b0503e33d0921f177a72b929b180b6a2a",
+          "error": ""
+        },
+        {
+          "session": "baseline_paused",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 167352,
+          "start": 312648,
+          "pcm_sha256": "4e3902986bd37e602a4d9a6f385f5744ce27a3171550944560509d0624836ef2",
+          "reference_sha256": "42403fd51ef4f9cde3fb4bf4e4e1b10b0503e33d0921f177a72b929b180b6a2a",
+          "error": ""
+        },
+        {
+          "session": "baseline_burst",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 133937,
+          "start": 250063,
+          "pcm_sha256": "23174ec06984d2ba15a94ba694309343e47acba5ee69d4b6c521bd92defd173d",
+          "reference_sha256": "07666936da783c498e1c448959aed643a7fbf194d095172d2a52658027df2f5c",
+          "error": ""
+        },
+        {
+          "session": "baseline_chain",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 44032,
+          "start": 0,
+          "pcm_sha256": "a1122d79dea63be5d4bdf999bab2778e423846d9814f436404982fc4b9d6aae9",
+          "reference_sha256": "07666936da783c498e1c448959aed643a7fbf194d095172d2a52658027df2f5c",
+          "error": ""
+        },
+        {
+          "session": "baseline_chain",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 15872,
+          "start": 250038,
+          "pcm_sha256": "4e092dbb299183752518cca42a8267b7a18eea4b69e725dbd4d66c844c904603",
+          "reference_sha256": "07666936da783c498e1c448959aed643a7fbf194d095172d2a52658027df2f5c",
+          "error": ""
+        },
+        {
+          "session": "baseline_chain",
+          "epoch": 3,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 59385,
+          "start": 324615,
+          "pcm_sha256": "c3084d3ae37c55ceb6cdd7f1a570affcb280eb6a84dc840acc3ec6f18dcfd378",
+          "reference_sha256": "07666936da783c498e1c448959aed643a7fbf194d095172d2a52658027df2f5c",
+          "error": ""
+        },
+        {
+          "session": "baseline_speed",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "complete_suffix",
+          "frames": 54024,
+          "start": 99576,
+          "pcm_sha256": "20dda1446e689a455ab78e74a53d6395c4f04cd45e8499bdeb3255dd00843a0c",
+          "reference_sha256": "2e0cf3e12c5dc44f6b77f10f823a4394efb656b686268c48129b630747e90d1e",
+          "error": ""
+        },
+        {
+          "session": "baseline_stop",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 512,
+          "start": 0,
+          "pcm_sha256": "865f4f4cc49dff002ba13b7f759e6f56bd7407626855c93fe67820aeb8dc5b20",
+          "reference_sha256": "07666936da783c498e1c448959aed643a7fbf194d095172d2a52658027df2f5c",
+          "error": ""
+        },
+        {
+          "session": "baseline_route",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 512,
+          "start": 0,
+          "pcm_sha256": "865f4f4cc49dff002ba13b7f759e6f56bd7407626855c93fe67820aeb8dc5b20",
+          "reference_sha256": "07666936da783c498e1c448959aed643a7fbf194d095172d2a52658027df2f5c",
+          "error": ""
+        },
+        {
+          "session": "baseline_input",
+          "epoch": 1,
+          "PASS": true,
+          "scope": "prefix",
+          "frames": 512,
+          "start": 0,
+          "pcm_sha256": "865f4f4cc49dff002ba13b7f759e6f56bd7407626855c93fe67820aeb8dc5b20",
+          "reference_sha256": "07666936da783c498e1c448959aed643a7fbf194d095172d2a52658027df2f5c",
+          "error": ""
+        },
+        {
+          "session": "baseline_eof",
+          "epoch": 2,
+          "PASS": true,
+          "scope": "empty_suffix",
+          "frames": 0,
+          "start": 384000
+        }
+      ],
+      "input_sha256": "ebb61d453dde2d99eef3731c8bf17bd65679541dc942d9a7bcc8a6bb3238cacd",
+      "reference_binary_sha256": "4ee8f3d61cab5aa7d8b39cb148525d7d81a65061efdfe3ce50d4cdc66f637f3f",
+      "driver_sha256": "dfbafa6d49c9a5d143b90a2c409a88067b21c6896145deb86e74e53036d9153c"
+    }
+  },
+  "eof_fallback": {
+    "48000_2": {
+      "functional": true,
+      "rate": 48000,
+      "channels": 2,
+      "old_fifo": 0,
+      "old_received": 0,
+      "mixed_frames": 240,
+      "post_frames": 9600,
+      "missing": 0,
+      "callback_new": 0,
+      "heap_calls": 0,
+      "heap_frees": 0,
+      "callback_deadlines": 0,
+      "worker_deadlines": 0
+    },
+    "44100_1": {
+      "functional": true,
+      "rate": 44100,
+      "channels": 1,
+      "old_fifo": 0,
+      "old_received": 0,
+      "mixed_frames": 220,
+      "post_frames": 5239,
+      "missing": 0,
+      "callback_new": 0,
+      "heap_calls": 0,
+      "heap_frees": 0,
+      "callback_deadlines": 0,
+      "worker_deadlines": 0
+    }
+  }
+}
