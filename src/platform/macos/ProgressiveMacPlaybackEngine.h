@@ -9,6 +9,14 @@ struct ProgressiveOutputSpan {
     std::size_t newOutputOffset=0,oldOutputOffset=0,newReceivedFrames=0,oldReceivedFrames=0;
     std::size_t frames=0,mixedFrames=0,transitionOffset=0,transitionLength=0;
 };
+enum class ProgressiveControlTestPoint {SeekPreparationStarted,SwitchStartedOrDone,RetiringOld,RetiringPreparation,RestartWait,SeekCleanupWait,SeekCleanupComplete,RestartLaunch,AcquiringResources};
+// Explicit normal-thread tests only; empty in ordinary apps. Hooks must not call
+// engine APIs. Only the seek preparation/switch/retirement points may block, and
+// they run outside the engine mutex. Never invoked by the audio callback.
+struct ProgressiveControlTestHooks {
+    void* context=nullptr;
+    void(*event)(void*,ProgressiveControlTestPoint)noexcept=nullptr;
+};
 struct ProgressiveOptions {
     Preset preset=Preset::Candidate;
     double initialSpeed=1.00;
@@ -32,6 +40,8 @@ struct ProgressiveOptions {
     // Same callback restrictions as observeEpochPcm. Optional bounded observer.
     void(*observeOutputPcm)(void*,const float*const*,const ProgressiveOutputSpan&)noexcept=nullptr;
     unsigned seekFailureForTest=0; // explicit verification only: 1 before promotion, 2 before publication
+    prototype::phase58::LifecycleTestHooks pipelineLifecycleTestHooks{};
+    ProgressiveControlTestHooks controlTestHooks{};
 };
 struct ProgressivePosition {
     std::uint64_t session=0,outputFrame=0;
@@ -73,6 +83,10 @@ struct ProgressiveDiagnostics {
     std::string error;
     std::uint64_t renderEpoch=0;
     std::uint64_t workerDeadlineMisses=0,workerNewCalls=0,workgroupErrors=0;
+    // Normal-thread snapshot with the same finalDataAvailable rule as pipeline.
+    // Present while an old epoch is retained during join/post-processing.
+    std::optional<prototype::phase58::Diagnostics> retiringPipeline;
+    std::uint64_t archivedEpochCount=0,archivedPreparedEpochCount=0; // input lifetime, not the history limit
 };
 struct ProgressiveNativeDiagnostics : MacDiagnostics {
     std::uint64_t invalidSampleTimeCalls=0,invalidRateScalarCalls=0;

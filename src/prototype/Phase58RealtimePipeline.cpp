@@ -131,6 +131,9 @@ struct RealtimePipeline::Impl {
     const std::uint64_t session=nextSession.fetch_add(1);const std::size_t lead;
     Phase14AudioFifo fifo;
     std::thread analysisWorker,dspWorker,sampler;
+    // Only the serialized lifecycle owner touches the std::thread objects.
+    // Observers acquire Finalized; no worker or post-join writer remains then.
+    std::atomic<LifecycleState> lifecycle{LifecycleState::Unstarted};
     mutable std::mutex mutex;std::condition_variable changed;
     std::shared_ptr<const phase56::AnalysisSnapshot> mailbox;
     BorrowedSnapshotMailbox<phase56::AnalysisSnapshot> borrowedMailbox;
@@ -190,6 +193,7 @@ struct RealtimePipeline::Impl {
         if(c.transitionFailureForTest>2||(!c.dynamicTransitions&&c.transitionFailureForTest))throw std::invalid_argument("Invalid transition fault control");
         if(c.promotionFailureOnAttemptForTest>2)throw std::invalid_argument("Invalid promotion fault control");
         if(c.phaseProbeWindowCount>c.phaseProbeWindows.size())throw std::invalid_argument("Too many phase probe windows");
+        if(c.lifecycleTestHooks.failStartBeforeWorker>3)throw std::invalid_argument("Invalid worker creation fault");
         for(std::size_t w=0;w<c.phaseProbeWindowCount;++w)if(c.phaseProbeWindows[w].first>=c.phaseProbeWindows[w].second)throw std::invalid_argument("Invalid phase probe window");
         if(seeking&&seekInput>input.frames)throw std::out_of_range("Seek input frame out of range");
         if(config.fastLocalSeek&&(!seeking||!config.residentInput||!config.localPrerollInputFrames||config.localPrerollInputFrames>input.rate*2ULL))throw std::invalid_argument("Invalid local seek configuration");
@@ -726,13 +730,40 @@ struct RealtimePipeline::Impl {
         catch(const std::exception& e){fail(e.what());}
         changed.notify_all();
     }
-    void stop(){{std::lock_guard lock(mutex);cancelled=true;}renderingRequested=false;realtime->signal();changed.notify_all();if(sampler.joinable())sampler.join();if(analysisWorker.joinable())analysisWorker.join();if(dspWorker.joinable())dspWorker.join();if(config.dynamicTransitions){finalizeTransition();cancelOperations();}}
+    void lifecycleEvent(LifecycleTestPoint point)noexcept{
+        if(config.lifecycleTestHooks.event)config.lifecycleTestHooks.event(config.lifecycleTestHooks.context,point,session);
+    }
+    void stop(){
+        if(lifecycle.load(std::memory_order_acquire)==LifecycleState::Finalized)return;
+        lifecycle.store(LifecycleState::Stopping,std::memory_order_release);
+        {std::lock_guard lock(mutex);cancelled=true;}
+        renderingRequested=false;realtime->signal();changed.notify_all();
+        // No data/operation mutex held while joining. The sampler's native_handle
+        // borrow ends before the owner joins/modifies dspWorker.
+        lifecycleEvent(LifecycleTestPoint::BeforeJoin);
+        lifecycleEvent(LifecycleTestPoint::Joining);
+        if(sampler.joinable())sampler.join();
+        if(analysisWorker.joinable())analysisWorker.join();
+        if(dspWorker.joinable())dspWorker.join();
+        lifecycleEvent(LifecycleTestPoint::JoinedBeforeFinalize);
+        if(config.dynamicTransitions){finalizeTransition();cancelOperations();}
+        lifecycleEvent(LifecycleTestPoint::BeforeFinalPublish);
+        lifecycle.store(LifecycleState::Finalized,std::memory_order_release);
+    }
 };
 RealtimePipeline::RealtimePipeline(const std::filesystem::path& p,Configuration c):impl_(std::make_unique<Impl>(p,c)){}
 RealtimePipeline::RealtimePipeline(std::unique_ptr<Impl> p):impl_(std::move(p)){}
 RealtimePipeline::~RealtimePipeline(){impl_->stop();}
-void RealtimePipeline::start(){if(impl_->started.exchange(true))throw std::logic_error("Create a fresh playback session");
-    try{impl_->analysisWorker=std::thread([this]{impl_->analyze();});impl_->dspWorker=std::thread([this]{impl_->synthesize();});if(impl_->config.sampleDspThread)impl_->sampler=std::thread([this]{impl_->sampleThread();});}catch(...){impl_->stop();throw;}}
+void RealtimePipeline::start(){auto& x=*impl_;
+    if(x.lifecycle.load(std::memory_order_acquire)!=LifecycleState::Unstarted||x.started.exchange(true))throw std::logic_error("Create a fresh playback session");
+    x.lifecycle.store(LifecycleState::Starting,std::memory_order_release);
+    const auto fault=[&](unsigned worker){if(x.config.lifecycleTestHooks.failStartBeforeWorker==worker)throw std::runtime_error("Injected worker creation failure");};
+    try{
+        fault(1);x.analysisWorker=std::thread([&x]{x.analyze();x.lifecycleEvent(LifecycleTestPoint::WorkerExit);});
+        fault(2);x.dspWorker=std::thread([&x]{x.synthesize();x.lifecycleEvent(LifecycleTestPoint::WorkerExit);});
+        if(x.config.sampleDspThread){fault(3);x.sampler=std::thread([&x]{x.sampleThread();x.lifecycleEvent(LifecycleTestPoint::WorkerExit);});}
+        x.lifecycle.store(LifecycleState::Running,std::memory_order_release);
+    }catch(...){x.stop();throw;}}
 bool RealtimePipeline::waitUntilReady(std::chrono::milliseconds timeout){auto& x=*impl_;std::unique_lock lock(x.mutex);x.changed.wait_for(lock,timeout,[&]{return x.ready.load()||x.failure.load()||x.cancelled.load();});return x.ready.load()&&!x.failure.load()&&!x.cancelled.load();}
 bool RealtimePipeline::setRealtimeRendering(bool active,std::chrono::milliseconds timeout){
     auto& x=*impl_;if(x.config.scheduling!=WorkerScheduling::AudioWorkgroup)return true;
@@ -776,7 +807,7 @@ phase59::RequestReceipt RealtimePipeline::requestSpeed(std::uint32_t speed,std::
     x.operations.push_back(op);return {op.id,op.acceptance};
 }
 std::vector<phase59::SpeedOperation> RealtimePipeline::speedOperations()const{std::lock_guard lock(impl_->operationMutex);return impl_->operations;}
-TimeMap RealtimePipeline::dynamicTimeMap()const{const auto& x=*impl_;if(x.analysisWorker.joinable()||x.dspWorker.joinable()||!x.transitionPlanner||!x.transitionPlanner->view())throw std::logic_error("Joined dynamic session required");return x.transitionPlanner->view()->map;}
+TimeMap RealtimePipeline::dynamicTimeMap()const{const auto& x=*impl_;if(x.lifecycle.load(std::memory_order_acquire)!=LifecycleState::Finalized||!x.transitionPlanner||!x.transitionPlanner->view())throw std::logic_error("Joined dynamic session required");return x.transitionPlanner->view()->map;}
 std::size_t RealtimePipeline::available()const noexcept{return impl_->fifo.available();}
 std::uint32_t RealtimePipeline::sampleRate()const noexcept{return impl_->input.rate;}
 std::size_t RealtimePipeline::channels()const noexcept{return impl_->input.channels;}
@@ -802,6 +833,7 @@ bool RealtimePipeline::retireFadeDrained()const noexcept{const auto& x=*impl_;co
 double RealtimePipeline::elapsedSeconds()const noexcept{return impl_->elapsed();}
 Diagnostics RealtimePipeline::diagnostics()const{
     const auto& x=*impl_;Diagnostics d;std::lock_guard lock(x.mutex);
+    d.lifecycle=x.lifecycle.load(std::memory_order_acquire);d.finalDataAvailable=d.lifecycle==LifecycleState::Finalized;
     d.session=x.session;d.analysisThread=x.analysisThread;d.dspThread=x.dspThread;d.snapshotVersion=x.version;
     d.inputGeneration=x.inputLease->generation;d.outputStartFrame=x.outputStart;d.discardedFrames=x.discarded;d.reusedInput=d.reusedAnalysis=x.seeking;
     d.sourceHashPasses=x.input.hashes();d.sourceSnapshotCreations=x.input.snapshots();d.residentLockCalls=x.input.locks();
@@ -817,9 +849,9 @@ Diagnostics RealtimePipeline::diagnostics()const{
     d.dynamicTransitions=x.config.dynamicTransitions;d.transitionHistory=x.transitionHistory;d.transitionMapPeakBytes=x.transitionMapPeak;
     d.transitionPlanAttempts=x.transitionAttempts;d.transitionStaleReplans=x.transitionStale;d.transitionAnalysisDeferrals=x.transitionDeferrals;d.transitionPlanCpuS=x.transitionCpu;d.transitionPlanWallS=x.transitionWall;
     {std::lock_guard operationLock(x.operationMutex);d.transitionOperations=x.operations.size();}
-    if(!x.analysisWorker.joinable()&&!x.dspWorker.joinable())d.transitionMapOwners=x.dynamicMailbox.ownerCount();
+    if(d.finalDataAvailable)d.transitionMapOwners=x.dynamicMailbox.ownerCount();
     d.scheduling=x.realtime->metrics();d.realtimeNewCalls=x.realtimeNewCalls;d.realtimeAllocationsMeasured=x.realtimeAllocationsMeasured;
-    if(!x.analysisWorker.joinable()&&!x.dspWorker.joinable())d.borrowedSnapshotOwners=x.borrowedMailbox.ownerCount();
+    if(d.finalDataAvailable)d.borrowedSnapshotOwners=x.borrowedMailbox.ownerCount();
     d.fifoHighWater=x.fifo.highWater();d.snapshotPeakBytes=x.snapshotPeak;d.snapshotCopyBytes=x.snapshotCopies;
     d.missingFrames=x.missing;d.missingCalls=x.missingCalls;d.maxConsecutiveMissing=x.maxMissing;d.rejectedWrites=x.fifo.rejectedWrites();d.analysisWaits=x.analysisWaits;
     d.verifiedS=x.verified;d.identifiedS=x.identified;d.analysisStartS=x.analysisStart;d.firstEventS=x.firstEvent;d.firstMapS=x.firstMap;
@@ -827,15 +859,15 @@ Diagnostics RealtimePipeline::diagnostics()const{
     d.analysisCpuS=x.analysisCpu;d.dspCpuS=x.dspCpu;d.maxDspWallS=x.maxDspWall;d.analysisWaitS=x.analysisWait;d.backpressureWaitS=x.backpressureWait;
     d.dspWorkerCpuS=x.dspWorkerCpu;d.maxDspCpuS=x.maxDspCpu;d.maxPublicationGapS=x.maxPublicationGap;
     d.maxDspValidationWallS=x.maxDspValidationWall;d.maxDspValidationCpuS=x.maxDspValidationCpu;
-    if(!x.dspWorker.joinable()){d.workerProfileRecords=x.profiles.size();d.workerProfileDropped=x.profileDropped;d.detailRecords=x.details.size();d.detailDropped=x.detailDropped;}
+    if(d.finalDataAvailable){d.workerProfileRecords=x.profiles.size();d.workerProfileDropped=x.profileDropped;d.detailRecords=x.details.size();d.detailDropped=x.detailDropped;}
     d.dspNewCalls=x.dspNewCalls;d.dspAllocationsMeasured=x.dspAllocationsMeasured;
     d.analysisQosClass=x.analysisQosClass;d.dspQosClass=x.dspQosClass;d.analysisQosRelativePriority=x.analysisQosRelative;d.dspQosRelativePriority=x.dspQosRelative;
     d.analysisQosQueried=x.analysisQosQueried;d.dspQosQueried=x.dspQosQueried;d.threadSamplingRequested=x.config.sampleDspThread;d.samplerCpuS=x.samplerCpu;
-    if(!x.sampler.joinable()){d.threadSamples=x.samples.size();d.threadSamplesDropped=x.sampleDropped;d.threadSampleErrors=x.sampleErrors;}
+    if(d.finalDataAvailable){d.threadSamples=x.samples.size();d.threadSamplesDropped=x.sampleDropped;d.threadSampleErrors=x.sampleErrors;}
     d.analysisQos=x.analysisQos;d.dspQos=x.dspQos;d.analysisDone=x.analysisDone;d.dspDone=x.dspDone;d.cancelled=x.cancelled&&!x.dspDone;d.failed=x.failure;
     d.inputSha256=x.inputSha;d.pcmSha256=x.pcmSha;d.error=x.error;return d;
 }
-std::vector<WorkerRecord> RealtimePipeline::workerRecords()const{const auto& x=*impl_;if(x.analysisWorker.joinable()||x.dspWorker.joinable())throw std::logic_error("Stop and join before exporting worker records");return x.profiles;}
-std::vector<DetailEvent> RealtimePipeline::detailEvents()const{const auto& x=*impl_;if(x.analysisWorker.joinable()||x.dspWorker.joinable())throw std::logic_error("Stop and join before exporting detail records");return x.details;}
-std::vector<ThreadSample> RealtimePipeline::threadSamples()const{const auto& x=*impl_;if(x.analysisWorker.joinable()||x.dspWorker.joinable()||x.sampler.joinable())throw std::logic_error("Stop and join before exporting samples");return x.samples;}
+std::vector<WorkerRecord> RealtimePipeline::workerRecords()const{const auto& x=*impl_;if(x.lifecycle.load(std::memory_order_acquire)!=LifecycleState::Finalized)throw std::logic_error("Stop and join before exporting worker records");return x.profiles;}
+std::vector<DetailEvent> RealtimePipeline::detailEvents()const{const auto& x=*impl_;if(x.lifecycle.load(std::memory_order_acquire)!=LifecycleState::Finalized)throw std::logic_error("Stop and join before exporting detail records");return x.details;}
+std::vector<ThreadSample> RealtimePipeline::threadSamples()const{const auto& x=*impl_;if(x.lifecycle.load(std::memory_order_acquire)!=LifecycleState::Finalized)throw std::logic_error("Stop and join before exporting samples");return x.samples;}
 }

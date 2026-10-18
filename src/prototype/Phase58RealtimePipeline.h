@@ -7,6 +7,16 @@
 
 namespace ts::prototype::phase58 {
 enum class WorkerScheduling {Standard,AudioWorkgroup};
+enum class LifecycleState {Unstarted,Starting,Running,Stopping,Finalized};
+enum class LifecycleTestPoint {WorkerExit,BeforeJoin,Joining,JoinedBeforeFinalize,BeforeFinalPublish};
+// Explicit normal-thread verification only. Never called by pullAudio or while
+// holding the pipeline data mutex; WorkerExit runs after DSP policy restoration.
+// The host must keep context alive through stop/destruction. Empty in apps.
+struct LifecycleTestHooks {
+    void* context=nullptr;
+    void(*event)(void*,LifecycleTestPoint,std::uint64_t session)noexcept=nullptr;
+    unsigned failStartBeforeWorker=0; // 1 analysis, 2 DSP, 3 sampler, 0 disabled
+};
 struct Configuration {
     std::uint32_t speedMicros=500000;
     bool candidate=true,verifyPcm=true,recordWorkerProfile=false;
@@ -28,6 +38,7 @@ struct Configuration {
     bool fastLocalSeek=false; // Explicit factory only; Exact remains the default.
     std::size_t localPrerollInputFrames=0;
     bool localPublicationFade=true; // Legacy experiment; Interactive mixes at output.
+    LifecycleTestHooks lifecycleTestHooks{};
 };
 struct RenderResult {std::size_t wanted=0,received=0,outputBefore=0,fifoBefore=0;};
 struct FifoCursors {std::uint64_t read=0,write=0;};
@@ -79,6 +90,11 @@ struct Diagnostics {
     bool fastLocalSeek=false;
     std::size_t localSeedInput=0,localBeginOutput=0,localPrerollInputFrames=0;
     double localInitializeS=0;
+    LifecycleState lifecycle=LifecycleState::Unstarted;
+    // Acquired only after ALL joins AND finalizeTransition/cancelOperations.
+    // Until true, mailbox owner/vector record counts are unmeasured placeholders,
+    // not measured zeros. Other fields use atomics, immutable data or data locks.
+    bool finalDataAvailable=false;
 };
 struct WorkerRecord {
     std::size_t outputStart=0,outputEnd=0,fifoBefore=0,fifoAfter=0,receivedInput=0;
@@ -100,6 +116,10 @@ struct ThreadSample {
     int result=0,state=-1,policy=-1,currentPriority=-1,basePriority=-1,maxPriority=-1;
 };
 // Independent fixed-speed experimental path. No product API or default route.
+// One serialized normal owner performs start/stop/destruction (including failure
+// cleanup); these must not overlap. Diagnostic snapshots may run concurrently
+// with that owner's start/stop, with object lifetime retained by the caller.
+// Export copies require finalDataAvailable; EOS/dspDone alone is insufficient.
 // One control producer and one audio consumer. Only pullAudio is callback-safe.
 class RealtimePipeline {
     struct Impl;std::unique_ptr<Impl> impl_;

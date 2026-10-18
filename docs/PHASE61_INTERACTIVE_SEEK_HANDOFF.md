@@ -89,4 +89,16 @@ callbackで行う追加処理は、事前確保FIFO読取り、最大2入力の�
 
 取消・失敗した準備workerもjoin後に監査へ残す。`closedEpochs().preparedOnly=true` は新PCMを提示していない準備区間で、epoch未割当なら0。routeで混合途中に停止した場合も、部分混合数・最後に処理した時刻・受信したPCMを記録する。途中取消のtransitionEndNsは最後の部分処理時刻であり、5msの正常完了を意味しない。
 
+### 診断の最終公開と明示再始動（局所修正）
+
+Phase58 pipelineの`start/stop/破棄`は、重複しない通常側の所有者が担当する。所有権を通常スレッド間で引き渡すことはできるが、同時にstart/stopを呼ばない。診断側は生存期間を保持したうえで並行取得でき、`std::thread`自体の状態を読まない。
+
+`pipeline.lifecycle` はUnstarted/Starting/Running/Stopping/Finalized。`finalDataAvailable=true`は、sampler→analysis→DSPのjoin、`finalizeTransition()/cancelOperations()`、最後の書込みを終えた所有者のrelease公開を、診断側がacquireで観測した場合だけ。解析EOSや`dspDone`とは別である。実行中・退役中のカウンターは原子変数、不変な入力情報、既存のデータmutexを使う。mailbox所有者数、profile/detail/sampleのvector件数・欠落数は`finalDataAvailable=false`の間は**未取得**であり、既存数値フィールドの0を実測0と解釈しない。JSON等へ渡す場合はnullとして扱う。`workerRecords/detailEvents/threadSamples/dynamicTimeMap`のコピーはFinalized後に限り、早い呼出しは例外になる。
+
+エンジンの`retiringPipeline`診断は、旧区間の所有者をjoin中も保持したスナップショットで、同じ最終公開規則に従う。`archivedEpochCount/archivedPreparedEpochCount`は入力寿命の退役数/未提示準備区間数で、`closedEpochs()`の16件上限と独立する。旧区間の生存中加算から退役後の累積加算へは、エンジンmutex内で一度だけ移す。
+
+Stopped/Endedからの明示`play()`は、専用の非メイン直列キューで、エンジンmutexを持たずに`stopSeeks()`→`stopPreparation()`を待ち、その後mutex内で入力と状態を再確認し、retire→最新要求速度の引継ぎ→launch→autoPlayを設定する。route変更だけでは再開しない。新しい形式取得・入力検査・単一所有者の予算検査は維持する。
+
+`pipelineLifecycleTestHooks/controlTestHooks`は期限付きの局所回帰用で、通常アプリでは空のままにする。音声callbackからは呼ばない。追加フィールドを含めヘッダーと実行体を一緒に再ビルドする。修正と今回の実行結果・未検証範囲は [局所修正REPORT](../results/phase61_sync_restart_fix/REPORT.md) を参照する。
+
 旧長尺スペクトル検査78/1080件失敗、主観試聴6クリップで違和感なし、旧Sandbox総合20/30、旧Release時刻/期限エラーはそのまま残す。今回の開発利用は、これらを成功へ書き換えたものではない。新クロスフェードの主観試聴、全装置、全TCC経路、音響出力時刻、OS内部確保の網羅は別途必要。解析済みReady 200msは目標であり、未達値を達成と呼ばない。詳しい今回の測定範囲は新REPORTを参照する。

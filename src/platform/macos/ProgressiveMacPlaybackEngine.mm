@@ -177,9 +177,13 @@ struct ProgressiveMacPlaybackEngine::Impl {
     std::uint64_t nextEpoch=0,lifetimeMissing=0,lifetimeCalls=0,lifetimeRejected=0,lifetimeMaxMissing=0;
     std::uint64_t retiredEpoch=0,retiredPresented=0;
     std::uint64_t lifetimeWorkerDeadlines=0,lifetimeWorkerNews=0,lifetimeWorkgroupErrors=0;
+    std::uint64_t archivedEpochCount=0,archivedPreparedEpochCount=0;
     static std::uint64_t workerErrors(const prototype::phase58::Diagnostics& p){const auto& m=p.scheduling;return m.policyErrors+m.joinErrors+m.restoreErrors+m.intervalErrors+m.queryErrors+m.waitErrors+m.wakeErrors;}
     bool closedQualityFailed=false;
     double requested=1,acceptedAt=0,readyAfter=-1,constructorS=-1,cpuStart=0;
+    void controlTestEvent(ProgressiveControlTestPoint point)noexcept{
+        if(options.controlTestHooks.event)options.controlTestHooks.event(options.controlTestHooks.context,point);
+    }
     std::unique_ptr<RenderTarget> makeTarget(Pipeline* p){
         auto t=std::make_unique<RenderTarget>();t->pipeline=p;t->session=p->diagnostics().session;
         t->inputGeneration=p->inputGeneration();t->epoch=++nextEpoch;t->presented=p->outputStartFrame();return t;
@@ -190,6 +194,7 @@ struct ProgressiveMacPlaybackEngine::Impl {
     }
     void stopSeeks(){
         {std::lock_guard lock(mutex);cancelSeeks("停止・入力変更により取消");}
+        if(seekBusy.load())controlTestEvent(ProgressiveControlTestPoint::SeekCleanupWait);
         while(seekBusy.load())std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
     RenderTarget* effectiveTarget()const {
@@ -212,6 +217,7 @@ struct ProgressiveMacPlaybackEngine::Impl {
     }
     // Impl mutex held, after the corresponding normal worker has joined.
     void archiveEpoch(ProgressiveClosedEpoch audit){
+        ++archivedEpochCount;if(audit.preparedOnly)++archivedPreparedEpochCount;
         const auto& d=audit.pipeline;lifetimeMissing+=d.missingFrames;lifetimeCalls+=d.missingCalls;lifetimeRejected+=d.rejectedWrites;
         lifetimeMaxMissing=std::max(lifetimeMaxMissing,d.maxConsecutiveMissing);
         lifetimeWorkerDeadlines+=d.scheduling.deadlineMisses;lifetimeWorkerNews+=d.realtimeNewCalls;lifetimeWorkgroupErrors+=workerErrors(d);
@@ -238,7 +244,8 @@ struct ProgressiveMacPlaybackEngine::Impl {
                 }
             }
             if(!next){std::this_thread::sleep_for(std::chrono::milliseconds(2));continue;}
-            next->start();const auto deadline=std::chrono::steady_clock::now()+options.prepareTimeout;
+            next->start();controlTestEvent(ProgressiveControlTestPoint::SeekPreparationStarted);
+            const auto deadline=std::chrono::steady_clock::now()+options.prepareTimeout;
             const auto cancelled=[&]{return exit.load()||seekVersion.load()!=version;};
             while(!cancelled()&&!next->waitUntilReady(std::chrono::milliseconds(1))){
                 {std::lock_guard lock(mutex);auto& op=seeks[index];if(!op.analysisReadyNs&&next->finalAnalysisAvailable()){op.analysisReadyNs=machNs();op.stage=progressive::SeekStage::PreparingFifo;}}
@@ -274,14 +281,16 @@ struct ProgressiveMacPlaybackEngine::Impl {
                 }
             }
             const auto switchDeadline=std::chrono::steady_clock::now()+std::chrono::seconds(1);
+            bool observedStart=false;
             while(published){
-                bool done=false;
+                bool done=false,notifyStart=false;
                 {std::lock_guard lock(mutex);auto& h=renderLease->handoff;auto phase=h.phase.load(std::memory_order_acquire);
                     if(phase==SwitchPhase::Requested&&(cancelled()||state!=State::Playing||requested!=seeks[index].speedMicros/1000000.)){
                         h.phase.compare_exchange_strong(phase,SwitchPhase::Cancelled,std::memory_order_acq_rel);phase=h.phase.load(std::memory_order_acquire);
                     }
                     if(phase==SwitchPhase::Started){seeks[index].stage=progressive::SeekStage::Transitioning;}
                     if(phase==SwitchPhase::Done){transitionDone=true;done=true;}
+                    if(!observedStart&&(phase==SwitchPhase::Started||phase==SwitchPhase::Done)){observedStart=true;notifyStart=true;}
                     if(phase==SwitchPhase::Cancelled){
                         if(!cancelled()&&next->failed())throw std::runtime_error(next->diagnostics().error);
                         transitionDone=!cancelled()&&pipeline&&(state==State::Paused||state==State::Ready);
@@ -293,6 +302,7 @@ struct ProgressiveMacPlaybackEngine::Impl {
                         h.phase.store(SwitchPhase::Cancelled,std::memory_order_release);done=true;
                     }
                 }
+                if(notifyStart)controlTestEvent(ProgressiveControlTestPoint::SwitchStartedOrDone);
                 if(done)break;
                 if(std::chrono::steady_clock::now()>switchDeadline)throw std::runtime_error("音声callbackの切替確認が1秒以内に届きませんでした");
                 std::this_thread::sleep_for(std::chrono::microseconds(100));
@@ -328,7 +338,7 @@ struct ProgressiveMacPlaybackEngine::Impl {
             while(renderLease->inRender.load(std::memory_order_seq_cst))std::this_thread::sleep_for(std::chrono::microseconds(100));
             h.phase.store(SwitchPhase::Idle,std::memory_order_release);
         }
-        if(next){next->setRealtimeRendering(false);next->stop();
+        if(next){controlTestEvent(ProgressiveControlTestPoint::RetiringPreparation);next->setRealtimeRendering(false);next->stop();
             ProgressiveClosedEpoch audit;audit.renderEpoch=nextTarget?nextTarget->epoch:0;audit.pipeline=next->diagnostics();audit.operations=next->speedOperations();
             audit.preparedOnly=!nextTarget||!nextTarget->firstPcm.load();
             {std::lock_guard lock(mutex);if(published)captureSwitch(index,*renderLease);archiveEpoch(std::move(audit));}
@@ -336,6 +346,7 @@ struct ProgressiveMacPlaybackEngine::Impl {
         }
         if(old){
             while(renderLease->inRender.load(std::memory_order_seq_cst))std::this_thread::sleep_for(std::chrono::microseconds(100));
+            controlTestEvent(ProgressiveControlTestPoint::RetiringOld);
             old->setRealtimeRendering(false);old->stop();
             {std::lock_guard lock(mutex);if(index<seeks.size())seeks[index].discardedForSeekFrames=old->available();}
             ProgressiveClosedEpoch audit;audit.renderEpoch=oldTarget->epoch;audit.pipeline=old->diagnostics();audit.operations=old->speedOperations();
@@ -344,7 +355,7 @@ struct ProgressiveMacPlaybackEngine::Impl {
             std::lock_guard lock(mutex);retiringPipeline=nullptr;archiveEpoch(std::move(audit));
             old.reset();oldTarget.reset();
         }
-        {std::lock_guard lock(mutex);activeSeek=std::size_t(-1);seekBusy=false;if(!pipeline)releaseBudget();}
+        {std::lock_guard lock(mutex);activeSeek=std::size_t(-1);seekBusy=false;if(!pipeline)releaseBudget();controlTestEvent(ProgressiveControlTestPoint::SeekCleanupComplete);}
     }}}
     Impl(){seeks.reserve(4096);closed.reserve(16);monitor=std::thread([this]{@autoreleasepool {while(!exit.load()){
         {std::lock_guard lock(mutex);try{tick();}catch(const std::exception& e){fail(e.what());}}
@@ -421,7 +432,7 @@ struct ProgressiveMacPlaybackEngine::Impl {
         cancelPrepare=false;autoPlay=false;acceptedAt=seconds();cpuStart=processCpu();readyAfter=constructorS=-1;++revision;
         retired={};retiredEpoch=retiredPresented=0;retiredOperations.clear();retiredMap={};retiredPosition.reset();rendering.reset();native={};error.clear();reason=StopReason::None;reservation=0;
         state=State::Accepted;
-        seekBase=seeks.size();lifetimeWorkerDeadlines=lifetimeWorkerNews=lifetimeWorkgroupErrors=0;lifetimeMissing=lifetimeCalls=lifetimeRejected=lifetimeMaxMissing=0;closed.clear();closedQualityFailed=false;
+        seekBase=seeks.size();lifetimeWorkerDeadlines=lifetimeWorkerNews=lifetimeWorkgroupErrors=0;lifetimeMissing=lifetimeCalls=lifetimeRejected=lifetimeMaxMissing=0;closed.clear();closedQualityFailed=false;archivedEpochCount=archivedPreparedEpochCount=0;
         const auto p=input;const auto o=options;
         preparation=std::thread([this,p,o]{@autoreleasepool {
             std::unique_ptr<Pipeline> next;
@@ -431,9 +442,10 @@ struct ProgressiveMacPlaybackEngine::Impl {
                 const auto reserve=progressive::reservationBytes(bytes,reader.frames());
                 if(reserve>o.memoryReservationBudget)throw std::length_error("メモリ予約予算を超えています");
                 if(std::filesystem::space(std::filesystem::temp_directory_path()).available<bytes+256ULL*1024*1024)throw std::length_error("一時入力複製の空き容量が不足しています");
+                controlTestEvent(ProgressiveControlTestPoint::AcquiringResources);
                 bool expected=false;if(!resourceOwner.compare_exchange_strong(expected,true))throw std::runtime_error("別の実験セッションが資源を使用中です");
                 {std::lock_guard lock(mutex);ownsBudget=true;reservation=reserve;}
-                prototype::phase58::Configuration c;c.speedMicros=progressive::speedMicros(o.initialSpeed);c.candidate=o.preset==Preset::Candidate;c.verifyPcm=false;c.residentInput=true;c.dynamicTransitions=true;c.scheduling=prototype::phase58::WorkerScheduling::AudioWorkgroup;c.sourceSnapshotBytes=bytes;c.seekCheckpoints=o.seekCheckpoints;
+                prototype::phase58::Configuration c;c.speedMicros=progressive::speedMicros(o.initialSpeed);c.candidate=o.preset==Preset::Candidate;c.verifyPcm=false;c.residentInput=true;c.dynamicTransitions=true;c.scheduling=prototype::phase58::WorkerScheduling::AudioWorkgroup;c.sourceSnapshotBytes=bytes;c.seekCheckpoints=o.seekCheckpoints;c.lifecycleTestHooks=o.pipelineLifecycleTestHooks;
                 const auto began=seconds();next=std::make_unique<Pipeline>(p,c);
                 if(next->diagnostics().sourceSnapshotBytes!=bytes||next->inputFrames()!=reader.frames()||next->sampleRate()!=reader.sampleRate()||next->channels()!=reader.channels())throw std::runtime_error("資源見積り中に入力形式・サイズが変化しました");
                 {std::lock_guard lock(mutex);constructorS=seconds()-began;}
@@ -463,7 +475,16 @@ bool ProgressiveMacPlaybackEngine::prepare(const std::filesystem::path& p,Progre
 }
 bool ProgressiveMacPlaybackEngine::play(){
     workQueue();auto& x=*impl_;auto state=x.state.load();
-    if(state==State::Stopped||state==State::Ended){x.stopPreparation();std::lock_guard lock(x.mutex);if(x.input.empty())return false;x.retire();x.options.initialSpeed=x.requested;x.launch();x.autoPlay=true;return true;}
+    if(state==State::Stopped||state==State::Ended){
+        // No engine mutex held: seek cleanup needs it to archive the old epoch,
+        // clear seekBusy and release this instance's reservation before launch.
+        x.controlTestEvent(ProgressiveControlTestPoint::RestartWait);
+        x.stopSeeks();x.stopPreparation();std::lock_guard lock(x.mutex);
+        if(x.input.empty()||(x.state!=State::Stopped&&x.state!=State::Ended))return false;
+        x.retire();x.options.initialSpeed=x.requested;
+        x.controlTestEvent(ProgressiveControlTestPoint::RestartLaunch);
+        x.launch();x.autoPlay=true;return true;
+    }
     std::lock_guard lock(x.mutex);if(x.state==State::Playing)return true;if(x.state==State::Accepted||x.state==State::Preparing){x.autoPlay=true;return true;}if(x.state!=State::Ready)return false;
     try{return x.startAudio();}catch(const std::exception& e){x.fail(e.what());return false;}
 }
@@ -562,9 +583,10 @@ ProgressiveDiagnostics ProgressiveMacPlaybackEngine::getPlaybackDiagnostics()con
     d.session=p.session;d.inputGeneration=p.inputGeneration;d.renderEpoch=t?t->epoch:x.retiredEpoch;d.generatedFrames=p.generated;d.publishedFrames=p.published;d.consumedFrames=p.consumed;d.presentedFrames=x.rendering?x.rendering->presented.load():0;d.currentEpochPresentedFrame=t?t->presented.load():x.retiredPresented;d.missingFrames=p.missingFrames+x.lifetimeMissing;d.underrunCalls=p.missingCalls+x.lifetimeCalls;d.maxConsecutiveMissingFrames=std::max(std::uint64_t(p.maxConsecutiveMissing),x.lifetimeMaxMissing);d.rejectedWrites=p.rejectedWrites+x.lifetimeRejected;
     d.sourceSampleRate=x.rendering?static_cast<unsigned>(x.rendering->rate):0;d.channels=x.rendering?x.rendering->channels:0;d.inputFrames=p.inputFrames;d.residentInputBytes=p.residentInputBytes;d.temporarySourceBytes=p.sourceSnapshotBytes;d.reservationBytes=x.reservation;d.requestedSpeed=x.requested;d.appliedTargetSpeed=x.applied(t?t->pipeline->speedOperations():x.retiredOperations,t);d.processCpuS=x.acceptedAt?processCpu()-x.cpuStart:0;if(!x.pipeline&&p.session)d.dspWorkerCpuS=p.dspWorkerCpuS;d.acceptedToReadyS=x.readyAfter;d.constructorS=x.constructorS;d.fifoSupplyFailed=progressive::SupplyQuality::evaluate(p.missingFrames,p.missingCalls,p.rejectedWrites).failed;d.error=x.error.empty()?p.error:x.error;
     d.workerDeadlineMisses=x.lifetimeWorkerDeadlines+p.scheduling.deadlineMisses;d.workerNewCalls=x.lifetimeWorkerNews+p.realtimeNewCalls;d.workgroupErrors=x.lifetimeWorkgroupErrors+Impl::workerErrors(p);
-    const auto add=[&](Pipeline* source){const auto old=source->diagnostics();d.missingFrames+=old.missingFrames;d.underrunCalls+=old.missingCalls;d.rejectedWrites+=old.rejectedWrites;d.maxConsecutiveMissingFrames=std::max(d.maxConsecutiveMissingFrames,old.maxConsecutiveMissing);d.workerDeadlineMisses+=old.scheduling.deadlineMisses;d.workerNewCalls+=old.realtimeNewCalls;d.workgroupErrors+=Impl::workerErrors(old);};
+    d.archivedEpochCount=x.archivedEpochCount;d.archivedPreparedEpochCount=x.archivedPreparedEpochCount;
+    const auto add=[&](Pipeline* source){const auto old=source->diagnostics();d.missingFrames+=old.missingFrames;d.underrunCalls+=old.missingCalls;d.rejectedWrites+=old.rejectedWrites;d.maxConsecutiveMissingFrames=std::max(d.maxConsecutiveMissingFrames,old.maxConsecutiveMissing);d.workerDeadlineMisses+=old.scheduling.deadlineMisses;d.workerNewCalls+=old.realtimeNewCalls;d.workgroupErrors+=Impl::workerErrors(old);return old;};
     if(t&&x.pipeline&&t->pipeline!=x.pipeline.get())add(x.pipeline.get());
-    if(x.retiringPipeline)add(x.retiringPipeline);
+    if(x.retiringPipeline)d.retiringPipeline=add(x.retiringPipeline);
     const auto& m=p.scheduling;
     d.fifoSupplyFailed=progressive::SupplyQuality::evaluate(d.missingFrames,d.underrunCalls,d.rejectedWrites).failed;
     if(x.closedQualityFailed||d.fifoSupplyFailed||p.failed||m.deadlineMisses||m.policyErrors||m.joinErrors||m.restoreErrors||m.intervalErrors||m.queryErrors||m.waitErrors||m.wakeErrors||(x.rendering&&(x.rendering->overruns||x.rendering->formats)))d.overallAudioQuality=false;
