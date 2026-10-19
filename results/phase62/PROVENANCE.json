@@ -1,0 +1,91 @@
+{
+  "created_utc": "2026-10-19T04:52:36.445991+00:00",
+  "base_sha": "88d5247fd6b67996f4d315d5cb0fb23caf8a9f0c",
+  "branch": "main",
+  "artifact_manifest": {
+    "path": "ARTIFACT_MANIFEST.json",
+    "bytes": 1851800,
+    "sha256": "a6e14e8b369439834a4ddf2fed19e62dbc8c2f0d3ae0b1f43193eac05c4a4834"
+  },
+  "reference": {
+    "path": "build/phase61/oracle_release_v1/phase61_frozen_reference",
+    "bytes": 274184,
+    "sha256": "de70db5fbc4284fd13f3f9a7cf257cbca1d8d9a5755859067c7cfb234d1d5748"
+  },
+  "source_manifest": {
+    "path": "SOURCE_MANIFEST.json",
+    "bytes": 4101,
+    "sha256": "01a91b28f28e90ecdaddd3c3e53877014a991401fd02543a766dc9dfebfde470"
+  },
+  "reference_manifest": {
+    "source_commit": "ec087019626d9ff0d9f157245729b74ddb6847d7",
+    "source_sha256": "4ffec7c4db196f51e89bd4ebaf336020ae71d0969c31393a40752b4a37ed3899",
+    "host_source_sha256": "72fc5f99ce49ea3bff6cb3260ecc5bbf8a5ff8a47ff5016ce9800a532e7ab742",
+    "driver_sha256": "14e09713ff230104beedf4d01c43b1e42d83f7d38b3a8a57205fe27af4a22060",
+    "flags": "-O3 -DNDEBUG -std=c++20 -arch arm64",
+    "commands": [
+      {
+        "name": "compile",
+        "command": [
+          "/usr/bin/c++",
+          "-O3",
+          "-DNDEBUG",
+          "-std=c++20",
+          "-arch",
+          "arm64",
+          "-arch",
+          "arm64",
+          "-I/Users/taro252/Docker/TimeStretchLab/src",
+          "-c",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/Phase36Legacy.cpp",
+          "-o",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/Phase36Legacy.o"
+        ],
+        "exit": 0,
+        "log": "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/compile.log"
+      },
+      {
+        "name": "link",
+        "command": [
+          "/usr/bin/c++",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/Phase36Legacy.o",
+          "-O3",
+          "-DNDEBUG",
+          "-arch",
+          "arm64",
+          "-Wl,-search_paths_first",
+          "-Wl,-headerpad_max_install_names",
+          "CMakeFiles/phase61_seek_reference.dir/src/prototype/Phase61SeekReference.cpp.o",
+          "-o",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+          "libphase39_variable.a",
+          "libphase36_variable.a",
+          "libphase24_variable.a",
+          "libtimestretch_core.a",
+          "-framework",
+          "Accelerate"
+        ],
+        "exit": 0,
+        "log": "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/link.log"
+      }
+    ],
+    "build": "/Users/taro252/Docker/TimeStretchLab/build/phase61/release",
+    "binary": "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+    "binary_sha256": "de70db5fbc4284fd13f3f9a7cf257cbca1d8d9a5755859067c7cfb234d1d5748",
+    "restore": "git show the source_commit path; run the recorded compiler and link commands in build. Never overwrite an existing frozen reference."
+  },
+  "source_version_notes": [
+    "主実機行列・1000周・既存回帰はcore_v2_sources/manifest.jsonのソース。保存済みSHAと全件一致。",
+    "最終版では入力喪失のFailed分類、Armed速度予約の保持、全曲初回の余裕と供給確認、callback診断条件を補強。",
+    "DSPと混合の算術は維持。最終版のRelease/Debug再ビルドとCTest、操作・障害・全曲の追加試験を区別して保存。",
+    "実行ごとのバイナリSHAは各suite/provenance.json等。全成績を最終バイナリ一個の実測とは扱わない。",
+    "コミット準備時にtests/Phase62NativeTests.cppの末尾空白1バイトを除去。実測時のfinal_sources.tar.gzは保持し、コミット対象の復元はcommit_sources.tar.gzを使用する。"
+  ],
+  "restore": [
+    "基準SHAの新しい作業コピーへcommit_sources.tar.gzを展開しSOURCE_MANIFESTのSHAを照合する。既存作業を上書きしない。",
+    "REPORTのコマンドと各commands.jsonで新規build出力先へ再生成する。既存oracle/証拠は上書きしない。",
+    "既存の実測ログ・PCMを完全復元する場合はこのroot全体を別ストレージへ保存しARTIFACT_MANIFESTで照合する。",
+    "実測時刻・CPU・RSSは再実行で同値にはならない。manifestは実測資料の同一性を記録する。"
+  ],
+  "commit_snapshot_recipe": "SOURCE_MANIFESTの各pathの現ファイルからbytes/SHA-256を再計算し、同じ相対pathでcommit_sources.tar.gzへtar/gzip保存。旧archiveは保持し、新archiveの1件をARTIFACT_MANIFESTへ追加、SOURCE_MANIFEST/PROVENANCEの参照SHAを更新。動作変更なし。"
+}

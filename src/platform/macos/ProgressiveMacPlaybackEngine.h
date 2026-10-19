@@ -1,5 +1,6 @@
 #pragma once
 #include "playback/ProgressiveContract.h"
+#include "playback/ProgressiveLoopContract.h"
 #include "platform/macos/MacPlaybackEngine.h"
 #include "prototype/Phase58RealtimePipeline.h"
 
@@ -32,6 +33,7 @@ struct ProgressiveOptions {
     void(*observeEpochPcm)(void*,const float*const*,std::size_t frames,std::size_t outputOffset,
         std::uint64_t inputGeneration,std::uint64_t renderEpoch,std::uint64_t session)noexcept=nullptr;
     RenderAllocationHooks allocationHooks{}; // explicit verification host only
+    bool allowExperimentalLoops=false; // Phase62, OFF / public NO-GO
     bool seekCheckpoints=true;
     // Research opt-in only: long impulse-train quality is NOT approved.
     bool allowUnvalidatedFastLocalSeek=false;
@@ -111,6 +113,12 @@ public:
     ProgressiveMacPlaybackEngine& operator=(const ProgressiveMacPlaybackEngine&)=delete;
     static progressive::Capabilities capabilities() noexcept {return {};}
     progressive::SeekAvailability seekAvailability()const;
+    progressive::LoopAvailability loopAvailability()const;
+    progressive::LoopReceipt requestLoopRange(std::uint64_t startFrame,std::uint64_t endFrameExclusive,progressive::LoopContext,progressive::LoopOptions={});
+    // Clear matches loopID + input/session; epoch may have advanced automatically.
+    progressive::LoopReceipt requestClearLoop(std::uint64_t loopID,progressive::LoopContext);
+    progressive::LoopSnapshot getLoopSnapshot()const;
+    std::vector<progressive::LoopBoundaryEvent> loopHistory()const; // last 64; cycles unbounded
     bool prepare(const std::filesystem::path&,ProgressiveOptions={});
     bool play();bool pause();bool resume();void stop();
     prototype::phase59::RequestReceipt setSpeed(double,std::uint64_t expectedSession=0,std::uint64_t expectedInputGeneration=0,std::uint64_t expectedRenderEpoch=0);

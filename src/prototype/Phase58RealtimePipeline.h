@@ -37,6 +37,7 @@ struct Configuration {
     bool seekCheckpoints=true; // Phase61, exact resident fixed-state cache, max 2.
     bool fastLocalSeek=false; // Explicit factory only; Exact remains the default.
     std::size_t localPrerollInputFrames=0;
+    std::size_t loopEndInputFrame=0; // Phase62 bounded exact epoch; 0 disables.
     bool localPublicationFade=true; // Legacy experiment; Interactive mixes at output.
     LifecycleTestHooks lifecycleTestHooks{};
 };
@@ -150,6 +151,10 @@ public:
     std::unique_ptr<RealtimePipeline> createSeek(std::size_t inputFrame,std::uint32_t speedMicros)const;
     std::unique_ptr<RealtimePipeline> createFastLocalSeek(std::size_t inputFrame,std::uint32_t speedMicros,std::size_t prerollInputFrames=0)const;
     std::unique_ptr<RealtimePipeline> createInteractiveSeek(std::size_t inputFrame,std::uint32_t speedMicros,std::size_t prerollInputFrames=0)const;
+    // Phase62: exact DSP, finite FIFO, shared input/analysis; no whole-song PCM cache.
+    std::unique_ptr<RealtimePipeline> createLoopSeek(std::size_t start,std::size_t end,std::uint32_t speed)const;
+    std::size_t loopOutputEndFrame()const noexcept; // valid after Ready
+    std::size_t fixedOutputFrameForInput(std::size_t)const; // final analysis; rejects dynamic plans
     bool finalAnalysisAvailable()const noexcept;
     // Normal owner only. Fade on DSP publication, then wait for its absolute
     // end to be consumed. Cancelling restores gain through another 5ms ramp.

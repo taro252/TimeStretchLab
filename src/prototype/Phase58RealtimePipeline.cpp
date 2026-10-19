@@ -118,6 +118,8 @@ struct RealtimePipeline::Impl {
     bool seeking=false;std::size_t seekInput=0;
     std::atomic<std::size_t> outputStart{0},discarded{0};
     std::atomic<bool> seekMapReady{false};
+    std::atomic<std::size_t> loopOutputEnd{0};
+    std::shared_ptr<const TimeMap> fixedSeekMap; // release published, immutable
     std::array<std::array<float,2048>,2> seekPcm{};
     std::size_t seekPcmOffset=0,seekPcmCount=0;
     bool seekDspFinished=false;
@@ -229,6 +231,12 @@ struct RealtimePipeline::Impl {
         const auto length=std::size_t(std::llround(input.frames*(1.0/(double(config.speedMicros)/1000000.0))));
         const TimeMap map(1024,std::move(nodes),{});
         const auto start=seekInput==input.frames?length:std::min(length,std::size_t(std::max(0LL,std::llround(map.outputPositionForInputSample(double(seekInput))))));
+        if(config.loopEndInputFrame){
+            const auto end=config.loopEndInputFrame==input.frames?length:std::min(length,std::size_t(std::max(0LL,std::llround(map.outputPositionForInputSample(double(config.loopEndInputFrame))))));
+            if(end<=start)throw std::invalid_argument("ループ出力範囲が空です");
+            loopOutputEnd=end;
+            std::atomic_store(&fixedSeekMap,std::make_shared<const TimeMap>(map));
+        }
         output=length;outputStart=start;published=start;consumed=start;seekMapReady=true;
         return s;
     }
@@ -236,7 +244,8 @@ struct RealtimePipeline::Impl {
         if(generation!=inputLease->generation||offset!=generated.load()||seekPcmCount)throw std::logic_error("Seek PCM identity/order");
         generated=offset+n;
         const auto skip=std::min(n,outputStart.load()>offset?outputStart.load()-offset:0);
-        discarded.fetch_add(skip);seekPcmCount=n-skip;seekPcmOffset=0;
+        discarded.fetch_add(skip);seekPcmCount=n-skip;
+        if(const auto end=loopOutputEnd.load())seekPcmCount=std::min(seekPcmCount,end>offset+skip?end-offset-skip:0);seekPcmOffset=0;
         for(std::size_t c=0;c<input.channels;++c)std::copy_n(p[c]+skip,seekPcmCount,seekPcm[c].data());
     }
     void flushSeekPcm(){
@@ -248,7 +257,7 @@ struct RealtimePipeline::Impl {
         if(config.verifyPcm){for(std::size_t i=0;i<n;++i)for(std::size_t c=0;c<input.channels;++c)seekInterleaved[i*input.channels+c]=delivered[c][i];seekHash.update(seekInterleaved.data(),n*input.channels*sizeof(float));}
         seekPcmOffset+=n;seekPcmCount-=n;published.fetch_add(n);
         if(firstPublished.load()<0)firstPublished=elapsed();
-        if(published.load()-outputStart.load()>=lead&&!ready.load()){
+        if(published.load()-outputStart.load()>=std::min(lead,loopOutputEnd.load()?loopOutputEnd.load()-outputStart.load():lead)&&!ready.load()){
             rememberCheckpoint(true);
             {std::lock_guard lock(mutex);inputAtReady=received.load();readyTime=elapsed();ready=true;}
             changed.notify_all();
@@ -262,7 +271,7 @@ struct RealtimePipeline::Impl {
     }
     std::unique_ptr<phase57::ProgressiveSynthesisEngine> makeSynthesis(std::function<void()> validate){
         if(seeking){while(!seekMapReady.load()){check(true);std::this_thread::sleep_for(std::chrono::milliseconds(1));}
-            if(!config.fastLocalSeek&&config.seekCheckpoints&&!config.recordWorkerProfile&&!config.detailedDiagnostics&&seekInput!=input.frames){
+            if(!config.fastLocalSeek&&!config.loopEndInputFrame&&config.seekCheckpoints&&!config.recordWorkerProfile&&!config.detailedDiagnostics&&seekInput!=input.frames){
                 std::shared_ptr<const phase57::ProgressiveSynthesisEngine> saved;std::size_t point=0;
                 {std::lock_guard lock(inputLease->checkpointMutex);
                     for(const auto& cp:inputLease->checkpoints)if(cp.speed==config.speedMicros&&cp.output<=outputStart.load()&&cp.output>=point){saved=cp.state;point=cp.output;}}
@@ -274,7 +283,7 @@ struct RealtimePipeline::Impl {
         return std::make_unique<phase57::ProgressiveSynthesisEngine>(input.snapshotDescriptor(),config.speedMicros,inputLease->generation,std::move(validate),16*1024*1024,input.residentBytes());
     }
     void rememberCheckpoint(bool atReady=false){
-        if(!seeking||config.fastLocalSeek||!config.seekCheckpoints||!activeSynthesis||ready.load()||realtime->active()||config.recordWorkerProfile||config.detailedDiagnostics)return;
+        if(!seeking||config.fastLocalSeek||config.loopEndInputFrame||!config.seekCheckpoints||!activeSynthesis||ready.load()||realtime->active()||config.recordWorkerProfile||config.detailedDiagnostics)return;
         const auto point=activeSynthesis->frontier().published;
         if((savedCheckpoint&&point==lastCheckpointOutput)||(!atReady&&point-lastCheckpointOutput<input.rate*30ULL))return;
         auto copy=activeSynthesis->cloneFixedCheckpoint(input.snapshotDescriptor(),input.residentBytes());if(!copy)return;
@@ -573,7 +582,7 @@ struct RealtimePipeline::Impl {
                     }
                     if(seeking){
                         flushSeekPcm();
-                        if((seekDspFinished&&!seekPcmCount)||(seekMapReady.load()&&output.load()&&outputStart.load()==output.load())){demote();finishSeek();return;}
+                        if((loopOutputEnd.load()&&published.load()>=loopOutputEnd.load())||(seekDspFinished&&!seekPcmCount)||(seekMapReady.load()&&output.load()&&outputStart.load()==output.load())){demote();finishSeek();return;}
                         // Honour promotion/demotion even when a partial block
                         // is waiting behind a full Ready FIFO.
                         if(seekPcmCount){realtime->waitForSignal();continue;}
@@ -663,7 +672,7 @@ struct RealtimePipeline::Impl {
             while(!cancelled.load()&&!failure.load()){
                 if(seeking){
                     flushSeekPcm();
-                    if((seekDspFinished&&!seekPcmCount)||(seekMapReady.load()&&output.load()&&outputStart.load()==output.load())){finishSeek();return;}
+                    if((loopOutputEnd.load()&&published.load()>=loopOutputEnd.load())||(seekDspFinished&&!seekPcmCount)||(seekMapReady.load()&&output.load()&&outputStart.load()==output.load())){finishSeek();return;}
                     if(seekPcmCount){std::this_thread::sleep_for(std::chrono::milliseconds(1));continue;}
                 }
                 std::shared_ptr<const phase56::AnalysisSnapshot> next;
@@ -778,7 +787,7 @@ bool RealtimePipeline::setRealtimeRendering(bool active,std::chrono::millisecond
 void RealtimePipeline::stop(){impl_->stop();}
 RenderResult RealtimePipeline::pullAudio(float*const* p,std::size_t n)noexcept{
     auto& x=*impl_;RenderResult r;r.outputBefore=x.consumed.load(std::memory_order_relaxed);r.fifoBefore=x.fifo.available();
-    const auto end=x.output.load(std::memory_order_acquire);r.wanted=end?(end>r.outputBefore?std::min(n,end-r.outputBefore):0):n;
+    const auto end=x.loopOutputEnd.load()?x.loopOutputEnd.load():x.output.load(std::memory_order_acquire);r.wanted=end?(end>r.outputBefore?std::min(n,end-r.outputBefore):0):n;
     if(x.cancelled.load()||x.failure.load())r.wanted=0;
     r.received=x.fifo.read(p,r.wanted);x.consumed.fetch_add(r.received,std::memory_order_relaxed);
     for(std::size_t c=0;c<x.input.channels;++c)std::fill(p[c]+r.received,p[c]+n,0.0f);
@@ -788,7 +797,10 @@ RenderResult RealtimePipeline::pullAudio(float*const* p,std::size_t n)noexcept{
 }
 bool RealtimePipeline::finished()const noexcept{return impl_->dspDone.load();}
 FifoCursors RealtimePipeline::diagnosticFifoCursors()const noexcept{return {impl_->fifo.readPosition(),impl_->fifo.writePosition()};}
-std::optional<PositionSample> RealtimePipeline::positionSample()const noexcept{return impl_->positionMailbox.read();}
+std::optional<PositionSample> RealtimePipeline::positionSample()const noexcept{
+    if(auto map=std::atomic_load(&impl_->fixedSeekMap)){const auto at=impl_->consumed.load();return PositionSample{impl_->session,0,at,std::min(impl_->input.frames,phase59::inverseInput(*map,at)),impl_->elapsed()};}
+    return impl_->positionMailbox.read();
+}
 bool RealtimePipeline::drained()const noexcept{return finished()&&!available();}
 bool RealtimePipeline::failed()const noexcept{return impl_->failure.load();}
 phase59::RequestReceipt RealtimePipeline::requestSpeed(std::uint32_t speed,std::size_t position,std::uint64_t expectedSession,std::uint64_t expectedGeneration){
@@ -807,7 +819,7 @@ phase59::RequestReceipt RealtimePipeline::requestSpeed(std::uint32_t speed,std::
     x.operations.push_back(op);return {op.id,op.acceptance};
 }
 std::vector<phase59::SpeedOperation> RealtimePipeline::speedOperations()const{std::lock_guard lock(impl_->operationMutex);return impl_->operations;}
-TimeMap RealtimePipeline::dynamicTimeMap()const{const auto& x=*impl_;if(x.lifecycle.load(std::memory_order_acquire)!=LifecycleState::Finalized||!x.transitionPlanner||!x.transitionPlanner->view())throw std::logic_error("Joined dynamic session required");return x.transitionPlanner->view()->map;}
+TimeMap RealtimePipeline::dynamicTimeMap()const{const auto& x=*impl_;if(x.lifecycle.load(std::memory_order_acquire)==LifecycleState::Finalized)if(auto map=std::atomic_load(&x.fixedSeekMap))return *map;if(x.lifecycle.load(std::memory_order_acquire)!=LifecycleState::Finalized||!x.transitionPlanner||!x.transitionPlanner->view())throw std::logic_error("Joined dynamic session required");return x.transitionPlanner->view()->map;}
 std::size_t RealtimePipeline::available()const noexcept{return impl_->fifo.available();}
 std::uint32_t RealtimePipeline::sampleRate()const noexcept{return impl_->input.rate;}
 std::size_t RealtimePipeline::channels()const noexcept{return impl_->input.channels;}
@@ -816,13 +828,30 @@ std::size_t RealtimePipeline::outputStartFrame()const noexcept{return impl_->out
 std::uint64_t RealtimePipeline::inputGeneration()const noexcept{return impl_->inputLease->generation;}
 std::unique_ptr<RealtimePipeline> RealtimePipeline::createSeek(std::size_t frame,std::uint32_t speed)const{
     auto& x=*impl_;if(x.failure.load()||x.cancelled.load())throw std::logic_error("Seek from a failed/stopped epoch");
-    auto c=x.config;c.speedMicros=speed;c.fastLocalSeek=false;c.localPrerollInputFrames=0;
+    auto c=x.config;if(c.loopEndInputFrame&&c.scheduling==WorkerScheduling::AudioWorkgroup)c.dynamicTransitions=true;c.loopEndInputFrame=0;c.speedMicros=speed;c.fastLocalSeek=false;c.localPrerollInputFrames=0;
     return std::unique_ptr<RealtimePipeline>(new RealtimePipeline(std::make_unique<Impl>(x.inputLease,c,true,frame)));
 }
 std::unique_ptr<RealtimePipeline> RealtimePipeline::createFastLocalSeek(std::size_t frame,std::uint32_t speed,std::size_t preroll)const{
     auto& x=*impl_;if(x.failure.load()||x.cancelled.load())throw std::logic_error("Seek from a failed/stopped epoch");
     auto c=x.config;c.speedMicros=speed;c.fastLocalSeek=true;c.localPrerollInputFrames=preroll?preroll:x.input.rate/2;
     return std::unique_ptr<RealtimePipeline>(new RealtimePipeline(std::make_unique<Impl>(x.inputLease,c,true,frame)));
+}
+std::unique_ptr<RealtimePipeline> RealtimePipeline::createLoopSeek(std::size_t start,std::size_t end,std::uint32_t speed)const{
+    if(start>=end||end>inputFrames())throw std::invalid_argument("ループは入力半開区間[A,B)です");
+    auto result=createSeek(start,speed);auto& c=result->impl_->config;
+    c.dynamicTransitions=false;c.loopEndInputFrame=end;
+    result->impl_->transitionPlanner.reset();return result;
+}
+std::size_t RealtimePipeline::loopOutputEndFrame()const noexcept{return impl_->loopOutputEnd.load();}
+std::size_t RealtimePipeline::fixedOutputFrameForInput(std::size_t frame)const{
+    const auto& x=*impl_;if(frame>x.input.frames)throw std::out_of_range("入力フレーム");
+    for(const auto& op:speedOperations())if(op.acceptance==Phase39RequestResult::Accepted)throw std::logic_error("動的速度計画のある区間はA復帰でループを有効化してください");
+    auto snapshot=std::atomic_load(&x.inputLease->finalAnalysis);if(!snapshot)throw std::logic_error("確定解析が必要です");
+    phase56::MapPrefixBuilder builder({x.config.speedMicros});
+    for(std::size_t i=0;i<snapshot->closedEventCount;++i)builder.close(snapshot->events.at(i),snapshot->anchors.at(i));
+    builder.finish(snapshot->featureThrough);TimeMap map(1024,std::move(builder.nodes[0]),{});
+    const auto length=std::size_t(std::llround(x.input.frames/(x.config.speedMicros/1000000.)));
+    return frame==x.input.frames?length:std::min(length,std::size_t(std::max(0LL,std::llround(map.outputPositionForInputSample(double(frame))))));
 }
 void RealtimePipeline::requestRetireFade(bool fade){impl_->envelope.retireRequested=fade;}
 std::unique_ptr<RealtimePipeline> RealtimePipeline::createInteractiveSeek(std::size_t frame,std::uint32_t speed,std::size_t preroll)const{

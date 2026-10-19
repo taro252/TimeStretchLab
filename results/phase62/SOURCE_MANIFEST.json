@@ -1,0 +1,121 @@
+{
+  "base_sha": "88d5247fd6b67996f4d315d5cb0fb23caf8a9f0c",
+  "files": [
+    {
+      "path": "CMakeLists.txt",
+      "bytes": 54788,
+      "sha256": "a27d4b3814e023b251d8909c136f574239c64e8445323ea8054979a00569822e"
+    },
+    {
+      "path": "docs/PHASE62_MERODOA_HANDOFF.md",
+      "bytes": 8280,
+      "sha256": "c1f80684d5a189f34b260c0cd48273977ef1d4e075356391b40b706a7ac22d1f"
+    },
+    {
+      "path": "docs/PHASE62_SEAMLESS_LOOP_DESIGN.md",
+      "bytes": 11733,
+      "sha256": "9effcbe58ad9fcd50477f2be6827a6a11b130e64afbb54720eb25c9899cc27d3"
+    },
+    {
+      "path": "scripts/phase62_cli_smoke.py",
+      "bytes": 3936,
+      "sha256": "67bf478b7ffb99e042fc452abd97e07dd0e5921319963dc7406816379a25e073"
+    },
+    {
+      "path": "scripts/phase62_manifest.py",
+      "bytes": 4574,
+      "sha256": "3b067380088bd7e13daa3f6cdaedae627edb9d0a4cf8a6c4d5e5c9b1150d854f"
+    },
+    {
+      "path": "scripts/phase62_quality.py",
+      "bytes": 7081,
+      "sha256": "1b27356c86074a37938ea344376fb59ef4d1d82a1dd5ca3825570d791436831e"
+    },
+    {
+      "path": "scripts/phase62_summarize.py",
+      "bytes": 5164,
+      "sha256": "2dd3386041de219ba47d3ecb1f7dd88cc64870eddc1a4ae3140a66fdf74e3e5e"
+    },
+    {
+      "path": "scripts/phase62_verify.py",
+      "bytes": 7330,
+      "sha256": "3a3664602e3ef6746f67db5cfdb2986896ad6eae411aa963d219254d2295d38c"
+    },
+    {
+      "path": "src/platform/macos/ProgressiveMacPlaybackEngine.h",
+      "bytes": 10034,
+      "sha256": "899fe12e4f7beb95a87e771119dd7f52a9237b749823a12da6e7e1685391646e"
+    },
+    {
+      "path": "src/platform/macos/ProgressiveMacPlaybackEngine.mm",
+      "bytes": 76991,
+      "sha256": "820ec13a5ae77e8220f5f4b45d32ee3a3b621864082bb99063a0505114f0fb18"
+    },
+    {
+      "path": "src/playback/Phase62LoopPlay.cpp",
+      "bytes": 5523,
+      "sha256": "a1755ab93c63fbfe0c2a390c2378603c8379964319695b3adf7de71ba0d26884"
+    },
+    {
+      "path": "src/playback/ProgressiveLoopContract.h",
+      "bytes": 2282,
+      "sha256": "a09699654f03d7896ca2d6287923867b4c567c3bb0c8c527e64dda72896c0ac3"
+    },
+    {
+      "path": "src/prototype/Phase58RealtimePipeline.cpp",
+      "bytes": 73041,
+      "sha256": "324f5f0e02f8a02d96da8a052aafbf194addf4a71122e4f1d9fc507ba0b4b7a8"
+    },
+    {
+      "path": "src/prototype/Phase58RealtimePipeline.h",
+      "bytes": 9968,
+      "sha256": "f66bda79eda805e0e35b5ecb37bd5de8979b0ae3841f418f4a39d9854c06ec7c"
+    },
+    {
+      "path": "src/prototype/Phase62LoopBoundary.h",
+      "bytes": 779,
+      "sha256": "71f2c5b5c5062d55d4a9d76a223245519c8a26a8b3cc794ebaa171d61586dc5a"
+    },
+    {
+      "path": "tests/Phase62DeadlineNative.cpp",
+      "bytes": 7384,
+      "sha256": "2e6896686904107863df4413b828c18d7a5635d7f168c8f3fe3397cc04df1256"
+    },
+    {
+      "path": "tests/Phase62LoopTests.cpp",
+      "bytes": 4824,
+      "sha256": "5ccb328125e2ccd190078289a848b089657a520d9bd2fb51f135fc271ce0e4f3"
+    },
+    {
+      "path": "tests/Phase62NativeTests.cpp",
+      "bytes": 17654,
+      "sha256": "356511535dc2fcfd198d3e1db401076af591fdefd44ab8a389f57de98ca20972"
+    },
+    {
+      "path": "tests/Phase62OfflineCapture.h",
+      "bytes": 6803,
+      "sha256": "59165ec8a4df55dd157ca07bd4d7ae559bc30bd408c0941ae2f2c5c9b2988136"
+    },
+    {
+      "path": "tests/Phase62PcmAudit.h",
+      "bytes": 2129,
+      "sha256": "781babc0b9b860f9cb9aad2682f62e294ca958f4785cf1d4b341cc08d464ccf2"
+    },
+    {
+      "path": "tests/Phase62RenderTests.mm",
+      "bytes": 7775,
+      "sha256": "724036430ab035f1ae7f87f92f3d802707fd3b8821b0aa2a6d662ed93e20a43a"
+    }
+  ],
+  "archive": {
+    "path": "build/phase62/run_01/commit_sources.tar.gz",
+    "bytes": 81787,
+    "sha256": "f6871b30033e36a26fa740e9617fe232d9e263acdd4bf927a5eca12808bd5268"
+  },
+  "previous_archive": {
+    "path": "build/phase62/run_01/final_sources.tar.gz",
+    "bytes": 81781,
+    "sha256": "b7bef5a8d568e6c4ae0abd8f8cf8cc4a77c5b597cb9f2701f6cb378c6eb30b2f"
+  },
+  "commit_preparation": "tests/Phase62NativeTests.cppの末尾空白1バイトを除去。動作変更なし。元の実測ソースarchiveは維持。"
+}
