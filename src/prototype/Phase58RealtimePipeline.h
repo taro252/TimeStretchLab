@@ -151,6 +151,10 @@ public:
     bool peekAudioFrame(std::size_t offset,std::array<float,2>&)const noexcept; // same audio consumer, no cursor advance
     FifoCursors diagnosticFifoCursors()const noexcept; // Separate atomic loads, diagnostic use only.
     std::optional<PositionSample> positionSample()const noexcept; // Paired normal-worker sample.
+    // Normal owner, after callback quiescence and rendering disarm. No wait.
+    // Null until the analysis owner has acknowledged the DSP committed map.
+    // Unconsumed seeks retain the exact requested input frame (no round trip).
+    std::optional<PositionSample> stoppedPosition()const;
     bool finished()const noexcept;
     bool drained()const noexcept;
     bool failed()const noexcept;

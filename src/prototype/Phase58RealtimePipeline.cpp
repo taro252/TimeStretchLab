@@ -167,6 +167,7 @@ struct RealtimePipeline::Impl {
     phase59::ValueMailbox<phase59::PlanningFrontier> frontierMailbox;
     mutable phase59::ValueMailbox<PositionSample> positionMailbox;
     std::unique_ptr<phase59::ProgressiveTransitionPlanner> transitionPlanner;
+    std::shared_ptr<const phase59::DynamicMap> committedPositionMap; // normal owner publication only
     mutable std::mutex operationMutex;
     std::vector<phase59::SpeedOperation> operations;
     static constexpr std::size_t noOperation=std::size_t(-1);
@@ -174,6 +175,7 @@ struct RealtimePipeline::Impl {
     std::uint64_t requestGeneration=0,pendingMapTag=0,lastPlannerReceived=0;
     bool plannerSawFinal=false,mapOffered=false;
     std::shared_ptr<const phase59::DynamicMap> pendingMap;
+    std::atomic<std::uint64_t> dspMapVersion{0};
     std::atomic<std::uint64_t> mapAckTag{0};std::atomic<bool> mapAckAccepted{false};
     std::atomic<std::uint64_t> announcedRequest{0},observedRequest{0};
     std::atomic<double> observedRequestS{-1};
@@ -438,20 +440,28 @@ struct RealtimePipeline::Impl {
     }
     // Runs on the normal analysis/control worker. Planning, all shared ownership
     // and destruction stay here. DSP only borrows the resulting immutable map.
+    std::optional<PositionSample> stoppedOrPlayingPosition()const {
+        const auto at=consumed.load();
+        auto map=std::atomic_load(&committedPositionMap);
+        if(!map)return {};
+        if(dspMapVersion.load()!=map->version)return {};
+        if(map->map.starts().empty()||(at>std::size_t(map->map.starts().back())&&!(map->final&&at==map->outputFrames)))return {};
+        const auto frame=at==outputStart.load()?(seeking?seekInput:0):
+            map->final&&at==map->outputFrames?input.frames:std::min(input.frames,phase59::inverseInput(map->map,at));
+        if(dspMapVersion.load()!=map->version||consumed.load()!=at)return {};
+        return PositionSample{session,map->version,at,frame,elapsed()};
+    }
     void transitionStep(const std::shared_ptr<const phase56::AnalysisSnapshot>& snapshot){
         if(!config.dynamicTransitions||!snapshot||cancelled.load()||failure.load())return;
         auto& planner=*transitionPlanner;
-        // Diagnostic only, normal planning owner. A proposal changes only the
-        // unpublished future; the consumed prefix is immutable even before ack.
-        if(auto view=planner.view();view&&view->map.starts().size()>=2){
-            const auto at=consumed.load();
-            if(at<=std::size_t(view->map.starts().back()))
-                positionMailbox.publish({session,view->version,at,std::min(input.frames,phase59::inverseInput(view->map,at)),elapsed()});
-        }
+        // A proposal is not a committed map. Publish only the DSP-acknowledged
+        // version, paired with the actual consumed cursor.
+        if(auto sample=stoppedOrPlayingPosition())positionMailbox.publish(*sample);
         if(pendingMap){
             if(!mapOffered){auto lease=pendingMap;if(dynamicMailbox.tryPublish(lease)){pendingMapTag=dynamicMailbox.publishedTag();mapOffered=true;realtime->signal();}return;}
             if(mapAckTag.load()!=pendingMapTag)return;
             const bool accepted=mapAckAccepted.load();
+            if(accepted)std::atomic_store(&committedPositionMap,pendingMap);
             if(mapOperation!=noOperation){
                 planner.confirmPlan(accepted);
                 std::lock_guard lock(operationMutex);auto& op=operations[mapOperation];
@@ -636,7 +646,7 @@ struct RealtimePipeline::Impl {
                         if(auto lease=dynamicMailbox.acquire(seenMapTag)){
                             const auto* view=lease->get();const auto tag=lease->tag();
                             const bool accepted=engine.trySupplyBorrowedDynamicMap(view);
-                            if(accepted){currentMapVersion=view->version;if(view->final)output=view->outputFrames;lease->commit();needSnapshot=false;}
+                            if(accepted){currentMapVersion=view->version;dspMapVersion=currentMapVersion;if(view->final)output=view->outputFrames;lease->commit();needSnapshot=false;}
                             seenMapTag=tag;publishFrontier();mapAckAccepted=accepted;mapAckS=elapsed();mapAckConsumed=consumed.load();mapAckTag=tag;
                         }
                         const auto request=announcedRequest.load();
@@ -972,6 +982,16 @@ FifoCursors RealtimePipeline::diagnosticFifoCursors()const noexcept{return {impl
 std::optional<PositionSample> RealtimePipeline::positionSample()const noexcept{
     if(auto map=std::atomic_load(&impl_->fixedSeekMap)){const auto at=impl_->config.reusableLoop?impl_->repeatPosition(impl_->repeatConsumed.load()):impl_->consumed.load();return PositionSample{impl_->session,0,at,std::min(impl_->input.frames,phase59::inverseInput(*map,at)),impl_->elapsed()};}
     return impl_->positionMailbox.read();
+}
+std::optional<PositionSample> RealtimePipeline::stoppedPosition()const {
+    const auto& x=*impl_;
+    if(x.renderingRequested.load()||x.failure.load()||x.cancelled.load())return {};
+    if(x.config.dynamicTransitions)return x.stoppedOrPlayingPosition();
+    if(auto sample=positionSample()){
+        if(sample->output==x.outputStart.load())sample->input=x.seeking?x.seekInput:0;
+        return sample;
+    }
+    return {};
 }
 bool RealtimePipeline::drained()const noexcept{return finished()&&!available();}
 bool RealtimePipeline::failed()const noexcept{return impl_->failure.load();}

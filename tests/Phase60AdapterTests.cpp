@@ -10,8 +10,10 @@ int main(int argc,char** argv){int exit=0;std::thread control([&]{try{
     e.prepare(argv[1],o);e.stop();require(e.getPlaybackState()==S::Stopped,"stop preparing");
     e.prepare(argv[1],o);wait(e,S::Ready);const auto first=e.getStateSnapshot();require(first.session&&e.getPlaybackDiagnostics().pipeline.published>=12288,"false Ready");
     for(unsigned p=40;p<=200;++p)require(e.setSpeed(p/100.).result==ts::prototype::Phase39RequestResult::Accepted,"161 speeds");
-    auto ops=e.operationHistory();require(ops.size()==161,"operation count");for(std::size_t i=0;i<160;++i)require(ops[i].state==ts::prototype::phase59::OperationState::Replaced,"Latest-Wins");
-    e.stop();require(e.operationHistory().back().state==ts::prototype::phase59::OperationState::Cancelled,"stop pending");
+    // Ready の要求は停止中準備として追跡する。Phase59 Completed を捏造しない。
+    auto ops=e.stoppedSpeedHistory();require(ops.size()==161&&e.operationHistory().empty(),"separate stopped preparation history");
+    for(std::size_t i=0;i<160;++i)require(ops[i].state==StoppedSpeedState::Replaced&&ops[i].inputGeneration==first.inputGeneration,"Latest-Wins");
+    e.stop();require(e.stoppedSpeedHistory().back().state==StoppedSpeedState::Cancelled&&e.operationHistory().empty(),"stop pending preparation");
     require(e.play(),"stop play acceptance");wait(e,S::Playing);require(e.getStateSnapshot().session!=first.session,"new session");
     require(e.setSpeed(.5,first.session,first.inputGeneration).result==ts::prototype::Phase39RequestResult::Stopped,"old session accepted");
     require(e.pause(),"pause");const auto at=e.getCurrentPlaybackPosition().outputFrame;std::this_thread::sleep_for(std::chrono::milliseconds(40));require(e.getCurrentPlaybackPosition().outputFrame==at,"paused consumption");require(e.resume(),"resume");e.stop();

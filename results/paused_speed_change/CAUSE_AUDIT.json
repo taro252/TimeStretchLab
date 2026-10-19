@@ -1,0 +1,100 @@
+{
+  "start_branch": "main",
+  "start_head": "406a1fde0b130bbe5ae3ce7a1666cce696db9c99",
+  "start_status": "clean",
+  "no_commit_or_push": true,
+  "sources": [
+    {
+      "sha": "88d5247fd6b67996f4d315d5cb0fb23caf8a9f0c",
+      "path": "src/platform/macos/ProgressiveMacPlaybackEngine.mm",
+      "source_sha256": "c8cddd1266ebc4b2e28477071efa9fcbabdc4aba0d8448c9985fabfc1fdb8794",
+      "matches": [
+        {
+          "line": 491,
+          "text": "bool ProgressiveMacPlaybackEngine::pause(){workQueue();auto& x=*impl_;std::lock_guard lock(x.mutex);if(x.state!=State::Playing)return false;"
+        },
+        {
+          "line": 499,
+          "text": "bool ProgressiveMacPlaybackEngine::resume(){workQueue();auto& x=*impl_;std::lock_guard lock(x.mutex);if(x.state!=State::Paused)return false;try{++x.rendering->clockEpoch;return x.startAudio();}catch(const std::exception& e){x.fail(e.what());return false;}}"
+        },
+        {
+          "line": 508,
+          "text": "auto r=current->pipeline->requestSpeed(micros,current->presented.load(),session,generation);if(r.result==prototype::Phase39RequestResult::Accepted)x.requested=s;return r;}"
+        }
+      ]
+    },
+    {
+      "sha": "88d5247fd6b67996f4d315d5cb0fb23caf8a9f0c",
+      "path": "src/prototype/Phase58RealtimePipeline.cpp",
+      "source_sha256": "555c967fb3a7f7e7fd86e0379b52abbb4010f19f4702b4add4c46fbe6bb8e4b9",
+      "matches": [
+        {
+          "line": 428,
+          "text": "if(op.workerState==Phase39RequestState::Applied&&consumed.load()>=std::size_t(op.change.plan.completionOutputSample)&&densityReady){op.state=phase59::OperationState::Completed;op.completedS=elapsed();activeOperation=noOperation;}"
+        },
+        {
+          "line": 431,
+          "text": "if(!renderingRequested.load())return;"
+        },
+        {
+          "line": 603,
+          "text": "if(seeking?fifo.available()>=lead:(fifo.free()<2048||fifo.available()+2048>lead)){"
+        },
+        {
+          "line": 687,
+          "text": "if(seeking?fifo.available()>=lead:(fifo.free()<2048||fifo.available()+2048>lead)){"
+        },
+        {
+          "line": 797,
+          "text": "const bool stopped=!x.started.load()||x.cancelled.load()||x.failure.load()||x.dspDone.load()||(expectedSession&&expectedSession!=x.session)||(expectedGeneration&&expectedGeneration!=x.inputLease->generation);"
+        }
+      ]
+    },
+    {
+      "sha": "406a1fde0b130bbe5ae3ce7a1666cce696db9c99",
+      "path": "src/platform/macos/ProgressiveMacPlaybackEngine.mm",
+      "source_sha256": "3e7acc7969dc325a25fc96c7017dedaa0951ef15720cd40207c142d9d8ac5e0c",
+      "matches": [
+        {
+          "line": 867,
+          "text": "bool ProgressiveMacPlaybackEngine::pause(){workQueue();auto& x=*impl_;std::lock_guard lock(x.mutex);if(x.state!=State::Playing)return false;"
+        },
+        {
+          "line": 872,
+          "text": "bool ProgressiveMacPlaybackEngine::resume(){workQueue();auto& x=*impl_;std::lock_guard lock(x.mutex);if(x.state!=State::Paused)return false;try{++x.rendering->clockEpoch;return x.startAudio();}catch(const std::exception& e){x.fail(e.what());return false;}}"
+        },
+        {
+          "line": 902,
+          "text": "auto r=current->pipeline->requestSpeed(micros,current->presented.load(),session,generation);if(r.result==prototype::Phase39RequestResult::Accepted)x.requested=s;return r;}"
+        }
+      ]
+    },
+    {
+      "sha": "406a1fde0b130bbe5ae3ce7a1666cce696db9c99",
+      "path": "src/prototype/Phase58RealtimePipeline.cpp",
+      "source_sha256": "d62d0831084510e9dcfebed1ca499c582ad70586c43da98698712d89beee321a",
+      "matches": [
+        {
+          "line": 477,
+          "text": "if(op.workerState==Phase39RequestState::Applied&&consumed.load()>=std::size_t(op.change.plan.completionOutputSample)&&densityReady){op.state=phase59::OperationState::Completed;op.completedS=elapsed();activeOperation=noOperation;}"
+        },
+        {
+          "line": 480,
+          "text": "if(!renderingRequested.load())return;"
+        },
+        {
+          "line": 652,
+          "text": "if(seeking?fifo.available()>=lead:(fifo.free()<2048||fifo.available()+2048>lead)){"
+        },
+        {
+          "line": 860,
+          "text": "if(seeking?fifo.available()>=lead:(fifo.free()<2048||fifo.available()+2048>lead)){"
+        },
+        {
+          "line": 981,
+          "text": "const bool stopped=!x.started.load()||x.cancelled.load()||x.failure.load()||x.dspDone.load()||(expectedSession&&expectedSession!=x.session)||(expectedGeneration&&expectedGeneration!=x.inputLease->generation);"
+        }
+      ]
+    }
+  ]
+}

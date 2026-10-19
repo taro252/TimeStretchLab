@@ -73,6 +73,29 @@ struct ProgressivePosition {
     std::optional<double> inputSeconds;
     std::uint64_t inputGeneration=0,renderEpoch=0;
 };
+// Separate from Phase59 Completed (which requires actual audio consumption).
+// IDs use the high bit and remain stable across session/render epoch switches.
+enum class StoppedSpeedState {Preparing,ReadyForResume,Replaced,Cancelled,Failed};
+inline const char* name(StoppedSpeedState state)noexcept {
+    switch(state){
+    case StoppedSpeedState::Preparing:return "Preparing";
+    case StoppedSpeedState::ReadyForResume:return "ReadyForResume";
+    case StoppedSpeedState::Replaced:return "Replaced";
+    case StoppedSpeedState::Cancelled:return "Cancelled";
+    case StoppedSpeedState::Failed:return "Failed";
+    }return "Failed";
+}
+struct StoppedSpeedOperation {
+    std::uint64_t id=0,inputGeneration=0,sourceSession=0,sourceRenderEpoch=0;
+    std::uint64_t mapVersion=0,consumedOutputFrame=0,resumeInputFrame=0;
+    std::uint64_t session=0,renderEpoch=0,outputStartFrame=0;
+    std::uint64_t acceptedNs=0,readyNs=0;
+    std::uint32_t speedMicros=1000000;
+    StoppedSpeedState state=StoppedSpeedState::Preparing;
+    bool positionCaptured=false,outputStarted=false;
+    progressive::SeekMode mode=progressive::SeekMode::Exact;
+    std::string reason;
+};
 struct ProgressiveStateSnapshot {
     progressive::State state=progressive::State::Empty;
     StopReason reason=StopReason::None;
@@ -81,6 +104,8 @@ struct ProgressiveStateSnapshot {
     std::optional<prototype::phase59::SpeedOperation> pending,active,lastResult;
     std::string error;
     std::uint64_t renderEpoch=0;
+    std::optional<StoppedSpeedOperation> stoppedSpeed;
+    bool resumePending=false; // accepted intent; Playing means output actually started
 };
 struct ProgressiveDiagnostics {
     std::string engineKind="Experimental Progressive Phase61",timeStretchLabSha;
@@ -140,6 +165,9 @@ public:
     progressive::LoopSnapshot getLoopSnapshot()const;
     std::vector<progressive::LoopBoundaryEvent> loopHistory()const; // last 64; cycles unbounded
     bool prepare(const std::filesystem::path&,ProgressiveOptions={});
+    // play/resume true means accepted. During stopped preparation output starts
+    // asynchronously only after the latest epoch is committed. pause also cancels
+    // an accepted resume while still Ready/Paused. Poll state + resumePending.
     bool play();bool pause();bool resume();void stop();
     prototype::phase59::RequestReceipt setSpeed(double,std::uint64_t expectedSession=0,std::uint64_t expectedInputGeneration=0,std::uint64_t expectedRenderEpoch=0);
     progressive::SeekReceipt requestSeekToInputFrame(std::uint64_t,std::uint64_t expectedInputGeneration=0,std::uint64_t expectedRenderEpoch=0);
@@ -166,6 +194,7 @@ public:
     std::vector<MacCallbackRecord> callbackRecords()const; // only after quiescence
     std::vector<ProgressiveCallbackRecord> loopClockAnomalyRecords()const; // first anomaly: 16 before, 16 after
     std::vector<ProgressiveCallbackRecord> loopCallbackRecords()const; // last 256 callbacks, including all bounded spans
+    std::vector<StoppedSpeedOperation> stoppedSpeedHistory()const; // engine lifetime, bounded 4096
     std::vector<prototype::phase59::SpeedOperation> operationHistory()const;
     TimeMap finalTimeMap()const; // stopped/ended, valid completed analysis only
     void simulateDeviceChangeForTest(); // follows the same safe-stop path
