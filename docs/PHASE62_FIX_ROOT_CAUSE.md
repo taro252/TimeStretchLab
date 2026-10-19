@@ -1,0 +1,75 @@
+# Phase62 Fix：再現した原因と修正の境界
+
+開始点は `main@d25433c88a1bae83b89168a26f1c6c9d8053a644`。開始作業ツリーは空。親へ戻さず、Merodoa・既存成果・Goldenを変更しない。コミット／Pushは今回の作業に含めない。
+
+## Pauseと部分混合
+
+旧PauseはStartedの観測とactive=falseが独立していた。制御側を観測直後のゲートで止め、製品と同じrender関数を512フレーム駆動すると、末尾1または64フレームでRequested→Startedになった。その後の旧Pauseは部分混合のままinactiveを公開した。旧監視はroute異常と同じ取消経路へ進み得る。
+
+`pauseRender`では通常側がpauseRequestedを公開し、callbackがpauseAcknowledgedを返す。未開始境界は予約を保つ。開始済み混合は続くcallbackで終了させ、その後active=falseと応答を公開する。制御側はcallback参照静止・提示末尾を待って音声グラフをpauseする。callbackにテストゲート、mutex、待機、sleep、確保を追加しない。通常側の応答待ち上限は1秒で、未応答は失敗として扱う。Resumeは静止中に要求／応答をリセットする。
+
+再現試験は `tests/Phase62FixSafetyTests.mm`。通常側ゲート以外は実renderと実FIFOを用いる。基準版renderのソースをGit管理外へ固定し、同じ試験用供給制御を用いて旧症状も確認した。音声HALの実時間性能試験とは区別する。
+
+## 不足をspan内で数え落とす問題
+
+旧版は要求512／受領100で412フレームをゼロ埋めしても、span全体を完了位置へ足したため、外側の残余処理が0となりsafetyStopFramesが0だった。混合ではspan内部の不足120を落とし、外側の292だけを数えた。ClearはloopCycle=falseかつ新target.loopEnd=0のため、新旧双方の不足検出条件をすり抜けた。
+
+修正版の入力不足は旧／新それぞれに数える。outputAffectedFramesは、読み出したspan内で、本来必要な非ゼロ重みの入力が欠けた出力位置の和集合である。同じフレームの両入力不足を二重に数えず、旧ゲイン0の末尾は旧不足だけでは影響へ含めない。原音の0、正常EOS、位相による打消しをサンプル値から推測して不足へ付け替えない。
+
+不足したspanは最初の影響位置から安全用0にする。続くcallback残余は入力を読まず安全用0とし、unrenderedFailureで区別する。この未読残余は架空の入力missingへ加算しない。failurePaddingFramesは実際に安全停止のため0を出した位置、safetyStopFramesはその互換名で両者は等しい。outputAffectedFramesとfailurePaddingFramesは異なる量である。Pauseによる静止後の余剰0はfailure paddingに数えない。
+
+自動境界だけでなくClearの通常継続も検査し、最初の原因をFailedに残す。曲末から空の正常継続へフェードする場合は、正常EOSと実供給不足を分ける。失敗した境界を周回へ加算しない。
+
+## 台帳と参照
+
+旧集計のfunctional_pass=trueだけの抽出、CTest／RAW成功件数の固定値を廃止する。実行前のEXPECTED.jsonと、全件のPASS／FAIL／NOT_RUN／INCOMPLETEをLEDGER.jsonへ記録する。CTestの実XMLと事前のテスト名集合を照合し、0件、途中終了、必須生成物欠落、古い結果を成功にしない。機能・RAW・境界時間・実時間・音質・公開を別フィールドにする。
+
+各実行はconfigure→buildの成功後だけホストへ進む。ビルド失敗後の旧実行体は使わない。ソース全体のSHA、ビルド条件、実行体／入力／oracleのSHA、コマンドと終了値を記録し、途中にソースが変わればINCOMPLETEとする。失敗再実行には新しい出力先を使う。RAW・混合の比較はバイト列で行い、符号付き0を区別し、非有限値は別に不合格とする。
+
+## 時計
+
+SourceNodeの44.1kHz軸を装置48kHz軸へ置換しない。従来の許容値とclockEpochの意味を維持する。全spanを含む末尾256callbackと、最初の時計異常の前後各16callbackを固定容量で保持する。後続異常の全面保存を保証せず、全体の診断カウンターと区別する。Mach変換比、host ticks/ns、sampleTime、flags、rateScalar、前回要求数、source/device rate、clock/render epochを記録する。
+
+旧Releaseのhost/sample各1件の根本原因は未確定。既存Phase59 Fix2でも、SourceNode時刻と要求数の不連続を反復成功やPCM一致だけでは解消済みにしていない。今回も実音響・OS全体の原因を根拠なく断定しない。
+
+試行の成功件数、失敗ログ、最終ソースとの対応、公開判定は `results/phase62_fix/REPORT.md` と各期待台帳で区別する。
+
+## 検証CPU形式の取り違え
+
+final_v4では、Intel版Pythonから既定設定でconfigureしたため検証実行体がx86_64となり、固定oracleはarm64だった。CTestはRelease／Debug各33件通過したが、Exact896の実測は320通過／576不一致だった。この交差CPU試行を最終arm64の結果へ付け替えない。コードの変更前後の回帰と、CPU命令形式の差による浮動小数点ビット差を分ける。
+
+全configureへ `CMAKE_OSX_ARCHITECTURES=arm64` を明示し、build後にlipoで対象実行体とoracleがarm64だけを持つことを検査する。失敗すれば旧実行体や次の試験へ進まない。検査自体もx86_64拒否／arm64受付の単体試験を追加した。新規final_v5の最初のExact再現は、同じ入力と参照、同じ音声処理ソースで全ビット一致した。この途中版と最終版の行列を別のソース／ビルドへ対応付ける。最終版の位置はREPORTを参照する。
+
+旧Phase62の最終release/debug保存実行体も、現存ファイルの命令形式はx86_64だった。旧Debug121件の試行を削除・無効化せず、測定時のbinary SHAとの対応を確認する。新arm64の計数だけを並べて「121件を解決」とは言わない。同条件CPU比較には、今回修正前にd25433cから作成して実測したarm64のbaseline_longを使い、旧REPORTの別ビルドの値と区別する。
+
+## span拡張による既存試験のstack超過
+
+final_v5の既存操作／同期実機試験はSIGBUSで終了した。保存したcrash reportは `___chkstk_darwin` と、通常制御スレッドのstack guardへのアクセスを示す。拡張したProgressiveOutputSpanの4096件固定配列がOutputAuditのローカル領域にあり、約730KBのフレームが通常スレッドの約544KBを超えた。音声エンジンのPCM不足と混同しないが、今回の構造体拡張で顕在化した回帰として修正する。
+
+OutputAuditの記録領域を、コンストラクターで4096件確保するvectorへ移した。再生前の通常スレッドで確保し、callbackは既存スロットへの代入だけを行う。件数上限は増やさない。修正後の事前確認でcontrols64とsyncが通過した。子試験の信号終了でも装置バッファーが残らないよう、親プロセスから元の値を確認・復元するguardも追加した。元の失敗binary／source／crash reportを保持する。
+
+## 新しく取得した48→48の開始時刻異常
+
+final_v5の100周試験でhost/sample各1件。入力48kHz Stereo PCM16、2倍、Candidate、装置48kHz/512。第1callbackのsampleTime=0、requested=512に対し、第2callbackはsampleTime=1120だった。host差は約23.333msで、512フレームから期待する約10.667msより608フレーム分多い。両時計が同じ量を示した。flags=7、rateScalar=1、clockEpoch=1は維持され、入力不足・failure padding・callback/DSP期限・HAL窓逸脱は0だった。
+
+保存窓を独立再計算して、cadence／sample各1と実装の記録が一致した。2callback終了時の論理座標1024は確定周期11877より前で、renderEpoch／clockEpochも同じ、RAWのoutput座標は連続している。途中分析JSONのfirst_boundary_callback_frame=439449は有限履歴に残った最初の境界であり、実際の初回Bではない。この補足は旧JSONを変更せず、final_v8/preserved_clock_auditへ保存する。
+
+この飛びは最初のループ境界より前の開始直後であり、44.1→48のレート変換だけに限定した説明は、この新しい48→48の現象には当てはまらない。RAW上の欠落、物理的音響の欠落、時刻APIの挙動のいずれかを、この記録だけで断定しない。直前の既存試験は64バッファーからの異常終了だったが、後に512への復元を実測確認した。因果関係の証明とはしない。
+
+通常非ループの開始比較ホストを追加し、同じ固定容量記録と従来の時計基準を使う。最初の事前試験10回は異常0だった。この成功を元の1件や旧44.1→48の原因解決へ読み替えない。最終clock行列にも通常開始の反復と独立再計算を含め、音響loopbackとは分離する。
+
+## 100ms・高速Clearで追加発見した失敗
+
+今回の再利用方式を追加した途中版final_v6の短区間行列で13件、長いAの100ms条件で6件の必須最終統計が欠落し、台帳はINCOMPLETEを維持した。同じ製品部品に診断出力だけを加えた再現では、48kHz stereo PCM16・Candidate・2倍・100ms・10周後のClearで、`playback=Failed`、理由「境界の次周期PCM未準備」、430 failure paddingを記録した。測定中のsession=2は通常退役履歴になく、失敗停止した現在pipelineの最終診断に残った。
+
+原因はClear受付時に`repeatAllowed=false`とし、継続の新PCMがReadyになる前に現周期を終了できなくしたことである。加えてnative試験は`while(clearPending)`を抜けた後のFailedを検査せず、明示Stopで状態を上書きして`functional_pass=true`を出した。必須生成物の欠落が最終の成功集計を防いだが、試験自体の成功表示も誤りだった。
+
+修正は、継続の準備中に有効な反復を保持し、末尾が未確定の安全なBへ接続する。末尾確定後の公開は次cycleを指定して途中から混合しない。通常継続の接続は周回へ加算せず、準備待ちに実際に終了した反復は数える。試験はClear後のPlaying、非Failed、padding／影響0、最終統計の存在を必須とし、Clearを含む全callback記録と独立したclear_resultを保存する。集計もループ測定時とClear後を両方検査する。実renderの決定論的試験は、末尾20フレームで予約して64フレーム進め、次cycleまで混合を開始しないことと、接続による余分な周回計上がないことを確認する。
+
+原本は`build/phase62_fix/run_01/final_v6/clear_diagnostic`。旧試行は削除・成功への置換をしない。以後の新規Release／Debugで再検証し、最終固定版と実測はREPORTに記録する。
+
+## 品質素材のレート仮定
+
+今回追加した品質計画は既存6素材を一律44.1kHzと仮定していた。実ヘッダーはMixだけ44.1kHz、残る5素材は48kHzだった。一部の「100ms」は4410/48000=91.875msとなるため、その条件名で受け入れない。品質スイートを開始する前に発見し、実WAVのfmtチャンクを読んで計画し、入力A/B・レート・秒数を事前宣言するよう修正した。キャプチャと条件のレート一致も品質結果へ含める。
+
+製品／CMake／C++試験は変わらない。final_v8の完了済み7スイートのソースSHAを保持し、全100実行体のバイト列と、品質スクリプトがその依存先に含まれないことを明示監査する。品質と以後の試験はfinal_v9。源の異なる結果を黙って同一ソースの実行と記載しない。

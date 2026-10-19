@@ -26,6 +26,9 @@ public:
     std::uint64_t readPosition() const noexcept { return readIndex_.load(std::memory_order_acquire); }
     std::uint64_t writePosition() const noexcept { return writeIndex_.load(std::memory_order_acquire); }
     std::size_t read(float* const* output, std::size_t frames) noexcept;
+    // Same single consumer as read(); borrows one published frame without
+    // advancing cursors. Producer cannot overwrite unread published storage.
+    bool peekFrame(std::size_t offset,float* values)const noexcept;
     bool write(const float* const* input, std::size_t frames) noexcept;
     void clearQuiescent() noexcept;
     std::size_t highWater() const noexcept { return highWater_.load(std::memory_order_relaxed); }

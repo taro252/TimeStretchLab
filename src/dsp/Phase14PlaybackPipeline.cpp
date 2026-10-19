@@ -48,6 +48,13 @@ std::size_t Phase14AudioFifo::read(float* const* output, std::size_t frames) noe
     return count;
 }
 
+bool Phase14AudioFifo::peekFrame(std::size_t offset,float* values)const noexcept {
+    const auto read=readIndex_.load(std::memory_order_relaxed);
+    const auto write=writeIndex_.load(std::memory_order_acquire);
+    if(offset>=write-read)return false;
+    for(std::size_t c=0;c<data_.size();++c)values[c]=data_[c][(read+offset)%capacity_];
+    return true;
+}
 bool Phase14AudioFifo::write(const float* const* input, std::size_t frames) noexcept {
     const auto w=writeIndex_.load(std::memory_order_relaxed);
     const auto r=readIndex_.load(std::memory_order_acquire);

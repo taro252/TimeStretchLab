@@ -14,6 +14,8 @@ struct ProgressiveSynthesisEngine::Impl final:ProgressiveAccess {
     const phase59::DynamicMap* dynamicMap=nullptr;
     std::shared_ptr<const phase59::DynamicMap> checkpointMapOwner;
     bool checkpointContext=false;
+    const phase56::AnalysisSnapshot* fixedLoopOrigin=nullptr;
+    const phase59::DynamicMap* fixedLoopMapOrigin=nullptr;
     bool localInitialized=false;
     std::span<const unsigned char> residentIdentity;
     Phase36StreamingSpeedEngine::WorkProfile profile{};bool profileEnabled=false;
@@ -239,6 +241,8 @@ std::unique_ptr<ProgressiveSynthesisEngine> ProgressiveSynthesisEngine::cloneFix
     if(old.dynamicEnabled)copy->enableDynamicTransitions();
     auto& x=*copy->impl_;x.output=old.output;x.generated=old.generated;x.published=old.published;x.declaredFinalOutput=old.declaredFinalOutput;
     x.snapshotOwner=std::make_shared<const phase56::AnalysisSnapshot>(*old.snapshot);x.snapshot=x.snapshotOwner.get();
+    x.fixedLoopOrigin=old.snapshot;
+    x.fixedLoopMapOrigin=old.dynamicMap;
     if(old.dynamicMap){x.checkpointMapOwner=std::make_shared<const phase59::DynamicMap>(*old.dynamicMap);x.dynamicMap=x.checkpointMapOwner.get();}
     x.positionCache=old.positionCache;x.positionCacheCount=old.positionCacheCount;x.positionCacheNext=old.positionCacheNext;
     x.waiting=old.waiting;x.waitedNodes=old.waitedNodes;x.waitedInput=old.waitedInput;x.waitedState=old.waitedState;
@@ -250,6 +254,48 @@ std::unique_ptr<ProgressiveSynthesisEngine> ProgressiveSynthesisEngine::cloneFix
 void ProgressiveSynthesisEngine::prepareCheckpointForEpoch(){auto& x=*impl_;
     if(!x.snapshotOwner||!x.snapshotOwner->isFinal||x.generated!=x.published||x.cancelled.load()||x.finished.load())throw std::logic_error("Invalid checkpoint epoch");
     x.snapshot=nullptr;x.snapshotOwner.reset();x.borrowedSnapshots=false;x.waiting=false;x.checkpointContext=x.dynamicEnabled;
+}
+bool ProgressiveSynthesisEngine::restoreFixedLoopCheckpoint(const ProgressiveSynthesisEngine& saved){
+    auto& x=*impl_;const auto& old=*saved.impl_;
+    if(!x.snapshot||!x.snapshot->isFinal||old.fixedLoopOrigin!=x.snapshot||
+       x.speed!=old.speed||x.generation!=old.generation||x.length!=old.length||x.channels!=old.channels||
+       x.residentIdentity.empty()||x.residentIdentity.data()!=old.residentIdentity.data()||x.residentIdentity.size()!=old.residentIdentity.size()||
+       x.dynamicEnabled!=old.dynamicEnabled||x.localInitialized||old.localInitialized||
+       (x.dynamicEnabled&&(!x.dynamicMap||!old.dynamicMap||old.fixedLoopMapOrigin!=x.dynamicMap||x.dynamicMap->hasTransitions||old.dynamicMap->hasTransitions))||
+       x.cancelled.load()||x.failed||old.cancelled.load()||old.failed||old.finished.load()||
+       old.generated!=old.published||x.profileEnabled||old.profileEnabled||x.preparedObserver||old.preparedObserver||
+       !x.modes.empty()||!old.modes.empty())return false;
+    // Keep this owner's immutable snapshot and Detection references pinned.
+    // All runtime vectors have their original fixed dimensions and capacity;
+    // the copy operations reuse their existing storage and FFT plans.
+    x.output=old.output;x.generated=old.generated;x.published=old.published;x.declaredFinalOutput=old.declaredFinalOutput;
+    x.positionCache=old.positionCache;x.positionCacheCount=old.positionCacheCount;x.positionCacheNext=old.positionCacheNext;
+    x.waiting=old.waiting;x.waitedNodes=old.waitedNodes;x.waitedInput=old.waitedInput;x.waitedState=old.waitedState;
+    x.digests=old.digests;
+    for(std::size_t r=0;r<3;++r)x.resolution[r]->copyRuntimeStateFrom(*old.resolution[r]);
+    for(std::size_t c=0;c<x.channels;++c){
+        x.low[c]->copyRuntimeStateFrom(*old.low[c]);x.high[c]->copyRuntimeStateFrom(*old.high[c]);
+        std::copy(old.pcm[c].begin(),old.pcm[c].end(),x.pcm[c].begin());
+    }
+    x.finalLength=old.finalLength;x.state=old.state;x.finished=false;return true;
+}
+bool ProgressiveSynthesisEngine::captureFixedLoopCheckpoint(ProgressiveSynthesisEngine& slot)const{
+    const auto& old=*impl_;auto& x=*slot.impl_;
+    if(!old.snapshot||!old.snapshot->isFinal||x.fixedLoopOrigin!=old.snapshot||
+       x.speed!=old.speed||x.generation!=old.generation||x.length!=old.length||x.channels!=old.channels||
+       x.residentIdentity.empty()||x.residentIdentity.data()!=old.residentIdentity.data()||x.residentIdentity.size()!=old.residentIdentity.size()||
+       x.dynamicEnabled!=old.dynamicEnabled||x.localInitialized||old.localInitialized||
+       (old.dynamicEnabled&&(!x.dynamicMap||!old.dynamicMap||x.fixedLoopMapOrigin!=old.dynamicMap||x.dynamicMap->hasTransitions||old.dynamicMap->hasTransitions))||
+       x.cancelled.load()||old.cancelled.load()||x.failed||old.failed||old.finished.load()||old.generated!=old.published||
+       x.profileEnabled||old.profileEnabled||x.preparedObserver||old.preparedObserver||!x.modes.empty()||!old.modes.empty())return false;
+    // The preallocated A slot may become a B continuation slot only after the
+    // bounded PCM cache is complete. Publish it once, then keep it immutable.
+    x.output=old.output;x.generated=old.generated;x.published=old.published;x.declaredFinalOutput=old.declaredFinalOutput;
+    x.positionCache=old.positionCache;x.positionCacheCount=old.positionCacheCount;x.positionCacheNext=old.positionCacheNext;
+    x.waiting=old.waiting;x.waitedNodes=old.waitedNodes;x.waitedInput=old.waitedInput;x.waitedState=old.waitedState;x.digests=old.digests;
+    for(std::size_t r=0;r<3;++r)x.resolution[r]->copyRuntimeStateFrom(*old.resolution[r]);
+    for(std::size_t c=0;c<x.channels;++c){x.low[c]->copyRuntimeStateFrom(*old.low[c]);x.high[c]->copyRuntimeStateFrom(*old.high[c]);std::copy(old.pcm[c].begin(),old.pcm[c].end(),x.pcm[c].begin());}
+    x.finalLength=old.finalLength;x.state=old.state;x.finished=false;return true;
 }
 LocalSeekStart ProgressiveSynthesisEngine::initializeFastLocal(std::size_t input,std::size_t preroll){
     auto& x=*impl_;

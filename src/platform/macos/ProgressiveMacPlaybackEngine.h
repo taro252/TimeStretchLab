@@ -3,16 +3,34 @@
 #include "playback/ProgressiveLoopContract.h"
 #include "platform/macos/MacPlaybackEngine.h"
 #include "prototype/Phase58RealtimePipeline.h"
+#include "prototype/Phase46HostClock.h"
 
 namespace ts::playback {
 struct ProgressiveOutputSpan {
     std::uint64_t newEpoch=0,oldEpoch=0,callbackFrame=0;
     std::size_t newOutputOffset=0,oldOutputOffset=0,newReceivedFrames=0,oldReceivedFrames=0;
     std::size_t frames=0,mixedFrames=0,transitionOffset=0,transitionLength=0;
+    std::size_t oldMissingFrames=0,newMissingFrames=0,outputAffectedFrames=0;
+    std::size_t failurePaddingFrames=0,failurePaddingOffset=0;
+    bool unrenderedFailure=false;
+    bool periodicBoundary=false,correctionHead=false,correctionTail=false;
+    std::size_t boundaryFrames=0,periodFrames=0,periodOffset=0;
+    std::array<float,2> boundaryLast{},boundaryFirst{};
 };
-enum class ProgressiveControlTestPoint {SeekPreparationStarted,SwitchStartedOrDone,RetiringOld,RetiringPreparation,RestartWait,SeekCleanupWait,SeekCleanupComplete,RestartLaunch,AcquiringResources};
+inline constexpr std::size_t progressiveMaximumSpans=32;
+struct ProgressiveCallbackRecord {
+    MacCallbackRecord callback;
+    std::uint64_t renderEpoch=0,speedRequestID=0,routeChanges=0;
+    std::uint32_t machNumer=1,machDenom=1,previousFrames=0;
+    double sourceRate=0,deviceRate=0;
+    std::array<ProgressiveOutputSpan,progressiveMaximumSpans> spans{};
+    std::size_t spanCount=0,oldMissingFrames=0,newMissingFrames=0;
+    std::size_t outputAffectedFrames=0,failurePaddingFrames=0,pauseSilenceFrames=0;
+    prototype::Phase46HostClock::Evidence clock;
+};
+enum class ProgressiveControlTestPoint {SeekPreparationStarted,SwitchStartedOrDone,RetiringOld,RetiringPreparation,RestartWait,SeekCleanupWait,SeekCleanupComplete,RestartLaunch,AcquiringResources,PauseObserved};
 // Explicit normal-thread tests only; empty in ordinary apps. Hooks must not call
-// engine APIs. Only the seek preparation/switch/retirement points may block, and
+// engine APIs. Only seek preparation/switch/retirement and PauseObserved may block;
 // they run outside the engine mutex. Never invoked by the audio callback.
 struct ProgressiveControlTestHooks {
     void* context=nullptr;
@@ -42,6 +60,7 @@ struct ProgressiveOptions {
     // Same callback restrictions as observeEpochPcm. Optional bounded observer.
     void(*observeOutputPcm)(void*,const float*const*,const ProgressiveOutputSpan&)noexcept=nullptr;
     unsigned seekFailureForTest=0; // explicit verification only: 1 before promotion, 2 before publication
+    std::size_t loopSupplyFramesForTest=0; // explicit worker supply ceiling; no callback test gate
     prototype::phase58::LifecycleTestHooks pipelineLifecycleTestHooks{};
     ProgressiveControlTestHooks controlTestHooks{};
 };
@@ -117,6 +136,7 @@ public:
     progressive::LoopReceipt requestLoopRange(std::uint64_t startFrame,std::uint64_t endFrameExclusive,progressive::LoopContext,progressive::LoopOptions={});
     // Clear matches loopID + input/session; epoch may have advanced automatically.
     progressive::LoopReceipt requestClearLoop(std::uint64_t loopID,progressive::LoopContext);
+    progressive::LoopSpeedReceipt requestLoopSpeed(double,progressive::LoopContext); // explicit busy/stale reasons
     progressive::LoopSnapshot getLoopSnapshot()const;
     std::vector<progressive::LoopBoundaryEvent> loopHistory()const; // last 64; cycles unbounded
     bool prepare(const std::filesystem::path&,ProgressiveOptions={});
@@ -144,10 +164,13 @@ public:
     ProgressiveDiagnostics getPlaybackDiagnostics()const;
     ProgressiveNativeDiagnostics getNativeDiagnostics()const;
     std::vector<MacCallbackRecord> callbackRecords()const; // only after quiescence
+    std::vector<ProgressiveCallbackRecord> loopClockAnomalyRecords()const; // first anomaly: 16 before, 16 after
+    std::vector<ProgressiveCallbackRecord> loopCallbackRecords()const; // last 256 callbacks, including all bounded spans
     std::vector<prototype::phase59::SpeedOperation> operationHistory()const;
     TimeMap finalTimeMap()const; // stopped/ended, valid completed analysis only
     void simulateDeviceChangeForTest(); // follows the same safe-stop path
 private:
+    prototype::phase59::RequestReceipt setSpeedImpl(double,std::uint64_t,std::uint64_t,std::uint64_t,std::string*);
     progressive::SeekReceipt requestSeekFrame(std::uint64_t,std::uint64_t,std::uint64_t,progressive::SeekMode,std::uint32_t,std::uint64_t expectedSession=0);
     progressive::SeekReceipt requestSeekSeconds(double,std::uint64_t,std::uint64_t,progressive::SeekMode,std::uint32_t,std::uint64_t expectedSession=0);
     struct Impl;std::unique_ptr<Impl> impl_;

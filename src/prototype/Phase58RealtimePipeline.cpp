@@ -1,4 +1,5 @@
 #include "prototype/Phase58RealtimePipeline.h"
+#include "dsp/FFTAccelerate.h"
 #include "prototype/Phase56PinnedWav.h"
 #include "prototype/Phase45PcmDigest.h"
 #include "prototype/Phase58FixAllocationProbe.h"
@@ -120,6 +121,29 @@ struct RealtimePipeline::Impl {
     std::atomic<bool> seekMapReady{false};
     std::atomic<std::size_t> loopOutputEnd{0};
     std::shared_ptr<const TimeMap> fixedSeekMap; // release published, immutable
+    std::shared_ptr<const phase56::AnalysisSnapshot> loopSnapshot;
+    std::shared_ptr<const phase59::DynamicMap> fixedLoopMap;
+    std::shared_ptr<const phase57::ProgressiveSynthesisEngine> loopContinuationOwner,continuationSeed;
+    std::atomic<bool> loopContinuationReady{false};
+    std::array<std::array<float,2048>,2> loopContinuationPcm{};
+    std::size_t loopContinuationCount=0;
+    std::atomic<std::size_t> repeatBegin{0},repeatPublished{0},repeatConsumed{0};
+    std::unique_ptr<std::array<phase59::ValueMailbox<LoopPcmDescriptor>,64>> loopPcmDescriptors;
+    std::array<std::vector<float>,2> loopCache;
+    std::array<float,2> loopHead{}; // producer writes once before Ready
+    std::atomic<std::uint64_t> loopReuseCount{0},loopSeedRestores{0},loopCacheReads{0},loopColdDiscarded{0},loopWarmDiscarded{0};
+    std::atomic<std::size_t> loopCacheBytes{0},loopSeedOutput{0},loopMapBuilds{0},loopWorkerCreations{0};
+    std::atomic<std::uint64_t> loopFftPlans{0},loopWarmFftPlans{0},loopSeedClones{0};
+    std::atomic<double> loopAnalysisWaitS{0},loopMapCpuS{0},loopColdPrefixCpuS{0},loopJoinS{0};
+    std::atomic<double> loopMapS{0},loopDspConstructS{0},loopColdPrefixS{0},loopColdCpuS{0},loopWarmCpuS{0},loopSeedCloneS{0},loopRestoreS{0};
+    std::uint64_t repeatCycle(std::size_t frames)const noexcept{
+        const auto first=loopOutputEnd.load()-outputStart.load(),length=loopOutputEnd.load()-repeatBegin.load();
+        return frames<first||!length?0:1+(frames-first)/length;
+    }
+    std::size_t repeatPosition(std::size_t frames)const noexcept{
+        const auto first=loopOutputEnd.load()-outputStart.load(),length=loopOutputEnd.load()-repeatBegin.load();
+        return frames<first||!length?outputStart.load()+frames:repeatBegin.load()+(frames-first)%length;
+    }
     std::array<std::array<float,2048>,2> seekPcm{};
     std::size_t seekPcmOffset=0,seekPcmCount=0;
     bool seekDspFinished=false;
@@ -191,6 +215,7 @@ struct RealtimePipeline::Impl {
         if(c.speedMicros<400000||c.speedMicros>2000000||c.speedMicros%10000||!c.analysisChunk||c.analysisChunk>131072||!std::isfinite(c.analysisDelayMs)||c.analysisDelayMs<0||!std::isfinite(c.dspDelayMs)||c.dspDelayMs<0)throw std::invalid_argument("Invalid Phase58 configuration");
         if(c.diagnosticEventLimit>262144)throw std::invalid_argument("Unbounded detail diagnostics");
         if(c.scheduling==WorkerScheduling::AudioWorkgroup&&(!c.residentInput||c.dspDelayMs))throw std::invalid_argument("Audio workgroup requires resident input and no synthetic DSP sleep");
+        if(c.holdDspAfterReadyForTest&&c.scheduling!=WorkerScheduling::Standard)throw std::invalid_argument("供給試験ゲートは通常worker専用です");
         if(c.dynamicTransitions&&c.scheduling!=WorkerScheduling::AudioWorkgroup)throw std::invalid_argument("Phase59 requires the resident Audio Workgroup path");
         if(c.transitionFailureForTest>2||(!c.dynamicTransitions&&c.transitionFailureForTest))throw std::invalid_argument("Invalid transition fault control");
         if(c.promotionFailureOnAttemptForTest>2)throw std::invalid_argument("Invalid promotion fault control");
@@ -211,11 +236,13 @@ struct RealtimePipeline::Impl {
     }
     double elapsed()const{return origin.elapsed().wallSeconds;}
     std::shared_ptr<const phase56::AnalysisSnapshot> seekAnalysis(){
+        playback::StageClock mapTimer;
         std::shared_ptr<const phase56::AnalysisSnapshot> base;
         while(!(base=std::atomic_load(&inputLease->finalAnalysis))){
             check();if(inputLease->analysisFailed.load())throw std::runtime_error("Source analysis failed");
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
         }
+        if(config.reusableLoop)loopAnalysisWaitS=mapTimer.elapsed().wallSeconds;playback::StageClock mapWork;
         check();auto s=std::make_shared<phase56::AnalysisSnapshot>(*base);
         if(s->speedCount!=1||s->speedMicros[0]!=config.speedMicros){
             phase56::MapPrefixBuilder builder({config.speedMicros});
@@ -237,7 +264,13 @@ struct RealtimePipeline::Impl {
             loopOutputEnd=end;
             std::atomic_store(&fixedSeekMap,std::make_shared<const TimeMap>(map));
         }
-        output=length;outputStart=start;published=start;consumed=start;seekMapReady=true;
+        if(config.reusableLoop){
+            repeatBegin=std::min(length,std::size_t(std::max(0LL,std::llround(map.outputPositionForInputSample(double(config.loopBeginInputFrame))))));
+            if(loopOutputEnd.load()-repeatBegin.load()<512)throw std::runtime_error("確定ループ周期が最小512フレーム未満です");
+            auto view=std::make_shared<phase59::DynamicMap>();view->map=map;view->inputGeneration=inputLease->generation;view->version=1;view->baseVersion=0;view->certifiedNodes=map.starts().size();view->receivedInput=input.frames;view->outputFrames=length;view->final=true;fixedLoopMap=std::move(view);
+            loopSnapshot=s;++loopMapBuilds;loopMapS=mapWork.elapsed().wallSeconds;loopMapCpuS=mapWork.elapsed().threadCpuSeconds;
+        }
+        output=length;outputStart=start;published=start;consumed=start;seekMapReady.store(true,std::memory_order_release);
         return s;
     }
     void stageSeekPcm(std::uint64_t generation,std::size_t offset,const float*const* p,std::size_t n){
@@ -250,7 +283,9 @@ struct RealtimePipeline::Impl {
     }
     void flushSeekPcm(){
         const auto room=std::min(fifo.free(),lead-std::min(lead,fifo.available()));
-        const auto n=std::min(room,seekPcmCount);if(!n)return;
+        auto n=std::min(room,seekPcmCount);
+        if(config.publicationLimitForTest)n=std::min(n,config.publicationLimitForTest>published.load()?config.publicationLimitForTest-published.load():0);
+        if(!n)return;
         std::array<const float*,2> p{};for(std::size_t c=0;c<input.channels;++c)p[c]=seekPcm[c].data()+seekPcmOffset;
         const auto* delivered=envelope.apply(p.data(),published.load(),n,config.fastLocalSeek&&config.localPublicationFade,outputStart.load());
         if(!fifo.write(delivered,n))throw std::logic_error("Seek FIFO rejected PCM");
@@ -271,6 +306,11 @@ struct RealtimePipeline::Impl {
     }
     std::unique_ptr<phase57::ProgressiveSynthesisEngine> makeSynthesis(std::function<void()> validate){
         if(seeking){while(!seekMapReady.load()){check(true);std::this_thread::sleep_for(std::chrono::milliseconds(1));}
+            if(continuationSeed){
+                auto engine=continuationSeed->cloneFixedCheckpoint(input.snapshotDescriptor(),input.residentBytes(),validate);
+                if(!engine)throw std::logic_error("B継続保存点の完全状態を復元できません");
+                checkpointStart=engine->frontier().published;lastCheckpointOutput=checkpointStart;generated=checkpointStart.load();engine->prepareCheckpointForEpoch();return engine;
+            }
             if(!config.fastLocalSeek&&!config.loopEndInputFrame&&config.seekCheckpoints&&!config.recordWorkerProfile&&!config.detailedDiagnostics&&seekInput!=input.frames){
                 std::shared_ptr<const phase57::ProgressiveSynthesisEngine> saved;std::size_t point=0;
                 {std::lock_guard lock(inputLease->checkpointMutex);
@@ -649,7 +689,130 @@ struct RealtimePipeline::Impl {
         catch(const std::exception& e){demote();fail(e.what());}
         changed.notify_all();
     }
+    // A single persistent producer. Only state restore/copy is repeated; FFT
+    // plans, immutable map and OS threads are retained through stop().
+    void synthesizeRepeating(){
+        CpuEnd measured{dspWorkerCpu};AllocationScope allocations{*this};std::uint64_t allocationBase=0;
+        auto demote=[&]{if(realtime->active()){realtimeNewCalls=realtimeNewCalls.load()+dspAllocations-allocationBase;realtimeAllocationsMeasured=countDspAllocations&&dspAllocationProbeAvailable;}return realtime->demote();};
+        try{
+            std::uint64_t tid=0;pthread_threadid_np(nullptr,&tid);dspThread=tid;
+            pthread_setname_np("Phase62 reused DSP");dspQos=pthread_set_qos_class_self_np(QOS_CLASS_USER_INITIATED,0)==0;
+            int relative=0;qos_class_t actual=QOS_CLASS_UNSPECIFIED;dspQosQueried=pthread_get_qos_class_np(pthread_self(),&actual,&relative)==0;if(dspQosQueried){dspQosClass=actual;dspQosRelative=relative;}
+            while(!seekMapReady.load(std::memory_order_acquire)){check(true);std::this_thread::sleep_for(std::chrono::milliseconds(1));}
+            const auto snapshot=loopSnapshot; // acquire seekMapReady pins this immutable snapshot
+            if(!snapshot||!snapshot->isFinal)throw std::logic_error("確定ループ解析がありません");
+            const auto begin=repeatBegin.load(),end=loopOutputEnd.load(),length=end-begin;
+            if(length<512)throw std::runtime_error("確定ループ周期が最小512フレーム未満です");
+            const bool cacheAllowed=length<=96000&&!(config.loopBeginInputFrame==0&&config.loopEndInputFrame==input.frames);
+            for(std::size_t c=0;c<input.channels;++c)if(cacheAllowed)loopCache[c].resize(length);
+            loopCacheBytes=cacheAllowed?length*input.channels*sizeof(float):0;
+            const auto plansBefore=FFTAccelerate::threadPlanCreations();std::uint64_t plansAtSeed=plansBefore;
+            playback::StageClock construct;
+            phase57::ProgressiveSynthesisEngine engine(input.snapshotDescriptor(),config.speedMicros,inputLease->generation,[this]{check(true);},16*1024*1024,input.residentBytes());
+            engine.enableDynamicTransitions();engine.supplySnapshot(snapshot);
+            if(!engine.trySupplyBorrowedDynamicMap(fixedLoopMap.get()))throw std::logic_error("固定ループMapの完全状態を初期化できません");
+            loopDspConstructS=construct.elapsed().wallSeconds;
+            std::shared_ptr<phase57::ProgressiveSynthesisEngine> seed;
+            std::array<std::array<float,2048>,2> pending{};std::size_t pendingOffset=0,pendingCount=0;
+            std::array<float,2> head{},tail{};
+            std::uint64_t cycle=0;std::size_t cacheAt=0;bool cacheReady=false,generatedEnd=false;
+            playback::StageClock cold;bool coldRecorded=false;
+            auto descriptor=[&]{LoopPcmDescriptor value;value.cycle=cycle;value.first=head;value.last=tail;(*loopPcmDescriptors)[cycle%loopPcmDescriptors->size()].publish(value);};
+            const phase57::ProgressiveSynthesisEngine::Sink sink=[&](auto generation,auto offset,const float*const* pcm,std::size_t n){
+                if(generation!=inputLease->generation)throw std::logic_error("ループ入力世代不一致");
+                generated.fetch_add(n);
+                const auto from=std::max(begin,offset),through=std::min(end,offset+n);
+                const auto discarded=std::min(n,begin>offset?begin-offset:0);
+                if(cycle)loopWarmDiscarded.fetch_add(discarded);else loopColdDiscarded.fetch_add(discarded);
+                if(from<through){
+                    if(!coldRecorded){loopColdPrefixS=cold.elapsed().wallSeconds;loopColdPrefixCpuS=cold.elapsed().threadCpuSeconds;coldRecorded=true;firstGenerated=elapsed();}
+                    for(std::size_t c=0;c<input.channels;++c){
+                        if(from==begin){head[c]=pcm[c][from-offset];if(!cycle)loopHead[c]=head[c];}
+                        if(through==end)tail[c]=pcm[c][through-offset-1];
+                        if(cacheAllowed&&!cacheReady)std::copy_n(pcm[c]+from-offset,through-from,loopCache[c].data()+from-begin);
+                    }
+                    const auto publishFrom=cycle?from:std::max(from,outputStart.load());
+                    if(publishFrom<through){pendingCount=through-publishFrom;pendingOffset=0;for(std::size_t c=0;c<input.channels;++c)std::copy_n(pcm[c]+publishFrom-offset,pendingCount,pending[c].data());}
+                }
+                if(offset+n>=end){
+                    if(!cycle&&cacheAllowed){loopContinuationCount=offset+n-end;for(std::size_t c=0;c<input.channels;++c)std::copy_n(pcm[c]+end-offset,loopContinuationCount,loopContinuationPcm[c].data());}
+                    generatedEnd=true;descriptor();
+                }
+            };
+            unsigned promotions=0;
+            const auto wait=[&]{if(config.scheduling==WorkerScheduling::Standard)std::this_thread::sleep_for(std::chrono::milliseconds(1));else realtime->waitForSignal();};
+            while(!cancelled.load()&&!failure.load()){
+                if(renderingRequested.load()&&ready.load()&&!realtime->active()){
+                    allocationBase=dspAllocations;if(++promotions==config.promotionFailureOnAttemptForTest)throw std::runtime_error("Injected pre-promotion failure");
+                    if(!realtime->promote())throw std::runtime_error("再利用DSPのWorkgroup参加に失敗しました");
+                }else if(!renderingRequested.load()&&realtime->active()&&!demote())throw std::runtime_error("再利用DSPの降格に失敗しました");
+                if(pendingCount){
+                    auto count=std::min(pendingCount,std::min(fifo.free(),lead-std::min(lead,fifo.available())));
+                    if(config.publicationLimitForTest)count=std::min(count,config.publicationLimitForTest>repeatPublished.load()?config.publicationLimitForTest-repeatPublished.load():0);
+                    if(!count){wait();continue;}
+                    const float* pcm[]{pending[0].data()+pendingOffset,pending[1].data()+pendingOffset};
+                    playback::StageClock copy;
+                    if(!realtime->beginInterval())throw std::runtime_error("FIFO供給区間の開始失敗");
+                    if(!fifo.write(pcm,count))throw std::logic_error("再利用FIFO書込み拒否");
+                    if(!realtime->finishInterval())throw std::runtime_error("FIFO供給区間の終了失敗");
+                    if(cycle)loopWarmCpuS=loopWarmCpuS.load()+copy.elapsed().threadCpuSeconds;
+                    pendingOffset+=count;pendingCount-=count;repeatPublished.fetch_add(count);published=outputStart.load()+repeatPublished.load();
+                    if(firstPublished.load()<0)firstPublished=elapsed();
+                    if(repeatPublished.load()>=lead&&!ready.load()){{std::lock_guard lock(mutex);inputAtReady=received.load();readyTime=elapsed();ready=true;}changed.notify_all();}
+                    continue;
+                }
+                if(generatedEnd){
+
+                    ++cycle;loopReuseCount=cycle;generatedEnd=false;
+                    if(cacheAllowed){cacheReady=true;cacheAt=0;descriptor();}
+                    else{
+                        playback::StageClock restore;
+                        if(!realtime->beginInterval())throw std::runtime_error("保存状態復元区間の開始失敗");
+                        if(!seed||!engine.restoreFixedLoopCheckpoint(*seed))throw std::logic_error("固定Exact保存点の同一性・完全状態を復元できません");
+                        if(!realtime->finishInterval())throw std::runtime_error("保存状態復元区間の終了失敗");
+                        const auto cost=restore.elapsed();loopRestoreS=loopRestoreS.load()+cost.wallSeconds;loopWarmCpuS=loopWarmCpuS.load()+cost.threadCpuSeconds;loopSeedRestores.fetch_add(1);
+                    }
+                }
+                if(fifo.available()>=lead){wait();continue;}
+                if(cacheReady){
+                    playback::StageClock copy;
+                    if(!realtime->beginInterval())throw std::runtime_error("RAW再利用区間の開始失敗");
+                    const auto count=std::min<std::size_t>(2048,length-cacheAt);
+                    for(std::size_t c=0;c<input.channels;++c)std::copy_n(loopCache[c].data()+cacheAt,count,pending[c].data());
+                    pendingOffset=0;pendingCount=count;cacheAt+=count;loopCacheReads.fetch_add(count);
+                    if(!realtime->finishInterval())throw std::runtime_error("RAW再利用区間の終了失敗");
+                    loopWarmCpuS=loopWarmCpuS.load()+copy.elapsed().threadCpuSeconds;
+                    if(cacheAt==length)generatedEnd=true;
+                    continue;
+                }
+                const auto position=engine.frontier().published;
+                if(!seed&&position<=begin&&position+2048>begin){
+                    playback::StageClock copy;seed=engine.cloneFixedCheckpoint(input.snapshotDescriptor(),input.residentBytes());
+                    if(!seed)throw std::logic_error("完全な固定Exact保存点を作成できません");
+                    loopContinuationOwner=seed;
+                    loopSeedCloneS=copy.elapsed().wallSeconds;loopSeedOutput=position;++loopSeedClones;plansAtSeed=FFTAccelerate::threadPlanCreations();loopFftPlans=plansAtSeed-plansBefore;
+                }
+                if(!realtime->beginInterval())throw std::runtime_error("再利用DSP区間開始に失敗しました");
+                playback::StageClock work;phase57::SynthesisState result;
+                try{result=engine.advance(sink);}catch(...){realtime->finishInterval();throw;}
+                if(!cycle&&cacheAllowed&&generatedEnd&&result==phase57::SynthesisState::Produced){
+                    if(!engine.captureFixedLoopCheckpoint(*seed))throw std::logic_error("B継続の完全状態を保存できません");
+                    loopContinuationReady.store(true,std::memory_order_release);
+                }
+                realtime->finishInterval();const auto cost=work.elapsed();
+                if(cycle)loopWarmCpuS=loopWarmCpuS.load()+cost.threadCpuSeconds;else loopColdCpuS=loopColdCpuS.load()+cost.threadCpuSeconds;
+                loopWarmFftPlans=FFTAccelerate::threadPlanCreations()-plansAtSeed;
+                if(result==phase57::SynthesisState::Failed||result==phase57::SynthesisState::Cancelled)throw std::runtime_error("再利用DSP生成失敗");
+                if(result==phase57::SynthesisState::NeedsMoreAnalysis||result==phase57::SynthesisState::NeedsMoreInput)throw std::logic_error("固定解析の再利用中に未確定入力を要求しました");
+            }
+            demote();
+        }catch(const Cancelled&){demote();}
+        catch(const std::exception& e){demote();fail(e.what());}
+        dspDone=true;changed.notify_all();
+    }
+
     void synthesize(){
+        if(config.reusableLoop){synthesizeRepeating();return;}
         if(config.scheduling==WorkerScheduling::AudioWorkgroup){synthesizeRealtime();return;}
         CpuEnd measured{dspWorkerCpu};
         AllocationScope allocations{*this};
@@ -670,6 +833,7 @@ struct RealtimePipeline::Impl {
             std::uint64_t seen=0;
             bool needSnapshot=true,finalSnapshot=false;double previousPublished=-1;
             while(!cancelled.load()&&!failure.load()){
+                if((config.holdDspAfterReadyForTest&&ready.load()&&config.holdDspAfterReadyForTest->load())||(config.publicationLimitForTest&&published.load()>=config.publicationLimitForTest)){std::this_thread::sleep_for(std::chrono::milliseconds(1));continue;}
                 if(seeking){
                     flushSeekPcm();
                     if((loopOutputEnd.load()&&published.load()>=loopOutputEnd.load())||(seekDspFinished&&!seekPcmCount)||(seekMapReady.load()&&output.load()&&outputStart.load()==output.load())){finishSeek();return;}
@@ -744,6 +908,7 @@ struct RealtimePipeline::Impl {
     }
     void stop(){
         if(lifecycle.load(std::memory_order_acquire)==LifecycleState::Finalized)return;
+        playback::StageClock joinTimer;
         lifecycle.store(LifecycleState::Stopping,std::memory_order_release);
         {std::lock_guard lock(mutex);cancelled=true;}
         renderingRequested=false;realtime->signal();changed.notify_all();
@@ -757,17 +922,23 @@ struct RealtimePipeline::Impl {
         lifecycleEvent(LifecycleTestPoint::JoinedBeforeFinalize);
         if(config.dynamicTransitions){finalizeTransition();cancelOperations();}
         lifecycleEvent(LifecycleTestPoint::BeforeFinalPublish);
+        if(config.reusableLoop)loopJoinS=joinTimer.elapsed().wallSeconds;
         lifecycle.store(LifecycleState::Finalized,std::memory_order_release);
     }
 };
 RealtimePipeline::RealtimePipeline(const std::filesystem::path& p,Configuration c):impl_(std::make_unique<Impl>(p,c)){}
 RealtimePipeline::RealtimePipeline(std::unique_ptr<Impl> p):impl_(std::move(p)){}
 RealtimePipeline::~RealtimePipeline(){impl_->stop();}
+void RealtimePipeline::setPublicationLimitForTest(std::size_t limit){
+    if(impl_->lifecycle.load()!=LifecycleState::Unstarted||impl_->config.scheduling!=WorkerScheduling::Standard)throw std::logic_error("供給上限試験は開始前の通常worker専用です");
+    impl_->config.publicationLimitForTest=limit;
+}
 void RealtimePipeline::start(){auto& x=*impl_;
     if(x.lifecycle.load(std::memory_order_acquire)!=LifecycleState::Unstarted||x.started.exchange(true))throw std::logic_error("Create a fresh playback session");
     x.lifecycle.store(LifecycleState::Starting,std::memory_order_release);
     const auto fault=[&](unsigned worker){if(x.config.lifecycleTestHooks.failStartBeforeWorker==worker)throw std::runtime_error("Injected worker creation failure");};
     try{
+        if(x.config.reusableLoop)x.loopWorkerCreations=2+(x.config.sampleDspThread?1:0);
         fault(1);x.analysisWorker=std::thread([&x]{x.analyze();x.lifecycleEvent(LifecycleTestPoint::WorkerExit);});
         fault(2);x.dspWorker=std::thread([&x]{x.synthesize();x.lifecycleEvent(LifecycleTestPoint::WorkerExit);});
         if(x.config.sampleDspThread){fault(3);x.sampler=std::thread([&x]{x.sampleThread();x.lifecycleEvent(LifecycleTestPoint::WorkerExit);});}
@@ -786,19 +957,20 @@ bool RealtimePipeline::setRealtimeRendering(bool active,std::chrono::millisecond
 }
 void RealtimePipeline::stop(){impl_->stop();}
 RenderResult RealtimePipeline::pullAudio(float*const* p,std::size_t n)noexcept{
-    auto& x=*impl_;RenderResult r;r.outputBefore=x.consumed.load(std::memory_order_relaxed);r.fifoBefore=x.fifo.available();
-    const auto end=x.loopOutputEnd.load()?x.loopOutputEnd.load():x.output.load(std::memory_order_acquire);r.wanted=end?(end>r.outputBefore?std::min(n,end-r.outputBefore):0):n;
+    auto& x=*impl_;RenderResult r;r.outputBefore=x.config.reusableLoop?x.repeatPosition(x.repeatConsumed.load()):x.consumed.load(std::memory_order_relaxed);r.fifoBefore=x.fifo.available();
+    const auto end=x.loopOutputEnd.load()?x.loopOutputEnd.load():x.output.load(std::memory_order_acquire);r.wanted=x.config.reusableLoop?n:end?(end>r.outputBefore?std::min(n,end-r.outputBefore):0):n;
     if(x.cancelled.load()||x.failure.load())r.wanted=0;
-    r.received=x.fifo.read(p,r.wanted);x.consumed.fetch_add(r.received,std::memory_order_relaxed);
+    r.received=x.fifo.read(p,r.wanted);x.consumed.fetch_add(r.received,std::memory_order_relaxed);if(x.config.reusableLoop)x.repeatConsumed.fetch_add(r.received);
     for(std::size_t c=0;c<x.input.channels;++c)std::fill(p[c]+r.received,p[c]+n,0.0f);
     const auto missing=r.wanted-r.received;
     if(missing){x.missing.fetch_add(missing);x.missingCalls.fetch_add(1);x.consecutiveMissing=r.received?missing:x.consecutiveMissing+missing;maximum(x.maxMissing,x.consecutiveMissing);}else x.consecutiveMissing=0;
     return r;
 }
 bool RealtimePipeline::finished()const noexcept{return impl_->dspDone.load();}
+bool RealtimePipeline::peekAudioFrame(std::size_t offset,std::array<float,2>& values)const noexcept{return impl_->fifo.peekFrame(offset,values.data());}
 FifoCursors RealtimePipeline::diagnosticFifoCursors()const noexcept{return {impl_->fifo.readPosition(),impl_->fifo.writePosition()};}
 std::optional<PositionSample> RealtimePipeline::positionSample()const noexcept{
-    if(auto map=std::atomic_load(&impl_->fixedSeekMap)){const auto at=impl_->consumed.load();return PositionSample{impl_->session,0,at,std::min(impl_->input.frames,phase59::inverseInput(*map,at)),impl_->elapsed()};}
+    if(auto map=std::atomic_load(&impl_->fixedSeekMap)){const auto at=impl_->config.reusableLoop?impl_->repeatPosition(impl_->repeatConsumed.load()):impl_->consumed.load();return PositionSample{impl_->session,0,at,std::min(impl_->input.frames,phase59::inverseInput(*map,at)),impl_->elapsed()};}
     return impl_->positionMailbox.read();
 }
 bool RealtimePipeline::drained()const noexcept{return finished()&&!available();}
@@ -828,12 +1000,17 @@ std::size_t RealtimePipeline::outputStartFrame()const noexcept{return impl_->out
 std::uint64_t RealtimePipeline::inputGeneration()const noexcept{return impl_->inputLease->generation;}
 std::unique_ptr<RealtimePipeline> RealtimePipeline::createSeek(std::size_t frame,std::uint32_t speed)const{
     auto& x=*impl_;if(x.failure.load()||x.cancelled.load())throw std::logic_error("Seek from a failed/stopped epoch");
-    auto c=x.config;if(c.loopEndInputFrame&&c.scheduling==WorkerScheduling::AudioWorkgroup)c.dynamicTransitions=true;c.loopEndInputFrame=0;c.speedMicros=speed;c.fastLocalSeek=false;c.localPrerollInputFrames=0;
-    return std::unique_ptr<RealtimePipeline>(new RealtimePipeline(std::make_unique<Impl>(x.inputLease,c,true,frame)));
+    auto c=x.config;if(c.loopEndInputFrame&&c.scheduling==WorkerScheduling::AudioWorkgroup)c.dynamicTransitions=true;c.loopEndInputFrame=0;c.reusableLoop=false;c.loopBeginInputFrame=0;c.speedMicros=speed;c.fastLocalSeek=false;c.localPrerollInputFrames=0;
+    auto result=std::unique_ptr<RealtimePipeline>(new RealtimePipeline(std::make_unique<Impl>(x.inputLease,c,true,frame)));
+    if(x.config.reusableLoop&&frame==x.config.loopEndInputFrame&&speed==x.config.speedMicros&&x.loopContinuationReady.load(std::memory_order_acquire)){
+        auto& next=*result->impl_;next.continuationSeed=x.loopContinuationOwner;next.seekPcmCount=x.loopContinuationCount;next.seekPcmOffset=0;
+        for(std::size_t ch=0;ch<x.input.channels;++ch)std::copy_n(x.loopContinuationPcm[ch].data(),next.seekPcmCount,next.seekPcm[ch].data());
+    }
+    return result;
 }
 std::unique_ptr<RealtimePipeline> RealtimePipeline::createFastLocalSeek(std::size_t frame,std::uint32_t speed,std::size_t preroll)const{
     auto& x=*impl_;if(x.failure.load()||x.cancelled.load())throw std::logic_error("Seek from a failed/stopped epoch");
-    auto c=x.config;c.speedMicros=speed;c.fastLocalSeek=true;c.localPrerollInputFrames=preroll?preroll:x.input.rate/2;
+    auto c=x.config;if(c.loopEndInputFrame&&c.scheduling==WorkerScheduling::AudioWorkgroup)c.dynamicTransitions=true;c.loopEndInputFrame=0;c.reusableLoop=false;c.loopBeginInputFrame=0;c.speedMicros=speed;c.fastLocalSeek=true;c.localPrerollInputFrames=preroll?preroll:x.input.rate/2;
     return std::unique_ptr<RealtimePipeline>(new RealtimePipeline(std::make_unique<Impl>(x.inputLease,c,true,frame)));
 }
 std::unique_ptr<RealtimePipeline> RealtimePipeline::createLoopSeek(std::size_t start,std::size_t end,std::uint32_t speed)const{
@@ -842,6 +1019,23 @@ std::unique_ptr<RealtimePipeline> RealtimePipeline::createLoopSeek(std::size_t s
     c.dynamicTransitions=false;c.loopEndInputFrame=end;
     result->impl_->transitionPlanner.reset();return result;
 }
+void RealtimePipeline::enableLoopReuse(std::size_t a){
+    auto& x=*impl_;if(x.lifecycle.load()!=LifecycleState::Unstarted||!x.config.loopEndInputFrame||a>x.seekInput||x.seekInput>=x.config.loopEndInputFrame)throw std::logic_error("固定ループ再利用の受付範囲が不正です");
+    x.config.reusableLoop=true;x.config.loopBeginInputFrame=a;
+    x.loopPcmDescriptors=std::make_unique<std::array<phase59::ValueMailbox<LoopPcmDescriptor>,64>>();
+}
+bool RealtimePipeline::loopReuseEnabled()const noexcept{return impl_->config.reusableLoop;}
+void RealtimePipeline::setLoopSupplyLimitForTest(std::size_t frames){
+    auto& x=*impl_;if(x.lifecycle.load()!=LifecycleState::Unstarted||!x.config.reusableLoop||frames<x.lead)throw std::logic_error("ループ供給試験は開始前、Ready先行量以上の上限が必要です");
+    x.config.publicationLimitForTest=frames;
+}
+std::size_t RealtimePipeline::loopOutputStartFrame()const noexcept{return impl_->config.reusableLoop?impl_->repeatBegin.load():impl_->outputStart.load();}
+std::uint64_t RealtimePipeline::loopReadCycle()const noexcept{return impl_->repeatCycle(impl_->repeatConsumed.load());}
+std::optional<LoopPcmDescriptor> RealtimePipeline::loopPcmDescriptor(std::uint64_t cycle)noexcept{
+    if(!impl_->loopPcmDescriptors)return {};
+    auto value=(*impl_->loopPcmDescriptors)[cycle%impl_->loopPcmDescriptors->size()].read();return value&&value->cycle==cycle?value:std::optional<LoopPcmDescriptor>{};
+}
+std::array<float,2> RealtimePipeline::loopFirstSample()const noexcept{return impl_->loopHead;}
 std::size_t RealtimePipeline::loopOutputEndFrame()const noexcept{return impl_->loopOutputEnd.load();}
 std::size_t RealtimePipeline::fixedOutputFrameForInput(std::size_t frame)const{
     const auto& x=*impl_;if(frame>x.input.frames)throw std::out_of_range("入力フレーム");
@@ -894,6 +1088,12 @@ Diagnostics RealtimePipeline::diagnostics()const{
     d.analysisQosQueried=x.analysisQosQueried;d.dspQosQueried=x.dspQosQueried;d.threadSamplingRequested=x.config.sampleDspThread;d.samplerCpuS=x.samplerCpu;
     if(d.finalDataAvailable){d.threadSamples=x.samples.size();d.threadSamplesDropped=x.sampleDropped;d.threadSampleErrors=x.sampleErrors;}
     d.analysisQos=x.analysisQos;d.dspQos=x.dspQos;d.analysisDone=x.analysisDone;d.dspDone=x.dspDone;d.cancelled=x.cancelled&&!x.dspDone;d.failed=x.failure;
+    d.loopReuse.enabled=x.config.reusableLoop;d.loopReuse.cyclesPrepared=x.loopReuseCount;d.loopReuse.seedRestores=x.loopSeedRestores;d.loopReuse.cacheReadFrames=x.loopCacheReads;
+    d.loopReuse.coldDiscardedFrames=x.loopColdDiscarded;d.loopReuse.warmDiscardedFrames=x.loopWarmDiscarded;d.loopReuse.cacheBytes=x.loopCacheBytes;d.loopReuse.seedOutput=x.loopSeedOutput;
+    d.loopReuse.mapBuilds=x.loopMapBuilds;d.loopReuse.workerCreations=x.loopWorkerCreations;d.loopReuse.mapS=x.loopMapS;d.loopReuse.dspConstructS=x.loopDspConstructS;
+    d.loopReuse.fftPlanCreations=x.loopFftPlans;d.loopReuse.warmFftPlanCreations=x.loopWarmFftPlans;d.loopReuse.seedClones=x.loopSeedClones;d.loopReuse.analysisWaitS=x.loopAnalysisWaitS;d.loopReuse.mapCpuS=x.loopMapCpuS;d.loopReuse.coldPrefixCpuS=x.loopColdPrefixCpuS;d.loopReuse.joinS=x.loopJoinS;
+    d.loopReuse.coldPrefixS=x.loopColdPrefixS;d.loopReuse.coldCpuS=x.loopColdCpuS;d.loopReuse.warmCpuS=x.loopWarmCpuS;d.loopReuse.seedCloneS=x.loopSeedCloneS;d.loopReuse.restoreS=x.loopRestoreS;
+    if(x.config.reusableLoop)d.consumed=x.repeatPosition(x.repeatConsumed.load());
     d.inputSha256=x.inputSha;d.pcmSha256=x.pcmSha;d.error=x.error;return d;
 }
 std::vector<WorkerRecord> RealtimePipeline::workerRecords()const{const auto& x=*impl_;if(x.lifecycle.load(std::memory_order_acquire)!=LifecycleState::Finalized)throw std::logic_error("Stop and join before exporting worker records");return x.profiles;}

@@ -5,6 +5,7 @@
 #include <fstream>
 #include <cstring>
 #include <thread>
+#include <cmath>
 using ts::prototype::phase58::RealtimePipeline;using ts::prototype::phase58::Configuration;
 static void require(bool v,const char* why){if(!v)throw std::runtime_error(why);}
 static void ready(RealtimePipeline& p){p.start();require(p.waitUntilReady(std::chrono::seconds(30)),"Ready");}
@@ -40,6 +41,7 @@ int main(int argc,char** argv){try{
         auto loop=base.createLoopSeek(std::stoull(argv[4]),std::stoull(argv[5]),speed);ready(*loop);
         const auto start=loop->outputStartFrame(),end=loop->loopOutputEndFrame();require(start==std::stoull(argv[7])&&end==std::stoull(argv[8]),"reference A/B");
         auto actual=collect(*loop,end);std::ifstream f(argv[6],std::ios::binary);f.seekg(start*loop->channels()*sizeof(float));std::vector<float> expected(actual.size());f.read(reinterpret_cast<char*>(expected.data()),expected.size()*sizeof(float));
+        require(std::all_of(actual.begin(),actual.end(),[](float x){return std::isfinite(x);})&&std::all_of(expected.begin(),expected.end(),[](float x){return std::isfinite(x);}),"nonfinite PCM");
         require(bool(f)&&actual.size()==expected.size()&&std::memcmp(actual.data(),expected.data(),actual.size()*sizeof(float))==0,"independent bounded PCM mismatch");loop->stop();
     }else{
         std::size_t count=0;const auto rate=base.sampleRate();const auto frames=base.inputFrames();
@@ -48,7 +50,7 @@ int main(int argc,char** argv){try{
             const auto start=loop->outputStartFrame(),end=loop->loopOutputEndFrame();require(start<end,"mapped range");
             auto actual=collect(*loop,end);loop->stop();require(loop->drained()&&!loop->diagnostics().missingFrames,"bounded EOS");
             require(loop->diagnostics().finalDataAvailable&&loop->diagnostics().sourceHashPasses==1&&loop->diagnostics().residentLockCalls==1,"join/lease");
-            auto exact=base.createSeek(a,speed);ready(*exact);require(exact->outputStartFrame()==start,"A mapping");auto expected=collect(*exact,end);exact->stop();require(actual==expected,"exact range PCM");++count;
+            auto exact=base.createSeek(a,speed);ready(*exact);require(exact->outputStartFrame()==start,"A mapping");auto expected=collect(*exact,end);exact->stop();require(actual.size()==expected.size()&&std::memcmp(actual.data(),expected.data(),actual.size()*sizeof(float))==0,"exact range PCM bits");++count;
         }
         std::cout<<"bounded exact PCM "<<count<<"/"<<count<<"; 161 speed/rate/callback boundary contracts PASS\n";
     }

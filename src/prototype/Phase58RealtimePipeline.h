@@ -30,6 +30,8 @@ struct Configuration {
     std::size_t sourceSnapshotBytes=512ULL*1024*1024;
     // Deterministic fault/stall controls, never implicit environment variables.
     double analysisDelayMs=0,dspDelayMs=0;
+    std::atomic<bool>* holdDspAfterReadyForTest=nullptr; // normal-policy deterministic supply test only
+    std::size_t publicationLimitForTest=0;
     unsigned transitionFailureForTest=0; // 0 none, 1 processing, 2 allocation.
     unsigned promotionFailureOnAttemptForTest=0; // Explicit pre-promotion fault, max 2.
     std::array<std::pair<std::size_t,std::size_t>,4> phaseProbeWindows{};
@@ -38,12 +40,23 @@ struct Configuration {
     bool fastLocalSeek=false; // Explicit factory only; Exact remains the default.
     std::size_t localPrerollInputFrames=0;
     std::size_t loopEndInputFrame=0; // Phase62 bounded exact epoch; 0 disables.
+    bool reusableLoop=false;
+    std::size_t loopBeginInputFrame=0;
     bool localPublicationFade=true; // Legacy experiment; Interactive mixes at output.
     LifecycleTestHooks lifecycleTestHooks{};
 };
 struct RenderResult {std::size_t wanted=0,received=0,outputBefore=0,fifoBefore=0;};
 struct FifoCursors {std::uint64_t read=0,write=0;};
 struct PositionSample {std::uint64_t session=0,mapVersion=0;std::size_t output=0,input=0;double atS=0;};
+struct LoopPcmDescriptor {std::uint64_t cycle=0;std::array<float,2> first{},last{};};
+struct LoopReuseDiagnostics {
+    bool enabled=false;
+    std::uint64_t cyclesPrepared=0,seedRestores=0,cacheReadFrames=0,coldDiscardedFrames=0,warmDiscardedFrames=0;
+    std::size_t cacheBytes=0,seedOutput=0,mapBuilds=0,workerCreations=0;
+    std::uint64_t fftPlanCreations=0,warmFftPlanCreations=0,seedClones=0;
+    double mapS=0,dspConstructS=0,coldPrefixS=0,coldCpuS=0,warmCpuS=0,seedCloneS=0,restoreS=0;
+    double analysisWaitS=0,mapCpuS=0,coldPrefixCpuS=0,joinS=0;
+};
 struct Diagnostics {
     std::uint64_t session=0,analysisThread=0,dspThread=0,snapshotVersion=0;
     std::size_t inputFrames=0,receivedInput=0,generated=0,published=0,consumed=0,outputFrames=0;
@@ -96,6 +109,7 @@ struct Diagnostics {
     // Until true, mailbox owner/vector record counts are unmeasured placeholders,
     // not measured zeros. Other fields use atomics, immutable data or data locks.
     bool finalDataAvailable=false;
+    LoopReuseDiagnostics loopReuse;
 };
 struct WorkerRecord {
     std::size_t outputStart=0,outputEnd=0,fifoBefore=0,fifoAfter=0,receivedInput=0;
@@ -128,11 +142,13 @@ public:
     RealtimePipeline(const std::filesystem::path&,Configuration={});
     ~RealtimePipeline();
     void start();
+    void setPublicationLimitForTest(std::size_t); // before start; Standard worker only
     bool waitUntilReady(std::chrono::milliseconds);
     // Normal owner only. Arm before starting output; disarm after quiescence.
     bool setRealtimeRendering(bool,std::chrono::milliseconds timeout=std::chrono::seconds(1));
     void stop(); // Consumer must be quiescent before stop/destruction.
     RenderResult pullAudio(float*const*,std::size_t)noexcept;
+    bool peekAudioFrame(std::size_t offset,std::array<float,2>&)const noexcept; // same audio consumer, no cursor advance
     FifoCursors diagnosticFifoCursors()const noexcept; // Separate atomic loads, diagnostic use only.
     std::optional<PositionSample> positionSample()const noexcept; // Paired normal-worker sample.
     bool finished()const noexcept;
@@ -153,6 +169,13 @@ public:
     std::unique_ptr<RealtimePipeline> createInteractiveSeek(std::size_t inputFrame,std::uint32_t speedMicros,std::size_t prerollInputFrames=0)const;
     // Phase62: exact DSP, finite FIFO, shared input/analysis; no whole-song PCM cache.
     std::unique_ptr<RealtimePipeline> createLoopSeek(std::size_t start,std::size_t end,std::uint32_t speed)const;
+    void enableLoopReuse(std::size_t rangeStartInputFrame); // before start; same immutable program only
+    void setLoopSupplyLimitForTest(std::size_t frames); // before start; finite producer ceiling >= Ready lead
+    bool loopReuseEnabled()const noexcept;
+    std::size_t loopOutputStartFrame()const noexcept;
+    std::uint64_t loopReadCycle()const noexcept;
+    std::optional<LoopPcmDescriptor> loopPcmDescriptor(std::uint64_t cycle)noexcept; // audio consumer only
+    std::array<float,2> loopFirstSample()const noexcept; // immutable after Ready; no ownership operation
     std::size_t loopOutputEndFrame()const noexcept; // valid after Ready
     std::size_t fixedOutputFrameForInput(std::size_t)const; // final analysis; rejects dynamic plans
     bool finalAnalysisAvailable()const noexcept;

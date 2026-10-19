@@ -4,6 +4,8 @@
 #include <stdexcept>
 
 namespace ts {
+namespace {thread_local std::uint64_t createdPlans=0;}
+std::uint64_t FFTAccelerate::threadPlanCreations()noexcept{return createdPlans;}
 float* FFTAccelerate::alignedWorkspace(std::vector<float>& storage) {
     const auto address = reinterpret_cast<std::uintptr_t>(storage.data());
     const auto aligned = (address + 63u) & ~std::uintptr_t(63u);
@@ -20,6 +22,7 @@ FFTAccelerate::FFTAccelerate(std::size_t fftSize)
     for (auto n = fftSize; n > 1; n >>= 1) ++log2Size_;
     setup_ = vDSP_create_fftsetup(log2Size_, kFFTRadix2);
     if (!setup_) throw std::runtime_error("vDSP FFT setup failed");
+    ++createdPlans;
 }
 FFTAccelerate::~FFTAccelerate() { vDSP_destroy_fftsetup(setup_); }
 void FFTAccelerate::forward(const float* input, std::complex<float>* output) {

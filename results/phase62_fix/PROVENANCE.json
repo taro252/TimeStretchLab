@@ -1,0 +1,246 @@
+{
+  "schema": 1,
+  "base_head": "d25433c88a1bae83b89168a26f1c6c9d8053a644",
+  "branch": "main",
+  "start": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/START_STATE.json",
+    "bytes": 1175,
+    "sha256": "b825b66387a02e6e3aa8668921049bb948dc382a64363c40e8284aac106e0f62"
+  },
+  "source": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_fix/SOURCE_MANIFEST.json",
+    "bytes": 99816,
+    "sha256": "deeddb35fa4171490f507765aec1845c6c10c4cabc0987657cdffb260b3f578e"
+  },
+  "frozen_source_sha256": "80e9c59efd5910183a6ac90d346c65dfc10f499ab16eba657fb54c705162e3d9",
+  "source_archive": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/frozen_sources.tar.gz",
+    "bytes": 1089251,
+    "sha256": "6613a08519e652254849c672d44501d59c53e46ddba5d82dd445326cc49cf1a6"
+  },
+  "original_phase62_audit": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/ORIGINAL_PHASE62_AUDIT.json",
+    "bytes": 186,
+    "sha256": "894dae093f578d6477cf68438504e8a48a0c17cf8c0e6780333ca1eaed2d6f46"
+  },
+  "source_dependency_audit": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/evidence/dependency_audit.json",
+    "bytes": 30412,
+    "sha256": "6c1e7c23b9429dd06a025a94a3d0de8bd3eac41712b9c351581cde70f59853b6"
+  },
+  "source_dependency_audit_after_main": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/evidence/dependency_audit_after_main.json",
+    "bytes": 30412,
+    "sha256": "6c1e7c23b9429dd06a025a94a3d0de8bd3eac41712b9c351581cde70f59853b6"
+  },
+  "source_dependency_audit_after_sandbox": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/evidence/dependency_audit_after_sandbox.json",
+    "bytes": 59788,
+    "sha256": "1c233042bf3ac392cf8e03baef79ec5a7788a0dae076a99cb99d07ed222f151b"
+  },
+  "recipe_manifest": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_fix/RECIPE_MANIFEST.json",
+    "bytes": 16858,
+    "sha256": "13a8eb23025b35f0eab55f66c048c77efa3c5c2a2e5544e55065ca9151c74154"
+  },
+  "oracle_backup": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/frozen_oracle_backup/phase61_frozen_reference",
+    "bytes": 274184,
+    "sha256": "de70db5fbc4284fd13f3f9a7cf257cbca1d8d9a5755859067c7cfb234d1d5748"
+  },
+  "final_root": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9",
+  "environment": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/ENVIRONMENT.json",
+    "bytes": 1586,
+    "sha256": "1af29e3cbc80fd29751858779a8b67e87f1bfeffc534ca983cf7d50adb6a34b2"
+  },
+  "device": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/DEVICE_IDENTITY.json",
+    "bytes": 221,
+    "sha256": "bc22b3972398d7bebec297fe41cc02851f122c5b6a211161d813b85c7b8e2ccd"
+  },
+  "builds": {
+    "Release": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/release",
+    "Debug": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/debug",
+    "architecture": "arm64",
+    "configuration_separation": true,
+    "physical_release": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v8/release",
+    "physical_debug": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v8/debug",
+    "note": "F9 quality-only change; compiled product and C++ tests identical to F8; original evidence retains F8 source SHA, explicit dependency and binary audit applied"
+  },
+  "commands": "各EXPECTED.json／LEDGER.jsonとBUILD_PROVENANCE.jsonに実コマンド、終了値、入力・実行体・参照SHAを記録する。事前台帳の未実施と欠落を成功へ変更しない。",
+  "oracle": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+    "bytes": 274184,
+    "sha256": "de70db5fbc4284fd13f3f9a7cf257cbca1d8d9a5755859067c7cfb234d1d5748"
+  },
+  "oracle_source_commit": "ec087019626d9ff0d9f157245729b74ddb6847d7",
+  "oracle_architecture": "arm64",
+  "baseline": {
+    "head": "d25433c88a1bae83b89168a26f1c6c9d8053a644",
+    "binary": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/baseline_release/phase62_native_tests",
+      "bytes": 892504,
+      "sha256": "aa5b00ad59a962144a5e0c13f2ceee02c090c6df86302b2f578373987e7f0c36"
+    },
+    "architecture": "arm64",
+    "evidence": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/paired_1000",
+    "comparison": null,
+    "failed_controlled_pair": {
+      "PASS": false,
+      "case": "controlled paired 1000 cycles, old then new",
+      "old_exit": 1,
+      "old_elapsed_s": 152.7451002910384,
+      "old_diagnostic": "ループ境界の次周期PCM不足またはcallback上限超過により安全停止",
+      "old_result_missing": true,
+      "new_completed_cycles": 1000,
+      "device_snapshots_unchanged": true,
+      "device": {
+        "id": 72,
+        "rate": 48000,
+        "buffer_frames": 512
+      },
+      "comparison_not_available": true,
+      "root_cause": "Old binary reported next-period PCM shortage or callback-size excess. The message does not distinguish the two or establish scheduler/CPU causation; preserve as an observed old-run failure.",
+      "retry_policy": "No retry to obtain a passing old result; original failed logs and planned cases remain."
+    },
+    "original_phase62_saved_binaries_architecture": "x86_64",
+    "original_results": "/Users/taro252/Docker/TimeStretchLab/results/phase62",
+    "original_results_changed": false
+  },
+  "artifact_manifest": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_fix/ARTIFACT_MANIFEST.json",
+    "bytes": 501555,
+    "sha256": "3508d4e75d296cbc13c61965d0e0d34d6ea4393439d6f0e4427a2d024306e9b7"
+  },
+  "restore": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_fix/RESTORE.md",
+    "bytes": 11334,
+    "sha256": "a5422db490213524dc29e4012db795627d1087616f5eade02b21915654c9314c"
+  },
+  "summary": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_fix/SUMMARY.json",
+    "bytes": 786679,
+    "sha256": "99a5349710840d0339eba0a28fa57e19ecc711e2c008b9a27c96e0b534556f13"
+  },
+  "report": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_fix/REPORT.md",
+    "bytes": 24867,
+    "sha256": "96aa2e1db13dc4ac80abad413508cb054927563bbfd38bc96127302f3a102ddb"
+  },
+  "checks": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_fix/FINAL_CHECKS.json",
+    "bytes": 9346,
+    "sha256": "44018e654a47cecb53cf0974dce2924946ad4fc7bd25e3d5d376a09658242161"
+  },
+  "merodoa": {
+    "path": "/Users/taro252/Docker/merodoa",
+    "head": "c52fde5c06a56fe7acf74617bb90583dfdb9dcf1",
+    "changed": false,
+    "default_adoption": false
+  },
+  "git": {
+    "commit_created": false,
+    "pushed": false,
+    "history_rewritten": false,
+    "lfs_migrated": false,
+    "staged": false
+  },
+  "public_go": false,
+  "gates": [
+    {
+      "id": 1,
+      "name": "固定・動的PCM",
+      "verdict": "NO-GO",
+      "scope": "固定PCMはGO、Phase59既存回帰はPASS",
+      "reason": "Phase62現在周期内の動的Mapと同一要求履歴の独立PCM照合は未実装"
+    },
+    {
+      "id": 2,
+      "name": "境界・周期長",
+      "verdict": "未検証",
+      "scope": "固定同速度のLと累積ΣLはGO",
+      "reason": "異速度境界の独立最終キャプチャは未実施"
+    },
+    {
+      "id": 3,
+      "name": "操作・同期・寿命",
+      "verdict": "NO-GO",
+      "scope": "Pause競合、供給不足、Clear、FD、検証済み中点seekはGO",
+      "reason": "B直前手動seekの一般対応は未承認"
+    },
+    {
+      "id": 4,
+      "name": "100ms・長いA・速度応答",
+      "verdict": "NO-GO",
+      "scope": "固定100ms・複数境界・A270秒再利用はGO",
+      "reason": "長い現在周期を待たない速度応答が未実装"
+    },
+    {
+      "id": 5,
+      "name": "Release実時間",
+      "verdict": "NO-GO",
+      "scope": "最終固定主行列・長期・短区間・長いAの観測はGO",
+      "reason": "保存した開始時host/sample不連続の根本原因未確定。再現0の走行で消さない"
+    },
+    {
+      "id": 6,
+      "name": "Debug機能・実時間",
+      "verdict": "NO-GO",
+      "scope": "CTest33/33、主行列53機能・RAW・周期はGO",
+      "reason": "最終Debug主行列DSP期限超過34件、操作試験2件。旧x86_64全曲121件とも区別"
+    },
+    {
+      "id": 7,
+      "name": "主観音質・実音響",
+      "verdict": "未検証",
+      "scope": "RAW・加工数式・非有限値・比較用WAVと波形を技術検証",
+      "reason": "試聴・物理ループバックなし。RMS最大+13.14dBを音質承認にしない"
+    },
+    {
+      "id": 8,
+      "name": "Sandbox・TCC・bookmark・FD・実アプリ",
+      "verdict": "未検証",
+      "scope": "TimeStretchLab実Sandbox・scope・範囲外拒否・FD寿命はGO",
+      "reason": "Merodoaの実TCC拒否・期限切れbookmark・実アプリ統合は未実施"
+    },
+    {
+      "id": 9,
+      "name": "一般公開・Merodoa既定採用",
+      "verdict": "NO-GO",
+      "reason": "上記未達があるため既定フラグ維持。Step3は明示opt-in研究接続と検証済み固定条件のみ"
+    }
+  ],
+  "retained_trials": [
+    {
+      "root": "final_v8",
+      "reason": "7 completed suites retain their original source SHA; quality-rate error found before quality execution; remaining suites and corrected quality run at F9 with explicit unchanged-source/binary dependency audit."
+    },
+    {
+      "root": "final_v4",
+      "reason": "x86_64試行とarm64 oracleのExact576不一致。最終版へ移さない。"
+    },
+    {
+      "root": "final_v5",
+      "reason": "制御試験stack超過2件と48→48開始時刻不連続1件。crash reportと異常窓を保持。"
+    },
+    {
+      "root": "final_v6",
+      "reason": "100ms高速Clearで次PCM未準備、430paddingの再現。試験成功表示の見逃しを必須ファイル検査が検出。"
+    },
+    {
+      "root": "final_v7",
+      "reason": "Clear検証を正常EOSと退役後診断まで仕上げる途中のソース変更。CTest実測成功を最終版へ移さない。"
+    }
+  ],
+  "limitations": [
+    "現在周期内の動的速度・動的MapのB確定・Phase59同一履歴参照は未実装",
+    "異速度境界の独立最終キャプチャ未実施",
+    "B直前手動seekの一般対応未承認",
+    "旧・途中時計異常の根本原因未確定",
+    "旧版の処理段階別CPU内訳と通常増分再生CPUは未測定",
+    "試聴・実音響・ピアノの収録方法の独立確認は未実施。既存実曲ピアノ素材の技術試験は別台帳",
+    "Merodoa実アプリTCC拒否・期限切れbookmark未実施",
+    "Fast Local78/1080・stereo Ready p95 200ms・旧Debug121は持越し"
+  ]
+}

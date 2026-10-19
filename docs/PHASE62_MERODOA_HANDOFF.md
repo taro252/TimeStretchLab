@@ -1,59 +1,75 @@
-# Phase62：Merodoa Step3へのAPI引継ぎ（公開NO-GO）
+# Phase62 Fix：Merodoa Step3への引継ぎ（一般公開NO-GO）
 
-今回の変更はTimeStretchLabのみ。MerodoaのUI・保存・SwiftData・submodule参照は変更していない。Step3接続は別作業で、現行の200ms方式をこの変更だけで既定置換しない。
+変更対象はTimeStretchLabだけ。Merodoa本体、submodule参照、SwiftUI、SwiftData、既定経路は変更しない。Step3で進められるのは、明示opt-inの研究用ブリッジと限定検証まで。長周期の途中速度応答が未達であり、現行の200ms方式を既定で置き換えない。
 
-## Objective-C++ブリッジとSwiftの値モデル
+## キュー、値モデル、入力寿命
 
-専用の非メイン直列キュー（操作を順に一件ずつ実行する作業列）で作成、prepare、全操作・照会、stop、破棄を実行する。C++構造体が変わるため、全関連ライブラリとブリッジを同じソースで再ビルドする。旧ヘッダー／旧バイナリを混在させない。アプリが保護入力のsecurity scopeを、全所有者のjoinと入力lease解放まで維持する。
+専用の非メイン直列キューで作成、prepare、操作・照会、stop、破棄を実行する。構造体が追加されたため、ブリッジと全ライブラリを同じソースで再ビルドする。C++所有者やPCMポインタをSwiftへ渡さず、入力世代、session、renderEpoch、loopID、要求IDをuint64_tの値としてコピーする。MainActorへは値のコピーだけを送る。
+
+アプリは保護入力のsecurity scopeを全DSPの停止、join、入力lease解放まで維持する。圧縮音源のデコードは初回だけ。入力と解析は不変参照で共有する。単なるファイルパスの保存をsecurity scopeやbookmarkの代わりにしない。
 
 ```cpp
 ProgressiveOptions options;
-options.allowExperimentalLoops = true; // 利用者が明示選択した研究版だけ
+options.allowExperimentalLoops = true; // 明示的な研究モードだけ
 engine.prepare(protectedWavPath, options);
-// Readyを確認。同じ直列キューで取得した文脈を使う。
+// Readyを確認し、同じ直列キューで取得した文脈を使う。
 auto s = engine.getStateSnapshot();
-progressive::LoopContext context{s.inputGeneration, s.session, s.renderEpoch};
-auto receipt = engine.requestLoopRange(A, B, context); // AB: 必ずAへ復帰
-// receipt.accepted は受付。準備／実交換／音質合格は別。
+progressive::LoopContext c{s.inputGeneration, s.session, s.renderEpoch};
+auto receipt = engine.requestLoopRange(A, B, c);
 auto loop = engine.getLoopSnapshot();
+auto speedState = engine.getStateSnapshot();
+progressive::LoopContext speedContext{speedState.inputGeneration, speedState.session, speedState.renderEpoch};
+auto speedReceipt = engine.requestLoopSpeed(.75, speedContext);
 ```
 
-全曲は `requestLoopRange(0,inputFrames,context,{LoopStartPolicy::KeepPosition})`。原曲の入力フレームで指定し、秒や出力フレーム、速度から永続A/Bを作らない。PCM16/Float32、44.1/48kHz、mono/stereoの検査済みWAVを使う。圧縮音源はアプリ側で従来どおり初回だけデコードする。
+A/Bは入力フレームの半開区間。永続保存に出力座標や速度から逆算した秒を使わない。receipt.acceptedは受付だけで、準備、音声適用、音質承認は別。例外、受付拒否、再生失敗を区別する。
 
-Objective-C++側ではuint64_tを`NSNumber`／専用の不変DTOへコピーし、C++所有者やPCMポインタをSwiftへ渡さない。Swift `PlaybackLoopContext`、`PlaybackLoopReceipt`、`PlaybackLoopSnapshot`相当の値モデルを用意する。ブリッジの例外を、受付拒否と再生失敗を区別したエラーへ変換する。UIはMainActorへ値のコピーだけを送る。callbackからSwift/UI通知を呼ばない。
+## 能力と対応範囲
 
-## 受付と状態
+`loopAvailability()` はimplemented／optIn／allowed／publicLoopApprovedを分離し、最後はfalse。`Capabilities.seek=false`も維持する。今回追加した `currentCycleSpeedChanges=false` を参照し、長い現在周期の途中で速度が反映されるUI期待を持たせない。
 
-`loopAvailability()` の `implemented` は実装の存在、`optIn` はこのインスタンスの設定、`allowed` は一時点の受付可能状態、`publicLoopApproved` は一般公開承認。最後はfalse。`Capabilities.seek=false`も変更しない。
+保存範囲は1フレームから、実行受付は入力100ms以上かつ確定出力周期512以上。最大callback4096で複数境界を扱う。TimeMapの確定長は平均速度による概算と異なり、準備失敗・未対応を理由付きで扱う。実測した入力形式、速度、装置、Aの範囲は `results/phase62_fix/REPORT.md` に限る。
 
-`requestLoopRange(A,B,context,options)` は非同期受付IDを返す。ID、入力世代、session、元epochを保存し、`getLoopSnapshot()` の同じIDを追跡する。`Pending / Preparing / Armed / Active / Cancelled / Rejected / Failed / Disabled`を区別する。`initialPositionComplete` が初回A復帰の完了、`enabled` が以後の自動実行の意思、`cycles` が実際に完了した周期境界数。A復帰・手動補正・Clearの通常継続は周回に含めない。Armedだけを音が出た証拠にしない。
+同速度は一つのDSPプログラムを再利用し、Mapやworkerを毎周作り直さない。短区間RAWは最大96000出力フレーム、全曲PCMは保持しない。最大2つの稼働DSP、FIFO16384、予約1GiBの制限を守る。
 
-拒否された新要求は既存の有効設定を取り消さず、receiptの理由を返す。有効設定がなければRejectedも照会に残る。最新の拒否IDだけを見て、先行する有効IDの追跡を失わない。
+## 状態、ID、音声の進行
 
-保存は1フレームから可能だが、実行受付は500ms以上。1フレーム／100msは理由付き拒否。500ms以上でも任意音源・任意A・全装置で期限を保証しない。準備失敗や期限違反はFailedと安全停止であり、自動再開しない。
+Pending／Preparing／Armed／Active／Cancelled／Rejected／Failed／Disabledを分ける。initialPositionCompleteは初回移動の完了、enabledは自動反復の意思、cyclesは実際に完了した境界数。初回A復帰、手動seek、Clear継続は周回に含めない。新要求の拒否で既存有効設定を取り消さない。
 
-## session・入力世代・epoch
+inputGenerationは入力世代、sessionはDSP所有者、renderEpochは論理出力区間。同じDSPを反復してもrenderEpochは進み、sessionは維持できる。自動反復をユーザーSeek台帳へ加算しない。設定のsessionは受付時の結び付きとして保持する。新入力／再prepare／Stopは設定を解除する。曲UUID、prepare UUIDも併用し、遅い返信を捨てる。
 
-inputGenerationは入力音源の世代、sessionはDSP再生単位の識別子、renderEpochは出力区間の世代番号である。
+ClearはloopIDと入力世代、受付時または現在のsessionを照合する。自動周回によるepoch進行だけでClearを拒否しない。古いIDで新しい設定を解除しない。
 
-新設定は現在の非0のinputGeneration/session/renderEpochを必須にして古い操作を拒否する。自動周期は新DSPに伴い現在のnative sessionとrenderEpochが進む。**設定のsessionは受付時の結び付き**として保持し、自動周期だけで設定を解除しない。新入力や明示Stop／再prepareは設定を解除する。native session/epochは混合開始時に先に進み、cycles/lastBoundaryは混合完了（旧B）で確定する。snapshotのcyclesは設定IDごと、境界イベントのcycleは入力寿命内の累積番号である。
+## 操作と優先順位
 
-`requestClearLoop(loopID,context)` は対象IDと入力世代、受付sessionまたは現在sessionを照合し、epochの進行だけでは拒否しない。新しく作られた設定へ古いIDのClearは適用しない。Swift側では元prepare UUID／曲UUID／操作トークンも保持し、別曲・新prepareの遅い返信を捨てる。
+- AB ONはReturnToAを1件送る。先行して通常seekを送らない。Ready／Paused／Playingを維持する。
+- 全曲はKeepPosition。既存動的速度計画や初回予約の残量不足は理由付きで拒否する。暗黙にAへ戻さず、利用者がReturnToAを選べるようにする。
+- 速度はrequestLoopSpeedで受付／重複／理由を得る。Preparingでは最新値へ再計画する。再利用中の有効な自己反復を残して未開始のArmed置換を取消できる。Startedの補正が参照した版は保持する。現在周期の途中変更は未実装で、Bで固定速度プログラムへ接続する。
+- clearPending中は「ループ解除の継続準備待ち」と理由付き拒否し、再生停止とは表示しない。Clear完了後に最新の文脈で再送する。既存setSpeedのStopped応答は互換性を維持するが、新ブリッジは理由を返すAPIを使う。
+- 手動seekは範囲内の指定位置、範囲外（Bを含む）はAへ補正する。B直前の進入混合より短い残量の一般対応は未承認。検証済み位置に限定する。
+- Pauseは原子的要求／callback応答で静止し、開始済み処理を終えてから成功する。成功後は音声・周回を進めない。Resumeまで先読みを保持する。
+- Clearの受付でenabled=false。clearPendingなら、現在の有効な反復PCMを保ったまま、準備後の安全なBから通常再生への接続待ち。末尾加工が既に確定していれば次周期Bへ送る。待機中の実周回数は進む。旧boundedはBまで、新通常入力はB以後を正当に使う。Ready／Pausedでは準備だけで自動再開しない。
+- Stop、装置変更、入力喪失、準備・供給失敗はループを解除する。明示Playでループを復元しない。Failedから自動再試行しない。
 
-## 操作の接続
+native LoopがenabledまたはclearPendingの間、200msの自動seek監視を同時に動かさない。フォールバックにはClear完了か明示Stopの完了が必要である。
 
-- **AB ON**：別の通常seekを先に送らず、ReturnToAの設定を一件だけ送る。元のReady/Paused/Playingを維持する。A移動の希望表示と確定位置を分離する。
-- **1曲**：KeepPositionを指定し、現在位置から曲末を経てA=0へ接続する。既存区間に動的速度要求がある場合は拒否するため、理由を表示して利用者がA復帰を選べるようにする。暗黙に先頭へ移動しない。有界ABから位置維持の1曲へ切り替える場合は、Clear完了を先に確認するか、明示してReturnToAを選ぶ。
-- **速度**：`setSpeed(speed,currentSession,currentGeneration,currentEpoch)` はループ中、次の未予約周期への固定速度要求を受け付ける。準備中は同IDで最新値へ再計画するが、Armed周期は保持し、その次に適用する。最大で現在周期の残り＋予約済みの旧速度一周期を待つ。snapshotの`speedRequestID / requestedSpeed / appliedSpeed`で受付と適用を分ける。これは既存Phase59操作履歴の新しい周期内プランではない。長周期の途中へ即時適用するUI期待は満たさない。clearPending中は受付不能（Stopped）として拒否するため、Clear完了後に最新文脈で再送する。
-- **手動seek**：既存の入力フレームAPIを使う。範囲内は維持、範囲外はネイティブでもA補正する。古い文脈なら理由付き拒否を処理する。自動準備より優先するが、B直前の厳しい期限ではFailedとなり得る。
-- **Pause/Resume**：成功したPauseは設定と先読みを保持。Resumeまで周期を進めない。Pause拒否時はStep1同様、停止の意思を優先し、UIモードと未送信自動操作を解除する。
-- **OFF/Clear**：receipt受理で`enabled=false`になる。`clearPending`中は現在周期Bから通常再生への接続待ち。既に開始した混合を取り消さない。Paused/ReadyならPlay/Resumeまで音声を再開しない。準備期限違反はFailedとして表示する。
-- **Stop/曲変更/終了/装置変更**：モードと未送信操作を先に無効化し、stopする。明示Play後も保存範囲からONや自動再生を復元しない。
+## 出力の意味と診断
 
-## 従来方式から切り替える条件
+自動反復は時間的な5ms重畳を廃止し、境界前後だけへsmoothstep補正を加える。固定周期はL=OB−OA。`overlapFrames=0`、`boundaryProcessingFrames=N`。窓外はRAWビットを維持するが、任意のA/Bで音量・位相・アタックの完全保持を保証しない。出力ゲイン0.5は維持する。Clearだけは通常継続用の既存5ms混合である。
 
-現時点の製品採用はNO-GO。Step3の開発版はユーザーの明示opt-inと限定試験だけにする。公開承認には、各音源のアタック・持続音・左右位相、長いAの期限、全速度、Sandbox/TCC/FD寿命、装置変更、実音響ループバック、反復負荷を別々に確認する必要がある。
+LoopBoundaryEvent.callbackFrameは論理Bのcallback座標、renderNsは処理時計、halBoundaryEstimateNsはHAL提示時刻の推定（0は未取得）。物理的音響の提示時刻とは異なる。音響ループバックなしに可聴ギャップ0と表示しない。
 
-Loop未対応／opt-inなし／受付拒否なら、理由を表示してStep1の既存実行へフォールバックできる。ただしネイティブLoopがすでにenabled/clearPendingなら、Clearまたは明示Stopの完了を確認するまで200msの自動seek監視を同時に動かさない。Failedは自動再開せず、利用者の明示操作を待つ。能力照会と受付結果の両方を照合する。
+oldMissingFrames／newMissingFramesは入力単位、outputAffectedFramesは必要な入力が欠けた出力位置の和集合、failurePaddingFramesは安全停止のために0を出した出力位置。safetyStopFramesは最後の互換名。原音の無音や正常EOSを不足へ数えない。不足境界を成功周回へ加算せず、元の理由をFailedへ残す。
 
-callback処理時刻とHAL host-time推定、物理的な音響提示は別。`LoopBoundaryEvent.callbackFrame` は混合末尾にある論理Bのエンジン出力座標で、`renderNs`は処理時計。`halBoundaryEstimateNs`は有効なcallback host-timeにcallback内の境界フレーム差を加えた推定で、0は未取得。音響提示時刻ではない。5ms重畳により周期の提示時間はRAW区間より短い。音響loopbackなしに「可聴ギャップ0」と表示しない。結果と未達は `results/phase62/REPORT.md` を参照する。
+## 実アプリで残る確認手順
+
+TimeStretchLabの実行済みSandbox／FD／失敗処理と、その制限は新REPORTを参照する。非Sandbox CLIや合成済みローカルWAVの成功を、Merodoaの権限検証に置き換えない。
+
+1. 実際の署名・entitlementsで起動し、NSOpenPanelによる初回選択、scope開始、全所有者停止までの寿命、外部パス拒否を確認する。
+2. 実曲のbookmarkを保存して再起動し、解決時のisStaleとscope開始失敗を処理する。移動／削除／アクセス取消／外部ボリューム取り外しを行い、理由付き停止と明示再選択を確認する。
+3. 保護領域のTCC拒否と後からの許可取消を実際に行い、古い要求やPrepared版が復活しないことを確認する。
+4. Preparing／Armed／Started／Pause／Clear待ちで曲変更・ウィンドウ終了・Stopを行い、FD数、所有者数、join後のscope終了を観測する。
+5. 対応装置を変えて元へ戻し、SourceNode／deviceの時計を分ける。試聴と音響ループバックを行い、低音・左右位相・アタック・定位・周期を別々に承認する。
+6. 現在周期の動的Map統合、B確定、Phase59同一適用履歴の独立参照とL1/L2を実装・測定する。それまでは長周期速度応答を製品対応としない。
+
+旧時計異常の根本原因、Debug実時間、Fast Local長尺78/1080件、stereo Ready p95 200msは、今回の固定RAW成功で解消扱いにしない。9つの判定ゲートを分け、全てを満たすまで一般公開とMerodoa既定採用はNO-GOとする。

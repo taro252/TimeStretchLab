@@ -13,6 +13,7 @@ public:
     FFTAccelerate(const FFTAccelerate&) = delete;
     FFTAccelerate& operator=(const FFTAccelerate&) = delete;
     std::size_t size() const { return size_; }
+    static std::uint64_t threadPlanCreations()noexcept; // diagnostic counter, constructor thread only
     // Spectrum contains N/2+1 bins, including DC and Nyquist.
     void forward(const float* timeDomain, std::complex<float>* spectrum);
     void inverse(const std::complex<float>* spectrum, float* timeDomain);

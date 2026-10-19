@@ -59,8 +59,10 @@ struct OutputAudit {
     std::atomic<std::size_t> errors{0},mixedFrames{0},outputFrames{0};
     std::atomic<bool> switchObserved{false};
     std::uint64_t nextClock=0;
-    std::array<ProgressiveOutputSpan,4096> spans{};std::size_t count=0;
-    OutputAudit(std::size_t ch,std::size_t frames):raw(ch,frames),channels(ch){}
+    // Phase62 metadata makes 4096 records exceed the default control-thread
+    // stack. Allocate once before playback; the callback only assigns slots.
+    std::vector<ProgressiveOutputSpan> spans;std::size_t count=0;
+    OutputAudit(std::size_t ch,std::size_t frames):raw(ch,frames),channels(ch),spans(4096){}
     static void source(void* ctx,const float*const* p,std::size_t n,std::size_t at,std::uint64_t gen,std::uint64_t epoch,std::uint64_t session)noexcept{
         Capture::observe(&static_cast<OutputAudit*>(ctx)->raw,p,n,at,gen,epoch,session);
     }

@@ -54,7 +54,7 @@ def main():
                 for frame in range(n):
                     for channel in range(ch):overlap_reference[frame,channel]=fmaf(float(original[-n+frame,channel]),float(np.float32(1)-w[frame,0]),float(new_product[frame,channel]))
                 expected=np.concatenate((original[:-n],overlap_reference,original[n:-n]))
-                exact=old.shape==original.shape and old.tobytes()==original.tobytes() and new.tobytes()==original[:len(new)].tobytes() and np.array_equal(mixed,expected)
+                exact=old.shape==original.shape and old.tobytes()==original.tobytes() and new.tobytes()==original[:len(new)].tobytes() and mixed.tobytes()==expected.tobytes() and all(np.isfinite(x).all() for x in (original,old,new,mixed,expected))
                 overlap=mixed[length-n:length];rms=lambda x:np.sqrt(np.mean(x.astype(np.float64)**2,axis=0))
                 base_rms=np.sqrt((rms(original[-n:])**2+rms(original[:n])**2)/2)
                 ratio=20*np.log10(np.maximum(rms(overlap),1e-30)/np.maximum(base_rms,1e-30))

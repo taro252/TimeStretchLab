@@ -32,7 +32,7 @@ def main():
     error='';good=False
     try:
         first=wait(lambda s:s['state']=='Playing');send(f'loop 0 {rate*2}')
-        armed=wait(lambda s:s['id'] and s['loop_state']=='Armed' and s['cycles']>=1)
+        armed=wait(lambda s:s['id'] and s['loop_state'] in ('Armed','Active') and s['cycles']>=1)
         send('speed 0.75');send('speed 0.75');wait(lambda s:s['applied']==.75 and s['cycles']>=armed['cycles'])
         send('pause');wait(lambda s:s['state']=='Paused');send(f'loop {rate//4} {3*rate//4}')
         paused=wait(lambda s:s['state']=='Paused' and s['a']==rate//4 and s['b']==3*rate//4 and s['input']==str(rate//4))

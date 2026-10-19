@@ -1,0 +1,423 @@
+{
+  "PASS": true,
+  "source_unchanged": true,
+  "original_phase62_all_9678_sha_match": true,
+  "final_binary_audit_pass": true,
+  "threshold_bytes": 50000000,
+  "staged_empty": true,
+  "candidate_scope": "tracked unstaged plus untracked, including small results manifests; ignored build artifacts excluded",
+  "candidates": [
+    {
+      "path": "CMakeLists.txt",
+      "bytes": 58206
+    },
+    {
+      "path": "docs/PHASE62_FIX_LOOP_REUSE.md",
+      "bytes": 8951
+    },
+    {
+      "path": "docs/PHASE62_FIX_ROOT_CAUSE.md",
+      "bytes": 12229
+    },
+    {
+      "path": "docs/PHASE62_MERODOA_HANDOFF.md",
+      "bytes": 8866
+    },
+    {
+      "path": "docs/PHASE62_SEAMLESS_LOOP_DESIGN.md",
+      "bytes": 10995
+    },
+    {
+      "path": "results/phase62_fix/ARTIFACT_MANIFEST.json",
+      "bytes": 501555
+    },
+    {
+      "path": "results/phase62_fix/CHANGED_FILES.json",
+      "bytes": 26337
+    },
+    {
+      "path": "results/phase62_fix/PROVENANCE.json",
+      "bytes": 10884
+    },
+    {
+      "path": "results/phase62_fix/RECIPE_MANIFEST.json",
+      "bytes": 16858
+    },
+    {
+      "path": "results/phase62_fix/REPORT.md",
+      "bytes": 24867
+    },
+    {
+      "path": "results/phase62_fix/RESTORE.md",
+      "bytes": 11334
+    },
+    {
+      "path": "results/phase62_fix/SOURCE_MANIFEST.json",
+      "bytes": 99816
+    },
+    {
+      "path": "results/phase62_fix/SUMMARY.json",
+      "bytes": 786679
+    },
+    {
+      "path": "results/phase62_fix/recipes/artifact_index.py",
+      "bytes": 4024
+    },
+    {
+      "path": "results/phase62_fix/recipes/boundary_methods.py",
+      "bytes": 6206
+    },
+    {
+      "path": "results/phase62_fix/recipes/changed_files.py",
+      "bytes": 958
+    },
+    {
+      "path": "results/phase62_fix/recipes/clock_startup_extended.py",
+      "bytes": 1944
+    },
+    {
+      "path": "results/phase62_fix/recipes/collect_final.py",
+      "bytes": 12398
+    },
+    {
+      "path": "results/phase62_fix/recipes/deep_independent.py",
+      "bytes": 2718
+    },
+    {
+      "path": "results/phase62_fix/recipes/deep_long_seed.py",
+      "bytes": 3082
+    },
+    {
+      "path": "results/phase62_fix/recipes/dependency_audit.py",
+      "bytes": 2340
+    },
+    {
+      "path": "results/phase62_fix/recipes/exact_finite.py",
+      "bytes": 2737
+    },
+    {
+      "path": "results/phase62_fix/recipes/export_recipes.py",
+      "bytes": 1726
+    },
+    {
+      "path": "results/phase62_fix/recipes/fd_lifetime.cpp",
+      "bytes": 4183
+    },
+    {
+      "path": "results/phase62_fix/recipes/fd_lifetime.py",
+      "bytes": 1646
+    },
+    {
+      "path": "results/phase62_fix/recipes/figure_repair.py",
+      "bytes": 2525
+    },
+    {
+      "path": "results/phase62_fix/recipes/final_binary_audit.py",
+      "bytes": 1617
+    },
+    {
+      "path": "results/phase62_fix/recipes/final_checks.py",
+      "bytes": 2599
+    },
+    {
+      "path": "results/phase62_fix/recipes/finalize_report.py",
+      "bytes": 15269
+    },
+    {
+      "path": "results/phase62_fix/recipes/inside_seek.py",
+      "bytes": 2766
+    },
+    {
+      "path": "results/phase62_fix/recipes/inside_seek_native.cpp",
+      "bytes": 28596
+    },
+    {
+      "path": "results/phase62_fix/recipes/listening_pack.py",
+      "bytes": 2580
+    },
+    {
+      "path": "results/phase62_fix/recipes/oracle_compile.log",
+      "bytes": 0
+    },
+    {
+      "path": "results/phase62_fix/recipes/oracle_link.log",
+      "bytes": 0
+    },
+    {
+      "path": "results/phase62_fix/recipes/oracle_manifest.json",
+      "bytes": 2248
+    },
+    {
+      "path": "results/phase62_fix/recipes/original_phase62_audit.py",
+      "bytes": 1164
+    },
+    {
+      "path": "results/phase62_fix/recipes/paired_1000.py",
+      "bytes": 4515
+    },
+    {
+      "path": "results/phase62_fix/recipes/piano_listening_pack.py",
+      "bytes": 2561
+    },
+    {
+      "path": "results/phase62_fix/recipes/piano_quality.py",
+      "bytes": 2775
+    },
+    {
+      "path": "results/phase62_fix/recipes/piano_waveform.py",
+      "bytes": 5867
+    },
+    {
+      "path": "results/phase62_fix/recipes/plot_requirements.txt",
+      "bytes": 189
+    },
+    {
+      "path": "results/phase62_fix/recipes/post_clear_clock.py",
+      "bytes": 1206
+    },
+    {
+      "path": "results/phase62_fix/recipes/provenance.py",
+      "bytes": 4394
+    },
+    {
+      "path": "results/phase62_fix/recipes/run_final.py",
+      "bytes": 4207
+    },
+    {
+      "path": "results/phase62_fix/recipes/sandbox_run.py",
+      "bytes": 5437
+    },
+    {
+      "path": "results/phase62_fix/recipes/waveform_analysis.py",
+      "bytes": 6033
+    },
+    {
+      "path": "scripts/phase62_cli_smoke.py",
+      "bytes": 3949
+    },
+    {
+      "path": "scripts/phase62_clock_audit.py",
+      "bytes": 2980
+    },
+    {
+      "path": "scripts/phase62_evidence.py",
+      "bytes": 17927
+    },
+    {
+      "path": "scripts/phase62_fix_additional.py",
+      "bytes": 8639
+    },
+    {
+      "path": "scripts/phase62_fix_quality.py",
+      "bytes": 10793
+    },
+    {
+      "path": "scripts/phase62_quality.py",
+      "bytes": 7159
+    },
+    {
+      "path": "scripts/phase62_summarize.py",
+      "bytes": 598
+    },
+    {
+      "path": "scripts/phase62_verify.py",
+      "bytes": 11109
+    },
+    {
+      "path": "src/dsp/FFTAccelerate.cpp",
+      "bytes": 2259
+    },
+    {
+      "path": "src/dsp/FFTAccelerate.h",
+      "bytes": 1121
+    },
+    {
+      "path": "src/dsp/Phase14PlaybackPipeline.cpp",
+      "bytes": 17445
+    },
+    {
+      "path": "src/dsp/Phase14PlaybackPipeline.h",
+      "bytes": 5582
+    },
+    {
+      "path": "src/platform/macos/ProgressiveMacPlaybackEngine.h",
+      "bytes": 11589
+    },
+    {
+      "path": "src/platform/macos/ProgressiveMacPlaybackEngine.mm",
+      "bytes": 97574
+    },
+    {
+      "path": "src/playback/ProgressiveLoopContract.h",
+      "bytes": 2904
+    },
+    {
+      "path": "src/prototype/Phase57ProgressiveSynthesis.cpp",
+      "bytes": 28832
+    },
+    {
+      "path": "src/prototype/Phase57ProgressiveSynthesis.h",
+      "bytes": 4704
+    },
+    {
+      "path": "src/prototype/Phase58RealtimePipeline.cpp",
+      "bytes": 92081
+    },
+    {
+      "path": "src/prototype/Phase58RealtimePipeline.h",
+      "bytes": 11567
+    },
+    {
+      "path": "src/prototype/Phase62LoopBoundary.h",
+      "bytes": 2088
+    },
+    {
+      "path": "tests/Phase61InteractiveNativeTests.cpp",
+      "bytes": 24898
+    },
+    {
+      "path": "tests/Phase62DeadlineNative.cpp",
+      "bytes": 7442
+    },
+    {
+      "path": "tests/Phase62EvidenceTests.py",
+      "bytes": 5983
+    },
+    {
+      "path": "tests/Phase62FixCheckpointTests.cpp",
+      "bytes": 3880
+    },
+    {
+      "path": "tests/Phase62FixClockNative.cpp",
+      "bytes": 4334
+    },
+    {
+      "path": "tests/Phase62FixRenderTests.mm",
+      "bytes": 8430
+    },
+    {
+      "path": "tests/Phase62FixReuseTests.cpp",
+      "bytes": 6449
+    },
+    {
+      "path": "tests/Phase62FixSafetyTests.mm",
+      "bytes": 9973
+    },
+    {
+      "path": "tests/Phase62FixSandboxApp.mm",
+      "bytes": 6143
+    },
+    {
+      "path": "tests/Phase62FixTrace.h",
+      "bytes": 2485
+    },
+    {
+      "path": "tests/Phase62LoopTests.cpp",
+      "bytes": 5132
+    },
+    {
+      "path": "tests/Phase62NativeTests.cpp",
+      "bytes": 24030
+    },
+    {
+      "path": "tests/Phase62PcmAudit.h",
+      "bytes": 2915
+    }
+  ],
+  "violations": [],
+  "self_excluded_from_rows": true,
+  "self_size_checked_after_write": true,
+  "commands": [
+    {
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "cwd": "/Users/taro252/Docker/TimeStretchLab",
+      "exit": 0,
+      "stdout": "d25433c88a1bae83b89168a26f1c6c9d8053a644\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "branch",
+        "--show-current"
+      ],
+      "cwd": "/Users/taro252/Docker/TimeStretchLab",
+      "exit": 0,
+      "stdout": "main\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "cwd": "/Users/taro252/Docker/TimeStretchLab",
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/check_git_blob_sizes.py",
+        "staged"
+      ],
+      "cwd": "/Users/taro252/Docker/TimeStretchLab",
+      "exit": 0,
+      "stdout": "Git blob容量検査: 合格（新規対象は50,000,000バイト未満）\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--cached",
+        "--name-only"
+      ],
+      "cwd": "/Users/taro252/Docker/TimeStretchLab",
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "HEAD",
+        "--",
+        "results/phase62"
+      ],
+      "cwd": "/Users/taro252/Docker/TimeStretchLab",
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "cwd": "/Users/taro252/Docker/merodoa",
+      "exit": 0,
+      "stdout": "c52fde5c06a56fe7acf74617bb90583dfdb9dcf1\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "status",
+        "--porcelain"
+      ],
+      "cwd": "/Users/taro252/Docker/merodoa",
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ]
+}

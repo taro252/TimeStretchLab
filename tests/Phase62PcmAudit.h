@@ -3,6 +3,7 @@
 #include <array>
 #include <atomic>
 #include <cmath>
+#include <bit>
 // Host-owned, fixed storage; only one callback writer. Inspect after quiescence.
 struct LoopPcmAudit {
     struct Raw {std::uint64_t epoch=0;std::size_t next=0;std::array<std::array<float,8192>,2> pcm{};};
@@ -23,7 +24,13 @@ struct LoopPcmAudit {
             float expected=fresh&&i<span.newReceivedFrames?fresh->pcm[c][(span.newOutputOffset+i)%8192]:0.f;
             if(i<span.mixedFrames){const float prev=old&&i<span.oldReceivedFrames?old->pcm[c][(span.oldOutputOffset+i)%8192]:0.f;
                 const auto gain=float(span.transitionOffset+i+1)/float(span.transitionLength);expected=prev*(1.f-gain)+expected*gain;}
-            if(p[c][i]!=expected)++a.errors;if(!std::isfinite(p[c][i]))++a.nonfinite;zero&=p[c][i]==0;
+            if(span.periodicBoundary){
+                const auto at=span.periodOffset+i,n=span.boundaryFrames;const auto last=span.boundaryLast[c],first=span.boundaryFirst[c];
+                if(span.correctionHead){if(!at)expected=last*.5f+first*.5f;else{const auto x=1.f-float(at)/float(n);const auto w=x*x*(3.f-2.f*x);expected+=(last-first)*.5f*w;}}
+                if(span.correctionTail){const auto atTail=at-(span.periodFrames-n);if(atTail+1==n)expected=last*.5f+first*.5f;else{const auto x=float(atTail+1)/float(n);const auto w=x*x*(3.f-2.f*x);expected-=(last-first)*.5f*w;}}
+            }
+            if(i>=span.failurePaddingOffset&&i<span.failurePaddingOffset+span.failurePaddingFrames)expected=0.f;
+            if(std::bit_cast<std::uint32_t>(p[c][i])!=std::bit_cast<std::uint32_t>(expected))++a.errors;if(!std::isfinite(p[c][i]))++a.nonfinite;zero&=p[c][i]==0;
         }a.zeroFrames+=zero;}
         a.frames+=span.frames;a.mixed+=span.mixedFrames;
     }

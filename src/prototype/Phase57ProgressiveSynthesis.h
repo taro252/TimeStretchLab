@@ -61,6 +61,11 @@ public:
         std::span<const unsigned char> sameResidentBytes,std::function<void()> validateInput={})const;
     // A clone adopts the new epoch's same final fixed map before producing PCM.
     void prepareCheckpointForEpoch();
+    // Persistent fixed-loop producer only. Same final snapshot object, resident
+    // identity, speed/configuration; restores into existing FFT/work buffers.
+    // No callback API. Rejects dynamic history and foreign checkpoint lineage.
+    bool restoreFixedLoopCheckpoint(const ProgressiveSynthesisEngine&);
+    bool captureFixedLoopCheckpoint(ProgressiveSynthesisEngine& preparedSlot)const;
     // Experimental local phase origin, NOT Exact Seek. Final fixed analysis/map
     // must already be supplied; call once, before advance, on the normal owner.
     // Returned absolute output prefix is synthesized then discarded by caller.

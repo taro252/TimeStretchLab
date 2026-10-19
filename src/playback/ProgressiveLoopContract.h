@@ -13,11 +13,13 @@ enum class LoopStartPolicy {ReturnToA,KeepPosition};
 struct LoopContext {std::uint64_t inputGeneration=0,session=0,renderEpoch=0;};
 struct LoopOptions {LoopStartPolicy startPolicy=LoopStartPolicy::ReturnToA;};
 struct LoopReceipt {std::uint64_t id=0;bool accepted=false;std::string reason;};
+struct LoopSpeedReceipt {std::uint64_t id=0;bool accepted=false,duplicate=false;std::string reason;};
 struct LoopBoundaryEvent {
-    std::uint64_t loopID=0,cycle=0,oldEpoch=0,newEpoch=0;
+    std::uint64_t loopID=0,cycle=0,settingCycle=0,oldEpoch=0,newEpoch=0;
     std::uint64_t inputA=0,inputBExclusive=0,oldOutputEnd=0,newOutputStart=0;
     std::uint64_t callbackFrame=0,renderNs=0,halBoundaryEstimateNs=0; // frame of logical B, after overlap
     std::uint32_t overlapFrames=0;
+    std::uint32_t boundaryProcessingFrames=0; // Fix: each side; overlapFrames=0, period stays L
 };
 struct LoopSnapshot {
     std::uint64_t id=0,inputGeneration=0,session=0,sourceRenderEpoch=0,currentRenderEpoch=0;
@@ -28,13 +30,18 @@ struct LoopSnapshot {
     std::uint64_t speedRequestID=0,acceptedNs=0,readyNs=0,preparationCount=0;
     std::uint64_t lastPreparationNs=0,lastReadyNs=0,maxPreparationNs=0;
     std::uint64_t safetyStopFrames=0; // explicit failure output, never successful silence
+    std::uint64_t oldMissingFrames=0,newMissingFrames=0,outputAffectedFrames=0,failurePaddingFrames=0;
+    bool reusable=false;
+    std::uint64_t periodFrames=0,cacheBytes=0,reuseCount=0,seedRestores=0,mapBuilds=0,workerCreations=0;
+    std::uint64_t coldDiscardedFrames=0,warmDiscardedFrames=0;
     std::optional<LoopBoundaryEvent> lastBoundary;
     std::string reason;
 };
 struct LoopAvailability {
     bool implemented=true,optIn=false,allowed=false,publicLoopApproved=false;
-    std::uint32_t minimumInputMillis=500,maximumCallbackFrames=4096;
+    bool currentCycleSpeedChanges=false; // Phase59 current-cycle loop integration is not approved/implemented
+    std::uint32_t minimumInputMillis=100,maximumCallbackFrames=4096;
 };
 inline bool validLoopRange(std::uint64_t a,std::uint64_t b,std::uint64_t frames)noexcept{return a<b&&b<=frames;}
-inline bool executableLoopRange(std::uint64_t a,std::uint64_t b,std::uint32_t rate)noexcept{return a<b&&b-a>=rate/2;}
+inline bool executableLoopRange(std::uint64_t a,std::uint64_t b,std::uint32_t rate)noexcept{return a<b&&b-a>=rate/10;}
 }
