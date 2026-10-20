@@ -41,6 +41,40 @@ struct Fixture {
     void arm(bool clear=false){auto& h=state.handoff;h.oldTarget=&first;h.newTarget=&second;h.scheduledBoundary=true;h.loopCycle=!clear;h.loopID=7;h.boundaryEnd=first.loopEnd;h.output.prepare(unsigned(state.rate));h.phase=SwitchPhase::Requested;}
 };
 struct Gate {std::atomic<bool> entered{false},release{false};static void observed(void* p){auto& g=*static_cast<Gate*>(p);g.entered=true;Fixture::wait([&]{return g.release.load();});}};
+#ifndef PHASE62_FIX_BASELINE_SOURCE
+static void cancellationTransactions(){
+    using D=ts::prototype::phase58::LoopTransitionState;
+    RenderSwitch h;h.awaitDynamic=true;h.phase=SwitchPhase::Requested;std::atomic<D> dsp{D::Applying};unsigned attempts=0;
+    const auto cancel=[&]{++attempts;auto expected=D::Requested;return dsp.compare_exchange_strong(expected,D::Cancelled);};
+    check(!cancelPreparedSwitch(h,true,cancel)&&h.phase==SwitchPhase::Requested,"Applying route released before DSP result");
+    dsp=D::Requested; // A failed safe-frontier validation returns to Requested.
+    check(cancelPreparedSwitch(h,true,cancel)&&dsp==D::Cancelled&&h.phase==SwitchPhase::Cancelled&&attempts==2,"retry transaction not cancelled before route closure");
+    auto expected=D::Requested;check(!dsp.compare_exchange_strong(expected,D::Applying),"cancelled old request committed late");
+    h.phase=SwitchPhase::Requested;dsp=D::Committed;check(!cancelPreparedSwitch(h,true,cancel)&&h.phase==SwitchPhase::Requested,"committed replacement was released");
+    const auto calls=attempts;check(cancelPreparedSwitch(h,false,cancel)&&attempts==calls,"quiescent Stop waited for an irreversible audio route");
+    h.phase=SwitchPhase::Started;check(!cancelStoppedSwitch(h,true,true),"active callback reference cancelled");
+    check(!cancelStoppedSwitch(h,false,false),"valid partial output cancelled without Stop");
+    check(cancelStoppedSwitch(h,false,true)&&h.phase==SwitchPhase::Cancelled,"quiescent Started Stop still waits for callback");
+    h.phase=SwitchPhase::Done;check(!cancelStoppedSwitch(h,false,true)&&h.phase==SwitchPhase::Done,"completed output rolled back by Stop");
+    RenderState s;RenderTarget old,next;s.target=&next;s.active=true;
+    check(!detachStoppedPreparation(s,&next,&old)&&s.target==&next,"active preparation detached");
+    s.active=false;s.inRender=1;check(!detachStoppedPreparation(s,&next,&old),"referenced preparation detached");
+    s.inRender=0;check(detachStoppedPreparation(s,&next,&old)&&s.target==&old&&!s.active,"stopped preparation left dangling render target");
+    std::cout<<"PASS DSP retry cancellation ordering and quiescent Started Stop\n";
+}
+static void stoppedPartial(const char* path,unsigned partial,bool periodic){
+    Fixture f(path);f.setup(std::size_t(f.state.rate)/10,false,0,0,periodic);const auto fade=std::size_t(f.state.rate)/200;
+    f.advanceTo(f.first.loopEnd-fade-(512-partial));Fixture::wait([&]{return f.old->available()>=512&&f.fresh->available()>=fade;});
+    f.arm();f.state.handoff.periodic=periodic;f.renderFrames(512);
+    check(f.state.handoff.phase==SwitchPhase::Started&&f.state.handoff.output.cursor==partial,"real partial switch not reached");
+    f.state.active=false;check(!f.state.inRender&&cancelStoppedSwitch(f.state.handoff,false,true),"quiescent partial switch did not cancel");
+    check(detachStoppedPreparation(f.state,&f.second,&f.first)==!periodic&&f.state.target==&f.first,"partial Stop did not release preparation target");
+    const auto frames=f.state.callbackFrame;const auto oldConsumed=f.old->diagnostics().consumed,newConsumed=f.fresh->diagnostics().consumed;
+    f.renderFrames(64);check(f.state.callbackFrame==frames&&f.old->diagnostics().consumed==oldConsumed&&f.fresh->diagnostics().consumed==newConsumed&&!f.state.loopCycles,"stopped partial switch consumed or fabricated cycle");
+    f.old->stop();f.fresh->stop();check(f.old->diagnostics().finalDataAvailable&&f.fresh->diagnostics().finalDataAvailable,"partial Stop released unjoined owner");
+    std::cout<<"PASS stopped real partial="<<partial<<" periodic="<<periodic<<" without callback gate\n";
+}
+#endif
 static void pauseRace(const char* path,unsigned partial){
     Fixture f(path);f.setup(std::size_t(f.state.rate)/10);const auto fade=std::size_t(f.state.rate)/200;
     f.advanceTo(f.first.loopEnd-fade-(512-partial));Fixture::wait([&]{return f.old->available()>=512&&f.fresh->available()>=fade;});f.arm();Gate gate;std::exception_ptr error;
@@ -106,7 +140,11 @@ static void lateClear(const char* path){
     std::cout<<"PASS late Clear retains repetition, waits one committed tail, connects without extra cycle\n";
 }
 #endif
-int main(int argc,char** argv){try{check(argc==2,"input");pauseRace(argv[1],1);pauseRace(argv[1],64);singleShort(argv[1]);
+int main(int argc,char** argv){try{check(argc==2,"input");
+#ifndef PHASE62_FIX_BASELINE_SOURCE
+    cancellationTransactions();for(bool periodic:{false,true})for(unsigned partial:{1u,64u})stoppedPartial(argv[1],partial,periodic);
+#endif
+    pauseRace(argv[1],1);pauseRace(argv[1],64);singleShort(argv[1]);
     for(bool clear:{false,true})for(auto kind:{1,2,3})shortage(argv[1],clear,kind&1,kind&2);
 #ifndef PHASE62_FIX_BASELINE_SOURCE
     shortage(argv[1],false,true,false,true);

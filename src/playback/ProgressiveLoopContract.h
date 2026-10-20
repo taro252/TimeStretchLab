@@ -28,6 +28,10 @@ struct LoopSnapshot {
     bool enabled=false,initialPositionComplete=false,clearPending=false;
     double requestedSpeed=1,appliedSpeed=1;
     std::uint64_t speedRequestID=0,acceptedNs=0,readyNs=0,preparationCount=0;
+    std::uint64_t dynamicOperationID=0,dynamicCycle=0,mapVersion=0,dynamicOutputEnd=0;
+    std::uint64_t dynamicSpeedRequestID=0,speedFailureRequestID=0;
+    bool speedPreparationFailed=false;
+    std::string speedDeferReason;
     std::uint64_t lastPreparationNs=0,lastReadyNs=0,maxPreparationNs=0;
     std::uint64_t safetyStopFrames=0; // explicit failure output, never successful silence
     std::uint64_t oldMissingFrames=0,newMissingFrames=0,outputAffectedFrames=0,failurePaddingFrames=0;
@@ -39,7 +43,7 @@ struct LoopSnapshot {
 };
 struct LoopAvailability {
     bool implemented=true,optIn=false,allowed=false,publicLoopApproved=false;
-    bool currentCycleSpeedChanges=false; // Phase59 current-cycle loop integration is not approved/implemented
+    bool currentCycleSpeedChanges=false; // partial implementation; full integration gates remain open
     std::uint32_t minimumInputMillis=100,maximumCallbackFrames=4096;
 };
 inline bool validLoopRange(std::uint64_t a,std::uint64_t b,std::uint64_t frames)noexcept{return a<b&&b<=frames;}

@@ -1,0 +1,361 @@
+{
+  "status": "PASS",
+  "head": "7c05319d8142ef53a70c95be4f214f293bb2428a",
+  "branch": "main",
+  "source_inventory_sha256": "238ad47151ac6d408d7c6eea6dbb5898dda6d43173ff245a238045043500d9f8",
+  "checks": [
+    {
+      "id": "diff_whitespace",
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit": 0,
+      "status": "PASS",
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_dynamic_20261020/final_diff_whitespace.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "empty_staged_blob_check",
+      "command": [
+        "python3",
+        "scripts/check_git_blob_sizes.py",
+        "staged"
+      ],
+      "exit": 0,
+      "status": "PASS",
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_dynamic_20261020/final_empty_staged_blob_check.log",
+        "bytes": 75,
+        "sha256": "eb89348b43482d0dfaacc2c9be41d387740f5f187d79856dccdc2e34012cec2a"
+      }
+    },
+    {
+      "id": "media_ignored",
+      "status": "PASS",
+      "expected": 3383,
+      "executed": 3383,
+      "index": "ARTIFACTS.json"
+    },
+    {
+      "id": "public_flags_unchanged",
+      "status": "PASS"
+    }
+  ],
+  "source_archive_files_verified": 709,
+  "working_file_size": {
+    "threshold_bytes": 50000000,
+    "comparison": "bytes < 50000000",
+    "inspected": 71,
+    "max": {
+      "path": "results/phase62_dynamic_loop/ARTIFACTS.json",
+      "bytes": 1093555
+    },
+    "violations": [],
+    "files": [
+      {
+        "path": "CMakeLists.txt",
+        "bytes": 61482
+      },
+      {
+        "path": "docs/PAUSED_SPEED_CHANGE_HANDOFF.md",
+        "bytes": 14337
+      },
+      {
+        "path": "docs/PAUSED_SPEED_CHANGE_VALIDATION.md",
+        "bytes": 12032
+      },
+      {
+        "path": "docs/PHASE62_DYNAMIC_LOOP_DESIGN.md",
+        "bytes": 11627
+      },
+      {
+        "path": "docs/PHASE62_DYNAMIC_LOOP_VALIDATION.md",
+        "bytes": 10478
+      },
+      {
+        "path": "docs/PHASE62_FIX_LOOP_REUSE.md",
+        "bytes": 10849
+      },
+      {
+        "path": "docs/PHASE62_FIX_ROOT_CAUSE.md",
+        "bytes": 14127
+      },
+      {
+        "path": "docs/PHASE62_MERODOA_HANDOFF.md",
+        "bytes": 10764
+      },
+      {
+        "path": "docs/PHASE62_SEAMLESS_LOOP_DESIGN.md",
+        "bytes": 12893
+      },
+      {
+        "path": "results/phase62_dynamic_loop/ARTIFACTS.json",
+        "bytes": 1093555
+      },
+      {
+        "path": "results/phase62_dynamic_loop/BASELINE_RACE_SOURCE.json",
+        "bytes": 1737
+      },
+      {
+        "path": "results/phase62_dynamic_loop/CHANGESET.json",
+        "bytes": 13967
+      },
+      {
+        "path": "results/phase62_dynamic_loop/ENVIRONMENT.json",
+        "bytes": 1425
+      },
+      {
+        "path": "results/phase62_dynamic_loop/EXECUTABLES_USED.json",
+        "bytes": 8658
+      },
+      {
+        "path": "results/phase62_dynamic_loop/EXISTING_HISTORY_BLOBS.json",
+        "bytes": 938
+      },
+      {
+        "path": "results/phase62_dynamic_loop/EXPECTED.json",
+        "bytes": 6044
+      },
+      {
+        "path": "results/phase62_dynamic_loop/FINAL_METADATA_ONLY.patch",
+        "bytes": 994
+      },
+      {
+        "path": "results/phase62_dynamic_loop/FINAL_METADATA_ONLY_DELTA.json",
+        "bytes": 659
+      },
+      {
+        "path": "results/phase62_dynamic_loop/FINAL_SOURCE_ARCHIVE.json",
+        "bytes": 523
+      },
+      {
+        "path": "results/phase62_dynamic_loop/FINAL_SOURCE_DELTA.json",
+        "bytes": 2088
+      },
+      {
+        "path": "results/phase62_dynamic_loop/MANIFEST.json",
+        "bytes": 35841
+      },
+      {
+        "path": "results/phase62_dynamic_loop/REPORT.md",
+        "bytes": 17507
+      },
+      {
+        "path": "results/phase62_dynamic_loop/SOURCE_MANIFEST.json",
+        "bytes": 102765
+      },
+      {
+        "path": "results/phase62_dynamic_loop/SOURCE_MANIFEST_BEFORE_TEST_ADDITION.json",
+        "bytes": 102331
+      },
+      {
+        "path": "results/phase62_dynamic_loop/UNCHANGED_DSP_BINARIES.json",
+        "bytes": 3591
+      },
+      {
+        "path": "results/phase62_dynamic_loop/V6_TEST_ONLY_DELTA.json",
+        "bytes": 899
+      },
+      {
+        "path": "results/phase62_dynamic_loop/recipes/BaselineRaceProbe.cpp",
+        "bytes": 18281
+      },
+      {
+        "path": "results/phase62_dynamic_loop/recipes/README.md",
+        "bytes": 3909
+      },
+      {
+        "path": "results/phase62_dynamic_loop/recipes/assemble_manifest.py",
+        "bytes": 10031
+      },
+      {
+        "path": "results/phase62_dynamic_loop/recipes/audit_final_native_gates.py",
+        "bytes": 3577
+      },
+      {
+        "path": "results/phase62_dynamic_loop/recipes/final_worktree_audit.py",
+        "bytes": 7443
+      },
+      {
+        "path": "results/phase62_dynamic_loop/recipes/prepare_r0_fixture_v10.py",
+        "bytes": 1835
+      },
+      {
+        "path": "results/phase62_dynamic_loop/recipes/run_baseline_race.py",
+        "bytes": 1778
+      },
+      {
+        "path": "results/phase62_dynamic_loop/recipes/run_clear_pcm_native.py",
+        "bytes": 9185
+      },
+      {
+        "path": "results/phase62_dynamic_loop/recipes/run_final_clear_pcm.py",
+        "bytes": 1999
+      },
+      {
+        "path": "results/phase62_dynamic_loop/recipes/run_final_dynamic_remaining_formats.py",
+        "bytes": 2631
+      },
+      {
+        "path": "results/phase62_dynamic_loop/recipes/run_final_dynamic_strata.py",
+        "bytes": 2744
+      },
+      {
+        "path": "results/phase62_dynamic_loop/recipes/run_final_extra.py",
+        "bytes": 4926
+      },
+      {
+        "path": "results/phase62_dynamic_loop/recipes/run_final_gates.py",
+        "bytes": 3070
+      },
+      {
+        "path": "results/phase62_dynamic_loop/recipes/run_final_gates_v7.py",
+        "bytes": 3073
+      },
+      {
+        "path": "results/phase62_dynamic_loop/recipes/run_final_min512.py",
+        "bytes": 3255
+      },
+      {
+        "path": "results/phase62_dynamic_loop/recipes/run_final_native_gates.py",
+        "bytes": 4248
+      },
+      {
+        "path": "results/phase62_dynamic_loop/recipes/run_final_native_gates_original_v1.py",
+        "bytes": 4147
+      },
+      {
+        "path": "results/phase62_dynamic_loop/recipes/run_final_native_gates_v10.py",
+        "bytes": 4252
+      },
+      {
+        "path": "results/phase62_dynamic_loop/recipes/run_final_native_v10.py",
+        "bytes": 3645
+      },
+      {
+        "path": "results/phase62_dynamic_loop/recipes/run_final_native_v5.py",
+        "bytes": 3644
+      },
+      {
+        "path": "results/phase62_dynamic_loop/recipes/run_final_ordinary_paused.py",
+        "bytes": 2738
+      },
+      {
+        "path": "results/phase62_dynamic_loop/recipes/run_final_race_native.py",
+        "bytes": 2150
+      },
+      {
+        "path": "results/phase62_dynamic_loop/recipes/run_final_seek_api_v10.py",
+        "bytes": 2584
+      },
+      {
+        "path": "results/phase62_dynamic_loop/recipes/run_final_selected_ctest.py",
+        "bytes": 1802
+      },
+      {
+        "path": "results/phase62_dynamic_loop/recipes/run_final_uncached_boundary.py",
+        "bytes": 3676
+      },
+      {
+        "path": "scripts/phase62_dynamic_native_audit.py",
+        "bytes": 14868
+      },
+      {
+        "path": "scripts/phase62_dynamic_validation.py",
+        "bytes": 29238
+      },
+      {
+        "path": "src/platform/macos/ProgressiveMacPlaybackEngine.h",
+        "bytes": 13664
+      },
+      {
+        "path": "src/platform/macos/ProgressiveMacPlaybackEngine.mm",
+        "bytes": 120334
+      },
+      {
+        "path": "src/playback/ProgressiveLoopContract.h",
+        "bytes": 3123
+      },
+      {
+        "path": "src/prototype/Phase58RealtimePipeline.cpp",
+        "bytes": 105653
+      },
+      {
+        "path": "src/prototype/Phase58RealtimePipeline.h",
+        "bytes": 13025
+      },
+      {
+        "path": "src/prototype/Phase59Control.h",
+        "bytes": 3437
+      },
+      {
+        "path": "tests/PausedSpeedLoopTests.cpp",
+        "bytes": 15938
+      },
+      {
+        "path": "tests/Phase62ClearPcmNative.cpp",
+        "bytes": 18700
+      },
+      {
+        "path": "tests/Phase62DynamicBoundaryTests.mm",
+        "bytes": 18047
+      },
+      {
+        "path": "tests/Phase62DynamicControlsNative.cpp",
+        "bytes": 25214
+      },
+      {
+        "path": "tests/Phase62DynamicHandoffTests.mm",
+        "bytes": 21950
+      },
+      {
+        "path": "tests/Phase62DynamicLoopProbe.cpp",
+        "bytes": 13841
+      },
+      {
+        "path": "tests/Phase62DynamicPcmTests.cpp",
+        "bytes": 16838
+      },
+      {
+        "path": "tests/Phase62DynamicSeekNative.cpp",
+        "bytes": 18645
+      },
+      {
+        "path": "tests/Phase62FixSafetyTests.mm",
+        "bytes": 13813
+      },
+      {
+        "path": "tests/Phase62PausedPcmTests.cpp",
+        "bytes": 18440
+      },
+      {
+        "path": "tests/Phase62PcmAudit.h",
+        "bytes": 3932
+      },
+      {
+        "path": "tests/Phase62RaceNative.cpp",
+        "bytes": 30986
+      }
+    ]
+  },
+  "existing_history": {
+    "status": "EXISTING_VIOLATIONS",
+    "count": 4,
+    "record": "EXISTING_HISTORY_BLOBS.json",
+    "new_work": false
+  },
+  "git_status": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_dynamic_20261020/final_git_status.log",
+    "bytes": 1140,
+    "sha256": "410e3d4f66f9ab96baac5181c12b69fdcf41452ffe2bb27a4f096d2abbaa1a1f"
+  },
+  "index_empty": true,
+  "commit_push": "not performed at capture; subsequent commit authorized, no push",
+  "changeset": "CHANGESET.json",
+  "self_exclusion": "本監査ファイル自身はhash/サイズ一覧から除外。保存後に50,000,000バイト未満を検査。"
+}

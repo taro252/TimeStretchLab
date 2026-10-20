@@ -1,0 +1,11 @@
+--- mm_at_native_v10
++++ mm_final
+@@ -1073,6 +1073,8 @@
+         if(x.requested==s&&!x.loop.speedPreparationFailed)return {x.loop.speedRequestID,prototype::Phase39RequestResult::Duplicate};
+         const bool retainBoundary=!x.pipeline->cancelLoopTransition();
+         x.requested=s;x.loop.requestedSpeed=s;x.loop.speedRequestID=++x.loopRequestID;x.loop.speedPreparationFailed=false;if(x.rendering)x.rendering->speedRequestID=x.loop.speedRequestID;
++        x.loop.speedDeferReason.clear();
++        if(x.loopKeep&&x.loopInitial&&!x.pipeline->loopReuseEnabled())x.loop.speedDeferReason="KeepPosition（現在位置維持）の初回周期は通常再生の所有者です。動的引継ぎは未対応のため、初回Bの引継ぎ後に最新速度を処理します";
+         // A persistent current program remains valid when an unstarted
+         // replacement is cancelled. Started correction retains its PCM.
+         // A committed dynamic cycle retains its required B replacement.

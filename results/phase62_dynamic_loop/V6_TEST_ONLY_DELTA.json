@@ -1,0 +1,17 @@
+{
+  "previous_source": "3d72753045bf975a9ceb3bfb17ef2be9df65c4333416bf8c37f823aadb6c3ea4",
+  "final_source": "20f066fd0284eb6d886387e80918dbe40df945c56b6896d073fcce7678520521",
+  "changed_files": [
+    "tests/PausedSpeedLoopTests.cpp"
+  ],
+  "product_sources_unchanged": true,
+  "reason": "複数周後の停止監査を追加。周期内consumedと累積publishedを直接差し引かない。製品コード・ほかの試験コードは変更なし。",
+  "unchanged_product_source_sha256": "cc149dd14e03248d98004f0d816254ae83ed4fd90057d5f060bae891b4fe8cf1",
+  "definition": "CMakeLists.txt と src/ 以下の既存source_manifest対象ファイル",
+  "changed_file_hashes": {
+    "tests/PausedSpeedLoopTests.cpp": {
+      "before": "9675a93ca2d05f44e2f71a4314ffa06d039130fa201e298b39b8a880f1062305",
+      "after": "be343b972229b123dd6f9132988c4bdef01527932f758909f5a3444895f079dd"
+    }
+  }
+}

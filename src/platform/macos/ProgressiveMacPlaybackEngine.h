@@ -16,6 +16,10 @@ struct ProgressiveOutputSpan {
     bool periodicBoundary=false,correctionHead=false,correctionTail=false;
     std::size_t boundaryFrames=0,periodFrames=0,periodOffset=0;
     std::array<float,2> boundaryLast{},boundaryFirst{};
+    // Entry mixing may straddle B. Period corrections precede the entry mix.
+    bool correctionBeforeMix=false,oldPeriodicBoundary=false,oldCorrectionHead=false,oldCorrectionTail=false;
+    std::size_t oldBoundaryFrames=0,oldPeriodFrames=0,oldPeriodOffset=0;
+    std::array<float,2> oldBoundaryLast{},oldBoundaryFirst{};
 };
 inline constexpr std::size_t progressiveMaximumSpans=32;
 struct ProgressiveCallbackRecord {
@@ -28,7 +32,7 @@ struct ProgressiveCallbackRecord {
     std::size_t outputAffectedFrames=0,failurePaddingFrames=0,pauseSilenceFrames=0;
     prototype::Phase46HostClock::Evidence clock;
 };
-enum class ProgressiveControlTestPoint {SeekPreparationStarted,SwitchStartedOrDone,RetiringOld,RetiringPreparation,RestartWait,SeekCleanupWait,SeekCleanupComplete,RestartLaunch,AcquiringResources,PauseObserved};
+enum class ProgressiveControlTestPoint {SeekPreparationStarted,SwitchStartedOrDone,RetiringOld,RetiringPreparation,RestartWait,SeekCleanupWait,SeekCleanupComplete,RestartLaunch,AcquiringResources,PauseObserved,SwitchPublished};
 // Explicit normal-thread tests only; empty in ordinary apps. Hooks must not call
 // engine APIs. Only seek preparation/switch/retirement and PauseObserved may block;
 // they run outside the engine mutex. Never invoked by the audio callback.
@@ -90,6 +94,7 @@ struct StoppedSpeedOperation {
     std::uint64_t mapVersion=0,consumedOutputFrame=0,resumeInputFrame=0;
     std::uint64_t session=0,renderEpoch=0,outputStartFrame=0;
     std::uint64_t acceptedNs=0,readyNs=0;
+    std::uint64_t loopID=0,cycle=0,preparationVersion=0,discardedForStoppedSpeedFrames=0;
     std::uint32_t speedMicros=1000000;
     StoppedSpeedState state=StoppedSpeedState::Preparing;
     bool positionCaptured=false,outputStarted=false;

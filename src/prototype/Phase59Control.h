@@ -37,6 +37,7 @@ struct PlanningFrontier {
     std::uint64_t mapVersion=0;
     std::size_t published=0,consumed=0;
     double atS=0;
+    std::uint64_t cycle=0;
 };
 // One realtime publisher, one normal reader. Three fixed slots, full sequence
 // tag, hazard before validation. Copies only POD data; no mutex/ownership/new.

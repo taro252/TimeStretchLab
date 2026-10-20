@@ -1,0 +1,373 @@
+{
+  "schema": 1,
+  "base_commit": "7c05319d8142ef53a70c95be4f214f293bb2428a",
+  "head": "7c05319d8142ef53a70c95be4f214f293bb2428a",
+  "branch": "main",
+  "final_source_inventory_sha256": "238ad47151ac6d408d7c6eea6dbb5898dda6d43173ff245a238045043500d9f8",
+  "file_inventory_sha256": "6f96277f25cc82990167b36a3ad11a85dd1d462755cc0ef1fdfdd689da7112c0",
+  "files": [
+    {
+      "path": "CMakeLists.txt",
+      "bytes": 61482,
+      "sha256": "414a0473e4f2b5ff7f20eb5994da8ad6985bef32d6e1a9511911349677c42c55"
+    },
+    {
+      "path": "docs/PAUSED_SPEED_CHANGE_HANDOFF.md",
+      "bytes": 14337,
+      "sha256": "a9d09c61c11a1de472e01cb691e25fb3d99376e5c3d9c5ad6c0962681350c374"
+    },
+    {
+      "path": "docs/PAUSED_SPEED_CHANGE_VALIDATION.md",
+      "bytes": 12032,
+      "sha256": "5cbdd4452c209d1ea6145da63cec0bb84c331eae0273b647130f759ae57002b2"
+    },
+    {
+      "path": "docs/PHASE62_DYNAMIC_LOOP_DESIGN.md",
+      "bytes": 11627,
+      "sha256": "68d422cfd47c3e33c4c3c2861bc42092d23ef91e4a6e96941eaf014bd0bf2030"
+    },
+    {
+      "path": "docs/PHASE62_DYNAMIC_LOOP_VALIDATION.md",
+      "bytes": 10478,
+      "sha256": "ebc2d5328d58d25141b6196a0058fd67ed8d0a8f8d495f2d912de78daa456e44"
+    },
+    {
+      "path": "docs/PHASE62_FIX_LOOP_REUSE.md",
+      "bytes": 10849,
+      "sha256": "5ecb86bc2dc5d9cd6c00b8d2b958a3b7f587ac5ef9809fc575624b2012493ed7"
+    },
+    {
+      "path": "docs/PHASE62_FIX_ROOT_CAUSE.md",
+      "bytes": 14127,
+      "sha256": "bb4c1b4be32a362da2fd3c411a62102982083de91ff83c650067dccec3d76877"
+    },
+    {
+      "path": "docs/PHASE62_MERODOA_HANDOFF.md",
+      "bytes": 10764,
+      "sha256": "e499a60e68a91eef6ec7a4c83673a5e9699821b2da35fe1831508434b56a8ab5"
+    },
+    {
+      "path": "docs/PHASE62_SEAMLESS_LOOP_DESIGN.md",
+      "bytes": 12893,
+      "sha256": "8baeb3032b86e158f54263afecf732c903bfe5a00b3fe3f5af4d237719596df7"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/ARTIFACTS.json",
+      "bytes": 1093555,
+      "sha256": "9e5a5621279b43ef479dadec238044de7654816670d944a61a72863bef5adad1"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/BASELINE_RACE_SOURCE.json",
+      "bytes": 1737,
+      "sha256": "f081fbac64c57f06ad113064b2ec4f4950f753a7770b89daa764a4812ad0a528"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/ENVIRONMENT.json",
+      "bytes": 1425,
+      "sha256": "0d02c4395b041cf6251061daf0a1e506c794c5ed45fb586a20ef50dec683275f"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/EXECUTABLES_USED.json",
+      "bytes": 8658,
+      "sha256": "41ddaf01d3bd9a31c8703e0e3856520c7cc0b41cc7be463e30a500ab22a080e9"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/EXISTING_HISTORY_BLOBS.json",
+      "bytes": 938,
+      "sha256": "12fd0a5adca5510738a3f944354c0b99a6ff52e938027b59b67deca41f0d1c70"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/EXPECTED.json",
+      "bytes": 6044,
+      "sha256": "8656fc81f6388a12ec08f4dbc06a01adf697cc8b51625d8b8d2bf65c5ab007d7"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/FINAL_METADATA_ONLY.patch",
+      "bytes": 994,
+      "sha256": "dba3a3ccdad0f2aebe63ff0367010d0a6df67d9bfe736a089228a30ccbc5f53c"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/FINAL_METADATA_ONLY_DELTA.json",
+      "bytes": 659,
+      "sha256": "b26b6852fbe49d66050033b37da776e0bb63e521fb336e9b2c8eb7f8b8ca6b8e"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/FINAL_SOURCE_ARCHIVE.json",
+      "bytes": 523,
+      "sha256": "812bf727661d8c45a06018bc9848e2e969fb4a53e60e4ebae3fe3b27ef0d7985"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/FINAL_SOURCE_DELTA.json",
+      "bytes": 2088,
+      "sha256": "46118ff9fa4bc3b7cc8ca17ea689a80c4054be5d57f5cbc6808ab04d62749253"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/MANIFEST.json",
+      "bytes": 35841,
+      "sha256": "69ce78905d6e37f0a5f29825dc0a38d187c0a42b22b75cf672987796e2a1d24a"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/REPORT.md",
+      "bytes": 17507,
+      "sha256": "40a2b528d71920989f8cf469890d6fce6237e8f6bbff4582d82c477430c360f2"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/SOURCE_MANIFEST.json",
+      "bytes": 102765,
+      "sha256": "bde05382492e765688a8f101883df8598d4b7d60758fb45420c92c7146804cf9"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/SOURCE_MANIFEST_BEFORE_TEST_ADDITION.json",
+      "bytes": 102331,
+      "sha256": "4ce00be3f30916246481efd2da7db9e91d52a16b146d3f09e2b2553ee11299c3"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/UNCHANGED_DSP_BINARIES.json",
+      "bytes": 3591,
+      "sha256": "6b2f50d201445a00d9ecef60551513ad824efcde4f8af9c96072497856a41d8d"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/V6_TEST_ONLY_DELTA.json",
+      "bytes": 899,
+      "sha256": "206ca32431c7bb1d0dfdf956216885a043bfa66938c3b89468b703f30bd18bd8"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/recipes/BaselineRaceProbe.cpp",
+      "bytes": 18281,
+      "sha256": "62c15be5b99587e61baf0341b5160932aef92de3c3adfc944db4e7491b7c3446"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/recipes/README.md",
+      "bytes": 3909,
+      "sha256": "e2b915ea5b48ea8ff0c6cbb70a37f4cda14721bb5f8e43b461558242077d2f9b"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/recipes/assemble_manifest.py",
+      "bytes": 10031,
+      "sha256": "d59f7cc181e25a6fc5ed3768b8d2ffc9df8a0044ecb386c149964af3f06b4020"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/recipes/audit_final_native_gates.py",
+      "bytes": 3577,
+      "sha256": "eb68e845ca1dd5ec87f1d07aa98abf5cf86d6d6c78be50e4bccfe83f86f73f6b"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/recipes/final_worktree_audit.py",
+      "bytes": 7443,
+      "sha256": "429c12488b3cd8f10fcf9895233dd9d627ba02cb089d7accc7baf72a5932cab1"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/recipes/prepare_r0_fixture_v10.py",
+      "bytes": 1835,
+      "sha256": "a9b79f6cacee6f1ad55533c0c5b11a7f4b02c06b33e6183c103f69efc76eb93a"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/recipes/run_baseline_race.py",
+      "bytes": 1778,
+      "sha256": "7314710ba6e73d661d50e30d611f14c4e3ef992f886cab589d488993d72510e8"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/recipes/run_clear_pcm_native.py",
+      "bytes": 9185,
+      "sha256": "f0d8d78b6e059083be042eebfca375751772e5839c88b7b2cb67723bcc380a24"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/recipes/run_final_clear_pcm.py",
+      "bytes": 1999,
+      "sha256": "81a586bab1238260f6d908da48520dcc8bf8e8e8f9205ea7485edda688ae682a"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/recipes/run_final_dynamic_remaining_formats.py",
+      "bytes": 2631,
+      "sha256": "662a332ed2746cdcfad90dc4d960720539b56905d444ce747ca4fd4583fe0aab"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/recipes/run_final_dynamic_strata.py",
+      "bytes": 2744,
+      "sha256": "281059f099592c4018989994361ea4b2d1f6ecc8cf7f9a9d93e5eedd014e769d"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/recipes/run_final_extra.py",
+      "bytes": 4926,
+      "sha256": "beea1e90d3a76c4412caadc85ee2db0cd831abfe1a737130b358cc960b6bdca2"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/recipes/run_final_gates.py",
+      "bytes": 3070,
+      "sha256": "9b494828f42f465f7204b054c3d083b192cbe408cfd271bce830a358b6d943ac"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/recipes/run_final_gates_v7.py",
+      "bytes": 3073,
+      "sha256": "3773f3b9f6492ce76ebdcf9cdeca4cc09a5dff7f84cf90315404a476ad50a3a4"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/recipes/run_final_min512.py",
+      "bytes": 3255,
+      "sha256": "3582d03bcb653dff5db47df346a3fcfc99f338c251add275cfc08b2581dac5aa"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/recipes/run_final_native_gates.py",
+      "bytes": 4248,
+      "sha256": "ebbd0a988e25604efbc54e38f5af91927d597fc0b75fe5037c5cb76d1bcb6dbd"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/recipes/run_final_native_gates_original_v1.py",
+      "bytes": 4147,
+      "sha256": "8043f31ff2a12c91146565c1d3cc5aeaae967f297212a2cd22a5375c5424f445"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/recipes/run_final_native_gates_v10.py",
+      "bytes": 4252,
+      "sha256": "8efb0f96bb758967eb722319131612037562a3d60196088c1b1337d1facdb228"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/recipes/run_final_native_v10.py",
+      "bytes": 3645,
+      "sha256": "d5af2bf786324342dd55bf79c958e7ac283e742aac019625f51229df43f509b1"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/recipes/run_final_native_v5.py",
+      "bytes": 3644,
+      "sha256": "c7f557f21a2edaff9fa136216ab60ceeda683304ade37123efd341977e2a350b"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/recipes/run_final_ordinary_paused.py",
+      "bytes": 2738,
+      "sha256": "a236cd4b7076e88693dee6e6e5f82b41a88f7477c6a98b6b3fb6bc9a0003b6fc"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/recipes/run_final_race_native.py",
+      "bytes": 2150,
+      "sha256": "a81752ea0c0fc5a42de966bafaaf6bf190ad85d925b9001fe62c6ed291f0800f"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/recipes/run_final_seek_api_v10.py",
+      "bytes": 2584,
+      "sha256": "82bb0d3dc9520fad7107c6af8c636e0379bb424eb471512fc973ea40711970d1"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/recipes/run_final_selected_ctest.py",
+      "bytes": 1802,
+      "sha256": "af624f8dedd6385be3d8fadcd53d48ea32adaf0d50c526e319e4477b49c2dab4"
+    },
+    {
+      "path": "results/phase62_dynamic_loop/recipes/run_final_uncached_boundary.py",
+      "bytes": 3676,
+      "sha256": "d31359dd225dced4347de23f9af75e900069a20e2ad543e41b0a32b1dcc27243"
+    },
+    {
+      "path": "scripts/phase62_dynamic_native_audit.py",
+      "bytes": 14868,
+      "sha256": "9f1baa67f68e8ca5156f030b58792941b2efed11eb0111cd71d2d8ee64e60e0a"
+    },
+    {
+      "path": "scripts/phase62_dynamic_validation.py",
+      "bytes": 29238,
+      "sha256": "922ea3bf7b7050f1bdc5050d904642211a7f7619fc05add4e10cb2a1bd97cbb1"
+    },
+    {
+      "path": "src/platform/macos/ProgressiveMacPlaybackEngine.h",
+      "bytes": 13664,
+      "sha256": "ec1387736c3ea70f676d1ae6244c1fcdf23c705ba3021f872dfcbf97fd856dce"
+    },
+    {
+      "path": "src/platform/macos/ProgressiveMacPlaybackEngine.mm",
+      "bytes": 120334,
+      "sha256": "3336df530af3adabfa953f00642cbed5c3e31a582abc07d5aac16ccce489ca87"
+    },
+    {
+      "path": "src/playback/ProgressiveLoopContract.h",
+      "bytes": 3123,
+      "sha256": "78193e9407eebbe47da7d0bccdce354549537011bc57d1332a8d0d720f5d5a74"
+    },
+    {
+      "path": "src/prototype/Phase58RealtimePipeline.cpp",
+      "bytes": 105653,
+      "sha256": "57b4772cf5ba2d330092b68db3b4bdda75025e6cd0d385c083c1b8e973ecbaff"
+    },
+    {
+      "path": "src/prototype/Phase58RealtimePipeline.h",
+      "bytes": 13025,
+      "sha256": "d995ccebf42e50fa003b35c7799ba80588c8cd1fb706db8df375d45019c78d6c"
+    },
+    {
+      "path": "src/prototype/Phase59Control.h",
+      "bytes": 3437,
+      "sha256": "0b05f157e27198838cd6088520ee5b3c73e638b5e501879ad8ec08c0f8fb7eec"
+    },
+    {
+      "path": "tests/PausedSpeedLoopTests.cpp",
+      "bytes": 15938,
+      "sha256": "be343b972229b123dd6f9132988c4bdef01527932f758909f5a3444895f079dd"
+    },
+    {
+      "path": "tests/Phase62ClearPcmNative.cpp",
+      "bytes": 18700,
+      "sha256": "e14d734be4c94b66ad04d65d5c7acb00d11e5c6453ed8ce942d25127a984cc77"
+    },
+    {
+      "path": "tests/Phase62DynamicBoundaryTests.mm",
+      "bytes": 18047,
+      "sha256": "d949717b2c9e1c60522c9bd39d2d63198c42998d13766f66b8810da4f3c5a7d7"
+    },
+    {
+      "path": "tests/Phase62DynamicControlsNative.cpp",
+      "bytes": 25214,
+      "sha256": "4eeebad1ba5087e0265d090683e4442350bfe964c139978e1e361c5146a4b810"
+    },
+    {
+      "path": "tests/Phase62DynamicHandoffTests.mm",
+      "bytes": 21950,
+      "sha256": "aa054bf26e5543ddde1107fc8cd145efad4ed6a3cd64ebc3d733779dd17004df"
+    },
+    {
+      "path": "tests/Phase62DynamicLoopProbe.cpp",
+      "bytes": 13841,
+      "sha256": "83e94ca5d9fd72f6e55cd72e77854fa9a6f673d1eec4198e4234b611af1df1d8"
+    },
+    {
+      "path": "tests/Phase62DynamicPcmTests.cpp",
+      "bytes": 16838,
+      "sha256": "da4bca7a386b50765a3afad0d6eb7f1d29427ac9cb1a7c9177e7672dcde3ace8"
+    },
+    {
+      "path": "tests/Phase62DynamicSeekNative.cpp",
+      "bytes": 18645,
+      "sha256": "cbb048bcfb5dc266fb0106ab7ddb32c097aba46a7797eadba9e8ffa23d665c19"
+    },
+    {
+      "path": "tests/Phase62FixSafetyTests.mm",
+      "bytes": 13813,
+      "sha256": "cf2a11ffcca2fa7c7da82351aaa4e26277bb2f4c2c7d31e1b3c48d224db89d24"
+    },
+    {
+      "path": "tests/Phase62PausedPcmTests.cpp",
+      "bytes": 18440,
+      "sha256": "7628bb89e96c85190d9226c45edf86b73e0fd28108e2f56d53c549056164542a"
+    },
+    {
+      "path": "tests/Phase62PcmAudit.h",
+      "bytes": 3932,
+      "sha256": "0b6f602dbbfa4a2ea4e483b4a99a3358068637f6ad5d12ea425db9c9fb1561d0"
+    },
+    {
+      "path": "tests/Phase62RaceNative.cpp",
+      "bytes": 30986,
+      "sha256": "695e04876df2b7370a6f143bf04b657f812ccbd139fefedae08936f6df159a0e"
+    }
+  ],
+  "tracked_diff": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_dynamic_20261020/FINAL_TRACKED.patch",
+    "bytes": 141391,
+    "sha256": "3f34dd6bee9ade5db33de2901405af6b2b2fcecf82179bc783d841a5310d8bf3"
+  },
+  "excluded_generated_records": [
+    "results/phase62_dynamic_loop/CHANGESET.json",
+    "results/phase62_dynamic_loop/FINAL_WORKTREE_CHECKS.json"
+  ],
+  "exclusion_reason": "自己参照となるhashと、その後に生成する監査結果だけを除外。製品ソース/文書/recipe/manifestは上記一覧で識別。",
+  "capture_phase": "コミット許可後・ステージ前",
+  "subsequent_commit_authorized": true,
+  "git_actions": "no stage/commit/push/PR/history rewrite at capture; subsequent commit authorized, push not authorized"
+}

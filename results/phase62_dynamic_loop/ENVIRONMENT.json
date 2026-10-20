@@ -1,0 +1,77 @@
+[
+  {
+    "command": [
+      "sw_vers"
+    ],
+    "exit": 0,
+    "output": "ProductName:\t\tmacOS\nProductVersion:\t\t26.6.2\nBuildVersion:\t\t25G83\n",
+    "error": ""
+  },
+  {
+    "command": [
+      "uname",
+      "-m"
+    ],
+    "exit": 0,
+    "output": "x86_64\n",
+    "error": ""
+  },
+  {
+    "command": [
+      "sysctl",
+      "-n",
+      "machdep.cpu.brand_string"
+    ],
+    "exit": 0,
+    "output": "Apple M1\n",
+    "error": ""
+  },
+  {
+    "command": [
+      "sysctl",
+      "-n",
+      "hw.memsize"
+    ],
+    "exit": 0,
+    "output": "17179869184\n",
+    "error": ""
+  },
+  {
+    "command": [
+      "clang++",
+      "--version"
+    ],
+    "exit": 0,
+    "output": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin\n",
+    "error": ""
+  },
+  {
+    "command": [
+      "cmake",
+      "--version"
+    ],
+    "exit": 0,
+    "output": "cmake version 4.3.3\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).\n",
+    "error": ""
+  },
+  {
+    "command": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "exit": 0,
+    "output": "7c05319d8142ef53a70c95be4f214f293bb2428a\n",
+    "error": ""
+  },
+  {
+    "command": [
+      "git",
+      "branch",
+      "--show-current"
+    ],
+    "exit": 0,
+    "output": "main\n",
+    "error": ""
+  }
+]

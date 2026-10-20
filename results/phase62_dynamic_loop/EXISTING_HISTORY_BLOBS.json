@@ -1,0 +1,37 @@
+{
+  "scope": "既存HEAD全履歴。今回新規blobとは区別。削除/履歴書換えなし。",
+  "status": "EXISTING_VIOLATIONS",
+  "exit": 1,
+  "threshold_bytes": 50000000,
+  "count": 4,
+  "blobs": [
+    {
+      "blob": "41e52c82b6b5e08988ed39b7a19e96629ca590ad",
+      "bytes": 53121730,
+      "paths": [
+        "results/phase58/regress57_stage2/rows.jsonl"
+      ]
+    },
+    {
+      "blob": "65494609bd5d792c8b3a1807fc28cc890c4488ff",
+      "bytes": 71013176,
+      "paths": [
+        "results/phase59/device_final/dynamic_long/working/capture.f32"
+      ]
+    },
+    {
+      "blob": "87c1a8c3d89f2762b0bbaa1e148edf1dcb240498",
+      "bytes": 53080347,
+      "paths": [
+        "results/phase58_fix/regression_v3/regress57_stage2/rows.jsonl"
+      ]
+    },
+    {
+      "blob": "d9b3dc04e6062cdf814f2e2e84776e184493f507",
+      "bytes": 53116718,
+      "paths": [
+        "results/phase57/stage2/rows.jsonl"
+      ]
+    }
+  ]
+}

@@ -47,8 +47,15 @@ struct Configuration {
 };
 struct RenderResult {std::size_t wanted=0,received=0,outputBefore=0,fifoBefore=0;};
 struct FifoCursors {std::uint64_t read=0,write=0;};
+struct ExecutionOwnerCounts {std::uint64_t alive=0,peak=0;};
 struct PositionSample {std::uint64_t session=0,mapVersion=0;std::size_t output=0,input=0;double atS=0;};
 struct LoopPcmDescriptor {std::uint64_t cycle=0;std::array<float,2> first{},last{};};
+enum class LoopTransitionState {Idle,Requested,Applying,Committed,Cancelled,Rejected};
+struct LoopTransitionSnapshot {
+    LoopTransitionState state=LoopTransitionState::Idle;
+    std::uint64_t cycle=0,mapVersion=0,operationID=0;
+    std::size_t localStart=0,localEnd=0,cumulativeStart=0,cumulativeEnd=0,generatedAtCommit=0,publishedAtCommit=0;
+};
 struct LoopReuseDiagnostics {
     bool enabled=false;
     std::uint64_t cyclesPrepared=0,seedRestores=0,cacheReadFrames=0,coldDiscardedFrames=0,warmDiscardedFrames=0;
@@ -141,6 +148,9 @@ class RealtimePipeline {
 public:
     RealtimePipeline(const std::filesystem::path&,Configuration={});
     ~RealtimePipeline();
+    // Counts whole pipeline lifetimes, including unstarted preparations and
+    // joined owners awaiting destruction. Immutable DSP save areas do not run.
+    static ExecutionOwnerCounts executionOwnerCounts()noexcept;
     void start();
     void setPublicationLimitForTest(std::size_t); // before start; Standard worker only
     bool waitUntilReady(std::chrono::milliseconds);
@@ -178,6 +188,13 @@ public:
     bool loopReuseEnabled()const noexcept;
     std::size_t loopOutputStartFrame()const noexcept;
     std::uint64_t loopReadCycle()const noexcept;
+    // Only after the replacement fixed A->B owner is Ready. The current
+    // producer retains its complete DSP and pending PCM at the frontier.
+    // This owner ends at the committed dynamic B; caller retains replacement
+    // through the boundary once cancellation returns false.
+    phase59::RequestReceipt requestLoopTransition(std::uint32_t,std::size_t logicalPresented,std::atomic<std::uint64_t>* callbackOperation=nullptr);
+    LoopTransitionSnapshot loopTransition()const noexcept;
+    bool cancelLoopTransition()noexcept;
     std::optional<LoopPcmDescriptor> loopPcmDescriptor(std::uint64_t cycle)noexcept; // audio consumer only
     std::array<float,2> loopFirstSample()const noexcept; // immutable after Ready; no ownership operation
     std::size_t loopOutputEndFrame()const noexcept; // valid after Ready

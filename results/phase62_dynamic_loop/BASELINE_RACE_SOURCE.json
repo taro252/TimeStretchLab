@@ -1,0 +1,39 @@
+{
+  "base": "7c05319d8142ef53a70c95be4f214f293bb2428a",
+  "product_files": [
+    {
+      "path": "src/platform/macos/ProgressiveMacPlaybackEngine.h",
+      "sha256": "0e1a176e42c6078c34ae826e73e887b1d7c4bed7cbd8c5565a8343a47e2d1023",
+      "matches_git_base": true
+    },
+    {
+      "path": "src/platform/macos/ProgressiveMacPlaybackEngine.mm",
+      "sha256": "34c14d370c10d72cc432604984cc7d88a5907417160232694c626ffe89047295",
+      "matches_git_base": true
+    },
+    {
+      "path": "src/playback/ProgressiveLoopContract.h",
+      "sha256": "3dd06cc2563af17da16224508a2c67ace488a652786ffc3c4a861b3091759dee",
+      "matches_git_base": true
+    },
+    {
+      "path": "src/prototype/Phase58RealtimePipeline.h",
+      "sha256": "36c4f9c1407c32b5ebb6cbcb8e12f70aaea5f5bfdfa7745a544201572c6c2669",
+      "matches_git_base": true
+    },
+    {
+      "path": "src/prototype/Phase58RealtimePipeline.cpp",
+      "sha256": "6194b49d07571860540b4e1a6ec01ed083d688d24b7a992e7b5eb16111e17c4e",
+      "matches_git_base": true
+    },
+    {
+      "path": "src/prototype/Phase62LoopBoundary.h",
+      "sha256": "4106b1eac002ed8178c06a305f42e0e0d43dce05bc4a037063f6adaa4fc9f165",
+      "matches_git_base": true
+    }
+  ],
+  "probe_sha256": "62c15be5b99587e61baf0341b5160932aef92de3c3adfc944db4e7491b7c3446",
+  "CMake_before_sha256": "a6ed2b125aca86c8089318e6d79fc80be4b9c3959dc215407a5cc3281f8f9b40",
+  "CMake_after_sha256": "383e6ac192ea2b636fed5707bbe5007eb906d20227e137732e21a8032ff32070",
+  "CMake_added": "\nadd_executable(phase62_baseline_race_probe \"/Users/taro252/Docker/TimeStretchLab/build/phase62_dynamic_20261020/BaselineRaceProbe.cpp\")\ntarget_link_libraries(phase62_baseline_race_probe PRIVATE macos_progressive_playback_engine)\n"
+}

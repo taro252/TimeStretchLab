@@ -73,3 +73,14 @@ final_v5の100周試験でhost/sample各1件。入力48kHz Stereo PCM16、2倍�
 今回追加した品質計画は既存6素材を一律44.1kHzと仮定していた。実ヘッダーはMixだけ44.1kHz、残る5素材は48kHzだった。一部の「100ms」は4410/48000=91.875msとなるため、その条件名で受け入れない。品質スイートを開始する前に発見し、実WAVのfmtチャンクを読んで計画し、入力A/B・レート・秒数を事前宣言するよう修正した。キャプチャと条件のレート一致も品質結果へ含める。
 
 製品／CMake／C++試験は変わらない。final_v8の完了済み7スイートのソースSHAを保持し、全100実行体のバイト列と、品質スクリプトがその依存先に含まれないことを明示監査する。品質と以後の試験はfinal_v9。源の異なる結果を黙って同一ソースの実行と記載しない。
+
+
+## 2026-10 動的Loop修正の追記
+
+今回の追加実装と新binaryによる検証は [動的Loop設計](PHASE62_DYNAMIC_LOOP_DESIGN.md)、[検証手順](PHASE62_DYNAMIC_LOOP_VALIDATION.md)、[専用REPORT](../results/phase62_dynamic_loop/REPORT.md) を参照する。この文書の旧成功件数を今回へ付け替えず、従来の未解決記録も維持する。
+
+長い非cache Loopは既存producerの完全状態を保持してPhase59の合法な未来へ速度を適用し、採用Mapで現在Bを再確定する。次の固定A→Bは第2所有者で先に準備し、commit後は必要な境界版を保持する。短い既確定区間等の延期理由はLoopSnapshot.speedDeferReasonへ記録する。Clearは明示的な固定Exact継続であり、動的位相履歴のB以後の連続ではない。
+
+Paused新速度は停止後の実位置CからExact再準備し、旧producerの退役完了後にStoppedSpeedState::ReadyForResumeを公開する。要求ID・inputGeneration・Loop・cycle・preparationVersion・位置を照合し、可聴Completedと区別する。Resume/Playの意思、再Pause取消、旧FIFO破棄の専用監査を使う。B直前の進入混合はBで分割し、丸めでR=0の場合も架空のPCMを追加しない。
+
+Merodoaへ渡す側はReadyをResume前に観測し、古いcontext/準備版を再使用しない。LoopSnapshotのdynamicSpeedRequestIDとdynamicOperationID、mapVersion、dynamicCycle、dynamicOutputEndで外部要求と実計画を対応付ける。speedPreparationFailed/speedFailureRequestIDは有効な旧出力を保持した準備失敗を示す。同じ速度の再要求も失敗後は再試行できる。公開初期値、seek公開承認、currentCycleSpeedChangesの一般承認は専用REPORTの未実施ゲートが閉じるまで変更しない。Merodoa本体・UI・submoduleは今回変更しない。
