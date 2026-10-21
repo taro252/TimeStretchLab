@@ -1,0 +1,1051 @@
+{
+  "schema": 2,
+  "run_complete": true,
+  "status": "PASS",
+  "required_ids": [
+    "final_boundary_strict_v8",
+    "final_extra",
+    "final_uncached_boundary",
+    "final_min512_v9"
+  ],
+  "expected_program_groups": 4,
+  "executed_program_groups": 4,
+  "source_inventory_sha256": "fa2b6f4fea83e06b4d31433478ae01cae5d98c3465267c990625d4a30a171c8a",
+  "applies_to_source_inventory_sha256": "fa2b6f4fea83e06b4d31433478ae01cae5d98c3465267c990625d4a30a171c8a",
+  "evidence_use": "EXECUTED_FINAL_SOURCE",
+  "reused_certificate": null,
+  "expected": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/renderer_final_v2/EXPECTED.json",
+    "bytes": 6831,
+    "sha256": "1e0b15a022cfded182efb45ca8ae22a275cb791dded3751b0313bdcb69048e0e"
+  },
+  "summary": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/renderer_final_v2/SUMMARY.json",
+    "bytes": 27451,
+    "sha256": "e64505ca5e77d00a15e9575c9110c5f79dbc8c9561bf51927bea2279dcf927c9"
+  },
+  "binary_identities": {
+    "phase62_dynamic_boundary_tests": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_dynamic_boundary_tests",
+      "bytes": 962688,
+      "sha256": "d4f08334133596e293922076fb2d41f08cdc726bf3d3f98f232e685fede0bb61"
+    },
+    "phase62_dynamic_handoff_tests": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_dynamic_handoff_tests",
+      "bytes": 1038800,
+      "sha256": "9ae24f7ec63a2a0e249a1740894b41fce18259d17e416c42f1fe91aed88ddd81"
+    },
+    "phase62_loop_tests": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_loop_tests",
+      "bytes": 785536,
+      "sha256": "9d889395ff325a72c58214d726ce461b6f332e3cc4ad65c57d2dea37c28a88f6"
+    }
+  },
+  "debug_binary": null,
+  "reference_identities": [
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_frozen/captured_reference",
+      "bytes": 318912,
+      "sha256": "1c860210fb6ea4a2075c5f2fdc9c1fd1afa97adb175413994be676a131d97818"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+      "bytes": 274184,
+      "sha256": "de70db5fbc4284fd13f3f9a7cf257cbca1d8d9a5755859067c7cfb234d1d5748"
+    }
+  ],
+  "rows": [
+    {
+      "id": "final_boundary_strict_v8",
+      "status": "PASS",
+      "exit": 0,
+      "timed_out": false,
+      "seconds": 53.46251387501252,
+      "reason": "",
+      "expected": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/renderer_final_v2/final_boundary_strict_v8/EXPECTED.json",
+        "bytes": 129070,
+        "sha256": "8f4f66aa71d8eff9eeac4b7cf28b0f1239f9eb73a86656bc5539b0cafb405beb"
+      },
+      "summary": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/renderer_final_v2/final_boundary_strict_v8/SUMMARY.json",
+        "bytes": 923372,
+        "sha256": "300834dd97d0d81a4d724b31a5b7a85f40dbcdb0faf2a23be8d088e2e74c4c4d"
+      },
+      "conditions_recipe": {
+        "command": [
+          "/Users/taro252/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taro252/Docker/TimeStretchLab/scripts/phase62_dynamic_validation.py",
+          "--suite",
+          "boundary",
+          "--build",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release",
+          "--output",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/renderer_final_v2/final_boundary_strict_v8"
+        ]
+      },
+      "actual_run_source_inventory_sha256": "fa2b6f4fea83e06b4d31433478ae01cae5d98c3465267c990625d4a30a171c8a",
+      "evidence_use": "EXECUTED_FINAL_SOURCE",
+      "required_case_ids": [
+        "oracle_identity",
+        "configure",
+        "build",
+        "architecture",
+        "ctest",
+        "boundary_400000_candidate_oracle",
+        "boundary_400000_candidate",
+        "boundary_400000_baseline_oracle",
+        "boundary_400000_baseline",
+        "boundary_1000000_candidate_oracle",
+        "boundary_1000000_candidate",
+        "boundary_1000000_baseline_oracle",
+        "boundary_1000000_baseline",
+        "boundary_2000000_candidate_oracle",
+        "boundary_2000000_candidate",
+        "boundary_2000000_baseline_oracle",
+        "boundary_2000000_baseline",
+        "playing_independent_dynamic",
+        "dynamic_B_and_different_speed_boundary",
+        "latest_wins_clear_lifecycle",
+        "seek_all_modes_and_formats",
+        "resources_and_realtime",
+        "subjective_acoustic_merodoa_public"
+      ],
+      "actual_case_status": [
+        {
+          "id": "oracle_identity",
+          "status": "PASS"
+        },
+        {
+          "id": "configure",
+          "status": "PASS"
+        },
+        {
+          "id": "build",
+          "status": "PASS"
+        },
+        {
+          "id": "architecture",
+          "status": "PASS"
+        },
+        {
+          "id": "ctest",
+          "status": "PASS"
+        },
+        {
+          "id": "boundary_400000_candidate_oracle",
+          "status": "PASS"
+        },
+        {
+          "id": "boundary_400000_candidate",
+          "status": "PASS"
+        },
+        {
+          "id": "boundary_400000_baseline_oracle",
+          "status": "PASS"
+        },
+        {
+          "id": "boundary_400000_baseline",
+          "status": "PASS"
+        },
+        {
+          "id": "boundary_1000000_candidate_oracle",
+          "status": "PASS"
+        },
+        {
+          "id": "boundary_1000000_candidate",
+          "status": "PASS"
+        },
+        {
+          "id": "boundary_1000000_baseline_oracle",
+          "status": "PASS"
+        },
+        {
+          "id": "boundary_1000000_baseline",
+          "status": "PASS"
+        },
+        {
+          "id": "boundary_2000000_candidate_oracle",
+          "status": "PASS"
+        },
+        {
+          "id": "boundary_2000000_candidate",
+          "status": "PASS"
+        },
+        {
+          "id": "boundary_2000000_baseline_oracle",
+          "status": "PASS"
+        },
+        {
+          "id": "boundary_2000000_baseline",
+          "status": "PASS"
+        },
+        {
+          "id": "playing_independent_dynamic",
+          "status": "NOT_RUN"
+        },
+        {
+          "id": "dynamic_B_and_different_speed_boundary",
+          "status": "NOT_RUN"
+        },
+        {
+          "id": "latest_wins_clear_lifecycle",
+          "status": "NOT_RUN"
+        },
+        {
+          "id": "seek_all_modes_and_formats",
+          "status": "NOT_RUN"
+        },
+        {
+          "id": "resources_and_realtime",
+          "status": "NOT_RUN"
+        },
+        {
+          "id": "subjective_acoustic_merodoa_public",
+          "status": "NOT_RUN"
+        }
+      ],
+      "measurements": {
+        "programs_expected": 6,
+        "programs_passed": 6,
+        "cases_expected": 184,
+        "cases_executed": 184,
+        "counts_fully_resolved": true
+      },
+      "explicit_not_run": [
+        "dynamic_B_and_different_speed_boundary",
+        "latest_wins_clear_lifecycle",
+        "playing_independent_dynamic",
+        "resources_and_realtime",
+        "seek_all_modes_and_formats",
+        "subjective_acoustic_merodoa_public"
+      ],
+      "source_inventory_sha256": "fa2b6f4fea83e06b4d31433478ae01cae5d98c3465267c990625d4a30a171c8a",
+      "input_recipe": null,
+      "binaries": [
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_loop_tests",
+          "bytes": 785536,
+          "sha256": "9d889395ff325a72c58214d726ce461b6f332e3cc4ad65c57d2dea37c28a88f6"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_dynamic_boundary_tests",
+          "bytes": 962688,
+          "sha256": "d4f08334133596e293922076fb2d41f08cdc726bf3d3f98f232e685fede0bb61"
+        }
+      ]
+    },
+    {
+      "id": "final_extra",
+      "status": "PASS",
+      "exit": 0,
+      "timed_out": false,
+      "seconds": 83.52214883301349,
+      "reason": "",
+      "expected": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/renderer_final_v2/final_extra/EXPECTED.json",
+        "bytes": 114027,
+        "sha256": "80a53e8ce7ece7c1648eb5ec550fabd657c1215bcde8f8af7a1d340ea1587bcc"
+      },
+      "summary": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/renderer_final_v2/final_extra/SUMMARY.json",
+        "bytes": 12796,
+        "sha256": "9f68b3e0f8622e671d9f3045a26a8ceb81e20fdaa262687b626364a5b8d286fd"
+      },
+      "conditions_recipe": {
+        "command": [
+          "/Users/taro252/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/renderer_final_v2/run_final_extra.py"
+        ],
+        "original_recipe": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_dynamic_loop/recipes/run_final_extra.py",
+          "bytes": 4926,
+          "sha256": "beea1e90d3a76c4412caadc85ee2db0cd831abfe1a737130b358cc960b6bdca2"
+        },
+        "adapted_recipe": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/renderer_final_v2/run_final_extra.py",
+          "bytes": 5207,
+          "sha256": "1e0f892922b4465d16f26506ec6dd0d39c826e5945aa5a91cdc78bc0cc954728"
+        },
+        "conditions_only_from": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_dynamic_20261020/final_extra/EXPECTED.json",
+          "bytes": 110910,
+          "sha256": "9cde2096872596c2a1d5d6465990145107d777a166a3f0286e1e0cd0de189388"
+        }
+      },
+      "actual_run_source_inventory_sha256": "fa2b6f4fea83e06b4d31433478ae01cae5d98c3465267c990625d4a30a171c8a",
+      "evidence_use": "EXECUTED_FINAL_SOURCE",
+      "required_program_ids": [
+        "boundary_400000_400000_candidate_500",
+        "boundary_400000_2000000_baseline_1000",
+        "boundary_750000_1000000_candidate_1000",
+        "boundary_1000000_1000000_baseline_500",
+        "boundary_2000000_2000000_candidate_1000",
+        "boundary_2000000_400000_baseline_500",
+        "handoff_1000000_750000_candidate_64",
+        "handoff_400000_2000000_candidate_4096",
+        "handoff_2000000_400000_candidate_512",
+        "handoff_1000000_750000_baseline_4096",
+        "handoff_400000_2000000_baseline_64",
+        "handoff_2000000_400000_baseline_512"
+      ],
+      "actual_program_ids": [
+        "boundary_400000_400000_candidate_500",
+        "boundary_400000_2000000_baseline_1000",
+        "boundary_750000_1000000_candidate_1000",
+        "boundary_1000000_1000000_baseline_500",
+        "boundary_2000000_2000000_candidate_1000",
+        "boundary_2000000_400000_baseline_500",
+        "handoff_1000000_750000_candidate_64",
+        "handoff_400000_2000000_candidate_4096",
+        "handoff_2000000_400000_candidate_512",
+        "handoff_1000000_750000_baseline_4096",
+        "handoff_400000_2000000_baseline_64",
+        "handoff_2000000_400000_baseline_512"
+      ],
+      "measurements": [
+        {
+          "id": "boundary_400000_400000_candidate_500",
+          "unit": "checks",
+          "count": 72,
+          "source_field": "row.executed"
+        },
+        {
+          "id": "boundary_400000_2000000_baseline_1000",
+          "unit": "checks",
+          "count": 56,
+          "source_field": "row.executed"
+        },
+        {
+          "id": "boundary_750000_1000000_candidate_1000",
+          "unit": "checks",
+          "count": 56,
+          "source_field": "row.executed"
+        },
+        {
+          "id": "boundary_1000000_1000000_baseline_500",
+          "unit": "checks",
+          "count": 56,
+          "source_field": "row.executed"
+        },
+        {
+          "id": "boundary_2000000_2000000_candidate_1000",
+          "unit": "checks",
+          "count": 56,
+          "source_field": "row.executed"
+        },
+        {
+          "id": "boundary_2000000_400000_baseline_500",
+          "unit": "checks",
+          "count": 72,
+          "source_field": "row.executed"
+        },
+        {
+          "id": "handoff_1000000_750000_candidate_64",
+          "unit": "checks",
+          "count": 1,
+          "source_field": "row.executed"
+        },
+        {
+          "id": "handoff_400000_2000000_candidate_4096",
+          "unit": "checks",
+          "count": 1,
+          "source_field": "row.executed"
+        },
+        {
+          "id": "handoff_2000000_400000_candidate_512",
+          "unit": "checks",
+          "count": 1,
+          "source_field": "row.executed"
+        },
+        {
+          "id": "handoff_1000000_750000_baseline_4096",
+          "unit": "checks",
+          "count": 1,
+          "source_field": "row.executed"
+        },
+        {
+          "id": "handoff_400000_2000000_baseline_64",
+          "unit": "checks",
+          "count": 1,
+          "source_field": "row.executed"
+        },
+        {
+          "id": "handoff_2000000_400000_baseline_512",
+          "unit": "checks",
+          "count": 1,
+          "source_field": "row.executed"
+        }
+      ],
+      "measured_totals_by_unit": {
+        "checks": 374
+      },
+      "realtime": [],
+      "realtime_status": "NOT_ASSESSED",
+      "source_inventory_sha256": "fa2b6f4fea83e06b4d31433478ae01cae5d98c3465267c990625d4a30a171c8a",
+      "results": [
+        {
+          "id": "boundary_400000_400000_candidate_500",
+          "status": "PASS",
+          "exit": 0,
+          "expected": 72,
+          "executed": 72,
+          "final": {
+            "suite": "phase62_dynamic_boundary",
+            "expected": 72,
+            "executed": 72,
+            "base_cases": 36,
+            "old_near_B_cases": 36,
+            "loop_ms": 500,
+            "status": "PASS",
+            "realtime": false,
+            "callback_allocation_probe": "NOT_RUN",
+            "independent_DSP_RAW": true
+          }
+        },
+        {
+          "id": "boundary_400000_2000000_baseline_1000",
+          "status": "PASS",
+          "exit": 0,
+          "expected": 56,
+          "executed": 56,
+          "final": {
+            "suite": "phase62_dynamic_boundary",
+            "expected": 56,
+            "executed": 56,
+            "base_cases": 28,
+            "old_near_B_cases": 28,
+            "loop_ms": 1000,
+            "status": "PASS",
+            "realtime": false,
+            "callback_allocation_probe": "NOT_RUN",
+            "independent_DSP_RAW": true
+          }
+        },
+        {
+          "id": "boundary_750000_1000000_candidate_1000",
+          "status": "PASS",
+          "exit": 0,
+          "expected": 56,
+          "executed": 56,
+          "final": {
+            "suite": "phase62_dynamic_boundary",
+            "expected": 56,
+            "executed": 56,
+            "base_cases": 28,
+            "old_near_B_cases": 28,
+            "loop_ms": 1000,
+            "status": "PASS",
+            "realtime": false,
+            "callback_allocation_probe": "NOT_RUN",
+            "independent_DSP_RAW": true
+          }
+        },
+        {
+          "id": "boundary_1000000_1000000_baseline_500",
+          "status": "PASS",
+          "exit": 0,
+          "expected": 56,
+          "executed": 56,
+          "final": {
+            "suite": "phase62_dynamic_boundary",
+            "expected": 56,
+            "executed": 56,
+            "base_cases": 28,
+            "old_near_B_cases": 28,
+            "loop_ms": 500,
+            "status": "PASS",
+            "realtime": false,
+            "callback_allocation_probe": "NOT_RUN",
+            "independent_DSP_RAW": true
+          }
+        },
+        {
+          "id": "boundary_2000000_2000000_candidate_1000",
+          "status": "PASS",
+          "exit": 0,
+          "expected": 56,
+          "executed": 56,
+          "final": {
+            "suite": "phase62_dynamic_boundary",
+            "expected": 56,
+            "executed": 56,
+            "base_cases": 28,
+            "old_near_B_cases": 28,
+            "loop_ms": 1000,
+            "status": "PASS",
+            "realtime": false,
+            "callback_allocation_probe": "NOT_RUN",
+            "independent_DSP_RAW": true
+          }
+        },
+        {
+          "id": "boundary_2000000_400000_baseline_500",
+          "status": "PASS",
+          "exit": 0,
+          "expected": 72,
+          "executed": 72,
+          "final": {
+            "suite": "phase62_dynamic_boundary",
+            "expected": 72,
+            "executed": 72,
+            "base_cases": 36,
+            "old_near_B_cases": 36,
+            "loop_ms": 500,
+            "status": "PASS",
+            "realtime": false,
+            "callback_allocation_probe": "NOT_RUN",
+            "independent_DSP_RAW": true
+          }
+        },
+        {
+          "id": "handoff_1000000_750000_candidate_64",
+          "status": "PASS",
+          "exit": 0,
+          "expected": 1,
+          "executed": 1,
+          "final": {
+            "suite": "phase62_dynamic_handoff",
+            "expected": 1,
+            "executed": 1,
+            "status": "PASS",
+            "initial_micros": 1000000,
+            "target_micros": 750000,
+            "preset": "candidate",
+            "callback": 64,
+            "current_L": 565203,
+            "next_L": 576000,
+            "Sigma_L_three_periods": 1717203,
+            "output_frames": 1717444,
+            "cycles": 3,
+            "map_version": 4,
+            "operation_id": 1,
+            "applied_output": 30720,
+            "completion_output": 34259,
+            "generated_at_commit": 24576,
+            "published_at_commit": 24576,
+            "independent_planner_Map_RAW": true,
+            "independent_fixed_next_RAW": true,
+            "independent_final_PCM": true,
+            "outside_window_samples": 1716004,
+            "inside_window_samples": 1440,
+            "max_spans": 2,
+            "callback_cpp_new": 0,
+            "callback_heap_allocations": 0,
+            "callback_heap_frees": 0,
+            "missing": 0,
+            "padding": 0,
+            "nonfinite": 0,
+            "max_product_owners": 2,
+            "host_capture_bytes": 22988288,
+            "host_gain_05_equation": "PASS",
+            "native_mixer_gain": "NOT_RUN",
+            "realtime": false,
+            "physical_loopback": "NOT_RUN",
+            "processed_pcm_sha256": "2c2ebe39609233ce9e2f56058022c3ad262705f27bc934bc90369702fbe3150a",
+            "dynamic_oracle_exit": 0,
+            "fixed_oracle_exit": 0
+          }
+        },
+        {
+          "id": "handoff_400000_2000000_candidate_4096",
+          "status": "PASS",
+          "exit": 0,
+          "expected": 1,
+          "executed": 1,
+          "final": {
+            "suite": "phase62_dynamic_handoff",
+            "expected": 1,
+            "executed": 1,
+            "status": "PASS",
+            "initial_micros": 400000,
+            "target_micros": 2000000,
+            "preset": "candidate",
+            "callback": 4096,
+            "current_L": 242624,
+            "next_L": 216000,
+            "Sigma_L_three_periods": 674624,
+            "output_frames": 674865,
+            "cycles": 3,
+            "map_version": 3,
+            "operation_id": 1,
+            "applied_output": 30720,
+            "completion_output": 33280,
+            "generated_at_commit": 24576,
+            "published_at_commit": 24576,
+            "independent_planner_Map_RAW": true,
+            "independent_fixed_next_RAW": true,
+            "independent_final_PCM": true,
+            "outside_window_samples": 673425,
+            "inside_window_samples": 1440,
+            "max_spans": 4,
+            "callback_cpp_new": 0,
+            "callback_heap_allocations": 0,
+            "callback_heap_frees": 0,
+            "missing": 0,
+            "padding": 0,
+            "nonfinite": 0,
+            "max_product_owners": 2,
+            "host_capture_bytes": 14348288,
+            "host_gain_05_equation": "PASS",
+            "native_mixer_gain": "NOT_RUN",
+            "realtime": false,
+            "physical_loopback": "NOT_RUN",
+            "processed_pcm_sha256": "530c10c8287144820c622707039bd9fa74a7fef413d12843567ae5e8b2982bfb",
+            "dynamic_oracle_exit": 0,
+            "fixed_oracle_exit": 0
+          }
+        },
+        {
+          "id": "handoff_2000000_400000_candidate_512",
+          "status": "PASS",
+          "exit": 0,
+          "expected": 1,
+          "executed": 1,
+          "final": {
+            "suite": "phase62_dynamic_handoff",
+            "expected": 1,
+            "executed": 1,
+            "status": "PASS",
+            "initial_micros": 2000000,
+            "target_micros": 400000,
+            "preset": "candidate",
+            "callback": 512,
+            "current_L": 952322,
+            "next_L": 1080000,
+            "Sigma_L_three_periods": 3112322,
+            "output_frames": 3112563,
+            "cycles": 3,
+            "map_version": 4,
+            "operation_id": 1,
+            "applied_output": 30720,
+            "completion_output": 33602,
+            "generated_at_commit": 24576,
+            "published_at_commit": 24576,
+            "independent_planner_Map_RAW": true,
+            "independent_fixed_next_RAW": true,
+            "independent_final_PCM": true,
+            "outside_window_samples": 3111123,
+            "inside_window_samples": 1440,
+            "max_spans": 3,
+            "callback_cpp_new": 0,
+            "callback_heap_allocations": 0,
+            "callback_heap_frees": 0,
+            "missing": 0,
+            "padding": 0,
+            "nonfinite": 0,
+            "max_product_owners": 2,
+            "host_capture_bytes": 35084288,
+            "host_gain_05_equation": "PASS",
+            "native_mixer_gain": "NOT_RUN",
+            "realtime": false,
+            "physical_loopback": "NOT_RUN",
+            "processed_pcm_sha256": "faa49862e158a8248378853396761fce00387ba7ce4d6fa2c5998813b5d87ab5",
+            "dynamic_oracle_exit": 0,
+            "fixed_oracle_exit": 0
+          }
+        },
+        {
+          "id": "handoff_1000000_750000_baseline_4096",
+          "status": "PASS",
+          "exit": 0,
+          "expected": 1,
+          "executed": 1,
+          "final": {
+            "suite": "phase62_dynamic_handoff",
+            "expected": 1,
+            "executed": 1,
+            "status": "PASS",
+            "initial_micros": 1000000,
+            "target_micros": 750000,
+            "preset": "baseline",
+            "callback": 4096,
+            "current_L": 567238,
+            "next_L": 576000,
+            "Sigma_L_three_periods": 1719238,
+            "output_frames": 1719479,
+            "cycles": 3,
+            "map_version": 2,
+            "operation_id": 1,
+            "applied_output": 24576,
+            "completion_output": 28102,
+            "generated_at_commit": 18432,
+            "published_at_commit": 16384,
+            "independent_planner_Map_RAW": true,
+            "independent_fixed_next_RAW": true,
+            "independent_final_PCM": true,
+            "outside_window_samples": 1718039,
+            "inside_window_samples": 1440,
+            "max_spans": 4,
+            "callback_cpp_new": 0,
+            "callback_heap_allocations": 0,
+            "callback_heap_frees": 0,
+            "missing": 0,
+            "padding": 0,
+            "nonfinite": 0,
+            "max_product_owners": 2,
+            "host_capture_bytes": 22988288,
+            "host_gain_05_equation": "PASS",
+            "native_mixer_gain": "NOT_RUN",
+            "realtime": false,
+            "physical_loopback": "NOT_RUN",
+            "processed_pcm_sha256": "e517989830241d3617aaab2dd2dfa0be1bd9373375c0cc1cddaec5b88a65a719",
+            "dynamic_oracle_exit": 0,
+            "fixed_oracle_exit": 0
+          }
+        },
+        {
+          "id": "handoff_400000_2000000_baseline_64",
+          "status": "PASS",
+          "exit": 0,
+          "expected": 1,
+          "executed": 1,
+          "final": {
+            "suite": "phase62_dynamic_handoff",
+            "expected": 1,
+            "executed": 1,
+            "status": "PASS",
+            "initial_micros": 400000,
+            "target_micros": 2000000,
+            "preset": "baseline",
+            "callback": 64,
+            "current_L": 244366,
+            "next_L": 216000,
+            "Sigma_L_three_periods": 676366,
+            "output_frames": 676607,
+            "cycles": 3,
+            "map_version": 2,
+            "operation_id": 1,
+            "applied_output": 28160,
+            "completion_output": 36558,
+            "generated_at_commit": 18432,
+            "published_at_commit": 16384,
+            "independent_planner_Map_RAW": true,
+            "independent_fixed_next_RAW": true,
+            "independent_final_PCM": true,
+            "outside_window_samples": 675167,
+            "inside_window_samples": 1440,
+            "max_spans": 2,
+            "callback_cpp_new": 0,
+            "callback_heap_allocations": 0,
+            "callback_heap_frees": 0,
+            "missing": 0,
+            "padding": 0,
+            "nonfinite": 0,
+            "max_product_owners": 2,
+            "host_capture_bytes": 14348288,
+            "host_gain_05_equation": "PASS",
+            "native_mixer_gain": "NOT_RUN",
+            "realtime": false,
+            "physical_loopback": "NOT_RUN",
+            "processed_pcm_sha256": "c1b7d16d2023849f3625d2c37e76ea8031822e0064a79e8a04d29a18a24a541b",
+            "dynamic_oracle_exit": 0,
+            "fixed_oracle_exit": 0
+          }
+        },
+        {
+          "id": "handoff_2000000_400000_baseline_512",
+          "status": "PASS",
+          "exit": 0,
+          "expected": 1,
+          "executed": 1,
+          "final": {
+            "suite": "phase62_dynamic_handoff",
+            "expected": 1,
+            "executed": 1,
+            "status": "PASS",
+            "initial_micros": 2000000,
+            "target_micros": 400000,
+            "preset": "baseline",
+            "callback": 512,
+            "current_L": 963570,
+            "next_L": 1080000,
+            "Sigma_L_three_periods": 3123570,
+            "output_frames": 3123811,
+            "cycles": 3,
+            "map_version": 3,
+            "operation_id": 1,
+            "applied_output": 27648,
+            "completion_output": 34610,
+            "generated_at_commit": 20480,
+            "published_at_commit": 20480,
+            "independent_planner_Map_RAW": true,
+            "independent_fixed_next_RAW": true,
+            "independent_final_PCM": true,
+            "outside_window_samples": 3122371,
+            "inside_window_samples": 1440,
+            "max_spans": 3,
+            "callback_cpp_new": 0,
+            "callback_heap_allocations": 0,
+            "callback_heap_frees": 0,
+            "missing": 0,
+            "padding": 0,
+            "nonfinite": 0,
+            "max_product_owners": 2,
+            "host_capture_bytes": 35084288,
+            "host_gain_05_equation": "PASS",
+            "native_mixer_gain": "NOT_RUN",
+            "realtime": false,
+            "physical_loopback": "NOT_RUN",
+            "processed_pcm_sha256": "31454fe73e67f54d79a1c7487d52176b71546402425bcd09391e3eb751be269f",
+            "dynamic_oracle_exit": 0,
+            "fixed_oracle_exit": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "final_uncached_boundary",
+      "status": "PASS",
+      "exit": 0,
+      "timed_out": false,
+      "seconds": 131.429362416995,
+      "reason": "",
+      "expected": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/renderer_final_v2/final_uncached_boundary/EXPECTED.json",
+        "bytes": 112160,
+        "sha256": "100b75ce0becaabcd06280df020784a3f22e60ac2757d2e13096ad605902451d"
+      },
+      "summary": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/renderer_final_v2/final_uncached_boundary/SUMMARY.json",
+        "bytes": 1198,
+        "sha256": "73dace5830afadad769396967fd580344e4f1daf41ed1e52aa8c430af81c1178"
+      },
+      "conditions_recipe": {
+        "command": [
+          "/Users/taro252/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/renderer_final_v2/run_final_uncached_boundary.py"
+        ],
+        "original_recipe": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_dynamic_loop/recipes/run_final_uncached_boundary.py",
+          "bytes": 3676,
+          "sha256": "d31359dd225dced4347de23f9af75e900069a20e2ad543e41b0a32b1dcc27243"
+        },
+        "adapted_recipe": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/renderer_final_v2/run_final_uncached_boundary.py",
+          "bytes": 3878,
+          "sha256": "e9cbe4a0bf2f823d1ca8e9dc2aca7dc695305fd41526653bf0fafc376a469355"
+        },
+        "conditions_only_from": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_dynamic_20261020/final_uncached_boundary/EXPECTED.json",
+          "bytes": 109043,
+          "sha256": "7db981c5720282e65cff35661f7462244c36c86e734a33bba1f1d2ca85aa0250"
+        }
+      },
+      "actual_run_source_inventory_sha256": "fa2b6f4fea83e06b4d31433478ae01cae5d98c3465267c990625d4a30a171c8a",
+      "evidence_use": "EXECUTED_FINAL_SOURCE",
+      "required_program_ids": [
+        "uncached_400000_candidate_3000",
+        "uncached_2000000_baseline_5000"
+      ],
+      "actual_program_ids": [
+        "uncached_400000_candidate_3000",
+        "uncached_2000000_baseline_5000"
+      ],
+      "measurements": [
+        {
+          "id": "uncached_400000_candidate_3000",
+          "unit": "checks",
+          "count": 72,
+          "source_field": "row.executed"
+        },
+        {
+          "id": "uncached_2000000_baseline_5000",
+          "unit": "checks",
+          "count": 56,
+          "source_field": "row.executed"
+        }
+      ],
+      "measured_totals_by_unit": {
+        "checks": 128
+      },
+      "realtime": [],
+      "realtime_status": "NOT_ASSESSED",
+      "source_inventory_sha256": "fa2b6f4fea83e06b4d31433478ae01cae5d98c3465267c990625d4a30a171c8a",
+      "results": [
+        {
+          "id": "uncached_400000_candidate_3000",
+          "status": "PASS",
+          "exit": 0,
+          "expected": 72,
+          "executed": 72,
+          "final": {
+            "suite": "phase62_dynamic_boundary",
+            "expected": 72,
+            "executed": 72,
+            "base_cases": 36,
+            "old_near_B_cases": 36,
+            "loop_ms": 3000,
+            "status": "PASS",
+            "realtime": false,
+            "callback_allocation_probe": "NOT_RUN",
+            "independent_DSP_RAW": true
+          },
+          "period_frames": 360000
+        },
+        {
+          "id": "uncached_2000000_baseline_5000",
+          "status": "PASS",
+          "exit": 0,
+          "expected": 56,
+          "executed": 56,
+          "final": {
+            "suite": "phase62_dynamic_boundary",
+            "expected": 56,
+            "executed": 56,
+            "base_cases": 28,
+            "old_near_B_cases": 28,
+            "loop_ms": 5000,
+            "status": "PASS",
+            "realtime": false,
+            "callback_allocation_probe": "NOT_RUN",
+            "independent_DSP_RAW": true
+          },
+          "period_frames": 120000
+        }
+      ]
+    },
+    {
+      "id": "final_min512_v9",
+      "status": "PASS",
+      "exit": 0,
+      "timed_out": false,
+      "seconds": 15.9225199999928,
+      "reason": "",
+      "expected": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/renderer_final_v2/final_min512_v9/EXPECTED.json",
+        "bytes": 115956,
+        "sha256": "d9d60292b4c563321449011d6ac19b5970fbb7549aea85b1a2dd93f862e07955"
+      },
+      "summary": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/renderer_final_v2/final_min512_v9/SUMMARY.json",
+        "bytes": 2216,
+        "sha256": "5e247edc611ed50072e1691a6481147cc2a29f7ce7c4bc125bd094ca831da725"
+      },
+      "conditions_recipe": {
+        "command": [
+          "/Users/taro252/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/renderer_final_v2/run_final_min512.py"
+        ],
+        "original_recipe": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_dynamic_loop/recipes/run_final_min512.py",
+          "bytes": 3255,
+          "sha256": "3582d03bcb653dff5db47df346a3fcfc99f338c251add275cfc08b2581dac5aa"
+        },
+        "adapted_recipe": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/renderer_final_v2/run_final_min512.py",
+          "bytes": 3378,
+          "sha256": "f10bc09d4d68ac901b64dde35cfefc37dbcf04885d6050698acbd1f6f2010f74"
+        },
+        "conditions_only_from": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_dynamic_20261020/final_min512_v9/EXPECTED.json",
+          "bytes": 112929,
+          "sha256": "21de1ea3d19e0ec116e661e8b66aafb9db9cd27145217e47d30fb6870ecff4d0"
+        }
+      },
+      "actual_run_source_inventory_sha256": "fa2b6f4fea83e06b4d31433478ae01cae5d98c3465267c990625d4a30a171c8a",
+      "evidence_use": "EXECUTED_FINAL_SOURCE",
+      "required_program_ids": [
+        "candidate",
+        "baseline"
+      ],
+      "actual_program_ids": [
+        "candidate",
+        "baseline"
+      ],
+      "measurements": [
+        {
+          "id": "candidate",
+          "unit": "checks",
+          "count": 96,
+          "source_field": "row.executed"
+        },
+        {
+          "id": "baseline",
+          "unit": "checks",
+          "count": 96,
+          "source_field": "row.executed"
+        }
+      ],
+      "measured_totals_by_unit": {
+        "checks": 192
+      },
+      "realtime": [],
+      "realtime_status": "NOT_ASSESSED",
+      "source_inventory_sha256": "fa2b6f4fea83e06b4d31433478ae01cae5d98c3465267c990625d4a30a171c8a",
+      "results": [
+        {
+          "preset": "candidate",
+          "status": "PASS",
+          "exit": 0,
+          "expected": 96,
+          "executed": 96,
+          "phase_coverage": [
+            {
+              "period_frames": 512,
+              "callback": 64,
+              "phase_mask": 7,
+              "status": "PHASE_COVERAGE_PASS"
+            },
+            {
+              "period_frames": 512,
+              "callback": 128,
+              "phase_mask": 7,
+              "status": "PHASE_COVERAGE_PASS"
+            },
+            {
+              "period_frames": 512,
+              "callback": 512,
+              "phase_mask": 7,
+              "status": "PHASE_COVERAGE_PASS"
+            },
+            {
+              "period_frames": 512,
+              "callback": 4096,
+              "phase_mask": 7,
+              "status": "PHASE_COVERAGE_PASS"
+            }
+          ]
+        },
+        {
+          "preset": "baseline",
+          "status": "PASS",
+          "exit": 0,
+          "expected": 96,
+          "executed": 96,
+          "phase_coverage": [
+            {
+              "period_frames": 512,
+              "callback": 64,
+              "phase_mask": 7,
+              "status": "PHASE_COVERAGE_PASS"
+            },
+            {
+              "period_frames": 512,
+              "callback": 128,
+              "phase_mask": 7,
+              "status": "PHASE_COVERAGE_PASS"
+            },
+            {
+              "period_frames": 512,
+              "callback": 512,
+              "phase_mask": 7,
+              "status": "PHASE_COVERAGE_PASS"
+            },
+            {
+              "period_frames": 512,
+              "callback": 4096,
+              "phase_mask": 7,
+              "status": "PHASE_COVERAGE_PASS"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "local_overall_go": false
+}

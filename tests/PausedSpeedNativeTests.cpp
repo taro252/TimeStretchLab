@@ -30,9 +30,16 @@ struct Capture {
 };
 struct Gate {
     std::atomic<bool> armed{false},entered{false},release{false};
+    std::atomic<bool> holdFailureRetirement{false},failureRetirementEntered{false},releaseFailureRetirement{false};
     ProgressiveControlTestPoint point=ProgressiveControlTestPoint::SeekPreparationStarted;
     static void event(void* ctx,ProgressiveControlTestPoint point)noexcept{
-        auto& g=*static_cast<Gate*>(ctx);if(point!=g.point||!g.armed.exchange(false))return;
+        auto& g=*static_cast<Gate*>(ctx);
+        if(point==ProgressiveControlTestPoint::RetiringPreparation&&g.holdFailureRetirement.exchange(false)){
+            g.failureRetirementEntered=true;const auto end=std::chrono::steady_clock::now()+std::chrono::seconds(15);
+            while(!g.releaseFailureRetirement.load()&&std::chrono::steady_clock::now()<end)std::this_thread::sleep_for(std::chrono::milliseconds(1));
+            return;
+        }
+        if(point!=g.point||!g.armed.exchange(false))return;
         g.entered=true;const auto end=std::chrono::steady_clock::now()+std::chrono::seconds(15);
         while(!g.release.load()&&std::chrono::steady_clock::now()<end)std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
@@ -101,7 +108,7 @@ static void controls(const std::filesystem::path& input,Preset preset){
     switchedPause(input,preset);
     WavStreamReader wav(input);
     for(const std::string kind:{"burst","reverse","cancel","seek","invalid","stop","route","close","input","failure","eof","tail","playing_pending","seek_speed","stable","double_cancel","limit"}){
-        Gate gate;auto e=std::make_unique<ProgressiveMacPlaybackEngine>();ProgressiveOptions o;o.preset=preset;o.controlTestHooks={&gate,Gate::event};if(kind=="failure")o.seekFailureForTest=1;
+        Gate gate;auto e=std::make_unique<ProgressiveMacPlaybackEngine>();ProgressiveOptions o;o.preset=preset;o.controlTestHooks={&gate,Gate::event};if(kind=="failure"){o.seekFailureForTest=1;gate.holdFailureRetirement=true;}
         e->prepare(input,o);state(*e,State::Ready);
         if(kind=="eof"||kind=="tail")seek(*e,kind=="eof"?wav.frames():wav.frames()-13);
         if(kind=="playing_pending"){check(e->play(),"play");std::this_thread::sleep_for(std::chrono::milliseconds(40));request(*e,.65);check(e->pause(),"pause transition");}
@@ -121,7 +128,13 @@ static void controls(const std::filesystem::path& input,Preset preset){
         gate.release=true;
         if(kind=="stop"||kind=="input"){e->stop();if(kind=="input"){e->prepare(input,o);state(*e,State::Ready);}}
         else if(kind=="close")e.reset();
-        else if(kind=="failure"){wait([&]{return e->getStateSnapshot().stoppedSpeed->state==StoppedSpeedState::Failed;});check(e->getPlaybackState()==State::Ready&&!e->getStateSnapshot().resumePending&&!e->play(),"failure auto resumed");}
+        else if(kind=="failure"){
+            wait([&]{return gate.failureRetirementEntered.load();});
+            check(e->getStateSnapshot().stoppedSpeed->state==StoppedSpeedState::Failed,"failure not published before retirement");
+            const bool refused=!e->play();const auto failed=e->getStateSnapshot();
+            gate.releaseFailureRetirement=true;
+            check(refused&&failed.state==State::Ready&&!failed.resumePending,"failure retirement registered a deferred restart");
+        }
         else if(kind!="route"){
             auto op=ready(*e,id);if(kind=="seek"||kind=="seek_speed")check(op.resumeInputFrame==wav.frames()*2/3+19,"seek target overwritten");
             if(kind=="seek_speed")check(e->getSeekSnapshot().latest.id==seekID&&e->getSeekSnapshot().latest.state==progressive::SeekState::Completed,"real seek history lost");

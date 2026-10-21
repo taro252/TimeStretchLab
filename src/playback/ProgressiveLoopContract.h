@@ -13,7 +13,32 @@ enum class LoopStartPolicy {ReturnToA,KeepPosition};
 struct LoopContext {std::uint64_t inputGeneration=0,session=0,renderEpoch=0;};
 struct LoopOptions {LoopStartPolicy startPolicy=LoopStartPolicy::ReturnToA;};
 struct LoopReceipt {std::uint64_t id=0;bool accepted=false;std::string reason;};
-struct LoopSpeedReceipt {std::uint64_t id=0;bool accepted=false,duplicate=false;std::string reason;};
+enum class LoopSpeedReceiptCode {Accepted,Duplicate,DuplicateInitial,InvalidContext,StaleContext,NoInput,NoLoop,ClearPending,LimitReached,Busy,Stopped};
+struct LoopSpeedReceipt {std::uint64_t id=0;bool accepted=false,duplicate=false;std::string reason;LoopSpeedReceiptCode code=LoopSpeedReceiptCode::Stopped;};
+enum class LoopSpeedState {Pending,Preparing,ReadyForResume,Committed,FixedBoundaryCommitted,Applied,Completed,Replaced,Cancelled,Failed};
+inline const char* name(LoopSpeedState state)noexcept {
+    switch(state){case LoopSpeedState::Pending:return "Pending";case LoopSpeedState::Preparing:return "Preparing";
+    case LoopSpeedState::ReadyForResume:return "ReadyForResume";case LoopSpeedState::Committed:return "Committed";
+    case LoopSpeedState::FixedBoundaryCommitted:return "FixedBoundaryCommitted";
+    case LoopSpeedState::Applied:return "Applied";case LoopSpeedState::Completed:return "Completed";
+    case LoopSpeedState::Replaced:return "Replaced";case LoopSpeedState::Cancelled:return "Cancelled";case LoopSpeedState::Failed:return "Failed";}return "Failed";
+}
+inline bool terminal(LoopSpeedState state)noexcept {return state==LoopSpeedState::Completed||state==LoopSpeedState::Replaced||state==LoopSpeedState::Cancelled||state==LoopSpeedState::Failed;}
+enum class LoopSpeedDeferral {None,ProtectedFrontier,PreparationDeadline,BusyRetry,Unsupported,InternalLimit,PreparationFailed};
+// External request identity. A Ready preparation and observed audio application
+// are separate facts; a committed/started record is never rewritten Replaced.
+struct LoopSpeedOperation {
+    std::uint64_t id=0,loopID=0,inputGeneration=0,sourceSession=0,sourceRenderEpoch=0,acceptedCycle=0;
+    std::uint32_t speedMicros=1000000;
+    LoopSpeedState state=LoopSpeedState::Pending;
+    LoopSpeedDeferral deferral=LoopSpeedDeferral::None;
+    std::uint64_t preparationVersion=0,dynamicOperationID=0,session=0,renderEpoch=0,producerCycle=0,cycle=0,mapVersion=0,outputEnd=0;
+    std::uint64_t dynamicSession=0,planningRenderEpoch=0; // internal operation owner, separate from a fixed fallback's adopted owner
+    std::uint64_t acceptedNs=0,preparingNs=0,readyNs=0,commitObservedNs=0,firstChangedPublishedObservedNs=0,firstPcmObservedNs=0,completedNs=0,terminalNs=0;
+    std::uint64_t firstChangedOutputFrame=0,completionOutputFrame=0,resumeInputFrame=0,discardedForPausedClearFrames=0;
+    bool committed=false,outputStarted=false,fixedBoundary=false,adoptionPending=false,fixedBoundaryCommitted=false,noChange=false,clearContinuation=false;
+    std::string reason;
+};
 struct LoopBoundaryEvent {
     std::uint64_t loopID=0,cycle=0,settingCycle=0,oldEpoch=0,newEpoch=0;
     std::uint64_t inputA=0,inputBExclusive=0,oldOutputEnd=0,newOutputStart=0;
@@ -38,6 +63,7 @@ struct LoopSnapshot {
     bool reusable=false;
     std::uint64_t periodFrames=0,cacheBytes=0,reuseCount=0,seedRestores=0,mapBuilds=0,workerCreations=0;
     std::uint64_t coldDiscardedFrames=0,warmDiscardedFrames=0;
+    std::uint64_t pausedClearDiscardedFrames=0,pausedClearInputFrame=0; // replacement discard, never consumption/seek/cycle/underrun
     std::optional<LoopBoundaryEvent> lastBoundary;
     std::string reason;
 };

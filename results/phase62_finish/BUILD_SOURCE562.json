@@ -1,0 +1,305 @@
+{
+  "status": "PASS",
+  "source_inventory_sha256": "56256bb681e5a8051b053025b10dacb917f26c0aed238f3a91452704e563a2ba",
+  "source_inventory_before_build": "56256bb681e5a8051b053025b10dacb917f26c0aed238f3a91452704e563a2ba",
+  "configuration": "Release",
+  "architecture": "arm64",
+  "rows": [
+    {
+      "id": "configure",
+      "command": [
+        "cmake",
+        "-S",
+        "/Users/taro252/Docker/TimeStretchLab",
+        "-B",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DCMAKE_OSX_ARCHITECTURES=arm64",
+        "-DBUILD_TESTING=ON"
+      ],
+      "exit": 0,
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/BUILD_ALL_V4/configure.log",
+        "bytes": 165,
+        "sha256": "9507001c91e9f0596f8c74a7e706d1f6f4362312e5b0a2fa44d57e1301988311"
+      }
+    },
+    {
+      "id": "build",
+      "command": [
+        "cmake",
+        "--build",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release",
+        "--parallel",
+        "4",
+        "--target",
+        "phase62_paused_clear_native",
+        "phase62_playing_ledger_native",
+        "phase62_api_oracle_native",
+        "phase62_api_boundary_reference",
+        "phase62_cache_focus_tests",
+        "phase62_loop_speed_ledger_native",
+        "phase62_loop_speed_ledger_tests",
+        "phase62_race_native",
+        "phase62_dynamic_pcm_tests",
+        "phase61_seek_check",
+        "phase54_core_probe",
+        "phase62_loop_tests",
+        "phase62_fix_reuse_tests",
+        "phase62_dynamic_boundary_tests",
+        "phase62_dynamic_handoff_tests",
+        "phase62_dynamic_controls_native",
+        "phase62_dynamic_loop_probe",
+        "phase62_paused_pcm_tests",
+        "paused_speed_native_tests",
+        "paused_speed_loop_tests",
+        "phase62_dynamic_seek_native",
+        "phase62_clear_pcm_native",
+        "phase62_native_tests"
+      ],
+      "exit": 0,
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/BUILD_ALL_V4/build.log",
+        "bytes": 9340,
+        "sha256": "400dc209bb427b60af2d51e045a82f89a2c3bbae036edbf2d2b6f2747208f0b4"
+      }
+    }
+  ],
+  "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
+  "compiler_path": "/usr/bin/c++",
+  "source_inventory_after_build": "56256bb681e5a8051b053025b10dacb917f26c0aed238f3a91452704e563a2ba",
+  "architecture_checks": {
+    "PASS": true,
+    "expected": "arm64",
+    "files": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_paused_clear_native",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_playing_ledger_native",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_api_oracle_native",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_api_boundary_reference",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_cache_focus_tests",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_loop_speed_ledger_native",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_loop_speed_ledger_tests",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_race_native",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_dynamic_pcm_tests",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase61_seek_check",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase54_core_probe",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_loop_tests",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_fix_reuse_tests",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_dynamic_boundary_tests",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_dynamic_handoff_tests",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_dynamic_controls_native",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_dynamic_loop_probe",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_paused_pcm_tests",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/paused_speed_native_tests",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/paused_speed_loop_tests",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_dynamic_seek_native",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_clear_pcm_native",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_native_tests",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      }
+    ]
+  },
+  "binaries": {
+    "phase62_paused_clear_native": "d798be90a3516e1041eceb78bf92c072e9db8d0ac61367cb7ea7738541a00fb9",
+    "phase62_playing_ledger_native": "baf9dc289e2267820b06bea7e5c298b921702384d6aab7ba942c893d009b375c",
+    "phase62_api_oracle_native": "d1c5df87a332771878cdcb0786cecc44ee47e83829c7ae06ed5f1d40e72f57f5",
+    "phase62_api_boundary_reference": "0317172058eb9d8e4b352f814b43df2c9c85aacc0a870321dab924d759cb5231",
+    "phase62_cache_focus_tests": "a63b2e468bcb65aa2350f1c848ceecd7aadf8e1301739a53444534b55b1c9f80",
+    "phase62_loop_speed_ledger_native": "72194b20b4aea5312bd855953eb68d60f45ebf9e73c47ffebf3f9cafa1d29db2",
+    "phase62_loop_speed_ledger_tests": "caca556be698e78231f24b56b4b5e785f07154eaeae7b14b8418d09081a4360b",
+    "phase62_race_native": "dfbc6037414c84768f7cd8c19a5d21f84a62e6e24a72ee701ee1cfc035afa451",
+    "phase62_dynamic_pcm_tests": "dda1ecfbbeb502e456d765b01d09fa01b90684159e1449e721eb03a064a07088",
+    "phase61_seek_check": "6278b943c30f7b920ea7c574d6c59171d81b32d6441e73422f77ef64b719e239",
+    "phase54_core_probe": "f65b0ede979d71c5c3e7fcf578ff474fd11e37f32707b2c8718fd20540128734",
+    "phase62_loop_tests": "9d889395ff325a72c58214d726ce461b6f332e3cc4ad65c57d2dea37c28a88f6",
+    "phase62_fix_reuse_tests": "89783c3c9c1c20eb2253cfb9ad0f7be673a4d4ef90643e083d4d834d34c368ae",
+    "phase62_dynamic_boundary_tests": "c651c03a51487cdd6df3352e5f2c76b8fb8ba5f232a90351cd8d3520205df277",
+    "phase62_dynamic_handoff_tests": "e668988c1a8621785639f5baa99191089162f855968e6385b20dfe24203729c5",
+    "phase62_dynamic_controls_native": "e0265ccd36375456fc213f7bea90bcb64e8100a358361ec135e3ed5d34dc48a3",
+    "phase62_dynamic_loop_probe": "8dfa94dc84349480884470f05c1eb78d1894fff70056f10e6722d771d157a327",
+    "phase62_paused_pcm_tests": "3b1f64a600831a423b0fce96b43f624cd9aedcdbb542e11565605c64e671bbf4",
+    "paused_speed_native_tests": "7207740a0d74eb6bedec35926424187125406ae71bf45c76262f3880f1842149",
+    "paused_speed_loop_tests": "04bbc92990fd1cbe421899afc6632858b309ce82779c6b77a3feaf40f3e34d2f",
+    "phase62_dynamic_seek_native": "756c563b771b10712a3cb2930305d6d861a6802bab2e705e975a79e22cf019b0",
+    "phase62_clear_pcm_native": "65ca5d54ddbd2c0096df861ae76c6814d1926a19a3265ea99f65370ff75a5a92",
+    "phase62_native_tests": "33c3df674aba8345a36ecf11d08dceeac72e4e864a35466b04ffd0f2b0b187df"
+  },
+  "build_log": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/BUILD_ALL_V4/build.log",
+    "bytes": 9340,
+    "sha256": "400dc209bb427b60af2d51e045a82f89a2c3bbae036edbf2d2b6f2747208f0b4"
+  },
+  "configure_log": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/BUILD_ALL_V4/configure.log",
+    "bytes": 165,
+    "sha256": "9507001c91e9f0596f8c74a7e706d1f6f4362312e5b0a2fa44d57e1301988311"
+  },
+  "build_exit": 0,
+  "fp_policy": "# CMAKE generated file: DO NOT EDIT!\n# Generated by \"Unix Makefiles\" Generator, CMake Version 4.3\n\n# compile CXX with /usr/bin/c++\nCXX_DEFINES = -DPHASE62_API_ORACLE_PRODUCT_EVIDENCE=1\n\nCXX_INCLUDES = -I/Users/taro252/Docker/TimeStretchLab/tests -I/Users/taro252/Docker/TimeStretchLab/src\n\nCXX_FLAGSarm64 = -O3 -DNDEBUG -std=c++20 -arch arm64\n\nCXX_FLAGS = -O3 -DNDEBUG -std=c++20 -arch arm64\n\n",
+  "draft_source_sha256": {
+    "host_source": "9e0c9390fe3ebaf0caecb8bd15f90e3f6398daaa464ad8fe2db2a1327d302af7",
+    "adapter_source": "3c33fa2b9f2d762a433327cce036d3afac49057bd9089328845a8104c3351bca",
+    "boundary_source": "44df7a92297e7defb8fe362f053c08bce7def130677b526f42db53b9889e45f6"
+  },
+  "host_binary_sha256": "d1c5df87a332771878cdcb0786cecc44ee47e83829c7ae06ed5f1d40e72f57f5",
+  "boundary_binary_sha256": "0317172058eb9d8e4b352f814b43df2c9c85aacc0a870321dab924d759cb5231"
+}

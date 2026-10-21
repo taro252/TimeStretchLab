@@ -1,0 +1,51 @@
+{
+  "status": "PASS",
+  "source_inventory_sha256": "958f402ad625d1a9e5c38e210f6afb8c44589dae327f783bb1756051f20fedf2",
+  "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
+  "configuration": "Release",
+  "architecture": "arm64",
+  "fp_policy": "-O3 -DNDEBUG -std=c++20 -arch arm64; no fast-math overrides",
+  "build_exit": 0,
+  "build_log": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/build_all_final_v3.log",
+    "bytes": 9761,
+    "sha256": "8d3bfa6feb39d1fc98c13429202022cd36854fcdec8fe8f7f5329b61b875381f"
+  },
+  "configure_log": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v4/configure_Release.log",
+    "bytes": 165,
+    "sha256": "a7e2e5d033b6cd19f84fa5afabfab221ce46ce4126f9cb24990a66e25c4cb3a5"
+  },
+  "binaries": {
+    "phase62_paused_clear_native": "0856f3b887353dbd6f1c591741b8434ca0388258c89cbbb328498bcf649a9d7b",
+    "phase62_playing_ledger_native": "0d0358d4cd2f1486c7bfcbc5da5ed85eecd9d57becf0a11a73bf27d32d83913c",
+    "phase62_api_oracle_native": "193052da092b1b9c6b5665523eaacc27dbbbf9f00cced9efad442f4821aed824",
+    "phase62_api_boundary_reference": "0317172058eb9d8e4b352f814b43df2c9c85aacc0a870321dab924d759cb5231",
+    "phase62_cache_focus_tests": "a63b2e468bcb65aa2350f1c848ceecd7aadf8e1301739a53444534b55b1c9f80",
+    "phase62_loop_speed_ledger_native": "ce1caa3f09db139a05977c3eb1f6ab31db69a9d28229a4521bd439043ec60165",
+    "phase62_loop_speed_ledger_tests": "caca556be698e78231f24b56b4b5e785f07154eaeae7b14b8418d09081a4360b",
+    "phase62_race_native": "5d31b32b4fbbc35fda3c1c93f416813d1be0544597a4547f7c9bf7ad054ad4ac",
+    "phase62_dynamic_pcm_tests": "dda1ecfbbeb502e456d765b01d09fa01b90684159e1449e721eb03a064a07088",
+    "phase61_seek_check": "6278b943c30f7b920ea7c574d6c59171d81b32d6441e73422f77ef64b719e239",
+    "phase54_core_probe": "f65b0ede979d71c5c3e7fcf578ff474fd11e37f32707b2c8718fd20540128734",
+    "phase62_loop_tests": "9d889395ff325a72c58214d726ce461b6f332e3cc4ad65c57d2dea37c28a88f6",
+    "phase62_fix_reuse_tests": "89783c3c9c1c20eb2253cfb9ad0f7be673a4d4ef90643e083d4d834d34c368ae",
+    "phase62_dynamic_boundary_tests": "b2ff889b1612933fd916127609a4af54e730dc6b0907aee056de5514f47ab5f3",
+    "phase62_dynamic_handoff_tests": "4b120b48fb9a5a925b53347e9db5dcc346d60fa219cc38b0d0bf81af20ca464c",
+    "phase62_dynamic_controls_native": "c69de76a9a409c6f9f3c9c913af2c1350795afbf2dca9d00a8608f6a6ddb567f",
+    "phase62_dynamic_loop_probe": "d2b486ce0ef6f065a4a64fc69eaa1aaf89db7fb5f958e42ebd6694fae6f4fbbb",
+    "phase62_paused_pcm_tests": "50a93f47f471614918b1cb264df93d425dbbd395a68dac93e57b55a4453ea6b5",
+    "paused_speed_native_tests": "981af2705b428c4681489b1ed0f9165bd1a5f5c0a1bdf996c441547211250e89",
+    "paused_speed_loop_tests": "8ccbb98ff1c1cae9228472a51d8e1c3c4073ee390a9fc61780b1e4ad4a489cd3",
+    "phase62_dynamic_seek_native": "d51b00823ef3758bbc1b226cb70bf150c4c2e1f6da1dddf43108bfa378a9b5cd",
+    "phase62_clear_pcm_native": "058d23281f3d79bc778afc6015457b583c19215028a42766bc0a94d019117441",
+    "phase62_native_tests": "853714ad2edd59b4b88cd941a2e40db9e9d501f5ee45131e9c642d6225c0f272"
+  },
+  "draft_source_sha256": {
+    "host_source": "9e0c9390fe3ebaf0caecb8bd15f90e3f6398daaa464ad8fe2db2a1327d302af7",
+    "adapter_source": "3c33fa2b9f2d762a433327cce036d3afac49057bd9089328845a8104c3351bca",
+    "boundary_source": "44df7a92297e7defb8fe362f053c08bce7def130677b526f42db53b9889e45f6"
+  },
+  "host_binary_sha256": "193052da092b1b9c6b5665523eaacc27dbbbf9f00cced9efad442f4821aed824",
+  "boundary_binary_sha256": "0317172058eb9d8e4b352f814b43df2c9c85aacc0a870321dab924d759cb5231"
+}

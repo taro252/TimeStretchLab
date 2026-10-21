@@ -251,6 +251,23 @@ std::unique_ptr<ProgressiveSynthesisEngine> ProgressiveSynthesisEngine::cloneFix
     for(std::size_t c=0;c<x.channels;++c){x.low[c]->copyRuntimeStateFrom(*old.low[c]);x.high[c]->copyRuntimeStateFrom(*old.high[c]);x.pcm[c]=old.pcm[c];x.pointers[c]=x.pcm[c].data();}
     x.finalLength=old.finalLength;x.state=old.state;return copy;
 }
+std::unique_ptr<ProgressiveSynthesisEngine> ProgressiveSynthesisEngine::makeFixedLoopOriginCheckpoint(int fd,
+    std::span<const unsigned char> bytes,std::uint32_t speed,std::shared_ptr<const phase56::AnalysisSnapshot> snapshot,
+    std::shared_ptr<const phase59::DynamicMap> map){
+    if(bytes.empty()||!snapshot||!snapshot->isFinal||snapshot->hasError||snapshot->isCancelled||!map||!map->final||map->hasTransitions||!map->modes.empty()||
+       map->inputGeneration!=snapshot->inputGeneration||map->certifiedNodes!=snapshot->mapThroughNode||map->certifiedNodes!=map->map.starts().size())return {};
+    const auto& nodes=snapshot->mapForSpeed(speed);if(nodes.size()!=map->certifiedNodes)return {};
+    for(std::size_t i=0;i<nodes.size();++i)if(nodes.at(i)!=map->map.starts()[i])return {};
+    auto saved=std::make_unique<ProgressiveSynthesisEngine>(fd,speed,snapshot->inputGeneration,std::function<void()>{},16*1024*1024,bytes);
+    saved->enableDynamicTransitions();saved->supplySnapshot(snapshot);auto& x=*saved->impl_;
+    if(map->receivedInput!=x.length||map->outputFrames!=std::size_t(std::llround(x.length*x.config.timeRatio)))return {};
+    // This is initialization of a never-run zero state, not an attempt to
+    // supply a new map over processed DSP. The active owner's guards remain.
+    x.checkpointMapOwner=std::move(map);x.dynamicMap=x.checkpointMapOwner.get();x.output=x.dynamicMap->outputFrames;x.declaredFinalOutput=x.output;
+    for(auto& stream:x.resolution)stream->setOutputLength(x.output);
+    for(auto& filter:x.low)filter->setOutputLength(x.output);for(auto& filter:x.high)filter->setOutputLength(x.output);x.finalLength=true;
+    x.fixedLoopOrigin=snapshot.get();x.fixedLoopMapOrigin=x.dynamicMap;return saved;
+}
 void ProgressiveSynthesisEngine::prepareCheckpointForEpoch(){auto& x=*impl_;
     if(!x.snapshotOwner||!x.snapshotOwner->isFinal||x.generated!=x.published||x.cancelled.load()||x.finished.load())throw std::logic_error("Invalid checkpoint epoch");
     x.snapshot=nullptr;x.snapshotOwner.reset();x.borrowedSnapshots=false;x.waiting=false;x.checkpointContext=x.dynamicEnabled;

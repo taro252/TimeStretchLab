@@ -1,6 +1,6 @@
 # Phase62 動的Loopの検証手順
 
-結果と未実施は [REPORT](../results/phase62_dynamic_loop/REPORT.md)、契約は [設計](PHASE62_DYNAMIC_LOOP_DESIGN.md) を参照する。オフラインの完全一致、macOSの供給試験、物理出力の品質承認を分ける。過去Phaseの成功件数は今回の実施件数に含めない。
+最新の残件実装・結果は [残件REPORT](../results/phase62_finish/REPORT.md)、c4bdbb44までの結果と未実施は [旧REPORT](../results/phase62_dynamic_loop/REPORT.md)、契約は [設計](PHASE62_DYNAMIC_LOOP_DESIGN.md) を参照する。オフラインの完全一致、macOSの供給試験、物理出力の品質承認を分ける。過去Phaseの成功件数は今回の実施件数に含めない。
 
 ## 参照を固定する
 
@@ -71,4 +71,14 @@ python3 -B scripts/phase62_dynamic_native_audit.py INPUT PRESET NEW_DIR build/ph
 
 `phase62_clear_pcm_native` は事前生成した凍結固定75% RAW、OA/OB、binary/RAW SHAを受け取り、実Clearの旧RAW末尾/新RAW B以後、独立線形混合式、窓外を比較する。自然周期の局所末尾補正はClear窓へ適用しない。mainMixer前の観測であり、実ゲイン・物理出力の承認とは分ける。再現driverは `results/phase62_dynamic_loop/recipes/run_clear_pcm_native.py`、2Presetの台帳は `run_final_clear_pcm.py`。
 
-`phase62_race_native` は通常workerのSwitchPublished（DSPへ要求を渡す前）だけを遅延し、75→100→40→200の未commit置換を明確にする。最新200の元周期内Completed、Paused75のResume前Ready、Clear供給、Stop、入力世代、最大2所有者を記録する。8件目はKeepPosition未対応の理由表示・供給維持だけで、その現在周期機能を合格に数えない。commit後の版保持は別の `phase62_dynamic_controls_native` で検査する。
+`phase62_race_native` は通常workerのSwitchPublished（DSPへ要求を渡す前）だけを遅延し、75→100→40→200の未commit置換を明確にする。最新200の元周期内Completed、Paused75のResume前Ready、Clear供給、Stop、入力世代、最大2所有者を記録する。基準commitの8件目はKeepPosition未対応の理由表示だけだった。今回の試験は、KeepPosition初回の現在周期で実PCMのCompletedを観測する契約へ更新した。commit後の版保持は別の `phase62_dynamic_controls_native` で検査する。
+
+## c4bdbb44以後の追加試験
+
+`phase62_finish_validation.py` のapi/cache/playing/paused-clearは、実行前の全ID集合、実ビルド時source/binary対応、run_complete、最終件数を必須にする。apiは通常のrequestLoopRange/速度要求/自然Bを使い、非0A、warm3、部分初回C、KeepPosition初回、実Mapの95999/96000/96001を両Presetで照合する。動的全Mapと全RAWは旧Phase59、次固定A→Bは旧固定Exact、最終callback PCMは別C++境界数式から得る。製品handoffをhostが直接設定する旧試験と別に数える。
+
+cacheは通常API独立試験に加え、低レベルでFIFO全prefixとpending保持を検算する。オフライン消費はplanner確定を待つが、HALのcallbackをゲートしない。playingは全Accepted ID、NoOp、commit後置換、Clear移管、上限・Stop・別入力・直接closeを追う。paused-clearは初回ReturnToAの準備中／開始後のClear、旧commit＋Paused新準備→Clear、手動seek置換、Ready後Clear、自然な開始直後の未PCM窓を検査する。窓を観測できない場合はINCOMPLETEであり、callbackを停止して作らない。
+
+集計は `phase62_gate_runner.py` / `phase62_aggregation.py` / `phase62_aggregation_manifest.py` を使う。旧recipes入口も新検査へ委譲する。元EXPECTED/ログ/JUnitのSHAを固定した旧schema監査は別記録とし、原本へ完了マーカーを追記しない。完全性の36条件（正例1、負例35）と追加10条件を検査する。新しい実施件数・コマンド・SHAは残件REPORT/manifestを参照する。
+
+残件の正確な実行順・期待件数・参照復元は [追加検証手順](PHASE62_REMAINING_VALIDATION.md) を参照する。

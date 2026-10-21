@@ -1,0 +1,35 @@
+{
+  "suite": "phase62_finish_evidence",
+  "expected": 10,
+  "executed": 10,
+  "status": "PASS",
+  "product_runs": 0,
+  "execution_source_inventory_sha256": "fa2b6f4fea83e06b4d31433478ae01cae5d98c3465267c990625d4a30a171c8a",
+  "observed_in": [
+    {
+      "configuration": "Release",
+      "test_id": "phase62_finish_evidence",
+      "status": "run",
+      "junit": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/ctest_Release.xml",
+        "bytes": 10146,
+        "sha256": "33faeabc049b04ac552524d2690d4a5ee971d4b0706ae0877847ab8ec5238d0d"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "test_id": "phase62_finish_evidence",
+      "status": "run",
+      "junit": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/ctest_Debug.xml",
+        "bytes": 10147,
+        "sha256": "7dc735c85f9ba3df7f3dd8c2d184a913a519f51d0dd50f894423fbed76518585"
+      }
+    }
+  ],
+  "test_source": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/tests/Phase62FinishEvidenceTests.py",
+    "bytes": 2120,
+    "sha256": "3f71bc354bad606668a11f53d42627e47b2c2609c068dace6ce772fa2e03fc1c"
+  }
+}

@@ -65,6 +65,7 @@ struct ProgressiveOptions {
     void(*observeOutputPcm)(void*,const float*const*,const ProgressiveOutputSpan&)noexcept=nullptr;
     unsigned seekFailureForTest=0; // explicit verification only: 1 before promotion, 2 before publication
     std::size_t loopSupplyFramesForTest=0; // explicit worker supply ceiling; no callback test gate
+    std::size_t loopSpeedOperationLimitForTest=4096,stoppedSpeedOperationLimitForTest=4096; // admission only; may reduce, never raise
     prototype::phase58::LifecycleTestHooks pipelineLifecycleTestHooks{};
     ProgressiveControlTestHooks controlTestHooks{};
 };
@@ -149,6 +150,11 @@ struct ProgressiveClosedEpoch {
     std::size_t droppedOperations=0;
     bool preparedOnly=false; // cancelled/failed preparation; epoch=0 if never assigned
 };
+struct LoopSpeedPcmEvidence {
+    progressive::LoopSpeedOperation operation;
+    prototype::phase58::LoopTransitionSnapshot commit;
+    TimeMap map; // product evidence, independently re-planned by the validation host
+};
 // Create, operate, query, stop and destroy on one serial application work queue.
 // prepare is Accepted, not Ready. Poll state/snapshot on that queue.
 // play after Stopped/Ended starts a fresh async preparation and auto-plays only
@@ -169,6 +175,9 @@ public:
     progressive::LoopSpeedReceipt requestLoopSpeed(double,progressive::LoopContext); // explicit busy/stale reasons
     progressive::LoopSnapshot getLoopSnapshot()const;
     std::vector<progressive::LoopBoundaryEvent> loopHistory()const; // last 64; cycles unbounded
+    std::vector<progressive::LoopSpeedOperation> loopSpeedHistory()const; // engine lifetime, at most 4096 Accepted IDs
+    std::optional<progressive::LoopSpeedOperation> loopSpeedOperation(std::uint64_t id)const;
+    std::optional<LoopSpeedPcmEvidence> loopSpeedPcmEvidence(std::uint64_t id)const; // while current/retiring owner is retained; null is not PASS
     bool prepare(const std::filesystem::path&,ProgressiveOptions={});
     // play/resume true means accepted. During stopped preparation output starts
     // asynchronously only after the latest epoch is committed. pause also cancels
@@ -204,7 +213,7 @@ public:
     TimeMap finalTimeMap()const; // stopped/ended, valid completed analysis only
     void simulateDeviceChangeForTest(); // follows the same safe-stop path
 private:
-    prototype::phase59::RequestReceipt setSpeedImpl(double,std::uint64_t,std::uint64_t,std::uint64_t,std::string*);
+    prototype::phase59::RequestReceipt setSpeedImpl(double,std::uint64_t,std::uint64_t,std::uint64_t,std::string*,progressive::LoopSpeedReceiptCode* =nullptr);
     progressive::SeekReceipt requestSeekFrame(std::uint64_t,std::uint64_t,std::uint64_t,progressive::SeekMode,std::uint32_t,std::uint64_t expectedSession=0);
     progressive::SeekReceipt requestSeekSeconds(double,std::uint64_t,std::uint64_t,progressive::SeekMode,std::uint32_t,std::uint64_t expectedSession=0);
     struct Impl;std::unique_ptr<Impl> impl_;

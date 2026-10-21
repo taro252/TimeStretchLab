@@ -91,3 +91,7 @@ acceptedNs→readyNs は停止準備時間。resume/play呼出し→観測先epo
 Paused新速度は停止後の実位置CからExact再準備し、旧producerの退役完了後にStoppedSpeedState::ReadyForResumeを公開する。要求ID・inputGeneration・Loop・cycle・preparationVersion・位置を照合し、可聴Completedと区別する。Resume/Playの意思、再Pause取消、旧FIFO破棄の専用監査を使う。B直前の進入混合はBで分割し、丸めでR=0の場合も架空のPCMを追加しない。
 
 Merodoaへ渡す側はReadyをResume前に観測し、古いcontext/準備版を再使用しない。LoopSnapshotのdynamicSpeedRequestIDとdynamicOperationID、mapVersion、dynamicCycle、dynamicOutputEndで外部要求と実計画を対応付ける。speedPreparationFailed/speedFailureRequestIDは有効な旧出力を保持した準備失敗を示す。同じ速度の再要求も失敗後は再試行できる。公開初期値、seek公開承認、currentCycleSpeedChangesの一般承認は専用REPORTの未実施ゲートが閉じるまで変更しない。Merodoa本体・UI・submoduleは今回変更しない。
+
+## c4bdbb44以後
+
+[残件REPORT](../results/phase62_finish/REPORT.md) の外部台帳試験は実4096受付境界、拒否理由、開始済み履歴、再開意思を検査する。追加の `phase62_paused_clear_native` は両Presetで初回ReturnToAの採用前/開始後Clear、旧commit＋Preparing→Clear、手動seek置換、Ready→Clear、開始成功済み未PCM→Clearの12条件・24checksを検査する。旧成功件数を新規件数へ付け替えず、同じ最終ソースのmanifest/SHAを参照する。

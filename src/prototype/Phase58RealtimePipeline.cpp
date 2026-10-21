@@ -7,6 +7,7 @@
 #include "prototype/Phase61SeekEnvelope.h"
 #include "playback/StartupDiagnostics.h"
 #include <condition_variable>
+#include <bit>
 #include <cerrno>
 #include <mutex>
 #include <pthread.h>
@@ -84,9 +85,25 @@ struct InputLease {
     std::string sha;
     std::shared_ptr<const phase56::AnalysisSnapshot> finalAnalysis;
     std::atomic<bool> analysisFailed{false};
+    struct FixedHead {std::atomic<bool> ready{false};std::atomic<std::uint64_t> bits{0};};
+    std::array<FixedHead,161> fixedHeads;
+    struct CheckpointBudget {std::atomic<unsigned> count{0},peak{0};};
+    std::shared_ptr<CheckpointBudget> checkpointBudget=std::make_shared<CheckpointBudget>();
+    struct CheckpointPermit {std::shared_ptr<CheckpointBudget> budget;explicit CheckpointPermit(std::shared_ptr<CheckpointBudget> b):budget(std::move(b)){}~CheckpointPermit(){budget->count.fetch_sub(1);}};
+    std::shared_ptr<CheckpointPermit> reserveCheckpoint(){
+        auto n=checkpointBudget->count.load();while(n<2){if(checkpointBudget->count.compare_exchange_weak(n,n+1)){
+            auto peak=checkpointBudget->peak.load();while(peak<n+1&&!checkpointBudget->peak.compare_exchange_weak(peak,n+1)){}
+            try{return std::make_shared<CheckpointPermit>(checkpointBudget);}catch(...){checkpointBudget->count.fetch_sub(1);throw;}
+        }}
+        return {};
+    }
+    static std::shared_ptr<phase57::ProgressiveSynthesisEngine> ownCheckpoint(std::unique_ptr<phase57::ProgressiveSynthesisEngine> state,std::shared_ptr<CheckpointPermit> permit){
+        if(!state||!permit)return {};return {state.release(),[permit=std::move(permit)](auto* p){delete p;}};
+    }
     struct Checkpoint {std::uint32_t speed;std::size_t output;std::shared_ptr<const phase57::ProgressiveSynthesisEngine> state;};
     std::mutex checkpointMutex;std::vector<Checkpoint> checkpoints;
     std::size_t checkpointBuilds=0;
+    void pruneSeekCheckpoints(){std::vector<Checkpoint> old;{std::lock_guard lock(checkpointMutex);old.swap(checkpoints);}}
     explicit InputLease(const std::filesystem::path& p):input(p){}
 };
 std::atomic<std::uint64_t> nextSession{1};
@@ -133,16 +150,29 @@ struct RealtimePipeline::Impl {
     std::atomic<bool> loopContinuationReady{false};
     std::array<std::array<float,2048>,2> loopContinuationPcm{};
     std::size_t loopContinuationCount=0;
-    std::atomic<std::size_t> repeatBegin{0},repeatPublished{0},repeatConsumed{0};
+    std::atomic<std::size_t> repeatBegin{0},repeatPublished{0};
     std::atomic<LoopTransitionState> loopTransitionState{LoopTransitionState::Idle};
+    std::atomic<LoopTransitionReason> loopRejectReason{LoopTransitionReason::None};
     std::atomic<std::uint64_t> loopProposedCycle{0},loopTransitionID{0};
     std::atomic<std::size_t> loopProposedCompletion{0};
     std::atomic<bool> loopDynamicCapable{false};
     std::atomic<bool> loopTransitionSettled{true};
+    bool terminalLoop()const noexcept {const auto state=loopTransitionState.load(std::memory_order_acquire);return state==LoopTransitionState::Committed||state==LoopTransitionState::FixedBoundaryCommitted;}
+    std::atomic<bool> normalLoopRequested{false},normalLoopReady{false};
+    std::atomic<NormalLoopReuseState> normalLoopState{NormalLoopReuseState::Inactive};
+    struct NormalLoopPreparation {std::shared_ptr<phase57::ProgressiveSynthesisEngine> seed;std::shared_ptr<const phase56::AnalysisSnapshot> snapshot;std::shared_ptr<const phase59::DynamicMap> map;std::array<float,2> head;};
+    std::unique_ptr<NormalLoopPreparation> normalLoopPreparation;
+    std::atomic<const NormalLoopPreparation*> normalLoopPrepared{nullptr};
+    bool loopMode()const noexcept{return config.reusableLoop||normalLoopReady.load(std::memory_order_acquire);}
+    std::size_t loopInputEnd()const noexcept{return config.loopEndInputFrame?config.loopEndInputFrame:input.frames;}
+    std::size_t repeatConsumedFrames()const noexcept{return consumed.load()-outputStart.load();}
     LoopTransitionSnapshot loopTerminal; // immutable after release Committed
     std::unique_ptr<std::array<phase59::ValueMailbox<LoopPcmDescriptor>,64>> loopPcmDescriptors;
     std::array<std::vector<float>,2> loopCache;
     std::array<float,2> loopHead{}; // producer writes once before Ready
+    std::array<float,2> normalLastSample{}; // producer-owned, transferred into the first terminal descriptor
+    std::atomic<std::uint64_t> loopReconstructionAttempts{0},loopReconstructedFrames{0},loopReconstructionDeferrals{0};
+    std::atomic<double> loopReconstructionWallS{0},loopReconstructionCpuS{0};
     std::atomic<std::uint64_t> loopReuseCount{0},loopSeedRestores{0},loopCacheReads{0},loopColdDiscarded{0},loopWarmDiscarded{0};
     std::atomic<std::size_t> loopCacheBytes{0},loopSeedOutput{0},loopMapBuilds{0},loopWorkerCreations{0};
     std::atomic<std::uint64_t> loopFftPlans{0},loopWarmFftPlans{0},loopSeedClones{0};
@@ -150,12 +180,12 @@ struct RealtimePipeline::Impl {
     std::atomic<double> loopMapS{0},loopDspConstructS{0},loopColdPrefixS{0},loopColdCpuS{0},loopWarmCpuS{0},loopSeedCloneS{0},loopRestoreS{0};
     std::uint64_t repeatCycle(std::size_t frames)const noexcept{
         const auto first=loopOutputEnd.load()-outputStart.load(),length=loopOutputEnd.load()-repeatBegin.load();
-        if(loopTransitionState.load(std::memory_order_acquire)==LoopTransitionState::Committed&&frames>=loopTerminal.cumulativeStart)return loopTerminal.cycle;
+        if(terminalLoop()&&frames>=loopTerminal.cumulativeStart)return loopTerminal.cycle;
         return frames<first||!length?0:1+(frames-first)/length;
     }
     std::size_t repeatPosition(std::size_t frames)const noexcept{
         const auto first=loopOutputEnd.load()-outputStart.load(),length=loopOutputEnd.load()-repeatBegin.load();
-        if(loopTransitionState.load(std::memory_order_acquire)==LoopTransitionState::Committed&&frames>=loopTerminal.cumulativeStart)return loopTerminal.localStart+frames-loopTerminal.cumulativeStart;
+        if(terminalLoop()&&frames>=loopTerminal.cumulativeStart)return loopTerminal.localStart+frames-loopTerminal.cumulativeStart;
         return frames<first||!length?outputStart.load()+frames:repeatBegin.load()+(frames-first)%length;
     }
     std::array<std::array<float,2048>,2> seekPcm{};
@@ -251,6 +281,24 @@ struct RealtimePipeline::Impl {
         if(config.dynamicTransitions){operations.reserve(4096);transitionPlanner=std::make_unique<phase59::ProgressiveTransitionPlanner>(input.rate,input.frames,inputLease->generation,c.speedMicros,c.candidate);}
     }
     double elapsed()const{return origin.elapsed().wallSeconds;}
+    void rememberFixedHead(std::size_t offset,const float*const* pcm,std::size_t count)noexcept{
+        if(offset||!count)return;auto& head=inputLease->fixedHeads[config.speedMicros/10000-40];if(head.ready.load(std::memory_order_acquire))return;
+        std::array<float,2> value{pcm[0][0],input.channels==2?pcm[1][0]:0.f};head.bits.store(std::bit_cast<std::uint64_t>(value),std::memory_order_relaxed);head.ready.store(true,std::memory_order_release);
+    }
+    void prepareNormalLoop(const std::shared_ptr<const phase56::AnalysisSnapshot>& snapshot){
+        if(normalLoopState.load()!=NormalLoopReuseState::Preparing||!normalLoopRequested.load()||normalLoopPrepared.load()||!snapshot||!snapshot->isFinal||failure.load()||cancelled.load())return;
+        auto map=std::atomic_load(&committedPositionMap);auto& head=inputLease->fixedHeads[config.speedMicros/10000-40];
+        if(!map||!map->final||map->hasTransitions||!head.ready.load(std::memory_order_acquire))return;
+        try{
+        playback::StageClock preparationCost;const auto plansBefore=FFTAccelerate::threadPlanCreations();
+        auto permit=inputLease->reserveCheckpoint();if(!permit){normalLoopState=NormalLoopReuseState::LimitReached;return;}
+        auto seed=InputLease::ownCheckpoint(phase57::ProgressiveSynthesisEngine::makeFixedLoopOriginCheckpoint(input.snapshotDescriptor(),input.residentBytes(),config.speedMicros,snapshot,map),std::move(permit));
+        if(!seed)throw std::logic_error("通常ownerの固定原点保存点を構築できません");
+        normalLoopPreparation=std::make_unique<NormalLoopPreparation>(NormalLoopPreparation{std::move(seed),snapshot,std::move(map),std::bit_cast<std::array<float,2>>(head.bits.load())});
+        loopSeedClones=1;loopSeedOutput=0;loopSeedCloneS=preparationCost.elapsed().wallSeconds;loopFftPlans=FFTAccelerate::threadPlanCreations()-plansBefore;loopMapBuilds=1;
+        normalLoopPrepared.store(normalLoopPreparation.get(),std::memory_order_release);realtime->signal();
+        }catch(...){normalLoopState.store(NormalLoopReuseState::Failed,std::memory_order_release);}
+    }
     std::shared_ptr<const phase56::AnalysisSnapshot> seekAnalysis(){
         playback::StageClock mapTimer;
         std::shared_ptr<const phase56::AnalysisSnapshot> base;
@@ -287,7 +335,7 @@ struct RealtimePipeline::Impl {
             if(config.dynamicTransitions){
                 transitionPlanner->update(s);lastPlannerReceived=s->receivedInputFrames;plannerSawFinal=true;
                 fixedLoopMap=transitionPlanner->view();std::atomic_store(&committedPositionMap,fixedLoopMap);
-                loopDynamicCapable=loopOutputEnd.load()-repeatBegin.load()>96000;
+                loopDynamicCapable=true;
             }
             loopSnapshot=s;++loopMapBuilds;loopMapS=mapWork.elapsed().wallSeconds;loopMapCpuS=mapWork.elapsed().threadCpuSeconds;
         }
@@ -295,6 +343,8 @@ struct RealtimePipeline::Impl {
         return s;
     }
     void stageSeekPcm(std::uint64_t generation,std::size_t offset,const float*const* p,std::size_t n){
+        rememberFixedHead(offset,p,n);
+        if(n)for(std::size_t c=0;c<input.channels;++c)normalLastSample[c]=p[c][n-1];
         if(generation!=inputLease->generation||offset!=generated.load()||seekPcmCount)throw std::logic_error("Seek PCM identity/order");
         generated=offset+n;
         const auto skip=std::min(n,outputStart.load()>offset?outputStart.load()-offset:0);
@@ -347,11 +397,22 @@ struct RealtimePipeline::Impl {
         if(!seeking||config.fastLocalSeek||config.loopEndInputFrame||!config.seekCheckpoints||!activeSynthesis||ready.load()||realtime->active()||config.recordWorkerProfile||config.detailedDiagnostics)return;
         const auto point=activeSynthesis->frontier().published;
         if((savedCheckpoint&&point==lastCheckpointOutput)||(!atReady&&point-lastCheckpointOutput<input.rate*30ULL))return;
-        auto copy=activeSynthesis->cloneFixedCheckpoint(input.snapshotDescriptor(),input.residentBytes());if(!copy)return;
-        std::shared_ptr<const phase57::ProgressiveSynthesisEngine> immutable(std::move(copy));
+        std::vector<InputLease::Checkpoint> removed;
         {std::lock_guard lock(inputLease->checkpointMutex);auto& saved=inputLease->checkpoints;
-            if(!saved.empty()&&saved.back().speed==config.speedMicros&&point>=saved.back().output&&point-saved.back().output<input.rate*5ULL)saved.pop_back();
-            if(saved.size()==2)saved.erase(saved.begin());saved.push_back({config.speedMicros,point,std::move(immutable)});++inputLease->checkpointBuilds;}
+            if(!saved.empty()&&saved.back().speed==config.speedMicros&&point>=saved.back().output&&point-saved.back().output<input.rate*5ULL){removed.push_back(std::move(saved.back()));saved.pop_back();}
+            if(saved.size()==2){removed.push_back(std::move(saved.front()));saved.erase(saved.begin());}}
+        removed.clear();auto permit=inputLease->reserveCheckpoint();
+        if(!permit){
+            // A live loop A seed may own the other global slot. Replace the
+            // oldest optional seek state before reserving its successor.
+            {std::lock_guard lock(inputLease->checkpointMutex);auto& saved=inputLease->checkpoints;
+                if(!saved.empty()){removed.push_back(std::move(saved.front()));saved.erase(saved.begin());}}
+            removed.clear();permit=inputLease->reserveCheckpoint();
+        }
+        if(!permit)return;
+        auto immutable=InputLease::ownCheckpoint(activeSynthesis->cloneFixedCheckpoint(input.snapshotDescriptor(),input.residentBytes()),std::move(permit));if(!immutable)return;
+        {std::lock_guard lock(inputLease->checkpointMutex);auto& saved=inputLease->checkpoints;
+            saved.push_back({config.speedMicros,point,std::move(immutable)});++inputLease->checkpointBuilds;}
         lastCheckpointOutput=point;savedCheckpoint=true;
     }
     void initializeLocalIfNeeded(phase57::ProgressiveSynthesisEngine& engine){
@@ -460,32 +521,33 @@ struct RealtimePipeline::Impl {
     // Runs on the normal analysis/control worker. Planning, all shared ownership
     // and destruction stay here. DSP only borrows the resulting immutable map.
     std::optional<PositionSample> stoppedOrPlayingPosition()const {
-        if(config.reusableLoop){
-            const auto total=repeatConsumed.load();
+        if(loopMode()){
+            const auto total=repeatConsumedFrames();
             const bool terminal=loopTransitionState.load(std::memory_order_acquire)==LoopTransitionState::Committed&&total>=loopTerminal.cumulativeStart;
             auto map=terminal?std::atomic_load(&committedPositionMap):fixedLoopMap;
             if(!map||(terminal&&map->version!=loopTerminal.mapVersion))return {};
             const auto at=total?repeatPosition(total):outputStart.load();
             const auto frame=!total?seekInput:std::min(input.frames,phase59::inverseInput(map->map,at));
-            if(repeatConsumed.load()!=total||(terminal&&dspMapVersion.load()!=map->version))return {};
+            if(repeatConsumedFrames()!=total||(terminal&&dspMapVersion.load()!=map->version))return {};
             return PositionSample{session,map->version,at,frame,elapsed()};
         }
-        const auto repeatAt=[&]{return repeatConsumed.load()?repeatPosition(repeatConsumed.load()):outputStart.load();};
-        const auto at=config.reusableLoop?repeatAt():consumed.load();
+        const auto repeatAt=[&]{return repeatConsumedFrames()?repeatPosition(repeatConsumedFrames()):outputStart.load();};
+        const auto at=loopMode()?repeatAt():consumed.load();
         auto map=std::atomic_load(&committedPositionMap);
-        if(config.reusableLoop&&loopTransitionState.load(std::memory_order_acquire)!=LoopTransitionState::Committed)map=fixedLoopMap;
-        else if(config.reusableLoop&&repeatConsumed.load()<loopTerminal.cumulativeStart)map=fixedLoopMap;
+        if(loopMode()&&loopTransitionState.load(std::memory_order_acquire)!=LoopTransitionState::Committed)map=fixedLoopMap;
+        else if(loopMode()&&repeatConsumedFrames()<loopTerminal.cumulativeStart)map=fixedLoopMap;
         if(!map)return {};
-        if(!config.reusableLoop&&dspMapVersion.load()!=map->version)return {};
+        if(!loopMode()&&dspMapVersion.load()!=map->version)return {};
         if(map->map.starts().empty()||(at>std::size_t(map->map.starts().back())&&!(map->final&&at==map->outputFrames)))return {};
-        const auto frame=at==outputStart.load()&&(!config.reusableLoop||!repeatConsumed.load())?(seeking?seekInput:0):
+        const auto frame=at==outputStart.load()&&(!loopMode()||!repeatConsumedFrames())?(seeking?seekInput:0):
             map->final&&at==map->outputFrames?input.frames:std::min(input.frames,phase59::inverseInput(map->map,at));
-        if(config.reusableLoop?(repeatAt()!=at):(dspMapVersion.load()!=map->version||consumed.load()!=at))return {};
+        if(loopMode()?(repeatAt()!=at):(dspMapVersion.load()!=map->version||consumed.load()!=at))return {};
         return PositionSample{session,map->version,at,frame,elapsed()};
     }
     void transitionStep(const std::shared_ptr<const phase56::AnalysisSnapshot>& snapshot){
         if(!config.dynamicTransitions||!snapshot||cancelled.load()||failure.load())return;
         auto& planner=*transitionPlanner;
+        prepareNormalLoop(snapshot);
         // A proposal is not a committed map. Publish only the DSP-acknowledged
         // version, paired with the actual consumed cursor.
         if(auto sample=stoppedOrPlayingPosition())positionMailbox.publish(*sample);
@@ -498,12 +560,12 @@ struct RealtimePipeline::Impl {
                 planner.confirmPlan(accepted);
                 std::lock_guard lock(operationMutex);auto& op=operations[mapOperation];
                 if(accepted){const bool terminal=cancelled.load()||failure.load();op.state=terminal?phase59::OperationState::Cancelled:phase59::OperationState::Applied;op.workerState=terminal?Phase39RequestState::Cancelled:Phase39RequestState::Applied;op.appliedS=mapAckS;op.consumedAtApply=mapAckConsumed;}
-                else if(config.reusableLoop&&(loopTransitionState.load()==LoopTransitionState::Cancelled||loopTransitionState.load()==LoopTransitionState::Rejected)){
+                else if(loopMode()&&(loopTransitionState.load()==LoopTransitionState::Cancelled||loopTransitionState.load()==LoopTransitionState::Rejected||loopTransitionState.load()==LoopTransitionState::FixedBoundaryCommitted)){
                     op.state=loopTransitionState.load()==LoopTransitionState::Cancelled?phase59::OperationState::Cancelled:phase59::OperationState::Rejected;op.workerState=Phase39RequestState::Cancelled;activeOperation=noOperation;
                 }else {++op.staleReplans;++transitionStale;op.planningDecided=false;op.workerState=(cancelled.load()||failure.load())?Phase39RequestState::Cancelled:Phase39RequestState::Requested;waitingAnalysisNodes=std::size_t(-1);}
             }else if(!accepted){mapOffered=false;return;}
             pendingMap.reset();mapOffered=false;mapOperation=noOperation;
-            if(config.reusableLoop&&(loopTransitionState.load()==LoopTransitionState::Cancelled||loopTransitionState.load()==LoopTransitionState::Rejected))loopTransitionSettled.store(true,std::memory_order_release);
+            if(loopMode()&&(loopTransitionState.load()==LoopTransitionState::Cancelled||loopTransitionState.load()==LoopTransitionState::Rejected||loopTransitionState.load()==LoopTransitionState::FixedBoundaryCommitted))loopTransitionSettled.store(true,std::memory_order_release);
         }
         if(cancelled.load()||failure.load())return;
         if(snapshot->receivedInputFrames!=lastPlannerReceived||snapshot->isFinal!=plannerSawFinal){
@@ -519,17 +581,17 @@ struct RealtimePipeline::Impl {
         {
             std::lock_guard lock(operationMutex);
             if(activeOperation!=noOperation){auto& op=operations[activeOperation];
-                if(config.reusableLoop&&loopTransitionState.load()==LoopTransitionState::Cancelled){op.state=phase59::OperationState::Cancelled;op.workerState=Phase39RequestState::Cancelled;activeOperation=noOperation;loopTransitionSettled.store(true,std::memory_order_release);}
-                const auto at=config.reusableLoop?repeatPosition(repeatConsumed.load()):consumed.load();
-                const bool cycleMatches=!config.reusableLoop||(loopTransitionState.load(std::memory_order_acquire)==LoopTransitionState::Committed&&repeatCycle(repeatConsumed.load())==loopTerminal.cycle);
+                if(loopMode()&&loopTransitionState.load()==LoopTransitionState::Cancelled){op.state=phase59::OperationState::Cancelled;op.workerState=Phase39RequestState::Cancelled;activeOperation=noOperation;loopTransitionSettled.store(true,std::memory_order_release);}
+                const auto at=loopMode()?repeatPosition(repeatConsumedFrames()):consumed.load();
+                const bool cycleMatches=!loopMode()||(loopTransitionState.load(std::memory_order_acquire)==LoopTransitionState::Committed&&repeatCycle(repeatConsumedFrames())==loopTerminal.cycle);
                 if(op.workerState==Phase39RequestState::Applied&&cycleMatches&&at>=std::size_t(op.change.plan.completionOutputSample)&&densityReady){op.state=phase59::OperationState::Completed;op.completedS=elapsed();activeOperation=noOperation;}
             }
             if(dspDone.load()){for(auto& op:operations)if(op.state==phase59::OperationState::Pending||op.state==phase59::OperationState::Submitted){op.state=phase59::OperationState::Cancelled;op.workerState=Phase39RequestState::Cancelled;}return;}
             if(!renderingRequested.load())return;
             if(activeOperation==noOperation&&pendingOperation!=noOperation&&densityReady){
                 auto& op=operations[pendingOperation];
-                if(config.reusableLoop&&loopTransitionState.load()!=LoopTransitionState::Requested){op.state=phase59::OperationState::Cancelled;op.workerState=Phase39RequestState::Cancelled;pendingOperation=noOperation;loopTransitionSettled.store(true,std::memory_order_release);return;}
-                if(op.target==planner.tail().micros){op.state=phase59::OperationState::Duplicate;op.acceptance=Phase39RequestResult::Duplicate;pendingOperation=noOperation;if(config.reusableLoop){loopTransitionState=LoopTransitionState::Rejected;loopTransitionSettled=true;}return;}
+                if(loopMode()&&loopTransitionState.load()!=LoopTransitionState::Requested){op.state=phase59::OperationState::Cancelled;op.workerState=Phase39RequestState::Cancelled;pendingOperation=noOperation;loopTransitionSettled.store(true,std::memory_order_release);return;}
+                if(op.target==planner.tail().micros){op.state=phase59::OperationState::Duplicate;op.acceptance=Phase39RequestResult::Duplicate;pendingOperation=noOperation;if(loopMode()){loopRejectReason=LoopTransitionReason::NoChange;auto expected=LoopTransitionState::Requested;loopTransitionState.compare_exchange_strong(expected,LoopTransitionState::Rejected,std::memory_order_acq_rel);loopTransitionSettled=true;}return;}
                 activeOperation=pendingOperation;pendingOperation=noOperation;op.state=phase59::OperationState::Submitted;op.workerState=Phase39RequestState::Requested;
                 op.generation=++requestGeneration;op.plannerSeenS=elapsed();waitingAnalysisNodes=std::size_t(-1);
                 announcedRequest=op.generation;realtime->signal();
@@ -548,7 +610,9 @@ struct RealtimePipeline::Impl {
         try{
             if(config.transitionFailureForTest==1)throw std::runtime_error("Injected normal transition planner failure");
             if(config.transitionFailureForTest==2)throw std::bad_alloc();
-            result=planner.plan({op.target},op.generation,op.logicalPresented,latest->published,f);
+            const auto plannedPosition=loopMode()&&latest->cycle>repeatCycle(repeatConsumedFrames())?repeatBegin.load():op.acceptedLogicalPresented;
+            {std::lock_guard lock(operationMutex);operations[activeOperation].logicalPresented=plannedPosition;}
+            result=planner.plan({op.target},op.generation,plannedPosition,latest->published,f);
         }catch(...){const auto cost=timing.elapsed();transitionCpu=transitionCpu.load()+cost.threadCpuSeconds;transitionWall=transitionWall.load()+cost.wallSeconds;++transitionAttempts;
             std::lock_guard lock(operationMutex);auto& record=operations[activeOperation];record.planFinishedS=elapsed();record.planCpuS+=cost.threadCpuSeconds;record.planWallS+=cost.wallSeconds;++record.attempts;throw;}
         const auto cost=timing.elapsed();transitionCpu=transitionCpu.load()+cost.threadCpuSeconds;transitionWall=transitionWall.load()+cost.wallSeconds;++transitionAttempts;
@@ -563,9 +627,9 @@ struct RealtimePipeline::Impl {
             if(result.status==phase59::PlanningStatus::PendingAnalysis){++record.analysisDeferrals;++transitionDeferrals;waitingAnalysisNodes=snapshot->mapThroughNode;waitingAnalysisFinal=snapshot->isFinal;return;}
             record.change=result.change;
             if(result.limitReached)record.acceptance=Phase39RequestResult::LimitReached;
-            if(!result.change.plan.applied()){record.state=phase59::OperationState::Rejected;record.workerState=Phase39RequestState::Rejected;activeOperation=noOperation;if(config.reusableLoop){loopTransitionState=LoopTransitionState::Rejected;loopTransitionSettled.store(true,std::memory_order_release);}return;}
+            if(!result.change.plan.applied()){record.state=phase59::OperationState::Rejected;record.workerState=Phase39RequestState::Rejected;activeOperation=noOperation;if(loopMode()){loopRejectReason=result.limitReached?LoopTransitionReason::OperationLimit:LoopTransitionReason::ProtectedFrontier;auto expected=LoopTransitionState::Requested;loopTransitionState.compare_exchange_strong(expected,LoopTransitionState::Rejected,std::memory_order_acq_rel);loopTransitionSettled.store(true,std::memory_order_release);}return;}
         }
-        if(config.reusableLoop){loopProposedCycle=latest->cycle;loopProposedCompletion=result.change.plan.completionOutputSample;}
+        if(loopMode()){loopProposedCycle=latest->cycle;loopProposedCompletion=result.change.plan.completionOutputSample;}
         pendingMap=planner.view();mapOperation=activeOperation;
     }
     void analyze(){
@@ -644,6 +708,8 @@ struct RealtimePipeline::Impl {
             // std::function allocation, snapshot ownership, mutex or notification.
             const phase57::ProgressiveSynthesisEngine::Sink sink=[&](auto generation,auto offset,const float*const* p,std::size_t n){
                 if(cancelled.load()||failure.load()){engine.cancel();return;}
+                rememberFixedHead(offset,p,n);
+                if(n)for(std::size_t c=0;c<input.channels;++c)normalLastSample[c]=p[c][n-1];
                 if(seeking){stageSeekPcm(generation,offset,p,n);return;}
                 if(generation!=inputLease->generation||offset!=published.load())throw std::logic_error("PCM identity/offset mismatch");
                 generated=offset+n;if(firstGenerated.load()<0)firstGenerated=elapsed();
@@ -669,6 +735,13 @@ struct RealtimePipeline::Impl {
                         if(!realtime->promote())throw std::runtime_error("DSP realtime promotion failed");
                     }else if(!renderingRequested.load()&&realtime->active()){
                         if(!demote())throw std::runtime_error("DSP normal-policy restore failed");
+                    }
+                    if(const auto* prepared=normalLoopPrepared.load(std::memory_order_acquire);normalLoopRequested.load()&&prepared&&currentMapVersion==prepared->map->version){
+                        loopSnapshot=prepared->snapshot;fixedLoopMap=prepared->map;loopHead=prepared->head;repeatBegin=0;loopOutputEnd=prepared->map->outputFrames;
+                        repeatPublished=published.load()-outputStart.load();loopDynamicCapable=true;loopWorkerCreations=2+(config.sampleDspThread?1:0);
+                        if(!demote())throw std::runtime_error("通常ownerの周期接続前にpolicyを復元できません");
+                        repeatWithEngine(engine,prepared->seed,true,activeAllocationBase,FFTAccelerate::threadPlanCreations());
+                        demote();dspDone=true;changed.notify_all();return;
                     }
                     if(seeking){
                         flushSeekPcm();
@@ -741,40 +814,30 @@ struct RealtimePipeline::Impl {
     }
     // A single persistent producer. Only state restore/copy is repeated; FFT
     // plans, immutable map and OS threads are retained through stop().
-    void synthesizeRepeating(){
-        CpuEnd measured{dspWorkerCpu};AllocationScope allocations{*this};std::uint64_t allocationBase=0;
-        auto demote=[&]{if(realtime->active()){realtimeNewCalls=realtimeNewCalls.load()+dspAllocations-allocationBase;realtimeAllocationsMeasured=countDspAllocations&&dspAllocationProbeAvailable;}return realtime->demote();};
-        try{
-            std::uint64_t tid=0;pthread_threadid_np(nullptr,&tid);dspThread=tid;
-            pthread_setname_np("Phase62 reused DSP");dspQos=pthread_set_qos_class_self_np(QOS_CLASS_USER_INITIATED,0)==0;
-            int relative=0;qos_class_t actual=QOS_CLASS_UNSPECIFIED;dspQosQueried=pthread_get_qos_class_np(pthread_self(),&actual,&relative)==0;if(dspQosQueried){dspQosClass=actual;dspQosRelative=relative;}
-            while(!seekMapReady.load(std::memory_order_acquire)){check(true);std::this_thread::sleep_for(std::chrono::milliseconds(1));}
-            const auto snapshot=loopSnapshot; // acquire seekMapReady pins this immutable snapshot
-            if(!snapshot||!snapshot->isFinal)throw std::logic_error("確定ループ解析がありません");
+    void repeatWithEngine(phase57::ProgressiveSynthesisEngine& engine,std::shared_ptr<phase57::ProgressiveSynthesisEngine> seed,
+                          bool continuing,std::uint64_t& allocationBase,std::uint64_t plansBefore){
+        const auto demote=[&]{if(realtime->active()){realtimeNewCalls=realtimeNewCalls.load()+dspAllocations-allocationBase;realtimeAllocationsMeasured=countDspAllocations&&dspAllocationProbeAvailable;}return realtime->demote();};
             const auto begin=repeatBegin.load(),fixedEnd=loopOutputEnd.load(),length=fixedEnd-begin;auto end=fixedEnd;
             if(length<512)throw std::runtime_error("確定ループ周期が最小512フレーム未満です");
-            const bool cacheAllowed=length<=96000&&!(config.loopBeginInputFrame==0&&config.loopEndInputFrame==input.frames);
+            const bool cacheAllowed=length<=96000&&!(repeatBegin.load()==0&&loopInputEnd()==input.frames);
             for(std::size_t c=0;c<input.channels;++c)if(cacheAllowed)loopCache[c].resize(length);
             loopCacheBytes=cacheAllowed?length*input.channels*sizeof(float):0;
-            const auto plansBefore=FFTAccelerate::threadPlanCreations();std::uint64_t plansAtSeed=plansBefore;
-            playback::StageClock construct;
-            phase57::ProgressiveSynthesisEngine engine(input.snapshotDescriptor(),config.speedMicros,inputLease->generation,[this]{check(true);},16*1024*1024,input.residentBytes());
-            engine.enableDynamicTransitions();engine.supplySnapshot(snapshot);
-            if(!engine.trySupplyBorrowedDynamicMap(fixedLoopMap.get()))throw std::logic_error("固定ループMapの完全状態を初期化できません");
-            loopDspConstructS=construct.elapsed().wallSeconds;
-            std::shared_ptr<phase57::ProgressiveSynthesisEngine> seed;
+            std::uint64_t plansAtSeed=FFTAccelerate::threadPlanCreations();
             std::array<std::array<float,2048>,2> pending{};std::size_t pendingOffset=0,pendingCount=0;
-            std::array<float,2> head{},tail{};
-            std::uint64_t cycle=0;std::size_t cacheAt=0;bool cacheReady=false,generatedEnd=false;
+            std::array<float,2> head=continuing?loopHead:std::array<float,2>{},tail=continuing?normalLastSample:std::array<float,2>{};
+            if(continuing){pending=seekPcm;pendingOffset=seekPcmOffset;pendingCount=seekPcmCount;seekPcmCount=0;}
+            std::uint64_t cycle=0;std::size_t cacheAt=0;bool cacheReady=false,generatedEnd=engine.frontier().published>=end;
+            bool reconstructing=false;std::uint64_t reconstructionCycle=0,reconstructionID=0;double reconstructionBegan=0;std::size_t reconstructionFrames=0;
             std::uint64_t seenMapTag=decltype(dynamicMailbox)::initialTag,currentMapVersion=fixedLoopMap->version;dspMapVersion=currentMapVersion;
-            const auto publishLoopFrontier=[&]{if(config.dynamicTransitions){const auto generatedAt=engine.frontier().published;
+            const auto publishLoopFrontier=[&]{if(config.dynamicTransitions&&!cacheReady){const auto generatedAt=engine.frontier().published;
                 // Phase59 plans at the DSP's block publication frontier. This
                 // deliberately protects the entire pending block; the actual
                 // FIFO prefix remains separately recorded at commit.
-                frontierMailbox.publish({engine.dspFrontier(),currentMapVersion,generatedAt,repeatPosition(repeatConsumed.load()),elapsed(),cycle});}};
+                frontierMailbox.publish({engine.dspFrontier(),currentMapVersion,generatedAt,repeatPosition(repeatConsumedFrames()),elapsed(),cycle});}};
             publishLoopFrontier();
-            playback::StageClock cold;bool coldRecorded=false;
+            playback::StageClock cold;bool coldRecorded=continuing;
             auto descriptor=[&]{LoopPcmDescriptor value;value.cycle=cycle;value.first=head;value.last=tail;(*loopPcmDescriptors)[cycle%loopPcmDescriptors->size()].publish(value);};
+            if(generatedEnd)descriptor();
             const phase57::ProgressiveSynthesisEngine::Sink sink=[&](auto generation,auto offset,const float*const* pcm,std::size_t n){
                 if(generation!=inputLease->generation)throw std::logic_error("ループ入力世代不一致");
                 generated.fetch_add(n);
@@ -786,7 +849,7 @@ struct RealtimePipeline::Impl {
                     for(std::size_t c=0;c<input.channels;++c){
                         if(from==begin){head[c]=pcm[c][from-offset];if(!cycle)loopHead[c]=head[c];}
                         if(through==end)tail[c]=pcm[c][through-offset-1];
-                        if(cacheAllowed&&!cacheReady)std::copy_n(pcm[c]+from-offset,through-from,loopCache[c].data()+from-begin);
+                        if(cacheAllowed&&!cacheReady&&!terminalLoop())std::copy_n(pcm[c]+from-offset,through-from,loopCache[c].data()+from-begin);
                     }
                     const auto publishFrom=cycle?from:std::max(from,outputStart.load());
                     if(publishFrom<through){pendingCount=through-publishFrom;pendingOffset=0;for(std::size_t c=0;c<input.channels;++c)std::copy_n(pcm[c]+publishFrom-offset,pendingCount,pending[c].data());}
@@ -796,6 +859,18 @@ struct RealtimePipeline::Impl {
                     generatedEnd=true;descriptor();
                 }
             };
+            // Rebuild only the requested current cache cycle in this SAME DSP.
+            // It never publishes replayed PCM. Each bounded block yields to
+            // low-water cache supply, keeping old FIFO/pending unchanged.
+            const phase57::ProgressiveSynthesisEngine::Sink replay=[&](auto generation,auto offset,const float*const* pcm,std::size_t n){
+                if(generation!=inputLease->generation)throw std::logic_error("cache再構成の入力世代不一致");
+                const auto from=std::max(begin,offset),through=std::min(fixedEnd,offset+n);
+                for(std::size_t c=0;c<input.channels&&from<through;++c){
+                    if(std::memcmp(pcm[c]+from-offset,loopCache[c].data()+from-begin,(through-from)*sizeof(float)))throw std::logic_error("cache再構成RAWが固定参照と一致しません");
+                    for(std::size_t i=from;i<through;++i)if(!std::isfinite(pcm[c][i-offset]))throw std::runtime_error("cache再構成RAWに非有限値");
+                }
+            };
+            if(continuing){normalLoopReady.store(true,std::memory_order_release);normalLoopState.store(NormalLoopReuseState::Ready,std::memory_order_release);}
             unsigned promotions=0;
             const auto wait=[&]{if(config.scheduling==WorkerScheduling::Standard)std::this_thread::sleep_for(std::chrono::milliseconds(1));else realtime->waitForSignal();};
             while(!cancelled.load()&&!failure.load()){
@@ -806,16 +881,32 @@ struct RealtimePipeline::Impl {
                 // The producer owns this frontier exclusively. Its pending
                 // block stays intact; Phase59 protects generated DSP history,
                 // not merely the shorter FIFO publication cursor.
-                if(config.dynamicTransitions){
+                const auto fixedCumulativeStart=cycle?(fixedEnd-outputStart.load())+(cycle-1)*length:0;
+                const auto fixedLocalStart=cycle?begin:outputStart.load();
+                const auto fixedCumulativeEnd=fixedCumulativeStart+fixedEnd-fixedLocalStart;
+                const auto boundaryGuard=4096+std::min<std::size_t>(input.rate/200,length/4);
+                if(config.dynamicTransitions&&loopTransitionState.load()==LoopTransitionState::Rejected&&fixedCumulativeEnd>repeatConsumedFrames()+boundaryGuard){
+                    auto expected=LoopTransitionState::Rejected;
+                    if(loopTransitionState.compare_exchange_strong(expected,LoopTransitionState::Applying,std::memory_order_acq_rel)){
+                        const auto cumulativeStart=cycle?(fixedEnd-outputStart.load())+(cycle-1)*length:0;
+                        const auto localStart=cycle?begin:outputStart.load();
+                        const auto fifoWrite=fifo.writePosition();
+                        loopTerminal={LoopTransitionState::FixedBoundaryCommitted,cycle,currentMapVersion,loopTransitionID.load(),localStart,fixedEnd,cumulativeStart,cumulativeStart+fixedEnd-localStart,engine.frontier().published,localStart+fifoWrite-cumulativeStart};
+                        loopTerminal.fifoReadAtCommit=fifo.readPosition();loopTerminal.fifoWriteAtCommit=fifoWrite;loopTerminal.auditSequence=loopTransitionID.load();
+                        loopTerminal.pendingPcmFramesAtCommit=pendingCount;loopTerminal.pcmGeneratedAtCommit=loopTerminal.publishedAtCommit+pendingCount;loopTerminal.cacheBackedAtCommit=cacheReady;loopTerminal.reason=loopRejectReason.load();
+                        loopTransitionState.store(LoopTransitionState::FixedBoundaryCommitted,std::memory_order_release);
+                    }
+                }
+                if(config.dynamicTransitions&&!cacheReady&&engine.frontier().published>=(cycle?begin:outputStart.load())){
                     if(auto lease=dynamicMailbox.acquire(seenMapTag)){
                         const auto* view=lease->get();const auto tag=lease->tag();bool accepted=false;
                         if(view->hasTransitions&&loopProposedCycle.load()==cycle&&!generatedEnd){
-                            const auto mappedEnd=config.loopEndInputFrame==input.frames?view->outputFrames:std::size_t(std::max(0LL,std::llround(view->map.outputPositionForInputSample(double(config.loopEndInputFrame)))));
+                            const auto mappedEnd=loopInputEnd()==input.frames?view->outputFrames:std::size_t(std::max(0LL,std::llround(view->map.outputPositionForInputSample(double(loopInputEnd())))));
                             const auto fade=std::min<std::size_t>(input.rate/200,(mappedEnd>begin?mappedEnd-begin:0)/4);
                             // A Ready replacement is retained by the caller.
                             // Leave a full callback plus the correction window
                             // before B for normal-thread publication of it.
-                            if(mappedEnd<=engine.frontier().published+4096+fade||loopProposedCompletion.load()>mappedEnd-fade){loopTransitionState=LoopTransitionState::Rejected;}
+                            if(mappedEnd<=engine.frontier().published+4096+fade||loopProposedCompletion.load()>mappedEnd-fade){loopRejectReason=LoopTransitionReason::ProtectedFrontier;auto expected=LoopTransitionState::Requested;loopTransitionState.compare_exchange_strong(expected,LoopTransitionState::Rejected,std::memory_order_acq_rel);}
                             else{
                                 auto expected=LoopTransitionState::Requested;
                                 if(loopTransitionState.compare_exchange_strong(expected,LoopTransitionState::Applying,std::memory_order_acq_rel)){
@@ -823,16 +914,52 @@ struct RealtimePipeline::Impl {
                                     if(accepted){
                                         const auto cumulativeStart=cycle?(fixedEnd-outputStart.load())+(cycle-1)*length:0;
                                         loopTerminal={LoopTransitionState::Committed,cycle,view->version,loopTransitionID.load(),cycle?begin:outputStart.load(),mappedEnd,cumulativeStart,cumulativeStart+mappedEnd-(cycle?begin:outputStart.load()),engine.frontier().published,engine.frontier().published-pendingCount};
+                                        loopTerminal.fifoReadAtCommit=fifo.readPosition();loopTerminal.fifoWriteAtCommit=fifo.writePosition();loopTerminal.auditSequence=loopTransitionID.load();
+                                        loopTerminal.pendingPcmFramesAtCommit=pendingCount;loopTerminal.pcmGeneratedAtCommit=engine.frontier().published;
                                         end=mappedEnd;currentMapVersion=view->version;dspMapVersion=currentMapVersion;output=view->outputFrames;
                                         lease->commit();loopTransitionState.store(LoopTransitionState::Committed,std::memory_order_release);
                                     }else loopTransitionState=LoopTransitionState::Requested;
                                 }
                             }
                         }
-                        seenMapTag=tag;publishLoopFrontier();mapAckAccepted=accepted;mapAckS=elapsed();mapAckConsumed=repeatPosition(repeatConsumed.load());mapAckTag=tag;
+                        seenMapTag=tag;publishLoopFrontier();mapAckAccepted=accepted;mapAckS=elapsed();mapAckConsumed=repeatPosition(repeatConsumedFrames());mapAckTag=tag;
                     }
                     const auto request=announcedRequest.load();
                     if(request&&request!=observedRequest.load()){publishLoopFrontier();observedRequestS=elapsed();observedRequest=request;}
+                }
+                if(cacheReady&&generatedEnd&&loopTransitionState.load()==LoopTransitionState::Requested){
+                    loopRejectReason=LoopTransitionReason::ProtectedFrontier;auto expected=LoopTransitionState::Requested;
+                    loopTransitionState.compare_exchange_strong(expected,LoopTransitionState::Rejected,std::memory_order_acq_rel);
+                }
+                if(cacheReady&&loopTransitionState.load()==LoopTransitionState::Requested&&reconstructing&&reconstructionID==loopTransitionID.load()&&
+                   (reconstructionCycle!=cycle||elapsed()-reconstructionBegan>.25||reconstructionFrames>length+2048)){
+                    loopRejectReason=LoopTransitionReason::PreparationDeadline;auto expected=LoopTransitionState::Requested;
+                    if(loopTransitionState.compare_exchange_strong(expected,LoopTransitionState::Rejected,std::memory_order_acq_rel))++loopReconstructionDeferrals;
+                    reconstructing=false;
+                }
+                if(cacheReady&&loopTransitionState.load()==LoopTransitionState::Requested&&fifo.available()>=lead/2){
+                    playback::StageClock reconstructionCost;
+                    if(!reconstructing||reconstructionID!=loopTransitionID.load()){
+                        reconstructionCycle=cycle;reconstructionID=loopTransitionID.load();reconstructionBegan=elapsed();reconstructionFrames=0;++loopReconstructionAttempts;
+                        if(!seed)throw std::logic_error("cache現在周期のA保存点がありません");
+                        if(!realtime->beginInterval())throw std::runtime_error("cache復元区間の開始失敗");
+                        const bool restored=engine.restoreFixedLoopCheckpoint(*seed);realtime->finishInterval();if(!restored)throw std::logic_error("cache現在周期の完全状態復元失敗");
+                        reconstructing=true;reconstructionCycle=cycle;++loopSeedRestores;
+                    }
+                    const auto target=begin+cacheAt;
+                    if(cacheAt&&engine.frontier().published<target){
+                        if(!realtime->beginInterval())throw std::runtime_error("cache再構成区間の開始失敗");
+                        phase57::SynthesisState result;
+                        const auto before=engine.frontier().published;
+                        try{result=engine.advance(replay);}catch(...){realtime->finishInterval();throw;}
+                        const auto advanced=engine.frontier().published-before;reconstructionFrames+=advanced;loopReconstructedFrames.fetch_add(advanced);
+                        if(!realtime->finishInterval())throw std::runtime_error("cache再構成区間の終了失敗");
+                        if(result!=phase57::SynthesisState::Produced)throw std::logic_error("cache再構成が進行しません");
+                    }
+                    const auto cost=reconstructionCost.elapsed();loopReconstructionWallS=loopReconstructionWallS.load()+cost.wallSeconds;loopReconstructionCpuS=loopReconstructionCpuS.load()+cost.threadCpuSeconds;
+                    if(engine.frontier().published>target&&cacheAt)throw std::logic_error("cache再構成が公開境界を越えました");
+                    if(!cacheAt||engine.frontier().published==target){cacheReady=false;reconstructing=false;publishLoopFrontier();}
+                    if(cacheReady)continue;
                 }
                 if(pendingCount){
                     auto count=std::min(pendingCount,std::min(fifo.free(),lead-std::min(lead,fifo.available())));
@@ -851,7 +978,7 @@ struct RealtimePipeline::Impl {
                     continue;
                 }
                 if(generatedEnd){
-                    if(loopTransitionState.load(std::memory_order_acquire)==LoopTransitionState::Committed){loopReuseCount=cycle+1;break;}
+                    if(terminalLoop()&&cycle>=loopTerminal.cycle){loopReuseCount=cycle+1;break;}
                     ++cycle;loopReuseCount=cycle;generatedEnd=false;
                     if(cacheAllowed){cacheReady=true;cacheAt=0;descriptor();}
                     else{
@@ -867,7 +994,7 @@ struct RealtimePipeline::Impl {
                 if(cacheReady){
                     playback::StageClock copy;
                     if(!realtime->beginInterval())throw std::runtime_error("RAW再利用区間の開始失敗");
-                    const auto count=std::min<std::size_t>(2048,length-cacheAt);
+                    const auto count=std::min<std::size_t>(2048-(begin+cacheAt)%2048,length-cacheAt);
                     for(std::size_t c=0;c<input.channels;++c)std::copy_n(loopCache[c].data()+cacheAt,count,pending[c].data());
                     pendingOffset=0;pendingCount=count;cacheAt+=count;loopCacheReads.fetch_add(count);
                     if(!realtime->finishInterval())throw std::runtime_error("RAW再利用区間の終了失敗");
@@ -877,7 +1004,9 @@ struct RealtimePipeline::Impl {
                 }
                 const auto position=engine.frontier().published;
                 if(!seed&&position<=begin&&position+2048>begin){
-                    playback::StageClock copy;seed=engine.cloneFixedCheckpoint(input.snapshotDescriptor(),input.residentBytes());
+                    playback::StageClock copy;auto permit=inputLease->reserveCheckpoint();
+                    if(!permit)throw std::length_error("固定保存点の合計上限2に到達しました");
+                    seed=InputLease::ownCheckpoint(engine.cloneFixedCheckpoint(input.snapshotDescriptor(),input.residentBytes()),std::move(permit));
                     if(!seed)throw std::logic_error("完全な固定Exact保存点を作成できません");
                     loopContinuationOwner=seed;
                     loopSeedCloneS=copy.elapsed().wallSeconds;loopSeedOutput=position;++loopSeedClones;plansAtSeed=FFTAccelerate::threadPlanCreations();loopFftPlans=plansAtSeed-plansBefore;
@@ -885,10 +1014,6 @@ struct RealtimePipeline::Impl {
                 if(!realtime->beginInterval())throw std::runtime_error("再利用DSP区間開始に失敗しました");
                 playback::StageClock work;phase57::SynthesisState result;
                 try{result=engine.advance(sink);}catch(...){realtime->finishInterval();throw;}
-                if(!cycle&&cacheAllowed&&generatedEnd&&result==phase57::SynthesisState::Produced){
-                    if(!engine.captureFixedLoopCheckpoint(*seed))throw std::logic_error("B継続の完全状態を保存できません");
-                    loopContinuationReady.store(true,std::memory_order_release);
-                }
                 realtime->finishInterval();const auto cost=work.elapsed();
                 publishLoopFrontier();
                 if(cycle)loopWarmCpuS=loopWarmCpuS.load()+cost.threadCpuSeconds;else loopColdCpuS=loopColdCpuS.load()+cost.threadCpuSeconds;
@@ -896,7 +1021,22 @@ struct RealtimePipeline::Impl {
                 if(result==phase57::SynthesisState::Failed||result==phase57::SynthesisState::Cancelled)throw std::runtime_error("再利用DSP生成失敗");
                 if(result==phase57::SynthesisState::NeedsMoreAnalysis||result==phase57::SynthesisState::NeedsMoreInput)throw std::logic_error("固定解析の再利用中に未確定入力を要求しました");
             }
-            demote();
+    }
+    void synthesizeRepeating(){
+        CpuEnd measured{dspWorkerCpu};AllocationScope allocations{*this};std::uint64_t allocationBase=0;
+        auto demote=[&]{if(realtime->active()){realtimeNewCalls=realtimeNewCalls.load()+dspAllocations-allocationBase;realtimeAllocationsMeasured=countDspAllocations&&dspAllocationProbeAvailable;}return realtime->demote();};
+        try{
+            std::uint64_t tid=0;pthread_threadid_np(nullptr,&tid);dspThread=tid;
+            pthread_setname_np("Phase62 reused DSP");dspQos=pthread_set_qos_class_self_np(QOS_CLASS_USER_INITIATED,0)==0;
+            int relative=0;qos_class_t actual=QOS_CLASS_UNSPECIFIED;dspQosQueried=pthread_get_qos_class_np(pthread_self(),&actual,&relative)==0;if(dspQosQueried){dspQosClass=actual;dspQosRelative=relative;}
+            while(!seekMapReady.load(std::memory_order_acquire)){check(true);std::this_thread::sleep_for(std::chrono::milliseconds(1));}
+            if(!loopSnapshot||!loopSnapshot->isFinal)throw std::logic_error("確定ループ解析がありません");
+            const auto plansBefore=FFTAccelerate::threadPlanCreations();playback::StageClock construct;
+            phase57::ProgressiveSynthesisEngine engine(input.snapshotDescriptor(),config.speedMicros,inputLease->generation,[this]{check(true);},16*1024*1024,input.residentBytes());
+            engine.enableDynamicTransitions();engine.supplySnapshot(loopSnapshot);
+            if(!engine.trySupplyBorrowedDynamicMap(fixedLoopMap.get()))throw std::logic_error("固定ループMapの初期化失敗");
+            loopDspConstructS=construct.elapsed().wallSeconds;
+            repeatWithEngine(engine,{},false,allocationBase,plansBefore);demote();
         }catch(const Cancelled&){demote();}
         catch(const std::exception& e){demote();fail(e.what());}
         dspDone=true;changed.notify_all();
@@ -961,6 +1101,7 @@ struct RealtimePipeline::Impl {
                 phase57::SynthesisState state;
                 try{DetailScope region{*this,14};state=engine.advance([&](auto generation,auto offset,const float*const* p,std::size_t n){
                     if(seeking){check(true);stageSeekPcm(generation,offset,p,n);return;}
+                    rememberFixedHead(offset,p,n);
                     check(true);if(generation!=inputLease->generation||offset!=published.load())throw std::logic_error("PCM identity/offset mismatch");
                     generated=offset+n;if(firstGenerated.load()<0)firstGenerated=elapsed();
                     p=envelope.apply(p,offset,n,false,0);
@@ -1049,11 +1190,11 @@ bool RealtimePipeline::setRealtimeRendering(bool active,std::chrono::millisecond
 void RealtimePipeline::stop(){impl_->stop();}
 ExecutionOwnerCounts RealtimePipeline::executionOwnerCounts()noexcept{return {liveExecutionOwners.load(),peakExecutionOwners.load()};}
 RenderResult RealtimePipeline::pullAudio(float*const* p,std::size_t n)noexcept{
-    auto& x=*impl_;RenderResult r;r.outputBefore=x.config.reusableLoop?x.repeatPosition(x.repeatConsumed.load()):x.consumed.load(std::memory_order_relaxed);r.fifoBefore=x.fifo.available();
-    const auto end=x.loopOutputEnd.load()?x.loopOutputEnd.load():x.output.load(std::memory_order_acquire);r.wanted=x.config.reusableLoop?n:end?(end>r.outputBefore?std::min(n,end-r.outputBefore):0):n;
+    auto& x=*impl_;RenderResult r;r.outputBefore=x.loopMode()?x.repeatPosition(x.repeatConsumedFrames()):x.consumed.load(std::memory_order_relaxed);r.fifoBefore=x.fifo.available();
+    const auto end=x.loopOutputEnd.load()?x.loopOutputEnd.load():x.output.load(std::memory_order_acquire);r.wanted=x.loopMode()?n:end?(end>r.outputBefore?std::min(n,end-r.outputBefore):0):n;
     if(x.cancelled.load()||x.failure.load())r.wanted=0;
-    if(x.config.reusableLoop&&x.loopTransitionState.load(std::memory_order_acquire)==LoopTransitionState::Committed)r.wanted=std::min(r.wanted,x.loopTerminal.cumulativeEnd-x.repeatConsumed.load());
-    r.received=x.fifo.read(p,r.wanted);x.consumed.fetch_add(r.received,std::memory_order_relaxed);if(x.config.reusableLoop)x.repeatConsumed.fetch_add(r.received);
+    if(x.loopMode()&&x.terminalLoop())r.wanted=std::min(r.wanted,x.loopTerminal.cumulativeEnd> x.repeatConsumedFrames()?x.loopTerminal.cumulativeEnd-x.repeatConsumedFrames():0);
+    r.received=x.fifo.read(p,r.wanted);x.consumed.fetch_add(r.received,std::memory_order_relaxed);
     for(std::size_t c=0;c<x.input.channels;++c)std::fill(p[c]+r.received,p[c]+n,0.0f);
     const auto missing=r.wanted-r.received;
     if(missing){x.missing.fetch_add(missing);x.missingCalls.fetch_add(1);x.consecutiveMissing=r.received?missing:x.consecutiveMissing+missing;maximum(x.maxMissing,x.consecutiveMissing);}else x.consecutiveMissing=0;
@@ -1063,8 +1204,8 @@ bool RealtimePipeline::finished()const noexcept{return impl_->dspDone.load();}
 bool RealtimePipeline::peekAudioFrame(std::size_t offset,std::array<float,2>& values)const noexcept{return impl_->fifo.peekFrame(offset,values.data());}
 FifoCursors RealtimePipeline::diagnosticFifoCursors()const noexcept{return {impl_->fifo.readPosition(),impl_->fifo.writePosition()};}
 std::optional<PositionSample> RealtimePipeline::positionSample()const noexcept{
-    if(impl_->config.reusableLoop&&impl_->config.dynamicTransitions)return impl_->stoppedOrPlayingPosition();
-    if(auto map=std::atomic_load(&impl_->fixedSeekMap)){const auto at=impl_->config.reusableLoop?(impl_->repeatConsumed.load()?impl_->repeatPosition(impl_->repeatConsumed.load()):impl_->outputStart.load()):impl_->consumed.load();return PositionSample{impl_->session,0,at,impl_->seeking&&!impl_->repeatConsumed.load()&&at==impl_->outputStart.load()?impl_->seekInput:std::min(impl_->input.frames,phase59::inverseInput(*map,at)),impl_->elapsed()};}
+    if(impl_->loopMode()&&impl_->config.dynamicTransitions)return impl_->stoppedOrPlayingPosition();
+    if(auto map=std::atomic_load(&impl_->fixedSeekMap)){const auto at=impl_->loopMode()?(impl_->repeatConsumedFrames()?impl_->repeatPosition(impl_->repeatConsumedFrames()):impl_->outputStart.load()):impl_->consumed.load();return PositionSample{impl_->session,0,at,impl_->seeking&&!impl_->repeatConsumedFrames()&&at==impl_->outputStart.load()?impl_->seekInput:std::min(impl_->input.frames,phase59::inverseInput(*map,at)),impl_->elapsed()};}
     return impl_->positionMailbox.read();
 }
 std::optional<PositionSample> RealtimePipeline::stoppedPosition()const {
@@ -1082,9 +1223,9 @@ bool RealtimePipeline::failed()const noexcept{return impl_->failure.load();}
 phase59::RequestReceipt RealtimePipeline::requestSpeed(std::uint32_t speed,std::size_t position,std::uint64_t expectedSession,std::uint64_t expectedGeneration){
     auto& x=*impl_;std::lock_guard lock(x.operationMutex);
     const bool invalid=!x.config.dynamicTransitions||!phase59::formalSpeed(speed);
-    const bool stopped=x.config.reusableLoop||!x.started.load()||x.cancelled.load()||x.failure.load()||x.dspDone.load()||(expectedSession&&expectedSession!=x.session)||(expectedGeneration&&expectedGeneration!=x.inputLease->generation);
+    const bool stopped=x.loopMode()||!x.started.load()||x.cancelled.load()||x.failure.load()||x.dspDone.load()||(expectedSession&&expectedSession!=x.session)||(expectedGeneration&&expectedGeneration!=x.inputLease->generation);
     if(x.operations.size()>=4096)return {0,invalid?Phase39RequestResult::Invalid:stopped?Phase39RequestResult::Stopped:Phase39RequestResult::LimitReached};
-    phase59::SpeedOperation op;op.id=x.operations.size()+1;op.session=x.session;op.inputGeneration=x.inputLease->generation;op.target=speed;op.logicalPresented=position;op.acceptedS=x.elapsed();
+    phase59::SpeedOperation op;op.id=x.operations.size()+1;op.session=x.session;op.inputGeneration=x.inputLease->generation;op.target=speed;op.logicalPresented=op.acceptedLogicalPresented=position;op.acceptedS=x.elapsed();
     if(invalid){op.acceptance=Phase39RequestResult::Invalid;op.change.plan.outcome=Phase39Outcome::Invalid;op.state=phase59::OperationState::Rejected;}
     else if(stopped){
         op.acceptance=Phase39RequestResult::Stopped;op.state=phase59::OperationState::Rejected;
@@ -1095,7 +1236,7 @@ phase59::RequestReceipt RealtimePipeline::requestSpeed(std::uint32_t speed,std::
     x.operations.push_back(op);return {op.id,op.acceptance};
 }
 std::vector<phase59::SpeedOperation> RealtimePipeline::speedOperations()const{std::lock_guard lock(impl_->operationMutex);return impl_->operations;}
-TimeMap RealtimePipeline::dynamicTimeMap()const{const auto& x=*impl_;if(x.lifecycle.load(std::memory_order_acquire)==LifecycleState::Finalized&&!(x.config.reusableLoop&&x.loopTransitionState.load()==LoopTransitionState::Committed))if(auto map=std::atomic_load(&x.fixedSeekMap))return *map;if(x.lifecycle.load(std::memory_order_acquire)!=LifecycleState::Finalized||!x.transitionPlanner||!x.transitionPlanner->view())throw std::logic_error("Joined dynamic session required");return x.transitionPlanner->view()->map;}
+TimeMap RealtimePipeline::dynamicTimeMap()const{const auto& x=*impl_;if(x.lifecycle.load(std::memory_order_acquire)==LifecycleState::Finalized&&!(x.loopMode()&&x.loopTransitionState.load()==LoopTransitionState::Committed))if(auto map=std::atomic_load(&x.fixedSeekMap))return *map;if(x.lifecycle.load(std::memory_order_acquire)!=LifecycleState::Finalized||!x.transitionPlanner||!x.transitionPlanner->view())throw std::logic_error("Joined dynamic session required");return x.transitionPlanner->view()->map;}
 std::size_t RealtimePipeline::available()const noexcept{return impl_->fifo.available();}
 std::uint32_t RealtimePipeline::sampleRate()const noexcept{return impl_->input.rate;}
 std::size_t RealtimePipeline::channels()const noexcept{return impl_->input.channels;}
@@ -1125,27 +1266,37 @@ std::unique_ptr<RealtimePipeline> RealtimePipeline::createLoopSeek(std::size_t s
 }
 void RealtimePipeline::enableLoopReuse(std::size_t a){
     auto& x=*impl_;if(x.lifecycle.load()!=LifecycleState::Unstarted||!x.config.loopEndInputFrame||a>x.seekInput||x.seekInput>=x.config.loopEndInputFrame)throw std::logic_error("固定ループ再利用の受付範囲が不正です");
+    x.inputLease->pruneSeekCheckpoints();
     x.config.reusableLoop=true;x.config.loopBeginInputFrame=a;
     if(x.config.scheduling==WorkerScheduling::AudioWorkgroup){x.config.dynamicTransitions=true;x.operations.reserve(4096);x.transitionPlanner=std::make_unique<phase59::ProgressiveTransitionPlanner>(x.input.rate,x.input.frames,x.inputLease->generation,x.config.speedMicros,x.config.candidate);}
     x.loopPcmDescriptors=std::make_unique<std::array<phase59::ValueMailbox<LoopPcmDescriptor>,64>>();
 }
-bool RealtimePipeline::loopReuseEnabled()const noexcept{return impl_->config.reusableLoop;}
+bool RealtimePipeline::loopReuseEnabled()const noexcept{return impl_->loopMode();}
+bool RealtimePipeline::requestNormalLoopReuse(){
+    auto& x=*impl_;if(x.loopMode())return true;
+    if(!x.config.dynamicTransitions||!x.config.residentInput||x.config.fastLocalSeek||x.config.loopEndInputFrame||x.failure.load()||x.cancelled.load()||x.dspDone.load())return false;
+    if(!x.normalLoopRequested.load()){
+        x.inputLease->pruneSeekCheckpoints();
+        x.loopPcmDescriptors=std::make_unique<std::array<phase59::ValueMailbox<LoopPcmDescriptor>,64>>();
+        x.normalLoopState.store(NormalLoopReuseState::Preparing,std::memory_order_release);x.normalLoopRequested.store(true,std::memory_order_release);x.changed.notify_all();x.realtime->signal();
+    }return true;
+}
 void RealtimePipeline::setLoopSupplyLimitForTest(std::size_t frames){
     auto& x=*impl_;if(x.lifecycle.load()!=LifecycleState::Unstarted||!x.config.reusableLoop||frames<x.lead)throw std::logic_error("ループ供給試験は開始前、Ready先行量以上の上限が必要です");
     x.config.publicationLimitForTest=frames;
 }
-std::size_t RealtimePipeline::loopOutputStartFrame()const noexcept{return impl_->config.reusableLoop?impl_->repeatBegin.load():impl_->outputStart.load();}
-std::uint64_t RealtimePipeline::loopReadCycle()const noexcept{return impl_->repeatCycle(impl_->repeatConsumed.load());}
+std::size_t RealtimePipeline::loopOutputStartFrame()const noexcept{return impl_->loopMode()?impl_->repeatBegin.load():impl_->outputStart.load();}
+std::uint64_t RealtimePipeline::loopReadCycle()const noexcept{return impl_->repeatCycle(impl_->repeatConsumedFrames());}
 phase59::RequestReceipt RealtimePipeline::requestLoopTransition(std::uint32_t speed,std::size_t position,std::atomic<std::uint64_t>* callbackOperation){
     auto& x=*impl_;std::lock_guard lock(x.operationMutex);
     if(!phase59::formalSpeed(speed))return {0,Phase39RequestResult::Invalid};
     if(speed==x.config.speedMicros)return {0,Phase39RequestResult::Duplicate};
-    const auto previous=x.loopTransitionState.load();const bool reusableState=previous==LoopTransitionState::Idle||((previous==LoopTransitionState::Cancelled||previous==LoopTransitionState::Rejected)&&x.loopTransitionSettled.load(std::memory_order_acquire));
+    const auto previous=x.loopTransitionState.load();const bool reusableState=previous==LoopTransitionState::Idle||(previous==LoopTransitionState::Cancelled&&x.loopTransitionSettled.load(std::memory_order_acquire));
     if((previous==LoopTransitionState::Cancelled||previous==LoopTransitionState::Rejected)&&!reusableState)return {0,Phase39RequestResult::Busy};
-    if(!x.config.reusableLoop||!x.loopDynamicCapable.load()||!x.renderingRequested.load()||x.failure.load()||x.cancelled.load()||x.dspDone.load()||!reusableState)return {0,Phase39RequestResult::Stopped};
+    if(!x.loopMode()||!x.loopDynamicCapable.load()||!x.renderingRequested.load()||x.failure.load()||x.cancelled.load()||x.dspDone.load()||!reusableState)return {0,Phase39RequestResult::Stopped};
     if(x.operations.size()>=4096)return {0,Phase39RequestResult::LimitReached};
-    phase59::SpeedOperation op;op.id=x.operations.size()+1;op.session=x.session;op.inputGeneration=x.inputLease->generation;op.target=speed;op.logicalPresented=position;op.acceptedS=x.elapsed();
-    x.operations.push_back(op);x.pendingOperation=x.operations.size()-1;x.loopTransitionID=op.id;x.loopTransitionSettled=false;
+    phase59::SpeedOperation op;op.id=x.operations.size()+1;op.session=x.session;op.inputGeneration=x.inputLease->generation;op.target=speed;op.logicalPresented=op.acceptedLogicalPresented=position;op.acceptedS=x.elapsed();
+    x.operations.push_back(op);x.pendingOperation=x.operations.size()-1;x.loopTransitionID=op.id;x.loopRejectReason=LoopTransitionReason::None;x.loopTransitionSettled=false;
     // Publish the already-armed callback's adoption identity before allowing
     // analysis/DSP to commit. No post-return control-thread store is required.
     if(callbackOperation)callbackOperation->store(op.id,std::memory_order_release);
@@ -1153,20 +1304,24 @@ phase59::RequestReceipt RealtimePipeline::requestLoopTransition(std::uint32_t sp
 }
 LoopTransitionSnapshot RealtimePipeline::loopTransition()const noexcept{
     const auto& x=*impl_;const auto state=x.loopTransitionState.load(std::memory_order_acquire);
-    if(state==LoopTransitionState::Committed)return x.loopTerminal;
+    if(state==LoopTransitionState::Committed||state==LoopTransitionState::FixedBoundaryCommitted)return x.loopTerminal;
     LoopTransitionSnapshot result;result.state=state;result.operationID=x.loopTransitionID.load();return result;
 }
+std::optional<TimeMap> RealtimePipeline::loopCommittedTimeMap()const{
+    const auto descriptor=loopTransition();if(descriptor.state!=LoopTransitionState::Committed&&descriptor.state!=LoopTransitionState::FixedBoundaryCommitted)return {};
+    auto map=std::atomic_load(&impl_->committedPositionMap);if(!map||map->version!=descriptor.mapVersion)return {};return map->map;
+}
 bool RealtimePipeline::cancelLoopTransition()noexcept{
-    auto& state=impl_->loopTransitionState;auto value=LoopTransitionState::Requested;
-    if(state.compare_exchange_strong(value,LoopTransitionState::Cancelled,std::memory_order_acq_rel))return true;
-    return value!=LoopTransitionState::Applying&&value!=LoopTransitionState::Committed;
+    auto& state=impl_->loopTransitionState;auto value=state.load(std::memory_order_acquire);
+    while(value==LoopTransitionState::Requested||value==LoopTransitionState::Rejected)if(state.compare_exchange_weak(value,LoopTransitionState::Cancelled,std::memory_order_acq_rel))return true;
+    return value!=LoopTransitionState::Applying&&value!=LoopTransitionState::Committed&&value!=LoopTransitionState::FixedBoundaryCommitted;
 }
 std::optional<LoopPcmDescriptor> RealtimePipeline::loopPcmDescriptor(std::uint64_t cycle)noexcept{
     if(!impl_->loopPcmDescriptors)return {};
     auto value=(*impl_->loopPcmDescriptors)[cycle%impl_->loopPcmDescriptors->size()].read();return value&&value->cycle==cycle?value:std::optional<LoopPcmDescriptor>{};
 }
 std::array<float,2> RealtimePipeline::loopFirstSample()const noexcept{return impl_->loopHead;}
-std::size_t RealtimePipeline::loopOutputEndFrame()const noexcept{const auto& x=*impl_;if(x.loopTransitionState.load(std::memory_order_acquire)==LoopTransitionState::Committed&&x.repeatConsumed.load()>=x.loopTerminal.cumulativeStart)return x.loopTerminal.localEnd;return x.loopOutputEnd.load();}
+std::size_t RealtimePipeline::loopOutputEndFrame()const noexcept{const auto& x=*impl_;if(x.loopTransitionState.load(std::memory_order_acquire)==LoopTransitionState::Committed&&x.repeatConsumedFrames()>=x.loopTerminal.cumulativeStart)return x.loopTerminal.localEnd;return x.loopOutputEnd.load();}
 std::size_t RealtimePipeline::fixedOutputFrameForInput(std::size_t frame)const{
     const auto& x=*impl_;if(frame>x.input.frames)throw std::out_of_range("入力フレーム");
     for(const auto& op:speedOperations())if(op.acceptance==Phase39RequestResult::Accepted)throw std::logic_error("動的速度計画のある区間はA復帰でループを有効化してください");
@@ -1218,12 +1373,14 @@ Diagnostics RealtimePipeline::diagnostics()const{
     d.analysisQosQueried=x.analysisQosQueried;d.dspQosQueried=x.dspQosQueried;d.threadSamplingRequested=x.config.sampleDspThread;d.samplerCpuS=x.samplerCpu;
     if(d.finalDataAvailable){d.threadSamples=x.samples.size();d.threadSamplesDropped=x.sampleDropped;d.threadSampleErrors=x.sampleErrors;}
     d.analysisQos=x.analysisQos;d.dspQos=x.dspQos;d.analysisDone=x.analysisDone;d.dspDone=x.dspDone;d.cancelled=x.cancelled&&!x.dspDone;d.failed=x.failure;
-    d.loopReuse.enabled=x.config.reusableLoop;d.loopReuse.cyclesPrepared=x.loopReuseCount;d.loopReuse.seedRestores=x.loopSeedRestores;d.loopReuse.cacheReadFrames=x.loopCacheReads;
+    d.loopReuse.normalPreparation=x.normalLoopState.load();d.loopReuse.checkpointStates=x.inputLease->checkpointBudget->count;d.loopReuse.checkpointPeak=x.inputLease->checkpointBudget->peak;
+    d.loopReuse.reconstructionAttempts=x.loopReconstructionAttempts;d.loopReuse.reconstructedFrames=x.loopReconstructedFrames;d.loopReuse.reconstructionDeferrals=x.loopReconstructionDeferrals;d.loopReuse.reconstructionWallS=x.loopReconstructionWallS;d.loopReuse.reconstructionCpuS=x.loopReconstructionCpuS;
+    d.loopReuse.enabled=x.loopMode();d.loopReuse.cyclesPrepared=x.loopReuseCount;d.loopReuse.seedRestores=x.loopSeedRestores;d.loopReuse.cacheReadFrames=x.loopCacheReads;
     d.loopReuse.coldDiscardedFrames=x.loopColdDiscarded;d.loopReuse.warmDiscardedFrames=x.loopWarmDiscarded;d.loopReuse.cacheBytes=x.loopCacheBytes;d.loopReuse.seedOutput=x.loopSeedOutput;
     d.loopReuse.mapBuilds=x.loopMapBuilds;d.loopReuse.workerCreations=x.loopWorkerCreations;d.loopReuse.mapS=x.loopMapS;d.loopReuse.dspConstructS=x.loopDspConstructS;
     d.loopReuse.fftPlanCreations=x.loopFftPlans;d.loopReuse.warmFftPlanCreations=x.loopWarmFftPlans;d.loopReuse.seedClones=x.loopSeedClones;d.loopReuse.analysisWaitS=x.loopAnalysisWaitS;d.loopReuse.mapCpuS=x.loopMapCpuS;d.loopReuse.coldPrefixCpuS=x.loopColdPrefixCpuS;d.loopReuse.joinS=x.loopJoinS;
     d.loopReuse.coldPrefixS=x.loopColdPrefixS;d.loopReuse.coldCpuS=x.loopColdCpuS;d.loopReuse.warmCpuS=x.loopWarmCpuS;d.loopReuse.seedCloneS=x.loopSeedCloneS;d.loopReuse.restoreS=x.loopRestoreS;
-    if(x.config.reusableLoop)d.consumed=x.repeatConsumed.load()?x.repeatPosition(x.repeatConsumed.load()):x.outputStart.load();
+    if(x.loopMode())d.consumed=x.repeatConsumedFrames()?x.repeatPosition(x.repeatConsumedFrames()):x.outputStart.load();
     d.inputSha256=x.inputSha;d.pcmSha256=x.pcmSha;d.error=x.error;return d;
 }
 std::vector<WorkerRecord> RealtimePipeline::workerRecords()const{const auto& x=*impl_;if(x.lifecycle.load(std::memory_order_acquire)!=LifecycleState::Finalized)throw std::logic_error("Stop and join before exporting worker records");return x.profiles;}

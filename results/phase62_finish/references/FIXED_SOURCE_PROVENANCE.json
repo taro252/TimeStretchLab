@@ -1,0 +1,57 @@
+{
+  "source_commit": "ec087019626d9ff0d9f157245729b74ddb6847d7",
+  "source_sha256": "4ffec7c4db196f51e89bd4ebaf336020ae71d0969c31393a40752b4a37ed3899",
+  "host_source_sha256": "72fc5f99ce49ea3bff6cb3260ecc5bbf8a5ff8a47ff5016ce9800a532e7ab742",
+  "driver_sha256": "14e09713ff230104beedf4d01c43b1e42d83f7d38b3a8a57205fe27af4a22060",
+  "flags": "-O3 -DNDEBUG -std=c++20 -arch arm64",
+  "commands": [
+    {
+      "name": "compile",
+      "command": [
+        "/usr/bin/c++",
+        "-O3",
+        "-DNDEBUG",
+        "-std=c++20",
+        "-arch",
+        "arm64",
+        "-arch",
+        "arm64",
+        "-I/Users/taro252/Docker/TimeStretchLab/src",
+        "-c",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/Phase36Legacy.cpp",
+        "-o",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/Phase36Legacy.o"
+      ],
+      "exit": 0,
+      "log": "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/compile.log"
+    },
+    {
+      "name": "link",
+      "command": [
+        "/usr/bin/c++",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/Phase36Legacy.o",
+        "-O3",
+        "-DNDEBUG",
+        "-arch",
+        "arm64",
+        "-Wl,-search_paths_first",
+        "-Wl,-headerpad_max_install_names",
+        "CMakeFiles/phase61_seek_reference.dir/src/prototype/Phase61SeekReference.cpp.o",
+        "-o",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "libphase39_variable.a",
+        "libphase36_variable.a",
+        "libphase24_variable.a",
+        "libtimestretch_core.a",
+        "-framework",
+        "Accelerate"
+      ],
+      "exit": 0,
+      "log": "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/link.log"
+    }
+  ],
+  "build": "/Users/taro252/Docker/TimeStretchLab/build/phase61/release",
+  "binary": "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+  "binary_sha256": "de70db5fbc4284fd13f3f9a7cf257cbca1d8d9a5755859067c7cfb234d1d5748",
+  "restore": "git show the source_commit path; run the recorded compiler and link commands in build. Never overwrite an existing frozen reference."
+}

@@ -1,0 +1,185 @@
+{
+  "schema": 2,
+  "status": "INCOMPLETE",
+  "scope": "旧schemaの実行完全性と来歴を分離した読み取り監査",
+  "execution_completeness": "PASS",
+  "expected_stage_ids": [
+    "configure_Release",
+    "build_Release",
+    "ctest_Release",
+    "configure_Debug",
+    "build_Debug",
+    "ctest_Debug"
+  ],
+  "executed_stage_ids": [
+    "build_Debug",
+    "build_Release",
+    "configure_Debug",
+    "configure_Release",
+    "ctest_Debug",
+    "ctest_Release"
+  ],
+  "expected_stages": 6,
+  "executed_stages": 6,
+  "configurations": {
+    "Release": {
+      "expected": 16,
+      "executed": 16,
+      "test_ids": [
+        "paused_speed_pipeline",
+        "phase59_certified_planning",
+        "phase59_request_control",
+        "phase61_checkpoint",
+        "phase61_contract",
+        "phase61_output_transition",
+        "phase61_pipeline_sync",
+        "phase61_safety",
+        "phase62_dynamic_boundary",
+        "phase62_evidence",
+        "phase62_fix_checkpoint",
+        "phase62_fix_period",
+        "phase62_fix_reuse",
+        "phase62_fix_safety",
+        "phase62_loop",
+        "phase62_render"
+      ],
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "disabled": 0,
+      "junit": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_dynamic_20261020/final_gates_v7/ctest_Release.xml",
+        "bytes": 9627,
+        "sha256": "4822285db2da862468c5d5af35663f04bc8d5a18d7b2cb8315704e216c40fddd"
+      }
+    },
+    "Debug": {
+      "expected": 16,
+      "executed": 16,
+      "test_ids": [
+        "paused_speed_pipeline",
+        "phase59_certified_planning",
+        "phase59_request_control",
+        "phase61_checkpoint",
+        "phase61_contract",
+        "phase61_output_transition",
+        "phase61_pipeline_sync",
+        "phase61_safety",
+        "phase62_dynamic_boundary",
+        "phase62_evidence",
+        "phase62_fix_checkpoint",
+        "phase62_fix_period",
+        "phase62_fix_reuse",
+        "phase62_fix_safety",
+        "phase62_loop",
+        "phase62_render"
+      ],
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "disabled": 0,
+      "junit": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_dynamic_20261020/final_gates_v7/ctest_Debug.xml",
+        "bytes": 9629,
+        "sha256": "89785ca486b4a2629e14b3f4240711770663d2489535484c90b27602d0bb345b"
+      }
+    }
+  },
+  "measured_counts": {
+    "Release": 16,
+    "Debug": 16
+  },
+  "stages": [
+    {
+      "id": "configure_Release",
+      "exit": 0,
+      "status": "PASS",
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_dynamic_20261020/final_gates_v7/configure_Release.log",
+        "bytes": 166,
+        "sha256": "03c29a7d4ea246df1d5cf4738aadd9ebdfa6a44218f9426dd77f63ba6f7d8a0f"
+      }
+    },
+    {
+      "id": "build_Release",
+      "exit": 0,
+      "status": "PASS",
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_dynamic_20261020/final_gates_v7/build_Release.log",
+        "bytes": 6230,
+        "sha256": "422731247e9f1cad42359e6819697e0ba1adcb44ba5ab727e9a5f0678c10d015"
+      }
+    },
+    {
+      "id": "ctest_Release",
+      "exit": 0,
+      "status": "PASS",
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_dynamic_20261020/final_gates_v7/ctest_Release.log",
+        "bytes": 1999,
+        "sha256": "e300ef16c86cea995170d6f6cfdb639a05edeb4a79d2520cc135d0293e0ca099"
+      }
+    },
+    {
+      "id": "configure_Debug",
+      "exit": 0,
+      "status": "PASS",
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_dynamic_20261020/final_gates_v7/configure_Debug.log",
+        "bytes": 164,
+        "sha256": "8eae893e8116a0645b855e2fbff6898b7da2558547b0c23ff7d15b8d7677e8d7"
+      }
+    },
+    {
+      "id": "build_Debug",
+      "exit": 0,
+      "status": "PASS",
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_dynamic_20261020/final_gates_v7/build_Debug.log",
+        "bytes": 6230,
+        "sha256": "8a26620c42afc24c62286b1f7417e1dc9fccb3f0b99f6c89d2c02b3ed7e2cb98"
+      }
+    },
+    {
+      "id": "ctest_Debug",
+      "exit": 0,
+      "status": "PASS",
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_dynamic_20261020/final_gates_v7/ctest_Debug.log",
+        "bytes": 1997,
+        "sha256": "c6d29f51ca353c7d4569a1b53ffa77d075959764947afd480774f8cdc2730b8b"
+      }
+    }
+  ],
+  "expected": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_dynamic_20261020/final_gates_v7/EXPECTED.json",
+    "bytes": 109096,
+    "sha256": "e87bc6bc88eec6946978a1a09fe50013a84b992f3ec2923d58b53bf4b1239dc7"
+  },
+  "original_summary": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_dynamic_20261020/final_gates_v7/SUMMARY.json",
+    "bytes": 4504,
+    "sha256": "70aaa486df9313eb9e04e66a6bfac7f1574b13b60bd9d44436f14a91bf677f0b"
+  },
+  "source_inventory_sha256": "19039446aa78fce05208ebcafcb26cd5c9c31d2cd9025142a1c8aeeebac29cc9",
+  "binary_provenance": "NOT_RECORDED_IN_ORIGINAL_EXPECTED; current rebuilt binaries are not substituted",
+  "reference_provenance": "NOT_RECORDED_IN_ORIGINAL_EXPECTED; no inferred oracle SHA",
+  "run_complete_original": "NOT_PRESENT_IN_LEGACY_SCHEMA",
+  "legacy_pins": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/drafts/aggregation/LEGACY_PROVENANCE.json",
+    "bytes": 3286,
+    "sha256": "9474bb963ffb15a4445c7bcb4790f5a442ad3033a9fa391873505aefcb591951"
+  },
+  "auditor": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/drafts/aggregation/aggregation_contract.py",
+    "bytes": 18929,
+    "sha256": "63d54c571cd1c2253c15af3fb1a49dc0c2857bcf1d22d03862a2b4fb6b83a0bf"
+  },
+  "negative_test_summary": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/drafts/aggregation/NEGATIVE_SUMMARY_v4.json",
+    "bytes": 388,
+    "sha256": "909e5b1b6de033f138c33a8c677e4d443c0cc4ed501ec9e0a3f3a39162c16528"
+  },
+  "current_source_approval": false,
+  "local_overall_go": false
+}

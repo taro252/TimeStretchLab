@@ -315,9 +315,8 @@ int run(const std::filesystem::path& input,Preset preset,const std::filesystem::
             ",\"stale_clear_accepted\":"+boolean(staleClear.accepted)+",\"stale_speed_result_enum\":"+std::to_string(int(staleSpeed.result))+
             ",\"after\":"+sample(engine,audit)+",\"observation_after_Ready_ms\":250,\"observation_after_replay_ms\":120");
 
-        // Additional limitation contract, separate from the seven baseline
-        // comparison observations: KeepPosition's first ordinary owner still
-        // defers its speed to B and must explain that unimplemented path.
+        // New current-cycle observation, separate from the seven historical
+        // baseline comparisons. Independent full PCM is tested by the API oracle host.
         until(engine,[&]{return engine.getPlaybackDiagnostics().pipeline.analysisDone;},30000,
             "replacement input analysis did not complete for KeepPosition");
         check(engine.getPlaybackState()==State::Playing,"KeepPosition setup reached EOS before its first cycle");
@@ -326,7 +325,7 @@ int run(const std::filesystem::path& input,Preset preset,const std::filesystem::
         const auto keepReceipt=engine.requestLoopRange(0,nextInfo.frames(),keepContext,keepOptions);
         check(keepReceipt.accepted,"KeepPosition full-input admission: "+keepReceipt.reason);
         until(engine,[&]{const auto l=engine.getLoopSnapshot();check(!l.cycles,"KeepPosition first cycle ended before Armed observation");
-            return l.state==progressive::LoopState::Armed;},30000,
+            return l.state==progressive::LoopState::Armed||l.initialPositionComplete;},30000,
             "KeepPosition initial boundary preparation did not become Armed");
         const auto keepBefore=engine.getLoopSnapshot();const auto keepBeforeSample=sample(engine,audit);
         check(keepBefore.cycles==0,"KeepPosition first-cycle precondition expired before speed request");
@@ -335,25 +334,18 @@ int run(const std::filesystem::path& input,Preset preset,const std::filesystem::
         const auto keepSpeedContext=context(engine);
         const auto keepSpeed=engine.setSpeed(.75,keepSpeedContext.session,keepSpeedContext.inputGeneration,keepSpeedContext.renderEpoch);
         const auto keepImmediate=engine.getLoopSnapshot();
-        const bool hasUnsupportedReason=keepImmediate.speedDeferReason.find("未対応")!=std::string::npos&&
-            keepImmediate.speedDeferReason.find("KeepPosition")!=std::string::npos;
-        std::this_thread::sleep_for(std::chrono::milliseconds(120));
-        const auto keepAfter=engine.getLoopSnapshot();const auto keepAfterDiagnostic=engine.getPlaybackDiagnostics();
-        const bool keepContract=keepSpeed.result==Receipt::Accepted&&hasUnsupportedReason&&
-            !engine.loopAvailability().currentCycleSpeedChanges&&keepAfter.enabled&&keepAfter.id==keepReceipt.id&&
-            keepAfter.inputGeneration==keepContext.inputGeneration&&keepAfter.startFrame==0&&
-            keepAfter.endFrameExclusive==nextInfo.frames()&&engine.getPlaybackState()==State::Playing&&
-            audit.frames.load()>keepFrames&&audit.affected.load()==keepAffected&&
-            keepAfterDiagnostic.missingFrames==keepDiagnostic.missingFrames&&
-            keepAfterDiagnostic.underrunCalls==keepDiagnostic.underrunCalls;
-        ledger.row("KeepPosition_initial_unsupported_speed_defer_contract",keepContract?"PASS":"FAIL",
-            ",\"contract\":\"unsupported current-cycle path explicitly defers to B while valid output continues\""
-            ",\"current_cycle_feature_validated\":false,\"defer_contract_only\":true,\"speed_request_id\":"+
+        until(engine,[&]{auto op=engine.loopSpeedOperation(keepSpeed.id);return op&&progressive::terminal(op->state);},30000,"KeepPosition current-cycle completion");
+        const auto applied=engine.loopSpeedOperation(keepSpeed.id);const auto keepAfter=engine.getLoopSnapshot();const auto keepAfterDiagnostic=engine.getPlaybackDiagnostics();
+        const bool keepContract=keepSpeed.result==Receipt::Accepted&&applied&&applied->committed&&applied->outputStarted&&applied->state==progressive::LoopSpeedState::Completed&&
+            applied->cycle==0&&keepAfter.cycles==0&&!applied->fixedBoundary&&keepAfter.enabled&&keepAfter.id==keepReceipt.id&&
+            keepAfter.inputGeneration==keepContext.inputGeneration&&keepAfter.startFrame==0&&keepAfter.endFrameExclusive==nextInfo.frames()&&engine.getPlaybackState()==State::Playing&&
+            audit.frames.load()>keepFrames&&audit.affected.load()==keepAffected&&keepAfterDiagnostic.missingFrames==keepDiagnostic.missingFrames&&keepAfterDiagnostic.underrunCalls==keepDiagnostic.underrunCalls;
+        ledger.row("KeepPosition_initial_current_cycle_application",keepContract?"PASS":"FAIL",
+            ",\"contract\":\"same ordinary DSP applies before first B; independent PCM is a separate gate\""
+            ",\"current_cycle_feature_validated\":true,\"defer_contract_only\":false,\"speed_request_id\":"+
             std::to_string(keepSpeed.id)+",\"accepted\":"+boolean(keepSpeed.result==Receipt::Accepted)+
-            ",\"speed_defer_reason\":"+quote(keepImmediate.speedDeferReason)+
             ",\"currentCycleSpeedChanges\":"+boolean(engine.loopAvailability().currentCycleSpeedChanges)+
-            ",\"observation_ms\":120,\"before\":"+keepBeforeSample+",\"after\":"+sample(engine,audit)+
-            ",\"deferred_B_application_and_PCM_comparison\":\"NOT_RUN\"");
+            ",\"before\":"+keepBeforeSample+",\"after\":"+sample(engine,audit)+",\"independent_PCM\":\"NOT_RUN\"");
         engine.stop();
     }catch(const std::exception& exception){
         gate.release(); // the cleanup join must never wait for this test gate
@@ -377,13 +369,12 @@ int run(const std::filesystem::path& input,Preset preset,const std::filesystem::
         ",\"independent_PCM_comparison\":\"NOT_RUN\"");
     const bool completed=ledger.executed==8&&ledger.passed==8&&ledger.reproduced==0&&
         ledger.failed==0&&ledger.incomplete==0&&finalFinite&&!gate.expired.load()&&finalOwners.alive==0&&finalOwners.peak<=2;
-    // Seven baseline-comparison observations plus one explicit limitation
-    // contract must PASS. That eighth result does not validate KeepPosition
-    // current-cycle functionality or its deferred B application PCM.
+    // Seven historical comparisons plus one actual KeepPosition application.
+    // This host does not assert an independent DSP oracle.
     std::ostringstream summary;
     summary<<"{\"suite\":\"phase62_race_native_current\",\"investigation_basis_sha\":\"7c05319d8142ef53a70c95be4f214f293bb2428a\""
         <<",\"comparison_probe\":\"BaselineRaceProbe\",\"prototype\":\"Phase62RaceNative\""
-        <<",\"expected\":8,\"baseline_comparison_cases\":7,\"additional_defer_contract_cases\":1,\"executed\":"<<ledger.executed<<",\"PASS\":"<<ledger.passed
+        <<",\"expected\":8,\"baseline_comparison_cases\":7,\"additional_current_cycle_cases\":1,\"executed\":"<<ledger.executed<<",\"PASS\":"<<ledger.passed
         <<",\"REPRODUCED\":"<<ledger.reproduced<<",\"FAIL\":"<<ledger.failed<<",\"INCOMPLETE\":"<<ledger.incomplete
         <<",\"status\":"<<quote(ledger.failed?"FAIL":completed?"PASS":"INCOMPLETE")
         <<",\"nonfinite_all_channels\":"<<audit.nonfinite.load()<<",\"output_affected_or_padding\":"<<audit.affected.load()

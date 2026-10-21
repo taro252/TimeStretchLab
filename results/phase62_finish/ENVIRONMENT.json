@@ -1,0 +1,101 @@
+{
+  "review_base": "c4bdbb44d92a367369e8ecf3c51fd50cb3abed4c",
+  "initial_environment": [
+    {
+      "command": [
+        "sw_vers"
+      ],
+      "exit": 0,
+      "stdout": "ProductName:\t\tmacOS\nProductVersion:\t\t26.6.2\nBuildVersion:\t\t25G83\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "uname",
+        "-m"
+      ],
+      "exit": 0,
+      "stdout": "x86_64\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "sysctl",
+        "-n",
+        "machdep.cpu.brand_string"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "sysctl: sysctl fmt -1 1024 1: Operation not permitted\n"
+    },
+    {
+      "command": [
+        "clang++",
+        "--version"
+      ],
+      "exit": 0,
+      "stdout": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cmake",
+        "--version"
+      ],
+      "exit": 0,
+      "stdout": "cmake version 4.3.3\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "status",
+        "--porcelain"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "branch",
+        "--show-current"
+      ],
+      "exit": 0,
+      "stdout": "main\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "exit": 0,
+      "stdout": "c4bdbb44d92a367369e8ecf3c51fd50cb3abed4c\n",
+      "stderr": ""
+    }
+  ],
+  "cpu": "Apple M1",
+  "physical_memory_bytes": 17179869184,
+  "cpu_query_exit": 0,
+  "compiler": "Apple clang 21.0.0",
+  "cmake": "4.3.3",
+  "binary_architecture": "arm64",
+  "shell_uname": "x86_64",
+  "python": "/Users/taro252/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+  "numpy": "2.3.5",
+  "audio_device_rate": 48000,
+  "audio_device_buffer": 512,
+  "source_rate_for_focused": 44100,
+  "source_channels_for_focused": 2,
+  "source_encoding_for_focused": "Float32",
+  "native_observation": "pre-mainMixer",
+  "audio_and_performance_serial": true,
+  "physical_loopback": "NOT_RUN",
+  "audition": "NOT_RUN",
+  "CoreAudio_device_id_for_focused": 72,
+  "device_channels_for_focused": 2,
+  "device_id_scope": "実行時CoreAudio ID。物理音響測定ではない"
+}

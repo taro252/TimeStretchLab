@@ -50,14 +50,24 @@ struct FifoCursors {std::uint64_t read=0,write=0;};
 struct ExecutionOwnerCounts {std::uint64_t alive=0,peak=0;};
 struct PositionSample {std::uint64_t session=0,mapVersion=0;std::size_t output=0,input=0;double atS=0;};
 struct LoopPcmDescriptor {std::uint64_t cycle=0;std::array<float,2> first{},last{};};
-enum class LoopTransitionState {Idle,Requested,Applying,Committed,Cancelled,Rejected};
+enum class LoopTransitionState {Idle,Requested,Applying,Committed,FixedBoundaryCommitted,Cancelled,Rejected};
+enum class LoopTransitionReason {None,ProtectedFrontier,PreparationDeadline,OperationLimit,NoChange,Unsupported};
 struct LoopTransitionSnapshot {
     LoopTransitionState state=LoopTransitionState::Idle;
     std::uint64_t cycle=0,mapVersion=0,operationID=0;
     std::size_t localStart=0,localEnd=0,cumulativeStart=0,cumulativeEnd=0,generatedAtCommit=0,publishedAtCommit=0;
+    std::uint64_t fifoReadAtCommit=0,fifoWriteAtCommit=0,auditSequence=0;
+    std::size_t pendingPcmFramesAtCommit=0,pcmGeneratedAtCommit=0;
+    bool cacheBackedAtCommit=false;
+    LoopTransitionReason reason=LoopTransitionReason::None;
 };
+enum class NormalLoopReuseState {Inactive,Preparing,Ready,Failed,LimitReached};
 struct LoopReuseDiagnostics {
     bool enabled=false;
+    NormalLoopReuseState normalPreparation=NormalLoopReuseState::Inactive;
+    std::uint64_t reconstructionAttempts=0,reconstructedFrames=0,reconstructionDeferrals=0;
+    double reconstructionWallS=0,reconstructionCpuS=0;
+    std::uint32_t checkpointStates=0,checkpointPeak=0; // input-lease total, including inert loop and seek states, maximum 2
     std::uint64_t cyclesPrepared=0,seedRestores=0,cacheReadFrames=0,coldDiscardedFrames=0,warmDiscardedFrames=0;
     std::size_t cacheBytes=0,seedOutput=0,mapBuilds=0,workerCreations=0;
     std::uint64_t fftPlanCreations=0,warmFftPlanCreations=0,seedClones=0;
@@ -186,6 +196,7 @@ public:
     void enableLoopReuse(std::size_t rangeStartInputFrame); // before start; same immutable program only
     void setLoopSupplyLimitForTest(std::size_t frames); // before start; finite producer ceiling >= Ready lead
     bool loopReuseEnabled()const noexcept;
+    bool requestNormalLoopReuse(); // normal owner, fixed whole-song origin; producer acknowledges in loopReuseEnabled
     std::size_t loopOutputStartFrame()const noexcept;
     std::uint64_t loopReadCycle()const noexcept;
     // Only after the replacement fixed A->B owner is Ready. The current
@@ -194,6 +205,7 @@ public:
     // through the boundary once cancellation returns false.
     phase59::RequestReceipt requestLoopTransition(std::uint32_t,std::size_t logicalPresented,std::atomic<std::uint64_t>* callbackOperation=nullptr);
     LoopTransitionSnapshot loopTransition()const noexcept;
+    std::optional<TimeMap> loopCommittedTimeMap()const; // normal-thread evidence copy; only descriptor-matching acknowledged Map
     bool cancelLoopTransition()noexcept;
     std::optional<LoopPcmDescriptor> loopPcmDescriptor(std::uint64_t cycle)noexcept; // audio consumer only
     std::array<float,2> loopFirstSample()const noexcept; // immutable after Ready; no ownership operation

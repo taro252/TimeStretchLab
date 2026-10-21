@@ -22,7 +22,7 @@ struct SpeedOperation {
     OperationState state=OperationState::Pending;
     Phase39RequestState workerState=Phase39RequestState::Idle;
     Phase39RequestResult acceptance=Phase39RequestResult::Accepted;
-    std::size_t logicalPresented=0,publishedAtPlan=0,consumedAtApply=0;
+    std::size_t logicalPresented=0,acceptedLogicalPresented=0,publishedAtPlan=0,consumedAtApply=0;
     std::size_t analysisNodesAtPlan=0,receivedInputAtPlan=0;
     bool planningDecided=false,finalAnalysisAtPlan=false;
     Phase36StreamingSpeedEngine::Frontier frontier;

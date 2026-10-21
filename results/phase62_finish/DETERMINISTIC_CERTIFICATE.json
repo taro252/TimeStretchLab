@@ -1,0 +1,1056 @@
+{
+  "schema": 2,
+  "suite": "phase62_deterministic_gates",
+  "run_id": "4cd6fb1f-8acd-44ba-8ef1-3cd5ce574ce4",
+  "status": "PASS",
+  "run_complete": true,
+  "expected_stage_ids": [
+    "configure_Release",
+    "build_Release",
+    "ctest_Release",
+    "configure_Debug",
+    "build_Debug",
+    "ctest_Debug"
+  ],
+  "executed_stage_ids": [
+    "build_Debug",
+    "build_Release",
+    "configure_Debug",
+    "configure_Release",
+    "ctest_Debug",
+    "ctest_Release"
+  ],
+  "expected_stages": 6,
+  "executed_stages": 6,
+  "configurations": {
+    "Release": {
+      "expected": 18,
+      "executed": 18,
+      "test_ids": [
+        "paused_speed_pipeline",
+        "phase59_certified_planning",
+        "phase59_request_control",
+        "phase61_checkpoint",
+        "phase61_contract",
+        "phase61_output_transition",
+        "phase61_pipeline_sync",
+        "phase61_safety",
+        "phase62_dynamic_boundary",
+        "phase62_evidence",
+        "phase62_finish_evidence",
+        "phase62_fix_checkpoint",
+        "phase62_fix_period",
+        "phase62_fix_reuse",
+        "phase62_fix_safety",
+        "phase62_loop",
+        "phase62_loop_speed_ledger",
+        "phase62_render"
+      ],
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "disabled": 0,
+      "junit": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/ctest_Release.xml",
+        "bytes": 10146,
+        "sha256": "33faeabc049b04ac552524d2690d4a5ee971d4b0706ae0877847ab8ec5238d0d"
+      }
+    },
+    "Debug": {
+      "expected": 18,
+      "executed": 18,
+      "test_ids": [
+        "paused_speed_pipeline",
+        "phase59_certified_planning",
+        "phase59_request_control",
+        "phase61_checkpoint",
+        "phase61_contract",
+        "phase61_output_transition",
+        "phase61_pipeline_sync",
+        "phase61_safety",
+        "phase62_dynamic_boundary",
+        "phase62_evidence",
+        "phase62_finish_evidence",
+        "phase62_fix_checkpoint",
+        "phase62_fix_period",
+        "phase62_fix_reuse",
+        "phase62_fix_safety",
+        "phase62_loop",
+        "phase62_loop_speed_ledger",
+        "phase62_render"
+      ],
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "disabled": 0,
+      "junit": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/ctest_Debug.xml",
+        "bytes": 10147,
+        "sha256": "7dc735c85f9ba3df7f3dd8c2d184a913a519f51d0dd50f894423fbed76518585"
+      }
+    }
+  },
+  "measured_counts": {
+    "Release": 18,
+    "Debug": 18
+  },
+  "source_inventory_sha256": "fa2b6f4fea83e06b4d31433478ae01cae5d98c3465267c990625d4a30a171c8a",
+  "expected": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/EXPECTED.json",
+    "bytes": 6471,
+    "sha256": "661ed8298a4cb90b28454463991fa691a8f1f4100b6b1f1aabe683ae36ded55e"
+  },
+  "executed_binaries": {
+    "Release": {
+      "phase59_tests": {
+        "sha256": "8ec025a4c021eb1042946a99eb0609a0c8ca2c3d5ec0521a3f64749c04c64eb2",
+        "bytes": 504432,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase59_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/phase59_tests",
+          "bytes": 504432,
+          "sha256": "8ec025a4c021eb1042946a99eb0609a0c8ca2c3d5ec0521a3f64749c04c64eb2"
+        }
+      },
+      "phase59_control_tests": {
+        "sha256": "ff39c4156d22503ceb839d511794960989fd44b5f9e4121f8db44e5aae07e6f3",
+        "bytes": 786056,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase59_control_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/phase59_control_tests",
+          "bytes": 786056,
+          "sha256": "ff39c4156d22503ceb839d511794960989fd44b5f9e4121f8db44e5aae07e6f3"
+        }
+      },
+      "phase61_contract_tests": {
+        "sha256": "f15d53c50dfc3a6f1d6576185b33d23a5918297d11ab5201f5b7630f1e2de2e9",
+        "bytes": 37464,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase61_contract_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/phase61_contract_tests",
+          "bytes": 37464,
+          "sha256": "f15d53c50dfc3a6f1d6576185b33d23a5918297d11ab5201f5b7630f1e2de2e9"
+        }
+      },
+      "phase61_checkpoint_tests": {
+        "sha256": "43ea61b89ce69f2c63f4a14a4ed23e1ee9d1db70d2a532b12a39f85f4c1942b3",
+        "bytes": 507192,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase61_checkpoint_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/phase61_checkpoint_tests",
+          "bytes": 507192,
+          "sha256": "43ea61b89ce69f2c63f4a14a4ed23e1ee9d1db70d2a532b12a39f85f4c1942b3"
+        }
+      },
+      "phase61_safety_tests": {
+        "sha256": "4c4d8271e8a24c1bead5d695046e65ba719579691fdd484d41e6c5928264505f",
+        "bytes": 785368,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase61_safety_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/phase61_safety_tests",
+          "bytes": 785368,
+          "sha256": "4c4d8271e8a24c1bead5d695046e65ba719579691fdd484d41e6c5928264505f"
+        }
+      },
+      "phase61_output_transition_tests": {
+        "sha256": "9494ab59a2ef9a26e8bf6eff33d1aee3e98a0b75e0ec14e5b6fb1dddd0330722",
+        "bytes": 37152,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase61_output_transition_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/phase61_output_transition_tests",
+          "bytes": 37152,
+          "sha256": "9494ab59a2ef9a26e8bf6eff33d1aee3e98a0b75e0ec14e5b6fb1dddd0330722"
+        }
+      },
+      "phase61_pipeline_sync_tests": {
+        "sha256": "83f4a04179ce77d3f6f0492c04a0141c2811a3d5c773925f65afb80b470bd78d",
+        "bytes": 805320,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase61_pipeline_sync_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/phase61_pipeline_sync_tests",
+          "bytes": 805320,
+          "sha256": "83f4a04179ce77d3f6f0492c04a0141c2811a3d5c773925f65afb80b470bd78d"
+        }
+      },
+      "paused_speed_pipeline_tests": {
+        "sha256": "60bd4d063983a5780d3943888d9a80a66b55d55e6955d5cb58ecee5fa305d737",
+        "bytes": 768488,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/paused_speed_pipeline_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/paused_speed_pipeline_tests",
+          "bytes": 768488,
+          "sha256": "60bd4d063983a5780d3943888d9a80a66b55d55e6955d5cb58ecee5fa305d737"
+        }
+      },
+      "phase62_loop_tests": {
+        "sha256": "9d889395ff325a72c58214d726ce461b6f332e3cc4ad65c57d2dea37c28a88f6",
+        "bytes": 785536,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_loop_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/phase62_loop_tests",
+          "bytes": 785536,
+          "sha256": "9d889395ff325a72c58214d726ce461b6f332e3cc4ad65c57d2dea37c28a88f6"
+        }
+      },
+      "phase62_render_tests": {
+        "sha256": "d437994bfcfa973d723c141688a4e65999427867521286adfdf6d5b912d51563",
+        "bytes": 962936,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_render_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/phase62_render_tests",
+          "bytes": 962936,
+          "sha256": "d437994bfcfa973d723c141688a4e65999427867521286adfdf6d5b912d51563"
+        }
+      },
+      "phase62_fix_safety_tests": {
+        "sha256": "000c4c98f8dfd08ea4a1933d2669a0a004612307a69911622918680c9f9c829e",
+        "bytes": 946696,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_fix_safety_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/phase62_fix_safety_tests",
+          "bytes": 946696,
+          "sha256": "000c4c98f8dfd08ea4a1933d2669a0a004612307a69911622918680c9f9c829e"
+        }
+      },
+      "phase62_fix_reuse_tests": {
+        "sha256": "89783c3c9c1c20eb2253cfb9ad0f7be673a4d4ef90643e083d4d834d34c368ae",
+        "bytes": 785624,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_fix_reuse_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/phase62_fix_reuse_tests",
+          "bytes": 785624,
+          "sha256": "89783c3c9c1c20eb2253cfb9ad0f7be673a4d4ef90643e083d4d834d34c368ae"
+        }
+      },
+      "phase62_fix_render_tests": {
+        "sha256": "6b4e4cc85dea0b6112429a2486de94b54e004d291539ac3219dfbf18d073d3d2",
+        "bytes": 945912,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_fix_render_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/phase62_fix_render_tests",
+          "bytes": 945912,
+          "sha256": "6b4e4cc85dea0b6112429a2486de94b54e004d291539ac3219dfbf18d073d3d2"
+        }
+      },
+      "phase62_fix_checkpoint_tests": {
+        "sha256": "cde6344b639cecaf962b6fd91075f37ffd9d4564053ba5098803d6325ac0a9a2",
+        "bytes": 457696,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_fix_checkpoint_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/phase62_fix_checkpoint_tests",
+          "bytes": 457696,
+          "sha256": "cde6344b639cecaf962b6fd91075f37ffd9d4564053ba5098803d6325ac0a9a2"
+        }
+      },
+      "phase62_dynamic_boundary_tests": {
+        "sha256": "d4f08334133596e293922076fb2d41f08cdc726bf3d3f98f232e685fede0bb61",
+        "bytes": 962688,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_dynamic_boundary_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/phase62_dynamic_boundary_tests",
+          "bytes": 962688,
+          "sha256": "d4f08334133596e293922076fb2d41f08cdc726bf3d3f98f232e685fede0bb61"
+        }
+      },
+      "phase62_native_tests": {
+        "sha256": "06cde29aa670a31daaa69cea5d323bbd2b454c34bbb048d3ed539992dcd648c0",
+        "bytes": 1036360,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_native_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/phase62_native_tests",
+          "bytes": 1036360,
+          "sha256": "06cde29aa670a31daaa69cea5d323bbd2b454c34bbb048d3ed539992dcd648c0"
+        }
+      },
+      "paused_speed_loop_tests": {
+        "sha256": "1d4f99250172dc587b76776de6f31100d2109d098ab7a8965d0aa8687a4fe7e2",
+        "bytes": 1000024,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/paused_speed_loop_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/paused_speed_loop_tests",
+          "bytes": 1000024,
+          "sha256": "1d4f99250172dc587b76776de6f31100d2109d098ab7a8965d0aa8687a4fe7e2"
+        }
+      },
+      "phase62_loop_speed_ledger_tests": {
+        "sha256": "caca556be698e78231f24b56b4b5e785f07154eaeae7b14b8418d09081a4360b",
+        "bytes": 38560,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_loop_speed_ledger_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/phase62_loop_speed_ledger_tests",
+          "bytes": 38560,
+          "sha256": "caca556be698e78231f24b56b4b5e785f07154eaeae7b14b8418d09081a4360b"
+        }
+      }
+    },
+    "Debug": {
+      "phase59_tests": {
+        "sha256": "0a728e41f81b0c730201b73543bf82aec83038ee51b75de1b2ed4062f566060f",
+        "bytes": 2218752,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase59_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/phase59_tests",
+          "bytes": 2218752,
+          "sha256": "0a728e41f81b0c730201b73543bf82aec83038ee51b75de1b2ed4062f566060f"
+        }
+      },
+      "phase59_control_tests": {
+        "sha256": "9fb1e4c02d1f158bdcd0e3e2219f7ff0b52cb72b2a4f6c854e9270b7634cc21d",
+        "bytes": 3234872,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase59_control_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/phase59_control_tests",
+          "bytes": 3234872,
+          "sha256": "9fb1e4c02d1f158bdcd0e3e2219f7ff0b52cb72b2a4f6c854e9270b7634cc21d"
+        }
+      },
+      "phase61_contract_tests": {
+        "sha256": "bd3a25226bf1a1a54997cf5659ad93cf415eebc874fd63b5e61055750eba46f4",
+        "bytes": 46008,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase61_contract_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/phase61_contract_tests",
+          "bytes": 46008,
+          "sha256": "bd3a25226bf1a1a54997cf5659ad93cf415eebc874fd63b5e61055750eba46f4"
+        }
+      },
+      "phase61_checkpoint_tests": {
+        "sha256": "3cf6fbc06b6f5a683708699373eb6f89157a80f8d1d5d644199dd4b15ee22a5c",
+        "bytes": 2263368,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase61_checkpoint_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/phase61_checkpoint_tests",
+          "bytes": 2263368,
+          "sha256": "3cf6fbc06b6f5a683708699373eb6f89157a80f8d1d5d644199dd4b15ee22a5c"
+        }
+      },
+      "phase61_safety_tests": {
+        "sha256": "08e3ba7014b7abe10e5112f768e7aa1156d0a5a817c3d9fa0128ca05af87c2f9",
+        "bytes": 3202280,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase61_safety_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/phase61_safety_tests",
+          "bytes": 3202280,
+          "sha256": "08e3ba7014b7abe10e5112f768e7aa1156d0a5a817c3d9fa0128ca05af87c2f9"
+        }
+      },
+      "phase61_output_transition_tests": {
+        "sha256": "ded9290f3102dd19363410dcf8490baab959c623a0e5442bb53a94632e982e02",
+        "bytes": 46288,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase61_output_transition_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/phase61_output_transition_tests",
+          "bytes": 46288,
+          "sha256": "ded9290f3102dd19363410dcf8490baab959c623a0e5442bb53a94632e982e02"
+        }
+      },
+      "phase61_pipeline_sync_tests": {
+        "sha256": "8e6076117911152e3467daf7f9546cb4e0554deb6b106fb1f2e466269cf19384",
+        "bytes": 3255384,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase61_pipeline_sync_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/phase61_pipeline_sync_tests",
+          "bytes": 3255384,
+          "sha256": "8e6076117911152e3467daf7f9546cb4e0554deb6b106fb1f2e466269cf19384"
+        }
+      },
+      "paused_speed_pipeline_tests": {
+        "sha256": "916a5f55db3843bb9a318eb9e813f0ade56826f9ab517928e196f4ca006a143e",
+        "bytes": 3203816,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/paused_speed_pipeline_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/paused_speed_pipeline_tests",
+          "bytes": 3203816,
+          "sha256": "916a5f55db3843bb9a318eb9e813f0ade56826f9ab517928e196f4ca006a143e"
+        }
+      },
+      "phase62_loop_tests": {
+        "sha256": "d35bc28b2febcf4c2be336495eef63e56e99ecd1c9d0fe3373d75d7038af3b62",
+        "bytes": 3209872,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase62_loop_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/phase62_loop_tests",
+          "bytes": 3209872,
+          "sha256": "d35bc28b2febcf4c2be336495eef63e56e99ecd1c9d0fe3373d75d7038af3b62"
+        }
+      },
+      "phase62_render_tests": {
+        "sha256": "744fac2a35b1aeb9683f6d3f4770c1095b178584fc8eea16fb3710347fe13a1e",
+        "bytes": 3822968,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase62_render_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/phase62_render_tests",
+          "bytes": 3822968,
+          "sha256": "744fac2a35b1aeb9683f6d3f4770c1095b178584fc8eea16fb3710347fe13a1e"
+        }
+      },
+      "phase62_fix_safety_tests": {
+        "sha256": "a8f66cee9acea7d39fa33d5a8ed7612fc63aea330691b37f13a044f3385e7637",
+        "bytes": 3829320,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase62_fix_safety_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/phase62_fix_safety_tests",
+          "bytes": 3829320,
+          "sha256": "a8f66cee9acea7d39fa33d5a8ed7612fc63aea330691b37f13a044f3385e7637"
+        }
+      },
+      "phase62_fix_reuse_tests": {
+        "sha256": "368242a9fa39465b663a2fcb222cf0f2a62d4a49abcb2793b8e026670843c882",
+        "bytes": 3206440,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase62_fix_reuse_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/phase62_fix_reuse_tests",
+          "bytes": 3206440,
+          "sha256": "368242a9fa39465b663a2fcb222cf0f2a62d4a49abcb2793b8e026670843c882"
+        }
+      },
+      "phase62_fix_render_tests": {
+        "sha256": "ffbc9666268d3019536113d7aee67c67c50e555964a2f0a4e3952578e1cb8960",
+        "bytes": 3804728,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase62_fix_render_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/phase62_fix_render_tests",
+          "bytes": 3804728,
+          "sha256": "ffbc9666268d3019536113d7aee67c67c50e555964a2f0a4e3952578e1cb8960"
+        }
+      },
+      "phase62_fix_checkpoint_tests": {
+        "sha256": "db08c139ba21849ea32e898765e7d721bd712c60e1f9d263732feb683564c148",
+        "bytes": 1936752,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase62_fix_checkpoint_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/phase62_fix_checkpoint_tests",
+          "bytes": 1936752,
+          "sha256": "db08c139ba21849ea32e898765e7d721bd712c60e1f9d263732feb683564c148"
+        }
+      },
+      "phase62_dynamic_boundary_tests": {
+        "sha256": "04cde67705378c6f7dfa3a3e0f6c4680651e2328ebffcb19622079a2942686b1",
+        "bytes": 3837456,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase62_dynamic_boundary_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/phase62_dynamic_boundary_tests",
+          "bytes": 3837456,
+          "sha256": "04cde67705378c6f7dfa3a3e0f6c4680651e2328ebffcb19622079a2942686b1"
+        }
+      },
+      "phase62_native_tests": {
+        "sha256": "4653d922cb442a00307279e536913a1b834d9f1976d3dbaacd298975341739e3",
+        "bytes": 3964072,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase62_native_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/phase62_native_tests",
+          "bytes": 3964072,
+          "sha256": "4653d922cb442a00307279e536913a1b834d9f1976d3dbaacd298975341739e3"
+        }
+      },
+      "paused_speed_loop_tests": {
+        "sha256": "39b88f0791c52aad2c8dff4a73508ef2fcf51f70786dd8b443f70c8659e0a643",
+        "bytes": 3934712,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/paused_speed_loop_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/paused_speed_loop_tests",
+          "bytes": 3934712,
+          "sha256": "39b88f0791c52aad2c8dff4a73508ef2fcf51f70786dd8b443f70c8659e0a643"
+        }
+      },
+      "phase62_loop_speed_ledger_tests": {
+        "sha256": "2069553967b9ceba5718f2f646338e07a4134c3183e63a22579c1b586ebfa3f6",
+        "bytes": 96560,
+        "executed_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase62_loop_speed_ledger_tests",
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/phase62_loop_speed_ledger_tests",
+          "bytes": 96560,
+          "sha256": "2069553967b9ceba5718f2f646338e07a4134c3183e63a22579c1b586ebfa3f6"
+        }
+      }
+    }
+  },
+  "reference_scope": "This gate asserts deterministic CTest results; it does not assert an external frozen DSP oracle comparison.",
+  "test_runtimes": {
+    "Release": {
+      "phase59_certified_planning": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase59_tests",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase59_tests",
+          "bytes": 504432,
+          "sha256": "8ec025a4c021eb1042946a99eb0609a0c8ca2c3d5ec0521a3f64749c04c64eb2"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/runtimes/phase59_certified_planning",
+          "bytes": 504432,
+          "sha256": "8ec025a4c021eb1042946a99eb0609a0c8ca2c3d5ec0521a3f64749c04c64eb2"
+        }
+      },
+      "phase59_request_control": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase59_control_tests",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase59_control_tests",
+          "bytes": 786056,
+          "sha256": "ff39c4156d22503ceb839d511794960989fd44b5f9e4121f8db44e5aae07e6f3"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/runtimes/phase59_request_control",
+          "bytes": 786056,
+          "sha256": "ff39c4156d22503ceb839d511794960989fd44b5f9e4121f8db44e5aae07e6f3"
+        }
+      },
+      "phase61_contract": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase61_contract_tests"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase61_contract_tests",
+          "bytes": 37464,
+          "sha256": "f15d53c50dfc3a6f1d6576185b33d23a5918297d11ab5201f5b7630f1e2de2e9"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/runtimes/phase61_contract",
+          "bytes": 37464,
+          "sha256": "f15d53c50dfc3a6f1d6576185b33d23a5918297d11ab5201f5b7630f1e2de2e9"
+        }
+      },
+      "phase61_checkpoint": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase61_checkpoint_tests",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase61_checkpoint_tests",
+          "bytes": 507192,
+          "sha256": "43ea61b89ce69f2c63f4a14a4ed23e1ee9d1db70d2a532b12a39f85f4c1942b3"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/runtimes/phase61_checkpoint",
+          "bytes": 507192,
+          "sha256": "43ea61b89ce69f2c63f4a14a4ed23e1ee9d1db70d2a532b12a39f85f4c1942b3"
+        }
+      },
+      "phase61_safety": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase61_safety_tests",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase61_safety_tests",
+          "bytes": 785368,
+          "sha256": "4c4d8271e8a24c1bead5d695046e65ba719579691fdd484d41e6c5928264505f"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/runtimes/phase61_safety",
+          "bytes": 785368,
+          "sha256": "4c4d8271e8a24c1bead5d695046e65ba719579691fdd484d41e6c5928264505f"
+        }
+      },
+      "phase61_output_transition": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase61_output_transition_tests"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase61_output_transition_tests",
+          "bytes": 37152,
+          "sha256": "9494ab59a2ef9a26e8bf6eff33d1aee3e98a0b75e0ec14e5b6fb1dddd0330722"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/runtimes/phase61_output_transition",
+          "bytes": 37152,
+          "sha256": "9494ab59a2ef9a26e8bf6eff33d1aee3e98a0b75e0ec14e5b6fb1dddd0330722"
+        }
+      },
+      "phase61_pipeline_sync": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase61_pipeline_sync_tests",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase61_pipeline_sync_tests",
+          "bytes": 805320,
+          "sha256": "83f4a04179ce77d3f6f0492c04a0141c2811a3d5c773925f65afb80b470bd78d"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/runtimes/phase61_pipeline_sync",
+          "bytes": 805320,
+          "sha256": "83f4a04179ce77d3f6f0492c04a0141c2811a3d5c773925f65afb80b470bd78d"
+        }
+      },
+      "paused_speed_pipeline": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/paused_speed_pipeline_tests",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/paused_speed_pipeline_tests",
+          "bytes": 768488,
+          "sha256": "60bd4d063983a5780d3943888d9a80a66b55d55e6955d5cb58ecee5fa305d737"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/runtimes/paused_speed_pipeline",
+          "bytes": 768488,
+          "sha256": "60bd4d063983a5780d3943888d9a80a66b55d55e6955d5cb58ecee5fa305d737"
+        }
+      },
+      "phase62_loop": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_loop_tests",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_loop_tests",
+          "bytes": 785536,
+          "sha256": "9d889395ff325a72c58214d726ce461b6f332e3cc4ad65c57d2dea37c28a88f6"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/runtimes/phase62_loop",
+          "bytes": 785536,
+          "sha256": "9d889395ff325a72c58214d726ce461b6f332e3cc4ad65c57d2dea37c28a88f6"
+        }
+      },
+      "phase62_render": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_render_tests",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_render_tests",
+          "bytes": 962936,
+          "sha256": "d437994bfcfa973d723c141688a4e65999427867521286adfdf6d5b912d51563"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/runtimes/phase62_render",
+          "bytes": 962936,
+          "sha256": "d437994bfcfa973d723c141688a4e65999427867521286adfdf6d5b912d51563"
+        }
+      },
+      "phase62_fix_safety": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_fix_safety_tests",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_fix_safety_tests",
+          "bytes": 946696,
+          "sha256": "000c4c98f8dfd08ea4a1933d2669a0a004612307a69911622918680c9f9c829e"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/runtimes/phase62_fix_safety",
+          "bytes": 946696,
+          "sha256": "000c4c98f8dfd08ea4a1933d2669a0a004612307a69911622918680c9f9c829e"
+        }
+      },
+      "phase62_evidence": {
+        "command": [
+          "/usr/local/bin/python3",
+          "-B",
+          "/Users/taro252/Docker/TimeStretchLab/tests/Phase62EvidenceTests.py"
+        ],
+        "executed": {
+          "path": "/usr/local/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+          "bytes": 13592,
+          "sha256": "291d07f4245d3496a8026d84e211c4084a85f5abaca0ad1871cba6e494620a19"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/runtimes/phase62_evidence",
+          "bytes": 13592,
+          "sha256": "291d07f4245d3496a8026d84e211c4084a85f5abaca0ad1871cba6e494620a19"
+        }
+      },
+      "phase62_fix_reuse": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_fix_reuse_tests",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_fix_reuse_tests",
+          "bytes": 785624,
+          "sha256": "89783c3c9c1c20eb2253cfb9ad0f7be673a4d4ef90643e083d4d834d34c368ae"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/runtimes/phase62_fix_reuse",
+          "bytes": 785624,
+          "sha256": "89783c3c9c1c20eb2253cfb9ad0f7be673a4d4ef90643e083d4d834d34c368ae"
+        }
+      },
+      "phase62_fix_period": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_fix_render_tests",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_fix_render_tests",
+          "bytes": 945912,
+          "sha256": "6b4e4cc85dea0b6112429a2486de94b54e004d291539ac3219dfbf18d073d3d2"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/runtimes/phase62_fix_period",
+          "bytes": 945912,
+          "sha256": "6b4e4cc85dea0b6112429a2486de94b54e004d291539ac3219dfbf18d073d3d2"
+        }
+      },
+      "phase62_fix_checkpoint": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_fix_checkpoint_tests",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_fix_checkpoint_tests",
+          "bytes": 457696,
+          "sha256": "cde6344b639cecaf962b6fd91075f37ffd9d4564053ba5098803d6325ac0a9a2"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/runtimes/phase62_fix_checkpoint",
+          "bytes": 457696,
+          "sha256": "cde6344b639cecaf962b6fd91075f37ffd9d4564053ba5098803d6325ac0a9a2"
+        }
+      },
+      "phase62_dynamic_boundary": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_dynamic_boundary_tests",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_dynamic_boundary_tests",
+          "bytes": 962688,
+          "sha256": "d4f08334133596e293922076fb2d41f08cdc726bf3d3f98f232e685fede0bb61"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/runtimes/phase62_dynamic_boundary",
+          "bytes": 962688,
+          "sha256": "d4f08334133596e293922076fb2d41f08cdc726bf3d3f98f232e685fede0bb61"
+        }
+      },
+      "phase62_loop_speed_ledger": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_loop_speed_ledger_tests"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_loop_speed_ledger_tests",
+          "bytes": 38560,
+          "sha256": "caca556be698e78231f24b56b4b5e785f07154eaeae7b14b8418d09081a4360b"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/runtimes/phase62_loop_speed_ledger",
+          "bytes": 38560,
+          "sha256": "caca556be698e78231f24b56b4b5e785f07154eaeae7b14b8418d09081a4360b"
+        }
+      },
+      "phase62_finish_evidence": {
+        "command": [
+          "/usr/local/bin/python3",
+          "-B",
+          "/Users/taro252/Docker/TimeStretchLab/tests/Phase62FinishEvidenceTests.py"
+        ],
+        "executed": {
+          "path": "/usr/local/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+          "bytes": 13592,
+          "sha256": "291d07f4245d3496a8026d84e211c4084a85f5abaca0ad1871cba6e494620a19"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Release/runtimes/phase62_finish_evidence",
+          "bytes": 13592,
+          "sha256": "291d07f4245d3496a8026d84e211c4084a85f5abaca0ad1871cba6e494620a19"
+        }
+      }
+    },
+    "Debug": {
+      "phase59_certified_planning": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase59_tests",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase59_tests",
+          "bytes": 2218752,
+          "sha256": "0a728e41f81b0c730201b73543bf82aec83038ee51b75de1b2ed4062f566060f"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/runtimes/phase59_certified_planning",
+          "bytes": 2218752,
+          "sha256": "0a728e41f81b0c730201b73543bf82aec83038ee51b75de1b2ed4062f566060f"
+        }
+      },
+      "phase59_request_control": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase59_control_tests",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase59_control_tests",
+          "bytes": 3234872,
+          "sha256": "9fb1e4c02d1f158bdcd0e3e2219f7ff0b52cb72b2a4f6c854e9270b7634cc21d"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/runtimes/phase59_request_control",
+          "bytes": 3234872,
+          "sha256": "9fb1e4c02d1f158bdcd0e3e2219f7ff0b52cb72b2a4f6c854e9270b7634cc21d"
+        }
+      },
+      "phase61_contract": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase61_contract_tests"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase61_contract_tests",
+          "bytes": 46008,
+          "sha256": "bd3a25226bf1a1a54997cf5659ad93cf415eebc874fd63b5e61055750eba46f4"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/runtimes/phase61_contract",
+          "bytes": 46008,
+          "sha256": "bd3a25226bf1a1a54997cf5659ad93cf415eebc874fd63b5e61055750eba46f4"
+        }
+      },
+      "phase61_checkpoint": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase61_checkpoint_tests",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase61_checkpoint_tests",
+          "bytes": 2263368,
+          "sha256": "3cf6fbc06b6f5a683708699373eb6f89157a80f8d1d5d644199dd4b15ee22a5c"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/runtimes/phase61_checkpoint",
+          "bytes": 2263368,
+          "sha256": "3cf6fbc06b6f5a683708699373eb6f89157a80f8d1d5d644199dd4b15ee22a5c"
+        }
+      },
+      "phase61_safety": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase61_safety_tests",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase61_safety_tests",
+          "bytes": 3202280,
+          "sha256": "08e3ba7014b7abe10e5112f768e7aa1156d0a5a817c3d9fa0128ca05af87c2f9"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/runtimes/phase61_safety",
+          "bytes": 3202280,
+          "sha256": "08e3ba7014b7abe10e5112f768e7aa1156d0a5a817c3d9fa0128ca05af87c2f9"
+        }
+      },
+      "phase61_output_transition": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase61_output_transition_tests"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase61_output_transition_tests",
+          "bytes": 46288,
+          "sha256": "ded9290f3102dd19363410dcf8490baab959c623a0e5442bb53a94632e982e02"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/runtimes/phase61_output_transition",
+          "bytes": 46288,
+          "sha256": "ded9290f3102dd19363410dcf8490baab959c623a0e5442bb53a94632e982e02"
+        }
+      },
+      "phase61_pipeline_sync": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase61_pipeline_sync_tests",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase61_pipeline_sync_tests",
+          "bytes": 3255384,
+          "sha256": "8e6076117911152e3467daf7f9546cb4e0554deb6b106fb1f2e466269cf19384"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/runtimes/phase61_pipeline_sync",
+          "bytes": 3255384,
+          "sha256": "8e6076117911152e3467daf7f9546cb4e0554deb6b106fb1f2e466269cf19384"
+        }
+      },
+      "paused_speed_pipeline": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/paused_speed_pipeline_tests",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/paused_speed_pipeline_tests",
+          "bytes": 3203816,
+          "sha256": "916a5f55db3843bb9a318eb9e813f0ade56826f9ab517928e196f4ca006a143e"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/runtimes/paused_speed_pipeline",
+          "bytes": 3203816,
+          "sha256": "916a5f55db3843bb9a318eb9e813f0ade56826f9ab517928e196f4ca006a143e"
+        }
+      },
+      "phase62_loop": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase62_loop_tests",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase62_loop_tests",
+          "bytes": 3209872,
+          "sha256": "d35bc28b2febcf4c2be336495eef63e56e99ecd1c9d0fe3373d75d7038af3b62"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/runtimes/phase62_loop",
+          "bytes": 3209872,
+          "sha256": "d35bc28b2febcf4c2be336495eef63e56e99ecd1c9d0fe3373d75d7038af3b62"
+        }
+      },
+      "phase62_render": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase62_render_tests",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase62_render_tests",
+          "bytes": 3822968,
+          "sha256": "744fac2a35b1aeb9683f6d3f4770c1095b178584fc8eea16fb3710347fe13a1e"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/runtimes/phase62_render",
+          "bytes": 3822968,
+          "sha256": "744fac2a35b1aeb9683f6d3f4770c1095b178584fc8eea16fb3710347fe13a1e"
+        }
+      },
+      "phase62_fix_safety": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase62_fix_safety_tests",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase62_fix_safety_tests",
+          "bytes": 3829320,
+          "sha256": "a8f66cee9acea7d39fa33d5a8ed7612fc63aea330691b37f13a044f3385e7637"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/runtimes/phase62_fix_safety",
+          "bytes": 3829320,
+          "sha256": "a8f66cee9acea7d39fa33d5a8ed7612fc63aea330691b37f13a044f3385e7637"
+        }
+      },
+      "phase62_evidence": {
+        "command": [
+          "/usr/local/bin/python3",
+          "-B",
+          "/Users/taro252/Docker/TimeStretchLab/tests/Phase62EvidenceTests.py"
+        ],
+        "executed": {
+          "path": "/usr/local/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+          "bytes": 13592,
+          "sha256": "291d07f4245d3496a8026d84e211c4084a85f5abaca0ad1871cba6e494620a19"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/runtimes/phase62_evidence",
+          "bytes": 13592,
+          "sha256": "291d07f4245d3496a8026d84e211c4084a85f5abaca0ad1871cba6e494620a19"
+        }
+      },
+      "phase62_fix_reuse": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase62_fix_reuse_tests",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase62_fix_reuse_tests",
+          "bytes": 3206440,
+          "sha256": "368242a9fa39465b663a2fcb222cf0f2a62d4a49abcb2793b8e026670843c882"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/runtimes/phase62_fix_reuse",
+          "bytes": 3206440,
+          "sha256": "368242a9fa39465b663a2fcb222cf0f2a62d4a49abcb2793b8e026670843c882"
+        }
+      },
+      "phase62_fix_period": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase62_fix_render_tests",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase62_fix_render_tests",
+          "bytes": 3804728,
+          "sha256": "ffbc9666268d3019536113d7aee67c67c50e555964a2f0a4e3952578e1cb8960"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/runtimes/phase62_fix_period",
+          "bytes": 3804728,
+          "sha256": "ffbc9666268d3019536113d7aee67c67c50e555964a2f0a4e3952578e1cb8960"
+        }
+      },
+      "phase62_fix_checkpoint": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase62_fix_checkpoint_tests",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase62_fix_checkpoint_tests",
+          "bytes": 1936752,
+          "sha256": "db08c139ba21849ea32e898765e7d721bd712c60e1f9d263732feb683564c148"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/runtimes/phase62_fix_checkpoint",
+          "bytes": 1936752,
+          "sha256": "db08c139ba21849ea32e898765e7d721bd712c60e1f9d263732feb683564c148"
+        }
+      },
+      "phase62_dynamic_boundary": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase62_dynamic_boundary_tests",
+          "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/mix.wav"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase62_dynamic_boundary_tests",
+          "bytes": 3837456,
+          "sha256": "04cde67705378c6f7dfa3a3e0f6c4680651e2328ebffcb19622079a2942686b1"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/runtimes/phase62_dynamic_boundary",
+          "bytes": 3837456,
+          "sha256": "04cde67705378c6f7dfa3a3e0f6c4680651e2328ebffcb19622079a2942686b1"
+        }
+      },
+      "phase62_loop_speed_ledger": {
+        "command": [
+          "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase62_loop_speed_ledger_tests"
+        ],
+        "executed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/debug/phase62_loop_speed_ledger_tests",
+          "bytes": 96560,
+          "sha256": "2069553967b9ceba5718f2f646338e07a4134c3183e63a22579c1b586ebfa3f6"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/runtimes/phase62_loop_speed_ledger",
+          "bytes": 96560,
+          "sha256": "2069553967b9ceba5718f2f646338e07a4134c3183e63a22579c1b586ebfa3f6"
+        }
+      },
+      "phase62_finish_evidence": {
+        "command": [
+          "/usr/local/bin/python3",
+          "-B",
+          "/Users/taro252/Docker/TimeStretchLab/tests/Phase62FinishEvidenceTests.py"
+        ],
+        "executed": {
+          "path": "/usr/local/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+          "bytes": 13592,
+          "sha256": "291d07f4245d3496a8026d84e211c4084a85f5abaca0ad1871cba6e494620a19"
+        },
+        "preserved": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/executed_binaries/Debug/runtimes/phase62_finish_evidence",
+          "bytes": 13592,
+          "sha256": "291d07f4245d3496a8026d84e211c4084a85f5abaca0ad1871cba6e494620a19"
+        }
+      }
+    }
+  },
+  "summary": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v7/SUMMARY.json",
+    "bytes": 73686,
+    "sha256": "abdd142f4235228ef0268325516f50bba6ffa9651b728b347462eed5b9b1a5bf"
+  },
+  "local_overall_go": false
+}

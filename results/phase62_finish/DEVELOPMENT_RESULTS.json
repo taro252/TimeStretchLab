@@ -1,0 +1,540 @@
+{
+  "schema": 1,
+  "rows": [
+    {
+      "id": "started_history_and_limit_reason_before",
+      "status": "REPRODUCED",
+      "expected": 2,
+      "executed": 2,
+      "reason": "基準commitでStarted履歴がReplacedとなること、4096相当の拒否reason欠落を最小再現。main-threadの初回host起動失敗は別記録。",
+      "evidence": [
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/repro/attempt2/EXPECTED.json",
+          "bytes": 109512,
+          "sha256": "2a1e23c31b5611052e7315642a776ffd281c20e5690da813f7cf34e856188cfc"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/repro/attempt2/SUMMARY.json",
+          "bytes": 407,
+          "sha256": "e6205f7e6a5bcc884b5af17f6e2bd983869474f61ad8f018f634c8c135c48ddf"
+        }
+      ]
+    },
+    {
+      "id": "initial_clear_before",
+      "status": "REPRODUCED",
+      "reason": "通常Playingの初回ReturnToA準備中:速度75%→Clear。継続不要なのに速度IDを移管しPreparingが残留。失敗後Stopでの取消と、Clear直後台帳を別保存。",
+      "evidence": [
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/initial_return_clear_before_v2/after_Clear_ledger.jsonl",
+          "bytes": 807,
+          "sha256": "0537b212a1d71506a906c0240fc5d1399761c0dcc3e62b2d465b46aba62e2843"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/initial_return_clear_before_v2/SUMMARY.json",
+          "bytes": 147,
+          "sha256": "9012d8f068067cfe2c1d06f3ebf36bd28e6adc63fd5a0ad21e1172f0c0a8ec26"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/INITIAL_CLEAR_REPRO_V2_SOURCE.json",
+          "bytes": 111361,
+          "sha256": "c4e8eca89484bc656615bcc1914b80786fb180baf969b6199ad492974cdcf523"
+        }
+      ]
+    },
+    {
+      "id": "cache_dynamic_RAW_overwrite",
+      "status": "FAIL_FIXED",
+      "reason": "開発中の96000 cache動的変更で固定cache容量を越えるRAWを書き込んだ実abort。動的commit後cache保存を止めた。最終16通常APIと12cache条件で再検証。",
+      "evidence": [
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/api_dev_v3/cache96000_warm2_candidate/host.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/Users/taro252/Library/Logs/DiagnosticReports/phase62_api_oracle_native-2026-10-21-064732.ips",
+          "bytes": 27296,
+          "sha256": "26371ccc5edaea2e7f9d1a25237c7568a584bb1979cfe1f1d3add24d71a9b65b"
+        }
+      ]
+    },
+    {
+      "id": "oracle_fence_checker",
+      "status": "CHECKER_FIXED",
+      "reason": "独立plannerの入力publishedと採用fenceの異なる列を誤比較。製品変更で合わせず監査scriptの列対応を修正。元FAILを保存し、別REAUDITへ分離。",
+      "evidence": [
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/offline_api_reaudit_v1/REAUDIT.json",
+          "bytes": 1196,
+          "sha256": "bc1e9169bb94f19d27bbb0375b5605326e5c1a4d79cc0f04591077eb2df83ecd"
+        }
+      ]
+    },
+    {
+      "id": "superseded_gate_v1",
+      "status": "INCOMPLETE_FOR_FINAL",
+      "reason": "後続のソース修正で最終証拠から除外。途中結果・全完走した旧ソース結果を残す。",
+      "evidence": [
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v1/EXPECTED.json",
+          "bytes": 6471,
+          "sha256": "9a20a2de1e4467c2886578cbc57f482df5d008cb80a81f9b58f398ae4d49092e"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v1/SUMMARY.json",
+          "bytes": 39329,
+          "sha256": "3de46b947e8e448e8c24627ed5a7f0fad4847792b6414b02ce71fc64894eff01"
+        }
+      ]
+    },
+    {
+      "id": "superseded_gate_v2",
+      "status": "INCOMPLETE_FOR_FINAL",
+      "reason": "後続のソース修正で最終証拠から除外。途中結果・全完走した旧ソース結果を残す。",
+      "evidence": [
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v2/EXPECTED.json",
+          "bytes": 6471,
+          "sha256": "6959cf3d83512e7936ef509bc9549469dab5167d354b88596e39028975feb737"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v2/SUMMARY.json",
+          "bytes": 73736,
+          "sha256": "c2ff1ff58b1f673a5138704225cf104b3e0414f2ced0452ecfb001b0665abf01"
+        }
+      ]
+    },
+    {
+      "id": "superseded_gate_v3",
+      "status": "INCOMPLETE_FOR_FINAL",
+      "reason": "後続のソース修正で最終証拠から除外。途中結果・全完走した旧ソース結果を残す。",
+      "evidence": [
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v3/EXPECTED.json",
+          "bytes": 6471,
+          "sha256": "9bc11539c8e15fad81d4da1a69a5ab05f59c2ff4b202e227df60c8363ce93d40"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v3/SUMMARY.json",
+          "bytes": 73681,
+          "sha256": "c037dd85e9b8efc723cbb6e811d6a424285d587315c7c15c8fc53a2a6fd36017"
+        }
+      ]
+    },
+    {
+      "id": "superseded_gate_v4",
+      "status": "INCOMPLETE_FOR_FINAL",
+      "reason": "後続のソース修正で最終証拠から除外。途中結果・全完走した旧ソース結果を残す。",
+      "evidence": [
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v4/EXPECTED.json",
+          "bytes": 6471,
+          "sha256": "60d401a5b62312081aff8ff98a5c58f06c510c430652da7f5e6ab88a7cb5fc65"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/deterministic_final_v4/SUMMARY.json",
+          "bytes": 39329,
+          "sha256": "c24f243cfbafae6c4f423c25034bdb4c67b037e36874c58ba8b913ea55f7e644"
+        }
+      ]
+    },
+    {
+      "id": "metadata_preflight",
+      "status": "NOT_PRODUCT_FAILURE",
+      "reason": "既存summaryへの再実行拒否、欠けたNumPy、誤target/stale binaryのpreflightは製品PASSへ数えない。新規保存先・正しい環境で実行し直す。",
+      "evidence": [
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/AGGREGATION_FINAL_V3.json",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/build_initial_clear_repro.log",
+          "bytes": 617,
+          "sha256": "b382b27efadb614657ce37ac1de8183476ad2d7792a209bb833022401b7117ca"
+        }
+      ]
+    },
+    {
+      "id": "paused_Clear_completion_before_Resume",
+      "status": "FAIL_FIXED",
+      "source_inventory_sha256": "958f402ad625d1a9e5c38e210f6afb8c44589dae327f783bb1756051f20fedf2",
+      "reason": "長尺A0/30/270でclearPending=falseが再開開始成功より先に見える通知競合。3条件は最終統計欠落のFAIL、後続stressは修正のため中断。完走扱いしない。",
+      "evidence": [
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/extended_native_v1/final_native_gates_v10/longA_0_candidate.log",
+          "bytes": 43,
+          "sha256": "86d0ad96191b06433a326902ac51cebdc8d42a5778cb0d06ed9aefd620410083"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/extended_native_v1/final_native_gates_v10/longA_30_candidate.log",
+          "bytes": 43,
+          "sha256": "86d0ad96191b06433a326902ac51cebdc8d42a5778cb0d06ed9aefd620410083"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/extended_native_v1/final_native_gates_v10/longA_270_candidate.log",
+          "bytes": 43,
+          "sha256": "86d0ad96191b06433a326902ac51cebdc8d42a5778cb0d06ed9aefd620410083"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/extended_native_v1/SUMMARY.json",
+          "bytes": 353463,
+          "sha256": "5350032280d438ce96de3ba07a8572c9594e6c21616ed2590ba35a851c431e6e"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/CLEAR_COMPLETION_SOURCE_DELTA.json",
+          "bytes": 657,
+          "sha256": "031a5104b36d3425730e0c3130dd618155b0a29fc80da6aa5bead2deb3046096"
+        }
+      ],
+      "old_native_child_expected_programs": 13,
+      "old_native_child_executed_programs": 8,
+      "old_native_child_rows": [
+        {
+          "id": "release_paused_candidate",
+          "status": "PASS",
+          "exit": 0,
+          "seconds": 25.08277702331543
+        },
+        {
+          "id": "release_paused_baseline",
+          "status": "PASS",
+          "exit": 0,
+          "seconds": 24.442511081695557
+        },
+        {
+          "id": "debug_paused_candidate",
+          "status": "PASS",
+          "exit": 0,
+          "seconds": 28.678221940994263
+        },
+        {
+          "id": "debug_paused_baseline",
+          "status": "PASS",
+          "exit": 0,
+          "seconds": 27.6753408908844
+        },
+        {
+          "id": "faults",
+          "status": "PASS",
+          "exit": 0,
+          "seconds": 3.7015647888183594
+        },
+        {
+          "id": "longA_0_candidate",
+          "status": "FAIL",
+          "exit": 1,
+          "seconds": 13.156148195266724
+        },
+        {
+          "id": "longA_30_candidate",
+          "status": "FAIL",
+          "exit": 1,
+          "seconds": 19.50050187110901
+        },
+        {
+          "id": "longA_270_candidate",
+          "status": "FAIL",
+          "exit": 1,
+          "seconds": 71.33800292015076
+        }
+      ],
+      "fail_log_text": "clear did not continue or reach normal EOS\n",
+      "not_run": [
+        "longA_0_baseline",
+        "longA_30_baseline",
+        "longA_270_baseline",
+        "stress_baseline"
+      ],
+      "interrupted": "stress_candidate。修正のためprocess group終了。最終統計欠落、PASS不可。",
+      "focused_after_fix": {
+        "file": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/clear_completion_longA0_after/result.json",
+          "bytes": 1468,
+          "sha256": "7f61c5da6dbb789d6cae97c031dc6029b896decc2364bb03a56e4800e02e18bf"
+        },
+        "content": {
+          "functional_pass": true,
+          "cycles": 4,
+          "rate": 48000,
+          "channels": 2,
+          "speed": 1,
+          "range_seconds": 3,
+          "input_a": 0,
+          "input_b_exclusive": 144000,
+          "period_frames": 144000,
+          "reuse_count": 4,
+          "map_builds": 1,
+          "workers_created": 2,
+          "cache_bytes": 0,
+          "seed_restores": 4,
+          "cold_discarded_frames": 0,
+          "warm_discarded_frames": 0,
+          "fft_plans": 18,
+          "warm_fft_plans": 0,
+          "seed_clones": 1,
+          "map_s": 0.001576667,
+          "map_cpu_s": 0.001460667,
+          "analysis_wait_s": 0.828067416,
+          "dsp_construct_s": 0.002983291,
+          "cold_prefix_s": 0.014090792,
+          "cold_prefix_cpu_s": 0.014091083,
+          "cold_dsp_cpu_s": 0.77785929,
+          "warm_work_cpu_s": 2.641049507,
+          "restore_s": 0.002177249,
+          "output_affected_frames": 0,
+          "failure_padding_frames": 0,
+          "preset": "candidate",
+          "mode": "normal",
+          "raw_mix_errors": 0,
+          "nonfinite": 0,
+          "zero_source_or_output_frames": 0,
+          "safety_stop_frames": 0,
+          "missing_frames": 0,
+          "underrun_calls": 0,
+          "worker_deadlines": 0,
+          "worker_new": 0,
+          "workgroup_errors": 0,
+          "archived_epochs": 1,
+          "retained_epochs": 1,
+          "final_worker_deadlines": 0,
+          "final_worker_new": 0,
+          "final_workgroup_errors": 0,
+          "final_missing_frames": 0,
+          "final_archived_epochs": 2,
+          "callback_deadlines": 0,
+          "host_errors": 0,
+          "sample_errors": 0,
+          "hal_window_misses": 0,
+          "invalid_sample_time_calls": 0,
+          "invalid_rate_scalar_calls": 0,
+          "callback_new": 0,
+          "callback_heap_calls": 0,
+          "callback_frees": 0,
+          "process_cpu_s": 5.00723,
+          "wall_s": 13.1917815,
+          "rss_start": 114900992,
+          "rss_end": 114737152,
+          "peak_rss": 114917376,
+          "ready_ms": 880.234333,
+          "last_prepare_ms": 879.708583,
+          "max_prepare_ms": 879.708583,
+          "preparations": 1,
+          "device_rate": 48000,
+          "device_buffer": 512
+        }
+      }
+    },
+    {
+      "id": "failure_retirement_restart",
+      "status": "REPRODUCED_FIXED",
+      "source_before": "03df5d33f8c0b4954f0aeffa61e5d6acf153cb63a531bb32f9ab293a67aa4f34",
+      "source_after": "fa2b6f4fea83e06b4d31433478ae01cae5d98c3465267c990625d4a30a171c8a",
+      "reason": "StoppedSpeed Failedを公開してもseekBusy中にPlayが再開意思を受理する競合。通常worker RetiringPreparationの決定的ゲートで修正前FAILを再現。再開禁止を準備待ちより先に判定する。",
+      "reproduction": {
+        "exit": 1,
+        "status": "REPRODUCED",
+        "log": "{\"case\":\"switched_pause\",\"candidate\":1,\"target\":72017,\"frozen\":72529,\"PASS\":true}\n{\"case\":\"burst\",\"candidate\":1,\"PASS\":true}\n{\"case\":\"reverse\",\"candidate\":1,\"PASS\":true}\n{\"case\":\"idle_resources\",\"candidate\":1,\"cpu_delta_s\":0.000415,\"rss_delta\":0,\"fd_bytes\":360,\"PASS\":true}\n{\"case\":\"cancel\",\"candidate\":1,\"PASS\":true}\n{\"case\":\"seek\",\"candidate\":1,\"PASS\":true}\n{\"case\":\"invalid\",\"candidate\":1,\"PASS\":true}\n{\"case\":\"stop\",\"candidate\":1,\"PASS\":true}\n{\"case\":\"route\",\"candidate\":1,\"PASS\":true}\n{\"case\":\"close\",\"candidate\":1,\"PASS\":true}\n{\"case\":\"input\",\"candidate\":1,\"PASS\":true}\nfailure retirement registered a deferred restart\n",
+        "source_inventory_sha256": "03df5d33f8c0b4954f0aeffa61e5d6acf153cb63a531bb32f9ab293a67aa4f34"
+      },
+      "expected": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/failure_retirement_before/EXPECTED.json",
+        "bytes": 112070,
+        "sha256": "e58844564f87dfb004e8d917b0cefb04f07a54bce3210df399a9c30e44448785"
+      },
+      "failed_native_group": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/extended_native_v2/SUMMARY.json",
+        "bytes": 31403,
+        "sha256": "1f68e38dcbeda84db4922ffaf182ffa0389081d303b462f49c2315de041473ca"
+      },
+      "after_fix": {
+        "summary": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/failure_retirement_after/SUMMARY.json",
+          "bytes": 2138,
+          "sha256": "9aa41ec34c14b523ccae9aaf2f629c0a5a9d8c297ee572c85d5051515766adaf"
+        },
+        "result": {
+          "exit": 0,
+          "expected": 21,
+          "executed": 21,
+          "status": "PASS",
+          "rows": [
+            {
+              "case": "switched_pause",
+              "candidate": 1,
+              "target": 72017,
+              "frozen": 72529,
+              "PASS": true
+            },
+            {
+              "case": "burst",
+              "candidate": 1,
+              "PASS": true
+            },
+            {
+              "case": "reverse",
+              "candidate": 1,
+              "PASS": true
+            },
+            {
+              "case": "idle_resources",
+              "candidate": 1,
+              "cpu_delta_s": 0.000321,
+              "rss_delta": 0,
+              "fd_bytes": 360,
+              "PASS": true
+            },
+            {
+              "case": "cancel",
+              "candidate": 1,
+              "PASS": true
+            },
+            {
+              "case": "seek",
+              "candidate": 1,
+              "PASS": true
+            },
+            {
+              "case": "invalid",
+              "candidate": 1,
+              "PASS": true
+            },
+            {
+              "case": "stop",
+              "candidate": 1,
+              "PASS": true
+            },
+            {
+              "case": "route",
+              "candidate": 1,
+              "PASS": true
+            },
+            {
+              "case": "close",
+              "candidate": 1,
+              "PASS": true
+            },
+            {
+              "case": "input",
+              "candidate": 1,
+              "PASS": true
+            },
+            {
+              "case": "failure",
+              "candidate": 1,
+              "PASS": true
+            },
+            {
+              "case": "eof",
+              "candidate": 1,
+              "PASS": true
+            },
+            {
+              "case": "tail",
+              "candidate": 1,
+              "PASS": true
+            },
+            {
+              "case": "playing_pending",
+              "candidate": 1,
+              "PASS": true
+            },
+            {
+              "case": "seek_speed",
+              "candidate": 1,
+              "PASS": true
+            },
+            {
+              "case": "idle_resources",
+              "candidate": 1,
+              "cpu_delta_s": 0.007468,
+              "rss_delta": 0,
+              "fd_bytes": 360,
+              "PASS": true
+            },
+            {
+              "case": "stable",
+              "candidate": 1,
+              "PASS": true
+            },
+            {
+              "case": "idle_resources",
+              "candidate": 1,
+              "cpu_delta_s": 0.000433,
+              "rss_delta": 0,
+              "fd_bytes": 360,
+              "PASS": true
+            },
+            {
+              "case": "double_cancel",
+              "candidate": 1,
+              "PASS": true
+            },
+            {
+              "case": "limit",
+              "candidate": 1,
+              "PASS": true
+            }
+          ],
+          "source_inventory_sha256": "fa2b6f4fea83e06b4d31433478ae01cae5d98c3465267c990625d4a30a171c8a"
+        }
+      },
+      "original_unforced_failure": {
+        "source_inventory_sha256": "56256bb681e5a8051b053025b10dacb917f26c0aed238f3a91452704e563a2ba",
+        "summary": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/extended_native_v2/final_ordinary_paused/SUMMARY.json",
+          "bytes": 1040,
+          "sha256": "e716b673fb3d987289bd3ffe5566fdb58569cf97b88c2fe79e2fe083307aa593"
+        },
+        "expected": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/extended_native_v2/final_ordinary_paused/EXPECTED.json",
+          "bytes": 136964,
+          "sha256": "e088a9d807018270280f571147364fad5dc7cb7dda1b7d7fb0eb81ad304cba44"
+        },
+        "summary_content": {
+          "expected_programs": 8,
+          "executed_programs": 2,
+          "rows": [
+            {
+              "id": "48000_2_candidate_representative",
+              "exit": 0,
+              "status": "PASS",
+              "expected": 9,
+              "executed": 9,
+              "seconds": 6.772037982940674,
+              "log": {
+                "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/extended_native_v2/final_ordinary_paused/48000_2_candidate_representative.log",
+                "bytes": 1701,
+                "sha256": "07f5d707f9e694849a37a63367ff9eaeec32d44922bca55e644b122410e424e0"
+              }
+            },
+            {
+              "id": "48000_2_candidate_controls",
+              "exit": 1,
+              "status": "FAIL",
+              "expected": 21,
+              "executed": 11,
+              "seconds": 2.1109611988067627,
+              "log": {
+                "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/extended_native_v2/final_ordinary_paused/48000_2_candidate_controls.log",
+                "bytes": 597,
+                "sha256": "d5334eeeb9cefa8379c40cea215861426e4265fefea8c45e33a613b1c85fa637"
+              }
+            }
+          ],
+          "local_overall_go": false
+        },
+        "failed_log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/extended_native_v2/final_ordinary_paused/48000_2_candidate_controls.log",
+          "bytes": 597,
+          "sha256": "d5334eeeb9cefa8379c40cea215861426e4265fefea8c45e33a613b1c85fa637"
+        },
+        "failed_log_content": "{\"case\":\"switched_pause\",\"candidate\":1,\"target\":72017,\"frozen\":72529,\"PASS\":true}\n{\"case\":\"burst\",\"candidate\":1,\"PASS\":true}\n{\"case\":\"reverse\",\"candidate\":1,\"PASS\":true}\n{\"case\":\"idle_resources\",\"candidate\":1,\"cpu_delta_s\":0.000235,\"rss_delta\":0,\"fd_bytes\":360,\"PASS\":true}\n{\"case\":\"cancel\",\"candidate\":1,\"PASS\":true}\n{\"case\":\"seek\",\"candidate\":1,\"PASS\":true}\n{\"case\":\"invalid\",\"candidate\":1,\"PASS\":true}\n{\"case\":\"stop\",\"candidate\":1,\"PASS\":true}\n{\"case\":\"route\",\"candidate\":1,\"PASS\":true}\n{\"case\":\"close\",\"candidate\":1,\"PASS\":true}\n{\"case\":\"input\",\"candidate\":1,\"PASS\":true}\nfailure auto resumed\n",
+        "final_statistics_present": false
+      }
+    }
+  ],
+  "old_evidence_preserved": true,
+  "counts_relabelled": false
+}

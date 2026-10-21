@@ -1,0 +1,181 @@
+{
+  "schema": 2,
+  "status": "INCOMPLETE",
+  "review_base": "c4bdbb44d92a367369e8ecf3c51fd50cb3abed4c",
+  "head": "c4bdbb44d92a367369e8ecf3c51fd50cb3abed4c",
+  "branch": "main",
+  "source_inventory_sha256": "fa2b6f4fea83e06b4d31433478ae01cae5d98c3465267c990625d4a30a171c8a",
+  "source_manifest": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_finish/SOURCE_MANIFEST.json",
+    "bytes": 105289,
+    "sha256": "df413c80f97699c163457dc1d1330358d213229cb97c7f091a27963fb27443bb"
+  },
+  "source_delta": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_finish/FINAL_SOURCE_DELTA.json",
+    "bytes": 6401,
+    "sha256": "02f963dfb697993d8d287d4d645429494c0e557e04a956dbf94947eb0cb0db2c"
+  },
+  "metadata_delta": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_finish/FINAL_METADATA_ONLY_DELTA.json",
+    "bytes": 6589,
+    "sha256": "a159f271f1f6bb8daabe55bc95f030e5a2d6e8b247deb65aa4f5285cab0ec70a"
+  },
+  "uncommitted": true,
+  "staged": false,
+  "commit": false,
+  "push": false,
+  "build": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_finish/BUILD_PROVENANCE.json",
+    "bytes": 11660,
+    "sha256": "5d4e3a3cfd99ccbb99e47e82e635b2ace5f3abb893eded765ed6a659d92e8c4e"
+  },
+  "environment": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_finish/ENVIRONMENT.json",
+    "bytes": 2508,
+    "sha256": "8fcacc68e1ff43bbb60654ebdbf910b12c8255546fa046b3cd46f79d13ceaa61"
+  },
+  "references": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_finish/REFERENCE_VERIFIED.json",
+    "bytes": 3331,
+    "sha256": "a9e3ad3d6e6d71785bb9f162a9f63b69b2fe05362c696e91508fc8f49474800e"
+  },
+  "focused": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_finish/COMPACT_FOCUSED.json",
+    "bytes": 970016,
+    "sha256": "fc5872a6b496ebff5750a37d18d50a727e99d1d5af1f9a9098d9daeda120a301"
+  },
+  "deterministic": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_finish/DETERMINISTIC_CERTIFICATE.json",
+    "bytes": 54390,
+    "sha256": "09fc8fdafdeb11cf5146a65df3ad898b0283795278b00f0178f87e8823bf7b48"
+  },
+  "aggregation": [
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_finish/aggregation/FINAL_36.json",
+      "bytes": 1183,
+      "sha256": "4097248d1fd31fdc9eb800784994175bfdeaf9186f6c57ba6036a5a3263811eb"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_finish/aggregation/FINAL_10.json",
+      "bytes": 1206,
+      "sha256": "76eaefa9f030993c8faee78c98abdf52e0c3fd5b6a7ba2a4cd77051c84494992"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_finish/aggregation/COMPACT_LEGACY_SUMMARY.json",
+      "bytes": 6133,
+      "sha256": "981b20a122e441ef2825872261663c0f4dd5872ac3ddd9e3429de94f89a11cb4"
+    }
+  ],
+  "groups": [
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_finish/REUSED_DSP_GROUPS.json",
+      "bytes": 1301539,
+      "sha256": "4644afcf53f07715473fb2fba4564901c0f30a5dd19cdb4e53e893a13fcc2676"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_finish/RENDERER_FINAL_V2.json",
+      "bytes": 36081,
+      "sha256": "1cf5d98586fb1380dfdf098e7b894af0544cadaf0f13326b13e864573c9a6301"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_finish/EXTENDED_NATIVE_V3.json",
+      "bytes": 395405,
+      "sha256": "f64ae7995aca4616fb63c38780fdcb6699b99fd4bbab3fe990cdfd24c4002d29"
+    }
+  ],
+  "reused_DSP_certificate": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_finish/REUSED_DSP_CERTIFICATE.json",
+    "bytes": 10690,
+    "sha256": "5b207e992ec4cc8809be2ea1e6c604de4448a8e858248f5dd59ebb4dde8b8048"
+  },
+  "development": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_finish/DEVELOPMENT_RESULTS.json",
+    "bytes": 21958,
+    "sha256": "338964d2fd1f5a88bb1beb5d06abbeaf869aaec3d7bcc7aa8a2b4e52b1320b6b"
+  },
+  "remaining_required": [
+    {
+      "id": "close_ID_terminal",
+      "status": "INCOMPLETE",
+      "reason": "破棄後の公開照会不可、2件"
+    },
+    {
+      "id": "Applying_return_cancel",
+      "status": "NOT_RUN",
+      "reason": "実DSPのApplying→Requestedと取消の統合注入なし"
+    },
+    {
+      "id": "DSP_Requested_cancel",
+      "status": "INCOMPLETE",
+      "reason": "offer前ゲートと実planner状態は別"
+    },
+    {
+      "id": "native_Started_partial_ID",
+      "status": "INCOMPLETE",
+      "reason": "Started/Doneを分離し部分混合中の操作を確定できていない"
+    },
+    {
+      "id": "Workgroup_join_failure",
+      "status": "NOT_RUN",
+      "reason": "昇格前throwは実参加APIの失敗ではない"
+    },
+    {
+      "id": "Loop_internal_operation_limit",
+      "status": "INCOMPLETE",
+      "reason": "下位4096受付とLoop統合拒否は別"
+    },
+    {
+      "id": "history512_failure",
+      "status": "NOT_RUN",
+      "reason": "単一owner履歴上限の強制注入なし"
+    },
+    {
+      "id": "descriptor64_stale_cycle",
+      "status": "NOT_RUN",
+      "reason": "正常周回と異常追越しは別"
+    },
+    {
+      "id": "checkpoint_reservation_failure",
+      "status": "NOT_RUN",
+      "reason": "正常peak2だけでは失敗時保存の証拠にならない"
+    },
+    {
+      "id": "dynamic_memory_reservation_failure",
+      "status": "NOT_RUN",
+      "reason": "初期prepare予算拒否と別"
+    },
+    {
+      "id": "next_preparation_failure_deadline",
+      "status": "INCOMPLETE",
+      "reason": "供給保持遅延と準備失敗/期限切れの終端は別"
+    }
+  ],
+  "coverage": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_finish/CONTROL_COVERAGE.md",
+    "bytes": 7791,
+    "sha256": "a6f886ea40832075eb0aab3702fd819909fe844168376877bd1f52b0818213eb"
+  },
+  "local_overall_go": false,
+  "public_go": false,
+  "Merodoa_default_adoption": false,
+  "capabilities": {
+    "allowExperimentalLoops_default": false,
+    "publicLoopApproved": false,
+    "seek": false,
+    "currentCycleSpeedChanges": false
+  },
+  "evidence_root": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021",
+  "large_evidence_in_git": false,
+  "old_results_relabelled": false,
+  "reused_scope": "独立参照・SHA検証済み入力/RAW・旧条件定義。製品実測はsource958の指定5群だけをREUSED_DSP_CERTIFICATEで別枠再利用し、今回実行数へ付替えない。旧renderer/nativeは採用しない",
+  "separate_public_gates": [
+    "FastLocal長尺",
+    "stereo Ready目標",
+    "開始時計",
+    "Debug実時間期限",
+    "主観音質",
+    "物理loopback",
+    "Merodoa実TCC/実アプリ統合",
+    "一般公開承認"
+  ]
+}

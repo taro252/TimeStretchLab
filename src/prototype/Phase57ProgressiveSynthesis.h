@@ -59,6 +59,12 @@ public:
     // realtime callback may call this allocating deep copy.
     std::unique_ptr<ProgressiveSynthesisEngine> cloneFixedCheckpoint(int pinnedFd,
         std::span<const unsigned char> sameResidentBytes,std::function<void()> validateInput={})const;
+    // Inert zero state constructed by a normal worker from a final FIXED
+    // snapshot/map. It never generates or publishes PCM. Runtime restore still
+    // requires the exact snapshot/map lineage and resident input identity.
+    static std::unique_ptr<ProgressiveSynthesisEngine> makeFixedLoopOriginCheckpoint(int pinnedFd,
+        std::span<const unsigned char>,std::uint32_t speedMicros,
+        std::shared_ptr<const phase56::AnalysisSnapshot>,std::shared_ptr<const phase59::DynamicMap>);
     // A clone adopts the new epoch's same final fixed map before producing PCM.
     void prepareCheckpointForEpoch();
     // Persistent fixed-loop producer only. Same final snapshot object, resident

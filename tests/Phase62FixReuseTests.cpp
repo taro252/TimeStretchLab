@@ -30,13 +30,15 @@ static void one(const char* path,unsigned speed,bool candidate,std::size_t a,std
     repeat->stop();const auto d=repeat->diagnostics();const auto m=d.loopReuse;
     if(continuation){
         ready(*continuation);const auto atB=continuation->outputStartFrame();const auto cursor=continuation->diagnostics();
-        check(cursor.checkpointUsed&&cursor.checkpointStartFrame>=atB,"B continuation state not reused");
+        check(cursor.reusedInput&&cursor.reusedAnalysis&&cursor.checkpointStartFrame<=atB,"Explicit Exact continuation must reuse input/analysis and start at/before B");
+        check(cursor.discardedFrames==atB-cursor.checkpointStartFrame,"Exact continuation cold/checkpoint prefix accounting");
         std::size_t count=0;std::vector<float> suffix;
         if(raw){std::ifstream f(raw,std::ios::binary);f.seekg(0,std::ios::end);const auto size=std::size_t(f.tellg());count=std::min<std::size_t>(4096,size/(ch*sizeof(float))-atB);suffix.resize(count*ch);f.seekg(atB*ch*sizeof(float));f.read(reinterpret_cast<char*>(suffix.data()),suffix.size()*sizeof(float));check(bool(f),"continuation independent oracle");}
         else{ready(*coldContinuation);count=std::min<std::size_t>(4096,coldContinuation->diagnostics().outputFrames-atB);suffix.resize(count*ch);wait([&]{return coldContinuation->available()>=count;});auto r=coldContinuation->pullAudio(p,count);check(r.received==count,"cold B continuation");for(std::size_t i=0;i<count;++i)for(std::size_t c=0;c<ch;++c)suffix[i*ch+c]=p[c][i];coldContinuation->stop();}
         wait([&]{return continuation->available()>=count;});const auto r=continuation->pullAudio(p,count);check(r.received==count&&r.outputBefore==atB,"B partial unpublished PCM/cursor");
         for(std::size_t i=0;i<count;++i)for(std::size_t c=0;c<ch;++c)check(std::bit_cast<std::uint32_t>(p[c][i])==std::bit_cast<std::uint32_t>(suffix[i*ch+c]),"B continuation RAW bits");
-        continuation->stop();check(continuation->diagnostics().discardedFrames==0,"B continuation repeated prefix");
+        continuation->stop();check(continuation->diagnostics().discardedFrames==atB-cursor.checkpointStartFrame,"Exact continuation prefix changed after Ready");
+        std::cout<<"B continuation method=ExplicitExact checkpoint="<<cursor.checkpointStartFrame<<" coldDiscard="<<cursor.discardedFrames<<" ReadyS="<<cursor.readyS<<'\n';
     }
     check(d.finalDataAvailable&&!d.failed&&!d.missingFrames,"reuse stop/diagnostics");check(m.mapBuilds==1&&m.workerCreations==2&&m.cyclesPrepared>=5,"map/worker repeated");
     check(m.coldDiscardedFrames==oa,"cold prefix count");check(m.warmDiscardedFrames<=2048*m.seedRestores,"warm prefix depends on A");
