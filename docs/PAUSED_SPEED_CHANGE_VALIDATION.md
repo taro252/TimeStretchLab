@@ -95,3 +95,14 @@ Merodoaへ渡す側はReadyをResume前に観測し、古いcontext/準備版を
 ## c4bdbb44以後
 
 [残件REPORT](../results/phase62_finish/REPORT.md) の外部台帳試験は実4096受付境界、拒否理由、開始済み履歴、再開意思を検査する。追加の `phase62_paused_clear_native` は両Presetで初回ReturnToAの採用前/開始後Clear、旧commit＋Preparing→Clear、手動seek置換、Ready→Clear、開始成功済み未PCM→Clearの12条件・24checksを検査する。旧成功件数を新規件数へ付け替えず、同じ最終ソースのmanifest/SHAを参照する。
+
+## e5dc9167レビュー修正の追加記録
+
+最新の実行ソース・実行体・全必須IDは [e5レビューREPORT](../results/phase62_e5_review/REPORT.md) と専用manifestを参照する。Paused/Clearの最新ID、Resume前Ready、再開意思、停止C/FIFO破棄、故障版退役中のPlay拒否を新しい実行体で検査する。通常側を遅延させる故障注入は正常負荷の実時間期限測定へ加算しない。過去の失敗・未完件数と今回の成功子runの出所を分ける。
+
+
+## 装置復旧後の局所ゲート完了（2026-10-21）
+
+[e5レビューREPORT](../results/phase62_e5_review/REPORT.md) の今回限定の局所判定は **PASS / GO**。ユーザーの装置復旧後、同じソースcefdb129…・実行体・参照・条件でnative_recovered_01の全5群41programを新規に実行し、その内数の正常RT8本もPASSした。両Presetで実消費4100周、正常8条件の不足/padding・callback確保/解放・callback/worker期限超過0、buffer512復元を確認した。復旧前の失敗・当時の未実施数は履歴として保持する。
+
+seek機能試験のworker期限超過1件（旧faにも同じ観測、RT承認NOT_ASSESSED）は別記録であり、全41本の期限超過0やseek切替の一般RT承認を主張しない。公開初期値4つ・publicSeekApproved=falseと、物理loopback・試聴・Merodoa/TCC実統合等の別ゲートは維持する。Merodoa本体・UI・submoduleは変更しない。

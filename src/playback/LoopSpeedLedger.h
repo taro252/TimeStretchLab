@@ -25,8 +25,8 @@ public:
         for(auto at=hash(id);;at=(at+1)&8191)if(!index_[at]){index_[at]=records_.size();break;}
         return records_.back();
     }
-    void replaceUnstarted(std::uint64_t loopID,std::uint64_t except,std::uint64_t now){
-        for(auto& op:records_)if(op.loopID==loopID&&op.id!=except&&!terminal(op.state)&&!op.committed&&!op.outputStarted&&!op.adoptionPending){op.state=LoopSpeedState::Replaced;op.terminalNs=now;op.reason="新しい外部速度要求に置換";}
+    void replaceUnstarted(std::uint64_t loopID,std::uint64_t except,std::uint64_t now,std::uint64_t retained=0){
+        for(auto& op:records_)if(op.loopID==loopID&&op.id!=except&&op.id!=retained&&!terminal(op.state)&&!op.committed&&!op.outputStarted&&!op.adoptionPending){op.state=LoopSpeedState::Replaced;op.terminalNs=now;op.reason="新しい外部速度要求に置換";}
     }
     void cancel(std::uint64_t loopID,std::uint64_t now,const std::string& reason,std::uint64_t keepID=0){
         for(auto& op:records_)if(op.loopID==loopID&&op.id!=keepID&&!terminal(op.state)){
@@ -34,8 +34,8 @@ public:
             op.state=LoopSpeedState::Cancelled;op.terminalNs=now;op.reason=reason;
         }
     }
-    void cancelUnstarted(std::uint64_t loopID,std::uint64_t now,const std::string& reason,std::uint64_t keepID=0){
-        for(auto& op:records_)if(op.loopID==loopID&&op.id!=keepID&&!terminal(op.state)&&!op.committed&&!op.outputStarted&&!op.adoptionPending){op.state=LoopSpeedState::Cancelled;op.terminalNs=now;op.reason=reason;}
+    void cancelUnstarted(std::uint64_t loopID,std::uint64_t now,const std::string& reason,std::uint64_t keepID=0,std::uint64_t retained=0){
+        for(auto& op:records_)if(op.loopID==loopID&&op.id!=keepID&&op.id!=retained&&!terminal(op.state)&&!op.committed&&!op.outputStarted&&!op.adoptionPending){op.state=LoopSpeedState::Cancelled;op.terminalNs=now;op.reason=reason;}
     }
     void retireEpoch(std::uint64_t session,bool hadPcm,std::uint64_t now){
         for(auto& op:records_)if(!terminal(op.state)&&op.session==session){

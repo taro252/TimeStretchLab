@@ -6,6 +6,22 @@ from phase59_native_validation import wav_info
 from phase55_study import write_wav
 
 ROOT=Path(__file__).resolve().parents[1]
+PLAYING_CHECK_IDS={
+ 'latest_noop':['75_cancelled_before_commit','100_completed_noop','40_replaced_before_commit','200_completed_actual_PCM','all_four_IDs_terminal','normal_supply_and_owner_cap'],
+ 'committed_replace':['75_committed_before_B','200_accepted_without_rewriting_75','required_fixed75_B_and_PCM','75_and_200_completed','past_immutable_all_IDs_terminal','normal_supply_and_owner_cap'],
+ 'committed_clear':['75_committed_before_B','100_transferred_to_Clear_before_B','Clear_rejects_speed_with_reason','required_fixed75_B_and_PCM','Clear_normal_continuation_no_extra_cycle','latest100_Clear_PCM_all_IDs_terminal_past_immutable','normal_supply_and_owner_cap'],
+}
+for _mode,_close_check in [('limit_stop','Stop_cancels_all_IDs'),('limit_reprepare','Stop_then_different_input_no_stale_revival'),('limit_close','direct_close_quiesces_and_retires')]:
+ PLAYING_CHECK_IDS[_mode]=['three_Accepted_IDs_reserved','limit_rejection_preserves_latest_and_PCM','duplicate_keeps_ID_at_limit',_close_check,'post_close_owned_sink_exact_IDs_and_terminal_kinds' if _mode=='limit_close' else 'all_IDs_terminal_history_immutable','normal_supply_and_owner_cap']
+
+def playing_jobs(build,source,other_input,out):
+ jobs=[]
+ for mode,wanted in PLAYING_CHECK_IDS.items():
+  for preset in ['candidate','baseline']:
+   key=mode+'_'+preset;command=[build/'phase62_playing_ledger_native',mode,source,preset,out/key]
+   if mode=='limit_reprepare':command.append(other_input)
+   jobs.append(dict(id=key,mode=mode,command=list(map(str,command)),expected=len(wanted),expected_IDs=list(wanted)))
+ return jobs
 
 def save(p,x):p.write_text(json.dumps(x,ensure_ascii=False,indent=2)+'\n')
 def read(p):return json.loads(p.read_text())
@@ -15,14 +31,52 @@ def verify_build(provenance,source,binaries):
  for path in binaries:
   if provenance.get('binaries',{}).get(path.name)!=identity(path)['sha256']:raise ValueError('executed binary not linked to built source: '+path.name)
 
+def verify_close_audit(folder,stat):
+ """close後は所有sinkだけを照合し、旧runの未完了を成功へ読み替えない。"""
+ try:
+  rows=lambda name:[json.loads(x) for x in (folder/name).read_text().splitlines()]
+  receipts=rows('receipts.jsonl');accepted=[r['id'] for r in receipts if r.get('accepted') is True and r.get('duplicate') is False]
+  if len(accepted)!=3 or any(type(i) is not int or i<=0 for i in accepted) or len(set(accepted))!=3:return False
+  if stat.get('Accepted_IDs')!=accepted:return False
+  sink=rows('sink.jsonl');prior=rows('pre_close_ledger.jsonl')
+  if len(sink)!=5 or len(prior)!=3:return False
+  delivery,marker=sink[0],sink[-1];operations=sink[1:-1]
+  if delivery.get('record')!='audit_delivery' or type(delivery.get('calls')) is not int or delivery['calls']!=1:return False
+  sequence=delivery.get('sequence')
+  if type(sequence) is not int or sequence<=0 or delivery.get('copied_count')!=3:return False
+  if any(delivery.get(k) is not True for k in ['received','workers_joined','retirement_complete']):return False
+  if any(delivery.get(k) is not False for k in ['duplicate_delivery','oversized','copy_failed','invalid_marker']):return False
+  if marker.get('record')!='FINAL_LOOP_SPEED_AUDIT_COMPLETE' or type(marker.get('sequence')) is not int or marker.get('sequence')!=sequence:return False
+  if any(type(marker.get(k)) is not int or marker[k]!=v for k,v in [('expected_Accepted',3),('actual',3),('Completed',1),('Replaced',1),('Cancelled',1)]):return False
+  if any(marker.get(k) is not True for k in ['all_workers_joined','retirement_complete','receipt_ID_set_exact','past_immutable','direct_close']):return False
+  if {r['id'] for r in prior}!=set(accepted) or {r['id'] for r in operations}!=set(accepted):return False
+  old={r['id']:r for r in prior};final={r['id']:r for r in operations}
+  for index,request_id in enumerate(accepted):
+   before,after=old[request_id],final[request_id]
+   if after.get('state')!=['Completed','Replaced','Cancelled'][index]:return False
+   if any(after.get(k)!=before.get(k) for k in ['id','loop_id','input_generation','source_session','source_epoch','accepted_ns','speed_micros']):return False
+   if type(after.get('accepted_ns')) is not int or type(after.get('terminal_ns')) is not int or not 0<after['accepted_ns']<=after['terminal_ns']:return False
+   if index<2:
+    if after!=before:return False
+   elif before.get('state') in ['Completed','Replaced','Cancelled','Failed'] or not after.get('reason'):return False
+   if index==0:
+    if any(after.get(k) is not True for k in ['committed','output_started']):return False
+    if any(type(after.get(k)) is not int or after[k]<=0 for k in ['first_PCM_observed_ns','completed_ns','dynamic_session','dynamic_operation_id']):return False
+   elif after.get('committed') is not False or after.get('output_started') is not False or not after.get('reason'):return False
+   if index==2 and (after.get('first_PCM_observed_ns')!=0 or before.get('committed') is not False or before.get('output_started') is not False):return False
+  return True
+ except (OSError,ValueError,KeyError,TypeError,AttributeError):return False
+
 def verify_result(suite,job,folder,code,timed,stat):
- valid=code==0 and not timed and stat.get('status')=='PASS' and stat.get('expected')==stat.get('executed')==job['expected'] and stat.get('run_complete') is True
+ valid=type(code) is int and code==0 and not timed and stat.get('status')=='PASS' and all(type(x) is int and x>0 for x in [stat.get('expected'),stat.get('executed'),job['expected']]) and stat.get('expected')==stat.get('executed')==job['expected'] and stat.get('run_complete') is True
  if suite in ('playing','paused-clear'):
   if not (folder/'checks.jsonl').is_file() or not (folder/'EXPECTED.json').is_file():return False
   try:
    checks=[json.loads(x) for x in (folder/'checks.jsonl').read_text().splitlines()];ids=[x['id'] for x in checks];wanted=read(folder/'EXPECTED.json')['expected_IDs']
-   valid &= len(ids)==len(set(ids))==len(wanted)==job['expected'] and set(ids)==set(wanted) and all(x['status']=='PASS' for x in checks)
-  except (ValueError,KeyError,TypeError):return False
+   valid &= isinstance(wanted,list) and all(isinstance(i,str) and i for i in wanted+ids) and len(ids)==len(set(ids))==len(wanted)==len(set(wanted))==job['expected'] and set(ids)==set(wanted) and all(x['status']=='PASS' for x in checks)
+   if 'expected_IDs' in job:valid &= set(wanted)==set(job['expected_IDs']) and len(wanted)==len(job['expected_IDs'])
+  except (OSError,ValueError,KeyError,TypeError):return False
+ if suite=='playing' and job.get('mode')=='limit_close':valid &= verify_close_audit(folder,stat)
  return valid
 
 def main():
@@ -63,11 +117,7 @@ def main():
   binaries=[b/'phase62_paused_clear_native']
  else:
   if not a.other_input or identity(a.other_input)['sha256']==identity(src)['sha256']:raise ValueError('別内容の入力が必要')
-  for mode in ['latest_noop','committed_replace','committed_clear','limit_stop','limit_reprepare','limit_close']:
-   for preset in ['candidate','baseline']:
-    key=mode+'_'+preset;cmd=[b/'phase62_playing_ledger_native',mode,src,preset,out/key]
-    if mode=='limit_reprepare':cmd+=[a.other_input.resolve()]
-    add(key,cmd,expected=7 if mode=='committed_clear' else 6,allowed_incomplete=mode=='limit_close')
+  jobs=playing_jobs(b,src,a.other_input.resolve(),out)
   binaries=[b/'phase62_playing_ledger_native']
  arches=verify_architecture(binaries)
  if not arches['PASS']:raise ValueError('arm64 binaryが必要')

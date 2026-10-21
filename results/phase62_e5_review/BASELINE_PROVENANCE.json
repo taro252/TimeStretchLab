@@ -1,0 +1,2172 @@
+{
+  "schema": 1,
+  "status": "PASS",
+  "meaning": "保存実体の読取監査が成立。過去の機能試験は再実行していない。",
+  "scope": "A1/A2/B保存binaryと依存122件、cache04保存binaryと関連104件の限定監査。",
+  "base_commit": "e5dc91675723b7163b10cc3ea2323710033caeaa",
+  "source_inventory_sha256": "31ba1ae56c5489e9e557ad96340be75a49c1c96b35d26f2cd776e78329666802",
+  "original_manifests": [
+    {
+      "path": "build/phase62_e5_review_20261021_01/BASELINE_EXPECTED.json",
+      "bytes": 114379,
+      "sha256": "77a2b09483aee7f8c58ee5cd53f80002374141c9529ed379a8fb1c6cd09c1418"
+    },
+    {
+      "path": "build/phase62_e5_review_20261021_01/BASELINE_EXECUTION.json",
+      "bytes": 738,
+      "sha256": "84913ecf5b8a725e74bf2ab05fe3c745c5859e3c3a9bd57cebbdf1d269b8490e"
+    },
+    {
+      "path": "build/phase62_e5_review_20261021_01/instrumented_baseline_source/SOURCE.json",
+      "bytes": 1374,
+      "sha256": "06d287eb9706d4e3dd702e369327f05cf78904c2cd0970982304ccb6fa2b5bcb"
+    },
+    {
+      "path": "build/phase62_e5_review_20261021_01/instrumented_baseline_source/FINAL_BASELINE_FILES.json",
+      "bytes": 1188,
+      "sha256": "2ef195197f55d5571ba1f0cc6e53cba6c12bfdbcaf92cd6752e971523b6ac912"
+    },
+    {
+      "path": "build/phase62_e5_review_20261021_01/baseline_recovery/RECOVERY_AUDIT.json",
+      "bytes": 2802,
+      "sha256": "cc7662b2cb8647b8b17edeb5cf5cf03e6bd810fc31ce373c2eb253dbb2b94b34"
+    },
+    {
+      "path": "build/phase62_e5_review_20261021_01/baseline_cache_candidate_04/old_new_transaction.json",
+      "bytes": 99,
+      "sha256": "876dfe09224ef435e9602d5cbf3322c03c44f9f4385ec7351844cc73ff60bc0b"
+    }
+  ],
+  "source_inventory": {
+    "expected_files": 732,
+    "recoverable_files": 730,
+    "restore_counts": {
+      "worktree": 720,
+      "git_blob": 4,
+      "saved_final": 5,
+      "recovered_helper": 1
+    },
+    "unrecovered_outside_both_binary_dependencies": [
+      {
+        "path": "tests/Phase62PartialMixNative.cpp",
+        "expected_sha256": "c66efb3c1f21b8993ec1048e90e4957f686094b5940706c24e043e474380741d"
+      },
+      {
+        "path": "tests/Phase62PreparationFaultNative.cpp",
+        "expected_sha256": "ce181d10fbd1039f8c67a5879ff3553ce585f8c90e27fb683acd2b6d557d8466"
+      }
+    ]
+  },
+  "initial_source_manifest": {
+    "rows": 7,
+    "mismatches_with_saved_bytes": [
+      {
+        "path": "src/platform/macos/ProgressiveMacPlaybackEngine.mm",
+        "initial_sha256": "096291e8466a9c5132caf98a212ea8856d9958357cfc6351885686a9a865b8ed",
+        "saved_sha256": "a4c76a4e623ac2252f2c8a96c8eaa61ca783a72002b748353109fe0634e61a4d"
+      },
+      {
+        "path": "src/platform/macos/ProgressiveMacPlaybackEngine.h",
+        "initial_sha256": "23ea4b2a672f3ddcf4a482b55099cc1dce1f48941d136c709911bea4b7d2c097",
+        "saved_sha256": "3ac570aee85b19209b1a0c492c04f6873481205e72eeeb4590c21d515656ad07"
+      },
+      {
+        "path": "tests/Phase62WorkerTransactionTests.cpp",
+        "initial_sha256": "6ddb48eb4d35c50c1efe51545fba87f46cd67dc6fb13050615a3d8edca4cf634",
+        "saved_sha256": "1e8418c6744a4517cb242038942db3a7196f795c37d02681219a88437c62987a"
+      }
+    ],
+    "meaning": "初期SOURCE.jsonは後の保存8ファイルを表さない。"
+  },
+  "final_saved_sources": [
+    {
+      "path": "build/phase62_e5_review_20261021_01/instrumented_baseline_source/src/prototype/Phase58RealtimePipeline.cpp",
+      "bytes": 125620,
+      "sha256": "330672a4da548fb43aeb1149f2c88f2984064d3ae08490eb288299af9e721a9d"
+    },
+    {
+      "path": "build/phase62_e5_review_20261021_01/instrumented_baseline_source/src/prototype/Phase58RealtimePipeline.h",
+      "bytes": 15178,
+      "sha256": "130b5882f10307e7dedb4175aa2c39729c4cf946b54203c647312d6e375803cd"
+    },
+    {
+      "path": "build/phase62_e5_review_20261021_01/instrumented_baseline_source/src/prototype/Phase58FixRealtimeWorker.cpp",
+      "bytes": 8303,
+      "sha256": "36bb9a2cf227d65bb4d6f95cc2726998778e9c5a0ad7cca50d61a9ec7f712c6a"
+    },
+    {
+      "path": "build/phase62_e5_review_20261021_01/instrumented_baseline_source/src/prototype/Phase58FixRealtimeWorker.h",
+      "bytes": 1486,
+      "sha256": "16472b6e40e68180592d4a7ca9e365babeca6e6626b71a324b70e283a3997cf4"
+    },
+    {
+      "path": "build/phase62_e5_review_20261021_01/instrumented_baseline_source/src/platform/macos/ProgressiveMacPlaybackEngine.mm",
+      "bytes": 143801,
+      "sha256": "a4c76a4e623ac2252f2c8a96c8eaa61ca783a72002b748353109fe0634e61a4d"
+    },
+    {
+      "path": "build/phase62_e5_review_20261021_01/instrumented_baseline_source/src/platform/macos/ProgressiveMacPlaybackEngine.h",
+      "bytes": 15113,
+      "sha256": "3ac570aee85b19209b1a0c492c04f6873481205e72eeeb4590c21d515656ad07"
+    },
+    {
+      "path": "build/phase62_e5_review_20261021_01/instrumented_baseline_source/tests/Phase62WorkerTransactionTests.cpp",
+      "bytes": 7398,
+      "sha256": "1e8418c6744a4517cb242038942db3a7196f795c37d02681219a88437c62987a"
+    },
+    {
+      "path": "build/phase62_e5_review_20261021_01/instrumented_baseline_source/tests/Phase62AdoptionReviewNative.cpp",
+      "bytes": 37211,
+      "sha256": "68b9ef70821434e5b291671b87024a6a945682336f213763f829fea6e00373dc"
+    }
+  ],
+  "helper_recovery": {
+    "input_sha256": "a58e27e61565db02493f66f480d66d73944b47a33b0eb088c3f5ab05f3693198",
+    "output": {
+      "path": "build/phase62_e5_review_20261021_01/baseline_recovery/Phase62PlayingLedgerNative.cpp",
+      "bytes": 37957,
+      "sha256": "20439b87c5b259283dd8ce2e427bb2b55436e551ebf09f15591ecae878005955"
+    },
+    "replacements": [
+      {
+        "old_utf8": ",ProgressiveControlTestHooks engineHooks={}",
+        "new_utf8": "",
+        "occurrences": 1
+      },
+      {
+        "old_utf8": "options.controlTestHooks=engineHooks.event?engineHooks:ProgressiveControlTestHooks{&gate,WorkerGate::event};",
+        "new_utf8": "options.controlTestHooks={&gate,WorkerGate::event};",
+        "occurrences": 1
+      }
+    ],
+    "byte_recipe_replayed_in_memory": true,
+    "source_bytes_written_by_this_audit": false
+  },
+  "native_A1_A2_B": {
+    "expected_files": 122,
+    "verified_files": 122,
+    "targets": [
+      "phase62_adoption_review_native",
+      "macos_progressive_playback_engine",
+      "phase61_callback_heap_probe",
+      "phase58_realtime",
+      "phase57_synthesis",
+      "phase59_transition",
+      "phase56_incremental",
+      "phase39_variable",
+      "phase36_variable",
+      "phase24_variable",
+      "timestretch_core"
+    ],
+    "source_paths": [
+      "src/audio/WavFile.h",
+      "src/audio/WavReader.cpp",
+      "src/audio/WavReader.h",
+      "src/audio/WavStream.cpp",
+      "src/audio/WavStream.h",
+      "src/audio/WavWriter.cpp",
+      "src/audio/WavWriter.h",
+      "src/dsp/ChunkedTimeStretchEngine.cpp",
+      "src/dsp/ChunkedTimeStretchEngine.h",
+      "src/dsp/FFTAccelerate.cpp",
+      "src/dsp/FFTAccelerate.h",
+      "src/dsp/MultiResolutionCrossover.cpp",
+      "src/dsp/MultiResolutionCrossover.h",
+      "src/dsp/OverlapAdd.cpp",
+      "src/dsp/OverlapAdd.h",
+      "src/dsp/PartialTracker.cpp",
+      "src/dsp/PartialTracker.h",
+      "src/dsp/PeriodicResynchronizer.cpp",
+      "src/dsp/PeriodicResynchronizer.h",
+      "src/dsp/Phase13StreamingEngine.cpp",
+      "src/dsp/Phase13StreamingEngine.h",
+      "src/dsp/Phase14PlaybackPipeline.cpp",
+      "src/dsp/Phase14PlaybackPipeline.h",
+      "src/dsp/Phase18PcmCache.cpp",
+      "src/dsp/Phase18PcmCache.h",
+      "src/dsp/PhaseLocker.cpp",
+      "src/dsp/PhaseLocker.h",
+      "src/dsp/PhaseVocoder.cpp",
+      "src/dsp/PhaseVocoder.h",
+      "src/dsp/RingOverlapAdd.cpp",
+      "src/dsp/RingOverlapAdd.h",
+      "src/dsp/STFT.cpp",
+      "src/dsp/STFT.h",
+      "src/dsp/SinusoidalResidualEngine.cpp",
+      "src/dsp/SinusoidalResidualEngine.h",
+      "src/dsp/StereoPhaseCoherence.cpp",
+      "src/dsp/StereoPhaseCoherence.h",
+      "src/dsp/StreamingCrossover.cpp",
+      "src/dsp/StreamingCrossover.h",
+      "src/dsp/TimeMap.cpp",
+      "src/dsp/TimeMap.h",
+      "src/dsp/TimeStretchEngine.cpp",
+      "src/dsp/TimeStretchEngine.h",
+      "src/dsp/TimeStretchProcessor.cpp",
+      "src/dsp/TimeStretchProcessor.h",
+      "src/dsp/TonalResidualEngine.cpp",
+      "src/dsp/TonalResidualEngine.h",
+      "src/dsp/TransientAnchor.cpp",
+      "src/dsp/TransientAnchor.h",
+      "src/dsp/TransientDetector.cpp",
+      "src/dsp/TransientDetector.h",
+      "src/dsp/TransientEventMap.cpp",
+      "src/dsp/TransientEventMap.h",
+      "src/dsp/WSOLAEngine.cpp",
+      "src/dsp/WSOLAEngine.h",
+      "src/platform/macos/MacPlaybackEngine.h",
+      "src/platform/macos/ProgressiveMacPlaybackEngine.h",
+      "src/platform/macos/ProgressiveMacPlaybackEngine.mm",
+      "src/playback/LoopSpeedLedger.h",
+      "src/playback/PlaybackAnalysisCache.h",
+      "src/playback/PlaybackEngine.h",
+      "src/playback/ProgressiveContract.h",
+      "src/playback/ProgressiveLoopContract.h",
+      "src/playback/ProgressiveSeekContract.h",
+      "src/playback/StartupDiagnostics.h",
+      "src/prototype/Phase22VariableTimeMap.cpp",
+      "src/prototype/Phase22VariableTimeMap.h",
+      "src/prototype/Phase24PlaybackPipeline.cpp",
+      "src/prototype/Phase24PlaybackPipeline.h",
+      "src/prototype/Phase24StreamingSpeedEngine.cpp",
+      "src/prototype/Phase24StreamingSpeedEngine.h",
+      "src/prototype/Phase35PhaseVocoder.cpp",
+      "src/prototype/Phase35PhaseVocoder.h",
+      "src/prototype/Phase35StereoPhaseCoherence.cpp",
+      "src/prototype/Phase35StereoPhaseCoherence.h",
+      "src/prototype/Phase35TimeMap.cpp",
+      "src/prototype/Phase35TimeMap.h",
+      "src/prototype/Phase36PlaybackPipeline.cpp",
+      "src/prototype/Phase36PlaybackPipeline.h",
+      "src/prototype/Phase36StreamingSpeedEngine.cpp",
+      "src/prototype/Phase36StreamingSpeedEngine.h",
+      "src/prototype/Phase36SynthesisCore.h",
+      "src/prototype/Phase37HighSpeedMap.cpp",
+      "src/prototype/Phase37HighSpeedMap.h",
+      "src/prototype/Phase39PlaybackPipeline.cpp",
+      "src/prototype/Phase39PlaybackPipeline.h",
+      "src/prototype/Phase39TimeMap.cpp",
+      "src/prototype/Phase39TimeMap.h",
+      "src/prototype/Phase42DensityGuard.cpp",
+      "src/prototype/Phase42DensityGuard.h",
+      "src/prototype/Phase45PcmDigest.h",
+      "src/prototype/Phase46HostClock.h",
+      "src/prototype/Phase50Boundary.h",
+      "src/prototype/Phase56ImmutableSeries.h",
+      "src/prototype/Phase56PinnedWav.h",
+      "src/prototype/Phase56ProgressiveAnalysis.cpp",
+      "src/prototype/Phase56ProgressiveAnalysis.h",
+      "src/prototype/Phase56ReferenceData.h",
+      "src/prototype/Phase57ProgressiveSynthesis.cpp",
+      "src/prototype/Phase57ProgressiveSynthesis.h",
+      "src/prototype/Phase58Diagnostics.h",
+      "src/prototype/Phase58FixAllocationProbe.h",
+      "src/prototype/Phase58FixRealtimeWorker.cpp",
+      "src/prototype/Phase58FixRealtimeWorker.h",
+      "src/prototype/Phase58FixSnapshotMailbox.h",
+      "src/prototype/Phase58RealtimePipeline.cpp",
+      "src/prototype/Phase58RealtimePipeline.h",
+      "src/prototype/Phase59Control.h",
+      "src/prototype/Phase59PlanningContract.h",
+      "src/prototype/Phase59ProgressiveTransition.cpp",
+      "src/prototype/Phase59ProgressiveTransition.h",
+      "src/prototype/Phase61OutputTransition.h",
+      "src/prototype/Phase61SeekEnvelope.h",
+      "src/prototype/Phase62LoopBoundary.h",
+      "tests/Phase61CallbackMallocProbe.cpp",
+      "tests/Phase61CallbackMallocProbe.h",
+      "tests/Phase61NativeTests.cpp",
+      "tests/Phase62AdoptionReviewNative.cpp",
+      "tests/Phase62FixTrace.h",
+      "tests/Phase62NativeTests.cpp",
+      "tests/Phase62PcmAudit.h",
+      "tests/Phase62PlayingLedgerNative.cpp"
+    ],
+    "dependency_and_build_records": [
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase62_adoption_review_native.dir/tests/Phase62AdoptionReviewNative.cpp.o.d",
+        "bytes": 257552,
+        "sha256": "874ddbc0a97e722a989cc19fe1fdf5f6c200b672f18798afc4f2b423f2c31c74"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase62_adoption_review_native.dir/flags.make",
+        "bytes": 309,
+        "sha256": "97e62ac4ed897e580df08b661432e176698e2d8b2bfdbdfb1f7f8d29ac67f372"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase62_adoption_review_native.dir/link.txt",
+        "bytes": 686,
+        "sha256": "2d8860a151ebc2407977cdba10ce9b74e923e250dc9fea04c1e3643188d0ea39"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/macos_progressive_playback_engine.dir/src/platform/macos/ProgressiveMacPlaybackEngine.mm.o.d",
+        "bytes": 352480,
+        "sha256": "4cbf90b774c0812466ea685bee26ff28fb100d3579483fe50d89eff3a7e8a147"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/macos_progressive_playback_engine.dir/flags.make",
+        "bytes": 589,
+        "sha256": "9e255403adbfb3ddb341616ea83cced7a06b46b710217d0e478d6f801484f669"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/macos_progressive_playback_engine.dir/link.txt",
+        "bytes": 211,
+        "sha256": "92c1f022863eedc506ecb11dd7692419fc080b1d6287917f4822a1ae10d7583f"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase61_callback_heap_probe.dir/tests/Phase61CallbackMallocProbe.cpp.o.d",
+        "bytes": 56469,
+        "sha256": "b672524b1bdea951b5603ba635e7d787419233919c8564abdf42e0a82e7b1933"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase61_callback_heap_probe.dir/flags.make",
+        "bytes": 316,
+        "sha256": "e9a70c9bac4ef9c18e29492fdd63af7edc5a1ec56a1e6496db89ab73b8d2295f"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase61_callback_heap_probe.dir/link.txt",
+        "bytes": 263,
+        "sha256": "afab2d39b843c04b5d0486e4b6296ac65d80e15afd4a74e0f5444b6d6b57a412"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase58_realtime.dir/src/prototype/Phase58FixRealtimeWorker.cpp.o.d",
+        "bytes": 130162,
+        "sha256": "228739f507abca04a90b6f141a6fa9a157989dcc68b933bcfc033fd324a9c5f9"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase58_realtime.dir/src/prototype/Phase58RealtimePipeline.cpp.o.d",
+        "bytes": 255267,
+        "sha256": "3b3aaa12267e60512f5ab0f17edf238110c17c2192778c44f91b8b3da72c3266"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase58_realtime.dir/flags.make",
+        "bytes": 482,
+        "sha256": "89efe361c15e4db10d16b03a21208ca9ccd42597c4fe704ece4a580a391322ca"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase58_realtime.dir/link.txt",
+        "bytes": 228,
+        "sha256": "8b40b08cf0f77ecc1b33a12f65299fbd0177c289e00ba20a3dc6b85704da386c"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase57_synthesis.dir/src/prototype/Phase57ProgressiveSynthesis.cpp.o.d",
+        "bytes": 252839,
+        "sha256": "509dfaadf6f1b750d8c880e2908bc928df8ed680f7474783335821681bfa70b0"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase57_synthesis.dir/flags.make",
+        "bytes": 359,
+        "sha256": "96a0f6303791a2b0af259b264c3dcd35884a1b9c947a87c1b157920cb22f5b1d"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase57_synthesis.dir/link.txt",
+        "bytes": 158,
+        "sha256": "9655f581ac15f9c00f937b96513d3016e5e9f2234b914ad0c3293cda8686d8cd"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase59_transition.dir/src/prototype/Phase59ProgressiveTransition.cpp.o.d",
+        "bytes": 251918,
+        "sha256": "d9f8c77e861eebeec5e0b58655f1191eeb8d4c114cb7211eca5fe7b86de6e5dc"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase59_transition.dir/flags.make",
+        "bytes": 359,
+        "sha256": "96a0f6303791a2b0af259b264c3dcd35884a1b9c947a87c1b157920cb22f5b1d"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase59_transition.dir/link.txt",
+        "bytes": 162,
+        "sha256": "38a44dc880aae0826b8cc7d1f995777821edee75e1bdbff82369be5899268d9b"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase56_incremental.dir/src/prototype/Phase56ProgressiveAnalysis.cpp.o.d",
+        "bytes": 246611,
+        "sha256": "d92734d6a3b4ff13d55ab21e10ebeafd295e6e177237930eac4f9844359ecad3"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase56_incremental.dir/flags.make",
+        "bytes": 359,
+        "sha256": "96a0f6303791a2b0af259b264c3dcd35884a1b9c947a87c1b157920cb22f5b1d"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase56_incremental.dir/link.txt",
+        "bytes": 163,
+        "sha256": "e821b036e47ee349c21d0bb9ee6f576df1a5b215872d62a84028c70abd3c971a"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase39_variable.dir/src/prototype/Phase37HighSpeedMap.cpp.o.d",
+        "bytes": 246303,
+        "sha256": "30bb99798a477fd8d091c0f8e9e20ff10d5e1d7bcdcabdc61340a4ed7c24fb17"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase39_variable.dir/src/prototype/Phase39PlaybackPipeline.cpp.o.d",
+        "bytes": 253817,
+        "sha256": "77bc8f24143772f89672de6856b66a03c8b3b7ba04066642bc87621f3e9f7e60"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase39_variable.dir/src/prototype/Phase39TimeMap.cpp.o.d",
+        "bytes": 246728,
+        "sha256": "a802509e6e82eba2939e557da82cb3b4f05c111b37d56177dabe23d9346cdb1e"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase39_variable.dir/src/prototype/Phase42DensityGuard.cpp.o.d",
+        "bytes": 251416,
+        "sha256": "2900c412491d431cf76e763587db79a3833e9bf79ab2db27f5441cd86d2656b0"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase39_variable.dir/flags.make",
+        "bytes": 359,
+        "sha256": "96a0f6303791a2b0af259b264c3dcd35884a1b9c947a87c1b157920cb22f5b1d"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase39_variable.dir/link.txt",
+        "bytes": 362,
+        "sha256": "9614b43e78e74a5492defb214ed17c23bfffa4e05fec82647dadb83515747a25"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase36_variable.dir/src/prototype/Phase35PhaseVocoder.cpp.o.d",
+        "bytes": 140014,
+        "sha256": "6401713f7382dd9ade887948e35fe6df996406cd18569a5ac30d4b3f4e4f41f1"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase36_variable.dir/src/prototype/Phase35StereoPhaseCoherence.cpp.o.d",
+        "bytes": 140115,
+        "sha256": "d80006779c327c7e111673750e35d4297bffa1aef53e9946813176198ba25044"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase36_variable.dir/src/prototype/Phase35TimeMap.cpp.o.d",
+        "bytes": 246651,
+        "sha256": "31e624b5aa60f49272a6d64b39ac1c2dd57356aebec6b5b6f1b8912983c58a1d"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase36_variable.dir/src/prototype/Phase36PlaybackPipeline.cpp.o.d",
+        "bytes": 253251,
+        "sha256": "443699caebc4dc44f7134727d7d973994efe1b62febc4bcaa85af6bae5a2e728"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase36_variable.dir/src/prototype/Phase36StreamingSpeedEngine.cpp.o.d",
+        "bytes": 251633,
+        "sha256": "b6738576becbd3cdbca6e280e29eac805c9193c715d33d1f8f67038fa325c0f6"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase36_variable.dir/flags.make",
+        "bytes": 359,
+        "sha256": "96a0f6303791a2b0af259b264c3dcd35884a1b9c947a87c1b157920cb22f5b1d"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase36_variable.dir/link.txt",
+        "bytes": 450,
+        "sha256": "65d8d322be982d8fd0038609540815f2f78e9dae318d4d7514a07dee696d971e"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase24_variable.dir/src/prototype/Phase22VariableTimeMap.cpp.o.d",
+        "bytes": 246186,
+        "sha256": "c0a7c3412058989ed03003efbc63bd23401376369979a21abefdfd7ca86999fd"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase24_variable.dir/src/prototype/Phase24PlaybackPipeline.cpp.o.d",
+        "bytes": 252770,
+        "sha256": "ee4d620fded7c5c747689e3085ed6702cd71e02689ca125fe274705ca3123c61"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase24_variable.dir/src/prototype/Phase24StreamingSpeedEngine.cpp.o.d",
+        "bytes": 246998,
+        "sha256": "6fc0d87c35ae855aab15a7d0d4fef30b3fca7fa7503012ef4603836bd4747e6d"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase24_variable.dir/flags.make",
+        "bytes": 309,
+        "sha256": "97e62ac4ed897e580df08b661432e176698e2d8b2bfdbdfb1f7f8d29ac67f372"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase24_variable.dir/link.txt",
+        "bytes": 306,
+        "sha256": "ee10db2ccf5d1c7b30c1890f8a1c3efd156b211fe49fbd898ebdabc131a4b8bf"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/audio/WavReader.cpp.o.d",
+        "bytes": 142457,
+        "sha256": "b41a8a29dd6e22770256a9ae01e1927bff5a8c4be586180976b5b74636154410"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/audio/WavStream.cpp.o.d",
+        "bytes": 144316,
+        "sha256": "fb5ef0515b89f5e02bc2936dda1c74658c820437c3a8277e6483b7f821aa8f1a"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/audio/WavWriter.cpp.o.d",
+        "bytes": 142457,
+        "sha256": "d10162b976400a6ef403df66799701e40ef33fb31410ca6a8fff437a7d408254"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/ChunkedTimeStretchEngine.cpp.o.d",
+        "bytes": 246891,
+        "sha256": "c3658924b436e11a3b7cd025564ba77ed9012ee5f2bf943128554984eb1bee00"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/FFTAccelerate.cpp.o.d",
+        "bytes": 242609,
+        "sha256": "5bb387f0112238418336d499f470f958898eb97c17905605b4d4309dab835f1c"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/MultiResolutionCrossover.cpp.o.d",
+        "bytes": 242833,
+        "sha256": "22ed9abdfb918b0959fcbb391992ad8747362537155313e609773e8ba290164b"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/OverlapAdd.cpp.o.d",
+        "bytes": 128841,
+        "sha256": "09ba07c7d40153679b519e02beb65f81e53fc90414ccfff103a33a26e507f810"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/PartialTracker.cpp.o.d",
+        "bytes": 140045,
+        "sha256": "ccb882f09b698f6c33a18e3603da27d7c98e5ad47866f40223a9a3ddb76372d5"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/PeriodicResynchronizer.cpp.o.d",
+        "bytes": 246527,
+        "sha256": "0a250413a415a7f7e5e3b47825b96a6d62e6717e158dce14d1e91479b9d66f05"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/Phase13StreamingEngine.cpp.o.d",
+        "bytes": 246961,
+        "sha256": "ec02f935102f2f6e3927f27beea6a62aa73966857ef44714b8907294ea102052"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/Phase14PlaybackPipeline.cpp.o.d",
+        "bytes": 252579,
+        "sha256": "273225a2be7335a2869cb3a90bbded5a190b128a10b0c1c823de2006411f2e10"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/Phase18PcmCache.cpp.o.d",
+        "bytes": 253119,
+        "sha256": "7ab07b14f739967605e7d90454d933dda6067123e9035b4de35aeb17b2db2591"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/PhaseLocker.cpp.o.d",
+        "bytes": 139909,
+        "sha256": "72090369391c40ed1ef7bf36f1b11bcd796e3ecfefb798b23650849cefe297f2"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/PhaseVocoder.cpp.o.d",
+        "bytes": 139975,
+        "sha256": "34569fb302ea941cfa645378be7526548cac961d7562780b33d8ba3fafa28f6a"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/RingOverlapAdd.cpp.o.d",
+        "bytes": 128853,
+        "sha256": "84618aef98169b7a39d0454230dd3658938ce696babfd19afe480e4f37eda40f"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/STFT.cpp.o.d",
+        "bytes": 242773,
+        "sha256": "3367a0b0e6f5e9029968fcf5ce48e1144fddf8c2d1b582890a3cc942ab9a313a"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/SinusoidalResidualEngine.cpp.o.d",
+        "bytes": 245698,
+        "sha256": "50f620adaf6ff0a7e388a3e95d33f28461cc320fbe8810759064b1da5b58e136"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/StereoPhaseCoherence.cpp.o.d",
+        "bytes": 140063,
+        "sha256": "1e25e4fbaa54303adb08ccb09b5afb728e5aa84e8fe778a513b6a914218a3393"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/StreamingCrossover.cpp.o.d",
+        "bytes": 242765,
+        "sha256": "90bf615798ee9fc3132c16a3ccb3be061bbe98f8e391d720b3aa2a0bc9db2915"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/TimeMap.cpp.o.d",
+        "bytes": 128970,
+        "sha256": "1318db9816d35ed0f8a009285d1ed40a8b2ea66af7e9659b9cdb594b42aac4de"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/TimeStretchEngine.cpp.o.d",
+        "bytes": 246400,
+        "sha256": "48aa684640fb99e48c1ed8fd4163f06d957c8b6f1021315feb031e18158837a4"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/TimeStretchProcessor.cpp.o.d",
+        "bytes": 247825,
+        "sha256": "af18b1d619152a0dbbeda0266cd768b7566841fea23bffb535fbed8e08e9ad45"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/TonalResidualEngine.cpp.o.d",
+        "bytes": 245633,
+        "sha256": "955533c27149fc1095765af8ff1c04838f4104ad16fc28211a8fd2a5e0aa6e96"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/TransientAnchor.cpp.o.d",
+        "bytes": 132466,
+        "sha256": "4caded2f637dd20a7c1b51a3528eabb10fd9148c6b704b7e484311383cf2c442"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/TransientDetector.cpp.o.d",
+        "bytes": 128862,
+        "sha256": "c903e609a53e91e60c6e0a1b1c315399d84d240e9eb30119cb1889c78096af21"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/TransientEventMap.cpp.o.d",
+        "bytes": 129057,
+        "sha256": "345c9aed0f0dd73dfe5ac3576eceb96b43a74724b3c2398b568a757980caf0a0"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/WSOLAEngine.cpp.o.d",
+        "bytes": 142522,
+        "sha256": "c290a688e0c82256273711316df7be66aa74416a34c7d36f6193ac261532e10a"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/flags.make",
+        "bytes": 579,
+        "sha256": "36597419c6e87984471f4526cded49e13b8350eb3db2a7195204429d5d549672"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/link.txt",
+        "bytes": 1770,
+        "sha256": "a979d0e5f70d82ab2ef2e7f44c04c2eadea89ed4b252cbf1fe857546a702785f"
+      }
+    ],
+    "binary": {
+      "path": "build/phase62_e5_review_20261021_01/baseline_build/phase62_adoption_review_native",
+      "bytes": 1134512,
+      "sha256": "43cf4637898625f7d117f81885f46280ab51e16a6c1d9b78be62352bbebd406b"
+    }
+  },
+  "cache04": {
+    "expected_files": 104,
+    "verified_files": 104,
+    "targets": [
+      "phase62_worker_transaction_tests",
+      "phase58_realtime",
+      "phase57_synthesis",
+      "phase59_transition",
+      "phase56_incremental",
+      "phase39_variable",
+      "phase36_variable",
+      "phase24_variable",
+      "timestretch_core"
+    ],
+    "source_paths": [
+      "src/audio/WavFile.h",
+      "src/audio/WavReader.cpp",
+      "src/audio/WavReader.h",
+      "src/audio/WavStream.cpp",
+      "src/audio/WavStream.h",
+      "src/audio/WavWriter.cpp",
+      "src/audio/WavWriter.h",
+      "src/dsp/ChunkedTimeStretchEngine.cpp",
+      "src/dsp/ChunkedTimeStretchEngine.h",
+      "src/dsp/FFTAccelerate.cpp",
+      "src/dsp/FFTAccelerate.h",
+      "src/dsp/MultiResolutionCrossover.cpp",
+      "src/dsp/MultiResolutionCrossover.h",
+      "src/dsp/OverlapAdd.cpp",
+      "src/dsp/OverlapAdd.h",
+      "src/dsp/PartialTracker.cpp",
+      "src/dsp/PartialTracker.h",
+      "src/dsp/PeriodicResynchronizer.cpp",
+      "src/dsp/PeriodicResynchronizer.h",
+      "src/dsp/Phase13StreamingEngine.cpp",
+      "src/dsp/Phase13StreamingEngine.h",
+      "src/dsp/Phase14PlaybackPipeline.cpp",
+      "src/dsp/Phase14PlaybackPipeline.h",
+      "src/dsp/Phase18PcmCache.cpp",
+      "src/dsp/Phase18PcmCache.h",
+      "src/dsp/PhaseLocker.cpp",
+      "src/dsp/PhaseLocker.h",
+      "src/dsp/PhaseVocoder.cpp",
+      "src/dsp/PhaseVocoder.h",
+      "src/dsp/RingOverlapAdd.cpp",
+      "src/dsp/RingOverlapAdd.h",
+      "src/dsp/STFT.cpp",
+      "src/dsp/STFT.h",
+      "src/dsp/SinusoidalResidualEngine.cpp",
+      "src/dsp/SinusoidalResidualEngine.h",
+      "src/dsp/StereoPhaseCoherence.cpp",
+      "src/dsp/StereoPhaseCoherence.h",
+      "src/dsp/StreamingCrossover.cpp",
+      "src/dsp/StreamingCrossover.h",
+      "src/dsp/TimeMap.cpp",
+      "src/dsp/TimeMap.h",
+      "src/dsp/TimeStretchEngine.cpp",
+      "src/dsp/TimeStretchEngine.h",
+      "src/dsp/TimeStretchProcessor.cpp",
+      "src/dsp/TimeStretchProcessor.h",
+      "src/dsp/TonalResidualEngine.cpp",
+      "src/dsp/TonalResidualEngine.h",
+      "src/dsp/TransientAnchor.cpp",
+      "src/dsp/TransientAnchor.h",
+      "src/dsp/TransientDetector.cpp",
+      "src/dsp/TransientDetector.h",
+      "src/dsp/TransientEventMap.cpp",
+      "src/dsp/TransientEventMap.h",
+      "src/dsp/WSOLAEngine.cpp",
+      "src/dsp/WSOLAEngine.h",
+      "src/playback/StartupDiagnostics.h",
+      "src/prototype/Phase22VariableTimeMap.cpp",
+      "src/prototype/Phase22VariableTimeMap.h",
+      "src/prototype/Phase24PlaybackPipeline.cpp",
+      "src/prototype/Phase24PlaybackPipeline.h",
+      "src/prototype/Phase24StreamingSpeedEngine.cpp",
+      "src/prototype/Phase24StreamingSpeedEngine.h",
+      "src/prototype/Phase35PhaseVocoder.cpp",
+      "src/prototype/Phase35PhaseVocoder.h",
+      "src/prototype/Phase35StereoPhaseCoherence.cpp",
+      "src/prototype/Phase35StereoPhaseCoherence.h",
+      "src/prototype/Phase35TimeMap.cpp",
+      "src/prototype/Phase35TimeMap.h",
+      "src/prototype/Phase36PlaybackPipeline.cpp",
+      "src/prototype/Phase36PlaybackPipeline.h",
+      "src/prototype/Phase36StreamingSpeedEngine.cpp",
+      "src/prototype/Phase36StreamingSpeedEngine.h",
+      "src/prototype/Phase36SynthesisCore.h",
+      "src/prototype/Phase37HighSpeedMap.cpp",
+      "src/prototype/Phase37HighSpeedMap.h",
+      "src/prototype/Phase39PlaybackPipeline.cpp",
+      "src/prototype/Phase39PlaybackPipeline.h",
+      "src/prototype/Phase39TimeMap.cpp",
+      "src/prototype/Phase39TimeMap.h",
+      "src/prototype/Phase42DensityGuard.cpp",
+      "src/prototype/Phase42DensityGuard.h",
+      "src/prototype/Phase45PcmDigest.h",
+      "src/prototype/Phase50Boundary.h",
+      "src/prototype/Phase56ImmutableSeries.h",
+      "src/prototype/Phase56PinnedWav.h",
+      "src/prototype/Phase56ProgressiveAnalysis.cpp",
+      "src/prototype/Phase56ProgressiveAnalysis.h",
+      "src/prototype/Phase56ReferenceData.h",
+      "src/prototype/Phase57ProgressiveSynthesis.cpp",
+      "src/prototype/Phase57ProgressiveSynthesis.h",
+      "src/prototype/Phase58FixAllocationProbe.h",
+      "src/prototype/Phase58FixRealtimeWorker.cpp",
+      "src/prototype/Phase58FixRealtimeWorker.h",
+      "src/prototype/Phase58FixSnapshotMailbox.h",
+      "src/prototype/Phase58RealtimePipeline.cpp",
+      "src/prototype/Phase58RealtimePipeline.h",
+      "src/prototype/Phase59Control.h",
+      "src/prototype/Phase59Diagnostics.h",
+      "src/prototype/Phase59PlanningContract.h",
+      "src/prototype/Phase59ProgressiveTransition.cpp",
+      "src/prototype/Phase59ProgressiveTransition.h",
+      "src/prototype/Phase61SeekEnvelope.h",
+      "tests/Phase62CacheFocusTests.cpp",
+      "tests/Phase62WorkerTransactionTests.cpp"
+    ],
+    "dependency_and_build_records": [
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase62_worker_transaction_tests.dir/tests/Phase62WorkerTransactionTests.cpp.o.d",
+        "bytes": 254707,
+        "sha256": "9e17875badc37c8be498c73ceccfaed10bed78fa48092ec902bfeee5ffa4fd77"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase62_worker_transaction_tests.dir/flags.make",
+        "bytes": 309,
+        "sha256": "97e62ac4ed897e580df08b661432e176698e2d8b2bfdbdfb1f7f8d29ac67f372"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase62_worker_transaction_tests.dir/link.txt",
+        "bytes": 450,
+        "sha256": "872dee164acd069238cd5767f100dfcd83891160b7d6f75501327118c682c6fd"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase58_realtime.dir/src/prototype/Phase58FixRealtimeWorker.cpp.o.d",
+        "bytes": 130162,
+        "sha256": "228739f507abca04a90b6f141a6fa9a157989dcc68b933bcfc033fd324a9c5f9"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase58_realtime.dir/src/prototype/Phase58RealtimePipeline.cpp.o.d",
+        "bytes": 255267,
+        "sha256": "3b3aaa12267e60512f5ab0f17edf238110c17c2192778c44f91b8b3da72c3266"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase58_realtime.dir/flags.make",
+        "bytes": 482,
+        "sha256": "89efe361c15e4db10d16b03a21208ca9ccd42597c4fe704ece4a580a391322ca"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase58_realtime.dir/link.txt",
+        "bytes": 228,
+        "sha256": "8b40b08cf0f77ecc1b33a12f65299fbd0177c289e00ba20a3dc6b85704da386c"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase57_synthesis.dir/src/prototype/Phase57ProgressiveSynthesis.cpp.o.d",
+        "bytes": 252839,
+        "sha256": "509dfaadf6f1b750d8c880e2908bc928df8ed680f7474783335821681bfa70b0"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase57_synthesis.dir/flags.make",
+        "bytes": 359,
+        "sha256": "96a0f6303791a2b0af259b264c3dcd35884a1b9c947a87c1b157920cb22f5b1d"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase57_synthesis.dir/link.txt",
+        "bytes": 158,
+        "sha256": "9655f581ac15f9c00f937b96513d3016e5e9f2234b914ad0c3293cda8686d8cd"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase59_transition.dir/src/prototype/Phase59ProgressiveTransition.cpp.o.d",
+        "bytes": 251918,
+        "sha256": "d9f8c77e861eebeec5e0b58655f1191eeb8d4c114cb7211eca5fe7b86de6e5dc"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase59_transition.dir/flags.make",
+        "bytes": 359,
+        "sha256": "96a0f6303791a2b0af259b264c3dcd35884a1b9c947a87c1b157920cb22f5b1d"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase59_transition.dir/link.txt",
+        "bytes": 162,
+        "sha256": "38a44dc880aae0826b8cc7d1f995777821edee75e1bdbff82369be5899268d9b"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase56_incremental.dir/src/prototype/Phase56ProgressiveAnalysis.cpp.o.d",
+        "bytes": 246611,
+        "sha256": "d92734d6a3b4ff13d55ab21e10ebeafd295e6e177237930eac4f9844359ecad3"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase56_incremental.dir/flags.make",
+        "bytes": 359,
+        "sha256": "96a0f6303791a2b0af259b264c3dcd35884a1b9c947a87c1b157920cb22f5b1d"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase56_incremental.dir/link.txt",
+        "bytes": 163,
+        "sha256": "e821b036e47ee349c21d0bb9ee6f576df1a5b215872d62a84028c70abd3c971a"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase39_variable.dir/src/prototype/Phase37HighSpeedMap.cpp.o.d",
+        "bytes": 246303,
+        "sha256": "30bb99798a477fd8d091c0f8e9e20ff10d5e1d7bcdcabdc61340a4ed7c24fb17"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase39_variable.dir/src/prototype/Phase39PlaybackPipeline.cpp.o.d",
+        "bytes": 253817,
+        "sha256": "77bc8f24143772f89672de6856b66a03c8b3b7ba04066642bc87621f3e9f7e60"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase39_variable.dir/src/prototype/Phase39TimeMap.cpp.o.d",
+        "bytes": 246728,
+        "sha256": "a802509e6e82eba2939e557da82cb3b4f05c111b37d56177dabe23d9346cdb1e"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase39_variable.dir/src/prototype/Phase42DensityGuard.cpp.o.d",
+        "bytes": 251416,
+        "sha256": "2900c412491d431cf76e763587db79a3833e9bf79ab2db27f5441cd86d2656b0"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase39_variable.dir/flags.make",
+        "bytes": 359,
+        "sha256": "96a0f6303791a2b0af259b264c3dcd35884a1b9c947a87c1b157920cb22f5b1d"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase39_variable.dir/link.txt",
+        "bytes": 362,
+        "sha256": "9614b43e78e74a5492defb214ed17c23bfffa4e05fec82647dadb83515747a25"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase36_variable.dir/src/prototype/Phase35PhaseVocoder.cpp.o.d",
+        "bytes": 140014,
+        "sha256": "6401713f7382dd9ade887948e35fe6df996406cd18569a5ac30d4b3f4e4f41f1"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase36_variable.dir/src/prototype/Phase35StereoPhaseCoherence.cpp.o.d",
+        "bytes": 140115,
+        "sha256": "d80006779c327c7e111673750e35d4297bffa1aef53e9946813176198ba25044"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase36_variable.dir/src/prototype/Phase35TimeMap.cpp.o.d",
+        "bytes": 246651,
+        "sha256": "31e624b5aa60f49272a6d64b39ac1c2dd57356aebec6b5b6f1b8912983c58a1d"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase36_variable.dir/src/prototype/Phase36PlaybackPipeline.cpp.o.d",
+        "bytes": 253251,
+        "sha256": "443699caebc4dc44f7134727d7d973994efe1b62febc4bcaa85af6bae5a2e728"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase36_variable.dir/src/prototype/Phase36StreamingSpeedEngine.cpp.o.d",
+        "bytes": 251633,
+        "sha256": "b6738576becbd3cdbca6e280e29eac805c9193c715d33d1f8f67038fa325c0f6"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase36_variable.dir/flags.make",
+        "bytes": 359,
+        "sha256": "96a0f6303791a2b0af259b264c3dcd35884a1b9c947a87c1b157920cb22f5b1d"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase36_variable.dir/link.txt",
+        "bytes": 450,
+        "sha256": "65d8d322be982d8fd0038609540815f2f78e9dae318d4d7514a07dee696d971e"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase24_variable.dir/src/prototype/Phase22VariableTimeMap.cpp.o.d",
+        "bytes": 246186,
+        "sha256": "c0a7c3412058989ed03003efbc63bd23401376369979a21abefdfd7ca86999fd"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase24_variable.dir/src/prototype/Phase24PlaybackPipeline.cpp.o.d",
+        "bytes": 252770,
+        "sha256": "ee4d620fded7c5c747689e3085ed6702cd71e02689ca125fe274705ca3123c61"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase24_variable.dir/src/prototype/Phase24StreamingSpeedEngine.cpp.o.d",
+        "bytes": 246998,
+        "sha256": "6fc0d87c35ae855aab15a7d0d4fef30b3fca7fa7503012ef4603836bd4747e6d"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase24_variable.dir/flags.make",
+        "bytes": 309,
+        "sha256": "97e62ac4ed897e580df08b661432e176698e2d8b2bfdbdfb1f7f8d29ac67f372"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/phase24_variable.dir/link.txt",
+        "bytes": 306,
+        "sha256": "ee10db2ccf5d1c7b30c1890f8a1c3efd156b211fe49fbd898ebdabc131a4b8bf"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/audio/WavReader.cpp.o.d",
+        "bytes": 142457,
+        "sha256": "b41a8a29dd6e22770256a9ae01e1927bff5a8c4be586180976b5b74636154410"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/audio/WavStream.cpp.o.d",
+        "bytes": 144316,
+        "sha256": "fb5ef0515b89f5e02bc2936dda1c74658c820437c3a8277e6483b7f821aa8f1a"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/audio/WavWriter.cpp.o.d",
+        "bytes": 142457,
+        "sha256": "d10162b976400a6ef403df66799701e40ef33fb31410ca6a8fff437a7d408254"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/ChunkedTimeStretchEngine.cpp.o.d",
+        "bytes": 246891,
+        "sha256": "c3658924b436e11a3b7cd025564ba77ed9012ee5f2bf943128554984eb1bee00"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/FFTAccelerate.cpp.o.d",
+        "bytes": 242609,
+        "sha256": "5bb387f0112238418336d499f470f958898eb97c17905605b4d4309dab835f1c"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/MultiResolutionCrossover.cpp.o.d",
+        "bytes": 242833,
+        "sha256": "22ed9abdfb918b0959fcbb391992ad8747362537155313e609773e8ba290164b"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/OverlapAdd.cpp.o.d",
+        "bytes": 128841,
+        "sha256": "09ba07c7d40153679b519e02beb65f81e53fc90414ccfff103a33a26e507f810"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/PartialTracker.cpp.o.d",
+        "bytes": 140045,
+        "sha256": "ccb882f09b698f6c33a18e3603da27d7c98e5ad47866f40223a9a3ddb76372d5"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/PeriodicResynchronizer.cpp.o.d",
+        "bytes": 246527,
+        "sha256": "0a250413a415a7f7e5e3b47825b96a6d62e6717e158dce14d1e91479b9d66f05"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/Phase13StreamingEngine.cpp.o.d",
+        "bytes": 246961,
+        "sha256": "ec02f935102f2f6e3927f27beea6a62aa73966857ef44714b8907294ea102052"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/Phase14PlaybackPipeline.cpp.o.d",
+        "bytes": 252579,
+        "sha256": "273225a2be7335a2869cb3a90bbded5a190b128a10b0c1c823de2006411f2e10"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/Phase18PcmCache.cpp.o.d",
+        "bytes": 253119,
+        "sha256": "7ab07b14f739967605e7d90454d933dda6067123e9035b4de35aeb17b2db2591"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/PhaseLocker.cpp.o.d",
+        "bytes": 139909,
+        "sha256": "72090369391c40ed1ef7bf36f1b11bcd796e3ecfefb798b23650849cefe297f2"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/PhaseVocoder.cpp.o.d",
+        "bytes": 139975,
+        "sha256": "34569fb302ea941cfa645378be7526548cac961d7562780b33d8ba3fafa28f6a"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/RingOverlapAdd.cpp.o.d",
+        "bytes": 128853,
+        "sha256": "84618aef98169b7a39d0454230dd3658938ce696babfd19afe480e4f37eda40f"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/STFT.cpp.o.d",
+        "bytes": 242773,
+        "sha256": "3367a0b0e6f5e9029968fcf5ce48e1144fddf8c2d1b582890a3cc942ab9a313a"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/SinusoidalResidualEngine.cpp.o.d",
+        "bytes": 245698,
+        "sha256": "50f620adaf6ff0a7e388a3e95d33f28461cc320fbe8810759064b1da5b58e136"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/StereoPhaseCoherence.cpp.o.d",
+        "bytes": 140063,
+        "sha256": "1e25e4fbaa54303adb08ccb09b5afb728e5aa84e8fe778a513b6a914218a3393"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/StreamingCrossover.cpp.o.d",
+        "bytes": 242765,
+        "sha256": "90bf615798ee9fc3132c16a3ccb3be061bbe98f8e391d720b3aa2a0bc9db2915"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/TimeMap.cpp.o.d",
+        "bytes": 128970,
+        "sha256": "1318db9816d35ed0f8a009285d1ed40a8b2ea66af7e9659b9cdb594b42aac4de"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/TimeStretchEngine.cpp.o.d",
+        "bytes": 246400,
+        "sha256": "48aa684640fb99e48c1ed8fd4163f06d957c8b6f1021315feb031e18158837a4"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/TimeStretchProcessor.cpp.o.d",
+        "bytes": 247825,
+        "sha256": "af18b1d619152a0dbbeda0266cd768b7566841fea23bffb535fbed8e08e9ad45"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/TonalResidualEngine.cpp.o.d",
+        "bytes": 245633,
+        "sha256": "955533c27149fc1095765af8ff1c04838f4104ad16fc28211a8fd2a5e0aa6e96"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/TransientAnchor.cpp.o.d",
+        "bytes": 132466,
+        "sha256": "4caded2f637dd20a7c1b51a3528eabb10fd9148c6b704b7e484311383cf2c442"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/TransientDetector.cpp.o.d",
+        "bytes": 128862,
+        "sha256": "c903e609a53e91e60c6e0a1b1c315399d84d240e9eb30119cb1889c78096af21"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/TransientEventMap.cpp.o.d",
+        "bytes": 129057,
+        "sha256": "345c9aed0f0dd73dfe5ac3576eceb96b43a74724b3c2398b568a757980caf0a0"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/src/dsp/WSOLAEngine.cpp.o.d",
+        "bytes": 142522,
+        "sha256": "c290a688e0c82256273711316df7be66aa74416a34c7d36f6193ac261532e10a"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/flags.make",
+        "bytes": 579,
+        "sha256": "36597419c6e87984471f4526cded49e13b8350eb3db2a7195204429d5d549672"
+      },
+      {
+        "path": "build/phase62_e5_review_20261021_01/baseline_build/CMakeFiles/timestretch_core.dir/link.txt",
+        "bytes": 1770,
+        "sha256": "a979d0e5f70d82ab2ef2e7f44c04c2eadea89ed4b252cbf1fe857546a702785f"
+      }
+    ],
+    "binary": {
+      "path": "build/phase62_e5_review_20261021_01/baseline_build/phase62_worker_transaction_tests",
+      "bytes": 857808,
+      "sha256": "cea0f508457098b12c0e98928fb8cd239c3129ff71f02e578f06374007f110c3"
+    },
+    "runtime_source_binding": "BLOCKED_MISSING_RECORD",
+    "source_relation": "関連104件を31ba期待byteで構成できる。当時の実行sourceが31baだったとは認定しない。"
+  },
+  "restorable_dependency_sources": [
+    {
+      "path": "src/audio/WavFile.h",
+      "sha256": "235a51acfd9f45c7f69214d051e7339c8103aaa99d67b8d3b22ee5a0db15f2fd",
+      "restore_kind": "worktree",
+      "restore_from": "src/audio/WavFile.h"
+    },
+    {
+      "path": "src/audio/WavReader.cpp",
+      "sha256": "600a66b1ca321bb8c7236ea4163b85d7c0d47c4d6dfd3bb54ed85935703114d4",
+      "restore_kind": "worktree",
+      "restore_from": "src/audio/WavReader.cpp"
+    },
+    {
+      "path": "src/audio/WavReader.h",
+      "sha256": "791074df9fb9ec37ac99ae200a7d07903598a92cf61488d4c09b928955a38413",
+      "restore_kind": "worktree",
+      "restore_from": "src/audio/WavReader.h"
+    },
+    {
+      "path": "src/audio/WavStream.cpp",
+      "sha256": "8c6881eba1d5bc4e69e52ac957d80e673e03536cbe178090db0dd4c8e2c0fd97",
+      "restore_kind": "worktree",
+      "restore_from": "src/audio/WavStream.cpp"
+    },
+    {
+      "path": "src/audio/WavStream.h",
+      "sha256": "981efa02ab488f2f85f691b89154895fd6ef2cef45804e77d92e2f5c632fb9e4",
+      "restore_kind": "worktree",
+      "restore_from": "src/audio/WavStream.h"
+    },
+    {
+      "path": "src/audio/WavWriter.cpp",
+      "sha256": "d213f1ea3fc21ccbe8b3e936cbc13518709d86ab470f1caaa16601bd3b272db4",
+      "restore_kind": "worktree",
+      "restore_from": "src/audio/WavWriter.cpp"
+    },
+    {
+      "path": "src/audio/WavWriter.h",
+      "sha256": "956d4286df72c154f19656abb6af5fb2b53d03e412a614a6da077a8d481406c4",
+      "restore_kind": "worktree",
+      "restore_from": "src/audio/WavWriter.h"
+    },
+    {
+      "path": "src/dsp/ChunkedTimeStretchEngine.cpp",
+      "sha256": "80f7d79404530ea83c00383cfd17db49fb302e8ec1268f573e918c371a91e9e7",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/ChunkedTimeStretchEngine.cpp"
+    },
+    {
+      "path": "src/dsp/ChunkedTimeStretchEngine.h",
+      "sha256": "4e9de3202ac7a6458ab8acfdc5768f82d05d73cf3e12fac479d475404607dc92",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/ChunkedTimeStretchEngine.h"
+    },
+    {
+      "path": "src/dsp/FFTAccelerate.cpp",
+      "sha256": "d74f4f6484873da5b774404a7d4a74fd3660882cb0b393e2ca76459588daa12f",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/FFTAccelerate.cpp"
+    },
+    {
+      "path": "src/dsp/FFTAccelerate.h",
+      "sha256": "a32c77a1373faf6e14345e44067d68cd2317e5d2b8cc23a77151a6e356ccec13",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/FFTAccelerate.h"
+    },
+    {
+      "path": "src/dsp/MultiResolutionCrossover.cpp",
+      "sha256": "fb302babf0e5237fc2e19cb2e7502a12b95db02fceb5cfa766e831f259cc4db8",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/MultiResolutionCrossover.cpp"
+    },
+    {
+      "path": "src/dsp/MultiResolutionCrossover.h",
+      "sha256": "a0b72c1eaa61d9c9a6c6e1a702777b651635106387464f89a2a7e99b70e5558d",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/MultiResolutionCrossover.h"
+    },
+    {
+      "path": "src/dsp/OverlapAdd.cpp",
+      "sha256": "8d5cbb3f33fbae4a1ef9425eaf3f29f20650a3d1729be9b8748db6177c3b110e",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/OverlapAdd.cpp"
+    },
+    {
+      "path": "src/dsp/OverlapAdd.h",
+      "sha256": "15d18365e0b1296e0f985a3ca6dcbd00cf85d505ed8a3b64e8cea05d09bc17a5",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/OverlapAdd.h"
+    },
+    {
+      "path": "src/dsp/PartialTracker.cpp",
+      "sha256": "b23c381724e67c82d52063d6e66d743faa5e1dd027279dab7ea3a618dec79397",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/PartialTracker.cpp"
+    },
+    {
+      "path": "src/dsp/PartialTracker.h",
+      "sha256": "27af68b6bbee0024a5f36de1b6f96ac9f75d332a8b40b6e45da8319bb058c96e",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/PartialTracker.h"
+    },
+    {
+      "path": "src/dsp/PeriodicResynchronizer.cpp",
+      "sha256": "d65be58978bc9ea6c9906db717c0117206ba8464a1f5d8968fb0ddd71e440945",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/PeriodicResynchronizer.cpp"
+    },
+    {
+      "path": "src/dsp/PeriodicResynchronizer.h",
+      "sha256": "38e1ce0e0b732b14c0cc594028fb4d97e63906cb422eb5df75f4111653f040eb",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/PeriodicResynchronizer.h"
+    },
+    {
+      "path": "src/dsp/Phase13StreamingEngine.cpp",
+      "sha256": "b0081b76ff5f9a78ee5ac4dd67eebac155ce3e5bd07fcf4934c6e34b31f6e0f3",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/Phase13StreamingEngine.cpp"
+    },
+    {
+      "path": "src/dsp/Phase13StreamingEngine.h",
+      "sha256": "5842aa017e76042a4e9d495511153455413ddece5d7d26b6bf7507392edb1c91",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/Phase13StreamingEngine.h"
+    },
+    {
+      "path": "src/dsp/Phase14PlaybackPipeline.cpp",
+      "sha256": "7147e6cd5fd1e910222c7d3a651db9b38ad674b7b12465828374afd82bfdc3ad",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/Phase14PlaybackPipeline.cpp"
+    },
+    {
+      "path": "src/dsp/Phase14PlaybackPipeline.h",
+      "sha256": "9e5930a7613b5ae6c57ab87ebd2ab1ae9ee17a4e292d79e78a8d104cdee258e0",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/Phase14PlaybackPipeline.h"
+    },
+    {
+      "path": "src/dsp/Phase18PcmCache.cpp",
+      "sha256": "12f1498859e708b3179d083df108bfa990a5a4015566842bbec4a0a1cc72870e",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/Phase18PcmCache.cpp"
+    },
+    {
+      "path": "src/dsp/Phase18PcmCache.h",
+      "sha256": "bf3292dd54af63022af9681867111fd172c1311a075e095b73b4269e7ab88890",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/Phase18PcmCache.h"
+    },
+    {
+      "path": "src/dsp/PhaseLocker.cpp",
+      "sha256": "fe2ebf3b0e73c81db1b601e12b8d244e9621a7010b5231f86fbf9c53c3c0b927",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/PhaseLocker.cpp"
+    },
+    {
+      "path": "src/dsp/PhaseLocker.h",
+      "sha256": "c3d6ece121a777f369acde0aca68fb252282f50c966d5ff984ca321137605a7c",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/PhaseLocker.h"
+    },
+    {
+      "path": "src/dsp/PhaseVocoder.cpp",
+      "sha256": "9231f8bd482643245df35b39d5e88762202579095e4fb7014ce6e712cc9fa17a",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/PhaseVocoder.cpp"
+    },
+    {
+      "path": "src/dsp/PhaseVocoder.h",
+      "sha256": "18c4aa64e918769588ee29fd3ad21f589c34aa5b91e4605d61f5f1e638ec062d",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/PhaseVocoder.h"
+    },
+    {
+      "path": "src/dsp/RingOverlapAdd.cpp",
+      "sha256": "907d2b163fd8ef58dc7cfc137b2a5f5576fd32896402d902e2885493559bffc2",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/RingOverlapAdd.cpp"
+    },
+    {
+      "path": "src/dsp/RingOverlapAdd.h",
+      "sha256": "dc1695cfa5f244bd5ecca34cf1925e1ee5d28649b93be0f608f6cac88a5b67ce",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/RingOverlapAdd.h"
+    },
+    {
+      "path": "src/dsp/STFT.cpp",
+      "sha256": "9421830964a9341b480b46264c90b807a0573ac52b4f86bb8567103cb927d252",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/STFT.cpp"
+    },
+    {
+      "path": "src/dsp/STFT.h",
+      "sha256": "3793e91efb30cf4aef454fdd21e1af53fa9297fd81d733fe2195c02df6455ae1",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/STFT.h"
+    },
+    {
+      "path": "src/dsp/SinusoidalResidualEngine.cpp",
+      "sha256": "798caf66b60b25a720429a6acede8229750152d71c8b9b069391fa7790457f31",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/SinusoidalResidualEngine.cpp"
+    },
+    {
+      "path": "src/dsp/SinusoidalResidualEngine.h",
+      "sha256": "23157273c97547978280135bce252a76636ccc3de20e7d3228ad78e6d529cc75",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/SinusoidalResidualEngine.h"
+    },
+    {
+      "path": "src/dsp/StereoPhaseCoherence.cpp",
+      "sha256": "c010674899bd829da0783cde63d6265014b50aaa248cb54d3a90648f2b286c0b",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/StereoPhaseCoherence.cpp"
+    },
+    {
+      "path": "src/dsp/StereoPhaseCoherence.h",
+      "sha256": "a85fbf3150357e5ccab5c5921b1e71feae3a7639fd99d765926b566edb730613",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/StereoPhaseCoherence.h"
+    },
+    {
+      "path": "src/dsp/StreamingCrossover.cpp",
+      "sha256": "10b5be1b4f32374beecef9b18ac2f43ac0a30346e6c81bebbc28102a392b5e2c",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/StreamingCrossover.cpp"
+    },
+    {
+      "path": "src/dsp/StreamingCrossover.h",
+      "sha256": "2439365d6e82d6be9c6bb6fb6aef3799057c25b1863d91e1064f5d5a8749ce39",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/StreamingCrossover.h"
+    },
+    {
+      "path": "src/dsp/TimeMap.cpp",
+      "sha256": "3f59ca30bd4cd49f9c6f6494036d44b2b6752c11c9690fffd5ceae0c958e1a2d",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/TimeMap.cpp"
+    },
+    {
+      "path": "src/dsp/TimeMap.h",
+      "sha256": "acd4e0cfd83a399f3d091e1558664bdfdfc229606ecd3b19a68ab54da36a22a0",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/TimeMap.h"
+    },
+    {
+      "path": "src/dsp/TimeStretchEngine.cpp",
+      "sha256": "f3ccf5060968d08b36dd7778d39e027585fcc313190602fc9a37768237013017",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/TimeStretchEngine.cpp"
+    },
+    {
+      "path": "src/dsp/TimeStretchEngine.h",
+      "sha256": "a64549cd97a7ef4373e22d73e986eeb16f9550cf50be37e05458ddf497b90753",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/TimeStretchEngine.h"
+    },
+    {
+      "path": "src/dsp/TimeStretchProcessor.cpp",
+      "sha256": "f9fcba7267e04a93cf0968bfa6fbd0e0a3deb311f8c4d867107e085a6a4288b9",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/TimeStretchProcessor.cpp"
+    },
+    {
+      "path": "src/dsp/TimeStretchProcessor.h",
+      "sha256": "843618563ac5da8eaf22028ee3ae53011e0789344dc9c5ae26ee66de20eb569c",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/TimeStretchProcessor.h"
+    },
+    {
+      "path": "src/dsp/TonalResidualEngine.cpp",
+      "sha256": "a373ff7aae5ddc7576092b2322336f002486ef5da81393ac9c7a2ea42f7b9fb9",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/TonalResidualEngine.cpp"
+    },
+    {
+      "path": "src/dsp/TonalResidualEngine.h",
+      "sha256": "32880b13734f0dfa297726d2282e30a4593f579a623b6fe32d0606c43f2fe576",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/TonalResidualEngine.h"
+    },
+    {
+      "path": "src/dsp/TransientAnchor.cpp",
+      "sha256": "d18175a55527f2cd34368b96fde6ce20ff1f74960a3b2456bee844fea2835ff8",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/TransientAnchor.cpp"
+    },
+    {
+      "path": "src/dsp/TransientAnchor.h",
+      "sha256": "416ea3c6f7ed7392a3ded42928b05881dd4833b251cd35ccde829440251d039c",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/TransientAnchor.h"
+    },
+    {
+      "path": "src/dsp/TransientDetector.cpp",
+      "sha256": "4276e17e78366196dcac5b5ef92238990eee9b4d5281d21be8bc86dd17045c83",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/TransientDetector.cpp"
+    },
+    {
+      "path": "src/dsp/TransientDetector.h",
+      "sha256": "612c0058761c118d700f01e7ea275dea9b6d392b3124d37def42706a27ad040d",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/TransientDetector.h"
+    },
+    {
+      "path": "src/dsp/TransientEventMap.cpp",
+      "sha256": "73d47996bb593a7f3b5fcf7417ef9707661e0b48cee2d4ab13baa7c96d50c630",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/TransientEventMap.cpp"
+    },
+    {
+      "path": "src/dsp/TransientEventMap.h",
+      "sha256": "7cc599615afdc36c2006c0087d492a1afc2da25b0930c61fd9e17b20cb1dede1",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/TransientEventMap.h"
+    },
+    {
+      "path": "src/dsp/WSOLAEngine.cpp",
+      "sha256": "a4eaaed34f0fb74e19ab8fe3242f1b349b08f9bcb56bbbccc320f0d26e9b7e97",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/WSOLAEngine.cpp"
+    },
+    {
+      "path": "src/dsp/WSOLAEngine.h",
+      "sha256": "5712c71890edd164c856f177c33801bd7622719283ffca85dc861691175a13de",
+      "restore_kind": "worktree",
+      "restore_from": "src/dsp/WSOLAEngine.h"
+    },
+    {
+      "path": "src/platform/macos/MacPlaybackEngine.h",
+      "sha256": "67cc2583ce10f4880cf04e4a740e089df9289b3074f3c9dcf6b34c54b99f0c48",
+      "restore_kind": "worktree",
+      "restore_from": "src/platform/macos/MacPlaybackEngine.h"
+    },
+    {
+      "path": "src/platform/macos/ProgressiveMacPlaybackEngine.h",
+      "sha256": "3ac570aee85b19209b1a0c492c04f6873481205e72eeeb4590c21d515656ad07",
+      "restore_kind": "saved_final",
+      "restore_from": "build/phase62_e5_review_20261021_01/instrumented_baseline_source/src/platform/macos/ProgressiveMacPlaybackEngine.h"
+    },
+    {
+      "path": "src/platform/macos/ProgressiveMacPlaybackEngine.mm",
+      "sha256": "a4c76a4e623ac2252f2c8a96c8eaa61ca783a72002b748353109fe0634e61a4d",
+      "restore_kind": "saved_final",
+      "restore_from": "build/phase62_e5_review_20261021_01/instrumented_baseline_source/src/platform/macos/ProgressiveMacPlaybackEngine.mm"
+    },
+    {
+      "path": "src/playback/LoopSpeedLedger.h",
+      "sha256": "0e9c44eba89169afe96e5fe5c655393168afd578c90840466adeb9e28456addd",
+      "restore_kind": "git_blob",
+      "restore_from": "e5dc91675723b7163b10cc3ea2323710033caeaa:src/playback/LoopSpeedLedger.h"
+    },
+    {
+      "path": "src/playback/PlaybackAnalysisCache.h",
+      "sha256": "8a3c439527ec38451fd540c0701618d959ba581278577d0437ba719d8f8a6e47",
+      "restore_kind": "worktree",
+      "restore_from": "src/playback/PlaybackAnalysisCache.h"
+    },
+    {
+      "path": "src/playback/PlaybackEngine.h",
+      "sha256": "cbbf728ff45892f077dc791c1d231cb7cf300cb5ea5873981ec903295295218c",
+      "restore_kind": "worktree",
+      "restore_from": "src/playback/PlaybackEngine.h"
+    },
+    {
+      "path": "src/playback/ProgressiveContract.h",
+      "sha256": "aca5782fb95776d3f81bf768b4c6ef43f969c81d98c5c968a3f35d274b776093",
+      "restore_kind": "worktree",
+      "restore_from": "src/playback/ProgressiveContract.h"
+    },
+    {
+      "path": "src/playback/ProgressiveLoopContract.h",
+      "sha256": "12ae6fbaf7330129168a506573bba367964033ff23d05320fa95897ba3c79593",
+      "restore_kind": "worktree",
+      "restore_from": "src/playback/ProgressiveLoopContract.h"
+    },
+    {
+      "path": "src/playback/ProgressiveSeekContract.h",
+      "sha256": "ead1da92c79e1c9df75497ae1fdaef99ff83bd0961f89ea1a11fa81b0cb9acb6",
+      "restore_kind": "worktree",
+      "restore_from": "src/playback/ProgressiveSeekContract.h"
+    },
+    {
+      "path": "src/playback/StartupDiagnostics.h",
+      "sha256": "0187240e6b60acb59484a8511a3fe8d36347db18a4617c160a0b4063c269aa4f",
+      "restore_kind": "worktree",
+      "restore_from": "src/playback/StartupDiagnostics.h"
+    },
+    {
+      "path": "src/prototype/Phase22VariableTimeMap.cpp",
+      "sha256": "3bbd7ccbc0c8e209b8715f326768660cc89c3c05ae5d671db036018d92c2c51b",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase22VariableTimeMap.cpp"
+    },
+    {
+      "path": "src/prototype/Phase22VariableTimeMap.h",
+      "sha256": "6c94478ca3e3c9fe3ca81822b3ec0774296619a5123d3ad88d37512ac38666a3",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase22VariableTimeMap.h"
+    },
+    {
+      "path": "src/prototype/Phase24PlaybackPipeline.cpp",
+      "sha256": "a88a09685b83592f0e828889076fe7b386c1509fc68884bdb7ebba1eb9245112",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase24PlaybackPipeline.cpp"
+    },
+    {
+      "path": "src/prototype/Phase24PlaybackPipeline.h",
+      "sha256": "9a4a57294f098345e212fa0cf823c66551a07439c1c3c1245103877c5097e98a",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase24PlaybackPipeline.h"
+    },
+    {
+      "path": "src/prototype/Phase24StreamingSpeedEngine.cpp",
+      "sha256": "e84b660a6683c1c6571b6c47e175f935ceae7948c260a1a809302c874e36f2b5",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase24StreamingSpeedEngine.cpp"
+    },
+    {
+      "path": "src/prototype/Phase24StreamingSpeedEngine.h",
+      "sha256": "d8c6793c4a61297e857d5d4481bf34c79bde6e6822ed30d08b657811c4ee82c9",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase24StreamingSpeedEngine.h"
+    },
+    {
+      "path": "src/prototype/Phase35PhaseVocoder.cpp",
+      "sha256": "8e49d29571635c2f50183a963a8ca1c9350e3a27d70aa2038002302a64cb1f84",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase35PhaseVocoder.cpp"
+    },
+    {
+      "path": "src/prototype/Phase35PhaseVocoder.h",
+      "sha256": "6b4ba59abff6aef2fd1abb8400f2c73e40749556271d2836c72fe81cf33e66eb",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase35PhaseVocoder.h"
+    },
+    {
+      "path": "src/prototype/Phase35StereoPhaseCoherence.cpp",
+      "sha256": "202b375db154cfe718425bb46245037afaa0ade4f12ae3fba5daa82cb1735633",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase35StereoPhaseCoherence.cpp"
+    },
+    {
+      "path": "src/prototype/Phase35StereoPhaseCoherence.h",
+      "sha256": "09b356be27cc210b7470c40db66568f577df9907e51ceaa4e28d2af50342cbcf",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase35StereoPhaseCoherence.h"
+    },
+    {
+      "path": "src/prototype/Phase35TimeMap.cpp",
+      "sha256": "ce8ca7e9a721200df1d9e4e693a567498bc908fcc828402cd1cb358c5a802495",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase35TimeMap.cpp"
+    },
+    {
+      "path": "src/prototype/Phase35TimeMap.h",
+      "sha256": "b08ff92c5321c45f49b5e4256fe15155d8bc369f0e8880dd85d6d0ef876f0894",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase35TimeMap.h"
+    },
+    {
+      "path": "src/prototype/Phase36PlaybackPipeline.cpp",
+      "sha256": "6a97cf9d3fc4a501c14cbee3e6ec0a99e6adc3c02d67b3f95911de626d5f7431",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase36PlaybackPipeline.cpp"
+    },
+    {
+      "path": "src/prototype/Phase36PlaybackPipeline.h",
+      "sha256": "50806026913f710452972f91f0eab6162fb872b8c7b4765448b1c6e6ac134c86",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase36PlaybackPipeline.h"
+    },
+    {
+      "path": "src/prototype/Phase36StreamingSpeedEngine.cpp",
+      "sha256": "7b281dfdf18b4cc2f9e1d5c9c611dc6e1be91759cd9f20f97978460e7a75dd3f",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase36StreamingSpeedEngine.cpp"
+    },
+    {
+      "path": "src/prototype/Phase36StreamingSpeedEngine.h",
+      "sha256": "3a7a98100e5fafcde9314a0762bf3dd6a468350e779ab796aeb2c06e7fbf0179",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase36StreamingSpeedEngine.h"
+    },
+    {
+      "path": "src/prototype/Phase36SynthesisCore.h",
+      "sha256": "2e41cf982b8bf44064cffd6a76d56caf95465936db1d5d8432309fc79fd63a19",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase36SynthesisCore.h"
+    },
+    {
+      "path": "src/prototype/Phase37HighSpeedMap.cpp",
+      "sha256": "4613cd458059c77c70c016fbbedac3c81e649ba818ae07c9eefea3a9c3029ae9",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase37HighSpeedMap.cpp"
+    },
+    {
+      "path": "src/prototype/Phase37HighSpeedMap.h",
+      "sha256": "46994ee79deb2f9c4525687242397c6754fa27b3f4666043c78fe8f8515dcd83",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase37HighSpeedMap.h"
+    },
+    {
+      "path": "src/prototype/Phase39PlaybackPipeline.cpp",
+      "sha256": "026bcccf626c44f0d261c49b1d9020b4a7da88ba3c9dc841bcbd0aab0574114a",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase39PlaybackPipeline.cpp"
+    },
+    {
+      "path": "src/prototype/Phase39PlaybackPipeline.h",
+      "sha256": "a47ee88a3d53a66ee304038bca75234ec23a804d2e7bf5710a78db4430dde633",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase39PlaybackPipeline.h"
+    },
+    {
+      "path": "src/prototype/Phase39TimeMap.cpp",
+      "sha256": "d525a52c24e6882ce1197638c866dc5f8fa4c9a7aa7977f2824c81d939def31a",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase39TimeMap.cpp"
+    },
+    {
+      "path": "src/prototype/Phase39TimeMap.h",
+      "sha256": "2018ebcb8a75c7902c98d0d8f9f239f6fafc0a3a0b607b30c0ab57c3d9723070",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase39TimeMap.h"
+    },
+    {
+      "path": "src/prototype/Phase42DensityGuard.cpp",
+      "sha256": "088b3f872a791a1cd8d4db0cdfad7add0e0622f4cbb736dc549f85087593fea4",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase42DensityGuard.cpp"
+    },
+    {
+      "path": "src/prototype/Phase42DensityGuard.h",
+      "sha256": "91004ee0b7c2129aeb41dd50bbe16f2432de1a9cca9cf67bcf4abfc27e57c9a4",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase42DensityGuard.h"
+    },
+    {
+      "path": "src/prototype/Phase45PcmDigest.h",
+      "sha256": "afe775ca6a9235b7b6ef705b3f9db6c04bd2a4509ba1bcb31ed9507ba1aefb36",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase45PcmDigest.h"
+    },
+    {
+      "path": "src/prototype/Phase46HostClock.h",
+      "sha256": "4e4ea2d3b3142d3dbb7beb8bdb4536b79178799a1135add473c75abaa4e05f7e",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase46HostClock.h"
+    },
+    {
+      "path": "src/prototype/Phase50Boundary.h",
+      "sha256": "580eaebab2894f8f8d0d2046151fe566b2d4545b2c48222666b353992b826da4",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase50Boundary.h"
+    },
+    {
+      "path": "src/prototype/Phase56ImmutableSeries.h",
+      "sha256": "06a4d2a9e0133e80b0d03165aee7ec0b7cc3f5465a6fe5fea9f537915ac24a17",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase56ImmutableSeries.h"
+    },
+    {
+      "path": "src/prototype/Phase56PinnedWav.h",
+      "sha256": "838434b47f12537abc40e5a65c06f9b2af9efdda3bb23a844cb4bb7e17def29b",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase56PinnedWav.h"
+    },
+    {
+      "path": "src/prototype/Phase56ProgressiveAnalysis.cpp",
+      "sha256": "dfb180d06882395c7c194e976f4959250103b76c5adf16ef5e8c3a2ee5356b09",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase56ProgressiveAnalysis.cpp"
+    },
+    {
+      "path": "src/prototype/Phase56ProgressiveAnalysis.h",
+      "sha256": "56170b3a34655faa0ae0aa79eca14a116101deccc64a5654e9ad1ff074da2ba8",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase56ProgressiveAnalysis.h"
+    },
+    {
+      "path": "src/prototype/Phase56ReferenceData.h",
+      "sha256": "813fe9158f4b40cf68adcb56048013febe7920a0483ab6c8dc20bef40d5f9e1f",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase56ReferenceData.h"
+    },
+    {
+      "path": "src/prototype/Phase57ProgressiveSynthesis.cpp",
+      "sha256": "00d92c115d7c9cb91a69b60dcfb64b781836668be9585e5a33efa4851fe20a6a",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase57ProgressiveSynthesis.cpp"
+    },
+    {
+      "path": "src/prototype/Phase57ProgressiveSynthesis.h",
+      "sha256": "c44438334aeb2766a50e2ec6db7e237880c31465aa5860fadc1e84912e3640ce",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase57ProgressiveSynthesis.h"
+    },
+    {
+      "path": "src/prototype/Phase58Diagnostics.h",
+      "sha256": "693844e9dec9583d6b507ca7d071962728b9657ee2ec9f3eea248980e825bd8a",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase58Diagnostics.h"
+    },
+    {
+      "path": "src/prototype/Phase58FixAllocationProbe.h",
+      "sha256": "87158422b21b10a3cde3690d0f85a0e17466e1bff2de47a225b6affcb33044ec",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase58FixAllocationProbe.h"
+    },
+    {
+      "path": "src/prototype/Phase58FixRealtimeWorker.cpp",
+      "sha256": "36bb9a2cf227d65bb4d6f95cc2726998778e9c5a0ad7cca50d61a9ec7f712c6a",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase58FixRealtimeWorker.cpp"
+    },
+    {
+      "path": "src/prototype/Phase58FixRealtimeWorker.h",
+      "sha256": "16472b6e40e68180592d4a7ca9e365babeca6e6626b71a324b70e283a3997cf4",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase58FixRealtimeWorker.h"
+    },
+    {
+      "path": "src/prototype/Phase58FixSnapshotMailbox.h",
+      "sha256": "6a0b330f88ef791e32fb447ef2e6f029a6e9e42397c6d356ca023c1f4a88a91b",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase58FixSnapshotMailbox.h"
+    },
+    {
+      "path": "src/prototype/Phase58RealtimePipeline.cpp",
+      "sha256": "330672a4da548fb43aeb1149f2c88f2984064d3ae08490eb288299af9e721a9d",
+      "restore_kind": "saved_final",
+      "restore_from": "build/phase62_e5_review_20261021_01/instrumented_baseline_source/src/prototype/Phase58RealtimePipeline.cpp"
+    },
+    {
+      "path": "src/prototype/Phase58RealtimePipeline.h",
+      "sha256": "130b5882f10307e7dedb4175aa2c39729c4cf946b54203c647312d6e375803cd",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase58RealtimePipeline.h"
+    },
+    {
+      "path": "src/prototype/Phase59Control.h",
+      "sha256": "9abe66bb3b327c15a7c864a00b9aca8241e0d04772d95ced1d5508d082607b7e",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase59Control.h"
+    },
+    {
+      "path": "src/prototype/Phase59Diagnostics.h",
+      "sha256": "0e0d3be5988bb8d183790fa4b66d4bc6b50cd3d11d2a088620b0dd7b23da6c3a",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase59Diagnostics.h"
+    },
+    {
+      "path": "src/prototype/Phase59PlanningContract.h",
+      "sha256": "b4a6feae568628fd6ddd37ed5622bb9b03c0c5aa54f8d685f16bc44c713e46d3",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase59PlanningContract.h"
+    },
+    {
+      "path": "src/prototype/Phase59ProgressiveTransition.cpp",
+      "sha256": "fafa3dd9ca5a111674c7929f9e64e655323add98f3fa737734b438f02caabd78",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase59ProgressiveTransition.cpp"
+    },
+    {
+      "path": "src/prototype/Phase59ProgressiveTransition.h",
+      "sha256": "a49cf2e0094c849fed762c7547489860331cd6e5e52ebf83c865fe2fa203024c",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase59ProgressiveTransition.h"
+    },
+    {
+      "path": "src/prototype/Phase61OutputTransition.h",
+      "sha256": "36ad27306250e81fa57895a6ede4a1b88aabcc2d89353444e232b746f9ab7813",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase61OutputTransition.h"
+    },
+    {
+      "path": "src/prototype/Phase61SeekEnvelope.h",
+      "sha256": "e2623decd362dd184c222317987e7f775d09667c47875e392cca712e8c9881fe",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase61SeekEnvelope.h"
+    },
+    {
+      "path": "src/prototype/Phase62LoopBoundary.h",
+      "sha256": "4106b1eac002ed8178c06a305f42e0e0d43dce05bc4a037063f6adaa4fc9f165",
+      "restore_kind": "worktree",
+      "restore_from": "src/prototype/Phase62LoopBoundary.h"
+    },
+    {
+      "path": "tests/Phase61CallbackMallocProbe.cpp",
+      "sha256": "83b65a2e86cb9e2aba0aca2764e028965c0585ead026c1d1d7a15696c109daaa",
+      "restore_kind": "worktree",
+      "restore_from": "tests/Phase61CallbackMallocProbe.cpp"
+    },
+    {
+      "path": "tests/Phase61CallbackMallocProbe.h",
+      "sha256": "998599e6918c4d06193692fa079e36d55156bc128dbae41f67b51af3b8e7b05a",
+      "restore_kind": "worktree",
+      "restore_from": "tests/Phase61CallbackMallocProbe.h"
+    },
+    {
+      "path": "tests/Phase61NativeTests.cpp",
+      "sha256": "58b8a018c3b21adaa53a120e6442d387732d38903306901799e061e7f63a08bf",
+      "restore_kind": "worktree",
+      "restore_from": "tests/Phase61NativeTests.cpp"
+    },
+    {
+      "path": "tests/Phase62AdoptionReviewNative.cpp",
+      "sha256": "68b9ef70821434e5b291671b87024a6a945682336f213763f829fea6e00373dc",
+      "restore_kind": "saved_final",
+      "restore_from": "build/phase62_e5_review_20261021_01/instrumented_baseline_source/tests/Phase62AdoptionReviewNative.cpp"
+    },
+    {
+      "path": "tests/Phase62CacheFocusTests.cpp",
+      "sha256": "527005a2f1ddda7afd9352a85ae2c3d6ad7401e31454d11502895888d9e83306",
+      "restore_kind": "worktree",
+      "restore_from": "tests/Phase62CacheFocusTests.cpp"
+    },
+    {
+      "path": "tests/Phase62FixTrace.h",
+      "sha256": "25328661a5fdf29b2010775c655e462caa5d719495016ff3dca38a2dc6007ee2",
+      "restore_kind": "worktree",
+      "restore_from": "tests/Phase62FixTrace.h"
+    },
+    {
+      "path": "tests/Phase62NativeTests.cpp",
+      "sha256": "fb1c046784da7f8b489e1c133ff64c1bad496133cbe8d476252fa22b0458d2bf",
+      "restore_kind": "worktree",
+      "restore_from": "tests/Phase62NativeTests.cpp"
+    },
+    {
+      "path": "tests/Phase62PcmAudit.h",
+      "sha256": "0b6f602dbbfa4a2ea4e483b4a99a3358068637f6ad5d12ea425db9c9fb1561d0",
+      "restore_kind": "worktree",
+      "restore_from": "tests/Phase62PcmAudit.h"
+    },
+    {
+      "path": "tests/Phase62PlayingLedgerNative.cpp",
+      "sha256": "20439b87c5b259283dd8ce2e427bb2b55436e551ebf09f15591ecae878005955",
+      "restore_kind": "recovered_helper",
+      "restore_from": "build/phase62_e5_review_20261021_01/baseline_recovery/Phase62PlayingLedgerNative.cpp"
+    },
+    {
+      "path": "tests/Phase62WorkerTransactionTests.cpp",
+      "sha256": "1e8418c6744a4517cb242038942db3a7196f795c37d02681219a88437c62987a",
+      "restore_kind": "saved_final",
+      "restore_from": "build/phase62_e5_review_20261021_01/instrumented_baseline_source/tests/Phase62WorkerTransactionTests.cpp"
+    }
+  ],
+  "historical_runs": [
+    {
+      "run": "baseline_a1_cancel_candidate_01",
+      "original_status": "PASS",
+      "original_summary": {
+        "schema": 1,
+        "suite": "phase62_adoption_review",
+        "mode": "a1_cancel",
+        "preset": "candidate",
+        "run_complete": true,
+        "status": "PASS",
+        "expected": 6,
+        "executed": 6,
+        "Accepted_IDs": [
+          2,
+          3
+        ],
+        "owner_peak": 2,
+        "owners_alive": 0,
+        "callback_cpp_new": 0,
+        "callback_malloc": 0,
+        "callback_free": 0,
+        "independent_DSP": "NOT_RUN",
+        "RT_deadline_approval": "NOT_ASSESSED",
+        "local_overall_go": false
+      },
+      "original_binary_sha256": "43cf4637898625f7d117f81885f46280ab51e16a6c1d9b78be62352bbebd406b",
+      "recorded_source_inventory_sha256": "31ba1ae56c5489e9e557ad96340be75a49c1c96b35d26f2cd776e78329666802",
+      "original_artifacts": [
+        {
+          "path": "build/phase62_e5_review_20261021_01/baseline_a1_cancel_candidate_01/EXPECTED.json",
+          "bytes": 861,
+          "sha256": "72c122cf1a0aa3a25c7a7d0cdc6dcc512230b394e2445b433b15b17d13ae8f80"
+        },
+        {
+          "path": "build/phase62_e5_review_20261021_01/baseline_a1_cancel_candidate_01/SUMMARY.json",
+          "bytes": 352,
+          "sha256": "83e9951b6e94e7568f5f52255d7b7d56f1d9714ad725c3a9a6e6c34f54a6f2ad"
+        },
+        {
+          "path": "build/phase62_e5_review_20261021_01/baseline_a1_cancel_candidate_01/checks.jsonl",
+          "bytes": 356,
+          "sha256": "ff00233dd8ceaa88d5d8030afece90f064af3ae620d131e4a76de0ac0549dd7b"
+        }
+      ]
+    },
+    {
+      "run": "baseline_a1_started_candidate_01",
+      "original_status": "FAIL",
+      "original_summary": {
+        "schema": 1,
+        "suite": "phase62_adoption_review",
+        "mode": "a1_started",
+        "run_complete": false,
+        "status": "FAIL",
+        "expected": 6,
+        "executed": 2,
+        "reason": "Started勝利した旧IDを早期Replacedにした"
+      },
+      "original_binary_sha256": "43cf4637898625f7d117f81885f46280ab51e16a6c1d9b78be62352bbebd406b",
+      "recorded_source_inventory_sha256": "31ba1ae56c5489e9e557ad96340be75a49c1c96b35d26f2cd776e78329666802",
+      "original_artifacts": [
+        {
+          "path": "build/phase62_e5_review_20261021_01/baseline_a1_started_candidate_01/EXPECTED.json",
+          "bytes": 864,
+          "sha256": "59c1d80e0585821181dba8b1811a6dd120acfb377ddd0c7d5f9d678914a3f3e0"
+        },
+        {
+          "path": "build/phase62_e5_review_20261021_01/baseline_a1_started_candidate_01/SUMMARY.json",
+          "bytes": 192,
+          "sha256": "dbf76c58e0f2b1cf7c34b58df1869a21ee4844b58efe9b3f2d7d85283d7faca7"
+        },
+        {
+          "path": "build/phase62_e5_review_20261021_01/baseline_a1_started_candidate_01/checks.jsonl",
+          "bytes": 123,
+          "sha256": "3df8dcefe98f2c51036232f51c88761edd67ee8e82967a388788e710d7eb46b9"
+        }
+      ]
+    },
+    {
+      "run": "baseline_a2_initial_supply_candidate_01",
+      "original_status": "FAIL",
+      "original_summary": {
+        "schema": 1,
+        "suite": "phase62_adoption_review",
+        "mode": "a2_initial_supply",
+        "run_complete": false,
+        "status": "FAIL",
+        "expected": 6,
+        "executed": 2,
+        "reason": "未採用の初回必須供給を終端化/採用事実を捏造した"
+      },
+      "original_binary_sha256": "43cf4637898625f7d117f81885f46280ab51e16a6c1d9b78be62352bbebd406b",
+      "recorded_source_inventory_sha256": "31ba1ae56c5489e9e557ad96340be75a49c1c96b35d26f2cd776e78329666802",
+      "original_artifacts": [
+        {
+          "path": "build/phase62_e5_review_20261021_01/baseline_a2_initial_supply_candidate_01/EXPECTED.json",
+          "bytes": 897,
+          "sha256": "2ad2710b054d8c13207eb83b58c15ba0244bcb8401638adfe5b3d3a7b8b15ab5"
+        },
+        {
+          "path": "build/phase62_e5_review_20261021_01/baseline_a2_initial_supply_candidate_01/SUMMARY.json",
+          "bytes": 219,
+          "sha256": "abf142a77457b00312d5a42c56a1b0713cba15e2e8cb543e320d3b32c56f46c2"
+        },
+        {
+          "path": "build/phase62_e5_review_20261021_01/baseline_a2_initial_supply_candidate_01/checks.jsonl",
+          "bytes": 123,
+          "sha256": "be39040710b1d7303ac176dc88f998b065d38018d38c226942e9d47ba0fc293f"
+        }
+      ]
+    },
+    {
+      "run": "baseline_b_internal4096_candidate_01",
+      "original_status": "FAIL",
+      "original_summary": {
+        "schema": 1,
+        "suite": "phase62_adoption_review",
+        "mode": "b_internal4096",
+        "run_complete": false,
+        "status": "FAIL",
+        "expected": 7,
+        "executed": 3,
+        "reason": "実内部LimitReachedがFailed/InternalLimitへ伝播しない"
+      },
+      "original_binary_sha256": "43cf4637898625f7d117f81885f46280ab51e16a6c1d9b78be62352bbebd406b",
+      "recorded_source_inventory_sha256": "31ba1ae56c5489e9e557ad96340be75a49c1c96b35d26f2cd776e78329666802",
+      "original_artifacts": [
+        {
+          "path": "build/phase62_e5_review_20261021_01/baseline_b_internal4096_candidate_01/EXPECTED.json",
+          "bytes": 960,
+          "sha256": "acd97d9186c91fd5d3ade294aa9ac41631b141c20f6c1c0062e356ffb95a2f57"
+        },
+        {
+          "path": "build/phase62_e5_review_20261021_01/baseline_b_internal4096_candidate_01/SUMMARY.json",
+          "bytes": 208,
+          "sha256": "fd27f11382fc54952a1e1abc0d98ba676af1177ee6fd6c0bba1434665dfa7155"
+        },
+        {
+          "path": "build/phase62_e5_review_20261021_01/baseline_b_internal4096_candidate_01/checks.jsonl",
+          "bytes": 207,
+          "sha256": "3f1092574b22d094fa4f44c245ad200030da50856804f901a3de069a00e02163"
+        }
+      ]
+    },
+    {
+      "run": "baseline_cache_candidate_01",
+      "original_status": "FAIL",
+      "original_summary": {
+        "status": "FAIL",
+        "reason": "accept old A",
+        "complete": false
+      },
+      "original_binary_sha256": "45d32e728286604f7e0163160a8a29e2c7d44f007f8d238e8bd424c19dae121b",
+      "recorded_source_inventory_sha256": null,
+      "original_artifacts": [
+        {
+          "path": "build/phase62_e5_review_20261021_01/baseline_cache_candidate_01/EXPECTED.json",
+          "bytes": 366,
+          "sha256": "46be9e8c096ea259103e5acadf334eb5b6193f14bd279c752d856a710b296880"
+        },
+        {
+          "path": "build/phase62_e5_review_20261021_01/baseline_cache_candidate_01/SUMMARY.json",
+          "bytes": 59,
+          "sha256": "84e15da30adcdffd0226ee014acc26ad304d9056bac2bbe0fb1e6090da93b953"
+        },
+        {
+          "path": "build/phase62_e5_review_20261021_01/baseline_cache_candidate_01/checks.jsonl",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    {
+      "run": "baseline_cache_candidate_02",
+      "original_status": "FAIL",
+      "original_summary": {
+        "status": "FAIL",
+        "reason": "missed required real window",
+        "complete": false
+      },
+      "original_binary_sha256": "fe4cd01ccf71726b422f83bd71d3bb05ec7918e9951210df283794ae5ca7cf5c",
+      "recorded_source_inventory_sha256": null,
+      "original_artifacts": [
+        {
+          "path": "build/phase62_e5_review_20261021_01/baseline_cache_candidate_02/EXPECTED.json",
+          "bytes": 366,
+          "sha256": "58a428310e7aa070282d90b9a35ef8652c86131ad95fad3bdbb6ee3b0def3e46"
+        },
+        {
+          "path": "build/phase62_e5_review_20261021_01/baseline_cache_candidate_02/SUMMARY.json",
+          "bytes": 74,
+          "sha256": "6860ee1e8386a6209d91f4d9fac0ebc8e949cda2d4dccf3bfdc44fb154f01b6b"
+        },
+        {
+          "path": "build/phase62_e5_review_20261021_01/baseline_cache_candidate_02/checks.jsonl",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    {
+      "run": "baseline_cache_candidate_03",
+      "original_status": "FAIL",
+      "original_summary": {
+        "status": "FAIL",
+        "reason": "old_completion_isolated",
+        "complete": false
+      },
+      "original_binary_sha256": "84ea36bc18d3463053551fd026b6f496aa5c0a95c491f130fe39445fbf6af798",
+      "recorded_source_inventory_sha256": null,
+      "original_artifacts": [
+        {
+          "path": "build/phase62_e5_review_20261021_01/baseline_cache_candidate_03/EXPECTED.json",
+          "bytes": 366,
+          "sha256": "76458bb4f85665320d3ef40dbcc59d1ff1e75575632e4c45217cad889d5d69ee"
+        },
+        {
+          "path": "build/phase62_e5_review_20261021_01/baseline_cache_candidate_03/SUMMARY.json",
+          "bytes": 70,
+          "sha256": "0bafaaa4d3e89e5db7042754f5dd08721ac783104633096c52633b34fd2f71d5"
+        },
+        {
+          "path": "build/phase62_e5_review_20261021_01/baseline_cache_candidate_03/checks.jsonl",
+          "bytes": 143,
+          "sha256": "5d0cf999bd7078ff710afd4440bd84ff9aba504b5be193ed18738d639fa03dd6"
+        }
+      ]
+    },
+    {
+      "run": "baseline_cache_candidate_04",
+      "original_status": "FAIL",
+      "original_summary": {
+        "status": "FAIL",
+        "reason": "old_completion_isolated",
+        "complete": false
+      },
+      "original_binary_sha256": "cea0f508457098b12c0e98928fb8cd239c3129ff71f02e578f06374007f110c3",
+      "recorded_source_inventory_sha256": null,
+      "original_artifacts": [
+        {
+          "path": "build/phase62_e5_review_20261021_01/baseline_cache_candidate_04/EXPECTED.json",
+          "bytes": 366,
+          "sha256": "b811f3647a6fad15c0d44f838ffab7b15d1eabfe68091801c5b6ee2a431a3041"
+        },
+        {
+          "path": "build/phase62_e5_review_20261021_01/baseline_cache_candidate_04/SUMMARY.json",
+          "bytes": 70,
+          "sha256": "0bafaaa4d3e89e5db7042754f5dd08721ac783104633096c52633b34fd2f71d5"
+        },
+        {
+          "path": "build/phase62_e5_review_20261021_01/baseline_cache_candidate_04/checks.jsonl",
+          "bytes": 143,
+          "sha256": "5d0cf999bd7078ff710afd4440bd84ff9aba504b5be193ed18738d639fa03dd6"
+        }
+      ]
+    }
+  ],
+  "original_execution_records": [
+    {
+      "id": "a1_cancel_candidate",
+      "exit": 0,
+      "seconds": 1.6303516250045504,
+      "log": "build/phase62_e5_review_20261021_01/a1_cancel_candidate_baseline_01.log",
+      "log_identity": {
+        "path": "build/phase62_e5_review_20261021_01/a1_cancel_candidate_baseline_01.log",
+        "bytes": 352,
+        "sha256": "83e9951b6e94e7568f5f52255d7b7d56f1d9714ad725c3a9a6e6c34f54a6f2ad"
+      }
+    },
+    {
+      "id": "a1_started_candidate",
+      "exit": 1,
+      "seconds": 0.2927171250048559,
+      "log": "build/phase62_e5_review_20261021_01/a1_started_candidate_baseline_01.log",
+      "log_identity": {
+        "path": "build/phase62_e5_review_20261021_01/a1_started_candidate_baseline_01.log",
+        "bytes": 51,
+        "sha256": "40d09dfc88996d45a56aac5a7ae42c5127fd30c2d704c31259fb1f850ebc93d1"
+      }
+    },
+    {
+      "id": "a2_initial_supply_candidate",
+      "exit": 1,
+      "seconds": 0.2908771250076825,
+      "log": "build/phase62_e5_review_20261021_01/a2_initial_supply_candidate_baseline_01.log",
+      "log_identity": {
+        "path": "build/phase62_e5_review_20261021_01/a2_initial_supply_candidate_baseline_01.log",
+        "bytes": 71,
+        "sha256": "e90e4d3946e0dcbeada1d53ce9dd04987949c91ddabe78ab525ed6db8fdbefb4"
+      }
+    },
+    {
+      "id": "b_internal4096_candidate",
+      "exit": 1,
+      "seconds": 16.56388641599915,
+      "log": "build/phase62_e5_review_20261021_01/b_internal4096_candidate_baseline_01.log",
+      "log_identity": {
+        "path": "build/phase62_e5_review_20261021_01/b_internal4096_candidate_baseline_01.log",
+        "bytes": 63,
+        "sha256": "abed3683fb0ff62aa7685388d67f2d7dadb6f1cac472e9f4603de2167536b734"
+      }
+    }
+  ],
+  "cache04_original_old_new_transaction": {
+    "old_id": 1,
+    "new_id": 2,
+    "deadline_decision_id": 1,
+    "new_observed_id": 2,
+    "state": "Rejected",
+    "reason": 0
+  },
+  "missing_old_cache_binaries": {
+    "runs": [
+      "01",
+      "02",
+      "03"
+    ],
+    "scope": "現在のbaseline_build共有パスは04のbyte。旧3版はこの監査で復元しない。"
+  },
+  "new_execution_counts": {
+    "rebuild": 0,
+    "pcm": 0,
+    "audio": 0,
+    "historical_runs_relabelled": 0
+  },
+  "limits": [
+    "732件の完全なソース凍結ではない。未回収PartialMix/Fault2件は両binaryの依存外。",
+    "cache04のsource/driver識別子と4jobへの接続は元記録にない。この不足は埋めない。",
+    "依存122/104件は現在残るコンパイラー依存記録から列挙。cache04実行時source接続の代用にはしない。",
+    "nativeは外部dylibにも依存する。その当時SHAは元EXPECTEDにないため実行環境全体の凍結とは認定しない。"
+  ],
+  "audited_at_utc": "2026-10-21T05:15:12.219358+00:00",
+  "recipe": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_e5_review/recipes/audit_baseline.py",
+    "sha256": "f960b7ab7dbec76a7ffd1e333d3d75827f5580e5280c69e811504fb2b735010f"
+  }
+}

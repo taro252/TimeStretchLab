@@ -1,0 +1,143 @@
+[
+  {
+    "id": "instrumented_baseline",
+    "status": "EXPECTED_FAIL",
+    "evidence": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/BASELINE_EXPECTED.json",
+        "bytes": 114379,
+        "sha256": "77a2b09483aee7f8c58ee5cd53f80002374141c9529ed379a8fb1c6cd09c1418"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/BASELINE_EXECUTION.json",
+        "bytes": 738,
+        "sha256": "84913ecf5b8a725e74bf2ab05fe3c745c5859e3c3a9bd57cebbdf1d269b8490e"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/baseline_cache_candidate_04/old_new_transaction.json",
+        "bytes": 99,
+        "sha256": "876dfe09224ef435e9602d5cbf3322c03c44f9f4385ec7351844cc73ff60bc0b"
+      }
+    ],
+    "reason": "e5へ観測・注入のみを加えた保存ソース。純粋なe5 binaryとは呼ばない。Started旧ID、初回必須供給ID、InternalLimit理由、旧cache A→新Bを再現。"
+  },
+  {
+    "id": "fault_test_v1",
+    "status": "FAIL",
+    "evidence": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_v1/SUMMARY.json",
+      "bytes": 31053,
+      "sha256": "1b870a0e6ca6a3dd392ddcd9f5c7aa0353d095bced1bd5aa3e51bb8a25fff406"
+    },
+    "reason": "reservation2件はowner構築前拒否に存在しない退役workerを待った試験不備。保存し修正後再実行。"
+  },
+  {
+    "id": "API_wrong_python",
+    "status": "FAIL",
+    "evidence": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/focused_final_v1/api/SUMMARY.json",
+      "bytes": 13665,
+      "sha256": "3b7796e89e66f971480576c17c251e10dd27736f4de5a7d44820613eff5f4bd1"
+    },
+    "reason": "NumPyなしPython3.14で16件FAIL、独立DSP比較0件。Python3.12再実行16/16PASSだけを採用。失敗親はINCOMPLETEのまま。"
+  },
+  {
+    "id": "partial_window_missed",
+    "status": "FAIL",
+    "evidence": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final/SUMMARY.json",
+      "bytes": 33403,
+      "sha256": "7015474d28e1b07d82d92ef740c92db15e90d575fa572fa6d3f5cfbe556166f6"
+    },
+    "reason": "200/202。replace両Presetが窓未捕捉。即poll・有限retry、Stop前故障確認、取り逃し理由保存を追加し最終6/6PASS。"
+  },
+  {
+    "id": "validator_negative_before",
+    "status": "FAIL",
+    "evidence": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/verify_evidence_1k250crp/SUMMARY.json",
+      "bytes": 15479,
+      "sha256": "e0e9578c081637862001c9d40f6ad90f51963cf4f7dba7c02604d01fad8e3ddb"
+    },
+    "reason": "旧verifyは35件中29PASS/6FAIL。bool/float/必須ID型/矛盾結果を修正し、既存40+追加35=75件を最終Release/Debug CTestで確認。"
+  },
+  {
+    "id": "binary_count_label",
+    "status": "METADATA_CORRECTED",
+    "evidence": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/NATIVE_EQUIVALENCE_AFTER_VALIDATOR.json",
+      "bytes": 9054,
+      "sha256": "b2b0842431ba227b02538fb3d9c7ef1db38a615c70cfe484b7f6bcdee37ef52d"
+    },
+    "reason": "all_30_binaries_identicalのキー名だけ30と誤記。実比較列挙は29点。REVIEW_CERTIFICATEに29/28を明記、旧記録と実行済recipeのコピーを保持。"
+  },
+  {
+    "id": "native_output_start_before_recovery",
+    "status": "FAIL",
+    "evidence": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/native_final/SUMMARY.json",
+        "bytes": 759,
+        "sha256": "8441117966cf82f614d1df46a2aac861100c1461a1b70a5b82229e0b5d46ebb9"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/native_final_v2/SUMMARY.json",
+        "bytes": 762,
+        "sha256": "7e7dd935fa44f38b28b49017bbb832d277e8fddb5d0601528faed1aa8b54f3eb"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/FIRST_CALLBACK_ENV_02.json",
+        "bytes": 485,
+        "sha256": "15e5436a0c7c16539b3acaea64d3efda9f7dfad804ff47e2c407daa0f1ee908c"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/DEVICE_BUFFER_RECOVERY_01.json",
+        "bytes": 552,
+        "sha256": "a7c79d69fb2053a07dc390acab1d68c0af2ca9a3be7860b5fdf48b3d0e85c755"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/AFPLAY_AFTER_BUFFER_RECOVERY_01.json",
+        "bytes": 72,
+        "sha256": "462bcec79c144e3798897ffabe7439c640b3769eebcaba1d801f60a5554c8dc1"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/OLD_NATIVE_ENV_RESULT.json",
+        "bytes": 221,
+        "sha256": "2955b55dfb4805943401d87d4cb6435f586a78618a11c6755606d9ad8fe7492e"
+      }
+    ],
+    "reason": "復旧前2runは各最初のcontrol 0/3、callback timeout。通常再生diagも製品callback0/消費0、標準afplayもtimeout。bufferは512へ復元、旧成功ビルドも同じ開始失敗。当時未実施の40programと正常RT8を後から成功へ変更しない。"
+  },
+  {
+    "id": "native_after_user_device_recovery",
+    "status": "PASS",
+    "evidence": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/native_recovered_01/EXPECTED.json",
+        "bytes": 11103,
+        "sha256": "177a90af1aee34dec04bdf9f2a0ce023d80dc8671e9168b89ebaa76fd474b647"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/native_recovered_01/SUMMARY.json",
+        "bytes": 386429,
+        "sha256": "fd97debd5e7b47b7a00fdc3cf4991944e98acd69eed3f16c9dc8c69f4541743f"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/RECOVERY_DEVICE_GUARD_01.json",
+        "bytes": 502,
+        "sha256": "33d325400cb7a4a8b89f2278a2a903abec46d006e65a8c581246885c067048a9"
+      }
+    ],
+    "reason": "復旧後の新しいrun。全41programと、その内数の正常RT8、装置復元の実結果から判定する。ソース/実行体/参照/driverを保持し、旧失敗は別履歴。"
+  },
+  {
+    "id": "identified_old_cache_repro",
+    "status": "EXPECTED_FAIL_REPRODUCED",
+    "evidence": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_e5_review/CACHE_BASELINE_REPRO.json",
+      "bytes": 2587,
+      "sha256": "bf62526d21997f4884097d8b78a3dcd7dac57b1150729be2f93c60f75d202b3b"
+    },
+    "reason": "初回configure失敗は実行0、v2で依存104件とsource/binary/inputを固定し両Presetで旧不具合を再現。子は各exit1/FAIL。"
+  }
+]

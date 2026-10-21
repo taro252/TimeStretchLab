@@ -17,6 +17,14 @@ struct LifecycleTestHooks {
     void(*event)(void*,LifecycleTestPoint,std::uint64_t session)noexcept=nullptr;
     unsigned failStartBeforeWorker=0; // 1 analysis, 2 DSP, 3 sampler, 0 disabled
 };
+// Explicit bounded normal-worker probes. Never invoked in audio pull or an
+// active Workgroup interval. Context outlives every epoch of the input lease.
+enum class ControlTestPoint {PlannerBeforePlan,PlannerProposal,ApplyingBeforeSupply,ApplyingRejected,CacheReconstructionStarted,CacheDeadlineDecided,CacheDeadlineFinished,CheckpointPermit,EpochReservation,WorkgroupJoin};
+struct ControlTestHooks {
+    void* context=nullptr;
+    void(*event)(void*,ControlTestPoint,std::uint64_t session,std::uint64_t operation)noexcept=nullptr;
+    bool(*fail)(void*,ControlTestPoint,std::uint64_t session,std::uint64_t operation)noexcept=nullptr;
+};
 struct Configuration {
     std::uint32_t speedMicros=500000;
     bool candidate=true,verifyPcm=true,recordWorkerProfile=false;
@@ -44,12 +52,18 @@ struct Configuration {
     std::size_t loopBeginInputFrame=0;
     bool localPublicationFade=true; // Legacy experiment; Interactive mixes at output.
     LifecycleTestHooks lifecycleTestHooks{};
+    ControlTestHooks controlTestHooks{};
+    bool boundedEpochReservations=false; // native Loop: two 12MiB portions of existing 24MiB
 };
 struct RenderResult {std::size_t wanted=0,received=0,outputBefore=0,fifoBefore=0;};
 struct FifoCursors {std::uint64_t read=0,write=0;};
 struct ExecutionOwnerCounts {std::uint64_t alive=0,peak=0;};
 struct PositionSample {std::uint64_t session=0,mapVersion=0;std::size_t output=0,input=0;double atS=0;};
 struct LoopPcmDescriptor {std::uint64_t cycle=0;std::array<float,2> first{},last{};};
+using LoopPcmDescriptorRing=std::array<phase59::ValueMailbox<LoopPcmDescriptor>,64>;
+inline std::optional<LoopPcmDescriptor> readLoopPcmDescriptor(LoopPcmDescriptorRing& ring,std::uint64_t cycle)noexcept{
+    auto value=ring[cycle%ring.size()].read();return value&&value->cycle==cycle?value:std::optional<LoopPcmDescriptor>{};
+}
 enum class LoopTransitionState {Idle,Requested,Applying,Committed,FixedBoundaryCommitted,Cancelled,Rejected};
 enum class LoopTransitionReason {None,ProtectedFrontier,PreparationDeadline,OperationLimit,NoChange,Unsupported};
 struct LoopTransitionSnapshot {

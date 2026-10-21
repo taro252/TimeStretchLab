@@ -62,3 +62,14 @@ coldは受付から初回Readyまで、Map、解析待ち、合成器構築、A�
 Paused新速度は停止後の実位置CからExact再準備し、旧producerの退役完了後にStoppedSpeedState::ReadyForResumeを公開する。要求ID・inputGeneration・Loop・cycle・preparationVersion・位置を照合し、可聴Completedと区別する。Resume/Playの意思、再Pause取消、旧FIFO破棄の専用監査を使う。B直前の進入混合はBで分割し、丸めでR=0の場合も架空のPCMを追加しない。
 
 Merodoaへ渡す側はReadyをResume前に観測し、古いcontext/準備版を再使用しない。LoopSnapshotのdynamicSpeedRequestIDとdynamicOperationID、mapVersion、dynamicCycle、dynamicOutputEndで外部要求と実計画を対応付ける。speedPreparationFailed/speedFailureRequestIDは有効な旧出力を保持した準備失敗を示す。同じ速度の再要求も失敗後は再試行できる。公開初期値、seek公開承認、currentCycleSpeedChangesの一般承認は専用REPORTの未実施ゲートが閉じるまで変更しない。Merodoa本体・UI・submoduleは今回変更しない。
+
+## e5dc9167レビュー修正との関係
+
+固定Loopの周期・RAW上限・保存点再利用を維持したまま、native採用CAS、KeepPosition初回Bの必須版保持、内部上限の最終理由、cache旧要求の遅い期限判断を修正した。[設計](PHASE62_E5_REVIEW_DESIGN.md)、[検証](PHASE62_E5_REVIEW_VALIDATION.md)、[REPORT](../results/phase62_e5_review/REPORT.md) を参照する。今回も動的Mapを固定checkpointへ無同期コピーしない。有限epoch予約は既存24MiB枠の内訳と寿命を管理し、1GiB・FIFO16384・RAW96000・実行DSP最大2を増やさない。
+
+
+## 装置復旧後の局所ゲート完了（2026-10-21）
+
+[e5レビューREPORT](../results/phase62_e5_review/REPORT.md) の今回限定の局所判定は **PASS / GO**。ユーザーの装置復旧後、同じソースcefdb129…・実行体・参照・条件でnative_recovered_01の全5群41programを新規に実行し、その内数の正常RT8本もPASSした。両Presetで実消費4100周、正常8条件の不足/padding・callback確保/解放・callback/worker期限超過0、buffer512復元を確認した。復旧前の失敗・当時の未実施数は履歴として保持する。
+
+seek機能試験のworker期限超過1件（旧faにも同じ観測、RT承認NOT_ASSESSED）は別記録であり、全41本の期限超過0やseek切替の一般RT承認を主張しない。公開初期値4つ・publicSeekApproved=falseと、物理loopback・試聴・Merodoa/TCC実統合等の別ゲートは維持する。Merodoa本体・UI・submoduleは変更しない。

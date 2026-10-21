@@ -1,0 +1,365 @@
+{
+  "status": "PASS",
+  "source_inventory_sha256": "cefdb1294e89cb5280ad8f6df401eac59825212334e4110f958ca6f0d7c0199c",
+  "source_inventory_before_build": "cefdb1294e89cb5280ad8f6df401eac59825212334e4110f958ca6f0d7c0199c",
+  "configuration": "Release",
+  "architecture": "arm64",
+  "rows": [
+    {
+      "id": "configure",
+      "command": [
+        "cmake",
+        "-S",
+        "/Users/taro252/Docker/TimeStretchLab",
+        "-B",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DCMAKE_OSX_ARCHITECTURES=arm64",
+        "-DBUILD_TESTING=ON"
+      ],
+      "exit": 0,
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/BUILD_REVIEW_07/configure.log",
+        "bytes": 179,
+        "sha256": "d3fdfa85d8b2978ad87a47b94650af2eef2f39523110bd5aac54b742e12b709e"
+      }
+    },
+    {
+      "id": "build",
+      "command": [
+        "cmake",
+        "--build",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build",
+        "--parallel",
+        "4",
+        "--target",
+        "phase62_paused_clear_native",
+        "phase62_playing_ledger_native",
+        "phase62_api_oracle_native",
+        "phase62_api_boundary_reference",
+        "phase62_cache_focus_tests",
+        "phase62_loop_speed_ledger_native",
+        "phase62_loop_speed_ledger_tests",
+        "phase62_race_native",
+        "phase62_dynamic_pcm_tests",
+        "phase61_seek_check",
+        "phase54_core_probe",
+        "phase62_loop_tests",
+        "phase62_fix_reuse_tests",
+        "phase62_dynamic_boundary_tests",
+        "phase62_dynamic_handoff_tests",
+        "phase62_dynamic_controls_native",
+        "phase62_dynamic_loop_probe",
+        "phase62_paused_pcm_tests",
+        "paused_speed_native_tests",
+        "paused_speed_loop_tests",
+        "phase62_dynamic_seek_native",
+        "phase62_clear_pcm_native",
+        "phase62_native_tests",
+        "phase62_worker_transaction_tests",
+        "phase62_history_invariant_tests",
+        "phase62_descriptor_invariant_tests",
+        "phase62_preparation_fault_native",
+        "phase62_adoption_review_native",
+        "phase62_partial_mix_native"
+      ],
+      "exit": 0,
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/BUILD_REVIEW_07/build.log",
+        "bytes": 10654,
+        "sha256": "74436eb785ece65f1a5cd36d4998f62b3321d4d89cbb9de5edffb4aee2e8e7fe"
+      }
+    }
+  ],
+  "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
+  "compiler_path": "/usr/bin/c++",
+  "source_inventory_after_build": "cefdb1294e89cb5280ad8f6df401eac59825212334e4110f958ca6f0d7c0199c",
+  "architecture_checks": {
+    "PASS": true,
+    "expected": "arm64",
+    "files": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build/phase62_paused_clear_native",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build/phase62_playing_ledger_native",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build/phase62_api_oracle_native",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build/phase62_api_boundary_reference",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build/phase62_cache_focus_tests",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build/phase62_loop_speed_ledger_native",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build/phase62_loop_speed_ledger_tests",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build/phase62_race_native",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build/phase62_dynamic_pcm_tests",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build/phase61_seek_check",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build/phase54_core_probe",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build/phase62_loop_tests",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build/phase62_fix_reuse_tests",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build/phase62_dynamic_boundary_tests",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build/phase62_dynamic_handoff_tests",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build/phase62_dynamic_controls_native",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build/phase62_dynamic_loop_probe",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build/phase62_paused_pcm_tests",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build/paused_speed_native_tests",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build/paused_speed_loop_tests",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build/phase62_dynamic_seek_native",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build/phase62_clear_pcm_native",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build/phase62_native_tests",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build/phase62_worker_transaction_tests",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build/phase62_history_invariant_tests",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build/phase62_descriptor_invariant_tests",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build/phase62_preparation_fault_native",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build/phase62_adoption_review_native",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build/phase62_partial_mix_native",
+        "architectures": [
+          "arm64"
+        ],
+        "exit": 0,
+        "PASS": true
+      }
+    ]
+  },
+  "binaries": {
+    "phase62_paused_clear_native": "4d733220e70b4bf7e43cb40df4739b55ea70e84978204af98795ebe334635afe",
+    "phase62_playing_ledger_native": "9a725bd13b04307872ec205f4a44b9ea0e27c9d2d6fcf4e0b8bf219396608ee2",
+    "phase62_api_oracle_native": "f08101096b7520aa74dc0cb9c8afaa47be76823cb725f0f2cdbb522230217c5f",
+    "phase62_api_boundary_reference": "0317172058eb9d8e4b352f814b43df2c9c85aacc0a870321dab924d759cb5231",
+    "phase62_cache_focus_tests": "cc01b1950863874e06ede46175d6d0baa9a26d7f10f8afdefd3f94c3d619bf95",
+    "phase62_loop_speed_ledger_native": "9651c712cfd7dc6f9a6a4b1740665e77417a931df25e26b25431964bcc18e509",
+    "phase62_loop_speed_ledger_tests": "4385f2cec11410061cdaa815841d94cb7b371738dbcf6ea1223478d1c5912fd2",
+    "phase62_race_native": "18d1e9f00e3c7eba2d1957d3aac5a90d0cbfa2e96cb0eb816dca7a594c8b0b64",
+    "phase62_dynamic_pcm_tests": "0ea75be98948d5d26eb32c29c0eb79e9d33af93e11fdd33b6b5852b58e419cdf",
+    "phase61_seek_check": "a1d1f7479fab14f8e23700082d5264f9cc0b299368c294158d98ad95b535794b",
+    "phase54_core_probe": "f65b0ede979d71c5c3e7fcf578ff474fd11e37f32707b2c8718fd20540128734",
+    "phase62_loop_tests": "eb24b1b5f255cafe792d2a6990dcafa091b11d5ad0f0fa42ae9671c260c60fe7",
+    "phase62_fix_reuse_tests": "9bca97bc784fd46be3bf20c50d93602024ce5f49bbe789676416e50c34e2a6f2",
+    "phase62_dynamic_boundary_tests": "6617700e29e31a8ef97da4eb4184c4bec7bed1bcac4a9ef72b881a47fb3a0f7b",
+    "phase62_dynamic_handoff_tests": "3714c19723eba6d345d6b9ced1381288893618a3ce0b4e99c81724dcf1633dc5",
+    "phase62_dynamic_controls_native": "a57b5e43401ab8c9fa50ea8af800b102a5d86abd234534caae7d20e3569b98cd",
+    "phase62_dynamic_loop_probe": "cc0912fa23824e278700b592b1fe17863d21df95ca2a756bfa32e06739bbf84a",
+    "phase62_paused_pcm_tests": "1093f85e4990f2cd1c94479c477603e3b7350d4166e32fb80ccd4d9b43b3ce58",
+    "paused_speed_native_tests": "3f323a2541df83502cc08f786605cbdbb9e702062f64e39416d7461b40d1cc57",
+    "paused_speed_loop_tests": "06a4643910063c9dc66db7142dbb48969caef8f4b4c6389d2146c19d82d7cf1c",
+    "phase62_dynamic_seek_native": "e90ec86f1ef5fd2e8d9a810388ede3922e2a9f5793fafc0436391d129604f9f0",
+    "phase62_clear_pcm_native": "490bda0edc0a2196b8b63dc03984f18ccac796243e2d3edcc545d7fd7e55076f",
+    "phase62_native_tests": "897a535d1d7346267bf9fc46134ac5451ef7a60566894184313bb494b03cfe70",
+    "phase62_worker_transaction_tests": "38c843af9ee71dcd9d651ba17032688d1408195ed3cee98d47566c81275dbe2e",
+    "phase62_history_invariant_tests": "794967a7ffdb7ae5a8466a36e9223c7f1473b4965222f37d43cfffbfcf1ecc39",
+    "phase62_descriptor_invariant_tests": "e9595335ed3a49300fcab81ac5a10cb910206b93132c7fb79c60510243f3e4ca",
+    "phase62_preparation_fault_native": "8bfeda18ecbb108d77c54433784ca3c3813d06a0a1d2bef94fb13b93de07aca8",
+    "phase62_adoption_review_native": "045809f49564f9e3c94077fb7c2a6b3e904dc7a83d05239b2d160e9bfa2ca58f",
+    "phase62_partial_mix_native": "2340a6dff06b5c87c4c6994edfccf3510ed77a97e28ae85f898ece632063282b"
+  },
+  "build_log": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/BUILD_REVIEW_07/build.log",
+    "bytes": 10654,
+    "sha256": "74436eb785ece65f1a5cd36d4998f62b3321d4d89cbb9de5edffb4aee2e8e7fe"
+  },
+  "configure_log": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/BUILD_REVIEW_07/configure.log",
+    "bytes": 179,
+    "sha256": "d3fdfa85d8b2978ad87a47b94650af2eef2f39523110bd5aac54b742e12b709e"
+  },
+  "build_exit": 0,
+  "fp_policy": "# CMAKE generated file: DO NOT EDIT!\n# Generated by \"Unix Makefiles\" Generator, CMake Version 4.3\n\n# compile CXX with /usr/bin/c++\nCXX_DEFINES = -DPHASE62_API_ORACLE_PRODUCT_EVIDENCE=1\n\nCXX_INCLUDES = -I/Users/taro252/Docker/TimeStretchLab/tests -I/Users/taro252/Docker/TimeStretchLab/src\n\nCXX_FLAGSarm64 = -O3 -DNDEBUG -std=c++20 -arch arm64\n\nCXX_FLAGS = -O3 -DNDEBUG -std=c++20 -arch arm64\n\n",
+  "draft_source_sha256": {
+    "host_source": "9e0c9390fe3ebaf0caecb8bd15f90e3f6398daaa464ad8fe2db2a1327d302af7",
+    "adapter_source": "3c33fa2b9f2d762a433327cce036d3afac49057bd9089328845a8104c3351bca",
+    "boundary_source": "44df7a92297e7defb8fe362f053c08bce7def130677b526f42db53b9889e45f6"
+  },
+  "host_binary_sha256": "f08101096b7520aa74dc0cb9c8afaa47be76823cb725f0f2cdbb522230217c5f",
+  "boundary_binary_sha256": "0317172058eb9d8e4b352f814b43df2c9c85aacc0a870321dab924d759cb5231"
+}

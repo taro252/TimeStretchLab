@@ -1,4 +1,5 @@
 #pragma once
+#include <span>
 #include "playback/ProgressiveContract.h"
 #include "playback/ProgressiveLoopContract.h"
 #include "platform/macos/MacPlaybackEngine.h"
@@ -32,13 +33,20 @@ struct ProgressiveCallbackRecord {
     std::size_t outputAffectedFrames=0,failurePaddingFrames=0,pauseSilenceFrames=0;
     prototype::Phase46HostClock::Evidence clock;
 };
-enum class ProgressiveControlTestPoint {SeekPreparationStarted,SwitchStartedOrDone,RetiringOld,RetiringPreparation,RestartWait,SeekCleanupWait,SeekCleanupComplete,RestartLaunch,AcquiringResources,PauseObserved,SwitchPublished};
+enum class ProgressiveControlTestPoint {SeekPreparationStarted,SwitchStartedOrDone,RetiringOld,RetiringPreparation,RestartWait,SeekCleanupWait,SeekCleanupComplete,RestartLaunch,AcquiringResources,PauseObserved,SwitchPublished,SpeedReplacementDecision,LoopJobDispatch,NextPreparationDeadline,PartialMixReplaceDecision,PartialMixClearDecision,PartialMixStopDecision,ClearCancellationDecision};
 // Explicit normal-thread tests only; empty in ordinary apps. Hooks must not call
-// engine APIs. Only seek preparation/switch/retirement and PauseObserved may block;
-// they run outside the engine mutex. Never invoked by the audio callback.
+// engine APIs. SpeedReplacementDecision runs with the engine mutex held; all
+// other worker gates run outside it. Never invoked by the audio callback.
 struct ProgressiveControlTestHooks {
     void* context=nullptr;
     void(*event)(void*,ProgressiveControlTestPoint)noexcept=nullptr;
+};
+// Normal destructor thread only, after all joins/retirement. The sink must own
+// copied values, outlive the engine, and never call back into the engine.
+struct FinalLoopSpeedAudit {
+    std::span<const progressive::LoopSpeedOperation> operations;
+    std::uint64_t sequence=0;
+    bool workersJoined=false,retirementComplete=false;
 };
 struct ProgressiveOptions {
     Preset preset=Preset::Candidate;
@@ -68,6 +76,9 @@ struct ProgressiveOptions {
     std::size_t loopSpeedOperationLimitForTest=4096,stoppedSpeedOperationLimitForTest=4096; // admission only; may reduce, never raise
     prototype::phase58::LifecycleTestHooks pipelineLifecycleTestHooks{};
     ProgressiveControlTestHooks controlTestHooks{};
+    prototype::phase58::ControlTestHooks pipelineControlTestHooks{};
+    void* finalLoopSpeedAuditContext=nullptr;
+    bool(*receiveFinalLoopSpeedAudit)(void*,const FinalLoopSpeedAudit&)noexcept=nullptr;
 };
 struct ProgressivePosition {
     std::uint64_t session=0,outputFrame=0;

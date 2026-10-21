@@ -1,0 +1,67 @@
+{
+  "status": "PASS",
+  "meaning": "旧不具合の2/2再現成功。修正版の品質PASSや独立DSP oracleではない。",
+  "source_inventory_sha256": "72b8319e3d88edeb344d279f27196c9ff7b86680d3f6977e119a4bf8b84f3ce8",
+  "binary": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/cache_baseline_repro_identified_v2/build/phase62_worker_transaction_tests",
+    "bytes": 857808,
+    "sha256": "879ed2edd5b774d09ea97522458c5c5a27a872518b1a86a33bac10722b616980"
+  },
+  "required_dependencies": 104,
+  "old_cache04_source_binding_relabelled": false,
+  "expected": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/cache_baseline_repro_identified_v2/EXPECTED.json",
+    "bytes": 130779,
+    "sha256": "0f7a417e2c50038b4306f80e2eedc35b437d5f08164d21d028564fbef8d176ce"
+  },
+  "build": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/cache_baseline_repro_identified_v2/BUILD.json",
+    "bytes": 1080,
+    "sha256": "9edd4bf8c75a1eb6eab9e53b1345e8f0b7acc1d9becea93508131c5593b7ac61"
+  },
+  "summary": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/cache_baseline_repro_identified_v2/SUMMARY.json",
+    "bytes": 1270,
+    "sha256": "0fee8c8455b7133f7da4aa801a3d00eac27ea77b7ed28b291e22f681ef87f829"
+  },
+  "rows": [
+    {
+      "id": "candidate",
+      "status": "EXPECTED_FAILURE_REPRODUCED",
+      "child_exit": 1,
+      "transaction": {
+        "old_id": 1,
+        "new_id": 2,
+        "deadline_decision_id": 1,
+        "new_observed_id": 2,
+        "state": "Rejected",
+        "reason": 0
+      },
+      "original_child_status": "FAIL"
+    },
+    {
+      "id": "baseline",
+      "status": "EXPECTED_FAILURE_REPRODUCED",
+      "child_exit": 1,
+      "transaction": {
+        "old_id": 1,
+        "new_id": 2,
+        "deadline_decision_id": 1,
+        "new_observed_id": 2,
+        "state": "Rejected",
+        "reason": 0
+      },
+      "original_child_status": "FAIL"
+    }
+  ],
+  "failed_configure": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/cache_baseline_repro_identified/configure.log",
+    "bytes": 1031,
+    "sha256": "103ce278840bd089df6d6232cf54daa95fff3907093eacfd56539781cd6c4900"
+  },
+  "failed_executed_recipe": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/executed_recipes/run_cache_baseline_repro_identified_v1.py",
+    "bytes": 5265,
+    "sha256": "8b754a952538806c134bd9edf030937d1fde3328d3a8cf287d576b7228c7d250"
+  }
+}

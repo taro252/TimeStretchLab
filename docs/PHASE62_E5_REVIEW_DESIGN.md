@@ -1,0 +1,51 @@
+# e5dc9167 レビュー修正の設計と試験対応
+
+開始点はmain@e5dc91675723b7163b10cc3ea2323710033caeaa、clean。旧ソース一覧SHAはfa2b6f4fea83e06b4d31433478ae01cae5d98c3465267c990625d4a30a171c8a。既存証拠を保持し、新しい実行先はbuild/phase62_e5_review_20261021_01。stage/commit/pushは行わない。
+
+外部受付枠の検査を先に行う。その後DSP取消の確定、native Requested取消CASの勝敗、初回B必須供給を判定し、採用可能な旧IDを保護してから非採用確定の待機IDだけReplacedへ進める。保護のためにcommit/開始を捏造しない。採用した旧IDを終端後に修復する方式を使わない。
+
+非同期失敗は今回の確定原因をローカルなtyped値でcatchへ渡す。BusyRetryなど過去の延期理由は最終失敗原因へ持ち越さない。close監査は全worker joinと最終retire後、メンバー破棄前に通常側の長寿命sinkへ値をコピーする。callbackに監査や試験待機を追加しない。
+
+|対象|実装・到達条件|試験計画|
+|---|---|---|
+|A1|native取消CASとStartedの競合確定後に旧ID終端化|sync後/CAS前の通常制御ゲート、取消勝ち/採用勝ち、両Preset|
+|A2|KeepPosition初回Bの必須供給ID保持|dspDone＋未消費FIFOの短い全曲、自己反復無効、実B採用と最新適用|
+|B/D06|内部operation4096拒否とtyped終端原因|同一ownerの同値要求を各Duplicate確定後4096件、KeepPosition Ready後異速度|
+|D01|直接close後の値所有sink|既存Playing両Presetの未完2件を新runで検証|
+|D02|実DSP Applyingの再検査拒否とRequested復帰|実engine supplyの失敗分岐、取消/再受付/旧ID不採用|
+|D03|実planner進行と取消|plan前/提案後の通常worker窓、旧完了混入防止|
+|D04|実Started部分混合|callback分割と0<cursor<Nを観測、置換/Clear/Stop、両Preset|
+|D05|join呼出し位置の失敗復帰|os_workgroup_joinの戻り値注入、旧PCM・退役・policy復元|
+|D07|Loop履歴最大1の到達範囲証明|全入口/出口＋下位512上限/取消rollback試験|
+|D08|descriptor64の距離証明|FIFO/pending/callback/初回partial/R0/先行公開＋古いcycle拒否|
+|D09|保存点permit取得失敗|実予約位置の注入、旧PCM/初回B/枠返却/再要求|
+|D10|次版予約予算拒否|安定再生中の実準備枠予約で拒否、旧Loopと後続回復|
+|D11|次版期限/準備失敗|実期限判定と外部ID終端、旧出力維持、Paused C/再開禁止|
+|旧A→新B候補|IDと期限判断の整合|旧cache再構成の期限判断を保留→取消/settled→新ID受付を検査|
+
+正常負荷の実時間測定と、DSP/planner等の注入試験は分離する。新しい注入フックは無効時に待機・確保・callback処理を増やさず、有限期限・解放・窓捕捉を試験側で確認する。
+
+共有Phase58/worker変更があるため既存再利用証明を無条件に流用しない。差分依存と実行体SHAが一致するものだけ別枠再利用し、動的640、影響する独立API16、境界872、固定Exact/finite/reuse、決定的Release/Debug、native供給を最終差分で再評価する。旧18必須CTest集合を保持し、D07/D08下位試験を追加する。
+
+## 実装した確定点
+
+Playingの受付上限確認→外部ID確保→下位DSP取消→native Requested取消CASの順とする。CAS失敗でStarted/Doneが勝ったactive ID、DSP側がApplying/commitしている版、自己反復がないKeepPosition初回供給IDを、今回のreplace走査だけから除外する。保持のために未発生のadoptionPending/commit/PCM事実を作らない。後に実取消が確定した旧jobは、その時点でReplaced（ClearならCancelled）へ進める。採用済みの行を終端後に書き換えない。
+
+Started部分混合の新targetに実PCMがある場合、通常側syncが固定採用IDへsession/epoch/最初のPCM観測を写す。動的commit済みIDは旧動的session/Map座標を保持し、この固定版コピーから除外する。Stopは開始事実を残してCancelledにできる。Clearはnative取消を先に確定し、Startedが勝ったIDと最新の継続IDを別々に保持する。混合開始後は完了・旧owner退役を終えてから、従来の固定Exact継続へ接続する。
+
+cache再構成の期限判断は、通常側の有限フックの後にoperationMutexを取得し、再構成IDと現在IDおよびRequestedを再確認してからreason/CASを実行する。新要求受付と同じmutexなので、旧A取消・settled後に新Bが受付されても、旧Aの判断がBへ移らない。このmutex区間はWorkgroup処理区間の外であり、callbackからは呼ばない。
+
+準備期限はworker開始後に設定し、Ready待ちの途中だけでなく採用準備の観測を始める時点でも実steady_clockと比較する。DSPが先にReadyでも、通常側が期限を超えて公開を遅らせた版を採用しない。失敗中の旧出力とPausedのCは保持し、失敗版退役中のPlay拒否は既存のstoppedStartBlockedで維持する。
+
+## 有限予約と試験観測
+
+nativeで実験Loopを許可した入力は、既存24MiBのLoop追加予約を二つのepoch shareとして保持する。InputLeaseに属する有限permitを実行ownerの構築前に取得し、FIFO、DSP、worker、入力参照、実行ownerの破棄後に返す。途中のconstructor例外もRAIIで返却する。既存1GiB/24MiBの予約額を増やさず、厳密なRSS上限を新設したとは扱わない。不変checkpointの別枠最大2も維持する。
+
+保存点失敗は実reserveCheckpointのpermit取得位置、epoch拒否は実reserveEpoch、Workgroup失敗は実os_workgroup_joinの戻り値を処理する位置で注入する。旧ownerに対する通常の処理を止める汎用例外とは分ける。
+
+callbackの追加観測は試験フック有効時だけのatomic mix cursorコピーで、待機や台帳操作を含まない。部分混合の通常側決定点ではStartedかつ0<cursor<Nを確認して記録フックを呼ぶ。フックcontextは全owner退役まで生存する。DSP/解析側の順序注入は機能検証であり、正常RT評価の結果へ加算しない。
+
+
+## 試験フックのmutex条件
+
+全フックからEngine APIを呼ばず、別threadがEngine APIを終えるまで待つことも禁止する。`SpeedReplacementDecision`、`ClearCancellationDecision`、`PartialMixReplaceDecision`、`PartialMixClearDecision`、`PartialMixStopDecision` はEngine mutex内の通常側決定点である。部分混合のフックは値の記録だけを行う。既存の`SeekCleanupComplete`もmutex内なので、worker準備・退役ゲートのmutex外という説明を全eventへ一般化しない。`LoopJobDispatch`、`NextPreparationDeadline`、workerのplanner/DSP/cache注入等のmutex外接続点とは分ける。いずれも音声callbackからは実行しない。

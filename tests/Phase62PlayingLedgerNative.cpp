@@ -4,6 +4,7 @@
 #include "Phase62NativeTests.cpp"
 #undef main
 #include "prototype/Phase45PcmDigest.h"
+#include <optional>
 #include <set>
 #include <sstream>
 
@@ -25,6 +26,7 @@ std::string operationJson(const progressive::LoopSpeedOperation& o){
         <<",\"session\":"<<o.session<<",\"render_epoch\":"<<o.renderEpoch<<",\"producer_cycle\":"<<o.producerCycle<<",\"loop_cycle\":"<<o.cycle<<",\"map_version\":"<<o.mapVersion<<",\"output_end\":"<<o.outputEnd
         <<",\"accepted_ns\":"<<o.acceptedNs<<",\"preparing_ns\":"<<o.preparingNs<<",\"ready_ns\":"<<o.readyNs<<",\"commit_observed_ns\":"<<o.commitObservedNs<<",\"first_changed_published_observed_ns\":"<<o.firstChangedPublishedObservedNs
         <<",\"first_PCM_observed_ns\":"<<o.firstPcmObservedNs<<",\"completed_ns\":"<<o.completedNs<<",\"terminal_ns\":"<<o.terminalNs<<",\"first_changed_output\":"<<o.firstChangedOutputFrame<<",\"completion_output\":"<<o.completionOutputFrame
+        <<",\"resume_input_frame\":"<<o.resumeInputFrame<<",\"discarded_for_paused_clear_frames\":"<<o.discardedForPausedClearFrames
         <<",\"committed\":"<<(o.committed?"true":"false")<<",\"output_started\":"<<(o.outputStarted?"true":"false")<<",\"fixed_boundary\":"<<(o.fixedBoundary?"true":"false")<<",\"fixed_boundary_committed\":"<<(o.fixedBoundaryCommitted?"true":"false")
         <<",\"clear_continuation\":"<<(o.clearContinuation?"true":"false")<<",\"adoption_pending\":"<<(o.adoptionPending?"true":"false")<<",\"no_change\":"<<(o.noChange?"true":"false")<<",\"reason\":"<<ph58::jsonString(o.reason)<<'}';return s.str();
 }
@@ -36,6 +38,35 @@ struct WorkerGate {
         auto& g=*static_cast<WorkerGate*>(context);if(p==ProgressiveControlTestPoint::SeekCleanupWait)g.cleanupWait=true;
         if(p!=g.point.load()||!g.armed.exchange(false))return;g.entered=true;const auto end=Tick::now()+std::chrono::seconds(45);
         while(!g.released.load()&&Tick::now()<end)std::this_thread::sleep_for(std::chrono::milliseconds(1));if(!g.released.load())g.expired=true;g.left=true;
+    }
+};
+// Engine破棄後にも値を所有する通常側sink。spanやEngineへの参照は保持しない。
+struct FinalLedgerSink {
+    static constexpr std::size_t maximumOperations=4096;
+    std::vector<progressive::LoopSpeedOperation> operations;
+    std::uint64_t calls=0,sequence=0;
+    bool received=false,workersJoined=false,retirementComplete=false;
+    bool duplicateDelivery=false,oversized=false,copyFailed=false,invalidMarker=false;
+    FinalLedgerSink(){operations.reserve(maximumOperations);}
+    static bool receive(void* context,const FinalLoopSpeedAudit& audit)noexcept{
+        auto& sink=*static_cast<FinalLedgerSink*>(context);
+        if(++sink.calls!=1){sink.duplicateDelivery=true;return false;}
+        sink.sequence=audit.sequence;sink.workersJoined=audit.workersJoined;sink.retirementComplete=audit.retirementComplete;
+        if(!audit.sequence||!audit.workersJoined||!audit.retirementComplete){sink.invalidMarker=true;return false;}
+        if(audit.operations.size()>maximumOperations||audit.operations.size()>sink.operations.capacity()){sink.oversized=true;return false;}
+        try{sink.operations.assign(audit.operations.begin(),audit.operations.end());}
+        catch(...){sink.copyFailed=true;return false;}
+        sink.received=true;return true;
+    }
+    bool complete()const noexcept{return received&&calls==1&&sequence&&workersJoined&&retirementComplete&&!duplicateDelivery&&!oversized&&!copyFailed&&!invalidMarker;}
+    void save(const std::filesystem::path& path)const{
+        std::ofstream file(path);require(bool(file),"final sink evidence open failed");
+        file<<"{\"record\":\"audit_delivery\",\"calls\":"<<calls<<",\"sequence\":"<<sequence<<",\"received\":"<<(received?"true":"false")
+            <<",\"workers_joined\":"<<(workersJoined?"true":"false")<<",\"retirement_complete\":"<<(retirementComplete?"true":"false")
+            <<",\"duplicate_delivery\":"<<(duplicateDelivery?"true":"false")<<",\"oversized\":"<<(oversized?"true":"false")
+            <<",\"copy_failed\":"<<(copyFailed?"true":"false")<<",\"invalid_marker\":"<<(invalidMarker?"true":"false")<<",\"copied_count\":"<<operations.size()<<"}\n";
+        for(const auto& op:operations)file<<operationJson(op)<<'\n';
+        file.flush();require(bool(file),"final sink evidence write failed");
     }
 };
 struct RawStamp {std::uint64_t generation=0,session=0,epoch=0;std::size_t firstAt=0,end=0;};
@@ -58,6 +89,7 @@ struct LedgerFixture {
     WorkerGate gate;
     std::vector<std::unique_ptr<NativeCapture>> captures;
     ProgressiveOptions options;
+    FinalLedgerSink finalAudit; // engineより先に構築し、後に破棄する。
     std::unique_ptr<ProgressiveMacPlaybackEngine> engine=std::make_unique<ProgressiveMacPlaybackEngine>();
     const std::filesystem::path folder;
     std::ofstream checks,receipts;
@@ -66,10 +98,12 @@ struct LedgerFixture {
     std::uint64_t loopID=0,b=0;
     std::size_t initialSeeks=0;
     unsigned rate=0;
-    LedgerFixture(const std::filesystem::path& input,Preset preset,const std::filesystem::path& out,std::vector<std::string> expected,std::size_t limit):folder(out),checks(out/"checks.jsonl"),receipts(out/"receipts.jsonl"),expectedChecks(std::move(expected)){
+    LedgerFixture(const std::filesystem::path& input,Preset preset,const std::filesystem::path& out,std::vector<std::string> expected,std::size_t limit,ph58::ControlTestHooks pipelineHooks={},std::chrono::milliseconds prepareTimeout=std::chrono::milliseconds(120000),ProgressiveControlTestHooks engineHooks={}):folder(out),checks(out/"checks.jsonl"),receipts(out/"receipts.jsonl"),expectedChecks(std::move(expected)){
         ts::WavStreamReader wav(input);rate=wav.sampleRate();b=std::uint64_t(rate)*8;require(wav.frames()>=std::uint64_t(rate)*9,"needs >=9s input; native Loop is [0,8s)");
+        options.pipelineControlTestHooks=pipelineHooks;options.prepareTimeout=prepareTimeout;
         options.preset=preset;options.initialSpeed=1;options.allowExperimentalLoops=true;options.callbackRecordLimit=4096;options.loopSpeedOperationLimitForTest=limit;
-        options.controlTestHooks={&gate,WorkerGate::event};options.allocationHooks={[]()noexcept{callbackNew=0;callbackCounting=true;phase61_heap_begin();},[]()noexcept{phase61_heap_end();hostCallbackCppNew.fetch_add(callbackNew,std::memory_order_relaxed);callbackCounting=false;},[]()noexcept{return callbackNew;}};
+        options.finalLoopSpeedAuditContext=&finalAudit;options.receiveFinalLoopSpeedAudit=FinalLedgerSink::receive;
+        options.controlTestHooks=engineHooks.event?engineHooks:ProgressiveControlTestHooks{&gate,WorkerGate::event};options.allocationHooks={[]()noexcept{callbackNew=0;callbackCounting=true;phase61_heap_begin();},[]()noexcept{phase61_heap_end();hostCallbackCppNew.fetch_add(callbackNew,std::memory_order_relaxed);callbackCounting=false;},[]()noexcept{return callbackNew;}};
         prepare(input);const auto receipt=engine->requestLoopRange(0,b,context());require(receipt.accepted,"initial ReturnToA rejected");loopID=receipt.id;
         until([&]{return engine->getLoopSnapshot().initialPositionComplete&&!engine->getPlaybackDiagnostics().retiringPipeline;},"initial Loop Ready/retirement");initialSeeks=engine->seekHistory().size();
         require(engine->play(),"initial play");firstPcm(*engine);until([&]{return capture().frames.load()>=rate/5;},"initial audio");
@@ -131,7 +165,7 @@ std::vector<std::string> checksFor(const std::string& mode){
     if(mode=="latest_noop")return {"75_cancelled_before_commit","100_completed_noop","40_replaced_before_commit","200_completed_actual_PCM","all_four_IDs_terminal","normal_supply_and_owner_cap"};
     if(mode=="committed_replace")return {"75_committed_before_B","200_accepted_without_rewriting_75","required_fixed75_B_and_PCM","75_and_200_completed","past_immutable_all_IDs_terminal","normal_supply_and_owner_cap"};
     if(mode=="committed_clear")return {"75_committed_before_B","100_transferred_to_Clear_before_B","Clear_rejects_speed_with_reason","required_fixed75_B_and_PCM","Clear_normal_continuation_no_extra_cycle","latest100_Clear_PCM_all_IDs_terminal_past_immutable","normal_supply_and_owner_cap"};
-    if(mode=="limit_stop"||mode=="limit_reprepare"||mode=="limit_close")return {"three_Accepted_IDs_reserved","limit_rejection_preserves_latest_and_PCM","duplicate_keeps_ID_at_limit",mode=="limit_stop"?"Stop_cancels_all_IDs":mode=="limit_reprepare"?"Stop_then_different_input_no_stale_revival":"direct_close_quiesces_and_retires",mode=="limit_close"?"post_close_all_IDs_terminal_public_query":"all_IDs_terminal_history_immutable","normal_supply_and_owner_cap"};
+    if(mode=="limit_stop"||mode=="limit_reprepare"||mode=="limit_close")return {"three_Accepted_IDs_reserved","limit_rejection_preserves_latest_and_PCM","duplicate_keeps_ID_at_limit",mode=="limit_stop"?"Stop_cancels_all_IDs":mode=="limit_reprepare"?"Stop_then_different_input_no_stale_revival":"direct_close_quiesces_and_retires",mode=="limit_close"?"post_close_owned_sink_exact_IDs_and_terminal_kinds":"all_IDs_terminal_history_immutable","normal_supply_and_owner_cap"};
     throw std::runtime_error("unknown mode");
 }
 void latestNoop(LedgerFixture& f){
@@ -161,7 +195,19 @@ void committed(LedgerFixture& f,bool clear){
     require(f.ids.size()==2&&f.engine->seekHistory().size()==f.initialSeeks,"request count or fabricated seek");f.qualityAndOwnership();f.pass("normal_supply_and_owner_cap");
 }
 bool limited(LedgerFixture& f,const std::string& mode,const std::filesystem::path& other){
-    f.gate.arm(ProgressiveControlTestPoint::SwitchPublished);f.request("75_uncommitted",.75);f.until([&]{return f.gate.entered.load();},"limit fixture pre-offer hook");f.request("125_replacement",1.25);const auto newest=f.request("150_latest",1.5);require(f.ids.size()==3,"limit fixture Accepted count");f.exactIds(false);f.pass("three_Accepted_IDs_reserved");
+    std::optional<progressive::LoopSpeedOperation> completedBeforeClose;
+    if(mode=="limit_close"){
+        const auto past=f.request("75_completed_before_direct_close",.75);f.completed(past.id);
+        const auto applied=f.row(past.id);require(applied.committed&&applied.outputStarted&&applied.firstPcmObservedNs&&applied.completedNs&&applied.dynamicSession&&applied.dynamicOperationID&&!applied.noChange,"close fixture lacks a real Completed PCM operation");
+        // このCompleted IDを含む旧ownerのB引継ぎ・退役まで済ませる。
+        // 直接close自体の前にはStopを呼ばず、安定した固定75の実PCMを維持する。
+        f.until([&]{const auto d=f.engine->getPlaybackDiagnostics();return d.session!=applied.dynamicSession&&!d.retiringPipeline&&f.engine->getLoopSnapshot().appliedSpeed==.75;},"completed75 B handoff and retirement before direct close");
+        completedBeforeClose=f.row(past.id);require(completedBeforeClose->state==LS::Completed&&completedBeforeClose->outputStarted,"completed75 changed before close fixture");
+        f.gate.arm(ProgressiveControlTestPoint::SwitchPublished);f.request("125_uncommitted_before_direct_close",1.25);f.until([&]{return f.gate.entered.load();},"close fixture pre-offer hook");
+    }else{
+        f.gate.arm(ProgressiveControlTestPoint::SwitchPublished);f.request("75_uncommitted",.75);f.until([&]{return f.gate.entered.load();},"limit fixture pre-offer hook");f.request("125_replacement",1.25);
+    }
+    const auto newest=f.request("150_latest",1.5);require(f.ids.size()==3,"limit fixture Accepted count");f.exactIds(false);f.pass("three_Accepted_IDs_reserved");
     const auto before=f.engine->getStateSnapshot();const auto loop=f.engine->getLoopSnapshot();const auto stale=f.context();const auto frames=f.capture().frames.load();const auto refusalContext=f.context();const auto rejected=f.engine->requestLoopSpeed(2.,refusalContext);f.recordReceipt("limit_rejection",2.,rejected,refusalContext);
     require(!rejected.accepted&&!rejected.id&&!rejected.reason.empty()&&rejected.code==Code::LimitReached,"external limit rejection/reason");const auto after=f.engine->getStateSnapshot();
     require(after.requestedSpeed==before.requestedSpeed&&after.resumePending==before.resumePending&&f.engine->getLoopSnapshot().speedRequestID==newest.id&&f.engine->getLoopSnapshot().id==loop.id&&f.engine->loopSpeedHistory().size()==3,"limit refusal changed latest/intention/loop");
@@ -170,12 +216,32 @@ bool limited(LedgerFixture& f,const std::string& mode,const std::filesystem::pat
     if(mode=="limit_close"){
         const auto d=f.engine->getPlaybackDiagnostics();const auto l=f.engine->getLoopSnapshot();require(!d.missingFrames&&!d.underrunCalls&&!d.rejectedWrites&&!l.failurePaddingFrames&&!l.outputAffectedFrames,"pre-close supply failure");
         require(f.engine->seekHistory().size()==f.initialSeeks,"internal work fabricated a user seek before close");
-        f.saveLedger("pre_close_ledger.jsonl");std::atomic<bool> closeStarted{false};std::thread release([&]{while(!closeStarted.load())std::this_thread::yield();std::this_thread::sleep_for(std::chrono::milliseconds(60));f.gate.released=true;});
-        closeStarted=true;f.engine.reset();release.join();const auto held=f.capture().frames.load();std::this_thread::sleep_for(std::chrono::milliseconds(100));require(f.capture().frames.load()==held&&!ph58::RealtimePipeline::executionOwnerCounts().alive,"close leaked owner or revived old PCM");f.pass("direct_close_quiesces_and_retires");
-        f.checks<<"{\"id\":\"post_close_all_IDs_terminal_public_query\",\"status\":\"NOT_OBSERVABLE\",\"reason\":\"destructor後は公開台帳APIを呼べない。Stop終端をclose終端の証拠へ転用しない\"}\n";f.checks.flush();
-        // The safety checks below run, but expected ID order deliberately leaves
-        // this public-API observation incomplete. Overall exit is 3, never PASS.
-        f.qualityAndOwnership();f.passedChecks.push_back("normal_supply_and_owner_cap");f.checks<<"{\"id\":\"normal_supply_and_owner_cap\",\"status\":\"PASS\"}\n";f.checks.flush();return false;
+        const auto beforeClose=f.engine->loopSpeedHistory();require(completedBeforeClose.has_value()&&beforeClose.size()==3,"close fixture missing completed past or Accepted rows");
+        const auto replaced=f.row(f.ids[1]);require(replaced.state==LS::Replaced&&!replaced.committed&&!replaced.outputStarted&&!replaced.reason.empty(),"close fixture middle ID was not replaced before adoption");
+        const auto latestBeforeClose=f.row(newest.id);require(!progressive::terminal(latestBeforeClose.state)&&!latestBeforeClose.committed&&!latestBeforeClose.outputStarted,"close fixture latest ID was already adopted/terminal");
+        f.saveLedger("pre_close_ledger.jsonl");require(!f.finalAudit.calls,"final audit delivered before destruction");
+        std::atomic<bool> closeStarted{false};std::thread release([&]{while(!closeStarted.load())std::this_thread::yield();std::this_thread::sleep_for(std::chrono::milliseconds(60));f.gate.released=true;});
+        closeStarted=true;f.engine.reset();release.join();
+        // 以後Engineへアクセスしない。破棄より長寿命のsinkと音声観測だけを使う。
+        f.finalAudit.save(f.folder/"sink.jsonl");f.healthy();
+        const auto held=f.capture().frames.load();std::this_thread::sleep_for(std::chrono::milliseconds(100));f.healthy();
+        require(f.capture().frames.load()==held&&!ph58::RealtimePipeline::executionOwnerCounts().alive,"close leaked owner or revived old PCM");f.pass("direct_close_quiesces_and_retires");
+        require(f.finalAudit.complete()&&f.finalAudit.operations.size()==f.ids.size(),"final audit absent, duplicated, incomplete, oversized, or failed to copy");
+        std::set<std::uint64_t> accepted(f.ids.begin(),f.ids.end()),actual;
+        require(accepted.size()==f.ids.size(),"Accepted receipt set contains duplicate IDs");
+        for(const auto& final:f.finalAudit.operations){
+            require(actual.insert(final.id).second&&accepted.count(final.id)&&progressive::terminal(final.state),"final sink contains duplicate, foreign, or nonterminal Accepted ID");
+            const auto prior=std::find_if(beforeClose.begin(),beforeClose.end(),[&](const auto& op){return op.id==final.id;});
+            require(prior!=beforeClose.end()&&final.loopID==prior->loopID&&final.inputGeneration==prior->inputGeneration&&final.sourceSession==prior->sourceSession&&final.sourceRenderEpoch==prior->sourceRenderEpoch&&final.acceptedNs==prior->acceptedNs&&final.speedMicros==prior->speedMicros,"final sink lost Accepted identity/context");
+            require(final.terminalNs>=final.acceptedNs&&final.terminalNs,"final sink terminal marker absent");
+            if(progressive::terminal(prior->state))require(operationJson(final)==operationJson(*prior),"direct close rewrote a previously terminal operation or its PCM/start facts");
+            if(final.id==completedBeforeClose->id)require(final.state==LS::Completed&&operationJson(final)==operationJson(*completedBeforeClose)&&final.committed&&final.outputStarted&&final.firstPcmObservedNs&&final.completedNs,"direct close lost Completed past or actual PCM/start facts");
+            else if(final.id==replaced.id)require(final.state==LS::Replaced&&!final.committed&&!final.outputStarted&&!final.reason.empty(),"direct close changed unadopted replacement terminal kind");
+            else require(final.id==newest.id&&final.state==LS::Cancelled&&!final.committed&&!final.outputStarted&&!final.firstPcmObservedNs&&!final.reason.empty(),"direct close latest uncommitted ID was not reasoned Cancelled");
+        }
+        require(actual==accepted,"final sink is missing an Accepted receipt ID");
+        {std::ofstream marker(f.folder/"sink.jsonl",std::ios::app);require(bool(marker),"final sink marker open failed");marker<<"{\"record\":\"FINAL_LOOP_SPEED_AUDIT_COMPLETE\",\"sequence\":"<<f.finalAudit.sequence<<",\"expected_Accepted\":"<<accepted.size()<<",\"actual\":"<<actual.size()<<",\"Completed\":1,\"Replaced\":1,\"Cancelled\":1,\"all_workers_joined\":true,\"retirement_complete\":true,\"receipt_ID_set_exact\":true,\"past_immutable\":true,\"direct_close\":true}\n";marker.flush();require(bool(marker),"final sink marker write failed");}
+        f.pass("post_close_owned_sink_exact_IDs_and_terminal_kinds");f.qualityAndOwnership();f.pass("normal_supply_and_owner_cap");return true;
     }
     f.stopWhileGated();f.exactIds(true);f.saveLedger("after_stop_ledger.jsonl");std::vector<std::string> history;for(auto id:f.ids)history.push_back(operationJson(f.row(id)));
     if(mode=="limit_reprepare"){

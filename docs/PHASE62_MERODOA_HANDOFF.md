@@ -100,3 +100,27 @@ Pending/Preparing、停止中ReadyForResume、動的Committed、固定延期Fixe
 Clear準備中にResumeを受理した場合は、旧ownerのjoin後に一度だけ開始を試み、その成功を確定してからclearPending=falseを公開する。明示ResumeなしのPaused Clearは停止を保つ。開始API成功と物理出力開始は別である。
 
 停止中速度準備がFailedになった後は、失敗版の退役が続いていてもPlay/Resumeを拒否し、再開意思を新規登録しない。新速度の明示的な再要求やseekで復旧する。退役中のseekBusyを再開可能な準備待ちと誤認しない。
+
+## e5dc9167レビュー後の採用・失敗・close監査
+
+今回のTimeStretchLab内の修正・最終証拠は [e5レビューREPORT](../results/phase62_e5_review/REPORT.md)、[制御対応表](../results/phase62_e5_review/CONTROL_COVERAGE.md)、[設計](PHASE62_E5_REVIEW_DESIGN.md) を参照する。過去REPORTの未完件数は当時の記録として保持する。Merodoa本体・UI・submoduleは変更していない。
+
+native Requestedの取消が確定する前に旧外部IDをReplacedへ進めない。Started/Doneが勝った版と、自己反復がないKeepPosition初回Bの必須供給版は、実使用と退役が終わるまで保持する。保護だけを理由にcommitやPCM開始を記録せず、実際のsession/epoch/firstPcmを観測して終端へ結ぶ。Clearでも採用済み旧IDと最新の継続IDを区別する。
+
+内部4096上限は外部要求のFailed/InternalLimit、未対応はUnsupported、一般の準備失敗はPreparationFailedとして今回の確定原因を返す。過去のBusyRetryを最終失敗原因へ流用しない。cache再構成の旧要求Aは、新要求Bの受付後にBを拒否できない。失敗・取消で旧有効音声を保持しても、要求成功とは表示しない。
+
+`ProgressiveOptions.receiveFinalLoopSpeedAudit/context` は検証用の通常側sinkである。全worker join・最終退役後、破棄前に全外部台帳を値コピーする。sinkのcontextをEngine破棄完了まで生存させ、span参照を保持しない。音声callbackへ監査やログを接続しない。製品の公開close APIを追加したとは扱わない。ブリッジ受入では全Accepted IDの終端種別と過去不変を検査する。
+
+Pausedの受入はResume前ReadyForResumeと最新ID/入力世代/Loop/停止C/準備版の一致、失敗版退役中のPlay拒否、明示最新要求による復旧を含む。一般公開・Merodoa既定採用は引き続き別ゲートであり、4つの公開初期値（実験Loop opt-in、publicLoopApproved、seek、currentCycleSpeedChanges）をこの局所結果だけで有効化しない。
+
+
+## e5レビュー修正の装置復旧前の検証状態（2026-10-21）
+
+当時の [e5レビューREPORT](../results/phase62_e5_review/REPORT.md) は **INCOMPLETE / NO-GO**。制御36program/202checks、限定同一性で接続した既存制御184checks、Release/Debug各20CTest、選択したoffline9群はPASS。最終実機は音声callback開始待ちで同じ最初の1programが2回とも失敗し、予定41programの残り40は未実施である。正常RT8本はその内数。通常再生・標準afplay・旧成功ビルドでも開始できず、装置bufferは512へ復元した。根本原因は未確定。過去の実機成功統計を今回の無退行証拠へ転記しない。公開初期値とMerodoa既定採用は変更しない。
+
+
+## 装置復旧後の局所ゲート完了（2026-10-21）
+
+[e5レビューREPORT](../results/phase62_e5_review/REPORT.md) の今回限定の局所判定は **PASS / GO**。ユーザーの装置復旧後、同じソースcefdb129…・実行体・参照・条件でnative_recovered_01の全5群41programを新規に実行し、その内数の正常RT8本もPASSした。両Presetで実消費4100周、正常8条件の不足/padding・callback確保/解放・callback/worker期限超過0、buffer512復元を確認した。復旧前の失敗・当時の未実施数は履歴として保持する。
+
+seek機能試験のworker期限超過1件（旧faにも同じ観測、RT承認NOT_ASSESSED）は別記録であり、全41本の期限超過0やseek切替の一般RT承認を主張しない。公開初期値4つ・publicSeekApproved=falseと、物理loopback・試聴・Merodoa/TCC実統合等の別ゲートは維持する。Merodoa本体・UI・submoduleは変更しない。

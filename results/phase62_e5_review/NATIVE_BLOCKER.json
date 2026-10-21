@@ -1,0 +1,106 @@
+{
+  "status": "RESOLVED",
+  "attempted_run_status": "PASS",
+  "native_expected_programs": 41,
+  "native_distinct_programs_started": 41,
+  "native_not_run_programs": 0,
+  "normal_realtime_expected": 8,
+  "normal_realtime_is_subset_of_native_41": true,
+  "normal_realtime_executed": 8,
+  "normal_realtime_passed": 8,
+  "root_cause": "UNDETERMINED",
+  "user_reported_device_recovery": true,
+  "user_device_recovery_report": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_e5_review/USER_DEVICE_RECOVERY.json",
+    "bytes": 561,
+    "sha256": "060c95f14eac3e23bb999c898b0c63d7840e91e9eb8d6550c1ea048d38de3f0b"
+  },
+  "historical_same_failure_in_old_success_binary": true,
+  "historical_standard_afplay_timeout": true,
+  "buffer_restored_to": 512,
+  "daemon_or_other_app_forced_restart_by_agent": false,
+  "historical_first_failed_program": "controls_candidate",
+  "historical_first_program_expected_checks": 3,
+  "historical_first_program_executed_checks": 0,
+  "historical_reason": "復旧前nativeは2回とも最初の同じprogramでfirst callback timeout。通常再生もcallback0/消費0/公開FIFO16384。標準afplay・旧成功ビルドも開始不可。OS/装置原因は推測であり未確定。",
+  "historical_evidence": [
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/native_final/SUMMARY.json",
+      "bytes": 759,
+      "sha256": "8441117966cf82f614d1df46a2aac861100c1461a1b70a5b82229e0b5d46ebb9"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/native_final_v2/SUMMARY.json",
+      "bytes": 762,
+      "sha256": "7e7dd935fa44f38b28b49017bbb832d277e8fddb5d0601528faed1aa8b54f3eb"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/native_final_v2/final_native_matrix_v10/EXPECTED.json",
+      "bytes": 123967,
+      "sha256": "9ceae33e1d8805dda64a831799b45f37d3909b2f0d2aaac350e93e3bd5ea597b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/native_final_v2/final_native_matrix_v10/SUMMARY.json",
+      "bytes": 449,
+      "sha256": "5c51d1a241a941c5f67f3f8abaf0e11e53af503116274ec61778b6cfa4cc74e8"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/FIRST_CALLBACK_ENV_02.json",
+      "bytes": 485,
+      "sha256": "15e5436a0c7c16539b3acaea64d3efda9f7dfad804ff47e2c407daa0f1ee908c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/DEVICE_BUFFER_RECOVERY_01.json",
+      "bytes": 552,
+      "sha256": "a7c79d69fb2053a07dc390acab1d68c0af2ca9a3be7860b5fdf48b3d0e85c755"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/AFPLAY_AFTER_BUFFER_RECOVERY_01.json",
+      "bytes": 72,
+      "sha256": "462bcec79c144e3798897ffabe7439c640b3769eebcaba1d801f60a5554c8dc1"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/OLD_NATIVE_ENV_EXPECTED.json",
+      "bytes": 631,
+      "sha256": "a534fee2adf1593ebeee23a4eed13b521387acca0856b2189378757e306cf7b2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/OLD_NATIVE_ENV_RESULT.json",
+      "bytes": 221,
+      "sha256": "2955b55dfb4805943401d87d4cb6435f586a78618a11c6755606d9ad8fe7492e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/FIRST_CALLBACK_DIAG_EXPECTED.json",
+      "bytes": 1743,
+      "sha256": "88032f90b0b911816cff2110fc639be9acbb917c53bee44b41d68ad9a5ac2d6a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/first_callback_diag_loop_01.jsonl",
+      "bytes": 5872,
+      "sha256": "61be0706171f765bbc60767fc705e380016c44c8a04969839fedfb312e7e7995"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/first_callback_normal_02.log",
+      "bytes": 5625,
+      "sha256": "8826caa43df6a23492c4a33359a9d95c54f9a90293e57d5a4cd3ea7f2e51d29d"
+    }
+  ],
+  "recovery_evidence": [
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/native_recovered_01/EXPECTED.json",
+      "bytes": 11103,
+      "sha256": "177a90af1aee34dec04bdf9f2a0ce023d80dc8671e9168b89ebaa76fd474b647"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/native_recovered_01/SUMMARY.json",
+      "bytes": 386429,
+      "sha256": "fd97debd5e7b47b7a00fdc3cf4991944e98acd69eed3f16c9dc8c69f4541743f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/RECOVERY_DEVICE_GUARD_01.json",
+      "bytes": 502,
+      "sha256": "33d325400cb7a4a8b89f2278a2a903abec46d006e65a8c581246885c067048a9"
+    }
+  ],
+  "historical_runs_relabelled": false
+}

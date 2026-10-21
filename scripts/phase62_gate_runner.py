@@ -14,12 +14,14 @@ from phase62_aggregation import (CONFIGURATIONS, STAGES, SCHEMA, strict_gates,
 NAMES = ['phase59_certified_planning','phase59_request_control','phase61_contract','phase61_checkpoint',
          'phase61_safety','phase61_output_transition','phase61_pipeline_sync','paused_speed_pipeline',
          'phase62_loop','phase62_render','phase62_fix_safety','phase62_evidence','phase62_fix_reuse',
-         'phase62_fix_period','phase62_fix_checkpoint','phase62_dynamic_boundary','phase62_loop_speed_ledger','phase62_finish_evidence']
+         'phase62_fix_period','phase62_fix_checkpoint','phase62_dynamic_boundary','phase62_loop_speed_ledger','phase62_finish_evidence',
+         'phase62_history_invariant','phase62_descriptor_invariant']
 TARGETS = ['phase59_tests','phase59_control_tests','phase61_contract_tests','phase61_checkpoint_tests',
            'phase61_safety_tests','phase61_output_transition_tests','phase61_pipeline_sync_tests',
            'paused_speed_pipeline_tests','phase62_loop_tests','phase62_render_tests','phase62_fix_safety_tests',
            'phase62_fix_reuse_tests','phase62_fix_render_tests','phase62_fix_checkpoint_tests',
-           'phase62_dynamic_boundary_tests','phase62_native_tests','paused_speed_loop_tests','phase62_loop_speed_ledger_tests']
+           'phase62_dynamic_boundary_tests','phase62_native_tests','paused_speed_loop_tests','phase62_loop_speed_ledger_tests',
+           'phase62_history_invariant_tests','phase62_descriptor_invariant_tests']
 
 
 def save(path, value):
@@ -32,17 +34,19 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument('--root', type=Path, required=True)
     p.add_argument('--build-base', type=Path, required=True)
+    p.add_argument('--release-build', type=Path, help='既存Release領域を再利用。必須stage/target集合は不変')
     p.add_argument('--output', type=Path, required=True)
     args = p.parse_args()
     root, base, out = [x.resolve() for x in (args.root, args.build_base, args.output)]
     out.mkdir(parents=True, exist_ok=False)
     sys.path.insert(0, str(root / 'scripts'))
     from phase62_evidence import source_manifest
+    builds={cfg:(args.release_build.resolve() if cfg=='Release' and args.release_build else base/cfg.lower()) for cfg in CONFIGURATIONS}
     source = source_manifest(root)
     save(out / 'SOURCE.json', source)
     stages = []
     for cfg in CONFIGURATIONS:
-        build = base / cfg.lower()
+        build = builds[cfg]
         commands = {
             'configure': ['cmake','-S',str(root),'-B',str(build),'-DCMAKE_BUILD_TYPE='+cfg,
                           '-DCMAKE_OSX_ARCHITECTURES=arm64','-DBUILD_TESTING=ON'],
@@ -72,7 +76,7 @@ def main():
             row.update(exit=None,status='INCOMPLETE',timed_out=False,interrupted=False)
             binaries = {}
             if plan['stage']=='ctest':
-                build = base / plan['configuration'].lower()
+                build = builds[plan['configuration']]
                 archive = out / 'executed_binaries' / plan['configuration'];archive.mkdir(parents=True)
                 for target in TARGETS:
                     binaries[target]=identity(build/target)
@@ -103,7 +107,7 @@ def main():
                     if plan['stage']=='ctest':
                         result=junit(out/('ctest_'+plan['configuration']+'.xml'),NAMES)
                         row.update(expected=len(NAMES),executed=result['executed'],junit=result['junit'],test_ids=result['test_ids'])
-                        row['binary_after']={t:identity(base/plan['configuration'].lower()/t) for t in TARGETS}
+                        row['binary_after']={t:identity(builds[plan['configuration']]/t) for t in TARGETS}
                         row['runtime_after']={x['name']:identity(x['command'][0]) for x in inventory['tests']}
                         if row['binary_before']!=row['binary_after']:raise RuntimeError('binary changed during CTest')
                         if row['runtime_before']!=row['runtime_after']:raise RuntimeError('CTest interpreter/executable changed during CTest')

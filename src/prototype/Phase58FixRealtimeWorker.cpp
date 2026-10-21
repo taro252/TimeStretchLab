@@ -61,7 +61,7 @@ struct RealtimeWorkerSupport::Impl {
 };
 RealtimeWorkerSupport::RealtimeWorkerSupport(bool enabled,std::uint32_t rate):impl_(std::make_unique<Impl>(enabled,rate)){}
 RealtimeWorkerSupport::~RealtimeWorkerSupport()=default;
-bool RealtimeWorkerSupport::promote()noexcept{
+bool RealtimeWorkerSupport::promote(bool failJoinForTest)noexcept{
     auto& x=*impl_;if(!x.enabled||x.active.load())return true;
     const auto thread=pthread_mach_thread_np(pthread_self());mach_msg_type_number_t count=THREAD_EXTENDED_POLICY_COUNT;boolean_t defaults=false;
     auto result=thread_policy_get(thread,THREAD_EXTENDED_POLICY,reinterpret_cast<thread_policy_t>(&x.normal),&count,&defaults);
@@ -71,7 +71,7 @@ bool RealtimeWorkerSupport::promote()noexcept{
     if(result!=KERN_SUCCESS){++x.policyErrors;x.error(1,result);return false;}
     x.policyAppliedTicks=mach_absolute_time();
     x.policySet=true;++x.promotions;
-    const auto join=os_workgroup_join(x.group,&x.token);
+    const auto join=failJoinForTest?EINVAL:os_workgroup_join(x.group,&x.token);
     if(join){++x.joinErrors;x.error(2,join);x.demote();return false;}
     x.joinedTicks=mach_absolute_time();
     x.joined=true;++x.joins;

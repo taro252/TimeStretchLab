@@ -90,12 +90,30 @@ struct InputLease {
     struct CheckpointBudget {std::atomic<unsigned> count{0},peak{0};};
     std::shared_ptr<CheckpointBudget> checkpointBudget=std::make_shared<CheckpointBudget>();
     struct CheckpointPermit {std::shared_ptr<CheckpointBudget> budget;explicit CheckpointPermit(std::shared_ptr<CheckpointBudget> b):budget(std::move(b)){}~CheckpointPermit(){budget->count.fetch_sub(1);}};
-    std::shared_ptr<CheckpointPermit> reserveCheckpoint(){
+    std::shared_ptr<CheckpointPermit> reserveCheckpoint(const Configuration& config,std::uint64_t session){
+        if(config.controlTestHooks.event)config.controlTestHooks.event(config.controlTestHooks.context,ControlTestPoint::CheckpointPermit,session,0);
+        if(config.controlTestHooks.fail&&config.controlTestHooks.fail(config.controlTestHooks.context,ControlTestPoint::CheckpointPermit,session,0))return {};
         auto n=checkpointBudget->count.load();while(n<2){if(checkpointBudget->count.compare_exchange_weak(n,n+1)){
             auto peak=checkpointBudget->peak.load();while(peak<n+1&&!checkpointBudget->peak.compare_exchange_weak(peak,n+1)){}
             try{return std::make_shared<CheckpointPermit>(checkpointBudget);}catch(...){checkpointBudget->count.fetch_sub(1);throw;}
         }}
         return {};
+    }
+    // The native Loop's existing 24MiB reservation is split into two finite
+    // epoch shares. Acquire before constructing an execution owner; retain until
+    // all that owner's members/workers have been destroyed. No new byte budget.
+    struct EpochBudget {std::atomic<unsigned> count{0};};
+    std::shared_ptr<EpochBudget> epochBudget=std::make_shared<EpochBudget>();
+    struct EpochPermit {std::shared_ptr<EpochBudget> budget;explicit EpochPermit(std::shared_ptr<EpochBudget> b):budget(std::move(b)){}~EpochPermit(){--budget->count;}};
+    std::shared_ptr<EpochPermit> reserveEpoch(const Configuration& c){
+        if(!c.boundedEpochReservations)return {};
+        if(c.controlTestHooks.event)c.controlTestHooks.event(c.controlTestHooks.context,ControlTestPoint::EpochReservation,0,0);
+        if(c.controlTestHooks.fail&&c.controlTestHooks.fail(c.controlTestHooks.context,ControlTestPoint::EpochReservation,0,0))throw std::length_error("Loop epoch reservation rejected (24MiB / two shares)");
+        auto count=epochBudget->count.load();
+        while(count<2){if(epochBudget->count.compare_exchange_weak(count,count+1)){
+            try{return std::make_shared<EpochPermit>(epochBudget);}catch(...){--epochBudget->count;throw;}
+        }}
+        throw std::length_error("Loop epoch reservation exhausted (maximum two owners)");
     }
     static std::shared_ptr<phase57::ProgressiveSynthesisEngine> ownCheckpoint(std::unique_ptr<phase57::ProgressiveSynthesisEngine> state,std::shared_ptr<CheckpointPermit> permit){
         if(!state||!permit)return {};return {state.release(),[permit=std::move(permit)](auto* p){delete p;}};
@@ -136,7 +154,8 @@ template<class T>void prepareDiagnosticStorage(std::vector<T>& buffer,std::size_
 }
 }
 struct RealtimePipeline::Impl {
-    ExecutionOwnerLease executionOwner; // destroyed last, after workers/input
+    std::shared_ptr<InputLease::EpochPermit> epochReservation; // released last
+    ExecutionOwnerLease executionOwner; // after workers/input, before reservation
     playback::StageClock origin;Configuration config;
     std::shared_ptr<InputLease> inputLease;Input& input;
     bool seeking=false;std::size_t seekInput=0;
@@ -167,7 +186,7 @@ struct RealtimePipeline::Impl {
     std::size_t loopInputEnd()const noexcept{return config.loopEndInputFrame?config.loopEndInputFrame:input.frames;}
     std::size_t repeatConsumedFrames()const noexcept{return consumed.load()-outputStart.load();}
     LoopTransitionSnapshot loopTerminal; // immutable after release Committed
-    std::unique_ptr<std::array<phase59::ValueMailbox<LoopPcmDescriptor>,64>> loopPcmDescriptors;
+    std::unique_ptr<LoopPcmDescriptorRing> loopPcmDescriptors;
     std::array<std::vector<float>,2> loopCache;
     std::array<float,2> loopHead{}; // producer writes once before Ready
     std::array<float,2> normalLastSample{}; // producer-owned, transferred into the first terminal descriptor
@@ -256,7 +275,7 @@ struct RealtimePipeline::Impl {
     std::atomic<double> samplerCpu{0};
     Impl(const std::filesystem::path& p,Configuration c):Impl(std::make_shared<InputLease>(p),c,false,0){}
     Impl(std::shared_ptr<InputLease> lease,Configuration c,bool seek,std::size_t at)
-        :config(c),inputLease(std::move(lease)),input(inputLease->input),seeking(seek),seekInput(at),
+        :epochReservation(lease->reserveEpoch(c)),config(c),inputLease(std::move(lease)),input(inputLease->input),seeking(seek),seekInput(at),
          envelope(input.rate,input.channels),lead(c.candidate?16384:12288),fifo(input.channels,16384){
         if(c.speedMicros<400000||c.speedMicros>2000000||c.speedMicros%10000||!c.analysisChunk||c.analysisChunk>131072||!std::isfinite(c.analysisDelayMs)||c.analysisDelayMs<0||!std::isfinite(c.dspDelayMs)||c.dspDelayMs<0)throw std::invalid_argument("Invalid Phase58 configuration");
         if(c.diagnosticEventLimit>262144)throw std::invalid_argument("Unbounded detail diagnostics");
@@ -291,7 +310,7 @@ struct RealtimePipeline::Impl {
         if(!map||!map->final||map->hasTransitions||!head.ready.load(std::memory_order_acquire))return;
         try{
         playback::StageClock preparationCost;const auto plansBefore=FFTAccelerate::threadPlanCreations();
-        auto permit=inputLease->reserveCheckpoint();if(!permit){normalLoopState=NormalLoopReuseState::LimitReached;return;}
+        auto permit=inputLease->reserveCheckpoint(config,session);if(!permit){normalLoopState=NormalLoopReuseState::LimitReached;return;}
         auto seed=InputLease::ownCheckpoint(phase57::ProgressiveSynthesisEngine::makeFixedLoopOriginCheckpoint(input.snapshotDescriptor(),input.residentBytes(),config.speedMicros,snapshot,map),std::move(permit));
         if(!seed)throw std::logic_error("通常ownerの固定原点保存点を構築できません");
         normalLoopPreparation=std::make_unique<NormalLoopPreparation>(NormalLoopPreparation{std::move(seed),snapshot,std::move(map),std::bit_cast<std::array<float,2>>(head.bits.load())});
@@ -401,13 +420,13 @@ struct RealtimePipeline::Impl {
         {std::lock_guard lock(inputLease->checkpointMutex);auto& saved=inputLease->checkpoints;
             if(!saved.empty()&&saved.back().speed==config.speedMicros&&point>=saved.back().output&&point-saved.back().output<input.rate*5ULL){removed.push_back(std::move(saved.back()));saved.pop_back();}
             if(saved.size()==2){removed.push_back(std::move(saved.front()));saved.erase(saved.begin());}}
-        removed.clear();auto permit=inputLease->reserveCheckpoint();
+        removed.clear();auto permit=inputLease->reserveCheckpoint(config,session);
         if(!permit){
             // A live loop A seed may own the other global slot. Replace the
             // oldest optional seek state before reserving its successor.
             {std::lock_guard lock(inputLease->checkpointMutex);auto& saved=inputLease->checkpoints;
                 if(!saved.empty()){removed.push_back(std::move(saved.front()));saved.erase(saved.begin());}}
-            removed.clear();permit=inputLease->reserveCheckpoint();
+            removed.clear();permit=inputLease->reserveCheckpoint(config,session);
         }
         if(!permit)return;
         auto immutable=InputLease::ownCheckpoint(activeSynthesis->cloneFixedCheckpoint(input.snapshotDescriptor(),input.residentBytes()),std::move(permit));if(!immutable)return;
@@ -544,6 +563,8 @@ struct RealtimePipeline::Impl {
         if(loopMode()?(repeatAt()!=at):(dspMapVersion.load()!=map->version||consumed.load()!=at))return {};
         return PositionSample{session,map->version,at,frame,elapsed()};
     }
+    void testEvent(ControlTestPoint point,std::uint64_t id=0)noexcept{if(config.controlTestHooks.event)config.controlTestHooks.event(config.controlTestHooks.context,point,session,id);}
+    bool testFail(ControlTestPoint point,std::uint64_t id=0)noexcept{return config.controlTestHooks.fail&&config.controlTestHooks.fail(config.controlTestHooks.context,point,session,id);}
     void transitionStep(const std::shared_ptr<const phase56::AnalysisSnapshot>& snapshot){
         if(!config.dynamicTransitions||!snapshot||cancelled.load()||failure.load())return;
         auto& planner=*transitionPlanner;
@@ -557,7 +578,7 @@ struct RealtimePipeline::Impl {
             const bool accepted=mapAckAccepted.load();
             if(accepted)std::atomic_store(&committedPositionMap,pendingMap);
             if(mapOperation!=noOperation){
-                planner.confirmPlan(accepted);
+                planner.confirmPlan(accepted);transitionHistory=planner.historyCount();
                 std::lock_guard lock(operationMutex);auto& op=operations[mapOperation];
                 if(accepted){const bool terminal=cancelled.load()||failure.load();op.state=terminal?phase59::OperationState::Cancelled:phase59::OperationState::Applied;op.workerState=terminal?Phase39RequestState::Cancelled:Phase39RequestState::Applied;op.appliedS=mapAckS;op.consumedAtApply=mapAckConsumed;}
                 else if(loopMode()&&(loopTransitionState.load()==LoopTransitionState::Cancelled||loopTransitionState.load()==LoopTransitionState::Rejected||loopTransitionState.load()==LoopTransitionState::FixedBoundaryCommitted)){
@@ -612,9 +633,11 @@ struct RealtimePipeline::Impl {
             if(config.transitionFailureForTest==2)throw std::bad_alloc();
             const auto plannedPosition=loopMode()&&latest->cycle>repeatCycle(repeatConsumedFrames())?repeatBegin.load():op.acceptedLogicalPresented;
             {std::lock_guard lock(operationMutex);operations[activeOperation].logicalPresented=plannedPosition;}
+            testEvent(ControlTestPoint::PlannerBeforePlan,op.id);
             result=planner.plan({op.target},op.generation,plannedPosition,latest->published,f);
         }catch(...){const auto cost=timing.elapsed();transitionCpu=transitionCpu.load()+cost.threadCpuSeconds;transitionWall=transitionWall.load()+cost.wallSeconds;++transitionAttempts;
             std::lock_guard lock(operationMutex);auto& record=operations[activeOperation];record.planFinishedS=elapsed();record.planCpuS+=cost.threadCpuSeconds;record.planWallS+=cost.wallSeconds;++record.attempts;throw;}
+        testEvent(ControlTestPoint::PlannerProposal,op.id);
         const auto cost=timing.elapsed();transitionCpu=transitionCpu.load()+cost.threadCpuSeconds;transitionWall=transitionWall.load()+cost.wallSeconds;++transitionAttempts;
         if(cancelled.load()||failure.load()){if(result.change.plan.applied())planner.confirmPlan(false);transitionHistory=planner.historyCount();return;}
         transitionMapPeak=std::max(transitionMapPeak.load(),planner.mapBytes());transitionHistory=planner.historyCount();
@@ -732,7 +755,7 @@ struct RealtimePipeline::Impl {
                     if(renderingRequested.load()&&ready.load()&&!realtime->active()){
                         activeAllocationBase=dspAllocations;
                         if(++promotionAttempts==config.promotionFailureOnAttemptForTest)throw std::runtime_error("Injected pre-promotion failure");
-                        if(!realtime->promote())throw std::runtime_error("DSP realtime promotion failed");
+                        if(!realtime->promote(testFail(ControlTestPoint::WorkgroupJoin)))throw std::runtime_error("DSP realtime promotion failed");
                     }else if(!renderingRequested.load()&&realtime->active()){
                         if(!demote())throw std::runtime_error("DSP normal-policy restore failed");
                     }
@@ -876,7 +899,7 @@ struct RealtimePipeline::Impl {
             while(!cancelled.load()&&!failure.load()){
                 if(renderingRequested.load()&&ready.load()&&!realtime->active()){
                     allocationBase=dspAllocations;if(++promotions==config.promotionFailureOnAttemptForTest)throw std::runtime_error("Injected pre-promotion failure");
-                    if(!realtime->promote())throw std::runtime_error("再利用DSPのWorkgroup参加に失敗しました");
+                    if(!realtime->promote(testFail(ControlTestPoint::WorkgroupJoin)))throw std::runtime_error("再利用DSPのWorkgroup参加に失敗しました");
                 }else if(!renderingRequested.load()&&realtime->active()&&!demote())throw std::runtime_error("再利用DSPの降格に失敗しました");
                 // The producer owns this frontier exclusively. Its pending
                 // block stays intact; Phase59 protects generated DSP history,
@@ -910,7 +933,13 @@ struct RealtimePipeline::Impl {
                             else{
                                 auto expected=LoopTransitionState::Requested;
                                 if(loopTransitionState.compare_exchange_strong(expected,LoopTransitionState::Applying,std::memory_order_acq_rel)){
-                                    accepted=engine.trySupplyBorrowedDynamicMap(view);
+                                    testEvent(ControlTestPoint::ApplyingBeforeSupply,loopTransitionID.load());
+                                    if(testFail(ControlTestPoint::ApplyingBeforeSupply,loopTransitionID.load())){
+                                        // Exercise the real engine validation: an obsolete map version
+                                        // cannot be supplied. No DSP cursor or synthesis state is changed.
+                                        auto obsolete=*view;obsolete.version=0;
+                                        accepted=engine.trySupplyBorrowedDynamicMap(&obsolete);
+                                    }else accepted=engine.trySupplyBorrowedDynamicMap(view);
                                     if(accepted){
                                         const auto cumulativeStart=cycle?(fixedEnd-outputStart.load())+(cycle-1)*length:0;
                                         loopTerminal={LoopTransitionState::Committed,cycle,view->version,loopTransitionID.load(),cycle?begin:outputStart.load(),mappedEnd,cumulativeStart,cumulativeStart+mappedEnd-(cycle?begin:outputStart.load()),engine.frontier().published,engine.frontier().published-pendingCount};
@@ -918,7 +947,7 @@ struct RealtimePipeline::Impl {
                                         loopTerminal.pendingPcmFramesAtCommit=pendingCount;loopTerminal.pcmGeneratedAtCommit=engine.frontier().published;
                                         end=mappedEnd;currentMapVersion=view->version;dspMapVersion=currentMapVersion;output=view->outputFrames;
                                         lease->commit();loopTransitionState.store(LoopTransitionState::Committed,std::memory_order_release);
-                                    }else loopTransitionState=LoopTransitionState::Requested;
+                                    }else {loopTransitionState=LoopTransitionState::Requested;testEvent(ControlTestPoint::ApplyingRejected,loopTransitionID.load());}
                                 }
                             }
                         }
@@ -933,9 +962,17 @@ struct RealtimePipeline::Impl {
                 }
                 if(cacheReady&&loopTransitionState.load()==LoopTransitionState::Requested&&reconstructing&&reconstructionID==loopTransitionID.load()&&
                    (reconstructionCycle!=cycle||elapsed()-reconstructionBegan>.25||reconstructionFrames>length+2048)){
-                    loopRejectReason=LoopTransitionReason::PreparationDeadline;auto expected=LoopTransitionState::Requested;
-                    if(loopTransitionState.compare_exchange_strong(expected,LoopTransitionState::Rejected,std::memory_order_acq_rel))++loopReconstructionDeferrals;
-                    reconstructing=false;
+                    testEvent(ControlTestPoint::CacheDeadlineDecided,reconstructionID);
+                    // Acceptance publishes ID/state under operationMutex. A
+                    // cancelled A may settle while reconstruction is paused;
+                    // recheck its identity inside the same acceptance transaction.
+                    {std::lock_guard lock(operationMutex);
+                        if(reconstructionID==loopTransitionID.load()&&loopTransitionState.load()==LoopTransitionState::Requested){
+                            loopRejectReason=LoopTransitionReason::PreparationDeadline;auto expected=LoopTransitionState::Requested;
+                            if(loopTransitionState.compare_exchange_strong(expected,LoopTransitionState::Rejected,std::memory_order_acq_rel))++loopReconstructionDeferrals;
+                        }
+                    }
+                    reconstructing=false;testEvent(ControlTestPoint::CacheDeadlineFinished,reconstructionID);
                 }
                 if(cacheReady&&loopTransitionState.load()==LoopTransitionState::Requested&&fifo.available()>=lead/2){
                     playback::StageClock reconstructionCost;
@@ -944,7 +981,7 @@ struct RealtimePipeline::Impl {
                         if(!seed)throw std::logic_error("cache現在周期のA保存点がありません");
                         if(!realtime->beginInterval())throw std::runtime_error("cache復元区間の開始失敗");
                         const bool restored=engine.restoreFixedLoopCheckpoint(*seed);realtime->finishInterval();if(!restored)throw std::logic_error("cache現在周期の完全状態復元失敗");
-                        reconstructing=true;reconstructionCycle=cycle;++loopSeedRestores;
+                        reconstructing=true;reconstructionCycle=cycle;++loopSeedRestores;testEvent(ControlTestPoint::CacheReconstructionStarted,reconstructionID);
                     }
                     const auto target=begin+cacheAt;
                     if(cacheAt&&engine.frontier().published<target){
@@ -1004,7 +1041,7 @@ struct RealtimePipeline::Impl {
                 }
                 const auto position=engine.frontier().published;
                 if(!seed&&position<=begin&&position+2048>begin){
-                    playback::StageClock copy;auto permit=inputLease->reserveCheckpoint();
+                    playback::StageClock copy;auto permit=inputLease->reserveCheckpoint(config,session);
                     if(!permit)throw std::length_error("固定保存点の合計上限2に到達しました");
                     seed=InputLease::ownCheckpoint(engine.cloneFixedCheckpoint(input.snapshotDescriptor(),input.residentBytes()),std::move(permit));
                     if(!seed)throw std::logic_error("完全な固定Exact保存点を作成できません");
@@ -1269,7 +1306,7 @@ void RealtimePipeline::enableLoopReuse(std::size_t a){
     x.inputLease->pruneSeekCheckpoints();
     x.config.reusableLoop=true;x.config.loopBeginInputFrame=a;
     if(x.config.scheduling==WorkerScheduling::AudioWorkgroup){x.config.dynamicTransitions=true;x.operations.reserve(4096);x.transitionPlanner=std::make_unique<phase59::ProgressiveTransitionPlanner>(x.input.rate,x.input.frames,x.inputLease->generation,x.config.speedMicros,x.config.candidate);}
-    x.loopPcmDescriptors=std::make_unique<std::array<phase59::ValueMailbox<LoopPcmDescriptor>,64>>();
+    x.loopPcmDescriptors=std::make_unique<LoopPcmDescriptorRing>();
 }
 bool RealtimePipeline::loopReuseEnabled()const noexcept{return impl_->loopMode();}
 bool RealtimePipeline::requestNormalLoopReuse(){
@@ -1277,7 +1314,7 @@ bool RealtimePipeline::requestNormalLoopReuse(){
     if(!x.config.dynamicTransitions||!x.config.residentInput||x.config.fastLocalSeek||x.config.loopEndInputFrame||x.failure.load()||x.cancelled.load()||x.dspDone.load())return false;
     if(!x.normalLoopRequested.load()){
         x.inputLease->pruneSeekCheckpoints();
-        x.loopPcmDescriptors=std::make_unique<std::array<phase59::ValueMailbox<LoopPcmDescriptor>,64>>();
+        x.loopPcmDescriptors=std::make_unique<LoopPcmDescriptorRing>();
         x.normalLoopState.store(NormalLoopReuseState::Preparing,std::memory_order_release);x.normalLoopRequested.store(true,std::memory_order_release);x.changed.notify_all();x.realtime->signal();
     }return true;
 }
@@ -1305,7 +1342,7 @@ phase59::RequestReceipt RealtimePipeline::requestLoopTransition(std::uint32_t sp
 LoopTransitionSnapshot RealtimePipeline::loopTransition()const noexcept{
     const auto& x=*impl_;const auto state=x.loopTransitionState.load(std::memory_order_acquire);
     if(state==LoopTransitionState::Committed||state==LoopTransitionState::FixedBoundaryCommitted)return x.loopTerminal;
-    LoopTransitionSnapshot result;result.state=state;result.operationID=x.loopTransitionID.load();return result;
+    LoopTransitionSnapshot result;result.state=state;result.operationID=x.loopTransitionID.load();result.reason=x.loopRejectReason.load();return result;
 }
 std::optional<TimeMap> RealtimePipeline::loopCommittedTimeMap()const{
     const auto descriptor=loopTransition();if(descriptor.state!=LoopTransitionState::Committed&&descriptor.state!=LoopTransitionState::FixedBoundaryCommitted)return {};
@@ -1318,7 +1355,7 @@ bool RealtimePipeline::cancelLoopTransition()noexcept{
 }
 std::optional<LoopPcmDescriptor> RealtimePipeline::loopPcmDescriptor(std::uint64_t cycle)noexcept{
     if(!impl_->loopPcmDescriptors)return {};
-    auto value=(*impl_->loopPcmDescriptors)[cycle%impl_->loopPcmDescriptors->size()].read();return value&&value->cycle==cycle?value:std::optional<LoopPcmDescriptor>{};
+    return readLoopPcmDescriptor(*impl_->loopPcmDescriptors,cycle);
 }
 std::array<float,2> RealtimePipeline::loopFirstSample()const noexcept{return impl_->loopHead;}
 std::size_t RealtimePipeline::loopOutputEndFrame()const noexcept{const auto& x=*impl_;if(x.loopTransitionState.load(std::memory_order_acquire)==LoopTransitionState::Committed&&x.repeatConsumedFrames()>=x.loopTerminal.cumulativeStart)return x.loopTerminal.localEnd;return x.loopOutputEnd.load();}

@@ -1,0 +1,42 @@
+{
+  "status": "OBSERVED_NOT_RT_APPROVED",
+  "observations": [
+    {
+      "group": "final_seek_api_v10",
+      "id": "candidate_normal",
+      "RT_deadline_approval": "NOT_ASSESSED",
+      "observed": {
+        "worker_deadlines_observed": 1
+      }
+    }
+  ],
+  "previous_source": "fa2b6f4fea83e06b4d31433478ae01cae5d98c3465267c990625d4a30a171c8a",
+  "current_source": "cefdb1294e89cb5280ad8f6df401eac59825212334e4110f958ca6f0d7c0199c",
+  "previous_expected": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/extended_native_v3/final_seek_api_v10/EXPECTED.json",
+    "bytes": 115255,
+    "sha256": "c9e052b4c1cd6e3fc64dcc95201a60b34ae61893cc4bf2de6b26f62e7680c481"
+  },
+  "previous_build": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_finish/BUILD_PROVENANCE.json",
+    "bytes": 11660,
+    "sha256": "5d4e3a3cfd99ccbb99e47e82e635b2ace5f3abb893eded765ed6a659d92e8c4e"
+  },
+  "previous_binary": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/release/phase62_dynamic_seek_native",
+    "bytes": 1055816,
+    "sha256": "c6d507aa2b6eadda63ff085ba2a2aec0de0452fd4130a6a277ea202d85bedf75"
+  },
+  "previous_summary": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_finish_20261021/extended_native_v3/final_seek_api_v10/candidate_normal/SUMMARY.json",
+    "bytes": 652,
+    "sha256": "f13da9647d5a33226d865cbc6754223b9695798b5ba753bed8e061d2995464d9"
+  },
+  "current_summary": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/native_recovered_01/final_seek_api_v10/candidate_normal/SUMMARY.json",
+    "bytes": 652,
+    "sha256": "f13da9647d5a33226d865cbc6754223b9695798b5ba753bed8e061d2995464d9"
+  },
+  "summaries_byte_identical": true,
+  "meaning": "seek機能試験でworker期限超過1件。旧fa保存runにも存在。原因・局面の同一や一般無退行は未証明。正常RT8本と別に記録し、seekの一般RT承認へ用いない。"
+}

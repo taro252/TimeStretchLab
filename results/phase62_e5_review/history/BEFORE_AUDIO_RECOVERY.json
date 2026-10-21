@@ -1,0 +1,292 @@
+{
+  "status": "ARCHIVED",
+  "reason": "ユーザーの装置復旧回答後、実機native_recovered_01を再実行。復旧前の判定とソース・文書・小証拠を全byte保存。",
+  "old_status": "INCOMPLETE",
+  "old_local_overall_go": false,
+  "source_inventory_sha256": "cefdb1294e89cb5280ad8f6df401eac59825212334e4110f958ca6f0d7c0199c",
+  "archive_root": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/metadata_before_audio_recovery_01/files",
+  "restore_rule": "files/<元の相対パス>を参照。SHAは当時bytesであり、更新後のlive pathを照合しない。",
+  "file_count": 55,
+  "files": [
+    {
+      "path": "CMakeLists.txt",
+      "bytes": 64795,
+      "sha256": "610951d3ca08d9926e2d9b0ce49d19eadba57a952c1bef8cead457df9116304f"
+    },
+    {
+      "path": "docs/PAUSED_SPEED_CHANGE_HANDOFF.md",
+      "bytes": 17408,
+      "sha256": "f5adab6d276c6af7fe75c9873f7b21f24a943b273f754e71503b2aae389cfc00"
+    },
+    {
+      "path": "docs/PAUSED_SPEED_CHANGE_VALIDATION.md",
+      "bytes": 13087,
+      "sha256": "9ff46ab2afb40f053a2e878c2d8b6d78d879d6df9f7095dec69c2077b6eff0e5"
+    },
+    {
+      "path": "docs/PHASE62_DESCRIPTOR_INVARIANT.md",
+      "bytes": 12077,
+      "sha256": "c2b06f2f9fd191485404f2ecc0c2a4396c23c7c70ca787241a9d85639a864469"
+    },
+    {
+      "path": "docs/PHASE62_E5_REVIEW_DESIGN.md",
+      "bytes": 7081,
+      "sha256": "b13012bdfaf49073fd1cd121dd03130ea31e2062f4493d4eb2ee8282f14a6fca"
+    },
+    {
+      "path": "docs/PHASE62_E5_REVIEW_VALIDATION.md",
+      "bytes": 7896,
+      "sha256": "b5c377dbea59958da8c85440eca6707716e755003858f5f7a62dab32ce65d237"
+    },
+    {
+      "path": "docs/PHASE62_FIX_LOOP_REUSE.md",
+      "bytes": 11466,
+      "sha256": "dc39b41e9ad4f6759a1d7cf76df240b781c5c2b240f7395b53ba87ae7fe7a4e8"
+    },
+    {
+      "path": "docs/PHASE62_HISTORY_INVARIANT.md",
+      "bytes": 15308,
+      "sha256": "dc75675ee2431a4b7640bb293cf723a84cafd4835b7cd1f4ff260e25991c1621"
+    },
+    {
+      "path": "docs/PHASE62_MERODOA_HANDOFF.md",
+      "bytes": 17714,
+      "sha256": "9cf1f5d2975eb859b84b96105c332de3750743b69081da01bf9a36f427f2877c"
+    },
+    {
+      "path": "results/phase62_e5_review/BASELINE_PROVENANCE.json",
+      "bytes": 95075,
+      "sha256": "a51f5e714344310452b53e2635f43629855d4f14d61b22d6a8fe8146441706fa"
+    },
+    {
+      "path": "results/phase62_e5_review/BUILD_PROVENANCE.json",
+      "bytes": 14463,
+      "sha256": "195e69dd63bcf59b19609f846a0c03dbd7a8baee0a0479aa98274d5dbee957fc"
+    },
+    {
+      "path": "results/phase62_e5_review/CACHE_BASELINE_REPRO.json",
+      "bytes": 2587,
+      "sha256": "bf62526d21997f4884097d8b78a3dcd7dac57b1150729be2f93c60f75d202b3b"
+    },
+    {
+      "path": "results/phase62_e5_review/CONTROL_COVERAGE.md",
+      "bytes": 23492,
+      "sha256": "dcc78aa0ea38d5b7d6beb10c989ad20aa0aa2e27695a0cd0b3fd731ca8dcdda1"
+    },
+    {
+      "path": "results/phase62_e5_review/DETERMINISTIC_CERTIFICATE.json",
+      "bytes": 61750,
+      "sha256": "91e005771816dc80a7f73a85b1888d3c5f9f9e5e1907d92ce81ff3cfa3f82aca"
+    },
+    {
+      "path": "results/phase62_e5_review/DEVELOPMENT_RESULTS.json",
+      "bytes": 5783,
+      "sha256": "0600ffb5889579aab9abb100728d8e873ecdaf95e264cf7096d8f088aedd8ec7"
+    },
+    {
+      "path": "results/phase62_e5_review/ENVIRONMENT.json",
+      "bytes": 1582,
+      "sha256": "c849a17687edffd47a59bca270d3a04a022ed3b5af6654719de886caefcad1b0"
+    },
+    {
+      "path": "results/phase62_e5_review/GROUP_RESULTS.json",
+      "bytes": 141072,
+      "sha256": "a9ebd113c2c1ab621140ca54a9fa4911251de34ee33f7914f16fb2154d3c3674"
+    },
+    {
+      "path": "results/phase62_e5_review/MANIFEST.json",
+      "bytes": 5333,
+      "sha256": "c951db3dcae6ae2aeae1da2a7e1b0e1df32ec5535c4dff71488bc101270af17a"
+    },
+    {
+      "path": "results/phase62_e5_review/NATIVE_BLOCKER.json",
+      "bytes": 4012,
+      "sha256": "0177c8f54fb6f84dd61e11d2cdbbd60dc4d812fe78bd1fedbedca7fc632dc3dd"
+    },
+    {
+      "path": "results/phase62_e5_review/REFERENCE_VERIFIED.json",
+      "bytes": 13152,
+      "sha256": "5a75b18a1ce65a476fba0e92197e9563360ad21ef4e8239cc0c6dc207d3cae40"
+    },
+    {
+      "path": "results/phase62_e5_review/REPORT.md",
+      "bytes": 20736,
+      "sha256": "a99faa205775d5bc4334b7802dac2e4e40a1f5f62f24567ad621301d808349ad"
+    },
+    {
+      "path": "results/phase62_e5_review/REVIEW_CERTIFICATE.json",
+      "bytes": 40889,
+      "sha256": "e9acd7e8d41d55b77698fb93134c0602e763a6d3cfcd8f31af2e5535a928b19d"
+    },
+    {
+      "path": "results/phase62_e5_review/SOURCE_DELTA.json",
+      "bytes": 4481,
+      "sha256": "97ef7cbfe32b72270119e59f1812515bd3ceb5792698a561b16102596a0d5b69"
+    },
+    {
+      "path": "results/phase62_e5_review/SOURCE_MANIFEST.json",
+      "bytes": 106350,
+      "sha256": "360eb36599b7a3d8aee5b4b2b5e3fe7ac5ddead9c9da9a08f2cc8d6f3e1dc158"
+    },
+    {
+      "path": "results/phase62_e5_review/recipes/README.md",
+      "bytes": 5655,
+      "sha256": "fb51e0e507717eba2c902e3250a4e174ce8d491cf617dfb5c3fbd90251b388af"
+    },
+    {
+      "path": "results/phase62_e5_review/recipes/assemble_review.py",
+      "bytes": 14955,
+      "sha256": "5472ba4d82ed77aee54cc2c25acc46743c6ba367a1a5dea6db29ef1cfbafeae0"
+    },
+    {
+      "path": "results/phase62_e5_review/recipes/audit_baseline.py",
+      "bytes": 15593,
+      "sha256": "f960b7ab7dbec76a7ffd1e333d3d75827f5580e5280c69e811504fb2b735010f"
+    },
+    {
+      "path": "results/phase62_e5_review/recipes/build_review.py",
+      "bytes": 4078,
+      "sha256": "6541820e31e8ad7f8ded11c9f43777b06006402f3259d98e258dacb602b8e53e"
+    },
+    {
+      "path": "results/phase62_e5_review/recipes/certify_final_review.py",
+      "bytes": 4625,
+      "sha256": "a8cfd15e788108ff420f2995cc1bf7f71147d07e8d91fa788cfde9919ee9e23a"
+    },
+    {
+      "path": "results/phase62_e5_review/recipes/finalize_artifacts.py",
+      "bytes": 2283,
+      "sha256": "74c114f408e6253a3a9696bf5cabb0a41067546fb2ae2cd76dea9503dd4237a3"
+    },
+    {
+      "path": "results/phase62_e5_review/recipes/run_cache_baseline_repro.py",
+      "bytes": 5541,
+      "sha256": "e2132c8f205b93e671650f41bd8510b429c7d63bc8b013e648b723a1600615b2"
+    },
+    {
+      "path": "results/phase62_e5_review/recipes/run_final_pipeline.py",
+      "bytes": 2795,
+      "sha256": "c759023ca9b35d796ffa2cd0b9b27959544174670d9fa3bbc0727382cf2d168e"
+    },
+    {
+      "path": "results/phase62_e5_review/recipes/verify_native_equivalence.py",
+      "bytes": 3956,
+      "sha256": "aa4349b4f6230bf45a78a2c24f26fa955edfc6448dcc6181b01d886f4d912fee"
+    },
+    {
+      "path": "results/phase62_e5_review/recipes/verify_references.py",
+      "bytes": 13255,
+      "sha256": "46edcec8cedeb9ac0f0fb9abf2cf84af424b3213e6e7c6dff088dbcf6cc2ff2a"
+    },
+    {
+      "path": "results/phase62_finish/CONTROL_COVERAGE.md",
+      "bytes": 8857,
+      "sha256": "40706ecc930d6b3ddcee4312b8d0fbd3610fae074a34385e0ca42642951d1b26"
+    },
+    {
+      "path": "results/phase62_finish/REPORT.md",
+      "bytes": 18343,
+      "sha256": "f09370da9a343a4042ea9692f68176cfb96fa4777694e3ed742de5351623c365"
+    },
+    {
+      "path": "scripts/phase62_finish_validation.py",
+      "bytes": 13034,
+      "sha256": "a49e7096623f0f76c010d570888cddd538c575a7e3cd9003a20bcd513e6600d9"
+    },
+    {
+      "path": "scripts/phase62_gate_runner.py",
+      "bytes": 8804,
+      "sha256": "de9abb093050b0ac3a74a7fa2e3800543c19a61cdb7bb0f925f93d01fc81594e"
+    },
+    {
+      "path": "scripts/phase62_review_validation.py",
+      "bytes": 6154,
+      "sha256": "9c2cc18c784c5aa239b7ba17729ac53ce76d15cb1811833dcc7c9fe8764d4812"
+    },
+    {
+      "path": "src/platform/macos/ProgressiveMacPlaybackEngine.h",
+      "bytes": 15139,
+      "sha256": "352a29cf4393091cee033c2a2a3188113e05e448e874a6e50a9a4d82fd949c0d"
+    },
+    {
+      "path": "src/platform/macos/ProgressiveMacPlaybackEngine.mm",
+      "bytes": 146614,
+      "sha256": "852f58057113c8f46d0a1ce3922745ef2bb657fe1caf32215d06f8f2e74eaba8"
+    },
+    {
+      "path": "src/playback/LoopSpeedLedger.h",
+      "bytes": 3426,
+      "sha256": "74d340a91aee21a572d41009db0fc1b03b5222ab42c2cc946400d530556face3"
+    },
+    {
+      "path": "src/prototype/Phase58FixRealtimeWorker.cpp",
+      "bytes": 8303,
+      "sha256": "36bb9a2cf227d65bb4d6f95cc2726998778e9c5a0ad7cca50d61a9ec7f712c6a"
+    },
+    {
+      "path": "src/prototype/Phase58FixRealtimeWorker.h",
+      "bytes": 1486,
+      "sha256": "16472b6e40e68180592d4a7ca9e365babeca6e6626b71a324b70e283a3997cf4"
+    },
+    {
+      "path": "src/prototype/Phase58RealtimePipeline.cpp",
+      "bytes": 126153,
+      "sha256": "524d8a19048a4279078af6ce46a2b720750babcbabb2ed242d522fe5a5998d29"
+    },
+    {
+      "path": "src/prototype/Phase58RealtimePipeline.h",
+      "bytes": 15178,
+      "sha256": "130b5882f10307e7dedb4175aa2c39729c4cf946b54203c647312d6e375803cd"
+    },
+    {
+      "path": "tests/Phase62AdoptionReviewNative.cpp",
+      "bytes": 45066,
+      "sha256": "efe99319bca5b20b0e4c5295d5ff8eed3077844c28c6803d357a870f2dbeaacb"
+    },
+    {
+      "path": "tests/Phase62DescriptorInvariantTests.cpp",
+      "bytes": 7233,
+      "sha256": "3a6d30c9beba615fba91d633c409c7e36d04d159b82cc1423d96415305fede4c"
+    },
+    {
+      "path": "tests/Phase62FinishEvidenceTests.py",
+      "bytes": 15984,
+      "sha256": "64f43b58d475f988d6b297a83039fa3383e289f9c633a7c9cf6517d105868d36"
+    },
+    {
+      "path": "tests/Phase62HistoryInvariantTests.cpp",
+      "bytes": 8954,
+      "sha256": "8c1bcca0c2c35fddffdaa73815274f45048b13203cea19278e79d2c1b7d6864a"
+    },
+    {
+      "path": "tests/Phase62PartialMixNative.cpp",
+      "bytes": 23332,
+      "sha256": "3c37e2963a4c4a907e6d5d5498d57c395b14af5ea1d856322b3ec7002a9faa39"
+    },
+    {
+      "path": "tests/Phase62PlayingLedgerNative.cpp",
+      "bytes": 38057,
+      "sha256": "a58e27e61565db02493f66f480d66d73944b47a33b0eb088c3f5ab05f3693198"
+    },
+    {
+      "path": "tests/Phase62PreparationFaultNative.cpp",
+      "bytes": 7193,
+      "sha256": "30e6fbd57af2a82bddff80667836ea7578ef07dc0e20419d09d8324c332afc6a"
+    },
+    {
+      "path": "tests/Phase62WorkerTransactionTests.cpp",
+      "bytes": 7682,
+      "sha256": "b798572cd2fbbadb94d44b0743fecd845d8bad7698be0790363494fee9e2996e"
+    },
+    {
+      "path": "results/phase62_e5_review/ARTIFACTS.json",
+      "bytes": 10571,
+      "sha256": "0717ec297acd38bdfad6cae03eac92c05cb458b43538b978f6f06e889cd54ec2"
+    }
+  ],
+  "original_runs_unchanged": [
+    "native_final",
+    "native_final_v2",
+    "final_pipeline"
+  ]
+}

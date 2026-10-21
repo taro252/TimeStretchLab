@@ -1,0 +1,27 @@
+{
+  "status": "PASS",
+  "scope": "実行条件・来歴の一致だけ。音声/RTの結果はGROUP_RESULTSを参照。",
+  "source_inventory_sha256": "cefdb1294e89cb5280ad8f6df401eac59825212334e4110f958ca6f0d7c0199c",
+  "release_binaries": 8,
+  "debug_binaries": 1,
+  "expected_programs": 41,
+  "prior_expected": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/native_final_v2/EXPECTED.json",
+    "bytes": 11063,
+    "sha256": "f7241d081273f3c73b48fb7baad240971365f3a65f3dd96f8056088780ba92a0"
+  },
+  "recovery_expected": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/native_recovered_01/EXPECTED.json",
+    "bytes": 11103,
+    "sha256": "177a90af1aee34dec04bdf9f2a0ce023d80dc8671e9168b89ebaa76fd474b647"
+  },
+  "same_frozen_references": true,
+  "same_required_ids_and_original_conditions": true,
+  "same_first_matrix_input_bytes_and_sha": true,
+  "prior_failures_unchanged": true,
+  "archive": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_e5_review/history/BEFORE_AUDIO_RECOVERY.json",
+    "bytes": 10533,
+    "sha256": "c4d4863c0cd21e8e89750e14ce5009630e7194c0c6e0abbca7644a935f282c36"
+  }
+}

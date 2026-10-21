@@ -131,3 +131,15 @@ $PYTHON -B results/phase62_finish/recipes/run_remaining_gates.py --group native 
 | stress_4100_baseline | 4100 | 1804 | 42.07 | 0.035 | 0 | 0 | 2 |
 
 8正常条件のmissing/padding、callback new/malloc/free、callback/final worker期限超過とWorkgroup異常はすべて0。A=30/270のwarm破棄総量1024は既存の `(reuse_count+1)*2048` 上限内であり、0とは表記しない。保存点復元4回・Map生成1回・warm FFT 0を最終退役統計でも確認した。短周期は両Presetとも実消費4100周、生成先読みはCandidate4109/Baseline4106周期で、先読み分を周回へ加算していない。故障試験後の装置bufferは親guardが512へ復元確認した。実機全体の一般性能承認や、物理音響測定の結果とは別である。
+
+
+## 後続e5レビュー修正の装置復旧前の記録（2026-10-21）
+
+この文書の未完表・実機統計は当時の証拠として保持する。後続修正は [e5レビューREPORT](../phase62_e5_review/REPORT.md)、[制御対応表](../phase62_e5_review/CONTROL_COVERAGE.md)、[MANIFEST](../phase62_e5_review/MANIFEST.json) に分離した。A/B/CとD01〜D11の追加接続点・不変条件・個別成功、Release/Debug各20CTest、独立PCMを含む選択offline9群を確認した。旧未完2件を含む過去の件数を後から成功へ書き換えていない。
+
+この時点の後続作業の局所全体は **INCOMPLETE / NO-GO**。最終実機の予定41program中、同じ最初のcontrol1本を2回試行し、0/3checks/first callback timeoutで失敗した。残り40program（正常RT8本を含む）は未実施である。標準afplayと旧成功ビルドも開始不能で、根本原因は未確定。上に記載した旧8正常条件の統計を今回の結果へ流用しない。bufferは512へ復元、公開初期値・Merodoa採用は変更しない。
+
+
+## 後続e5レビュー・装置復旧後の局所完了
+
+最新の [e5レビューREPORT](../phase62_e5_review/REPORT.md) / [MANIFEST](../phase62_e5_review/MANIFEST.json) は今回限定の局所PASS/GO。復旧後の新runで実機5群41program・指定正常RT8本が完走PASSした。この文書の旧統計・未完表は当時の記録のまま保持する。公開・Merodoa既定採用、seek切替の一般RT（機能試験でworker期限1件観測）、物理loopback・試聴等は別ゲート。

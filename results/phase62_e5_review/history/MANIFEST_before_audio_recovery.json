@@ -1,0 +1,124 @@
+{
+  "schema": 1,
+  "status": "INCOMPLETE",
+  "local_overall_go": false,
+  "scope": "TimeStretchLab Phase62 e5レビューA/B/C・D01–D11と影響する局所回帰。D07/D08は限定された不変条件による閉鎖。",
+  "review_base": "e5dc91675723b7163b10cc3ea2323710033caeaa",
+  "head": "e5dc91675723b7163b10cc3ea2323710033caeaa",
+  "branch": "main",
+  "source_inventory_sha256": "cefdb1294e89cb5280ad8f6df401eac59825212334e4110f958ca6f0d7c0199c",
+  "uncommitted": true,
+  "staged": false,
+  "commit": false,
+  "push": false,
+  "source": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_e5_review/SOURCE_MANIFEST.json",
+    "bytes": 106350,
+    "sha256": "360eb36599b7a3d8aee5b4b2b5e3fe7ac5ddead9c9da9a08f2cc8d6f3e1dc158"
+  },
+  "delta": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_e5_review/SOURCE_DELTA.json",
+    "bytes": 4481,
+    "sha256": "97ef7cbfe32b72270119e59f1812515bd3ceb5792698a561b16102596a0d5b69"
+  },
+  "build": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_e5_review/BUILD_PROVENANCE.json",
+    "bytes": 14463,
+    "sha256": "195e69dd63bcf59b19609f846a0c03dbd7a8baee0a0479aa98274d5dbee957fc"
+  },
+  "environment": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_e5_review/ENVIRONMENT.json",
+    "bytes": 1582,
+    "sha256": "c849a17687edffd47a59bca270d3a04a022ed3b5af6654719de886caefcad1b0"
+  },
+  "references": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_e5_review/REFERENCE_VERIFIED.json",
+    "bytes": 13152,
+    "sha256": "5a75b18a1ce65a476fba0e92197e9563360ad21ef4e8239cc0c6dc207d3cae40"
+  },
+  "baseline_history": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_e5_review/BASELINE_PROVENANCE.json",
+    "bytes": 95075,
+    "sha256": "a51f5e714344310452b53e2635f43629855d4f14d61b22d6a8fe8146441706fa"
+  },
+  "cache_baseline_reproduction": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_e5_review/CACHE_BASELINE_REPRO.json",
+    "bytes": 2587,
+    "sha256": "bf62526d21997f4884097d8b78a3dcd7dac57b1150729be2f93c60f75d202b3b"
+  },
+  "native_blocker": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_e5_review/NATIVE_BLOCKER.json",
+    "bytes": 4012,
+    "sha256": "0177c8f54fb6f84dd61e11d2cdbbd60dc4d812fe78bd1fedbedca7fc632dc3dd"
+  },
+  "review": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_e5_review/REVIEW_CERTIFICATE.json",
+    "bytes": 40889,
+    "sha256": "e9acd7e8d41d55b77698fb93134c0602e763a6d3cfcd8f31af2e5535a928b19d"
+  },
+  "deterministic": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_e5_review/DETERMINISTIC_CERTIFICATE.json",
+    "bytes": 61750,
+    "sha256": "91e005771816dc80a7f73a85b1888d3c5f9f9e5e1907d92ce81ff3cfa3f82aca"
+  },
+  "groups": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_e5_review/GROUP_RESULTS.json",
+    "bytes": 141072,
+    "sha256": "a9ebd113c2c1ab621140ca54a9fa4911251de34ee33f7914f16fb2154d3c3674"
+  },
+  "development": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_e5_review/DEVELOPMENT_RESULTS.json",
+    "bytes": 5783,
+    "sha256": "0600ffb5889579aab9abb100728d8e873ecdaf95e264cf7096d8f088aedd8ec7"
+  },
+  "coverage": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_e5_review/CONTROL_COVERAGE.md",
+    "bytes": 23492,
+    "sha256": "dcc78aa0ea38d5b7d6beb10c989ad20aa0aa2e27695a0cd0b3fd731ca8dcdda1"
+  },
+  "pipeline_expected": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/final_pipeline/EXPECTED.json",
+    "bytes": 115536,
+    "sha256": "8b40b801b582b30c188e4202b1a0c8a9d7ba085ff7a8e6d5ffe717ed74d32d1c"
+  },
+  "pipeline_summary": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/final_pipeline/SUMMARY.json",
+    "bytes": 2174,
+    "sha256": "f698a2bdfa4a1f28d4f56cfbbad1d59c6ae72e34688024c0a4658836d0279df6"
+  },
+  "remaining_required": [
+    {
+      "id": "native_regression_5_groups",
+      "status": "INCOMPLETE",
+      "reason": "41program中、最初の同じ1programが2回とも0/3で開始timeout。その他40programはNOT_RUN、出力開始不能によりBLOCKED。"
+    },
+    {
+      "id": "normal_realtime_8",
+      "status": "BLOCKED",
+      "subset_of": "native_regression_5_groups",
+      "reason": "41programの内数8本。A=0/30/270各Presetと4100周の正常実機供給/期限が未実施。環境回復後に同じ期限・条件で実行する。"
+    }
+  ],
+  "separate_public_gates": [
+    "FastLocal長尺既存失敗",
+    "stereo Ready目標",
+    "開始時計",
+    "Debug実時間期限",
+    "主観音質",
+    "物理loopback",
+    "Merodoa実TCC/実アプリ統合",
+    "一般公開承認"
+  ],
+  "public_go": false,
+  "Merodoa_default_adoption": false,
+  "capabilities": {
+    "allowExperimentalLoops_default": false,
+    "publicLoopApproved": false,
+    "seek": false,
+    "currentCycleSpeedChanges": false
+  },
+  "evidence_root": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01",
+  "large_evidence_in_git": false,
+  "old_runs_relabelled": false,
+  "source_equivalence_scope": "成功native184、review他30programは実行体・依存一致を別証明。実行時source SHAは保持。その他は最終sourceの新run。"
+}

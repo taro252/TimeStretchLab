@@ -21,7 +21,7 @@ class RealtimeWorkerSupport {
 public:
     RealtimeWorkerSupport(bool enabled,std::uint32_t rate);
     ~RealtimeWorkerSupport();
-    bool promote()noexcept;
+    bool promote(bool failJoinForTest=false)noexcept;
     bool demote()noexcept;
     bool active()const noexcept;
     bool beginInterval()noexcept;

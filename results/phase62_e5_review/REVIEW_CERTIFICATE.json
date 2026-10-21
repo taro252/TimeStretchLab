@@ -1,0 +1,1193 @@
+{
+  "schema": 1,
+  "status": "PASS",
+  "source_inventory_sha256": "cefdb1294e89cb5280ad8f6df401eac59825212334e4110f958ca6f0d7c0199c",
+  "source_delta_from_legacy": [
+    {
+      "path": "scripts/phase62_review_validation.py",
+      "before": "0c0499986a92dea0cc31040850474e938112ab79b7337006e62eab0bc1283d04",
+      "after": "9c2cc18c784c5aa239b7ba17729ac53ce76d15cb1811833dcc7c9fe8764d4812"
+    },
+    {
+      "path": "tests/Phase62FinishEvidenceTests.py",
+      "before": "c7530bee18b3fa02eef595465849df6c18c6858cd092b32ff5a3d5348fdff8b0",
+      "after": "64f43b58d475f988d6b297a83039fa3383e289f9c633a7c9cf6517d105868d36"
+    },
+    {
+      "path": "tests/Phase62PartialMixNative.cpp",
+      "before": "c66efb3c1f21b8993ec1048e90e4957f686094b5940706c24e043e474380741d",
+      "after": "3c37e2963a4c4a907e6d5d5498d57c395b14af5ea1d856322b3ec7002a9faa39"
+    }
+  ],
+  "binary_count": 29,
+  "unchanged_binary_count": 28,
+  "unchanged_binaries": [
+    "phase62_paused_clear_native",
+    "phase62_playing_ledger_native",
+    "phase62_api_oracle_native",
+    "phase62_api_boundary_reference",
+    "phase62_cache_focus_tests",
+    "phase62_loop_speed_ledger_native",
+    "phase62_loop_speed_ledger_tests",
+    "phase62_race_native",
+    "phase62_dynamic_pcm_tests",
+    "phase61_seek_check",
+    "phase54_core_probe",
+    "phase62_loop_tests",
+    "phase62_fix_reuse_tests",
+    "phase62_dynamic_boundary_tests",
+    "phase62_dynamic_handoff_tests",
+    "phase62_dynamic_controls_native",
+    "phase62_dynamic_loop_probe",
+    "phase62_paused_pcm_tests",
+    "paused_speed_native_tests",
+    "paused_speed_loop_tests",
+    "phase62_dynamic_seek_native",
+    "phase62_clear_pcm_native",
+    "phase62_native_tests",
+    "phase62_worker_transaction_tests",
+    "phase62_history_invariant_tests",
+    "phase62_descriptor_invariant_tests",
+    "phase62_preparation_fault_native",
+    "phase62_adoption_review_native"
+  ],
+  "changed_binary": "phase62_partial_mix_native",
+  "metadata_erratum": "旧同一性証明のall_30_binaries_identicalというキー名は誤記。実際に全件照合したBUILD04/05/07の実行体は29点、最終差分で不変は28点。旧証明は保存し、本欄と実列挙を正とする。",
+  "scope": "製品/DSPと他の試験コード・driver/importは同一。部分混合試験だけの故障確認/取り逃し記録を最終変更し、6本再実行。旧runのsource欄を付け替えない。",
+  "builds": [
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/BUILD_REVIEW_04.json",
+      "bytes": 14463,
+      "sha256": "dad12d8f7108ff706e6143ca264c63bd62936a7f2226f3a4ffcd5f5986376d1c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/BUILD_REVIEW_06.json",
+      "bytes": 14463,
+      "sha256": "46d48a0faa01d5b0cbd45841180d031204a094d97d3780a08feda0727cbadceb"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/BUILD_REVIEW_07.json",
+      "bytes": 14463,
+      "sha256": "195e69dd63bcf59b19609f846a0c03dbd7a8baee0a0479aa98274d5dbee957fc"
+    }
+  ],
+  "native_legacy": {
+    "certificate": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/NATIVE_EQUIVALENCE_AFTER_VALIDATOR.json",
+      "bytes": 9054,
+      "sha256": "b2b0842431ba227b02538fb3d9c7ef1db38a615c70cfe484b7f6bcdee37ef52d"
+    },
+    "checks": 184,
+    "actual_run_source": "795dd66a101c68f6f0f3cbd994365b62bef29400271c76318355802011375a44",
+    "applicable_final_source": "cefdb1294e89cb5280ad8f6df401eac59825212334e4110f958ca6f0d7c0199c"
+  },
+  "review_functional": {
+    "expected_programs": 36,
+    "executed_programs": 36,
+    "expected_checks": 202,
+    "executed_checks": 202,
+    "rows": [
+      {
+        "id": "a1_cancel_candidate",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 6,
+        "executed": 6,
+        "seconds": 0.5545982079929672,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/a1_cancel_candidate.log",
+          "bytes": 352,
+          "sha256": "83e9951b6e94e7568f5f52255d7b7d56f1d9714ad725c3a9a6e6c34f54a6f2ad"
+        },
+        "summary": {
+          "schema": 1,
+          "suite": "phase62_adoption_review",
+          "mode": "a1_cancel",
+          "preset": "candidate",
+          "run_complete": true,
+          "status": "PASS",
+          "expected": 6,
+          "executed": 6,
+          "Accepted_IDs": [
+            2,
+            3
+          ],
+          "owner_peak": 2,
+          "owners_alive": 0,
+          "callback_cpp_new": 0,
+          "callback_malloc": 0,
+          "callback_free": 0,
+          "independent_DSP": "NOT_RUN",
+          "RT_deadline_approval": "NOT_ASSESSED",
+          "local_overall_go": false
+        },
+        "actual_run_source": "dfcd0562c0ddf4dad1b7a1c181895544f4ea119e995f2d2f7c993619fd9e8b54"
+      },
+      {
+        "id": "a1_started_candidate",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 6,
+        "executed": 6,
+        "seconds": 1.800283832999412,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/a1_started_candidate.log",
+          "bytes": 353,
+          "sha256": "40b7d2bbd1e5023f975527b5cd5dc89bf2cd35779a4f93d7a35daef3ab3787c9"
+        },
+        "summary": {
+          "schema": 1,
+          "suite": "phase62_adoption_review",
+          "mode": "a1_started",
+          "preset": "candidate",
+          "run_complete": true,
+          "status": "PASS",
+          "expected": 6,
+          "executed": 6,
+          "Accepted_IDs": [
+            2,
+            3
+          ],
+          "owner_peak": 2,
+          "owners_alive": 0,
+          "callback_cpp_new": 0,
+          "callback_malloc": 0,
+          "callback_free": 0,
+          "independent_DSP": "NOT_RUN",
+          "RT_deadline_approval": "NOT_ASSESSED",
+          "local_overall_go": false
+        },
+        "actual_run_source": "dfcd0562c0ddf4dad1b7a1c181895544f4ea119e995f2d2f7c993619fd9e8b54"
+      },
+      {
+        "id": "a2_initial_supply_candidate",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 6,
+        "executed": 6,
+        "seconds": 1.1796670420008013,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/a2_initial_supply_candidate.log",
+          "bytes": 360,
+          "sha256": "20c1aad0a58fa5c4b95fad8b8e430629ae6e3a2e7d29025ecfa2fb4896be9f8f"
+        },
+        "summary": {
+          "schema": 1,
+          "suite": "phase62_adoption_review",
+          "mode": "a2_initial_supply",
+          "preset": "candidate",
+          "run_complete": true,
+          "status": "PASS",
+          "expected": 6,
+          "executed": 6,
+          "Accepted_IDs": [
+            2,
+            3
+          ],
+          "owner_peak": 2,
+          "owners_alive": 0,
+          "callback_cpp_new": 0,
+          "callback_malloc": 0,
+          "callback_free": 0,
+          "independent_DSP": "NOT_RUN",
+          "RT_deadline_approval": "NOT_ASSESSED",
+          "local_overall_go": false
+        },
+        "actual_run_source": "dfcd0562c0ddf4dad1b7a1c181895544f4ea119e995f2d2f7c993619fd9e8b54"
+      },
+      {
+        "id": "a2_checkpoint_supply_candidate",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 7,
+        "executed": 7,
+        "seconds": 2.6149594169983175,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/a2_checkpoint_supply_candidate.log",
+          "bytes": 363,
+          "sha256": "63935236b5f4eece297af88091cc4f68f099d4c8fd3cd0ae68a3352376b92d60"
+        },
+        "summary": {
+          "schema": 1,
+          "suite": "phase62_adoption_review",
+          "mode": "a2_checkpoint_supply",
+          "preset": "candidate",
+          "run_complete": true,
+          "status": "PASS",
+          "expected": 7,
+          "executed": 7,
+          "Accepted_IDs": [
+            2,
+            3
+          ],
+          "owner_peak": 2,
+          "owners_alive": 0,
+          "callback_cpp_new": 0,
+          "callback_malloc": 0,
+          "callback_free": 0,
+          "independent_DSP": "NOT_RUN",
+          "RT_deadline_approval": "NOT_ASSESSED",
+          "local_overall_go": false
+        },
+        "actual_run_source": "dfcd0562c0ddf4dad1b7a1c181895544f4ea119e995f2d2f7c993619fd9e8b54"
+      },
+      {
+        "id": "a2_clear_started_candidate",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 7,
+        "executed": 7,
+        "seconds": 2.6227081660035765,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/a2_clear_started_candidate.log",
+          "bytes": 359,
+          "sha256": "86e10d3b5d68f65f87b642e9ade737fb9702d22884a235d00f439c4fce5f8035"
+        },
+        "summary": {
+          "schema": 1,
+          "suite": "phase62_adoption_review",
+          "mode": "a2_clear_started",
+          "preset": "candidate",
+          "run_complete": true,
+          "status": "PASS",
+          "expected": 7,
+          "executed": 7,
+          "Accepted_IDs": [
+            2,
+            3
+          ],
+          "owner_peak": 2,
+          "owners_alive": 0,
+          "callback_cpp_new": 0,
+          "callback_malloc": 0,
+          "callback_free": 0,
+          "independent_DSP": "NOT_RUN",
+          "RT_deadline_approval": "NOT_ASSESSED",
+          "local_overall_go": false
+        },
+        "actual_run_source": "dfcd0562c0ddf4dad1b7a1c181895544f4ea119e995f2d2f7c993619fd9e8b54"
+      },
+      {
+        "id": "b_internal4096_candidate",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 7,
+        "executed": 7,
+        "seconds": 24.30802483399748,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/b_internal4096_candidate.log",
+          "bytes": 355,
+          "sha256": "287ea7e47609e6834d65c6d92869017bde8ed4267f6839d7346df81c30fc4e83"
+        },
+        "summary": {
+          "schema": 1,
+          "suite": "phase62_adoption_review",
+          "mode": "b_internal4096",
+          "preset": "candidate",
+          "run_complete": true,
+          "status": "PASS",
+          "expected": 7,
+          "executed": 7,
+          "Accepted_IDs": [
+            2
+          ],
+          "owner_peak": 2,
+          "owners_alive": 0,
+          "callback_cpp_new": 0,
+          "callback_malloc": 0,
+          "callback_free": 0,
+          "independent_DSP": "NOT_RUN",
+          "RT_deadline_approval": "NOT_ASSESSED",
+          "local_overall_go": false
+        },
+        "actual_run_source": "dfcd0562c0ddf4dad1b7a1c181895544f4ea119e995f2d2f7c993619fd9e8b54"
+      },
+      {
+        "id": "checkpoint_candidate",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 7,
+        "executed": 7,
+        "seconds": 2.2224337499937974,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/checkpoint_candidate.log",
+          "bytes": 66,
+          "sha256": "902e2ac9a26a79c103af37a5bf5cfb71a7fa05b7fa3c0ac4b32232ebd35ab807"
+        },
+        "summary": {
+          "status": "PASS",
+          "expected": 7,
+          "executed": 7,
+          "passed": 7,
+          "complete": true
+        },
+        "actual_run_source": "dfcd0562c0ddf4dad1b7a1c181895544f4ea119e995f2d2f7c993619fd9e8b54"
+      },
+      {
+        "id": "reservation_candidate",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 7,
+        "executed": 7,
+        "seconds": 2.181259625009261,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/reservation_candidate.log",
+          "bytes": 66,
+          "sha256": "902e2ac9a26a79c103af37a5bf5cfb71a7fa05b7fa3c0ac4b32232ebd35ab807"
+        },
+        "summary": {
+          "status": "PASS",
+          "expected": 7,
+          "executed": 7,
+          "passed": 7,
+          "complete": true
+        },
+        "actual_run_source": "dfcd0562c0ddf4dad1b7a1c181895544f4ea119e995f2d2f7c993619fd9e8b54"
+      },
+      {
+        "id": "workgroup_candidate",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 7,
+        "executed": 7,
+        "seconds": 2.2425361659988994,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/workgroup_candidate.log",
+          "bytes": 66,
+          "sha256": "902e2ac9a26a79c103af37a5bf5cfb71a7fa05b7fa3c0ac4b32232ebd35ab807"
+        },
+        "summary": {
+          "status": "PASS",
+          "expected": 7,
+          "executed": 7,
+          "passed": 7,
+          "complete": true
+        },
+        "actual_run_source": "dfcd0562c0ddf4dad1b7a1c181895544f4ea119e995f2d2f7c993619fd9e8b54"
+      },
+      {
+        "id": "deadline_candidate",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 7,
+        "executed": 7,
+        "seconds": 4.327678208006546,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/deadline_candidate.log",
+          "bytes": 66,
+          "sha256": "902e2ac9a26a79c103af37a5bf5cfb71a7fa05b7fa3c0ac4b32232ebd35ab807"
+        },
+        "summary": {
+          "status": "PASS",
+          "expected": 7,
+          "executed": 7,
+          "passed": 7,
+          "complete": true
+        },
+        "actual_run_source": "dfcd0562c0ddf4dad1b7a1c181895544f4ea119e995f2d2f7c993619fd9e8b54"
+      },
+      {
+        "id": "paused_deadline_candidate",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 7,
+        "executed": 7,
+        "seconds": 2.854925291991094,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/paused_deadline_candidate.log",
+          "bytes": 66,
+          "sha256": "902e2ac9a26a79c103af37a5bf5cfb71a7fa05b7fa3c0ac4b32232ebd35ab807"
+        },
+        "summary": {
+          "status": "PASS",
+          "expected": 7,
+          "executed": 7,
+          "passed": 7,
+          "complete": true
+        },
+        "actual_run_source": "dfcd0562c0ddf4dad1b7a1c181895544f4ea119e995f2d2f7c993619fd9e8b54"
+      },
+      {
+        "id": "applying_cancel_candidate",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 6,
+        "executed": 6,
+        "seconds": 0.3759881250007311,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/applying_cancel_candidate.log",
+          "bytes": 67,
+          "sha256": "55c3f65065b575d6dfa9b6d849b68ef53c834cf782f92433cc3dc32a65f67733"
+        },
+        "summary": {
+          "status": "PASS",
+          "expected": 6,
+          "executed": 6,
+          "passed": 6,
+          "complete": true
+        },
+        "actual_run_source": "dfcd0562c0ddf4dad1b7a1c181895544f4ea119e995f2d2f7c993619fd9e8b54"
+      },
+      {
+        "id": "planner_cancel_candidate",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 6,
+        "executed": 6,
+        "seconds": 0.33257283399871085,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/planner_cancel_candidate.log",
+          "bytes": 67,
+          "sha256": "55c3f65065b575d6dfa9b6d849b68ef53c834cf782f92433cc3dc32a65f67733"
+        },
+        "summary": {
+          "status": "PASS",
+          "expected": 6,
+          "executed": 6,
+          "passed": 6,
+          "complete": true
+        },
+        "actual_run_source": "dfcd0562c0ddf4dad1b7a1c181895544f4ea119e995f2d2f7c993619fd9e8b54"
+      },
+      {
+        "id": "proposal_cancel_candidate",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 6,
+        "executed": 6,
+        "seconds": 0.38303541600180324,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/proposal_cancel_candidate.log",
+          "bytes": 67,
+          "sha256": "55c3f65065b575d6dfa9b6d849b68ef53c834cf782f92433cc3dc32a65f67733"
+        },
+        "summary": {
+          "status": "PASS",
+          "expected": 6,
+          "executed": 6,
+          "passed": 6,
+          "complete": true
+        },
+        "actual_run_source": "dfcd0562c0ddf4dad1b7a1c181895544f4ea119e995f2d2f7c993619fd9e8b54"
+      },
+      {
+        "id": "cache_old_new_candidate",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 6,
+        "executed": 6,
+        "seconds": 0.6950860000069952,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/cache_old_new_candidate.log",
+          "bytes": 67,
+          "sha256": "55c3f65065b575d6dfa9b6d849b68ef53c834cf782f92433cc3dc32a65f67733"
+        },
+        "summary": {
+          "status": "PASS",
+          "expected": 6,
+          "executed": 6,
+          "passed": 6,
+          "complete": true
+        },
+        "actual_run_source": "dfcd0562c0ddf4dad1b7a1c181895544f4ea119e995f2d2f7c993619fd9e8b54"
+      },
+      {
+        "id": "a1_cancel_baseline",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 6,
+        "executed": 6,
+        "seconds": 0.48960970900952816,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/a1_cancel_baseline.log",
+          "bytes": 351,
+          "sha256": "161e46aafebabb5023c2ecd066eae0035f995c6a047b50f6ec76c5bba22f5c7f"
+        },
+        "summary": {
+          "schema": 1,
+          "suite": "phase62_adoption_review",
+          "mode": "a1_cancel",
+          "preset": "baseline",
+          "run_complete": true,
+          "status": "PASS",
+          "expected": 6,
+          "executed": 6,
+          "Accepted_IDs": [
+            2,
+            3
+          ],
+          "owner_peak": 2,
+          "owners_alive": 0,
+          "callback_cpp_new": 0,
+          "callback_malloc": 0,
+          "callback_free": 0,
+          "independent_DSP": "NOT_RUN",
+          "RT_deadline_approval": "NOT_ASSESSED",
+          "local_overall_go": false
+        },
+        "actual_run_source": "dfcd0562c0ddf4dad1b7a1c181895544f4ea119e995f2d2f7c993619fd9e8b54"
+      },
+      {
+        "id": "a1_started_baseline",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 6,
+        "executed": 6,
+        "seconds": 2.5754817920096684,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/a1_started_baseline.log",
+          "bytes": 352,
+          "sha256": "2ca3b3202a24fd45a80f7501eee704a03d769ca5f9a785b61d463c050e60b3fd"
+        },
+        "summary": {
+          "schema": 1,
+          "suite": "phase62_adoption_review",
+          "mode": "a1_started",
+          "preset": "baseline",
+          "run_complete": true,
+          "status": "PASS",
+          "expected": 6,
+          "executed": 6,
+          "Accepted_IDs": [
+            2,
+            3
+          ],
+          "owner_peak": 2,
+          "owners_alive": 0,
+          "callback_cpp_new": 0,
+          "callback_malloc": 0,
+          "callback_free": 0,
+          "independent_DSP": "NOT_RUN",
+          "RT_deadline_approval": "NOT_ASSESSED",
+          "local_overall_go": false
+        },
+        "actual_run_source": "dfcd0562c0ddf4dad1b7a1c181895544f4ea119e995f2d2f7c993619fd9e8b54"
+      },
+      {
+        "id": "a2_initial_supply_baseline",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 6,
+        "executed": 6,
+        "seconds": 1.152119665988721,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/a2_initial_supply_baseline.log",
+          "bytes": 359,
+          "sha256": "503b39ae7e5dfb1ca0060cf2dafa712c9c4917adb39dc08617ba932ce32b2926"
+        },
+        "summary": {
+          "schema": 1,
+          "suite": "phase62_adoption_review",
+          "mode": "a2_initial_supply",
+          "preset": "baseline",
+          "run_complete": true,
+          "status": "PASS",
+          "expected": 6,
+          "executed": 6,
+          "Accepted_IDs": [
+            2,
+            3
+          ],
+          "owner_peak": 2,
+          "owners_alive": 0,
+          "callback_cpp_new": 0,
+          "callback_malloc": 0,
+          "callback_free": 0,
+          "independent_DSP": "NOT_RUN",
+          "RT_deadline_approval": "NOT_ASSESSED",
+          "local_overall_go": false
+        },
+        "actual_run_source": "dfcd0562c0ddf4dad1b7a1c181895544f4ea119e995f2d2f7c993619fd9e8b54"
+      },
+      {
+        "id": "a2_checkpoint_supply_baseline",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 7,
+        "executed": 7,
+        "seconds": 2.6416030830005184,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/a2_checkpoint_supply_baseline.log",
+          "bytes": 362,
+          "sha256": "8d5ebbe5c04616b2871c905a78b9b85ed05c1ded9c2ce1c5535350d4afc38a83"
+        },
+        "summary": {
+          "schema": 1,
+          "suite": "phase62_adoption_review",
+          "mode": "a2_checkpoint_supply",
+          "preset": "baseline",
+          "run_complete": true,
+          "status": "PASS",
+          "expected": 7,
+          "executed": 7,
+          "Accepted_IDs": [
+            2,
+            3
+          ],
+          "owner_peak": 2,
+          "owners_alive": 0,
+          "callback_cpp_new": 0,
+          "callback_malloc": 0,
+          "callback_free": 0,
+          "independent_DSP": "NOT_RUN",
+          "RT_deadline_approval": "NOT_ASSESSED",
+          "local_overall_go": false
+        },
+        "actual_run_source": "dfcd0562c0ddf4dad1b7a1c181895544f4ea119e995f2d2f7c993619fd9e8b54"
+      },
+      {
+        "id": "a2_clear_started_baseline",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 7,
+        "executed": 7,
+        "seconds": 2.6418876249954337,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/a2_clear_started_baseline.log",
+          "bytes": 358,
+          "sha256": "da2894497227bdaecb42952ff68949660392373d79c034691de2e8cc630dc35a"
+        },
+        "summary": {
+          "schema": 1,
+          "suite": "phase62_adoption_review",
+          "mode": "a2_clear_started",
+          "preset": "baseline",
+          "run_complete": true,
+          "status": "PASS",
+          "expected": 7,
+          "executed": 7,
+          "Accepted_IDs": [
+            2,
+            3
+          ],
+          "owner_peak": 2,
+          "owners_alive": 0,
+          "callback_cpp_new": 0,
+          "callback_malloc": 0,
+          "callback_free": 0,
+          "independent_DSP": "NOT_RUN",
+          "RT_deadline_approval": "NOT_ASSESSED",
+          "local_overall_go": false
+        },
+        "actual_run_source": "dfcd0562c0ddf4dad1b7a1c181895544f4ea119e995f2d2f7c993619fd9e8b54"
+      },
+      {
+        "id": "b_internal4096_baseline",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 7,
+        "executed": 7,
+        "seconds": 23.992442417002167,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/b_internal4096_baseline.log",
+          "bytes": 354,
+          "sha256": "ee05275dff30068a244534710facff224ff4f4027f52b2b9c2d3c79ae60c6769"
+        },
+        "summary": {
+          "schema": 1,
+          "suite": "phase62_adoption_review",
+          "mode": "b_internal4096",
+          "preset": "baseline",
+          "run_complete": true,
+          "status": "PASS",
+          "expected": 7,
+          "executed": 7,
+          "Accepted_IDs": [
+            2
+          ],
+          "owner_peak": 2,
+          "owners_alive": 0,
+          "callback_cpp_new": 0,
+          "callback_malloc": 0,
+          "callback_free": 0,
+          "independent_DSP": "NOT_RUN",
+          "RT_deadline_approval": "NOT_ASSESSED",
+          "local_overall_go": false
+        },
+        "actual_run_source": "dfcd0562c0ddf4dad1b7a1c181895544f4ea119e995f2d2f7c993619fd9e8b54"
+      },
+      {
+        "id": "checkpoint_baseline",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 7,
+        "executed": 7,
+        "seconds": 2.2158842089993414,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/checkpoint_baseline.log",
+          "bytes": 66,
+          "sha256": "902e2ac9a26a79c103af37a5bf5cfb71a7fa05b7fa3c0ac4b32232ebd35ab807"
+        },
+        "summary": {
+          "status": "PASS",
+          "expected": 7,
+          "executed": 7,
+          "passed": 7,
+          "complete": true
+        },
+        "actual_run_source": "dfcd0562c0ddf4dad1b7a1c181895544f4ea119e995f2d2f7c993619fd9e8b54"
+      },
+      {
+        "id": "reservation_baseline",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 7,
+        "executed": 7,
+        "seconds": 2.1654899580025813,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/reservation_baseline.log",
+          "bytes": 66,
+          "sha256": "902e2ac9a26a79c103af37a5bf5cfb71a7fa05b7fa3c0ac4b32232ebd35ab807"
+        },
+        "summary": {
+          "status": "PASS",
+          "expected": 7,
+          "executed": 7,
+          "passed": 7,
+          "complete": true
+        },
+        "actual_run_source": "dfcd0562c0ddf4dad1b7a1c181895544f4ea119e995f2d2f7c993619fd9e8b54"
+      },
+      {
+        "id": "workgroup_baseline",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 7,
+        "executed": 7,
+        "seconds": 2.2109715420083376,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/workgroup_baseline.log",
+          "bytes": 66,
+          "sha256": "902e2ac9a26a79c103af37a5bf5cfb71a7fa05b7fa3c0ac4b32232ebd35ab807"
+        },
+        "summary": {
+          "status": "PASS",
+          "expected": 7,
+          "executed": 7,
+          "passed": 7,
+          "complete": true
+        },
+        "actual_run_source": "dfcd0562c0ddf4dad1b7a1c181895544f4ea119e995f2d2f7c993619fd9e8b54"
+      },
+      {
+        "id": "deadline_baseline",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 7,
+        "executed": 7,
+        "seconds": 4.1935840000078315,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/deadline_baseline.log",
+          "bytes": 66,
+          "sha256": "902e2ac9a26a79c103af37a5bf5cfb71a7fa05b7fa3c0ac4b32232ebd35ab807"
+        },
+        "summary": {
+          "status": "PASS",
+          "expected": 7,
+          "executed": 7,
+          "passed": 7,
+          "complete": true
+        },
+        "actual_run_source": "dfcd0562c0ddf4dad1b7a1c181895544f4ea119e995f2d2f7c993619fd9e8b54"
+      },
+      {
+        "id": "paused_deadline_baseline",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 7,
+        "executed": 7,
+        "seconds": 2.8277602089947322,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/paused_deadline_baseline.log",
+          "bytes": 66,
+          "sha256": "902e2ac9a26a79c103af37a5bf5cfb71a7fa05b7fa3c0ac4b32232ebd35ab807"
+        },
+        "summary": {
+          "status": "PASS",
+          "expected": 7,
+          "executed": 7,
+          "passed": 7,
+          "complete": true
+        },
+        "actual_run_source": "dfcd0562c0ddf4dad1b7a1c181895544f4ea119e995f2d2f7c993619fd9e8b54"
+      },
+      {
+        "id": "applying_cancel_baseline",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 6,
+        "executed": 6,
+        "seconds": 0.33463599999959115,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/applying_cancel_baseline.log",
+          "bytes": 67,
+          "sha256": "55c3f65065b575d6dfa9b6d849b68ef53c834cf782f92433cc3dc32a65f67733"
+        },
+        "summary": {
+          "status": "PASS",
+          "expected": 6,
+          "executed": 6,
+          "passed": 6,
+          "complete": true
+        },
+        "actual_run_source": "dfcd0562c0ddf4dad1b7a1c181895544f4ea119e995f2d2f7c993619fd9e8b54"
+      },
+      {
+        "id": "planner_cancel_baseline",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 6,
+        "executed": 6,
+        "seconds": 0.31981954199727625,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/planner_cancel_baseline.log",
+          "bytes": 67,
+          "sha256": "55c3f65065b575d6dfa9b6d849b68ef53c834cf782f92433cc3dc32a65f67733"
+        },
+        "summary": {
+          "status": "PASS",
+          "expected": 6,
+          "executed": 6,
+          "passed": 6,
+          "complete": true
+        },
+        "actual_run_source": "dfcd0562c0ddf4dad1b7a1c181895544f4ea119e995f2d2f7c993619fd9e8b54"
+      },
+      {
+        "id": "proposal_cancel_baseline",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 6,
+        "executed": 6,
+        "seconds": 0.36666958399291616,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/proposal_cancel_baseline.log",
+          "bytes": 67,
+          "sha256": "55c3f65065b575d6dfa9b6d849b68ef53c834cf782f92433cc3dc32a65f67733"
+        },
+        "summary": {
+          "status": "PASS",
+          "expected": 6,
+          "executed": 6,
+          "passed": 6,
+          "complete": true
+        },
+        "actual_run_source": "dfcd0562c0ddf4dad1b7a1c181895544f4ea119e995f2d2f7c993619fd9e8b54"
+      },
+      {
+        "id": "cache_old_new_baseline",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 6,
+        "executed": 6,
+        "seconds": 0.7263237910083262,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/cache_old_new_baseline.log",
+          "bytes": 67,
+          "sha256": "55c3f65065b575d6dfa9b6d849b68ef53c834cf782f92433cc3dc32a65f67733"
+        },
+        "summary": {
+          "status": "PASS",
+          "expected": 6,
+          "executed": 6,
+          "passed": 6,
+          "complete": true
+        },
+        "actual_run_source": "dfcd0562c0ddf4dad1b7a1c181895544f4ea119e995f2d2f7c993619fd9e8b54"
+      },
+      {
+        "id": "partial_replace_candidate",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 1,
+        "executed": 1,
+        "seconds": 1.8161696669994853,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/partial_final_v3/partial_replace_candidate.log",
+          "bytes": 367,
+          "sha256": "d727efc77588b99dd4182a45e036a4da75e1bf0de2183d698c3795b1da235b4a"
+        },
+        "summary": {
+          "schema": 1,
+          "suite": "phase62_partial_mix_native",
+          "run_complete": true,
+          "status": "PASS",
+          "expected": 1,
+          "executed": 1,
+          "executed_IDs": [
+            "D04_candidate_replace"
+          ],
+          "completion_marker": "PHASE62_PARTIAL_MIX_COMPLETE",
+          "attempts": 1,
+          "device": 72,
+          "original_buffer": 512,
+          "selected_buffer": 64,
+          "buffer_restored": true,
+          "reason": "",
+          "callback_gate": false,
+          "RT_deadline_approval": "NOT_ASSESSED"
+        },
+        "actual_run_source": "cefdb1294e89cb5280ad8f6df401eac59825212334e4110f958ca6f0d7c0199c"
+      },
+      {
+        "id": "partial_clear_candidate",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 1,
+        "executed": 1,
+        "seconds": 11.276633375004167,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/partial_final_v3/partial_clear_candidate.log",
+          "bytes": 365,
+          "sha256": "620a491b7deecf976186d676a6a823311c494c58e062a7f5742c7a11c32c49a7"
+        },
+        "summary": {
+          "schema": 1,
+          "suite": "phase62_partial_mix_native",
+          "run_complete": true,
+          "status": "PASS",
+          "expected": 1,
+          "executed": 1,
+          "executed_IDs": [
+            "D04_candidate_clear"
+          ],
+          "completion_marker": "PHASE62_PARTIAL_MIX_COMPLETE",
+          "attempts": 1,
+          "device": 72,
+          "original_buffer": 512,
+          "selected_buffer": 64,
+          "buffer_restored": true,
+          "reason": "",
+          "callback_gate": false,
+          "RT_deadline_approval": "NOT_ASSESSED"
+        },
+        "actual_run_source": "cefdb1294e89cb5280ad8f6df401eac59825212334e4110f958ca6f0d7c0199c"
+      },
+      {
+        "id": "partial_stop_candidate",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 1,
+        "executed": 1,
+        "seconds": 0.5922472079982981,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/partial_final_v3/partial_stop_candidate.log",
+          "bytes": 364,
+          "sha256": "201672839cf14286b661871b178fb30b86198a1dd3d48b4a0b60f530b8514416"
+        },
+        "summary": {
+          "schema": 1,
+          "suite": "phase62_partial_mix_native",
+          "run_complete": true,
+          "status": "PASS",
+          "expected": 1,
+          "executed": 1,
+          "executed_IDs": [
+            "D04_candidate_stop"
+          ],
+          "completion_marker": "PHASE62_PARTIAL_MIX_COMPLETE",
+          "attempts": 1,
+          "device": 72,
+          "original_buffer": 512,
+          "selected_buffer": 64,
+          "buffer_restored": true,
+          "reason": "",
+          "callback_gate": false,
+          "RT_deadline_approval": "NOT_ASSESSED"
+        },
+        "actual_run_source": "cefdb1294e89cb5280ad8f6df401eac59825212334e4110f958ca6f0d7c0199c"
+      },
+      {
+        "id": "partial_replace_baseline",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 1,
+        "executed": 1,
+        "seconds": 1.9606954170012614,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/partial_final_v3/partial_replace_baseline.log",
+          "bytes": 366,
+          "sha256": "1e0d45b625c662e16f92ee18f9a8816eb9598684870b629bc268923ff2a32489"
+        },
+        "summary": {
+          "schema": 1,
+          "suite": "phase62_partial_mix_native",
+          "run_complete": true,
+          "status": "PASS",
+          "expected": 1,
+          "executed": 1,
+          "executed_IDs": [
+            "D04_baseline_replace"
+          ],
+          "completion_marker": "PHASE62_PARTIAL_MIX_COMPLETE",
+          "attempts": 1,
+          "device": 72,
+          "original_buffer": 512,
+          "selected_buffer": 64,
+          "buffer_restored": true,
+          "reason": "",
+          "callback_gate": false,
+          "RT_deadline_approval": "NOT_ASSESSED"
+        },
+        "actual_run_source": "cefdb1294e89cb5280ad8f6df401eac59825212334e4110f958ca6f0d7c0199c"
+      },
+      {
+        "id": "partial_clear_baseline",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 1,
+        "executed": 1,
+        "seconds": 11.274096416993416,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/partial_final_v3/partial_clear_baseline.log",
+          "bytes": 364,
+          "sha256": "3d19be5debd497e35016bdb4f89379f48cb42f01481bfd20817350a26a9394f2"
+        },
+        "summary": {
+          "schema": 1,
+          "suite": "phase62_partial_mix_native",
+          "run_complete": true,
+          "status": "PASS",
+          "expected": 1,
+          "executed": 1,
+          "executed_IDs": [
+            "D04_baseline_clear"
+          ],
+          "completion_marker": "PHASE62_PARTIAL_MIX_COMPLETE",
+          "attempts": 1,
+          "device": 72,
+          "original_buffer": 512,
+          "selected_buffer": 64,
+          "buffer_restored": true,
+          "reason": "",
+          "callback_gate": false,
+          "RT_deadline_approval": "NOT_ASSESSED"
+        },
+        "actual_run_source": "cefdb1294e89cb5280ad8f6df401eac59825212334e4110f958ca6f0d7c0199c"
+      },
+      {
+        "id": "partial_stop_baseline",
+        "status": "PASS",
+        "exit": 0,
+        "timeout": false,
+        "expected": 1,
+        "executed": 1,
+        "seconds": 0.6310308329993859,
+        "reasons": [],
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/partial_final_v3/partial_stop_baseline.log",
+          "bytes": 363,
+          "sha256": "c5e80da0b2976e625b4536b8fadbc4f9af1c8804bdc23b6aae92f99219fbea2a"
+        },
+        "summary": {
+          "schema": 1,
+          "suite": "phase62_partial_mix_native",
+          "run_complete": true,
+          "status": "PASS",
+          "expected": 1,
+          "executed": 1,
+          "executed_IDs": [
+            "D04_baseline_stop"
+          ],
+          "completion_marker": "PHASE62_PARTIAL_MIX_COMPLETE",
+          "attempts": 1,
+          "device": 72,
+          "original_buffer": 512,
+          "selected_buffer": 64,
+          "buffer_restored": true,
+          "reason": "",
+          "callback_gate": false,
+          "RT_deadline_approval": "NOT_ASSESSED"
+        },
+        "actual_run_source": "cefdb1294e89cb5280ad8f6df401eac59825212334e4110f958ca6f0d7c0199c"
+      }
+    ],
+    "original_full": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/review_functional_final_v2/SUMMARY.json",
+      "bytes": 33345,
+      "sha256": "b716c439f9e03913efe422655f5852314ea880bbfa2323e177e61522d0129662"
+    },
+    "final_partial": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/partial_final_v3/SUMMARY.json",
+      "bytes": 7075,
+      "sha256": "6a6c8032c7d0ace9ca6ceffeb6149b775c2af6aa217647df9efe56517e17a387"
+    }
+  },
+  "driver": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_e5_review/recipes/certify_final_review.py",
+    "bytes": 4625,
+    "sha256": "a8cfd15e788108ff420f2995cc1bf7f71147d07e8d91fa788cfde9919ee9e23a"
+  },
+  "old_runs_relabelled": false,
+  "local_overall_go": false
+}

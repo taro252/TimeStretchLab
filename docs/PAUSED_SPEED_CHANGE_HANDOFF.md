@@ -124,3 +124,21 @@ Paused Clearは固定Cから通常Exactを準備し、旧ownerの退役後に再
 Clear準備中にResumeを受理した場合は、旧ownerのjoin後に一度だけ開始を試み、その成功を確定してからclearPending=falseを公開する。明示ResumeなしのPaused Clearは停止を保つ。開始API成功と物理出力開始は別である。
 
 停止中速度準備がFailedになった後は、失敗版の退役が続いていてもPlay/Resumeを拒否し、再開意思を新規登録しない。新速度の明示的な再要求やseekで復旧する。退役中のseekBusyを再開可能な準備待ちと誤認しない。
+
+## e5dc9167レビュー後の故障・寿命検証
+
+[e5レビューREPORT](../results/phase62_e5_review/REPORT.md) と [制御対応表](../results/phase62_e5_review/CONTROL_COVERAGE.md) に追加検証を記録する。次版の実予約permit、実準備期限、公開失敗から外部ID終端・失敗版退役・停止C・Play拒否・新要求回復までを結ぶ。Preparing中の再開意思保持と、Failed後の再開禁止を区別する。
+
+期限はworker開始後のsteady_clockで判定する。DSPが先にReadyでも、公開準備の観測が期限を超えた版は採用しない。失敗版の退役中もPlay/Resumeを拒否し、旧速度で自動再開しない。停止中Clearの方式は固定Cからの明示的な固定Exact準備を維持する。物理音響時刻・Merodoa実TCC・一般公開の別課題は閉じない。
+
+
+## e5レビュー修正の装置復旧前の検証状態（2026-10-21）
+
+当時の [e5レビューREPORT](../results/phase62_e5_review/REPORT.md) は **INCOMPLETE / NO-GO**。制御36program/202checks、限定同一性で接続した既存制御184checks、Release/Debug各20CTest、選択したoffline9群はPASS。最終実機は音声callback開始待ちで同じ最初の1programが2回とも失敗し、予定41programの残り40は未実施である。正常RT8本はその内数。通常再生・標準afplay・旧成功ビルドでも開始できず、装置bufferは512へ復元した。根本原因は未確定。過去の実機成功統計を今回の無退行証拠へ転記しない。公開初期値とMerodoa既定採用は変更しない。
+
+
+## 装置復旧後の局所ゲート完了（2026-10-21）
+
+[e5レビューREPORT](../results/phase62_e5_review/REPORT.md) の今回限定の局所判定は **PASS / GO**。ユーザーの装置復旧後、同じソースcefdb129…・実行体・参照・条件でnative_recovered_01の全5群41programを新規に実行し、その内数の正常RT8本もPASSした。両Presetで実消費4100周、正常8条件の不足/padding・callback確保/解放・callback/worker期限超過0、buffer512復元を確認した。復旧前の失敗・当時の未実施数は履歴として保持する。
+
+seek機能試験のworker期限超過1件（旧faにも同じ観測、RT承認NOT_ASSESSED）は別記録であり、全41本の期限超過0やseek切替の一般RT承認を主張しない。公開初期値4つ・publicSeekApproved=falseと、物理loopback・試聴・Merodoa/TCC実統合等の別ゲートは維持する。Merodoa本体・UI・submoduleは変更しない。

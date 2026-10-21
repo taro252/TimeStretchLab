@@ -1,0 +1,106 @@
+{
+  "review_base": "e5dc91675723b7163b10cc3ea2323710033caeaa",
+  "initial_source": "fa2b6f4fea83e06b4d31433478ae01cae5d98c3465267c990625d4a30a171c8a",
+  "final_source": "cefdb1294e89cb5280ad8f6df401eac59825212334e4110f958ca6f0d7c0199c",
+  "uncommitted": true,
+  "files": [
+    {
+      "path": "CMakeLists.txt",
+      "before": "15ba85a667f43c39c29e69a6e8cc9227b1631c20de3e3e8a1e609f323dc9cd5c",
+      "after": "610951d3ca08d9926e2d9b0ce49d19eadba57a952c1bef8cead457df9116304f"
+    },
+    {
+      "path": "scripts/phase62_finish_validation.py",
+      "before": "fc31107c5e582b42592f46a7c2407b75815cc8fa69eb9521099d045ef8beb1cb",
+      "after": "a49e7096623f0f76c010d570888cddd538c575a7e3cd9003a20bcd513e6600d9"
+    },
+    {
+      "path": "scripts/phase62_gate_runner.py",
+      "before": "a15b021d9c9465c55bdeac65f9d1c4eeb4790ce2e0b06a05c7aa5f00e3650848",
+      "after": "de9abb093050b0ac3a74a7fa2e3800543c19a61cdb7bb0f925f93d01fc81594e"
+    },
+    {
+      "path": "scripts/phase62_review_validation.py",
+      "before": null,
+      "after": "9c2cc18c784c5aa239b7ba17729ac53ce76d15cb1811833dcc7c9fe8764d4812"
+    },
+    {
+      "path": "src/platform/macos/ProgressiveMacPlaybackEngine.h",
+      "before": "967d1fec2546ba00eaaf53ab74c63729b9489c0932227aca607ed1b6bf670f2e",
+      "after": "352a29cf4393091cee033c2a2a3188113e05e448e874a6e50a9a4d82fd949c0d"
+    },
+    {
+      "path": "src/platform/macos/ProgressiveMacPlaybackEngine.mm",
+      "before": "e55a381b65711b361e36dc91484a789368cfefd4ddbbaa9156c07f4dd498b157",
+      "after": "852f58057113c8f46d0a1ce3922745ef2bb657fe1caf32215d06f8f2e74eaba8"
+    },
+    {
+      "path": "src/playback/LoopSpeedLedger.h",
+      "before": "0e9c44eba89169afe96e5fe5c655393168afd578c90840466adeb9e28456addd",
+      "after": "74d340a91aee21a572d41009db0fc1b03b5222ab42c2cc946400d530556face3"
+    },
+    {
+      "path": "src/prototype/Phase58FixRealtimeWorker.cpp",
+      "before": "2eba3392e927ca3dd5c924da25e4a5383c5202023daeda8844f429036395d1cc",
+      "after": "36bb9a2cf227d65bb4d6f95cc2726998778e9c5a0ad7cca50d61a9ec7f712c6a"
+    },
+    {
+      "path": "src/prototype/Phase58FixRealtimeWorker.h",
+      "before": "11cb852e796fd770a52ed2e9449de5db0743f1d1ef595cb1652b3f88abcd3021",
+      "after": "16472b6e40e68180592d4a7ca9e365babeca6e6626b71a324b70e283a3997cf4"
+    },
+    {
+      "path": "src/prototype/Phase58RealtimePipeline.cpp",
+      "before": "4574a44b44d1a3823f99e43aaffacf804fb1f2d1bce27a32c3675f09b5df2925",
+      "after": "524d8a19048a4279078af6ce46a2b720750babcbabb2ed242d522fe5a5998d29"
+    },
+    {
+      "path": "src/prototype/Phase58RealtimePipeline.h",
+      "before": "d13bde268d3ce5a6767a460026c519952655951a5e03ba2034ec9cb71315094e",
+      "after": "130b5882f10307e7dedb4175aa2c39729c4cf946b54203c647312d6e375803cd"
+    },
+    {
+      "path": "tests/Phase62AdoptionReviewNative.cpp",
+      "before": null,
+      "after": "efe99319bca5b20b0e4c5295d5ff8eed3077844c28c6803d357a870f2dbeaacb"
+    },
+    {
+      "path": "tests/Phase62DescriptorInvariantTests.cpp",
+      "before": null,
+      "after": "3a6d30c9beba615fba91d633c409c7e36d04d159b82cc1423d96415305fede4c"
+    },
+    {
+      "path": "tests/Phase62FinishEvidenceTests.py",
+      "before": "3f71bc354bad606668a11f53d42627e47b2c2609c068dace6ce772fa2e03fc1c",
+      "after": "64f43b58d475f988d6b297a83039fa3383e289f9c633a7c9cf6517d105868d36"
+    },
+    {
+      "path": "tests/Phase62HistoryInvariantTests.cpp",
+      "before": null,
+      "after": "8c1bcca0c2c35fddffdaa73815274f45048b13203cea19278e79d2c1b7d6864a"
+    },
+    {
+      "path": "tests/Phase62PartialMixNative.cpp",
+      "before": null,
+      "after": "3c37e2963a4c4a907e6d5d5498d57c395b14af5ea1d856322b3ec7002a9faa39"
+    },
+    {
+      "path": "tests/Phase62PlayingLedgerNative.cpp",
+      "before": "6f69e8d6db434caeaffe681014cc8bbd07b42a41db50c0d9cba2b338f64dc9c5",
+      "after": "a58e27e61565db02493f66f480d66d73944b47a33b0eb088c3f5ab05f3693198"
+    },
+    {
+      "path": "tests/Phase62PreparationFaultNative.cpp",
+      "before": null,
+      "after": "30e6fbd57af2a82bddff80667836ea7578ef07dc0e20419d09d8324c332afc6a"
+    },
+    {
+      "path": "tests/Phase62WorkerTransactionTests.cpp",
+      "before": null,
+      "after": "b798572cd2fbbadb94d44b0743fecd845d8bad7698be0790363494fee9e2996e"
+    }
+  ],
+  "tracked_source_diff_sha256": "0fdb2c109fd043b727b0de0bd02fc20c24db0fed2f839f6547464dec05c86ab0",
+  "tracked_source_diff_bytes": 107123,
+  "untracked_source_included_in_inventory": true
+}

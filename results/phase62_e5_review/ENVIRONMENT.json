@@ -1,0 +1,65 @@
+{
+  "recorded_commands": [
+    {
+      "command": [
+        "sw_vers"
+      ],
+      "output": "ProductName:\t\tmacOS\nProductVersion:\t\t26.6.2\nBuildVersion:\t\t25G83"
+    },
+    {
+      "command": [
+        "clang++",
+        "--version"
+      ],
+      "output": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin"
+    },
+    {
+      "command": [
+        "cmake",
+        "--version"
+      ],
+      "output": "cmake version 4.3.3\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake)."
+    },
+    {
+      "command": [
+        "uname",
+        "-m"
+      ],
+      "output": "x86_64"
+    }
+  ],
+  "machine_model": "MacBookAir10,1",
+  "cpu": "Apple M1",
+  "memory_bytes": 17179869184,
+  "configuration": "Release/Debug",
+  "architecture": "実行体arm64、shellのunameはx86_64（Rosetta）",
+  "python_runtime": {
+    "path": "/Users/taro252/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "bytes": 18058560,
+    "sha256": "21a9986bad1dbbcd813a252b19b4263fc0755ed2dbf8632c83e5d6117a12f319"
+  },
+  "normal_device": {
+    "id": 72,
+    "sample_rate": 48000,
+    "buffer_frames": 512,
+    "channels": 2,
+    "output_start_status": "PASS",
+    "normal_realtime_measurements": 8,
+    "normal_realtime_passed": 8
+  },
+  "partial_device": {
+    "id": 72,
+    "buffer_frames_tested": [
+      64,
+      128
+    ],
+    "restored_to_frames": 512
+  },
+  "recovery_device_guard": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/RECOVERY_DEVICE_GUARD_01.json",
+    "bytes": 502,
+    "sha256": "33d325400cb7a4a8b89f2278a2a903abec46d006e65a8c581246885c067048a9"
+  },
+  "physical_loopback": "NOT_RUN",
+  "listening": "NOT_RUN"
+}
