@@ -33,10 +33,11 @@ struct ProgressiveCallbackRecord {
     std::size_t outputAffectedFrames=0,failurePaddingFrames=0,pauseSilenceFrames=0;
     prototype::Phase46HostClock::Evidence clock;
 };
-enum class ProgressiveControlTestPoint {SeekPreparationStarted,SwitchStartedOrDone,RetiringOld,RetiringPreparation,RestartWait,SeekCleanupWait,SeekCleanupComplete,RestartLaunch,AcquiringResources,PauseObserved,SwitchPublished,SpeedReplacementDecision,LoopJobDispatch,NextPreparationDeadline,PartialMixReplaceDecision,PartialMixClearDecision,PartialMixStopDecision,ClearCancellationDecision};
+enum class ProgressiveControlTestPoint {SeekPreparationStarted,SwitchStartedOrDone,RetiringOld,RetiringPreparation,RestartWait,SeekCleanupWait,SeekCleanupComplete,RestartLaunch,AcquiringResources,PauseObserved,SwitchPublished,SpeedReplacementDecision,LoopJobDispatch,NextPreparationDeadline,PartialMixReplaceDecision,PartialMixClearDecision,PartialMixStopDecision,ClearCancellationDecision,LoopJobSelected};
 // Explicit normal-thread tests only; empty in ordinary apps. Hooks must not call
-// engine APIs. SpeedReplacementDecision runs with the engine mutex held; all
-// other worker gates run outside it. Never invoked by the audio callback.
+// engine APIs. Replacement/clear/partial-mix decisions and SeekCleanupComplete
+// hold the engine mutex and must not wait for callers of engine APIs. Worker
+// gates, including LoopJobSelected, run outside it. Never called by the callback.
 struct ProgressiveControlTestHooks {
     void* context=nullptr;
     void(*event)(void*,ProgressiveControlTestPoint)noexcept=nullptr;

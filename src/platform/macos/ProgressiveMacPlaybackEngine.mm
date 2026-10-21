@@ -748,12 +748,16 @@ struct ProgressiveMacPlaybackEngine::Impl {
                         speed.state=StoppedSpeedState::Failed;speed.reason="停止位置の確定が期限を超えました";pendingStopped=false;resumePending=false;stoppedStartBlocked=true;
                     }
                 }
+                // Job selection and its protective ID are one publication.
+                // A newer request must know the required first-B supplier as
+                // soon as it can acquire this mutex after construction.
+                if(next){activeLoopSpeedRequestID=jobSpeedRequestID;
+                    if(auto* external=loopSpeeds.find(jobSpeedRequestID);external&&!progressive::terminal(external->state)){
+                        external->state=progressive::LoopSpeedState::Preparing;external->preparationVersion=version;external->preparingNs=machNs();
+                    }}
             }
             if(!next){std::this_thread::sleep_for(std::chrono::milliseconds(2));continue;}
-            {std::lock_guard lock(mutex);activeLoopSpeedRequestID=jobSpeedRequestID;
-                if(auto* external=loopSpeeds.find(jobSpeedRequestID);external&&!progressive::terminal(external->state)){
-                    external->state=progressive::LoopSpeedState::Preparing;external->preparationVersion=version;external->preparingNs=machNs();
-                }}
+            controlTestEvent(ProgressiveControlTestPoint::LoopJobSelected);
             next->start();controlTestEvent(ProgressiveControlTestPoint::SeekPreparationStarted);
             const auto deadline=std::chrono::steady_clock::now()+options.prepareTimeout;
             controlTestEvent(ProgressiveControlTestPoint::NextPreparationDeadline);

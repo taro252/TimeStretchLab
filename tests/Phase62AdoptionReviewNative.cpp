@@ -28,16 +28,16 @@ struct ReviewCapture {
 };
 enum class DecisionMode {None,CancelWins,StartedWins};
 struct ReviewHooks {
-    WorkerGate dispatch,prepared,published;
+    WorkerGate dispatch,selected,prepared,published;
     ReviewCapture* capture=nullptr;
     std::atomic<ProgressiveControlTestPoint> decisionPoint{ProgressiveControlTestPoint::SpeedReplacementDecision};
     std::atomic<DecisionMode> decisionMode{DecisionMode::None};
     std::atomic<bool> decisionArmed{false},decisionEntered{false},decisionExpired{false},decisionHadPcmBefore{false};
     std::atomic<std::uint64_t> decisionPcmSession{0},decisionPcmFrames{0};
-    void releaseAll()noexcept{dispatch.released=true;prepared.released=true;published.released=true;}
+    void releaseAll()noexcept{dispatch.released=true;selected.released=true;prepared.released=true;published.released=true;}
     static void event(void* pointer,ProgressiveControlTestPoint point)noexcept{
         auto& h=*static_cast<ReviewHooks*>(pointer);
-        WorkerGate::event(&h.dispatch,point);WorkerGate::event(&h.prepared,point);WorkerGate::event(&h.published,point);
+        WorkerGate::event(&h.dispatch,point);WorkerGate::event(&h.selected,point);WorkerGate::event(&h.prepared,point);WorkerGate::event(&h.published,point);
         if(point!=h.decisionPoint.load()||!h.decisionArmed.exchange(false))return;
         h.decisionHadPcmBefore=h.capture->firstNewSession.load(std::memory_order_acquire)!=0;
         h.decisionEntered.store(true,std::memory_order_release);
@@ -53,13 +53,17 @@ struct ReviewHooks {
     }
 };
 struct CheckpointProbe {
-    std::atomic<bool> armed{false};
+    std::atomic<bool> armed{false},failNewWorkgroup{false};
     std::atomic<std::uint64_t> targetSession{0},failedSession{0},failedOperation{0},failHits{0},permitCalls{0};
+    std::atomic<std::uint64_t> workgroupFailureSession{0},workgroupFailureHits{0};
     static void event(void* pointer,ph58::ControlTestPoint point,std::uint64_t,std::uint64_t)noexcept{
         if(point==ph58::ControlTestPoint::CheckpointPermit)static_cast<CheckpointProbe*>(pointer)->permitCalls.fetch_add(1,std::memory_order_relaxed);
     }
     static bool fail(void* pointer,ph58::ControlTestPoint point,std::uint64_t session,std::uint64_t operation)noexcept{
         auto& p=*static_cast<CheckpointProbe*>(pointer);
+        if(point==ph58::ControlTestPoint::WorkgroupJoin&&session!=p.targetSession.load(std::memory_order_acquire)&&p.failNewWorkgroup.exchange(false)){
+            p.workgroupFailureSession=session;p.workgroupFailureHits.fetch_add(1,std::memory_order_release);return true;
+        }
         if(point!=ph58::ControlTestPoint::CheckpointPermit||session!=p.targetSession.load(std::memory_order_acquire)||!p.armed.exchange(false))return false;
         p.failedSession=session;p.failedOperation=operation;p.failHits.fetch_add(1,std::memory_order_release);return true;
     }
@@ -72,6 +76,8 @@ std::vector<std::string> reviewChecks(const std::string& mode){
     if(mode=="a2_checkpoint_supply")return {"D09.normal_Playing_before_dspDone","D09.real_CheckpointPermit_failure_and_initial_ID_bound","D09.required_old_supply_retained_without_false_facts","D09.actual_B_old_Completed_and_latest_Completed","D09.checkpoint_budget_and_later_preparation_recovery","D09.exact_IDs_and_terminal_types","normal_supply_heap_owner_audit"};
     if(mode=="a2_clear_started")return {"A2_CLEAR.real_CheckpointPermit_failure_initial75_bound","A2_CLEAR.latest200_waits_required75_without_false_facts","A2_CLEAR.Requested_Clear_cancellation_window","A2_CLEAR.Started_wins_old75_Completed_actual_PCM","A2_CLEAR.latest200_Clear_EOF_Cancelled_without_PCM","A2_CLEAR.exact_IDs_terminal_types_and_past_immutable","normal_supply_heap_owner_audit"};
     if(mode=="b_internal4096")return {"B.normal_Playing_same_owner_4096_Duplicate","B.all_internal_records_exact_and_no_Accepted_history","B.Keep_same_owner_self_repeat_Ready","B.external_Accepted_then_real_InternalLimit_Failed","B.old_PCM_history_and_preparation_retirement","B.exact_external_ID_and_final_cause","normal_supply_heap_owner_audit"};
+    if(mode=="f01_dsp_done"||mode=="f01_checkpoint")return {"F01.normal_no_self_repeat_condition","F01.selected_job_then_latest_B_window","F01.actual_initial_B_session_epoch_PCM","F01.latest_B_Completed_and_A_past_immutable","F01.required_A_protected_and_Completed","F01.exact_IDs_and_terminal_types","normal_supply_heap_owner_audit"};
+    if(mode=="f01_selected_stop"||mode=="f01_selected_clear"||mode=="f01_selected_failure")return {"F01_CANCEL.normal_no_self_repeat_and_selected_A","F01_CANCEL.latest_B_accepted_no_false_facts","F01_CANCEL.action_effective_no_A_or_B_PCM","F01_CANCEL.prepared_owner_joined_and_followup_recovers","F01_CANCEL.direct_close_exact_IDs_reasoned_terminal","normal_supply_heap_owner_audit"};
     throw std::runtime_error("未知のreview modeです");
 }
 
@@ -81,6 +87,7 @@ struct ReviewFixture {
     ReviewHooks hooks;
     CheckpointProbe checkpoint;
     ProgressiveOptions options;
+    FinalLedgerSink finalAudit;
     std::unique_ptr<ProgressiveMacPlaybackEngine> engine=std::make_unique<ProgressiveMacPlaybackEngine>();
     std::vector<std::string> expected,passed;
     std::vector<std::uint64_t> ids;
@@ -93,13 +100,14 @@ struct ReviewFixture {
         options.preset=preset;options.initialSpeed=1.;options.allowExperimentalLoops=true;options.callbackRecordLimit=8192;
         options.controlTestHooks={&hooks,ReviewHooks::event};options.observerContext=&capture;options.observeEpochPcm=ReviewCapture::raw;options.observeOutputPcm=ReviewCapture::output;
         options.pipelineControlTestHooks={&checkpoint,CheckpointProbe::event,CheckpointProbe::fail};
+        options.finalLoopSpeedAuditContext=&finalAudit;options.receiveFinalLoopSpeedAudit=FinalLedgerSink::receive;
         options.allocationHooks={[]()noexcept{callbackNew=0;callbackCounting=true;phase61_heap_begin();},[]()noexcept{phase61_heap_end();hostCallbackCppNew.fetch_add(callbackNew,std::memory_order_relaxed);callbackCounting=false;},[]()noexcept{return callbackNew;}};
         require(engine->prepare(input,options),"通常prepare拒否");until([&]{return engine->getPlaybackState()==State::Ready;},"通常Ready期限");
         normalContext=context();capture.normalSession=normalContext.session;
     }
     ~ReviewFixture(){hooks.releaseAll();if(engine)engine->stop();}
     void healthy(){
-        require(!hooks.dispatch.expired&&!hooks.prepared.expired&&!hooks.published.expired&&!hooks.decisionExpired,"有限hookの期限超過");
+        require(!hooks.dispatch.expired&&!hooks.selected.expired&&!hooks.prepared.expired&&!hooks.published.expired&&!hooks.decisionExpired,"有限hookの期限超過");
         require(ph58::RealtimePipeline::executionOwnerCounts().peak<=2,"実行ownerが2を超過");
         if(engine->getPlaybackState()==State::Failed)throw std::runtime_error(engine->getPlaybackDiagnostics().error);
     }
@@ -152,7 +160,9 @@ struct ReviewFixture {
         writePhase62Trace(folder/"callbacks_all_spans.jsonl",engine->loopCallbackRecords());writePhase62Trace(folder/"clock_anomaly_window.jsonl",engine->loopClockAnomalyRecords());
         std::ofstream observed(folder/"native_observation.json");observed<<"{\"source_rate\":"<<rate<<",\"device_rate\":"<<n.deviceRate<<",\"device_buffer\":"<<n.deviceBufferFrames<<",\"output_frames\":"<<capture.native.frames.load()<<",\"missing\":"<<d.missingFrames<<",\"callback_deadlines_observed\":"<<n.deadlineMisses<<",\"worker_deadlines_observed\":"<<d.workerDeadlineMisses<<",\"RT_deadline_approval\":\"NOT_ASSESSED\",\"callback_gate\":false}\n";
         engine->stop();std::ofstream epochs(folder/"closed_epochs.jsonl");for(const auto& epoch:engine->closedEpochs()){
-            require(epoch.pipeline.finalDataAvailable,"旧/準備epochのjoin未完了");const auto& w=epoch.pipeline.scheduling;require(!w.active&&w.joins==w.leaves&&w.leaves==w.restores,"退役時Workgroup未解放");
+            require(epoch.pipeline.finalDataAvailable,"旧/準備epochのjoin未完了");const auto& w=epoch.pipeline.scheduling;
+            if(checkpoint.workgroupFailureHits.load()==1&&epoch.pipeline.session==checkpoint.workgroupFailureSession.load())require(!w.active&&w.joinErrors==1&&w.joins==w.leaves&&w.promotions==w.restores,"注入したWorkgroup join失敗版の復元未完了");
+            else require(!w.active&&w.joins==w.leaves&&w.leaves==w.restores,"退役時Workgroup未解放");
             epochs<<"{\"session\":"<<epoch.pipeline.session<<",\"input_generation\":"<<epoch.pipeline.inputGeneration<<",\"render_epoch\":"<<epoch.renderEpoch<<",\"prepared_only\":"<<(epoch.preparedOnly?"true":"false")<<",\"final_data_available\":true,\"PCM_observed\":"<<(capture.sawSession(epoch.pipeline.session)?"true":"false")<<",\"operation_records_retained\":"<<epoch.operations.size()<<",\"operation_records_dropped\":"<<epoch.droppedOperations<<",\"workgroup_joins\":"<<w.joins<<",\"workgroup_leaves\":"<<w.leaves<<",\"workgroup_restores\":"<<w.restores<<"}\n";
         }require(bool(epochs),"退役監査保存失敗");
         const auto owners=ph58::RealtimePipeline::executionOwnerCounts();require(!owners.alive&&owners.peak<=2,"停止後owner残存/peak超過");
@@ -220,6 +230,115 @@ void initialSupply(ReviewFixture& f,bool checkpointFailure=false){
         std::ofstream permits(f.folder/"checkpoint_permit_observation.json");permits<<"{\"failed_session\":"<<f.checkpoint.failedSession.load()<<",\"failed_operation\":"<<f.checkpoint.failedOperation.load()<<",\"fail_hits\":"<<f.checkpoint.failHits.load()<<",\"permit_calls\":"<<f.checkpoint.permitCalls.load()<<",\"checkpoint_peak\":"<<resource.checkpointPeak<<",\"checkpoint_states\":"<<resource.checkpointStates<<",\"old_external_ID\":"<<old.id<<",\"latest_external_ID\":"<<latest.id<<",\"later_preparation_completed\":true}\n";require(bool(permits),"保存点permit観測保存失敗");f.pass("D09.checkpoint_budget_and_later_preparation_recovery");
     }
     f.exactIds({LS::Completed,LS::Completed});f.saveLedger("terminal_ledger.jsonl");f.pass(checkpointFailure?"D09.exact_IDs_and_terminal_types":"A2.exact_IDs_and_terminal_types");f.qualityAndOwnership();f.pass("normal_supply_heap_owner_audit");
+}
+
+struct SelectedSupply {
+    progressive::LoopSpeedReceipt old,latest;
+    progressive::LoopSpeedOperation beforeLatest,afterLatest,latestAfterAccept;
+    std::uint64_t selectedNs=0,selectedVersion=0,selectedCount=0,published=0,consumed=0;
+};
+void normalWithoutSelfRepeat(ReviewFixture& f,bool checkpointFailure){
+    if(checkpointFailure){
+        require(f.inputFrames==f.rate,"F01 checkpoint条件は正確に1秒の全曲入力を使う");
+        f.playNormal();require(!f.engine->getPlaybackDiagnostics().pipeline.dspDone,"F01 checkpoint拒否前に通常producerが終了済み");
+        f.checkpoint.targetSession=f.normalContext.session;f.checkpoint.armed=true;
+    }else{
+        require(f.inputFrames>=f.rate/10&&f.inputFrames<=12288,"F01 dspDone条件は100ms以上・12288フレーム以下の短い全曲入力を使う");
+        f.until([&]{return f.engine->getPlaybackDiagnostics().pipeline.dspDone;},"F01短曲producerのdspDone期限");
+        const auto d=f.engine->getPlaybackDiagnostics();require(!d.pipeline.consumed&&d.pipeline.published==f.inputFrames,"F01短曲の未消費FIFO全量保持なし");
+        f.playNormal();const auto playing=f.engine->getPlaybackDiagnostics();require(playing.pipeline.dspDone&&playing.pipeline.consumed<playing.pipeline.published,"F01通常Playing+dspDone+未消費PCMの条件不成立");
+    }
+}
+SelectedSupply selectInitialSupply(ReviewFixture& f,bool checkpointFailure){
+    SelectedSupply s;f.hooks.dispatch.arm(ProgressiveControlTestPoint::LoopJobDispatch);f.hooks.selected.arm(ProgressiveControlTestPoint::LoopJobSelected);
+    progressive::LoopOptions keep;keep.startPolicy=progressive::LoopStartPolicy::KeepPosition;
+    const auto loop=f.engine->requestLoopRange(0,f.inputFrames,f.context(),keep);require(loop.accepted,"F01 KeepPosition受付拒否");f.loopID=loop.id;
+    f.until([&]{return f.hooks.dispatch.entered.load();},"F01選択前dispatch窓未捕捉");
+    if(checkpointFailure)f.until([&]{return f.checkpoint.failHits.load()==1&&f.engine->getPlaybackDiagnostics().pipeline.loopReuse.normalPreparation==ph58::NormalLoopReuseState::LimitReached;},"F01実normal checkpoint permit拒否未到達");
+    s.old=f.request("F01_A_75_before_job_selection",.75);require(f.row(s.old.id).state==LS::Pending,"F01選択前AがPendingでない");
+    f.release(f.hooks.dispatch);f.until([&]{return f.hooks.selected.entered.load();},"F01構築済みjobの最初のmutex解放窓未捕捉");
+    const auto selected=f.engine->getLoopSnapshot();const auto d=f.engine->getPlaybackDiagnostics();s.beforeLatest=f.row(s.old.id);
+    s.selectedNs=selected.lastPreparationNs;s.selectedCount=selected.preparationCount;s.selectedVersion=s.beforeLatest.preparationVersion;s.published=d.pipeline.published;s.consumed=d.pipeline.consumed;
+    require(selected.enabled&&!selected.reusable&&!selected.initialPositionComplete&&selected.speedRequestID==s.old.id&&selected.preparationCount==1&&selected.lastPreparationNs&&
+            d.session==f.normalContext.session&&s.published>=s.consumed&&!f.capture.firstNewSession.load(),"F01初回job/正常owner/未採用の選択条件不成立");
+    if(checkpointFailure)require(f.checkpoint.failHits==1&&f.checkpoint.failedSession==f.normalContext.session&&!f.checkpoint.armed,"F01実permit拒否のowner不一致");
+    else require(d.pipeline.dspDone,"F01選択後に短曲dspDoneを失った");
+    s.latest=f.request("F01_B_200_after_job_selection_before_start",2.);s.afterLatest=f.row(s.old.id);const auto latest=f.row(s.latest.id);
+    require(!s.beforeLatest.committed&&!s.beforeLatest.outputStarted&&!s.beforeLatest.firstPcmObservedNs&&!s.beforeLatest.adoptionPending&&
+            !s.afterLatest.committed&&!s.afterLatest.outputStarted&&!s.afterLatest.firstPcmObservedNs&&!s.afterLatest.adoptionPending&&
+            !latest.committed&&!latest.outputStarted&&!latest.firstPcmObservedNs&&!latest.adoptionPending,"F01 next開始前に未発生のcommit/PCM事実を記録した");
+    s.latestAfterAccept=latest;return s;
+}
+void saveSelectedWindow(ReviewFixture& f,const SelectedSupply& s){
+    // 小さい証拠ファイルでも、旧FIFOの準備余裕を消費しないようgate解放後に保存する。
+    std::ofstream window(f.folder/"F01_selected_window.json");window<<"{\"hook\":\"LoopJobSelected\",\"engine_mutex_held\":false,\"next_constructed\":true,\"next_started\":false,\"callback_gate\":false,\"input_generation\":"<<f.normalContext.inputGeneration
+        <<",\"normal_session\":"<<f.normalContext.session<<",\"normal_epoch\":"<<f.normalContext.renderEpoch<<",\"loop_ID\":"<<f.loopID<<",\"input_B\":"<<f.inputFrames<<",\"selected_preparing_ns\":"<<s.selectedNs
+        <<",\"selected_preparation_count\":"<<s.selectedCount<<",\"external_preparation_version\":"<<s.selectedVersion<<",\"normal_published\":"<<s.published<<",\"normal_consumed\":"<<s.consumed
+        <<",\"checkpoint_failure_hits\":"<<f.checkpoint.failHits.load()<<",\"A_before_B\":"<<operationJson(s.beforeLatest)<<",\"A_after_B\":"<<operationJson(s.afterLatest)<<",\"B_after_accept\":"<<operationJson(s.latestAfterAccept)<<"}\n";
+    require(bool(window),"F01選択窓の証拠保存失敗");
+}
+void selectedSupplyIdentity(ReviewFixture& f,bool checkpointFailure){
+    normalWithoutSelfRepeat(f,checkpointFailure);f.pass("F01.normal_no_self_repeat_condition");const auto selected=selectInitialSupply(f,checkpointFailure);f.pass("F01.selected_job_then_latest_B_window");
+    const bool protectedBeforeOutput=selected.beforeLatest.state==LS::Preparing&&selected.beforeLatest.preparingNs&&selected.beforeLatest.preparationVersion&&
+        selected.beforeLatest.inputGeneration==f.normalContext.inputGeneration&&selected.beforeLatest.sourceSession==f.normalContext.session&&!progressive::terminal(selected.afterLatest.state);
+    f.release(f.hooks.selected);saveSelectedWindow(f,selected);
+    f.until([&]{const auto events=f.engine->loopHistory();return f.capture.firstNewSession.load()&&!events.empty()&&events.front().oldOutputEnd==f.inputFrames&&events.front().callbackFrame==f.inputFrames;},"F01実初回B/新session/PCM未観測");
+    const auto first=f.engine->loopHistory().front();const auto actualSession=f.capture.firstNewSession.load();
+    const auto raw=f.capture.native.observed[first.newEpoch%64].read();
+    require(first.loopID==f.loopID&&first.settingCycle==1&&first.inputA==0&&first.inputBExclusive==f.inputFrames&&!first.overlapFrames&&
+            raw&&raw->generation==f.normalContext.inputGeneration&&raw->session==actualSession&&raw->epoch==first.newEpoch&&raw->end>raw->firstAt&&f.capture.sawSession(actualSession),"F01実初回Bの入力世代/周回/RAW/session/epoch不一致");
+    f.until([&]{return progressive::terminal(f.row(selected.old.id).state);},"F01採用後Aの終端期限");const auto adopted=f.row(selected.old.id);const auto past=operationJson(adopted);f.saveLedger("F01_after_initial_B_ledger.jsonl");f.pass("F01.actual_initial_B_session_epoch_PCM");
+    const auto latest=f.completed(selected.latest.id);f.actualPcm(latest);require(f.engine->getStateSnapshot().appliedTargetSpeed==2.&&operationJson(f.row(selected.old.id))==past,"F01最新Bの適用またはA過去履歴不変に失敗");f.pass("F01.latest_B_Completed_and_A_past_immutable");
+    // 旧比較版でも実A採用とBの終端まで観測してから、この整合checkをFAILにする。
+    // A Replacedだけ、装置停止、窓未捕捉、B期限超過は再現成功として扱わない。
+    const bool matching=protectedBeforeOutput&&adopted.state==LS::Completed&&adopted.session==actualSession&&adopted.renderEpoch==first.newEpoch&&adopted.outputStarted&&adopted.firstPcmObservedNs&&adopted.completedNs;
+    std::ofstream adoption(f.folder/"F01_actual_adoption.json");adoption<<"{\"old_external_ID\":"<<selected.old.id<<",\"latest_external_ID\":"<<selected.latest.id<<",\"input_generation\":"<<f.normalContext.inputGeneration
+        <<",\"loop_ID\":"<<f.loopID<<",\"selected_preparation_count\":"<<selected.selectedCount<<",\"selected_preparing_ns\":"<<selected.selectedNs<<",\"actual_initial_B_callback_frame\":"<<first.callbackFrame
+        <<",\"actual_old_epoch\":"<<first.oldEpoch<<",\"actual_A_session\":"<<actualSession<<",\"actual_A_epoch\":"<<first.newEpoch<<",\"actual_A_RAW_first\":"<<raw->firstAt<<",\"actual_A_RAW_end\":"<<raw->end
+        <<",\"actual_A_RAW_observed\":true,\"actual_initial_setting_cycle\":"<<first.settingCycle<<",\"protected_before_output\":"<<(protectedBeforeOutput?"true":"false")
+        <<",\"A_identity_matches_adoption\":"<<(matching?"true":"false")<<",\"A_past_immutable_after_B\":true,\"A_after_actual_adoption\":"<<operationJson(adopted)<<",\"B_Completed\":"<<operationJson(latest)<<"}\n";
+    adoption.flush();require(bool(adoption),"F01実採用の証拠保存失敗");f.saveLedger("F01_after_B_ledger.jsonl");
+    require(matching,"F01: 初回Bで実際に採用したAが保護済みCompletedでなく、外部要求IDと実PCMが不一致");f.actualPcm(adopted);f.pass("F01.required_A_protected_and_Completed");
+    f.exactIds({LS::Completed,LS::Completed});f.saveLedger("terminal_ledger.jsonl");f.pass("F01.exact_IDs_and_terminal_types");
+    require(f.engine->getPlaybackDiagnostics().pipeline.loopReuse.checkpointPeak<=2,"F01 checkpoint上限超過");f.qualityAndOwnership();f.pass("normal_supply_heap_owner_audit");
+}
+
+void selectedSupplyCancellation(ReviewFixture& f,const std::string& mode,const std::filesystem::path& input){
+    normalWithoutSelfRepeat(f,true);const auto selected=selectInitialSupply(f,true);f.pass("F01_CANCEL.normal_no_self_repeat_and_selected_A");
+    require(selected.beforeLatest.state==LS::Preparing&&selected.beforeLatest.preparationVersion&&!progressive::terminal(selected.afterLatest.state),"F01補助試験で選択済みAを保護できない");f.pass("F01_CANCEL.latest_B_accepted_no_false_facts");
+    const bool stop=mode=="f01_selected_stop",clear=mode=="f01_selected_clear";std::vector<LS> terminal{stop||clear?LS::Cancelled:LS::Failed,LS::Cancelled,LS::Completed};
+    if(stop){
+        std::exception_ptr error;std::atomic<bool> returned{false};
+        std::jthread action([&]{try{f.engine->stop();}catch(...){error=std::current_exception();}returned=true;});
+        f.atomicUntil([&]{return f.hooks.selected.cleanupWait.load();},"F01選択直後Stopの取消完了窓未到達");f.hooks.selected.released=true;
+        f.atomicUntil([&]{return returned.load();},"F01選択直後Stopのjoin期限");action.join();if(error)std::rethrow_exception(error);require(f.engine->getPlaybackState()==State::Stopped,"F01選択直後Stopが停止しない");
+    }else if(clear){
+        const auto receipt=f.engine->requestClearLoop(f.loopID,f.context());require(receipt.accepted&&!f.engine->getLoopSnapshot().enabled,"F01選択直後Clear受付拒否");f.release(f.hooks.selected);
+        f.until([&]{return !f.engine->getLoopSnapshot().clearPending&&f.engine->getPlaybackState()==State::Ended;},"F01選択直後Clearの全曲EOF継続期限");
+    }else{
+        f.checkpoint.failNewWorkgroup=true;f.hooks.selected.released=true;
+        f.atomicUntil([&]{return f.engine->getPlaybackState()==State::Failed;},"F01公開前の実準備失敗が安全停止へ到達しない",20);
+        require(f.checkpoint.workgroupFailureHits==1&&f.checkpoint.workgroupFailureSession&&f.checkpoint.workgroupFailureSession!=f.normalContext.session,"F01実Workgroup準備失敗のowner/回数不一致");
+        f.engine->stop();
+    }
+    if(!stop)f.engine->stop();saveSelectedWindow(f,selected);
+    require(!f.capture.firstNewSession.load()&&!f.capture.newSourceFrames.load(),"F01未採用の取消/失敗版からPCMを出力した");
+    for(std::size_t i=0;i<2;++i){const auto op=f.row(f.ids[i]);require(op.state==terminal[i]&&!op.reason.empty()&&!op.committed&&!op.outputStarted&&!op.firstPcmObservedNs&&!op.completedNs,"F01取消/失敗したIDの終端理由または未採用事実が不正");}
+    require(!f.engine->getLoopSnapshot().enabled&&!ph58::RealtimePipeline::executionOwnerCounts().alive,"F01取消/失敗後のLoop/owner残存");f.saveLedger("F01_after_action_ledger.jsonl");f.pass("F01_CANCEL.action_effective_no_A_or_B_PCM");
+    // 再prepareは公開APIで行い、新しい入力世代とLoopで次の速度要求が進むことを確認する。
+    // callback座標は新音声構成で0から始まるため、旧構成の監査値を先に確定保存してから監査器を再初期化する。
+    const auto oldDiagnostics=f.engine->getPlaybackDiagnostics();require(!oldDiagnostics.missingFrames&&!oldDiagnostics.underrunCalls&&!oldDiagnostics.rejectedWrites&&!f.capture.native.audit.errors&&!f.capture.native.audit.nonfinite,"F01取消/故障注入前後の供給/PCM監査失敗");
+    std::ofstream phase(f.folder/"F01_action_cleanup.json");phase<<"{\"action\":"<<ph58::jsonString(mode)<<",\"input_generation\":"<<f.normalContext.inputGeneration<<",\"A\":"<<operationJson(f.row(selected.old.id))<<",\"B\":"<<operationJson(f.row(selected.latest.id))
+        <<",\"owners_alive\":0,\"callback_gate\":false,\"missing\":"<<oldDiagnostics.missingFrames<<",\"workgroup_failure_hits\":"<<f.checkpoint.workgroupFailureHits.load()<<",\"workgroup_failure_session\":"<<f.checkpoint.workgroupFailureSession.load()<<",\"old_PCM_audit_errors\":0,\"old_PCM_nonfinite\":0}\n";require(bool(phase),"F01取消後監査保存失敗");
+    f.capture.native.audit=LoopPcmAudit(ts::WavStreamReader(input).channels());
+    require(f.engine->prepare(input,f.options),"F01取消/失敗後のprepare拒否");f.until([&]{return f.engine->getPlaybackState()==State::Ready;},"F01取消/失敗後の通常Ready期限");
+    require(f.context().inputGeneration!=f.normalContext.inputGeneration,"F01再prepareで入力世代が更新されない");const auto loop=f.engine->requestLoopRange(0,f.inputFrames,f.context());require(loop.accepted,"F01取消/失敗後の新Loop受付拒否");f.loopID=loop.id;
+    f.until([&]{return f.engine->getLoopSnapshot().initialPositionComplete&&!f.engine->getPlaybackDiagnostics().retiringPipeline;},"F01取消/失敗後のLoop準備/退役期限");
+    const auto recovery=f.request("F01_recovery_125_after_selected_job_retired",1.25);f.until([&]{return f.row(recovery.id).state==LS::ReadyForResume;},"F01取消/失敗後の最新速度ReadyForResume期限");
+    require(f.engine->play(),"F01取消/失敗後の明示Play拒否");const auto recovered=f.completed(recovery.id);f.actualPcm(recovered);f.exactIds(terminal);f.saveLedger("terminal_ledger.jsonl");f.pass("F01_CANCEL.prepared_owner_joined_and_followup_recovers");
+    f.qualityAndOwnership();f.engine.reset();require(f.finalAudit.complete(),"F01直接close後のFinalLoopSpeedAudit未完了");f.finalAudit.save(f.folder/"final_close_ledger.jsonl");
+    std::set<std::uint64_t> actual,wanted(f.ids.begin(),f.ids.end());for(const auto& op:f.finalAudit.operations){require(actual.insert(op.id).second&&progressive::terminal(op.state),"F01直接close監査のID重複/未終端");const auto at=std::find(f.ids.begin(),f.ids.end(),op.id);require(at!=f.ids.end()&&op.state==terminal[std::size_t(at-f.ids.begin())],"F01直接close監査の終端種別不一致");if(op.state!=LS::Completed)require(!op.reason.empty()&&!op.outputStarted&&!op.firstPcmObservedNs,"F01直接close監査の取消/失敗理由不正");}
+    require(actual==wanted,"F01直接close監査の受付ID集合不一致");f.pass("F01_CANCEL.direct_close_exact_IDs_reasoned_terminal");f.pass("normal_supply_heap_owner_audit");
 }
 
 void initialSupplyClearStarted(ReviewFixture& f){
@@ -331,15 +450,15 @@ int main(int argc,char** argv){
         try{
             expected=reviewChecks(mode);const auto input=std::filesystem::absolute(argv[2]);const std::string preset=argv[3],sourceSha=argv[5];require(preset=="candidate"||preset=="baseline","Preset不正");require(sourceSha.size()==64&&sourceSha.find_first_not_of("0123456789abcdef")==std::string::npos,"ソース一覧SHA-256不正");
             folder=std::filesystem::absolute(argv[4]);require(std::filesystem::create_directories(folder),"既存の出力先へ上書きしない");owned=true;
-            std::ofstream manifest(folder/"EXPECTED.json");manifest<<"{\"schema\":1,\"suite\":\"phase62_adoption_review\",\"mode\":"<<ph58::jsonString(mode)<<",\"preset\":"<<ph58::jsonString(preset)<<",\"source_list_sha256\":"<<ph58::jsonString(sourceSha)<<",\"input_sha256\":"<<ph58::jsonString(fileHash(input))<<",\"binary_sha256\":"<<ph58::jsonString(fileHash(std::filesystem::absolute(argv[0])))<<",\"driver_sha256\":"<<ph58::jsonString(fileHash(std::filesystem::path(__FILE__)))<<",\"expected\":"<<expected.size()<<",\"expected_Accepted_external_IDs\":"<<(mode=="b_internal4096"?1:2)<<",\"expected_internal_Duplicate_records\":"<<(mode=="b_internal4096"?4096:0)<<",\"checks\":[";
+            std::ofstream manifest(folder/"EXPECTED.json");manifest<<"{\"schema\":1,\"suite\":\"phase62_adoption_review\",\"mode\":"<<ph58::jsonString(mode)<<",\"preset\":"<<ph58::jsonString(preset)<<",\"source_list_sha256\":"<<ph58::jsonString(sourceSha)<<",\"input_sha256\":"<<ph58::jsonString(fileHash(input))<<",\"binary_sha256\":"<<ph58::jsonString(fileHash(std::filesystem::absolute(argv[0])))<<",\"driver_sha256\":"<<ph58::jsonString(fileHash(std::filesystem::path(__FILE__)))<<",\"expected\":"<<expected.size()<<",\"expected_Accepted_external_IDs\":"<<(mode=="b_internal4096"?1:mode.rfind("f01_selected_",0)==0?3:2)<<",\"expected_internal_Duplicate_records\":"<<(mode=="b_internal4096"?4096:0)<<",\"checks\":[";
             for(std::size_t i=0;i<expected.size();++i)manifest<<(i?",":"")<<ph58::jsonString(expected[i]);manifest<<"],\"callback_gate\":false,\"normal_control_hooks_only\":true,\"independent_DSP\":\"NOT_RUN\",\"RT_deadline_approval\":\"NOT_ASSESSED\"}\n";require(bool(manifest),"EXPECTED保存失敗");manifest.close();
             detectorSelfTest();f=std::make_unique<ReviewFixture>(input,preset=="candidate"?Preset::Candidate:Preset::Baseline,folder,expected);
-            if(mode=="a1_cancel"||mode=="a1_started")adoptionRace(*f,mode=="a1_started");else if(mode=="a2_initial_supply"||mode=="a2_checkpoint_supply")initialSupply(*f,mode=="a2_checkpoint_supply");else if(mode=="a2_clear_started")initialSupplyClearStarted(*f);else internal4096(*f);
+            if(mode=="a1_cancel"||mode=="a1_started")adoptionRace(*f,mode=="a1_started");else if(mode=="a2_initial_supply"||mode=="a2_checkpoint_supply")initialSupply(*f,mode=="a2_checkpoint_supply");else if(mode=="a2_clear_started")initialSupplyClearStarted(*f);else if(mode=="f01_dsp_done"||mode=="f01_checkpoint")selectedSupplyIdentity(*f,mode=="f01_checkpoint");else if(mode.rfind("f01_selected_",0)==0)selectedSupplyCancellation(*f,mode,input);else internal4096(*f);
             require(f->passed==expected,"必須check集合/件数不一致");const auto owners=ph58::RealtimePipeline::executionOwnerCounts();std::ofstream summary(folder/"SUMMARY.json");
             summary<<"{\"schema\":1,\"suite\":\"phase62_adoption_review\",\"mode\":"<<ph58::jsonString(mode)<<",\"preset\":"<<ph58::jsonString(preset)<<",\"run_complete\":true,\"status\":\"PASS\",\"expected\":"<<expected.size()<<",\"executed\":"<<f->passed.size()<<",\"Accepted_IDs\":[";
             for(std::size_t i=0;i<f->ids.size();++i)summary<<(i?",":"")<<f->ids[i];summary<<"],\"owner_peak\":"<<owners.peak<<",\"owners_alive\":"<<owners.alive<<",\"callback_cpp_new\":"<<hostCallbackCppNew.load()<<",\"callback_malloc\":"<<phase61_heap_allocations()<<",\"callback_free\":"<<phase61_heap_frees()<<",\"independent_DSP\":\"NOT_RUN\",\"RT_deadline_approval\":\"NOT_ASSESSED\",\"local_overall_go\":false}\n";require(bool(summary),"SUMMARY保存失敗");summary.close();std::ifstream saved(folder/"SUMMARY.json");std::cout<<saved.rdbuf();result=0;
         }catch(const std::exception& error){
-            std::cerr<<error.what()<<'\n';if(f){f->hooks.releaseAll();try{f->engine->stop();f->saveLedger("failure_ledger.jsonl");writePhase62Trace(folder/"failure_callbacks_all_spans.jsonl",f->engine->loopCallbackRecords());}catch(...){}}
+            std::cerr<<error.what()<<'\n';if(f){f->hooks.releaseAll();try{if(f->engine){f->engine->stop();f->saveLedger("failure_ledger.jsonl");writePhase62Trace(folder/"failure_callbacks_all_spans.jsonl",f->engine->loopCallbackRecords());}}catch(...){}}
             if(owned){std::ofstream summary(folder/"SUMMARY.json");summary<<"{\"schema\":1,\"suite\":\"phase62_adoption_review\",\"mode\":"<<ph58::jsonString(mode)<<",\"run_complete\":false,\"status\":\"FAIL\",\"expected\":"<<expected.size()<<",\"executed\":"<<(f?f->passed.size():0)<<",\"reason\":"<<ph58::jsonString(error.what())<<"}\n";}
         }
     });owner.join();return result;

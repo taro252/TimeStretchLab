@@ -124,3 +124,15 @@ Pausedの受入はResume前ReadyForResumeと最新ID/入力世代/Loop/停止C/�
 [e5レビューREPORT](../results/phase62_e5_review/REPORT.md) の今回限定の局所判定は **PASS / GO**。ユーザーの装置復旧後、同じソースcefdb129…・実行体・参照・条件でnative_recovered_01の全5群41programを新規に実行し、その内数の正常RT8本もPASSした。両Presetで実消費4100周、正常8条件の不足/padding・callback確保/解放・callback/worker期限超過0、buffer512復元を確認した。復旧前の失敗・当時の未実施数は履歴として保持する。
 
 seek機能試験のworker期限超過1件（旧faにも同じ観測、RT承認NOT_ASSESSED）は別記録であり、全41本の期限超過0やseek切替の一般RT承認を主張しない。公開初期値4つ・publicSeekApproved=falseと、物理loopback・試聴・Merodoa/TCC実統合等の別ゲートは維持する。Merodoa本体・UI・submoduleは変更しない。
+
+## b035後のF01：初回供給jobと要求IDの同期
+
+追加修正・今回の検証結果は [F01 REPORT](../results/phase62_f01/REPORT.md)、[制御対応表](../results/phase62_f01/CONTROL_COVERAGE.md)、[設計](PHASE62_F01_DESIGN.md)、[検証手順](PHASE62_F01_VALIDATION.md) に分離した。b035時点のD01〜D11と装置復旧後の成功記録は保持する。
+
+KeepPosition初回で自己反復できない場合、供給jobの選択・next構築と、そのjobを保護する外部ID／Preparing／準備版を同じEngine mutex内で公開する。次要求Bを受けても必要な初回AをReplacedにせず、Aの実session/epoch/PCMを観測してCompleted、その後のBもCompletedへ進める。Aの確定済み履歴をB適用後に書き換えず、保護だけを理由にcommitやPCM開始を記録しない。
+
+受入側はLoopSpeedReceipt、全Accepted ID履歴、Resume前ReadyForResumeと最新要求ID・入力世代・Loop・停止C・準備版、実PCMの座標、直接close後FinalLoopSpeedAuditを対応付ける。失敗版退役中の再開拒否、全owner join後のFD/InputLease・security scope解放、古い完了通知の排除を維持する。
+
+F01の限定局所完了、一般公開、Merodoa既定採用は別判定であり、最終判定はF01 REPORTへ記録する。allowExperimentalLoops、publicLoopApproved、seek、currentCycleSpeedChanges、publicSeekApprovedの現行falseを維持する。Merodoaの初回選択・拒否/取消・再起動・曲変更・bookmark・TCC・最新要求とUI整合は実アプリの別受入試験とし、今回Merodoa本体・UI・submoduleを変更しない。
+
+今回のF01限定局所判定は **PASS / GO**。旧比較4/4再現、修正版10 program/64 checks、変更後Engineの既存75 program/326 checks、Release/Debug各20 CTest、境界872 checks/独立handoff6 program、実出力41 program/内数の正常RT8本が完了した。共有DSPの全161速度等は実依存・binary・入力・凍結参照を照合した限定再利用で、新規実施へ付け替えていない。seek機能試験のworker期限観測は今回Candidate通常/R0各0、Baseline通常/R0各1、機能PASS/RT承認NOT_ASSESSEDで別記する。一般公開・Merodoa既定採用のNO-GOは維持する。

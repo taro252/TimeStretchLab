@@ -1,0 +1,74 @@
+{
+  "scope": "seek機能PASSと期限観測を分離。正常RT8本へ合算しない。",
+  "source": "272b9a4da27ff86993993e03ade356a4b64705cce717228366ca40254bd490d1",
+  "current": [
+    {
+      "id": "candidate_normal",
+      "source": "272b9a4da27ff86993993e03ade356a4b64705cce717228366ca40254bd490d1",
+      "summary": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_f01_20261021_01/native_01/final_seek_api_v10/candidate_normal/SUMMARY.json",
+        "bytes": 652,
+        "sha256": "12934a445355be1368bf3cd52ff4eb720bead4398ff5722bcf0c53c23776c928"
+      },
+      "expected": 21,
+      "executed": 21,
+      "functional_status": "PASS",
+      "worker_deadlines_observed": 0,
+      "callback_deadlines_observed": 0,
+      "RT_deadline_approval": "NOT_ASSESSED"
+    },
+    {
+      "id": "candidate_R0",
+      "source": "272b9a4da27ff86993993e03ade356a4b64705cce717228366ca40254bd490d1",
+      "summary": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_f01_20261021_01/native_01/final_seek_api_v10/candidate_R0/SUMMARY.json",
+        "bytes": 612,
+        "sha256": "163c3c25d429a7e3e86a8ffdcec08cd8e908ea60995b8a6ed19a3ed0538ea2a4"
+      },
+      "expected": 1,
+      "executed": 1,
+      "functional_status": "PASS",
+      "worker_deadlines_observed": 0,
+      "callback_deadlines_observed": 0,
+      "RT_deadline_approval": "NOT_ASSESSED"
+    },
+    {
+      "id": "baseline_normal",
+      "source": "272b9a4da27ff86993993e03ade356a4b64705cce717228366ca40254bd490d1",
+      "summary": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_f01_20261021_01/native_01/final_seek_api_v10/baseline_normal/SUMMARY.json",
+        "bytes": 652,
+        "sha256": "f13da9647d5a33226d865cbc6754223b9695798b5ba753bed8e061d2995464d9"
+      },
+      "expected": 21,
+      "executed": 21,
+      "functional_status": "PASS",
+      "worker_deadlines_observed": 1,
+      "callback_deadlines_observed": 0,
+      "RT_deadline_approval": "NOT_ASSESSED"
+    },
+    {
+      "id": "baseline_R0",
+      "source": "272b9a4da27ff86993993e03ade356a4b64705cce717228366ca40254bd490d1",
+      "summary": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_f01_20261021_01/native_01/final_seek_api_v10/baseline_R0/SUMMARY.json",
+        "bytes": 612,
+        "sha256": "b774beec029914974861e681de958f4b7a5f6ff4cc0d3271c0b925847d1d0671"
+      },
+      "expected": 1,
+      "executed": 1,
+      "functional_status": "PASS",
+      "worker_deadlines_observed": 1,
+      "callback_deadlines_observed": 0,
+      "RT_deadline_approval": "NOT_ASSESSED"
+    }
+  ],
+  "previous": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_e5_review/FUNCTIONAL_DEADLINE_OBSERVATION.json",
+    "bytes": 1996,
+    "sha256": "e7476d6946441140c0782717c39f8712c2d01f6ed57f116ba09d794db5586571"
+  },
+  "cause": "NOT_DETERMINED",
+  "next_gate": "case/session/epoch/処理区間とworker時刻・FIFO影響の対応による分類",
+  "physical_loopback": "NOT_RUN"
+}
