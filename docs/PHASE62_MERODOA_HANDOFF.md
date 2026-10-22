@@ -142,3 +142,15 @@ F01の限定局所完了、一般公開、Merodoa既定採用は別判定であ�
 `PHASE62_TERMINAL_CLEAR_DESIGN.md` と `../results/phase62_terminal_initial/A1_REPORT.md` を参照。Clear自身のSnapshot計数と速度要求別計数を分離し、移管済み・未終端・同一入力/Loop/準備版の要求だけを更新する。公開API・構造体フィールドは維持する。Clear前のネイティブCompleted値から、後の個別照会・履歴・close終了監査まで全フィールド不変を確認する14 checksと限定回帰は、新規Release arm64 binaryで147/147 PASS。旧13/14失敗と過去F01/D07/D08は別証拠として保持する。
 
 Merodoa側は終端キャッシュで補正せず、同じ14 checksをbridge経由でも再確認する。終了監査contextはclose完了まで保持し、借用spanを即時所有コピーする。今回の判定は履歴修正の限定PASS。初回Exact性能A2・一般公開・Merodoa既定採用の承認には拡張しない。
+
+## 2026-10-22 A2：初回ReturnToAの完全Exact保存状態
+
+同prepareで互換な固定A保存点がある場合だけ、初回Loop準備へ復元する。`PHASE62_INITIAL_EXACT_REUSE.md` と `../results/phase62_terminal_initial/REPORT.md` を参照。300秒/48k stereo/PCM16、Baseline1.00、AB2秒、各n=2で、受付から最初のA RAW採用までの中央値はA30秒で3.344160→0.115776秒、A270秒で29.271878→0.120618秒。実装前固定目標を満たす。新prepare初回（A270で約30秒）、解析待ち、Clearの通常Exact再準備、キー不一致は別条件であり、高速化したとは扱わない。
+
+追加診断は `ProgressiveDiagnostics.pipeline.loopReuse.initialCheckpointHit`。このepochの初回A保存状態復元を示し、通常seek、動的Map、ReadyForResume、可聴Completedとは別。`checkpointStartFrame + coldDiscardedFrames == outputStartFrame`、hit時の前置破棄2048未満と合わせて確認する。A0は保存位置0でもhit可能。既存analysisWaitS/mapCpuS/coldPrefixS/coldPrefixCpuS/seedOutput/checkpointPeakをそのまま使う。同じheader/libraryの組でnative bridgeを再ビルドし、公開診断へ写すなら正確に対応させる。
+
+入力世代/finalAnalysis/resident identity、Preset、速度、A/B/固定Map全ノード・全長が一致した完全状態だけを再利用する。最大2実行owner・最大2checkpoint・FIFO16,384・短区間RAW96,000・既存予約を維持する。C≠AのPaused速度再準備では任意初回枠を先に解放する。旧FIFOの保護、全owner/入力FD/PCM leaseの寿命、join後解放、終了監査の即時所有コピーは維持する。通常手動seekのopt-inは変えない。
+
+Ready/Pausedの初回ReturnToAはAへ位置合わせして静止し、明示Play前には消費/音声/周回を進めない。通常Paused速度変更は停止位置C保持であり、二つの契約を混同しない。Merodoa側ではA1のClear前凍結14checks、正当な未終端Clear移管、同prepare再要求/fresh初回/解析前後、A0/30/270、Playing進入混合、最新速度変更後の初期枠失効を限定再試験する。SpeedOperationの39fields/要求ID/終端不変/終了監査APIは変わらない。
+
+最終品質は独立旧Exact参照で7native条件14round＋offline両Preset、70/70 checks、最終A1/F01/Paused Clear等147/147。物理出音時間・p95・全条件実時間期限・一般公開・Merodoa既定採用の承認には広げない。短全曲F01中間試験の単発期限超過もREPORTに保持する。Merodoaのコード、submodule、UIはこの作業で変更していない。

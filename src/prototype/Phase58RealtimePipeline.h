@@ -78,6 +78,7 @@ struct LoopTransitionSnapshot {
 enum class NormalLoopReuseState {Inactive,Preparing,Ready,Failed,LimitReached};
 struct LoopReuseDiagnostics {
     bool enabled=false;
+    bool initialCheckpointHit=false; // complete fixed A state restored for this initial ReturnToA epoch
     NormalLoopReuseState normalPreparation=NormalLoopReuseState::Inactive;
     std::uint64_t reconstructionAttempts=0,reconstructedFrames=0,reconstructionDeferrals=0;
     double reconstructionWallS=0,reconstructionCpuS=0;

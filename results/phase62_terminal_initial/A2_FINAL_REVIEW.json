@@ -1,0 +1,570 @@
+{
+  "schema": 1,
+  "suite": "phase62_A2_final_build04_evidence_read_review",
+  "created_utc": "2026-10-22T08:29:12.806738+00:00",
+  "status": "PASS",
+  "expected": 7,
+  "executed": 7,
+  "passed": 7,
+  "source_sha256": "2684e23e4dff9f3837a1964ec6932aa2ce0e0daba9192f84344024312c6f2c61",
+  "checks": [
+    {
+      "id": "final_source_build_archive_and_execution_binary_identity",
+      "status": "PASS"
+    },
+    {
+      "id": "seven_frozen_reference_reuse_records",
+      "status": "PASS"
+    },
+    {
+      "id": "final_quality_all_expected_IDs_counts_completion_and_main_hashes",
+      "status": "PASS"
+    },
+    {
+      "id": "final_benchmark_and_frozen_acceptance_recomputed",
+      "status": "PASS"
+    },
+    {
+      "id": "final_history_28_programs_147_checks_and_close_audits",
+      "status": "PASS"
+    },
+    {
+      "id": "f01_old_final_five_pair_runs_and_exact_check_IDs",
+      "status": "PASS"
+    },
+    {
+      "id": "old_failures_preserved_and_approval_scope_unchanged",
+      "status": "PASS"
+    }
+  ],
+  "details": {
+    "final_source_build_archive_and_execution_binary_identity": {
+      "source_sha256": "2684e23e4dff9f3837a1964ec6932aa2ce0e0daba9192f84344024312c6f2c61",
+      "current_source_files_verified": 737,
+      "BUILD04": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_terminal_initial_20261022_01/a2_build_record_04/BUILD.json",
+        "bytes": 117352,
+        "sha256": "30b8779a396f0c82c7f3d10d8406325859ce445a966d7aac47e560550b7edc21"
+      },
+      "archive_manifest": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_terminal_initial_20261022_01/candidate_binaries_04/MANIFEST.json",
+        "bytes": 2805,
+        "sha256": "8a636ccba23eed30cff1cfe5a7515f864c82645dd6c70a1ffa82b499c3ff40e8"
+      },
+      "current_and_archived_binaries_verified": [
+        {
+          "name": "phase62_initial_entry_native",
+          "bytes": 1059824,
+          "sha256": "0d0c72d2fb4190a3274fa518c48a888c74eb2fc07664ef7b1b582a54fb15963f"
+        },
+        {
+          "name": "phase62_initial_checkpoint_tests",
+          "bytes": 808688,
+          "sha256": "f1bc64a80362c7f05831f541e49654e5528ee2e4367fe8fe0467db16847b0495"
+        },
+        {
+          "name": "phase62_initial_loop_native",
+          "bytes": 1060040,
+          "sha256": "b8787365c102737194df159ceb6b4ec07270157c6ee7499303a0c39fe2a895f8"
+        },
+        {
+          "name": "phase62_history_clear_native",
+          "bytes": 1136560,
+          "sha256": "4d7ec58c3b8cab4d9c2f8371389c3940c15505d19a3418041cc07e6b92e95685"
+        },
+        {
+          "name": "phase62_loop_speed_ledger_tests",
+          "bytes": 38560,
+          "sha256": "4385f2cec11410061cdaa815841d94cb7b371738dbcf6ea1223478d1c5912fd2"
+        },
+        {
+          "name": "phase62_paused_clear_native",
+          "bytes": 1101416,
+          "sha256": "f8ef97d5e0f79b320f131e1a36c35d6b673119344c1e3e498ed664840d4ccd86"
+        },
+        {
+          "name": "phase62_playing_ledger_native",
+          "bytes": 1136704,
+          "sha256": "6815b0f4381a001219cec96495e46279b68b190b23f9fdb95a7782d142e6ca22"
+        },
+        {
+          "name": "phase62_adoption_review_native",
+          "bytes": 1189712,
+          "sha256": "4e5e570eafdcadec91f813c9792064ce563eb22d47121f86ac84eb7fd31a9613"
+        },
+        {
+          "name": "phase62_fix_reuse_tests",
+          "bytes": 791176,
+          "sha256": "d62d5dafe6799b89fc53042d444ccb581f991e73069fee3461b779bba5074c38"
+        }
+      ]
+    },
+    "final_quality_all_expected_IDs_counts_completion_and_main_hashes": {
+      "programs": 9,
+      "native_rounds": 14,
+      "native_checks": 42,
+      "offline_checks": 28,
+      "total_checks": 70,
+      "native": [
+        {
+          "id": "mono_short125",
+          "checks": 6,
+          "rounds": 2,
+          "raw_sha256": "44dc1768ff340d337637d8f8422d9dadfb4652a6f2d5eefb5f03e8b3f72dc70c",
+          "output_before_gain_sha256": "661b07c31d8403c64fec0abbeb395317c11e40ee28cbbd560ced0669077ae261",
+          "mixed_frames": 0,
+          "minimum_cycles": 3
+        },
+        {
+          "id": "mono_uncached",
+          "checks": 6,
+          "rounds": 2,
+          "raw_sha256": "4b7430fcdec39de34216490d231ca3779395cd01a24666da61a8038b9fe2fe3c",
+          "output_before_gain_sha256": "81d1155ea80aef1f77016672b2d2c8a07ef7152d5c21a2f7ecff7eb32f66c230",
+          "mixed_frames": 0,
+          "minimum_cycles": 3
+        },
+        {
+          "id": "float_uncached040",
+          "checks": 6,
+          "rounds": 2,
+          "raw_sha256": "1a19ba95776ad823bee561cbef80f279cf94794cd9768d87e3942762552c8794",
+          "output_before_gain_sha256": "b30f2fed78fed5def7bfaf45caa43e72cb8859b0fc96f95522cf2051850d9f99",
+          "mixed_frames": 0,
+          "minimum_cycles": 3
+        },
+        {
+          "id": "float_short200",
+          "checks": 6,
+          "rounds": 2,
+          "raw_sha256": "1cad3effe15a7a9b9b3b1e46ffde768dd81eb6ea55f043e28f4b36864bf0aed3",
+          "output_before_gain_sha256": "d0d511e30e74b0f26d627a8128006ed468be847ee54c490aa92216dbe973c7a9",
+          "mixed_frames": 0,
+          "minimum_cycles": 3
+        },
+        {
+          "id": "mono_entry125_baseline",
+          "checks": 6,
+          "rounds": 2,
+          "raw_sha256": "d40f69cfd24e4787bf86d3b20ffbdb8f176feacc85f09fb195f00a6674208e50",
+          "output_before_gain_sha256": "9860c2eb790e7157d04b85cfa9c69246c027a5cd1499c09897780c0e9ccc3f98",
+          "mixed_frames": 480,
+          "minimum_cycles": 3
+        },
+        {
+          "id": "mono_entry125_candidate",
+          "checks": 6,
+          "rounds": 2,
+          "raw_sha256": "d40f69cfd24e4787bf86d3b20ffbdb8f176feacc85f09fb195f00a6674208e50",
+          "output_before_gain_sha256": "9860c2eb790e7157d04b85cfa9c69246c027a5cd1499c09897780c0e9ccc3f98",
+          "mixed_frames": 480,
+          "minimum_cycles": 3
+        },
+        {
+          "id": "longA270",
+          "checks": 6,
+          "rounds": 2,
+          "raw_sha256": "38881315ced0592f9f8661cd482c2586a174bbe5a90b3e7d4b2e105041063685",
+          "output_before_gain_sha256": "9db0f9cfa87d49f9e1923a8a063cb76609b4e1fb737628b1cc2d973e310c2fd1",
+          "mixed_frames": 0,
+          "minimum_cycles": 3
+        }
+      ],
+      "offline": [
+        {
+          "id": "offline_baseline",
+          "named_checks": 14,
+          "long_B_input": 192018,
+          "same_lease_preset_mutation": "NOT_EXERCISED/excluded"
+        },
+        {
+          "id": "offline_candidate",
+          "named_checks": 14,
+          "long_B_input": 192018,
+          "same_lease_preset_mutation": "NOT_EXERCISED/excluded"
+        }
+      ],
+      "review_scope": "capture現SHA/ID/件数/完了/exitの読取照合。全sample品質比較自体はa2_quality_03の保存結果であり今回再実行していない。"
+    },
+    "final_benchmark_and_frozen_acceptance_recomputed": {
+      "metric": "accepted_to_A_alignment_s + Ready_observed_to_first_A_PCM_s (same steady_clock, includes identical explicit 30ms silent hold)",
+      "bench_after_programs": 7,
+      "bench_after_samples": 14,
+      "comparisons": [
+        {
+          "A": 0,
+          "condition": "fresh_prepare",
+          "n_before": 2,
+          "n_after": 2,
+          "before_median_s": 0.120643729,
+          "after_median_s": 0.117349917,
+          "frozen_limit_s": 0.370643729,
+          "PASS": true
+        },
+        {
+          "A": 0,
+          "condition": "same_prepare_re_request",
+          "n_before": 2,
+          "n_after": 2,
+          "before_median_s": 0.0916630835,
+          "after_median_s": 0.096012521,
+          "frozen_limit_s": 0.3416630835,
+          "PASS": true
+        },
+        {
+          "A": 30,
+          "condition": "fresh_prepare",
+          "n_before": 2,
+          "n_after": 2,
+          "before_median_s": 3.359734563,
+          "after_median_s": 3.3521277085000003,
+          "frozen_limit_s": 4.2816814756,
+          "PASS": true
+        },
+        {
+          "A": 30,
+          "condition": "same_prepare_re_request",
+          "n_before": 2,
+          "n_after": 2,
+          "before_median_s": 3.3441595415,
+          "after_median_s": 0.11577631299999999,
+          "frozen_limit_s": 0.6688319083,
+          "PASS": true
+        },
+        {
+          "A": 270,
+          "condition": "fresh_prepare",
+          "n_before": 2,
+          "n_after": 2,
+          "before_median_s": 29.652722146000002,
+          "after_median_s": 30.063423333499998,
+          "frozen_limit_s": 35.8332665752,
+          "PASS": true
+        },
+        {
+          "A": 270,
+          "condition": "same_prepare_re_request",
+          "n_before": 2,
+          "n_after": 2,
+          "before_median_s": 29.271878395999998,
+          "after_median_s": 0.120617646,
+          "frozen_limit_s": 1,
+          "PASS": true
+        }
+      ],
+      "comparison_file": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_terminal_initial_20261022_01/PERFORMANCE_COMPARISON_02.json",
+        "bytes": 5793,
+        "sha256": "2bbd483c7322473276a23330b7c4c982aa94453409c5e6236ff9710cbff3800f"
+      },
+      "early_actual_flags": [
+        0,
+        1,
+        0,
+        1
+      ],
+      "scope": "改善は同prepare・同A/B/速度/presetの再要求。fresh A270中央値30.0634秒はcold Exactのまま。p95/物理出音を保証しない。"
+    },
+    "final_history_28_programs_147_checks_and_close_audits": {
+      "programs": 28,
+      "checks": 147,
+      "all_required_check_ID_sets_unique_and_complete": true,
+      "limit_close_owned_audit_rechecked": true,
+      "rows": [
+        {
+          "id": "terminal_immutability_baseline",
+          "checks": 14,
+          "exit": 0
+        },
+        {
+          "id": "clear_continuation_baseline",
+          "checks": 8,
+          "exit": 0
+        },
+        {
+          "id": "no_speed_clear_baseline",
+          "checks": 5,
+          "exit": 0
+        },
+        {
+          "id": "initial_return_clear_baseline",
+          "checks": 2,
+          "exit": 0
+        },
+        {
+          "id": "initial_started_clear_baseline",
+          "checks": 2,
+          "exit": 0
+        },
+        {
+          "id": "committed_preparing_baseline",
+          "checks": 2,
+          "exit": 0
+        },
+        {
+          "id": "manual_seek_baseline",
+          "checks": 2,
+          "exit": 0
+        },
+        {
+          "id": "ready_baseline",
+          "checks": 2,
+          "exit": 0
+        },
+        {
+          "id": "started_no_pcm_baseline",
+          "checks": 2,
+          "exit": 0
+        },
+        {
+          "id": "limit_close_baseline",
+          "checks": 6,
+          "exit": 0
+        },
+        {
+          "id": "f01_dsp_done_baseline",
+          "checks": 7,
+          "exit": 0
+        },
+        {
+          "id": "f01_checkpoint_baseline",
+          "checks": 7,
+          "exit": 0
+        },
+        {
+          "id": "f01_selected_clear_baseline",
+          "checks": 6,
+          "exit": 0
+        },
+        {
+          "id": "terminal_immutability_candidate",
+          "checks": 14,
+          "exit": 0
+        },
+        {
+          "id": "clear_continuation_candidate",
+          "checks": 8,
+          "exit": 0
+        },
+        {
+          "id": "no_speed_clear_candidate",
+          "checks": 5,
+          "exit": 0
+        },
+        {
+          "id": "initial_return_clear_candidate",
+          "checks": 2,
+          "exit": 0
+        },
+        {
+          "id": "initial_started_clear_candidate",
+          "checks": 2,
+          "exit": 0
+        },
+        {
+          "id": "committed_preparing_candidate",
+          "checks": 2,
+          "exit": 0
+        },
+        {
+          "id": "manual_seek_candidate",
+          "checks": 2,
+          "exit": 0
+        },
+        {
+          "id": "ready_candidate",
+          "checks": 2,
+          "exit": 0
+        },
+        {
+          "id": "started_no_pcm_candidate",
+          "checks": 2,
+          "exit": 0
+        },
+        {
+          "id": "limit_close_candidate",
+          "checks": 6,
+          "exit": 0
+        },
+        {
+          "id": "f01_dsp_done_candidate",
+          "checks": 7,
+          "exit": 0
+        },
+        {
+          "id": "f01_checkpoint_candidate",
+          "checks": 7,
+          "exit": 0
+        },
+        {
+          "id": "f01_selected_clear_candidate",
+          "checks": 6,
+          "exit": 0
+        },
+        {
+          "id": "terminal_states_baseline",
+          "checks": 7,
+          "exit": 0
+        },
+        {
+          "id": "ledger_unit",
+          "checks": 10,
+          "exit": 0
+        }
+      ],
+      "summary_file": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_terminal_initial_20261022_01/a2_history_regression_02/SUMMARY.json",
+        "bytes": 24967,
+        "sha256": "c9889826d909c7e74820d76b0839075a1445529f64de85a7730c9c864f34e7c9"
+      }
+    },
+    "f01_old_final_five_pair_runs_and_exact_check_IDs": {
+      "before_programs": 5,
+      "after_programs": 5,
+      "checks_per_program": 7,
+      "total_checks": 70,
+      "all_expected_ID_sets_and_completion_rechecked": true,
+      "old_deadline_failure_preserved": true,
+      "RT_approval": "NOT_ASSESSED",
+      "summary_file": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_terminal_initial_20261022_01/f01_timing_pair_01/SUMMARY.json",
+        "bytes": 10332,
+        "sha256": "7159738e691b45d3a66008070e2d2ab3b06f7c2cc7b121e3b0949c9cf896d931"
+      }
+    },
+    "old_failures_preserved_and_approval_scope_unchanged": {
+      "old_history_summary": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_terminal_initial_20261022_01/a2_history_regression_01/SUMMARY.json",
+        "bytes": 24776,
+        "sha256": "6d87835930f69783adbd5b7c00fe4f0b6bd7b2596da4633b62eca9447d03746c"
+      },
+      "retained_failed_IDs": [
+        "clear_continuation_baseline",
+        "clear_continuation_candidate",
+        "f01_dsp_done_candidate"
+      ],
+      "intermediate_review": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_terminal_initial/A2_EVIDENCE_REVIEW.json",
+        "bytes": 18803,
+        "sha256": "583b7c9568a13d2bf4b041d9cee4d84240944d9a0362174db3440fa8b4a2ee98"
+      },
+      "past_D07_D08_F01_limited_PASS": "UNCHANGED",
+      "public_go": false,
+      "physical_loopback": "NOT_RUN",
+      "RT_deadlines": "NOT_ASSESSED",
+      "strict_01": "NOT_REVIEWED: Release/Debug20CTest進行中のためこの追加レビューには含めない"
+    },
+    "seven_frozen_reference_reuse_records": {
+      "expected_new_reference_programs": 0,
+      "actual_new_reference_programs": 0,
+      "reference_groups": 7,
+      "reused_references": 7,
+      "previous_REFERENCE_AUDIT": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_terminal_initial/REFERENCE_AUDIT.json",
+        "bytes": 17156,
+        "sha256": "65d9c3ecd97e06fc4be1343d60cd2740187d66fdbd29a26044e4b3050865ec4d"
+      },
+      "raw_scope": "再利用元の参照実行log/Map/記録SHA/バイト数の一致。新規参照生成・参照RAW全量再hashは本レビューでは実行しない。",
+      "rows": [
+        {
+          "id": "ref0",
+          "speed": 1250000,
+          "preset": "baseline",
+          "query_input_frames": [
+            24000,
+            28800,
+            24000,
+            28800
+          ],
+          "reference_raw_sha256": "6e479987f8358d5a80e3f7759c527eda1c487efce66d3f95d34b0f8267841b6f",
+          "bytes": 921600
+        },
+        {
+          "id": "ref1",
+          "speed": 1000000,
+          "preset": "baseline",
+          "query_input_frames": [
+            24000,
+            124800,
+            0,
+            4800,
+            48017,
+            52817,
+            48017,
+            192018
+          ],
+          "reference_raw_sha256": "09b80bf6db2ee1577fb4c90932ca1a921bc0a0d3ac9c6e63d4a75a8ce2d55530",
+          "bytes": 1152000
+        },
+        {
+          "id": "ref2",
+          "speed": 400000,
+          "preset": "candidate",
+          "query_input_frames": [
+            22050,
+            66150
+          ],
+          "reference_raw_sha256": "b84414e771b42cbb722900692c6a6e5d6d31df5b63c92eaf8d7e8c20e26589c6",
+          "bytes": 8820000
+        },
+        {
+          "id": "ref3",
+          "speed": 2000000,
+          "preset": "candidate",
+          "query_input_frames": [
+            22050,
+            26460
+          ],
+          "reference_raw_sha256": "6f6f701fe08561417f7c3c015d8f495ff380e305ef54de7c61d1143e085f1ea0",
+          "bytes": 1764000
+        },
+        {
+          "id": "ref4",
+          "speed": 1250000,
+          "preset": "candidate",
+          "query_input_frames": [
+            24000,
+            28800
+          ],
+          "reference_raw_sha256": "6e479987f8358d5a80e3f7759c527eda1c487efce66d3f95d34b0f8267841b6f",
+          "bytes": 921600
+        },
+        {
+          "id": "ref5",
+          "speed": 1000000,
+          "preset": "baseline",
+          "query_input_frames": [
+            12960000,
+            13056000
+          ],
+          "reference_raw_sha256": "16fbeaa14441d008e429f76768b7ce9fb7ec67f7bfa163938198f35bbf398981",
+          "bytes": 115200000
+        },
+        {
+          "id": "ref6",
+          "speed": 1000000,
+          "preset": "candidate",
+          "query_input_frames": [
+            0,
+            4800,
+            48017,
+            52817,
+            48017,
+            192018
+          ],
+          "reference_raw_sha256": "09b80bf6db2ee1577fb4c90932ca1a921bc0a0d3ac9c6e63d4a75a8ce2d55530",
+          "bytes": 1152000
+        }
+      ]
+    }
+  },
+  "scope": "最終Build04の証拠識別・保存実行体・expected ID集合・exit/完了/件数・観測capture SHA・性能生値の独立読取検査。新たな音声/ビルド/全sample品質計算は行わない。",
+  "new_audio_runs": 0,
+  "new_builds": 0,
+  "new_PCM_comparisons": 0,
+  "reference_raw_full_rehash": false,
+  "sources_or_tests_changed": false,
+  "strict_01_assessed": false,
+  "public_release_go": false,
+  "Merodoa_default_changed": false
+}

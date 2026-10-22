@@ -119,7 +119,21 @@ struct InputLease {
         if(!state||!permit)return {};return {state.release(),[permit=std::move(permit)](auto* p){delete p;}};
     }
     struct Checkpoint {std::uint32_t speed;std::size_t output;std::shared_ptr<const phase57::ProgressiveSynthesisEngine> state;};
+    struct InitialLoopCheckpoint {
+        std::uint64_t generation=0;std::uint32_t speed=0;bool candidate=false;
+        std::size_t a=0,b=0,outputA=0,outputB=0,outputFrames=0,point=0;
+        const phase56::AnalysisSnapshot* analysis=nullptr;
+        const unsigned char* resident=nullptr;std::size_t residentBytes=0;
+        std::shared_ptr<const phase57::ProgressiveSynthesisEngine> state;
+    };
     std::mutex checkpointMutex;std::vector<Checkpoint> checkpoints;
+    // Shares an already budgeted immutable A seed, never another execution DSP.
+    std::optional<InitialLoopCheckpoint> initialLoopCheckpoint;
+    std::uint64_t initialPreparationVersion=0;
+    void invalidateInitialPreparation(bool discard=false){
+        std::optional<InitialLoopCheckpoint> old;
+        {std::lock_guard lock(checkpointMutex);++initialPreparationVersion;if(discard)old.swap(initialLoopCheckpoint);}
+    }
     std::size_t checkpointBuilds=0;
     void pruneSeekCheckpoints(){std::vector<Checkpoint> old;{std::lock_guard lock(checkpointMutex);old.swap(checkpoints);}}
     explicit InputLease(const std::filesystem::path& p):input(p){}
@@ -167,6 +181,8 @@ struct RealtimePipeline::Impl {
     std::shared_ptr<const phase59::DynamicMap> fixedLoopMap;
     std::shared_ptr<const phase57::ProgressiveSynthesisEngine> loopContinuationOwner,continuationSeed;
     std::atomic<bool> loopContinuationReady{false};
+    std::uint64_t initialPreparationVersion=0;
+    std::atomic<bool> initialCheckpointHit{false};
     std::array<std::array<float,2048>,2> loopContinuationPcm{};
     std::size_t loopContinuationCount=0;
     std::atomic<std::size_t> repeatBegin{0},repeatPublished{0};
@@ -1046,6 +1062,7 @@ struct RealtimePipeline::Impl {
                     seed=InputLease::ownCheckpoint(engine.cloneFixedCheckpoint(input.snapshotDescriptor(),input.residentBytes()),std::move(permit));
                     if(!seed)throw std::logic_error("完全な固定Exact保存点を作成できません");
                     loopContinuationOwner=seed;
+                    rememberInitialCheckpoint(seed,position);
                     loopSeedCloneS=copy.elapsed().wallSeconds;loopSeedOutput=position;++loopSeedClones;plansAtSeed=FFTAccelerate::threadPlanCreations();loopFftPlans=plansAtSeed-plansBefore;
                 }
                 if(!realtime->beginInterval())throw std::runtime_error("再利用DSP区間開始に失敗しました");
@@ -1059,6 +1076,37 @@ struct RealtimePipeline::Impl {
                 if(result==phase57::SynthesisState::NeedsMoreAnalysis||result==phase57::SynthesisState::NeedsMoreInput)throw std::logic_error("固定解析の再利用中に未確定入力を要求しました");
             }
     }
+    bool initialCheckpointEligible()const noexcept {
+        return config.reusableLoop&&seekInput==config.loopBeginInputFrame&&config.residentInput&&
+            !config.recordWorkerProfile&&!config.detailedDiagnostics;
+    }
+    InputLease::InitialLoopCheckpoint initialCheckpointKey()const {
+        const auto bytes=input.residentBytes();
+        return {inputLease->generation,config.speedMicros,config.candidate,config.loopBeginInputFrame,
+            config.loopEndInputFrame,repeatBegin.load(),loopOutputEnd.load(),output.load(),0,
+            std::atomic_load(&inputLease->finalAnalysis).get(),bytes.data(),bytes.size(),{}};
+    }
+    std::shared_ptr<const phase57::ProgressiveSynthesisEngine> takeInitialCheckpoint(){
+        std::optional<InputLease::InitialLoopCheckpoint> saved;
+        {std::lock_guard lock(inputLease->checkpointMutex);
+            if(inputLease->initialPreparationVersion!=initialPreparationVersion)return {};
+            saved.swap(inputLease->initialLoopCheckpoint);}
+        if(!saved)return {};
+        const auto key=initialCheckpointKey();const auto& old=*saved;
+        if(old.generation!=key.generation||old.speed!=key.speed||old.candidate!=key.candidate||
+           old.a!=key.a||old.b!=key.b||old.outputA!=key.outputA||old.outputB!=key.outputB||
+           old.outputFrames!=key.outputFrames||old.analysis!=key.analysis||old.resident!=key.resident||
+           old.residentBytes!=key.residentBytes||old.point>key.outputA||key.outputA-old.point>=2048)return {};
+        return std::move(saved->state);
+    }
+    void rememberInitialCheckpoint(const std::shared_ptr<phase57::ProgressiveSynthesisEngine>& seed,std::size_t point){
+        if(!initialCheckpointEligible()||cancelled.load())return;
+        auto key=initialCheckpointKey();key.point=point;key.state=seed;
+        std::optional<InputLease::InitialLoopCheckpoint> old;
+        {std::lock_guard lock(inputLease->checkpointMutex);
+            if(cancelled.load()||inputLease->initialPreparationVersion!=initialPreparationVersion)return;
+            old.swap(inputLease->initialLoopCheckpoint);inputLease->initialLoopCheckpoint=std::move(key);}
+    }
     void synthesizeRepeating(){
         CpuEnd measured{dspWorkerCpu};AllocationScope allocations{*this};std::uint64_t allocationBase=0;
         auto demote=[&]{if(realtime->active()){realtimeNewCalls=realtimeNewCalls.load()+dspAllocations-allocationBase;realtimeAllocationsMeasured=countDspAllocations&&dspAllocationProbeAvailable;}return realtime->demote();};
@@ -1069,11 +1117,27 @@ struct RealtimePipeline::Impl {
             while(!seekMapReady.load(std::memory_order_acquire)){check(true);std::this_thread::sleep_for(std::chrono::milliseconds(1));}
             if(!loopSnapshot||!loopSnapshot->isFinal)throw std::logic_error("確定ループ解析がありません");
             const auto plansBefore=FFTAccelerate::threadPlanCreations();playback::StageClock construct;
-            phase57::ProgressiveSynthesisEngine engine(input.snapshotDescriptor(),config.speedMicros,inputLease->generation,[this]{check(true);},16*1024*1024,input.residentBytes());
-            engine.enableDynamicTransitions();engine.supplySnapshot(loopSnapshot);
-            if(!engine.trySupplyBorrowedDynamicMap(fixedLoopMap.get()))throw std::logic_error("固定ループMapの初期化失敗");
+            std::unique_ptr<phase57::ProgressiveSynthesisEngine> engine;
+            if(initialCheckpointEligible()){
+                auto saved=takeInitialCheckpoint();
+                if(saved){
+                    engine=saved->cloneFixedCheckpoint(input.snapshotDescriptor(),input.residentBytes(),[this]{check(true);});
+                    saved.reset(); // release optional old state before reserving this epoch's A seed
+                    if(engine){
+                        engine->prepareCheckpointForEpoch();engine->supplySnapshot(loopSnapshot);
+                        if(engine->trySupplyBorrowedDynamicMap(fixedLoopMap.get())){
+                            checkpointStart=engine->frontier().published;generated=checkpointStart.load();initialCheckpointHit=true;
+                        }else engine.reset();
+                    }
+                }
+            }
+            if(!engine){
+                engine=std::make_unique<phase57::ProgressiveSynthesisEngine>(input.snapshotDescriptor(),config.speedMicros,inputLease->generation,[this]{check(true);},16*1024*1024,input.residentBytes());
+                engine->enableDynamicTransitions();engine->supplySnapshot(loopSnapshot);
+                if(!engine->trySupplyBorrowedDynamicMap(fixedLoopMap.get()))throw std::logic_error("固定ループMapの初期化失敗");
+            }
             loopDspConstructS=construct.elapsed().wallSeconds;
-            repeatWithEngine(engine,{},false,allocationBase,plansBefore);demote();
+            repeatWithEngine(*engine,{},false,allocationBase,plansBefore);demote();
         }catch(const Cancelled&){demote();}
         catch(const std::exception& e){demote();fail(e.what());}
         dspDone=true;changed.notify_all();
@@ -1284,6 +1348,7 @@ std::unique_ptr<RealtimePipeline> RealtimePipeline::createSeek(std::size_t frame
     auto& x=*impl_;if(x.failure.load()||x.cancelled.load())throw std::logic_error("Seek from a failed/stopped epoch");
     auto c=x.config;if(c.loopEndInputFrame&&c.scheduling==WorkerScheduling::AudioWorkgroup)c.dynamicTransitions=true;c.loopEndInputFrame=0;c.reusableLoop=false;c.loopBeginInputFrame=0;c.speedMicros=speed;c.fastLocalSeek=false;c.localPrerollInputFrames=0;
     auto result=std::unique_ptr<RealtimePipeline>(new RealtimePipeline(std::make_unique<Impl>(x.inputLease,c,true,frame)));
+    x.inputLease->invalidateInitialPreparation();
     if(x.config.reusableLoop&&frame==x.config.loopEndInputFrame&&speed==x.config.speedMicros&&x.loopContinuationReady.load(std::memory_order_acquire)){
         auto& next=*result->impl_;next.continuationSeed=x.loopContinuationOwner;next.seekPcmCount=x.loopContinuationCount;next.seekPcmOffset=0;
         for(std::size_t ch=0;ch<x.input.channels;++ch)std::copy_n(x.loopContinuationPcm[ch].data(),next.seekPcmCount,next.seekPcm[ch].data());
@@ -1293,7 +1358,8 @@ std::unique_ptr<RealtimePipeline> RealtimePipeline::createSeek(std::size_t frame
 std::unique_ptr<RealtimePipeline> RealtimePipeline::createFastLocalSeek(std::size_t frame,std::uint32_t speed,std::size_t preroll)const{
     auto& x=*impl_;if(x.failure.load()||x.cancelled.load())throw std::logic_error("Seek from a failed/stopped epoch");
     auto c=x.config;if(c.loopEndInputFrame&&c.scheduling==WorkerScheduling::AudioWorkgroup)c.dynamicTransitions=true;c.loopEndInputFrame=0;c.reusableLoop=false;c.loopBeginInputFrame=0;c.speedMicros=speed;c.fastLocalSeek=true;c.localPrerollInputFrames=preroll?preroll:x.input.rate/2;
-    return std::unique_ptr<RealtimePipeline>(new RealtimePipeline(std::make_unique<Impl>(x.inputLease,c,true,frame)));
+    auto result=std::unique_ptr<RealtimePipeline>(new RealtimePipeline(std::make_unique<Impl>(x.inputLease,c,true,frame)));
+    x.inputLease->invalidateInitialPreparation();return result;
 }
 std::unique_ptr<RealtimePipeline> RealtimePipeline::createLoopSeek(std::size_t start,std::size_t end,std::uint32_t speed)const{
     if(start>=end||end>inputFrames())throw std::invalid_argument("ループは入力半開区間[A,B)です");
@@ -1304,6 +1370,13 @@ std::unique_ptr<RealtimePipeline> RealtimePipeline::createLoopSeek(std::size_t s
 void RealtimePipeline::enableLoopReuse(std::size_t a){
     auto& x=*impl_;if(x.lifecycle.load()!=LifecycleState::Unstarted||!x.config.loopEndInputFrame||a>x.seekInput||x.seekInput>=x.config.loopEndInputFrame)throw std::logic_error("固定ループ再利用の受付範囲が不正です");
     x.inputLease->pruneSeekCheckpoints();
+    // Partial C->B epochs cannot use the A cache. Release its optional share
+    // before their worker reserves the second seed beside the current owner.
+    std::optional<InputLease::InitialLoopCheckpoint> unusedInitial;
+    {std::lock_guard lock(x.inputLease->checkpointMutex);
+        x.initialPreparationVersion=++x.inputLease->initialPreparationVersion;
+        if(a!=x.seekInput)unusedInitial.swap(x.inputLease->initialLoopCheckpoint);}
+    unusedInitial.reset();
     x.config.reusableLoop=true;x.config.loopBeginInputFrame=a;
     if(x.config.scheduling==WorkerScheduling::AudioWorkgroup){x.config.dynamicTransitions=true;x.operations.reserve(4096);x.transitionPlanner=std::make_unique<phase59::ProgressiveTransitionPlanner>(x.input.rate,x.input.frames,x.inputLease->generation,x.config.speedMicros,x.config.candidate);}
     x.loopPcmDescriptors=std::make_unique<LoopPcmDescriptorRing>();
@@ -1313,7 +1386,7 @@ bool RealtimePipeline::requestNormalLoopReuse(){
     auto& x=*impl_;if(x.loopMode())return true;
     if(!x.config.dynamicTransitions||!x.config.residentInput||x.config.fastLocalSeek||x.config.loopEndInputFrame||x.failure.load()||x.cancelled.load()||x.dspDone.load())return false;
     if(!x.normalLoopRequested.load()){
-        x.inputLease->pruneSeekCheckpoints();
+        x.inputLease->pruneSeekCheckpoints();x.inputLease->invalidateInitialPreparation(true);
         x.loopPcmDescriptors=std::make_unique<LoopPcmDescriptorRing>();
         x.normalLoopState.store(NormalLoopReuseState::Preparing,std::memory_order_release);x.normalLoopRequested.store(true,std::memory_order_release);x.changed.notify_all();x.realtime->signal();
     }return true;
@@ -1412,6 +1485,7 @@ Diagnostics RealtimePipeline::diagnostics()const{
     d.analysisQos=x.analysisQos;d.dspQos=x.dspQos;d.analysisDone=x.analysisDone;d.dspDone=x.dspDone;d.cancelled=x.cancelled&&!x.dspDone;d.failed=x.failure;
     d.loopReuse.normalPreparation=x.normalLoopState.load();d.loopReuse.checkpointStates=x.inputLease->checkpointBudget->count;d.loopReuse.checkpointPeak=x.inputLease->checkpointBudget->peak;
     d.loopReuse.reconstructionAttempts=x.loopReconstructionAttempts;d.loopReuse.reconstructedFrames=x.loopReconstructedFrames;d.loopReuse.reconstructionDeferrals=x.loopReconstructionDeferrals;d.loopReuse.reconstructionWallS=x.loopReconstructionWallS;d.loopReuse.reconstructionCpuS=x.loopReconstructionCpuS;
+    d.loopReuse.initialCheckpointHit=x.initialCheckpointHit.load();
     d.loopReuse.enabled=x.loopMode();d.loopReuse.cyclesPrepared=x.loopReuseCount;d.loopReuse.seedRestores=x.loopSeedRestores;d.loopReuse.cacheReadFrames=x.loopCacheReads;
     d.loopReuse.coldDiscardedFrames=x.loopColdDiscarded;d.loopReuse.warmDiscardedFrames=x.loopWarmDiscarded;d.loopReuse.cacheBytes=x.loopCacheBytes;d.loopReuse.seedOutput=x.loopSeedOutput;
     d.loopReuse.mapBuilds=x.loopMapBuilds;d.loopReuse.workerCreations=x.loopWorkerCreations;d.loopReuse.mapS=x.loopMapS;d.loopReuse.dspConstructS=x.loopDspConstructS;

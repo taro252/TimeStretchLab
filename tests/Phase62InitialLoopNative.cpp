@@ -69,4 +69,7 @@ int initialLoopMain(int argc,char** argv){
     std::ofstream summary(folder/"SUMMARY.json");summary<<"{\"status\":\"PASS\",\"run_complete\":true,\"expected\":"<<repeats<<",\"executed\":"<<repeats<<",\"raw_records\":"<<capture.rawCount<<",\"output_spans\":"<<capture.spanCount<<",\"raw_frames\":"<<capture.rawFrames<<",\"output_frames\":"<<capture.outputFrames<<",\"owners_peak\":"<<owners.peak<<",\"owners_alive\":"<<owners.alive<<",\"RT_deadline_approval\":\"NOT_ASSESSED\"}\n";return 0;
 }
 }
+#ifndef TS_PHASE62_INITIAL_NO_MAIN
 int main(int argc,char** argv){int code=1;std::thread owner([&]{try{code=initialLoopMain(argc,argv);}catch(const std::exception& e){std::cerr<<e.what()<<'\n';}});owner.join();return code;}
+
+#endif

@@ -1,0 +1,530 @@
+{
+  "schema": 1,
+  "suite": "phase62_A2_independent_evidence_read_review",
+  "created_utc": "2026-10-22T08:19:22.632126+00:00",
+  "status": "INTERMEDIATE_ONLY",
+  "expected": 6,
+  "executed": 6,
+  "passed": 5,
+  "checks": [
+    {
+      "id": "fixed_reference_commands_maps_and_recorded_hashes",
+      "status": "PASS"
+    },
+    {
+      "id": "offline_named_cases_and_rate_derived_long_reference",
+      "status": "PASS"
+    },
+    {
+      "id": "native_audit_counts_and_current_main_capture_hashes",
+      "status": "PASS"
+    },
+    {
+      "id": "historical_benchmark_raw_rows_and_aggregates",
+      "status": "PASS"
+    },
+    {
+      "id": "historical_frozen_numeric_acceptance",
+      "status": "PASS"
+    },
+    {
+      "id": "current_binary_is_original_build_03",
+      "status": "CHANGED_EXPECTED",
+      "reason": "root確認: Build03の追加optional保存状態に後続履歴経路の資源競合があり修正済みBuild04へ更新。03の性能/品質は中間証拠。最終sourceで再実行予定。"
+    }
+  ],
+  "details": {
+    "fixed_reference_commands_maps_and_recorded_hashes": {
+      "reference_programs": [
+        {
+          "id": "ref0",
+          "speed": 1250000,
+          "preset": "baseline",
+          "query_input_frames": [
+            24000,
+            28800,
+            24000,
+            28800
+          ],
+          "returned_output_frames": [
+            19200,
+            23040,
+            19200,
+            23040
+          ],
+          "raw_bytes": 921600,
+          "recorded_raw_sha256": "6e479987f8358d5a80e3f7759c527eda1c487efce66d3f95d34b0f8267841b6f"
+        },
+        {
+          "id": "ref1",
+          "speed": 1000000,
+          "preset": "baseline",
+          "query_input_frames": [
+            24000,
+            124800,
+            0,
+            4800,
+            48017,
+            52817,
+            48017,
+            192018
+          ],
+          "returned_output_frames": [
+            24000,
+            124800,
+            0,
+            4800,
+            48017,
+            52817,
+            48017,
+            192018
+          ],
+          "raw_bytes": 1152000,
+          "recorded_raw_sha256": "09b80bf6db2ee1577fb4c90932ca1a921bc0a0d3ac9c6e63d4a75a8ce2d55530"
+        },
+        {
+          "id": "ref2",
+          "speed": 400000,
+          "preset": "candidate",
+          "query_input_frames": [
+            22050,
+            66150
+          ],
+          "returned_output_frames": [
+            53411,
+            164145
+          ],
+          "raw_bytes": 8820000,
+          "recorded_raw_sha256": "b84414e771b42cbb722900692c6a6e5d6d31df5b63c92eaf8d7e8c20e26589c6"
+        },
+        {
+          "id": "ref3",
+          "speed": 2000000,
+          "preset": "candidate",
+          "query_input_frames": [
+            22050,
+            26460
+          ],
+          "returned_output_frames": [
+            11230,
+            12858
+          ],
+          "raw_bytes": 1764000,
+          "recorded_raw_sha256": "6f6f701fe08561417f7c3c015d8f495ff380e305ef54de7c61d1143e085f1ea0"
+        },
+        {
+          "id": "ref4",
+          "speed": 1250000,
+          "preset": "candidate",
+          "query_input_frames": [
+            24000,
+            28800
+          ],
+          "returned_output_frames": [
+            19200,
+            23040
+          ],
+          "raw_bytes": 921600,
+          "recorded_raw_sha256": "6e479987f8358d5a80e3f7759c527eda1c487efce66d3f95d34b0f8267841b6f"
+        },
+        {
+          "id": "ref5",
+          "speed": 1000000,
+          "preset": "baseline",
+          "query_input_frames": [
+            12960000,
+            13056000
+          ],
+          "returned_output_frames": [
+            12960000,
+            13056000
+          ],
+          "raw_bytes": 115200000,
+          "recorded_raw_sha256": "16fbeaa14441d008e429f76768b7ce9fb7ec67f7bfa163938198f35bbf398981"
+        },
+        {
+          "id": "ref6",
+          "speed": 1000000,
+          "preset": "candidate",
+          "query_input_frames": [
+            0,
+            4800,
+            48017,
+            52817,
+            48017,
+            192018
+          ],
+          "returned_output_frames": [
+            0,
+            4800,
+            48017,
+            52817,
+            48017,
+            192018
+          ],
+          "raw_bytes": 1152000,
+          "recorded_raw_sha256": "09b80bf6db2ee1577fb4c90932ca1a921bc0a0d3ac9c6e63d4a75a8ce2d55530"
+        }
+      ],
+      "reference_raw_sha_scope": "記録済み実行log・REFERENCES・Map・validator EXPECTED間のSHA一致と現バイト数。115MB参照の全量再hash/PCM再比較は今回実行しない。"
+    },
+    "offline_named_cases_and_rate_derived_long_reference": {
+      "input": {
+        "channels": 1,
+        "rate": 48000,
+        "frames": 288000
+      },
+      "A_input": 48017,
+      "short_B_input": 52817,
+      "long_B_input": 192018,
+      "long_input_length": 144001,
+      "rate_derived_actual_test_source_sha256": "a10263b544249872010e160859984eb1f4c3463f27e5185c9ac8c7a870d23d7e",
+      "rows": [
+        {
+          "id": "offline_baseline",
+          "named_PASS": 14,
+          "independent_fixed_raw_supplied": true,
+          "NOT_EXERCISED_excluded_from_PASS": [
+            "same_lease_preset_mutation"
+          ],
+          "log_sha256": "38f8b299d2096d8a3a50433bba91f2d279233a3584eb9161544712ec65d61028"
+        },
+        {
+          "id": "offline_candidate",
+          "named_PASS": 14,
+          "independent_fixed_raw_supplied": true,
+          "NOT_EXERCISED_excluded_from_PASS": [
+            "same_lease_preset_mutation"
+          ],
+          "log_sha256": "38f8b299d2096d8a3a50433bba91f2d279233a3584eb9161544712ec65d61028"
+        }
+      ]
+    },
+    "native_audit_counts_and_current_main_capture_hashes": {
+      "native_programs": 7,
+      "native_rounds": 14,
+      "native_checks": 42,
+      "offline_checks": 28,
+      "total_checks": 70,
+      "observed_capture_SHA_bytes_read": 25504112,
+      "rows": [
+        {
+          "id": "mono_short125",
+          "mode": "paused",
+          "checks": 6,
+          "rounds": 2,
+          "channels": 1,
+          "period_frames": 3840,
+          "raw_bytes": 94208,
+          "raw_sha256": "44dc1768ff340d337637d8f8422d9dadfb4652a6f2d5eefb5f03e8b3f72dc70c",
+          "output_before_gain_sha256": "661b07c31d8403c64fec0abbeb395317c11e40ee28cbbd560ced0669077ae261",
+          "mixed_frames": 0,
+          "cold_discarded": [
+            19200,
+            768
+          ],
+          "audit_summary_sha256": "1c374c55f8849a547b24bad81b57f251d08befbd8d576d2d32e76ee528669db8"
+        },
+        {
+          "id": "mono_uncached",
+          "mode": "paused",
+          "checks": 6,
+          "rounds": 2,
+          "channels": 1,
+          "period_frames": 100800,
+          "raw_bytes": 2420736,
+          "raw_sha256": "4b7430fcdec39de34216490d231ca3779395cd01a24666da61a8038b9fe2fe3c",
+          "output_before_gain_sha256": "81d1155ea80aef1f77016672b2d2c8a07ef7152d5c21a2f7ecff7eb32f66c230",
+          "mixed_frames": 0,
+          "cold_discarded": [
+            24000,
+            1472
+          ],
+          "audit_summary_sha256": "405843125f9e268f37047d2edb10f49b9b416760fb7994868a8f6b4c52ea31bd"
+        },
+        {
+          "id": "float_uncached040",
+          "mode": "paused",
+          "checks": 6,
+          "rounds": 2,
+          "channels": 2,
+          "period_frames": 110734,
+          "raw_bytes": 5321160,
+          "raw_sha256": "1a19ba95776ad823bee561cbef80f279cf94794cd9768d87e3942762552c8794",
+          "output_before_gain_sha256": "b30f2fed78fed5def7bfaf45caa43e72cb8859b0fc96f95522cf2051850d9f99",
+          "mixed_frames": 0,
+          "cold_discarded": [
+            53411,
+            163
+          ],
+          "audit_summary_sha256": "a9e08da87387d2a36c202af8724bbefd713edc58a14c15a9e0a546d846411e31"
+        },
+        {
+          "id": "float_short200",
+          "mode": "paused",
+          "checks": 6,
+          "rounds": 2,
+          "channels": 2,
+          "period_frames": 1628,
+          "raw_bytes": 82800,
+          "raw_sha256": "1cad3effe15a7a9b9b3b1e46ffde768dd81eb6ea55f043e28f4b36864bf0aed3",
+          "output_before_gain_sha256": "d0d511e30e74b0f26d627a8128006ed468be847ee54c490aa92216dbe973c7a9",
+          "mixed_frames": 0,
+          "cold_discarded": [
+            11230,
+            990
+          ],
+          "audit_summary_sha256": "eed88ca6d177c442433df589922de51b38905e5f9c861f90403afc190bf40ace"
+        },
+        {
+          "id": "mono_entry125_baseline",
+          "mode": "playing",
+          "checks": 6,
+          "rounds": 2,
+          "channels": 1,
+          "period_frames": 3840,
+          "raw_bytes": 110464,
+          "raw_sha256": "d40f69cfd24e4787bf86d3b20ffbdb8f176feacc85f09fb195f00a6674208e50",
+          "output_before_gain_sha256": "9860c2eb790e7157d04b85cfa9c69246c027a5cd1499c09897780c0e9ccc3f98",
+          "mixed_frames": 480,
+          "cold_discarded": [
+            19200,
+            768
+          ],
+          "audit_summary_sha256": "f2486afb1724f883cbacf185478cf15f232687dc141e7d0b6e9859a517afe6b7"
+        },
+        {
+          "id": "mono_entry125_candidate",
+          "mode": "playing",
+          "checks": 6,
+          "rounds": 2,
+          "channels": 1,
+          "period_frames": 3840,
+          "raw_bytes": 112512,
+          "raw_sha256": "704cdaa4ab3dd6a91a57b4d1d42969962250e565c0c963dc9a0403530452eb65",
+          "output_before_gain_sha256": "1c07868185ce95fec1ed79875b08c85fae5573e14834014853ca219b182eada0",
+          "mixed_frames": 480,
+          "cold_discarded": [
+            19200,
+            768
+          ],
+          "audit_summary_sha256": "862dfe5e48db6c1052dc2eb0e511834442ce7f2665f61ee91f7477cba9cd8fe9"
+        },
+        {
+          "id": "longA270",
+          "mode": "paused",
+          "checks": 6,
+          "rounds": 2,
+          "channels": 2,
+          "period_frames": 96000,
+          "raw_bytes": 4612096,
+          "raw_sha256": "38881315ced0592f9f8661cd482c2586a174bbe5a90b3e7d4b2e105041063685",
+          "output_before_gain_sha256": "9db0f9cfa87d49f9e1923a8a063cb76609b4e1fb737628b1cc2d973e310c2fd1",
+          "mixed_frames": 0,
+          "cold_discarded": [
+            12960000,
+            256
+          ],
+          "audit_summary_sha256": "ebc5f9a4b2a85bcee1ed6c6be5c1046f16f8070453d1c15e0a7c5f84fb56b41e"
+        }
+      ],
+      "scope": "観測RAW/加工後ファイルの現SHAと記録/座標/件数を照合。境界式や全sampleビット比較は再実行していない。"
+    },
+    "historical_benchmark_rows": [
+      {
+        "id": "bench_before_02",
+        "programs": 7,
+        "samples": 14,
+        "summary_sha256": "8ac2eb4a564ada64257e385d0aec3010251a0043f89de8f6cd833d3b7438bab6",
+        "early_actual_flags": [
+          0,
+          1
+        ]
+      },
+      {
+        "id": "bench_after_01",
+        "programs": 7,
+        "samples": 14,
+        "summary_sha256": "6afbef3c8c83be958f10287c6f816d0a10001c07e719a452fea0942d2a71e650",
+        "early_actual_flags": [
+          0,
+          1
+        ]
+      }
+    ],
+    "historical_numeric_acceptance": {
+      "metric": "accepted_to_A_alignment_s + Ready_observed_to_first_A_PCM_s (same steady_clock, includes identical explicit 30ms silent hold)",
+      "comparisons": [
+        {
+          "A_seconds": 0,
+          "condition": "fresh_prepare",
+          "n_before": 2,
+          "n_after": 2,
+          "before_median_s": 0.120643729,
+          "after_median_s": 0.132561958,
+          "frozen_maximum_s": 0.370643729,
+          "PASS": true
+        },
+        {
+          "A_seconds": 0,
+          "condition": "same_prepare_re_request",
+          "n_before": 2,
+          "n_after": 2,
+          "before_median_s": 0.0916630835,
+          "after_median_s": 0.09535352050000001,
+          "frozen_maximum_s": 0.3416630835,
+          "PASS": true
+        },
+        {
+          "A_seconds": 30,
+          "condition": "fresh_prepare",
+          "n_before": 2,
+          "n_after": 2,
+          "before_median_s": 3.359734563,
+          "after_median_s": 3.3425607500000005,
+          "frozen_maximum_s": 4.2816814756,
+          "PASS": true
+        },
+        {
+          "A_seconds": 30,
+          "condition": "same_prepare_re_request",
+          "n_before": 2,
+          "n_after": 2,
+          "before_median_s": 3.3441595415,
+          "after_median_s": 0.11498935400000002,
+          "frozen_maximum_s": 0.6688319083,
+          "PASS": true
+        },
+        {
+          "A_seconds": 270,
+          "condition": "fresh_prepare",
+          "n_before": 2,
+          "n_after": 2,
+          "before_median_s": 29.652722146000002,
+          "after_median_s": 29.413081917,
+          "frozen_maximum_s": 35.8332665752,
+          "PASS": true
+        },
+        {
+          "A_seconds": 270,
+          "condition": "same_prepare_re_request",
+          "n_before": 2,
+          "n_after": 2,
+          "before_median_s": 29.271878395999998,
+          "after_median_s": 0.114466375,
+          "frozen_maximum_s": 1,
+          "PASS": true
+        }
+      ],
+      "early_actual_flags": [
+        0,
+        1,
+        0,
+        1
+      ],
+      "quality_counts": "Build03の9program・7native×2round=14round・42native+28offline=70checks・7凍結参照実行の記録/現capture SHA一致を確認。最終Build04の品質合否とは別。"
+    },
+    "binary_identity_change": {
+      "identities": [
+        {
+          "name": "phase62_initial_loop_native",
+          "recorded_build_03": {
+            "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_terminal_initial_20261022_01/a2_build/phase62_initial_loop_native",
+            "bytes": 1060040,
+            "sha256": "6d6a58af4983abd8b4cd4d22f78e655f8b430884ed4c0ff346db3fb841286a82"
+          },
+          "current_shared_build_path": {
+            "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_terminal_initial_20261022_01/a2_build/phase62_initial_loop_native",
+            "bytes": 1060040,
+            "sha256": "b8787365c102737194df159ceb6b4ec07270157c6ee7499303a0c39fe2a895f8"
+          },
+          "equal": false
+        },
+        {
+          "name": "phase62_initial_checkpoint_tests",
+          "recorded_build_03": {
+            "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_terminal_initial_20261022_01/a2_build/phase62_initial_checkpoint_tests",
+            "bytes": 808688,
+            "sha256": "f7869842362481cbafc4ff69b1bc5405a519dc820c92f219d937df699d507c6d"
+          },
+          "current_shared_build_path": {
+            "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_terminal_initial_20261022_01/a2_build/phase62_initial_checkpoint_tests",
+            "bytes": 808688,
+            "sha256": "f1bc64a80362c7f05831f541e49654e5528ee2e4367fe8fe0467db16847b0495"
+          },
+          "equal": false
+        },
+        {
+          "name": "phase62_initial_entry_native",
+          "recorded_build_03": {
+            "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_terminal_initial_20261022_01/a2_build/phase62_initial_entry_native",
+            "bytes": 1059824,
+            "sha256": "64a39af8ac551dd40e6ce7e96c03f41a185d615a0c2f48832582db272b046eea"
+          },
+          "current_shared_build_path": {
+            "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_terminal_initial_20261022_01/a2_build/phase62_initial_entry_native",
+            "bytes": 1059824,
+            "sha256": "0d0c72d2fb4190a3274fa518c48a888c74eb2fc07664ef7b1b582a54fb15963f"
+          },
+          "equal": false
+        }
+      ],
+      "new_build_record": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_terminal_initial_20261022_01/a2_build_record_04/BUILD.json",
+        "bytes": 117352,
+        "sha256": "30b8779a396f0c82c7f3d10d8406325859ce445a966d7aac47e560550b7edc21"
+      },
+      "new_source_sha256": "2684e23e4dff9f3837a1964ec6932aa2ce0e0daba9192f84344024312c6f2c61",
+      "historical_source_sha256": "5b03efe48e714d45ba6012e54ee8f6708f8644243d7b4791b249d841ed79aeff"
+    }
+  },
+  "scope": "Build03の中間証拠に限る保存済み記録/観測capture SHAの独立読取再確認。共有buildパスの現在実行体はBuild04へ変更済み。数値の保存済み合否を最終候補の合否へ読み替えない。",
+  "new_audio_runs": 0,
+  "new_builds": 0,
+  "new_PCM_comparisons": 0,
+  "reference_raw_full_rehash": false,
+  "product_or_test_sources_changed": false,
+  "prior_failed_attempt_preserved": "/Users/taro252/Docker/TimeStretchLab/build/phase62_terminal_initial_20261022_01/a2_quality_01",
+  "public_approved": false,
+  "reviewed_build": "a2_build_record_03",
+  "final_candidate_go": false,
+  "first_read_attempt": {
+    "file_sha256_before_followup": "2a8af5e954cf9391480ce4662b56edb80f7601737895237f294a1da2f8974c29",
+    "checks": [
+      {
+        "id": "current_provenance_identities",
+        "status": "FAIL",
+        "reason": "現ファイルSHA/長が記録と違う: /Users/taro252/Docker/TimeStretchLab/build/phase62_terminal_initial_20261022_01/a2_build/phase62_initial_checkpoint_tests"
+      },
+      {
+        "id": "fixed_reference_commands_maps_and_recorded_hashes",
+        "status": "PASS"
+      },
+      {
+        "id": "offline_named_cases_and_rate_derived_long_reference",
+        "status": "PASS"
+      },
+      {
+        "id": "native_audit_counts_and_current_main_capture_hashes",
+        "status": "PASS"
+      },
+      {
+        "id": "before_after_benchmark_raw_rows_and_aggregates",
+        "status": "FAIL",
+        "reason": "現ファイルSHA/長が記録と違う: /Users/taro252/Docker/TimeStretchLab/build/phase62_terminal_initial_20261022_01/a2_build/phase62_initial_loop_native"
+      },
+      {
+        "id": "frozen_numeric_acceptance_and_performance_comparison",
+        "status": "FAIL",
+        "reason": "'bench_after_01'"
+      }
+    ],
+    "meaning": "初回読取時に共有buildパスの実行体SHA変更を検出。欠落をPASSへ置換せず元の検出結果を保持。"
+  },
+  "known_build_03_limitations_from_root": {
+    "resource_failure": "C!=AのPaused速度連打で追加initial optionalが残り、新seedが3枠目を要求。上限2を守った拒否としてhistory_01のClear継続2件がFailed。",
+    "additional_incomplete": "history_01のF01 candidate 1件は受付期限に間に合わなかった。過去のF01限定PASSを撤回しない。",
+    "followup": "rootは修正済みBuild04で履歴再回帰、性能/品質の最終source再実行、最終候補binaryのアーカイブ保存を実施予定。",
+    "reported_by": "rootの明示連絡。今回の読取レビューが新たな音声再現を実行した証拠ではない。"
+  }
+}

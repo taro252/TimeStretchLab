@@ -73,3 +73,7 @@ Merodoaへ渡す側はReadyをResume前に観測し、古いcontext/準備版を
 [e5レビューREPORT](../results/phase62_e5_review/REPORT.md) の今回限定の局所判定は **PASS / GO**。ユーザーの装置復旧後、同じソースcefdb129…・実行体・参照・条件でnative_recovered_01の全5群41programを新規に実行し、その内数の正常RT8本もPASSした。両Presetで実消費4100周、正常8条件の不足/padding・callback確保/解放・callback/worker期限超過0、buffer512復元を確認した。復旧前の失敗・当時の未実施数は履歴として保持する。
 
 seek機能試験のworker期限超過1件（旧faにも同じ観測、RT承認NOT_ASSESSED）は別記録であり、全41本の期限超過0やseek切替の一般RT承認を主張しない。公開初期値4つ・publicSeekApproved=falseと、物理loopback・試聴・Merodoa/TCC実統合等の別ゲートは維持する。Merodoa本体・UI・submoduleは変更しない。
+
+## 2026-10-22 初回再要求の追加改善
+
+同prepareの初回ReturnToA向け完全A保存状態共有を追加した。自然周回の既存reuseとは別の改善で、fresh cold/解析待ち/Clearを高速化したとは扱わない。設計は [PHASE62_INITIAL_EXACT_REUSE.md](PHASE62_INITIAL_EXACT_REUSE.md)、新規証拠と中間失敗は [追加REPORT](../results/phase62_terminal_initial/REPORT.md)。部分C準備の前に任意初回枠を解放し、既存最大2checkpointを守る。従来の未解決記録・公開ゲートは保持する。
