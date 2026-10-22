@@ -1,0 +1,411 @@
+{
+  "schema": 1,
+  "finding": "Paused Clearによる確定済み速度要求の事後変更を、Clear前のネイティブ個別照会で再現",
+  "verdict": {
+    "old_implementation": "FAIL_EXPECTED",
+    "expected_checks": 14,
+    "passed_checks": 13,
+    "failed_check": "M14.preClear_query_history_close_all_fields_immutable",
+    "process_exit": 1,
+    "timeout": false,
+    "elapsed_seconds": 3.905622250022134,
+    "meaning": "既知不具合の検出成功。修正版合格・公開承認を意味しない"
+  },
+  "provenance": {
+    "review_basis_sha": "e4a990787f149b546827fd4dcb96b9708b3662f2",
+    "old_engine_source_matches_review_basis": true,
+    "engine_sha256": "e9e1c0953e9caf4c13a25335e11a610370423b070ba63f3d5ba5fe5b2d53f5fd",
+    "comparison_build": "baseline_02",
+    "source_list_sha256": "4b86dc972080038ca419e45c78583377b5f94bd0dabe01a9e59dcbdd13f69113",
+    "binary_sha256": "04017339fe187e6db51d1e9063ff23fef4a20746091cc0f3d3abe17ce1737c1f",
+    "driver_sha256": "e1056a20580c18561df089f586bc497dc616a16895dcb60b739deb9ae9e16352",
+    "note": "旧Engine.mmと共通新試験・新helperで比較。旧Engineは新helperを呼ばない。"
+  },
+  "condition": {
+    "preset": "Baseline",
+    "sample_rate_hz": 48000,
+    "channels": 1,
+    "input_seconds": 6,
+    "input_sha256": "ce21edd20991206d32bef0f45c6025025f90639be37ed8408261961f718bf1c2",
+    "A_frame": 24000,
+    "B_frame_exclusive": 28800,
+    "AB_milliseconds": 100,
+    "initial_speed": 1.0,
+    "paused_requested_speed": 1.25,
+    "device_rate_hz": 48000,
+    "device_buffer_frames": 512,
+    "callback_gate": false,
+    "build": "Release/arm64",
+    "machine": "MacBookAir10,1 / Apple M1 / macOS 26.6.2 (25G83)"
+  },
+  "sequence": [
+    "100ms AB ReturnToA",
+    "Play後3周回以上",
+    "Pause",
+    "速度1.25を受付",
+    "ReadyForResume",
+    "明示Resume",
+    "同一IDの実PCM Completed",
+    "再Pause",
+    "Clear直前のネイティブ個別照会を所有コピー",
+    "Paused Clear",
+    "Clear後の個別照会・明示履歴",
+    "close後の独立終了監査所有コピー"
+  ],
+  "same_request": {
+    "id_decimal": "9223372036854775809",
+    "loop_id": 1,
+    "state_before_and_after": "Completed",
+    "clear_continuation_before_and_after": false,
+    "session_before_and_after": 3,
+    "render_epoch_before_and_after": 6,
+    "before_source": "Clear直前のネイティブ個別照会。bridge/VMキャッシュおよびClear後凍結値を期待値に使わない"
+  },
+  "comparison": {
+    "compared_field_count": 39,
+    "compared_fields": [
+      "id",
+      "loop_id",
+      "input_generation",
+      "source_session",
+      "source_epoch",
+      "accepted_cycle",
+      "speed_micros",
+      "state",
+      "deferral",
+      "preparation_version",
+      "dynamic_operation_id",
+      "dynamic_session",
+      "planning_epoch",
+      "session",
+      "render_epoch",
+      "producer_cycle",
+      "loop_cycle",
+      "map_version",
+      "output_end",
+      "accepted_ns",
+      "preparing_ns",
+      "ready_ns",
+      "commit_observed_ns",
+      "first_changed_published_observed_ns",
+      "first_PCM_observed_ns",
+      "completed_ns",
+      "terminal_ns",
+      "first_changed_output",
+      "completion_output",
+      "resume_input_frame",
+      "discarded_for_paused_clear_frames",
+      "committed",
+      "output_started",
+      "fixed_boundary",
+      "fixed_boundary_committed",
+      "clear_continuation",
+      "adoption_pending",
+      "no_change",
+      "reason"
+    ],
+    "all_field_names_identical": true,
+    "deltas": {
+      "after_query": [
+        {
+          "field": "discarded_for_paused_clear_frames",
+          "before": 0,
+          "after": 12288
+        }
+      ],
+      "explicit_history": [
+        {
+          "field": "discarded_for_paused_clear_frames",
+          "before": 0,
+          "after": 12288
+        }
+      ],
+      "close_owned_copy": [
+        {
+          "field": "discarded_for_paused_clear_frames",
+          "before": 0,
+          "after": 12288
+        }
+      ]
+    },
+    "unchanged_field_count": 38,
+    "all_other_values_identical": true,
+    "all_three_after_values_identical": true,
+    "terminalExplicitImmutable": false,
+    "terminalHistoryImmutable": false,
+    "terminalFinalImmutable": false,
+    "frozen_native_before_value": {
+      "id": 9223372036854775809,
+      "loop_id": 1,
+      "input_generation": 1,
+      "source_session": 2,
+      "source_epoch": 5,
+      "accepted_cycle": 3,
+      "speed_micros": 1250000,
+      "state": "Completed",
+      "deferral": 0,
+      "preparation_version": 3,
+      "dynamic_operation_id": 0,
+      "dynamic_session": 0,
+      "planning_epoch": 0,
+      "session": 3,
+      "render_epoch": 6,
+      "producer_cycle": 0,
+      "loop_cycle": 3,
+      "map_version": 0,
+      "output_end": 0,
+      "accepted_ns": 194810164280000,
+      "preparing_ns": 194810164749583,
+      "ready_ns": 194810218584250,
+      "commit_observed_ns": 0,
+      "first_changed_published_observed_ns": 0,
+      "first_PCM_observed_ns": 194810240777291,
+      "completed_ns": 194810240777291,
+      "terminal_ns": 194810240777291,
+      "first_changed_output": 0,
+      "completion_output": 0,
+      "resume_input_frame": 24448,
+      "discarded_for_paused_clear_frames": 0,
+      "committed": false,
+      "output_started": true,
+      "fixed_boundary": false,
+      "fixed_boundary_committed": false,
+      "clear_continuation": false,
+      "adoption_pending": false,
+      "no_change": false,
+      "reason": ""
+    }
+  },
+  "actual_discard": {
+    "session": 3,
+    "render_epoch": 6,
+    "published": 32359,
+    "output_start": 19559,
+    "observer_RAW_consumed": 512,
+    "actual_unconsumed_FIFO_frames": 12288,
+    "Snapshot_discard_delta": 12288,
+    "final_data_available": true,
+    "published_minus_logical_consumed_used": false
+  },
+  "close_audit": {
+    "delivery": {
+      "record": "audit_delivery",
+      "calls": 1,
+      "sequence": 1,
+      "received": true,
+      "workers_joined": true,
+      "retirement_complete": true,
+      "duplicate_delivery": false,
+      "oversized": false,
+      "copy_failed": false,
+      "invalid_marker": false,
+      "copied_count": 1
+    },
+    "accepted_IDs_decimal": [
+      "9223372036854775809"
+    ],
+    "audited_IDs_decimal": [
+      "9223372036854775809"
+    ],
+    "sets_equal_and_unique": true,
+    "all_terminal": true,
+    "owned_copy_retained_after_engine_destruction": true
+  },
+  "merodoa_14check_mapping": {
+    "reference_commit": "33ddcb6e3dafcb4f5f408a465b726824bf9f5005",
+    "test_path": "NativeAudio/Tests/LoopBridgeIntegrationTests.mm",
+    "test_sha256": "342eadd8fe6a0fc4cc748288d639856af08a257ca054dc3b670fec65e9743abd",
+    "mode": "--audit-immutability",
+    "mapping": [
+      {
+        "check": 1,
+        "TimeStretchLab_ID": "M01.loop_allowed_manual_seek_disabled",
+        "Merodoa_line": 62,
+        "contract": "Loop実験機能が許可され、手動seek実験機能は無効",
+        "old_result": "PASS",
+        "extension": ""
+      },
+      {
+        "check": 2,
+        "TimeStretchLab_ID": "M02.AB_100ms_accepted",
+        "Merodoa_line": 71,
+        "contract": "100ms AB範囲受付",
+        "old_result": "PASS",
+        "extension": ""
+      },
+      {
+        "check": 3,
+        "TimeStretchLab_ID": "M03.actual_B_boundary_observed",
+        "Merodoa_line": 78,
+        "contract": "3周回後の実B境界を取得",
+        "old_result": "PASS",
+        "extension": ""
+      },
+      {
+        "check": 4,
+        "TimeStretchLab_ID": "M04.initial_duplicate_ID0",
+        "Merodoa_line": 85,
+        "contract": "初期同値速度はDuplicateInitial、ID=0",
+        "old_result": "PASS",
+        "extension": ""
+      },
+      {
+        "check": 5,
+        "TimeStretchLab_ID": "M05.Pause_stops_cycles",
+        "Merodoa_line": 96,
+        "contract": "Pause後に周回が進行しない",
+        "old_result": "PASS",
+        "extension": ""
+      },
+      {
+        "check": 6,
+        "TimeStretchLab_ID": "M06.paused125_Accepted",
+        "Merodoa_line": 97,
+        "contract": "Pause中の1.25要求を受付",
+        "old_result": "PASS",
+        "extension": ""
+      },
+      {
+        "check": 7,
+        "TimeStretchLab_ID": "M07.ReadyForResume_without_PCM",
+        "Merodoa_line": 100,
+        "contract": "ReadyForResumeは準備版あり・出力未開始",
+        "old_result": "PASS",
+        "extension": ""
+      },
+      {
+        "check": 8,
+        "TimeStretchLab_ID": "M08.same_ID_Completed_frozen_before_Clear",
+        "Merodoa_line": 108,
+        "contract": "明示Resume後に同じIDがCompleted、再PauseしてClear直前の個別照会を凍結",
+        "old_result": "PASS",
+        "extension": ""
+      },
+      {
+        "check": 9,
+        "TimeStretchLab_ID": "M09.Paused_Clear_accepted",
+        "Merodoa_line": 115,
+        "contract": "Paused Clear受付",
+        "old_result": "PASS",
+        "extension": ""
+      },
+      {
+        "check": 10,
+        "TimeStretchLab_ID": "M10.explicit_history_exact_Accepted_count",
+        "Merodoa_line": 122,
+        "contract": "明示履歴件数がAccepted ID件数と一致",
+        "old_result": "PASS",
+        "extension": ""
+      },
+      {
+        "check": 11,
+        "TimeStretchLab_ID": "M11.close_audit_owned_copy_all_joined",
+        "Merodoa_line": 126,
+        "contract": "終了監査配送・即時所有コピー・全worker join・全退役完了",
+        "old_result": "PASS",
+        "extension": ""
+      },
+      {
+        "check": 12,
+        "TimeStretchLab_ID": "M12.close_operations_all_terminal",
+        "Merodoa_line": 128,
+        "contract": "終了監査の各要求が終端",
+        "old_result": "PASS",
+        "extension": ""
+      },
+      {
+        "check": 13,
+        "TimeStretchLab_ID": "M13.close_Accepted_ID_set_exact",
+        "Merodoa_line": 129,
+        "contract": "終了監査のAccepted ID集合が完全一致",
+        "old_result": "PASS",
+        "extension": ""
+      },
+      {
+        "check": 14,
+        "TimeStretchLab_ID": "M14.preClear_query_history_close_all_fields_immutable",
+        "Merodoa_line": 134,
+        "contract": "Clear前の終端値とClear後個別照会・明示履歴・close所有コピーを全フィールド比較",
+        "old_result": "FAIL",
+        "extension": "明示履歴との全フィールド比較と実破棄数非ゼロ照合も要求"
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "path": "build/phase62_terminal_initial_20261022_01/a1_baseline_01/EXPECTED.json",
+      "bytes": 667,
+      "sha256": "0d16ad72fe6b6af4a8f891903ba4f27fcade97e7d518551f7c28707f7e8b889a"
+    },
+    {
+      "path": "build/phase62_terminal_initial_20261022_01/a1_baseline_01/PROCESS.json",
+      "bytes": 70,
+      "sha256": "f3973351ea16fdb5b0b5fe4b6bd9a8dc2a8f6dc125c61fd35f3723ed12cce2f0"
+    },
+    {
+      "path": "build/phase62_terminal_initial_20261022_01/a1_baseline_01/run.log",
+      "bytes": 73,
+      "sha256": "49ac30adccda096f40fde92e45773f2514cd1b3ceb45edf678bd68e2b28ddcb8"
+    },
+    {
+      "path": "build/phase62_terminal_initial_20261022_01/a1_baseline_01/case/EXPECTED.json",
+      "bytes": 1371,
+      "sha256": "302084ba2ac1ccae2e6a99027829345cf8eb099ce1bc4bf4c013020ff113ba23"
+    },
+    {
+      "path": "build/phase62_terminal_initial_20261022_01/a1_baseline_01/case/SUMMARY.json",
+      "bytes": 193,
+      "sha256": "95a7b225c3ce00a0a0ef250d7a92a133fc85baa75dd48ef1bbd0be44d7881c0c"
+    },
+    {
+      "path": "build/phase62_terminal_initial_20261022_01/a1_baseline_01/case/checks.jsonl",
+      "bytes": 733,
+      "sha256": "7c66bc6f77ee69ba9bba3cd19e61747086983ed5df87127a47437ecc4dfd09d6"
+    },
+    {
+      "path": "build/phase62_terminal_initial_20261022_01/a1_baseline_01/case/terminal_before_Clear_query.json",
+      "bytes": 895,
+      "sha256": "3c49728bd63ae6910c5854206a29c08b7c19fa0edc4923efd1a0e12572085f34"
+    },
+    {
+      "path": "build/phase62_terminal_initial_20261022_01/a1_baseline_01/case/terminal_after_Clear_query.json",
+      "bytes": 899,
+      "sha256": "f2bc69e50c28254d4d09c22eb328679fc23d2abb83c3fdc0f0e6eecedef09d8a"
+    },
+    {
+      "path": "build/phase62_terminal_initial_20261022_01/a1_baseline_01/case/after_Clear_history.jsonl",
+      "bytes": 899,
+      "sha256": "f2bc69e50c28254d4d09c22eb328679fc23d2abb83c3fdc0f0e6eecedef09d8a"
+    },
+    {
+      "path": "build/phase62_terminal_initial_20261022_01/a1_baseline_01/case/terminal_close_owned_copy.json",
+      "bytes": 899,
+      "sha256": "f2bc69e50c28254d4d09c22eb328679fc23d2abb83c3fdc0f0e6eecedef09d8a"
+    },
+    {
+      "path": "build/phase62_terminal_initial_20261022_01/a1_baseline_01/case/final_owned_audit.jsonl",
+      "bytes": 1120,
+      "sha256": "a65ffd1561fa49aa4f40159a6fec3f6956b0cf6d3f43c81f187a9402b696f4d2"
+    },
+    {
+      "path": "build/phase62_terminal_initial_20261022_01/a1_baseline_01/case/old_owner_actual_discard.json",
+      "bytes": 241,
+      "sha256": "8ee15f4b3ffbcd40988069135840c2c74bc43221763113f612148cf243863b20"
+    },
+    {
+      "path": "build/phase62_terminal_initial_20261022_01/a1_baseline_01/case/immutability_comparison.json",
+      "bytes": 3871,
+      "sha256": "8d36447c4fbe2ff3d0ff23f8d6109746af565fef3b6f04f7d6ea46385160eefc"
+    },
+    {
+      "path": "build/phase62_terminal_initial_20261022_01/a1_baseline_01/case/native_observation.json",
+      "bytes": 266,
+      "sha256": "707581df483bcfdfca00e33f0e8817c84127947f9d5f63b769b9d2c496fdac7c"
+    }
+  ],
+  "limits": [
+    "この記録は旧版でのA1不具合の再現に限定する。修正版の最終件数・ハッシュは統合担当が別集計する。",
+    "独立DSP品質参照・物理出音時間・実時間期限保証・Sandbox/TCC/Bookmark受入・公開/既定採用の判定は含めない。",
+    "過去D07/D08/F01の保存証拠および限定PASSは変更しない。"
+  ]
+}

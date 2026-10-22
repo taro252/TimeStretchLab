@@ -142,3 +142,9 @@ Clear準備中にResumeを受理した場合は、旧ownerのjoin後に一度だ
 [e5レビューREPORT](../results/phase62_e5_review/REPORT.md) の今回限定の局所判定は **PASS / GO**。ユーザーの装置復旧後、同じソースcefdb129…・実行体・参照・条件でnative_recovered_01の全5群41programを新規に実行し、その内数の正常RT8本もPASSした。両Presetで実消費4100周、正常8条件の不足/padding・callback確保/解放・callback/worker期限超過0、buffer512復元を確認した。復旧前の失敗・当時の未実施数は履歴として保持する。
 
 seek機能試験のworker期限超過1件（旧faにも同じ観測、RT承認NOT_ASSESSED）は別記録であり、全41本の期限超過0やseek切替の一般RT承認を主張しない。公開初期値4つ・publicSeekApproved=falseと、物理loopback・試聴・Merodoa/TCC実統合等の別ゲートは維持する。Merodoa本体・UI・submoduleは変更しない。
+
+## 2026-10-22 A1：Paused Clearと確定速度履歴
+
+`PHASE62_TERMINAL_CLEAR_DESIGN.md` と `../results/phase62_terminal_initial/A1_REPORT.md` を参照。Clear自身のSnapshot計数と速度要求別計数を分離し、移管済み・未終端・同一入力/Loop/準備版の要求だけを更新する。公開API・構造体フィールドは維持する。Clear前のネイティブCompleted値から、後の個別照会・履歴・close終了監査まで全フィールド不変を確認する14 checksと限定回帰は、新規Release arm64 binaryで147/147 PASS。旧13/14失敗と過去F01/D07/D08は別証拠として保持する。
+
+Merodoa側は終端キャッシュで補正せず、同じ14 checksをbridge経由でも再確認する。終了監査contextはclose完了まで保持し、借用spanを即時所有コピーする。今回の判定は履歴修正の限定PASS。初回Exact性能A2・一般公開・Merodoa既定採用の承認には拡張しない。

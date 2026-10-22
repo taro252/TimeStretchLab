@@ -983,7 +983,8 @@ struct ProgressiveMacPlaybackEngine::Impl {
             old->setRealtimeRendering(false);old->stop();
             {std::lock_guard lock(mutex);if(index<seeks.size())seekOp(index).discardedForSeekFrames=old->available();
                 if(auto* speed=stoppedSpeed();speed&&speed->state==StoppedSpeedState::Preparing&&speed->preparationVersion==version)speed->discardedForStoppedSpeedFrames=old->available();
-                if(continuation&&pausedClearInput){loop.pausedClearDiscardedFrames+=old->available();loop.pausedClearInputFrame=*pausedClearInput;if(auto* external=loopSpeeds.find(jobSpeedRequestID))external->discardedForPausedClearFrames=old->available();}}
+                if(continuation&&pausedClearInput){const auto discarded=old->available();loop.pausedClearDiscardedFrames+=discarded;loop.pausedClearInputFrame=*pausedClearInput;
+                    loopSpeeds.recordPausedClearDiscard(jobSpeedRequestID,jobLoopID,old->inputGeneration(),version,discarded);}}
             ProgressiveClosedEpoch audit;audit.renderEpoch=oldTarget->currentEpoch();audit.pipeline=old->diagnostics();audit.operations=old->speedOperations();
             if(audit.operations.size()>256){audit.droppedOperations=audit.operations.size()-256;audit.operations.erase(audit.operations.begin(),audit.operations.end()-256);}
             {std::lock_guard lock(mutex);for(auto& op:seeks)if(op.renderEpoch==oldTarget->currentEpoch()){op.firstCallbackNs=oldTarget->firstPcm;op.estimatedPresentationNs=oldTarget->firstTarget;}}

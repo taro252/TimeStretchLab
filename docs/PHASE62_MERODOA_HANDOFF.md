@@ -136,3 +136,9 @@ KeepPosition初回で自己反復できない場合、供給jobの選択・next�
 F01の限定局所完了、一般公開、Merodoa既定採用は別判定であり、最終判定はF01 REPORTへ記録する。allowExperimentalLoops、publicLoopApproved、seek、currentCycleSpeedChanges、publicSeekApprovedの現行falseを維持する。Merodoaの初回選択・拒否/取消・再起動・曲変更・bookmark・TCC・最新要求とUI整合は実アプリの別受入試験とし、今回Merodoa本体・UI・submoduleを変更しない。
 
 今回のF01限定局所判定は **PASS / GO**。旧比較4/4再現、修正版10 program/64 checks、変更後Engineの既存75 program/326 checks、Release/Debug各20 CTest、境界872 checks/独立handoff6 program、実出力41 program/内数の正常RT8本が完了した。共有DSPの全161速度等は実依存・binary・入力・凍結参照を照合した限定再利用で、新規実施へ付け替えていない。seek機能試験のworker期限観測は今回Candidate通常/R0各0、Baseline通常/R0各1、機能PASS/RT承認NOT_ASSESSEDで別記する。一般公開・Merodoa既定採用のNO-GOは維持する。
+
+## 2026-10-22 A1：Paused Clearと確定速度履歴
+
+`PHASE62_TERMINAL_CLEAR_DESIGN.md` と `../results/phase62_terminal_initial/A1_REPORT.md` を参照。Clear自身のSnapshot計数と速度要求別計数を分離し、移管済み・未終端・同一入力/Loop/準備版の要求だけを更新する。公開API・構造体フィールドは維持する。Clear前のネイティブCompleted値から、後の個別照会・履歴・close終了監査まで全フィールド不変を確認する14 checksと限定回帰は、新規Release arm64 binaryで147/147 PASS。旧13/14失敗と過去F01/D07/D08は別証拠として保持する。
+
+Merodoa側は終端キャッシュで補正せず、同じ14 checksをbridge経由でも再確認する。終了監査contextはclose完了まで保持し、借用spanを即時所有コピーする。今回の判定は履歴修正の限定PASS。初回Exact性能A2・一般公開・Merodoa既定採用の承認には拡張しない。

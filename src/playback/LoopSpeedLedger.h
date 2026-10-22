@@ -43,6 +43,15 @@ public:
             else{op.state=LoopSpeedState::Cancelled;op.terminalNs=now;op.reason="所有者の退役時に未完了の出力適用を終了（開始/commitの事実は保持）";}
         }
     }
+    // Clear's own Snapshot is independent. Only the live request explicitly
+    // transferred to this exact preparation may receive its discard diagnostic.
+    bool recordPausedClearDiscard(std::uint64_t id,std::uint64_t loopID,std::uint64_t inputGeneration,
+                                  std::uint64_t preparationVersion,std::uint64_t frames)noexcept {
+        auto* external=find(id);
+        if(!external||!external->clearContinuation||terminal(external->state)||external->loopID!=loopID||
+           external->inputGeneration!=inputGeneration||external->preparationVersion!=preparationVersion)return false;
+        external->discardedForPausedClearFrames=frames;return true;
+    }
     const std::vector<LoopSpeedOperation>& records()const noexcept {return records_;}
 };
 }
