@@ -1,0 +1,1185 @@
+{
+  "suite": "phase62_quality_reuse_independent_audit",
+  "status": "PASS",
+  "run_complete": true,
+  "expected": 22,
+  "executed": 22,
+  "passed": 22,
+  "recipe": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_control_ab/recipes/audit_reused_quality.py",
+    "bytes": 28447,
+    "sha256": "d462c636455a4c7a4c4fb4ffcb0adb8b1a8b3682296c01818ef5c5bc0247a669"
+  },
+  "current": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06",
+  "previous": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_04",
+  "checks": [
+    {
+      "id": "root.complete_06",
+      "status": "PASS",
+      "detail": {
+        "programs": 12,
+        "checks": 88,
+        "current_source": "82201613cd1620fa5389166ca7fd49fe652bb8064c9a1ce3eca74248f6f63c6a",
+        "independent_pcm_recomputed": false
+      }
+    },
+    {
+      "id": "root.old_failures_preserved",
+      "status": "PASS",
+      "detail": {
+        "quality01": "INCOMPLETE",
+        "quality02": "INCOMPLETE",
+        "old_full_summaries_reused_as_GO": false,
+        "reused_scope": [
+          "before_cold_A0",
+          "before_cold_A30",
+          "before_cold_A270"
+        ],
+        "public_go": false
+      }
+    },
+    {
+      "id": "reference.prefix_baseline",
+      "status": "PASS",
+      "detail": {
+        "raw_sha256": "d0411e8ce7b00301c86eaea723187867a83099c59427f02c914e32ef503b8e24",
+        "input_sha256": "d992a233186ff91da5c79eb2d8b8e7c22f158e52423f9bec63eb0b9e266dd5eb",
+        "positions": [
+          384031,
+          388831,
+          528032,
+          24011,
+          28811,
+          0,
+          4800
+        ],
+        "frozen_binary_sha256": "de70db5fbc4284fd13f3f9a7cf257cbca1d8d9a5755859067c7cfb234d1d5748"
+      }
+    },
+    {
+      "id": "reference.prefix_candidate",
+      "status": "PASS",
+      "detail": {
+        "raw_sha256": "d0411e8ce7b00301c86eaea723187867a83099c59427f02c914e32ef503b8e24",
+        "input_sha256": "d992a233186ff91da5c79eb2d8b8e7c22f158e52423f9bec63eb0b9e266dd5eb",
+        "positions": [
+          384031,
+          388831,
+          528032,
+          24011,
+          28811,
+          0,
+          4800
+        ],
+        "frozen_binary_sha256": "de70db5fbc4284fd13f3f9a7cf257cbca1d8d9a5755859067c7cfb234d1d5748"
+      }
+    },
+    {
+      "id": "reference.warm",
+      "status": "PASS",
+      "detail": {
+        "raw_sha256": "a9d65423fefb996214a06538205df49eaaa1b0724d0c3c29a7f0192cabe1ddbd",
+        "input_sha256": "5fb7423802baefe17bf5df62e79cd534bb2ad7c41ff4e3a2ae030a8fd4df77e9",
+        "positions": [
+          1440000,
+          1536000
+        ],
+        "frozen_binary_sha256": "de70db5fbc4284fd13f3f9a7cf257cbca1d8d9a5755859067c7cfb234d1d5748"
+      }
+    },
+    {
+      "id": "reference.cold",
+      "status": "PASS",
+      "detail": {
+        "raw_sha256": "9a5d3763a59e1e6d33618ff105cbb3142e429db118ac14f824ca8bcb06eae6f3",
+        "input_sha256": "94223f409e8db5d44029499f057f81ca7368e2a17a47ba9a7aea3a337050e8c4",
+        "positions": [
+          0,
+          96000,
+          1440000,
+          1536000,
+          12960000,
+          13056000
+        ],
+        "frozen_binary_sha256": "de70db5fbc4284fd13f3f9a7cf257cbca1d8d9a5755859067c7cfb234d1d5748"
+      }
+    },
+    {
+      "id": "reuse.before_cold_A0",
+      "status": "PASS",
+      "detail": {
+        "checks": 6,
+        "rounds": 2,
+        "minimum_cycles": 3,
+        "raw_sha256": "cf3bae22dc7a194c48fd2e911469419f0ac17a7d994d23577fcd0fa136997ac8",
+        "output_sha256": "ff4125db32bc5dce619951adcf3a50fe945c5525b014791966218d12fd0324f3",
+        "host_sha256": "cc702f0ec7f839ec5a4799158a4e4ef3f0a6fc5818b826372bad5f877232b6d7",
+        "execution_source": "78edf9b652dd490d234f2318acc711599d9936c640fb2ddf8f6d2c17b974fab9",
+        "final_job_source": "e00ab9fa207a95e5e4bb9af621cc3a00745694b52081845568a185bf34e0df4a",
+        "reused_native_and_validation": true,
+        "source_record_chain": [
+          {
+            "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_04/SUMMARY.json",
+            "bytes": 55765,
+            "sha256": "ced4e4169cb8bc262bb2e5e713ba821a2765d8d119a9fa1c7949bb46abe85a71"
+          },
+          {
+            "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_03/SUMMARY.json",
+            "bytes": 56682,
+            "sha256": "6216013be6a95974e8b7a0b0f711b8eff362a7bf86ba616bf1c0a6b48e6e990f"
+          },
+          {
+            "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/SUMMARY.json",
+            "bytes": 52807,
+            "sha256": "d4fcd7947269817da707c3c17502b03382109a655579436c5990cb5706667443"
+          }
+        ],
+        "capture": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A0",
+        "audit": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A0_audit",
+        "same_binary_allows_source_manifest_alias": true
+      }
+    },
+    {
+      "id": "reuse.before_cold_A30",
+      "status": "PASS",
+      "detail": {
+        "checks": 6,
+        "rounds": 2,
+        "minimum_cycles": 3,
+        "raw_sha256": "0732ee2c423436587343b6e9c21950aafdba3bb3165da955093e4870f929544b",
+        "output_sha256": "3577d2058421aabf87a8d847ff357f9e58fd208210535680393fdecb2bfc7440",
+        "host_sha256": "cc702f0ec7f839ec5a4799158a4e4ef3f0a6fc5818b826372bad5f877232b6d7",
+        "execution_source": "78edf9b652dd490d234f2318acc711599d9936c640fb2ddf8f6d2c17b974fab9",
+        "final_job_source": "e00ab9fa207a95e5e4bb9af621cc3a00745694b52081845568a185bf34e0df4a",
+        "reused_native_and_validation": true,
+        "source_record_chain": [
+          {
+            "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_04/SUMMARY.json",
+            "bytes": 55765,
+            "sha256": "ced4e4169cb8bc262bb2e5e713ba821a2765d8d119a9fa1c7949bb46abe85a71"
+          },
+          {
+            "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_03/SUMMARY.json",
+            "bytes": 56682,
+            "sha256": "6216013be6a95974e8b7a0b0f711b8eff362a7bf86ba616bf1c0a6b48e6e990f"
+          },
+          {
+            "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/SUMMARY.json",
+            "bytes": 52807,
+            "sha256": "d4fcd7947269817da707c3c17502b03382109a655579436c5990cb5706667443"
+          }
+        ],
+        "capture": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A30",
+        "audit": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A30_audit",
+        "same_binary_allows_source_manifest_alias": true
+      }
+    },
+    {
+      "id": "reuse.before_cold_A270",
+      "status": "PASS",
+      "detail": {
+        "checks": 6,
+        "rounds": 2,
+        "minimum_cycles": 3,
+        "raw_sha256": "4695c6bd40d4b34c107fef8a6f0140969129cb235f5f2cb4a1d2324b3020e93b",
+        "output_sha256": "c0abe3e27ffa32dc722b759a114537d6fbe092aabd274a8a2e12bbd46be2dbc7",
+        "host_sha256": "cc702f0ec7f839ec5a4799158a4e4ef3f0a6fc5818b826372bad5f877232b6d7",
+        "execution_source": "78edf9b652dd490d234f2318acc711599d9936c640fb2ddf8f6d2c17b974fab9",
+        "final_job_source": "e00ab9fa207a95e5e4bb9af621cc3a00745694b52081845568a185bf34e0df4a",
+        "reused_native_and_validation": true,
+        "source_record_chain": [
+          {
+            "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_04/SUMMARY.json",
+            "bytes": 55765,
+            "sha256": "ced4e4169cb8bc262bb2e5e713ba821a2765d8d119a9fa1c7949bb46abe85a71"
+          },
+          {
+            "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_03/SUMMARY.json",
+            "bytes": 56682,
+            "sha256": "6216013be6a95974e8b7a0b0f711b8eff362a7bf86ba616bf1c0a6b48e6e990f"
+          },
+          {
+            "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/SUMMARY.json",
+            "bytes": 52807,
+            "sha256": "d4fcd7947269817da707c3c17502b03382109a655579436c5990cb5706667443"
+          }
+        ],
+        "capture": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A270",
+        "audit": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A270_audit",
+        "same_binary_allows_source_manifest_alias": true
+      }
+    },
+    {
+      "id": "reuse.after_cold_A0",
+      "status": "PASS",
+      "detail": {
+        "checks": 6,
+        "rounds": 2,
+        "minimum_cycles": 3,
+        "raw_sha256": "cf3bae22dc7a194c48fd2e911469419f0ac17a7d994d23577fcd0fa136997ac8",
+        "output_sha256": "ff4125db32bc5dce619951adcf3a50fe945c5525b014791966218d12fd0324f3",
+        "host_sha256": "f54516885d9aa34e4531134c8b2b45227ae38d22c1bb8cbc564ecaa00ccf3db7",
+        "execution_source": "82201613cd1620fa5389166ca7fd49fe652bb8064c9a1ce3eca74248f6f63c6a",
+        "final_job_source": "82201613cd1620fa5389166ca7fd49fe652bb8064c9a1ce3eca74248f6f63c6a",
+        "reused_native_and_validation": false,
+        "source_record_chain": [],
+        "capture": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A0",
+        "audit": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A0_audit",
+        "same_binary_allows_source_manifest_alias": false
+      }
+    },
+    {
+      "id": "reuse.after_cold_A30",
+      "status": "PASS",
+      "detail": {
+        "checks": 6,
+        "rounds": 2,
+        "minimum_cycles": 3,
+        "raw_sha256": "0732ee2c423436587343b6e9c21950aafdba3bb3165da955093e4870f929544b",
+        "output_sha256": "3577d2058421aabf87a8d847ff357f9e58fd208210535680393fdecb2bfc7440",
+        "host_sha256": "f54516885d9aa34e4531134c8b2b45227ae38d22c1bb8cbc564ecaa00ccf3db7",
+        "execution_source": "82201613cd1620fa5389166ca7fd49fe652bb8064c9a1ce3eca74248f6f63c6a",
+        "final_job_source": "82201613cd1620fa5389166ca7fd49fe652bb8064c9a1ce3eca74248f6f63c6a",
+        "reused_native_and_validation": false,
+        "source_record_chain": [],
+        "capture": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A30",
+        "audit": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A30_audit",
+        "same_binary_allows_source_manifest_alias": false
+      }
+    },
+    {
+      "id": "reuse.after_cold_A270",
+      "status": "PASS",
+      "detail": {
+        "checks": 6,
+        "rounds": 2,
+        "minimum_cycles": 3,
+        "raw_sha256": "4695c6bd40d4b34c107fef8a6f0140969129cb235f5f2cb4a1d2324b3020e93b",
+        "output_sha256": "c0abe3e27ffa32dc722b759a114537d6fbe092aabd274a8a2e12bbd46be2dbc7",
+        "host_sha256": "f54516885d9aa34e4531134c8b2b45227ae38d22c1bb8cbc564ecaa00ccf3db7",
+        "execution_source": "82201613cd1620fa5389166ca7fd49fe652bb8064c9a1ce3eca74248f6f63c6a",
+        "final_job_source": "82201613cd1620fa5389166ca7fd49fe652bb8064c9a1ce3eca74248f6f63c6a",
+        "reused_native_and_validation": false,
+        "source_record_chain": [],
+        "capture": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A270",
+        "audit": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A270_audit",
+        "same_binary_allows_source_manifest_alias": false
+      }
+    },
+    {
+      "id": "warm.before_warm_serial",
+      "status": "PASS",
+      "detail": {
+        "native_checks": 1,
+        "independent_checks": 5,
+        "metadata_only_extra_boundary_check": true,
+        "periodic_spans": 759,
+        "natural_B_spans": 2,
+        "final_cycles": 2,
+        "clear_exit_spans": 1,
+        "pcm_recomputed": false
+      }
+    },
+    {
+      "id": "warm.before_warm_replace",
+      "status": "PASS",
+      "detail": {
+        "native_checks": 1,
+        "independent_checks": 5,
+        "metadata_only_extra_boundary_check": true,
+        "periodic_spans": 436,
+        "natural_B_spans": 2,
+        "final_cycles": 2,
+        "clear_exit_spans": 0,
+        "pcm_recomputed": false
+      }
+    },
+    {
+      "id": "warm.after_warm_serial",
+      "status": "PASS",
+      "detail": {
+        "native_checks": 1,
+        "independent_checks": 5,
+        "metadata_only_extra_boundary_check": true,
+        "periodic_spans": 569,
+        "natural_B_spans": 2,
+        "final_cycles": 2,
+        "clear_exit_spans": 1,
+        "pcm_recomputed": false
+      }
+    },
+    {
+      "id": "warm.after_warm_replace",
+      "status": "PASS",
+      "detail": {
+        "native_checks": 1,
+        "independent_checks": 5,
+        "metadata_only_extra_boundary_check": true,
+        "periodic_spans": 436,
+        "natural_B_spans": 2,
+        "final_cycles": 2,
+        "clear_exit_spans": 0,
+        "pcm_recomputed": false
+      }
+    },
+    {
+      "id": "prefix.prefix_baseline",
+      "status": "PASS",
+      "detail": {
+        "checks": 16,
+        "unique_ids": 16,
+        "comparison": "complete unordered set",
+        "native_deadlines": "NOT_ASSESSED"
+      }
+    },
+    {
+      "id": "prefix.prefix_candidate",
+      "status": "PASS",
+      "detail": {
+        "checks": 16,
+        "unique_ids": 16,
+        "comparison": "complete unordered set",
+        "native_deadlines": "NOT_ASSESSED"
+      }
+    },
+    {
+      "id": "binary.phase62_control_cpu_native",
+      "status": "PASS",
+      "detail": {
+        "binary": "phase62_control_cpu_native",
+        "previous_build": 9,
+        "final_build": 9,
+        "bytes": 1079560,
+        "sha256": "1197a067d2d6908602fc1fc47973781de8b41a3efeed73160cb4a3896c48accc"
+      }
+    },
+    {
+      "id": "binary.phase62_control_summary_tests",
+      "status": "PASS",
+      "detail": {
+        "binary": "phase62_control_summary_tests",
+        "previous_build": 9,
+        "final_build": 9,
+        "bytes": 866320,
+        "sha256": "58112c7aac768071cde5e827407256dc7ab8a11da080ac89d5065960e97e3d9a"
+      }
+    },
+    {
+      "id": "binary.phase62_input_watch_tests",
+      "status": "PASS",
+      "detail": {
+        "binary": "phase62_input_watch_tests",
+        "previous_build": 9,
+        "final_build": 9,
+        "bytes": 827592,
+        "sha256": "06ea4ad95faba7e42a46e45ac0fe9b30507ffc359c438acb79fda2c7a4917d7c"
+      }
+    },
+    {
+      "id": "binary.phase62_clear_reenable_native",
+      "status": "PASS",
+      "detail": {
+        "binary": "phase62_clear_reenable_native",
+        "previous_build": 9,
+        "final_build": 9,
+        "bytes": 1159776,
+        "sha256": "c17cc01dfb52094368138a1e6d54575e666f7286cad38a03785718b12d1dd42f"
+      }
+    }
+  ],
+  "selection": {
+    "final_build": 9,
+    "cpu_build": 9,
+    "control_build": 9,
+    "cpu_run": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/cpu_after_03",
+    "control_run": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/control_regressions_03"
+  },
+  "artifact_count": 155,
+  "artifacts": [
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/baseline_ab_build_03/BUILD.json",
+      "bytes": 115442,
+      "sha256": "af904e850ea0a66b810b83daad07b71b0bb3509014354bce05286adc2a4de2c2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/candidate_build_09/BUILD.json",
+      "bytes": 122237,
+      "sha256": "3460c65bc8eee5a7236ca7192f84a945674a276741fe53b8509513435eff30a9"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+      "bytes": 274184,
+      "sha256": "de70db5fbc4284fd13f3f9a7cf257cbca1d8d9a5755859067c7cfb234d1d5748"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_control_ab/recipes/run_ab_quality.py",
+      "bytes": 8261,
+      "sha256": "329cbbff11cd9b5eae4c2defc6fbe5a8dd7f09d5216891a23dd0765c6babd260"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/inputs/artificial_12s.wav",
+      "bytes": 2304044,
+      "sha256": "d992a233186ff91da5c79eb2d8b8e7c22f158e52423f9bec63eb0b9e266dd5eb"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/inputs/artificial_240s.wav",
+      "bytes": 46080044,
+      "sha256": "5fb7423802baefe17bf5df62e79cd534bb2ad7c41ff4e3a2ae030a8fd4df77e9"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/inputs/artificial_300s.wav",
+      "bytes": 57600044,
+      "sha256": "94223f409e8db5d44029499f057f81ca7368e2a17a47ba9a7aea3a337050e8c4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/EXPECTED.json",
+      "bytes": 128415,
+      "sha256": "d8f68fa9034668a5346c0272fd07f91b5b48df7a55748b052ce6b57c74a380c0"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/SUMMARY.json",
+      "bytes": 55754,
+      "sha256": "e34d0460afd136668b5d805ee3e13021f343190f5995204230d118f327f0540f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/REFERENCES.json",
+      "bytes": 6618,
+      "sha256": "98a9c0b4b5afe2246a3e57795e322a90e62ab34236386329d6f802d3bde354a7"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_04/EXPECTED.json",
+      "bytes": 128415,
+      "sha256": "141c2231f90532c468ef14b43712d84f167e64bd70a02bb31e7b8c2efb120754"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_04/SUMMARY.json",
+      "bytes": 55765,
+      "sha256": "ced4e4169cb8bc262bb2e5e713ba821a2765d8d119a9fa1c7949bb46abe85a71"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_04/REFERENCES.json",
+      "bytes": 6618,
+      "sha256": "98a9c0b4b5afe2246a3e57795e322a90e62ab34236386329d6f802d3bde354a7"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_01/SUMMARY.json",
+      "bytes": 5104,
+      "sha256": "08dd9fa4444c0928c57b8353319af567b0a3b24a140f84896507c75a253c52df"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/SUMMARY.json",
+      "bytes": 52807,
+      "sha256": "d4fcd7947269817da707c3c17502b03382109a655579436c5990cb5706667443"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_01/prefix_baseline.f32",
+      "bytes": 4608000,
+      "sha256": "d0411e8ce7b00301c86eaea723187867a83099c59427f02c914e32ef503b8e24"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_01/prefix_baseline_ref.log",
+      "bytes": 203,
+      "sha256": "27f7f05e65a14d4bbee64b78a3357f9b69ed8af5169e9b69cfb10b323b45c85f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_01/prefix_candidate.f32",
+      "bytes": 4608000,
+      "sha256": "d0411e8ce7b00301c86eaea723187867a83099c59427f02c914e32ef503b8e24"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_01/prefix_candidate_ref.log",
+      "bytes": 203,
+      "sha256": "27f7f05e65a14d4bbee64b78a3357f9b69ed8af5169e9b69cfb10b323b45c85f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_01/warm.f32",
+      "bytes": 92160000,
+      "sha256": "a9d65423fefb996214a06538205df49eaaa1b0724d0c3c29a7f0192cabe1ddbd"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_01/warm_ref.log",
+      "bytes": 183,
+      "sha256": "86768c31214703c2e573d18a5f6059b83c28e739ac10f5d34aa76411d311c6a7"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_01/cold.f32",
+      "bytes": 115200000,
+      "sha256": "9a5d3763a59e1e6d33618ff105cbb3142e429db118ac14f824ca8bcb06eae6f3"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_01/cold_ref.log",
+      "bytes": 209,
+      "sha256": "8b3d03f692832db9f9a64fc4040999fcbdc91d55c30108883bc6210009103d22"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_03/SUMMARY.json",
+      "bytes": 56682,
+      "sha256": "6216013be6a95974e8b7a0b0f711b8eff362a7bf86ba616bf1c0a6b48e6e990f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A0.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A0_validator.log",
+      "bytes": 92,
+      "sha256": "563879ebf0c2c4c80f58f4cabd118deba5b1c2db0e5704914170eaa858abb4f7"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A0_map.json",
+      "bytes": 213,
+      "sha256": "e2ba46b92eaad93b7e62a53714791182bb3fed312211e295534541705072810e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/baseline_ab/phase62_initial_loop_native",
+      "bytes": 1076600,
+      "sha256": "cc702f0ec7f839ec5a4799158a4e4ef3f0a6fc5818b826372bad5f877232b6d7"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_control_ab/recipes/validate_initial_pcm.py",
+      "bytes": 22829,
+      "sha256": "cfb93847614fd9125219f221e684f6e51b292ec6f2c43082e71d85a9fe849918"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A0/EXPECTED.json",
+      "bytes": 201,
+      "sha256": "5a8def3d45ab6f8aa4e6f6d9d87b1a225bccbd5d5212990d9f33ada0650f0c10"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A0/SUMMARY.json",
+      "bytes": 217,
+      "sha256": "f976729324ca03d875a1fd934de913b8eab9bd495af48801d001e0300bc80a7e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A0/measurements.jsonl",
+      "bytes": 1436,
+      "sha256": "eb3e2ef18150e89fb1c1740e381d0e94cc337834f3769fc735ec38e0b0fa18ff"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A0/raw_records.jsonl",
+      "bytes": 77388,
+      "sha256": "7a9e116a7083f2da27e486836f108438ea74758792d9ce82b15ef2969fc44f5c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A0/spans.jsonl",
+      "bytes": 620920,
+      "sha256": "eae511c3ddc0d555032e6f83739b03f9a046719ea3afad0cd7aaeb5d82f07f70"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A0/raw.f32",
+      "bytes": 4612096,
+      "sha256": "cf3bae22dc7a194c48fd2e911469419f0ac17a7d994d23577fcd0fa136997ac8"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A0/output_before_gain.f32",
+      "bytes": 4612096,
+      "sha256": "ff4125db32bc5dce619951adcf3a50fe945c5525b014791966218d12fd0324f3"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A0_audit/EXPECTED.json",
+      "bytes": 4464,
+      "sha256": "617b35102db492f6aaebfa61951627d528c52856e12c71236cb27c444c1f2d04"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A0_audit/SUMMARY.json",
+      "bytes": 1841,
+      "sha256": "529e39cb257ab47fd55cfb71da253ebbaa113348b8fb8a1f2b72fcc61750595d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A30.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A30_validator.log",
+      "bytes": 93,
+      "sha256": "e6538345042b41b1e0ff9fc0344edc1c6ff581cf3dd544f863910c159c1b02db"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A30_map.json",
+      "bytes": 221,
+      "sha256": "64f5b27e3c7f49edccec008c36d58821f06ceb8870a691eadf0f5065b1199946"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A30/EXPECTED.json",
+      "bytes": 209,
+      "sha256": "5e788873b87a5deaaa2bf74a328a34c92ab2a0bf5ce65c9b68a270af8fff7b4f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A30/SUMMARY.json",
+      "bytes": 217,
+      "sha256": "f976729324ca03d875a1fd934de913b8eab9bd495af48801d001e0300bc80a7e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A30/measurements.jsonl",
+      "bytes": 1470,
+      "sha256": "9a30b447a31275ec0d216dec2a5f5a42e3d87f699083cfdae84867408eaa2924"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A30/raw_records.jsonl",
+      "bytes": 79848,
+      "sha256": "409c1c593cc5f7456a6b5ee76b90d1884432867cc697606a3f89cd147dd76b2f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A30/spans.jsonl",
+      "bytes": 622236,
+      "sha256": "34e0f082d43cd236ca42774d7dfc90a075b0771c1106988d2d908da45b4e0e01"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A30/raw.f32",
+      "bytes": 4612096,
+      "sha256": "0732ee2c423436587343b6e9c21950aafdba3bb3165da955093e4870f929544b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A30/output_before_gain.f32",
+      "bytes": 4612096,
+      "sha256": "3577d2058421aabf87a8d847ff357f9e58fd208210535680393fdecb2bfc7440"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A30_audit/EXPECTED.json",
+      "bytes": 4473,
+      "sha256": "d81b0f3c73f1945c0d2aedca70c1262dea0ca73099ba2306dd1f52d826ed295d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A30_audit/SUMMARY.json",
+      "bytes": 1880,
+      "sha256": "296b6490f3e22877887373a16a1317f968541c3354b6c56fe8104bfb3f227ab0"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A270.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A270_validator.log",
+      "bytes": 94,
+      "sha256": "e69706c57c97d265c54a78ab8ded4c14e9a0dd95c8b964675e9ba3a8eb8fb59c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A270_map.json",
+      "bytes": 223,
+      "sha256": "37bc4dfbf0ffa5fcea317189a1560a859781796b1100001a2b59a269930b6fe5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A270/EXPECTED.json",
+      "bytes": 211,
+      "sha256": "c6186a55b4d2d3af42c61dc13887d12b364468047da7977542cfe778034bf48f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A270/SUMMARY.json",
+      "bytes": 217,
+      "sha256": "f976729324ca03d875a1fd934de913b8eab9bd495af48801d001e0300bc80a7e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A270/measurements.jsonl",
+      "bytes": 1481,
+      "sha256": "bab7b0231ef7115c3f9c118345449e1673661d81a2ebf7da5190d7a47c4e385b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A270/raw_records.jsonl",
+      "bytes": 80992,
+      "sha256": "1a4f2556d883ea3dfd97fff69c0cbb532ad1cadad43a4566a204f0a87b55a579"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A270/spans.jsonl",
+      "bytes": 622236,
+      "sha256": "8dd5493b57064bc797dd4db7989e56f136aa498c6410fd5bd1b961823149ddba"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A270/raw.f32",
+      "bytes": 4612096,
+      "sha256": "4695c6bd40d4b34c107fef8a6f0140969129cb235f5f2cb4a1d2324b3020e93b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A270/output_before_gain.f32",
+      "bytes": 4612096,
+      "sha256": "c0abe3e27ffa32dc722b759a114537d6fbe092aabd274a8a2e12bbd46be2dbc7"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A270_audit/EXPECTED.json",
+      "bytes": 4482,
+      "sha256": "1af55f50b0d4e0e95280ba7e6cb6cfd09c7dea93691ebd30b81823e8090167c6"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_02/before_cold_A270_audit/SUMMARY.json",
+      "bytes": 1889,
+      "sha256": "08bb217f797c4e843dcd49fd48c7066b66ce69db4aebe75c5a4697b77324d018"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A0.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A0_validator.log",
+      "bytes": 91,
+      "sha256": "d464bbd983da4ffcca7fac78b54efb1bda8919fd5e3e3f0ea8db451357456159"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A0_map.json",
+      "bytes": 213,
+      "sha256": "e2ba46b92eaad93b7e62a53714791182bb3fed312211e295534541705072810e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/candidate/phase62_initial_loop_native",
+      "bytes": 1078008,
+      "sha256": "f54516885d9aa34e4531134c8b2b45227ae38d22c1bb8cbc564ecaa00ccf3db7"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A0/EXPECTED.json",
+      "bytes": 201,
+      "sha256": "5a8def3d45ab6f8aa4e6f6d9d87b1a225bccbd5d5212990d9f33ada0650f0c10"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A0/SUMMARY.json",
+      "bytes": 217,
+      "sha256": "f976729324ca03d875a1fd934de913b8eab9bd495af48801d001e0300bc80a7e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A0/measurements.jsonl",
+      "bytes": 1434,
+      "sha256": "7e4a4370fa66fd5b12e2a1c3c3509e39e453f427a8199a763712e286e1985080"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A0/raw_records.jsonl",
+      "bytes": 77388,
+      "sha256": "7a9e116a7083f2da27e486836f108438ea74758792d9ce82b15ef2969fc44f5c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A0/spans.jsonl",
+      "bytes": 620920,
+      "sha256": "eae511c3ddc0d555032e6f83739b03f9a046719ea3afad0cd7aaeb5d82f07f70"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A0/raw.f32",
+      "bytes": 4612096,
+      "sha256": "cf3bae22dc7a194c48fd2e911469419f0ac17a7d994d23577fcd0fa136997ac8"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A0/output_before_gain.f32",
+      "bytes": 4612096,
+      "sha256": "ff4125db32bc5dce619951adcf3a50fe945c5525b014791966218d12fd0324f3"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A0_audit/EXPECTED.json",
+      "bytes": 4454,
+      "sha256": "ade4ec2901e80bcfa51825fe9528a964b4a7b45d61986928f9249598a005effe"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A0_audit/SUMMARY.json",
+      "bytes": 1840,
+      "sha256": "d387e3c6b1726d2b4140187930be9156a94a452eab8a041423d0252e9f547cb5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A30.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A30_validator.log",
+      "bytes": 92,
+      "sha256": "b817e783d7ec4d58cbdb55accfc8d0fe77efbed6fccd5d17bcfa31fa79bf6e4a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A30_map.json",
+      "bytes": 221,
+      "sha256": "64f5b27e3c7f49edccec008c36d58821f06ceb8870a691eadf0f5065b1199946"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A30/EXPECTED.json",
+      "bytes": 209,
+      "sha256": "5e788873b87a5deaaa2bf74a328a34c92ab2a0bf5ce65c9b68a270af8fff7b4f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A30/SUMMARY.json",
+      "bytes": 217,
+      "sha256": "f976729324ca03d875a1fd934de913b8eab9bd495af48801d001e0300bc80a7e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A30/measurements.jsonl",
+      "bytes": 1469,
+      "sha256": "b0ee4f03f9fb509c967ea5bcda0c955bdadb12cda193a840913e0b7be9c644e2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A30/raw_records.jsonl",
+      "bytes": 79848,
+      "sha256": "409c1c593cc5f7456a6b5ee76b90d1884432867cc697606a3f89cd147dd76b2f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A30/spans.jsonl",
+      "bytes": 622236,
+      "sha256": "34e0f082d43cd236ca42774d7dfc90a075b0771c1106988d2d908da45b4e0e01"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A30/raw.f32",
+      "bytes": 4612096,
+      "sha256": "0732ee2c423436587343b6e9c21950aafdba3bb3165da955093e4870f929544b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A30/output_before_gain.f32",
+      "bytes": 4612096,
+      "sha256": "3577d2058421aabf87a8d847ff357f9e58fd208210535680393fdecb2bfc7440"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A30_audit/EXPECTED.json",
+      "bytes": 4463,
+      "sha256": "ed49dfe271939a5b2ac67cc81cbdd5a6bd0b3b144364b86c1742e4d7cadd09bf"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A30_audit/SUMMARY.json",
+      "bytes": 1879,
+      "sha256": "94a1113fc99b9e613e941d45a1131fbd0340e3d43271f27b5a056a8ceab3df39"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A270.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A270_validator.log",
+      "bytes": 93,
+      "sha256": "0e95d5bf4e8ccd1d6aa101a4f2572de083c498df58a24396ccbf462fc93363fc"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A270_map.json",
+      "bytes": 223,
+      "sha256": "37bc4dfbf0ffa5fcea317189a1560a859781796b1100001a2b59a269930b6fe5"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A270/EXPECTED.json",
+      "bytes": 211,
+      "sha256": "c6186a55b4d2d3af42c61dc13887d12b364468047da7977542cfe778034bf48f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A270/SUMMARY.json",
+      "bytes": 217,
+      "sha256": "f976729324ca03d875a1fd934de913b8eab9bd495af48801d001e0300bc80a7e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A270/measurements.jsonl",
+      "bytes": 1482,
+      "sha256": "a594154c7582396d12085d7e376ab90ed09383045980601f4babc361ca14837d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A270/raw_records.jsonl",
+      "bytes": 80992,
+      "sha256": "1a4f2556d883ea3dfd97fff69c0cbb532ad1cadad43a4566a204f0a87b55a579"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A270/spans.jsonl",
+      "bytes": 622236,
+      "sha256": "8dd5493b57064bc797dd4db7989e56f136aa498c6410fd5bd1b961823149ddba"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A270/raw.f32",
+      "bytes": 4612096,
+      "sha256": "4695c6bd40d4b34c107fef8a6f0140969129cb235f5f2cb4a1d2324b3020e93b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A270/output_before_gain.f32",
+      "bytes": 4612096,
+      "sha256": "c0abe3e27ffa32dc722b759a114537d6fbe092aabd274a8a2e12bbd46be2dbc7"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A270_audit/EXPECTED.json",
+      "bytes": 4472,
+      "sha256": "4f52483e4e8397e47fd1b312ced56e9173b1712e742e7a4afb88639189bcd9d7"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_cold_A270_audit/SUMMARY.json",
+      "bytes": 1888,
+      "sha256": "e9b40e0e35242b23f58d73e2b0dd663e2300072356ca2e5f27dd5c30a78c5551"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/before_warm_serial_map.json",
+      "bytes": 221,
+      "sha256": "3bf0bd6e840a917e42b56ce8f201bda9ce80757f7a5a6ed4b01c4eb6d4e0dedc"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_terminal_initial/recipes/validate_initial_pcm.py",
+      "bytes": 22537,
+      "sha256": "3be115fe493b249e120cb5f42c056a458ebe6cf76d2124842dc7cf3b6cad8bb4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_control_ab/recipes/validate_fixed_capture.py",
+      "bytes": 5245,
+      "sha256": "4db7ca2129eb9e5d727609242c38307be86a90743a43d1db461d091ca209e018"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/before_warm_serial/EXPECTED.json",
+      "bytes": 213,
+      "sha256": "8161ec710e88580fcdd4bdfee05b5ffb3b433430fc83473d853083931d86ed4d"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/before_warm_serial/SUMMARY.json",
+      "bytes": 682,
+      "sha256": "04b224160c093772c41b37993d96561fb0764d95cf784f7045ca419d10f24ed6"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/before_warm_serial/raw_records.jsonl",
+      "bytes": 53390,
+      "sha256": "6d6a284dad525b3912c99248df67bc30f699fddba34f7a8e7749d7cd84805b90"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/before_warm_serial/spans.jsonl",
+      "bytes": 415243,
+      "sha256": "bbc9d815f438fb6a3f1d127bdab9cf651a4f6f39e24e6d94ca9ff28a942988e4"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/before_warm_serial/raw.f32",
+      "bytes": 3092224,
+      "sha256": "3722bb516f905f7730a1eea3db0a054f450a8f1e387e129dcc16c4d33be3d13a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/before_warm_serial/output_before_gain.f32",
+      "bytes": 3088384,
+      "sha256": "920f5027a18bcf8071c7fea16c43027d8031fca8ea9ee200f3965494955ef4f1"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/baseline_ab/phase62_warm_reenable_native",
+      "bytes": 1077008,
+      "sha256": "af4abe888e2754dfa3998f473d375c1bf35066f9da427e8c097cc5a90767ccfc"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/before_warm_serial.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/before_warm_serial_validator.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/before_warm_replace_map.json",
+      "bytes": 221,
+      "sha256": "3bf0bd6e840a917e42b56ce8f201bda9ce80757f7a5a6ed4b01c4eb6d4e0dedc"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/before_warm_replace/EXPECTED.json",
+      "bytes": 214,
+      "sha256": "9f315718c8ec6034e1e8ec1c10e7bc3dbd5dd275d91226e6399d1c209b028004"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/before_warm_replace/SUMMARY.json",
+      "bytes": 676,
+      "sha256": "6c3e717a19ce2829f5072c3b9535722febff0ba190e2d22561d380817a7d3a69"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/before_warm_replace/raw_records.jsonl",
+      "bytes": 30294,
+      "sha256": "7749c5a863117925b64ca24ddac8de5d4f3fd536679f47de727f0d43f8a25f24"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/before_warm_replace/spans.jsonl",
+      "bytes": 236459,
+      "sha256": "7b1c87877f6994053c1f6bf51cb55b68fb52e4f0994fdc05f0ca1b32334f5697"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/before_warm_replace/raw.f32",
+      "bytes": 1759104,
+      "sha256": "9111feb9b196255aa4027db0d3a98b4ca050ebd37165c3cfaf57fbcefd32e91e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/before_warm_replace/output_before_gain.f32",
+      "bytes": 1757184,
+      "sha256": "c1e55a78135b8b5113bdc2a4896fa689a8682aceba8e8a9ae6df2503b916c246"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/before_warm_replace.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/before_warm_replace_validator.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_warm_serial_map.json",
+      "bytes": 221,
+      "sha256": "3bf0bd6e840a917e42b56ce8f201bda9ce80757f7a5a6ed4b01c4eb6d4e0dedc"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_warm_serial/EXPECTED.json",
+      "bytes": 213,
+      "sha256": "39fd4419debfbb8093396906992199f26c63264bf688775060ff80251fe9efa8"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_warm_serial/SUMMARY.json",
+      "bytes": 676,
+      "sha256": "27773a002902363607d5bfa51ac468e2c924851a7a18ecea4372e024e4e56674"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_warm_serial/raw_records.jsonl",
+      "bytes": 40160,
+      "sha256": "5cec1a69a9d458f3ce9f89ad7da4121ef011f9420a46e45eaf8402162a629a2c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_warm_serial/spans.jsonl",
+      "bytes": 312368,
+      "sha256": "a02fefed4b78101c66e13921354ee2007acc6862be83620381c7c69af7792146"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_warm_serial/raw.f32",
+      "bytes": 2326272,
+      "sha256": "03b822129869b4e380d20694b16e08388eb7e2b233e846663c16706e185b56e9"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_warm_serial/output_before_gain.f32",
+      "bytes": 2322432,
+      "sha256": "bb5e84b834167d0ff921ef316ff276728a4bd5f9209f6d1a2719873a6882976a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/candidate/phase62_warm_reenable_native",
+      "bytes": 1078400,
+      "sha256": "b12dd97c5b480e64d25bb58e7dde650cbc770bb733f15910a57cb0ca67d73806"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_warm_serial.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_warm_serial_validator.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_warm_replace_map.json",
+      "bytes": 221,
+      "sha256": "3bf0bd6e840a917e42b56ce8f201bda9ce80757f7a5a6ed4b01c4eb6d4e0dedc"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_warm_replace/EXPECTED.json",
+      "bytes": 214,
+      "sha256": "730b20cb5dcf51dd6a72efaaf5d1b71b19d04b054c55c0dfdd969c7920f810a7"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_warm_replace/SUMMARY.json",
+      "bytes": 671,
+      "sha256": "5b8e0b8b75cff77a30a2160b49ad435e855602df2068b1ec7f025710e6cd9113"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_warm_replace/raw_records.jsonl",
+      "bytes": 30294,
+      "sha256": "7749c5a863117925b64ca24ddac8de5d4f3fd536679f47de727f0d43f8a25f24"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_warm_replace/spans.jsonl",
+      "bytes": 236459,
+      "sha256": "7b1c87877f6994053c1f6bf51cb55b68fb52e4f0994fdc05f0ca1b32334f5697"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_warm_replace/raw.f32",
+      "bytes": 1759104,
+      "sha256": "9111feb9b196255aa4027db0d3a98b4ca050ebd37165c3cfaf57fbcefd32e91e"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_warm_replace/output_before_gain.f32",
+      "bytes": 1757184,
+      "sha256": "c1e55a78135b8b5113bdc2a4896fa689a8682aceba8e8a9ae6df2503b916c246"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_warm_replace.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/after_warm_replace_validator.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/candidate/phase62_prefix_checkpoint_tests",
+      "bytes": 862960,
+      "sha256": "98deab6aaab35d1e48d62f8e730ccdf92efd98b162fde72344b61b64b09a48ac"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/prefix_baseline/EXPECTED.json",
+      "bytes": 1567,
+      "sha256": "d082ea1bdbae62c039d3ef7d153b107aeea2f1481152f71b9c178abf45c86abc"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/prefix_baseline/SUMMARY.json",
+      "bytes": 294,
+      "sha256": "df26c17ffe501928baedb544803179d260bdd9241b240205f0bab6e12fa7816c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/prefix_baseline/checks.jsonl",
+      "bytes": 857,
+      "sha256": "ee68e8ff3ba810d5b1655eaf57d0b6301736262edea66e4b238dd11cf027d65b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/prefix_baseline/audit.jsonl",
+      "bytes": 8085,
+      "sha256": "58b7b07225c4ef1c0f7dba1f71f9bf840647fd182b9b3baccf94ea6cce5a3928"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/prefix_candidate/EXPECTED.json",
+      "bytes": 1568,
+      "sha256": "035a32fec46632f6ab41b23030c3cc82815f88e82c5249df2c286db536b8fa05"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/prefix_candidate/SUMMARY.json",
+      "bytes": 294,
+      "sha256": "df26c17ffe501928baedb544803179d260bdd9241b240205f0bab6e12fa7816c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/prefix_candidate/checks.jsonl",
+      "bytes": 857,
+      "sha256": "ee68e8ff3ba810d5b1655eaf57d0b6301736262edea66e4b238dd11cf027d65b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/ab_quality_06/prefix_candidate/audit.jsonl",
+      "bytes": 8085,
+      "sha256": "d0f3d27047bb7860028302c3d329a5fd35a865942751a5a5e2c11896b8714e54"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/candidate/phase62_control_cpu_native",
+      "bytes": 1079560,
+      "sha256": "1197a067d2d6908602fc1fc47973781de8b41a3efeed73160cb4a3896c48accc"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/cpu_after_03/EXPECTED.json",
+      "bytes": 2566,
+      "sha256": "82ca6459aaa5832ffb892b4051aa76547c63d2fd67c1272ed0c602a19040b29b"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/candidate/phase62_control_summary_tests",
+      "bytes": 866320,
+      "sha256": "58112c7aac768071cde5e827407256dc7ab8a11da080ac89d5065960e97e3d9a"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/control_regressions_03/EXPECTED.json",
+      "bytes": 131801,
+      "sha256": "aaf2503bed57d85cc47ba6a8e70c46f3c254335e87f8a4de46c20c8b6c730d63"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/candidate/phase62_input_watch_tests",
+      "bytes": 827592,
+      "sha256": "06ea4ad95faba7e42a46e45ac0fe9b30507ffc359c438acb79fda2c7a4917d7c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_control_ab_20261022_01/candidate/phase62_clear_reenable_native",
+      "bytes": 1159776,
+      "sha256": "c17cc01dfb52094368138a1e6d54575e666f7286cad38a03785718b12d1dd42f"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_control_ab/recipes/audit_reused_quality.py",
+      "bytes": 28447,
+      "sha256": "d462c636455a4c7a4c4fb4ffcb0adb8b1a8b3682296c01818ef5c5bc0247a669"
+    }
+  ],
+  "build": false,
+  "audio": false,
+  "pcm_numerical_recalculation": false,
+  "public_go": false,
+  "realtime_deadlines": "NOT_ASSESSED",
+  "limitations": [
+    "既存独立PCM判定はartifact全SHAを結合して再利用する",
+    "warm補正窓はJSON座標だけを追加監査しPCMを再演算しない",
+    "選択した実測buildと最終buildは対象実行binaryの同一性を検査し、全source manifest同一とは主張しない"
+  ]
+}

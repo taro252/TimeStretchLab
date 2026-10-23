@@ -154,3 +154,19 @@ Merodoa側は終端キャッシュで補正せず、同じ14 checksをbridge経�
 Ready/Pausedの初回ReturnToAはAへ位置合わせして静止し、明示Play前には消費/音声/周回を進めない。通常Paused速度変更は停止位置C保持であり、二つの契約を混同しない。Merodoa側ではA1のClear前凍結14checks、正当な未終端Clear移管、同prepare再要求/fresh初回/解析前後、A0/30/270、Playing進入混合、最新速度変更後の初期枠失効を限定再試験する。SpeedOperationの39fields/要求ID/終端不変/終了監査APIは変わらない。
 
 最終品質は独立旧Exact参照で7native条件14round＋offline両Preset、70/70 checks、最終A1/F01/Paused Clear等147/147。物理出音時間・p95・全条件実時間期限・一般公開・Merodoa既定採用の承認には広げない。短全曲F01中間試験の単発期限超過もREPORTに保持する。Merodoaのコード、submodule、UIはこの作業で変更していない。
+
+## 2026-10-22 制御負荷・Clear再ONの接続契約
+
+ff1f677f基準の追加作業は[制御負荷・AB入口](PHASE62_CONTROL_AB_PERFORMANCE.md)、[検証手順](PHASE62_CONTROL_AB_VALIDATION.md)、[今回REPORT](../results/phase62_control_ab/REPORT.md)を参照する。旧Phase62の公開/既定採用ゲートを変更しない。Merodoa本体・依存内・gitlink・承認SHAは今回更新していない。
+
+通常の状態/診断/Loop取得は最大3行の速度要約を使い、全履歴は明示取得時・退役/終了監査時だけコピーする。外部Accepted全IDと終端39fieldsの不変性は維持する。任意のmeasureControlCostsは通常アプリではfalseのままにし、詳細計測を定常CPUへ混ぜない。同一InputLeaseのidentity検証は通常側で共有し、既存の入力異常検出期限を緩めない。
+
+OFFのrequestClearLoop受付後、最新のONが来たら、旧ClearのclearPending=falseを待つ必須条件はない。最新の入力・A/B・再生意思を確定し、getStateSnapshotの新しいinputGeneration/session/renderEpochでrequestLoopRange(A,B,context,ReturnToA)を通常の直列制御キューから送る。受付後はその新Loop IDでinitialPositionCompleteを追う。contextの競合拒否は最新意図がまだ同じ場合だけ取り直して再要求する。旧Accepted IDを消したり、新IDへ書き換えない。
+
+未採用Clearは取消・停止/join後に第二枠を再利用する。Started/Doneは混合・採用・参照解放/退役を完了するまで保持し、新ReturnToAはその後に準備する。Applying/Committed/FixedBoundaryCommittedは既存どおり理由付き拒否し、B完了後の新鮮contextで再要求する。KeepPositionも新旧ownerが分かれているClear退役窓では拒否する。これらは不要なVM直列待ちとは別の安全上必要な待機である。
+
+Pausedでは静止Cと明示Resume契約を維持する。ONは新Aへ位置を合わせる実行要求であり、事前準備だけのAPIとして早送信しない。準備中のPlay/Resume意思、再Pauseによる取消、Stop/入力/装置/closeの失効をアプリの最新意図と対応させる。終了監査は全Accepted IDを独立に回収する。開始済みで停止されたCancelledはoutputStarted/firstPCM/sessionの事実を保持するため、未出力と同義には扱わない。
+
+`initialCheckpointHit`は同A/Bの保存点、`initialPrefixCheckpointHit`は互換な通常seekのP<=OA保存点の流用であり、速度/Preset/入力/全Map/完全DSP状態が一致した場合に限る。後者はP→Aの残合成がある。保存点のないA270のfresh初回は約28秒が残り、seekCheckpoints設定だけを高速化保証にしない。新しい先行準備APIは導入していない。
+
+受入時は同SHAのarchiveとheaderを同時に再ビルドし、同一入力・device/buffer・観測条件でアプリ側を再計測する。単体process CPUの約12%相対減を、Merodoa全体の改善率へ転記しない。旧Clear待ちと即時ReturnToAの両接続を実PCM採用時刻・全ID終端・自然周回・供給0・callback確保0・最大2owner/2checkpointで再確認する。品質、公開承認、既定化、ピッチシフトは別ゲートを維持する。

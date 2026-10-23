@@ -1,0 +1,241 @@
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -962,6 +962,8 @@
+     target_link_libraries(phase62_history_clear_native PRIVATE macos_progressive_playback_engine phase61_callback_heap_probe)
+     add_executable(phase62_initial_checkpoint_tests EXCLUDE_FROM_ALL tests/Phase62InitialCheckpointTests.cpp)
+     target_link_libraries(phase62_initial_checkpoint_tests PRIVATE phase58_realtime)
++    add_executable(phase62_control_cpu_native EXCLUDE_FROM_ALL tests/Phase62ControlCpuNative.cpp)
++    target_link_libraries(phase62_control_cpu_native PRIVATE macos_progressive_playback_engine phase61_callback_heap_probe)
+     add_executable(phase62_initial_entry_native EXCLUDE_FROM_ALL tests/Phase62InitialEntryNative.cpp)
+     target_link_libraries(phase62_initial_entry_native PRIVATE macos_progressive_playback_engine phase61_callback_heap_probe)
+     add_executable(phase62_initial_loop_native EXCLUDE_FROM_ALL tests/Phase62InitialLoopNative.cpp)
+--- a/src/platform/macos/ProgressiveMacPlaybackEngine.h
++++ b/src/platform/macos/ProgressiveMacPlaybackEngine.h
+@@ -66,6 +66,7 @@
+     RenderAllocationHooks allocationHooks{}; // explicit verification host only
+     bool allowExperimentalLoops=false; // Phase62, OFF / public NO-GO
+     bool seekCheckpoints=true;
++    bool measureControlCosts=false; // disabled in ordinary apps; normal-thread counters
+     // Research opt-in only: long impulse-train quality is NOT approved.
+     bool allowUnvalidatedFastLocalSeek=false;
+     // Post-mix output is NOT one epoch's raw suffix. Called before gain 0.5.
+@@ -126,6 +127,9 @@
+     bool resumePending=false; // accepted intent; Playing means output actually started
+ };
+ struct ProgressiveDiagnostics {
++    bool controlCostsMeasured=false;
++    ControlCostValue monitorCost,syncLoopSpeedCost;
++    std::uint64_t seekDispatchWakes=0;
+     std::string engineKind="Experimental Progressive Phase61",timeStretchLabSha;
+     std::uint64_t preparation=0,session=0,inputGeneration=0;
+     std::uint64_t generatedFrames=0,publishedFrames=0,consumedFrames=0,presentedFrames=0;
+--- a/src/platform/macos/ProgressiveMacPlaybackEngine.mm
++++ b/src/platform/macos/ProgressiveMacPlaybackEngine.mm
+@@ -493,6 +493,8 @@
+     std::string error;std::uint64_t revision=0,reservation=0;
+     bool ownsBudget=false,autoPlay=false;
+     std::thread seekWorker;
++    ControlCostCounter monitorCost,syncLoopSpeedCost;
++    std::atomic<std::uint64_t> seekDispatchWakes{0};
+     std::atomic<std::uint64_t> seekVersion{0};
+     std::atomic<bool> seekBusy{false};
+     std::vector<progressive::SeekOperation> seeks;
+@@ -555,6 +557,7 @@
+     progressive::SeekOperation& seekOp(std::size_t i){return i==loopIndex?loopJob:i==stoppedIndex?stoppedJob:seeks.at(i);}
+     bool loopLive()const{return loop.enabled;}
+     void syncLoopSpeeds(Pipeline* source=nullptr,RenderTarget* observedTarget=nullptr){
++        ControlCostScope cost(syncLoopSpeedCost,options.measureControlCosts);
+         using LS=progressive::LoopSpeedState;
+         auto* t=effectiveTarget();if(!source)source=pipeline.get();
+         const auto now=machNs();
+@@ -701,7 +704,7 @@
+         if(audit.operations.size()>256){audit.droppedOperations=audit.operations.size()-256;audit.operations.erase(audit.operations.begin(),audit.operations.end()-256);}
+         if(closed.size()==16)closed.erase(closed.begin());closed.push_back(std::move(audit));
+     }
+-    void seekLoop(){@autoreleasepool {while(!exit.load()){
++    void seekLoop(){pthread_setname_np("TSL seek control");@autoreleasepool {while(!exit.load()){
+         controlTestEvent(ProgressiveControlTestPoint::LoopJobDispatch);
+         std::unique_ptr<Pipeline> next,old;
+         std::unique_ptr<RenderTarget> nextTarget,oldTarget;
+@@ -712,6 +715,7 @@
+         auto finalFailure=progressive::LoopSpeedDeferral::PreparationFailed;
+         try{
+             {std::lock_guard lock(mutex);
++                if(options.measureControlCosts)++seekDispatchWakes;
+                 collectLoopBoundary();if(!loopLive()&&!loop.clearPending)pendingLoop=false;
+                 if(pipeline&&pendingSeek==std::size_t(-1)&&!pendingLoop&&target&&target->loopEnd.load()&&!pipeline->loopReuseEnabled()&&(loopLive()||loop.clearPending))pendingLoop=true;
+                 if(pendingLoop&&pipeline&&pendingSeek==std::size_t(-1)){
+@@ -1013,8 +1017,8 @@
+             }
+             controlTestEvent(ProgressiveControlTestPoint::SeekCleanupComplete);}
+     }}}
+-    Impl(){stoppedSpeeds.reserve(4096);seeks.reserve(4096);closed.reserve(16);boundaries.reserve(64);monitor=std::thread([this]{@autoreleasepool {while(!exit.load()){
+-        {std::lock_guard lock(mutex);try{tick();}catch(const std::exception& e){fail(e.what());}}
++    Impl(){stoppedSpeeds.reserve(4096);seeks.reserve(4096);closed.reserve(16);boundaries.reserve(64);monitor=std::thread([this]{pthread_setname_np("TSL monitor");@autoreleasepool {while(!exit.load()){
++        {std::lock_guard lock(mutex);ControlCostScope cost(monitorCost,options.measureControlCosts);try{tick();}catch(const std::exception& e){fail(e.what());}}
+         std::this_thread::sleep_for(std::chrono::milliseconds(2));
+     }}});seekWorker=std::thread([this]{seekLoop();});}
+     ~Impl(){cancelPrepare=true;{std::lock_guard lock(mutex);quiesce(false);cancelSeeks("破棄により取消");}exit=true;++seekVersion;if(monitor.joinable())monitor.join();if(seekWorker.joinable())seekWorker.join();if(preparation.joinable())preparation.join();std::lock_guard lock(mutex);retire();rendering.reset();
+@@ -1124,7 +1128,7 @@
+                 controlTestEvent(ProgressiveControlTestPoint::AcquiringResources);
+                 bool expected=false;if(!resourceOwner.compare_exchange_strong(expected,true))throw std::runtime_error("別の実験セッションが資源を使用中です");
+                 {std::lock_guard lock(mutex);ownsBudget=true;reservation=reserve;}
+-                prototype::phase58::Configuration c;c.speedMicros=progressive::speedMicros(o.initialSpeed);c.candidate=o.preset==Preset::Candidate;c.verifyPcm=false;c.residentInput=true;c.dynamicTransitions=true;c.scheduling=prototype::phase58::WorkerScheduling::AudioWorkgroup;c.sourceSnapshotBytes=bytes;c.seekCheckpoints=o.seekCheckpoints;c.lifecycleTestHooks=o.pipelineLifecycleTestHooks;c.controlTestHooks=o.pipelineControlTestHooks;c.boundedEpochReservations=o.allowExperimentalLoops;
++                prototype::phase58::Configuration c;c.speedMicros=progressive::speedMicros(o.initialSpeed);c.candidate=o.preset==Preset::Candidate;c.verifyPcm=false;c.residentInput=true;c.dynamicTransitions=true;c.scheduling=prototype::phase58::WorkerScheduling::AudioWorkgroup;c.sourceSnapshotBytes=bytes;c.measureControlCosts=o.measureControlCosts;c.seekCheckpoints=o.seekCheckpoints;c.lifecycleTestHooks=o.pipelineLifecycleTestHooks;c.controlTestHooks=o.pipelineControlTestHooks;c.boundedEpochReservations=o.allowExperimentalLoops;
+                 const auto began=seconds();next=std::make_unique<Pipeline>(p,c);
+                 if(next->diagnostics().sourceSnapshotBytes!=bytes||next->inputFrames()!=reader.frames()||next->sampleRate()!=reader.sampleRate()||next->channels()!=reader.channels())throw std::runtime_error("資源見積り中に入力形式・サイズが変化しました");
+                 {std::lock_guard lock(mutex);constructorS=seconds()-began;}
+@@ -1469,6 +1473,7 @@
+     return p;}
+ ProgressiveDiagnostics ProgressiveMacPlaybackEngine::getPlaybackDiagnostics()const{auto& x=*impl_;std::lock_guard lock(x.mutex);ProgressiveDiagnostics d;if(x.options.allowExperimentalLoops)d.engineKind="Experimental Progressive Phase62";d.timeStretchLabSha=TIMESTRETCH_PHASE60_SHA;d.preparation=x.revision;const auto* t=x.effectiveTarget();d.pipeline=t?t->pipeline->diagnostics():x.retired;const auto& p=d.pipeline;
+     d.session=p.session;d.inputGeneration=p.inputGeneration;d.renderEpoch=t?t->currentEpoch():x.retiredEpoch;d.generatedFrames=p.generated;d.publishedFrames=p.published;d.consumedFrames=p.consumed;d.presentedFrames=x.rendering?x.rendering->presented.load():0;d.currentEpochPresentedFrame=t?t->presented.load():x.retiredPresented;d.missingFrames=p.missingFrames+x.lifetimeMissing;d.underrunCalls=p.missingCalls+x.lifetimeCalls;d.maxConsecutiveMissingFrames=std::max(std::uint64_t(p.maxConsecutiveMissing),x.lifetimeMaxMissing);d.rejectedWrites=p.rejectedWrites+x.lifetimeRejected;
++    d.controlCostsMeasured=x.options.measureControlCosts;d.monitorCost=x.monitorCost.value();d.syncLoopSpeedCost=x.syncLoopSpeedCost.value();d.seekDispatchWakes=x.seekDispatchWakes;
+     d.sourceSampleRate=x.rendering?static_cast<unsigned>(x.rendering->rate):0;d.channels=x.rendering?x.rendering->channels:0;d.inputFrames=p.inputFrames;d.residentInputBytes=p.residentInputBytes;d.temporarySourceBytes=p.sourceSnapshotBytes;d.reservationBytes=x.reservation;d.requestedSpeed=x.requested;d.appliedTargetSpeed=x.applied(t?t->pipeline->speedOperations():x.retiredOperations,t);d.processCpuS=x.acceptedAt?processCpu()-x.cpuStart:0;if(!x.pipeline&&p.session)d.dspWorkerCpuS=p.dspWorkerCpuS;d.acceptedToReadyS=x.readyAfter;d.constructorS=x.constructorS;d.fifoSupplyFailed=progressive::SupplyQuality::evaluate(p.missingFrames,p.missingCalls,p.rejectedWrites).failed;d.error=x.error.empty()?p.error:x.error;
+     d.workerDeadlineMisses=x.lifetimeWorkerDeadlines+p.scheduling.deadlineMisses;d.workerNewCalls=x.lifetimeWorkerNews+p.realtimeNewCalls;d.workgroupErrors=x.lifetimeWorkgroupErrors+Impl::workerErrors(p);
+     d.archivedEpochCount=x.archivedEpochCount;d.archivedPreparedEpochCount=x.archivedPreparedEpochCount;
+--- a/src/prototype/Phase58RealtimePipeline.h
++++ b/src/prototype/Phase58RealtimePipeline.h
+@@ -4,6 +4,7 @@
+ #include "prototype/Phase58FixRealtimeWorker.h"
+ #include "prototype/Phase59Control.h"
+ #include <string>
++#include "playback/ControlCosts.h"
+ 
+ namespace ts::prototype::phase58 {
+ enum class WorkerScheduling {Standard,AudioWorkgroup};
+@@ -29,6 +30,7 @@
+     std::uint32_t speedMicros=500000;
+     bool candidate=true,verifyPcm=true,recordWorkerProfile=false;
+     bool detailedDiagnostics=false;
++    bool measureControlCosts=false; // explicit normal-thread attribution only
+     bool sampleDspThread=false;
+     bool residentInput=false;
+     bool dynamicTransitions=false; // Phase59 explicit research opt-in only.
+@@ -90,6 +92,9 @@
+     double analysisWaitS=0,mapCpuS=0,coldPrefixCpuS=0,joinS=0;
+ };
+ struct Diagnostics {
++    bool controlCostsMeasured=false;
++    playback::ControlCostValue inputValidationCost,speedHistoryCopyCost;
++    std::uint64_t analysisIdleWakes=0;
+     std::uint64_t session=0,analysisThread=0,dspThread=0,snapshotVersion=0;
+     std::size_t inputFrames=0,receivedInput=0,generated=0,published=0,consumed=0,outputFrames=0;
+     std::size_t inputAtFirstPcm=0,inputAtReady=0,nonEosPublished=0;
+--- a/src/prototype/Phase58RealtimePipeline.cpp
++++ b/src/prototype/Phase58RealtimePipeline.cpp
+@@ -32,6 +32,8 @@
+             t(a.st_mtimespec,b.st_mtimespec)&&t(a.st_ctimespec,b.st_ctimespec)&&t(a.st_birthtimespec,b.st_birthtimespec);
+     }
+ public:
++    bool measureControlCosts=false;
++    mutable playback::ControlCostCounter validationCost;
+     std::uint32_t rate=0;std::size_t channels=0,frames=0;
+     explicit Input(const std::filesystem::path& p):selected_(p){
+         fd_=open(p.c_str(),O_RDONLY|O_CLOEXEC);
+@@ -56,6 +58,7 @@
+         WavStreamReader validated(std::filesystem::path{},residentBytes());validated.validateEncodedSamples();
+     }
+     void validate()const{
++        playback::ControlCostScope measured(validationCost,measureControlCosts);
+         struct stat actual{},selected{};const int choice=open(selected_.c_str(),O_RDONLY|O_CLOEXEC);
+         const bool valid=fd_>=0&&fstat(fd_,&actual)==0&&choice>=0&&fstat(choice,&selected)==0&&same(identity_,actual)&&same(identity_,selected);
+         if(choice>=0)close(choice);
+@@ -277,6 +280,8 @@
+     std::atomic<double> analysisCpu{0},dspCpu{0},maxDspWall{0},analysisWait{0},backpressureWait{0};
+     std::atomic<double> dspWorkerCpu{0},maxDspCpu{0},maxPublicationGap{0};
+     std::atomic<double> analysisWorkerCpu{0};
++    std::atomic<std::uint64_t> analysisIdleWakes{0};
++    mutable playback::ControlCostCounter speedHistoryCopyCost;
+     std::atomic<double> maxDspValidationWall{0},maxDspValidationCpu{0};
+     std::vector<WorkerRecord> profiles;std::size_t profileDropped=0;
+     std::vector<DetailEvent> details;std::size_t detailDropped=0;
+@@ -305,6 +310,7 @@
+         for(std::size_t w=0;w<c.phaseProbeWindowCount;++w)if(c.phaseProbeWindows[w].first>=c.phaseProbeWindows[w].second)throw std::invalid_argument("Invalid phase probe window");
+         if(seeking&&seekInput>input.frames)throw std::out_of_range("Seek input frame out of range");
+         if(config.fastLocalSeek&&(!seeking||!config.residentInput||!config.localPrerollInputFrames||config.localPrerollInputFrames>input.rate*2ULL))throw std::invalid_argument("Invalid local seek configuration");
++        if(!seeking)input.measureControlCosts=config.measureControlCosts;
+         error.reserve(256);input.validate();verified=elapsed();
+         if(!seeking){
+             inputLease->generation=session;
+@@ -697,6 +703,7 @@
+             // Continue validating the selected source after analysis EOS. The
+             // control/audio owner joins this worker before releasing the FD.
+             while(!cancelled.load()&&!failure.load()){
++                if(config.measureControlCosts)++analysisIdleWakes;
+                 transitionStep(completed);
+                 std::unique_lock lock(mutex);changed.wait_for(lock,std::chrono::milliseconds(config.dynamicTransitions?1:10),[&]{return cancelled.load()||failure.load();});lock.unlock();
+                 // An EOF seek can remain Ready/Paused with an empty FIFO.
+@@ -1336,7 +1343,7 @@
+     }
+     x.operations.push_back(op);return {op.id,op.acceptance};
+ }
+-std::vector<phase59::SpeedOperation> RealtimePipeline::speedOperations()const{std::lock_guard lock(impl_->operationMutex);return impl_->operations;}
++std::vector<phase59::SpeedOperation> RealtimePipeline::speedOperations()const{auto& x=*impl_;playback::ControlCostScope measured(x.speedHistoryCopyCost,x.config.measureControlCosts);std::lock_guard lock(x.operationMutex);measured.items=x.operations.size();measured.objectBytes=x.operations.size()*sizeof(phase59::SpeedOperation);return x.operations;}
+ TimeMap RealtimePipeline::dynamicTimeMap()const{const auto& x=*impl_;if(x.lifecycle.load(std::memory_order_acquire)==LifecycleState::Finalized&&!(x.loopMode()&&x.loopTransitionState.load()==LoopTransitionState::Committed))if(auto map=std::atomic_load(&x.fixedSeekMap))return *map;if(x.lifecycle.load(std::memory_order_acquire)!=LifecycleState::Finalized||!x.transitionPlanner||!x.transitionPlanner->view())throw std::logic_error("Joined dynamic session required");return x.transitionPlanner->view()->map;}
+ std::size_t RealtimePipeline::available()const noexcept{return impl_->fifo.available();}
+ std::uint32_t RealtimePipeline::sampleRate()const noexcept{return impl_->input.rate;}
+@@ -1485,6 +1492,7 @@
+     d.analysisQos=x.analysisQos;d.dspQos=x.dspQos;d.analysisDone=x.analysisDone;d.dspDone=x.dspDone;d.cancelled=x.cancelled&&!x.dspDone;d.failed=x.failure;
+     d.loopReuse.normalPreparation=x.normalLoopState.load();d.loopReuse.checkpointStates=x.inputLease->checkpointBudget->count;d.loopReuse.checkpointPeak=x.inputLease->checkpointBudget->peak;
+     d.loopReuse.reconstructionAttempts=x.loopReconstructionAttempts;d.loopReuse.reconstructedFrames=x.loopReconstructedFrames;d.loopReuse.reconstructionDeferrals=x.loopReconstructionDeferrals;d.loopReuse.reconstructionWallS=x.loopReconstructionWallS;d.loopReuse.reconstructionCpuS=x.loopReconstructionCpuS;
++    d.controlCostsMeasured=x.config.measureControlCosts;d.inputValidationCost=x.input.validationCost.value();d.speedHistoryCopyCost=x.speedHistoryCopyCost.value();d.analysisIdleWakes=x.analysisIdleWakes;
+     d.loopReuse.initialCheckpointHit=x.initialCheckpointHit.load();
+     d.loopReuse.enabled=x.loopMode();d.loopReuse.cyclesPrepared=x.loopReuseCount;d.loopReuse.seedRestores=x.loopSeedRestores;d.loopReuse.cacheReadFrames=x.loopCacheReads;
+     d.loopReuse.coldDiscardedFrames=x.loopColdDiscarded;d.loopReuse.warmDiscardedFrames=x.loopWarmDiscarded;d.loopReuse.cacheBytes=x.loopCacheBytes;d.loopReuse.seedOutput=x.loopSeedOutput;
+--- /dev/null
++++ b/src/playback/ControlCosts.h
+@@ -0,0 +1,25 @@
++#pragma once
++#include "playback/StartupDiagnostics.h"
++#include <atomic>
++#include <algorithm>
++namespace ts::playback {
++// Explicit normal-thread instrumentation. Nested wall/CPU values are inclusive,
++// not additive. No callback caller; disabled scopes do not read a clock.
++struct ControlCostValue {std::uint64_t calls=0,items=0,objectBytes=0;double cpuS=0,wallS=0;};
++class ControlCostCounter {
++    std::atomic<std::uint64_t> calls{0},items{0},bytes{0},cpuNs{0},wallNs{0};
++public:
++    void add(std::size_t count,std::size_t size,double cpu,double wall)noexcept {
++        calls.fetch_add(1,std::memory_order_relaxed);items.fetch_add(count,std::memory_order_relaxed);bytes.fetch_add(size,std::memory_order_relaxed);
++        cpuNs.fetch_add(std::uint64_t(std::max(0.,cpu)*1e9),std::memory_order_relaxed);wallNs.fetch_add(std::uint64_t(std::max(0.,wall)*1e9),std::memory_order_relaxed);
++    }
++    ControlCostValue value()const noexcept{return {calls.load(),items.load(),bytes.load(),cpuNs.load()*1e-9,wallNs.load()*1e-9};}
++};
++class ControlCostScope {
++    ControlCostCounter* counter;double cpu=0;std::chrono::steady_clock::time_point wall{};
++public:
++    std::size_t items=0,objectBytes=0;
++    ControlCostScope(ControlCostCounter& c,bool enabled):counter(enabled?&c:nullptr){if(counter){cpu=threadCpuSeconds();wall=std::chrono::steady_clock::now();}}
++    ~ControlCostScope(){if(counter)counter->add(items,objectBytes,threadCpuSeconds()-cpu,std::chrono::duration<double>(std::chrono::steady_clock::now()-wall).count());}
++};
++}
+--- /dev/null
++++ b/tests/Phase62ControlCpuNative.cpp
+@@ -0,0 +1,26 @@
++// Native-only process CPU benchmark. UI/Swift/JSON service work is not included.
++#define TS_PHASE62_INITIAL_NO_MAIN
++#include "Phase62InitialLoopNative.cpp"
++#undef TS_PHASE62_INITIAL_NO_MAIN
++#include <sys/resource.h>
++#include <libproc.h>
++#include <mach/task_info.h>
++namespace {
++struct CpuSample {double cpu=0,wall=0;std::uint64_t interrupts=0,packages=0;};
++CpuSample cpuSample(){rusage usage{};require(getrusage(RUSAGE_SELF,&usage)==0,"rusage");rusage_info_v4 info{};require(proc_pid_rusage(getpid(),RUSAGE_INFO_V4,reinterpret_cast<rusage_info_t*>(&info))==0,"proc rusage");return {usage.ru_utime.tv_sec+usage.ru_utime.tv_usec*1e-6+usage.ru_stime.tv_sec+usage.ru_stime.tv_usec*1e-6,double(initialNs())*1e-9,info.ri_interrupt_wkups,info.ri_pkg_idle_wkups};}
++std::string threads(){thread_act_array_t list=nullptr;mach_msg_type_number_t count=0;require(task_threads(mach_task_self(),&list,&count)==KERN_SUCCESS,"task threads");std::ostringstream out;out<<'[';
++ for(unsigned i=0;i<count;++i){thread_extended_info_data_t info{};mach_msg_type_number_t size=THREAD_EXTENDED_INFO_COUNT;auto status=thread_info(list[i],THREAD_EXTENDED_INFO,reinterpret_cast<thread_info_t>(&info),&size);if(i)out<<',';out<<"{\"status\":"<<status<<",\"port\":"<<list[i];if(status==KERN_SUCCESS)out<<",\"name\":"<<ts::prototype::phase58::jsonString(info.pth_name)<<",\"user_ns\":"<<info.pth_user_time<<",\"system_ns\":"<<info.pth_system_time;out<<'}';mach_port_deallocate(mach_task_self(),list[i]);}
++ vm_deallocate(mach_task_self(),reinterpret_cast<vm_address_t>(list),count*sizeof(thread_t));out<<']';return out.str();}
++void cost(std::ostream& out,const ControlCostValue& value){out<<"{\"calls\":"<<value.calls<<",\"items\":"<<value.items<<",\"object_bytes\":"<<value.objectBytes<<",\"cpu_s\":"<<value.cpuS<<",\"wall_s\":"<<value.wallS<<'}';}
++void diagnostics(std::ostream& out,const ProgressiveDiagnostics& d){out<<"{\"session\":"<<d.session<<",\"epoch\":"<<d.renderEpoch<<",\"input_generation\":"<<d.inputGeneration<<",\"missing\":"<<d.missingFrames<<",\"rejected\":"<<d.rejectedWrites<<",\"deadlines\":"<<d.workerDeadlineMisses<<",\"worker_new\":"<<d.workerNewCalls<<",\"workgroup_errors\":"<<d.workgroupErrors<<",\"callback_new\":"<<d.callbackCppNew.value_or(UINT64_MAX)<<",\"rss\":"<<d.rssBytes<<",\"costs_measured\":"<<d.controlCostsMeasured<<",\"analysis_wakes\":"<<d.pipeline.analysisIdleWakes<<",\"seek_wakes\":"<<d.seekDispatchWakes<<",\"checkpoint_peak\":"<<d.pipeline.loopReuse.checkpointPeak<<",\"monitor\":";cost(out,d.monitorCost);out<<",\"sync\":";cost(out,d.syncLoopSpeedCost);out<<",\"input_validation\":";cost(out,d.pipeline.inputValidationCost);out<<",\"speed_copy\":";cost(out,d.pipeline.speedHistoryCopyCost);out<<'}';}
++int cpuMain(int argc,char** argv){require(argc==6,"INPUT costs-on|off short|full NEW_OUTPUT sourceSHA");const std::filesystem::path folder=argv[4];require(std::filesystem::create_directories(folder),"fresh output");const bool measured=std::string(argv[2])=="costs-on",full=std::string(argv[3])=="full";const double seconds=full?30:5;std::vector<std::string> ids=full?std::vector<std::string>{"unprepared","off1","off2","off3","loop2s","loop30s","paused","stopped"}:std::vector<std::string>{"off1","paused"};
++ {std::ofstream f(folder/"EXPECTED.json");f<<"{\"expected\":"<<ids.size()<<",\"source\":\""<<argv[5]<<"\",\"costs\":"<<measured<<",\"window_s\":"<<seconds<<",\"observer_hz\":5,\"UI_included\":false,\"required_ids\":[";for(std::size_t i=0;i<ids.size();++i)f<<(i?",":"")<<'"'<<ids[i]<<'"';f<<"]}\n";}
++ ProgressiveMacPlaybackEngine engine;std::ofstream rows(folder/"measurements.jsonl");std::size_t completed=0;
++ const auto sample=[&](const std::string& id,double duration){auto before=engine.getPlaybackDiagnostics();const auto beforeThreads=threads();const auto a=cpuSample();std::uint64_t polls=0;const auto end=std::chrono::steady_clock::now()+std::chrono::duration<double>(duration);while(std::chrono::steady_clock::now()<end){auto state=engine.getStateSnapshot();require(state.state!=State::Failed,state.error.c_str());(void)engine.getCurrentPlaybackPosition();(void)engine.getPlaybackDiagnostics();(void)engine.getLoopSnapshot();++polls;std::this_thread::sleep_for(std::chrono::milliseconds(200));}const auto b=cpuSample();const auto after=engine.getPlaybackDiagnostics();const auto native=engine.getNativeDiagnostics();rows<<std::setprecision(15)<<"{\"id\":\""<<id<<"\",\"cpu_s\":"<<b.cpu-a.cpu<<",\"wall_s\":"<<b.wall-a.wall<<",\"cpu_percent\":"<<100*(b.cpu-a.cpu)/(b.wall-a.wall)<<",\"interrupt_wakeups\":"<<b.interrupts-a.interrupts<<",\"package_wakeups\":"<<b.packages-a.packages<<",\"polls\":"<<polls<<",\"device_rate\":"<<native.deviceRate<<",\"device_buffer\":"<<native.deviceBufferFrames<<",\"before\":";diagnostics(rows,before);rows<<",\"after\":";diagnostics(rows,after);rows<<",\"threads_before\":"<<beforeThreads<<",\"threads_after\":"<<threads()<<"}\n";rows.flush();require(bool(rows),"measurement write");require(after.missingFrames==before.missingFrames&&after.rejectedWrites==before.rejectedWrites,"supply change");++completed;};
++ if(full)sample("unprepared",10);ProgressiveOptions options;options.allowExperimentalLoops=true;options.preset=Preset::Candidate;options.initialSpeed=1;options.measureControlCosts=measured;options.callbackRecordLimit=0;phase61_heap_reset();options.allocationHooks={[]()noexcept{callbackNew=0;callbackCounting=true;phase61_heap_begin();},[]()noexcept{phase61_heap_end();callbackCounting=false;},[]()noexcept{return callbackNew;}};
++ require(engine.prepare(argv[1],options),"prepare");initialWait(engine,[&]{return engine.getPlaybackState()==State::Ready;});initialWait(engine,[&]{return engine.getPlaybackDiagnostics().pipeline.analysisDoneS>=0;});require(engine.play(),"play");sample("off1",seconds);if(full){sample("off2",seconds);sample("off3",seconds);const auto rate=engine.getPlaybackDiagnostics().sourceSampleRate;
++  for(unsigned length:{2,30}){auto state=engine.getStateSnapshot();const auto r=engine.requestLoopRange(30*rate,(30+length)*rate,{state.inputGeneration,state.session,state.renderEpoch});require(r.accepted,r.reason.c_str());initialWait(engine,[&]{return engine.getLoopSnapshot().initialPositionComplete;});sample(length==2?"loop2s":"loop30s",seconds);state=engine.getStateSnapshot();require(engine.requestClearLoop(r.id,{state.inputGeneration,state.session,state.renderEpoch}).accepted,"clear");initialWait(engine,[&]{return !engine.getLoopSnapshot().clearPending;});}
++ }
++ require(engine.pause(),"pause");sample("paused",seconds);engine.stop();if(full)sample("stopped",seconds);require(!phase61_heap_allocations()&&!phase61_heap_frees(),"callback allocation");const auto owners=ts::prototype::phase58::RealtimePipeline::executionOwnerCounts();require(!owners.alive&&owners.peak<=2,"owner lifetime");std::ofstream f(folder/"SUMMARY.json");f<<"{\"status\":\"PASS\",\"run_complete\":true,\"expected\":"<<ids.size()<<",\"executed\":"<<completed<<",\"owners_peak\":"<<owners.peak<<",\"callback_malloc\":"<<phase61_heap_allocations()<<",\"callback_free\":"<<phase61_heap_frees()<<",\"RT_approval\":\"NOT_ASSESSED\"}\n";return 0;}
++}
++int main(int argc,char** argv){int code=1;std::thread owner([&]{try{code=cpuMain(argc,argv);}catch(const std::exception& e){std::cerr<<e.what()<<'\n';}});owner.join();return code;}

@@ -487,12 +487,16 @@ struct ProgressiveMacPlaybackEngine::Impl {
     AVAudioEngine* engine=nil;AVAudioSourceNode* source=nil;id observer=nil;
     std::filesystem::path input;ProgressiveOptions options;
     MacDiagnostics native;prototype::phase58::Diagnostics retired;
-    std::vector<Operation> retiredOperations;TimeMap retiredMap;
+    std::vector<Operation> retiredOperations;prototype::phase58::SpeedStateSummary retiredSpeedSummary;TimeMap retiredMap;
     std::optional<prototype::phase58::PositionSample> retiredPosition;
     StopReason reason=StopReason::None;
     std::string error;std::uint64_t revision=0,reservation=0;
     bool ownsBudget=false,autoPlay=false;
     std::thread seekWorker;
+    std::condition_variable seekChanged;std::uint64_t seekWakeRevision=0;
+    void wakeSeek(){++seekWakeRevision;seekChanged.notify_one();}
+    ControlCostCounter monitorCost,syncLoopSpeedCost;
+    std::atomic<std::uint64_t> seekDispatchWakes{0};
     std::atomic<std::uint64_t> seekVersion{0};
     std::atomic<bool> seekBusy{false};
     std::vector<progressive::SeekOperation> seeks;
@@ -555,7 +559,9 @@ struct ProgressiveMacPlaybackEngine::Impl {
     progressive::SeekOperation& seekOp(std::size_t i){return i==loopIndex?loopJob:i==stoppedIndex?stoppedJob:seeks.at(i);}
     bool loopLive()const{return loop.enabled;}
     void syncLoopSpeeds(Pipeline* source=nullptr,RenderTarget* observedTarget=nullptr){
+        ControlCostScope cost(syncLoopSpeedCost,options.measureControlCosts);
         using LS=progressive::LoopSpeedState;
+        const auto pending=loopSpeeds.unsettled();if(pending.empty())return;
         auto* t=effectiveTarget();if(!source)source=pipeline.get();
         const auto now=machNs();
         if(rendering){const auto phase=rendering->handoff.phase.load(std::memory_order_acquire);
@@ -571,10 +577,13 @@ struct ProgressiveMacPlaybackEngine::Impl {
         }
         // B may land at the last frame of a callback: adoption is already Done,
         // but the first new PCM is observed only by the following callback.
-        if(t&&t->firstPcm.load())for(const auto& row:loopSpeeds.records())if(!progressive::terminal(row.state)&&row.fixedBoundary&&row.session==t->session){
+        if(t&&t->firstPcm.load())for(const auto index:pending)if(const auto& row=loopSpeeds.records()[index];!progressive::terminal(row.state)&&row.fixedBoundary&&row.session==t->session){
             auto& op=*loopSpeeds.find(row.id);op.state=LS::Completed;op.outputStarted=true;op.firstPcmObservedNs=op.completedNs=op.terminalNs=now;
         }
-        for(const auto& prepared:stoppedSpeeds)if(auto* external=loopSpeeds.find(prepared.id);external&&!external->clearContinuation&&!progressive::terminal(external->state)){
+        for(const auto index:pending)if(auto* external=loopSpeeds.find(loopSpeeds.records()[index].id);external&&!external->clearContinuation&&!progressive::terminal(external->state)){
+            constexpr auto stoppedBit=std::uint64_t(1)<<63;const auto slot=external->id&~stoppedBit;
+            if(!(external->id&stoppedBit)||!slot||slot>stoppedSpeeds.size())continue;
+            const auto& prepared=stoppedSpeeds[slot-1];if(prepared.id!=external->id)continue;
             external->preparationVersion=prepared.preparationVersion;external->resumeInputFrame=prepared.resumeInputFrame;
             if(prepared.state==StoppedSpeedState::Replaced||prepared.state==StoppedSpeedState::Cancelled||prepared.state==StoppedSpeedState::Failed){
                 external->state=prepared.state==StoppedSpeedState::Replaced?LS::Replaced:prepared.state==StoppedSpeedState::Failed?LS::Failed:LS::Cancelled;
@@ -587,32 +596,34 @@ struct ProgressiveMacPlaybackEngine::Impl {
             }
         }
         if(!source)return;
-        const auto descriptor=source->loopTransition();const auto ops=source->speedOperations();const auto d=source->diagnostics();
+        const auto descriptor=source->loopTransition();const auto sourceSession=source->sessionID();
         auto* sourceTarget=observedTarget?observedTarget:target&&target->pipeline==source?target.get():t;
         if(descriptor.state==prototype::phase58::LoopTransitionState::Applying||descriptor.state==prototype::phase58::LoopTransitionState::Committed||descriptor.state==prototype::phase58::LoopTransitionState::FixedBoundaryCommitted){
-            for(const auto& row:loopSpeeds.records())if(!progressive::terminal(row.state)&&row.dynamicSession==d.session&&row.dynamicOperationID==descriptor.operationID){
+            for(const auto index:pending)if(const auto& row=loopSpeeds.records()[index];!progressive::terminal(row.state)&&row.dynamicSession==sourceSession&&row.dynamicOperationID==descriptor.operationID){
                 auto& op=*loopSpeeds.find(row.id);op.adoptionPending=true;
                 if(descriptor.state==prototype::phase58::LoopTransitionState::Committed){op.committed=true;op.state=LS::Committed;if(!op.commitObservedNs)op.commitObservedNs=now;
                     op.producerCycle=descriptor.cycle;op.mapVersion=descriptor.mapVersion;op.outputEnd=descriptor.localEnd;}
                 else if(descriptor.state==prototype::phase58::LoopTransitionState::FixedBoundaryCommitted){op.state=LS::FixedBoundaryCommitted;op.fixedBoundaryCommitted=true;op.deferral=descriptor.reason==prototype::phase58::LoopTransitionReason::OperationLimit?progressive::LoopSpeedDeferral::InternalLimit:descriptor.reason==prototype::phase58::LoopTransitionReason::PreparationDeadline?progressive::LoopSpeedDeferral::PreparationDeadline:progressive::LoopSpeedDeferral::ProtectedFrontier;op.reason=descriptor.reason==prototype::phase58::LoopTransitionReason::OperationLimit?"動的履歴上限により、公開済みPCMを保護する固定Bへ延期":descriptor.reason==prototype::phase58::LoopTransitionReason::PreparationDeadline?"cache状態再構成が期限・対象周期を越えたため、有効なcache出力を保持して固定Bへ延期":"公開済みFIFOと未公開PCMの後に合法な動的区間がないため、producerが確定した固定Bへ延期";op.producerCycle=descriptor.cycle;op.mapVersion=descriptor.mapVersion;op.outputEnd=descriptor.localEnd;if(!op.commitObservedNs)op.commitObservedNs=now;}
             }
         }
-        for(const auto& row:loopSpeeds.records()){
-                if(progressive::terminal(row.state)||!row.dynamicOperationID||row.dynamicOperationID>ops.size())continue;
-                const auto& internal=ops[row.dynamicOperationID-1];
+        for(const auto index:pending){
+                const auto& row=loopSpeeds.records()[index];
+                if(progressive::terminal(row.state)||!row.dynamicOperationID)continue;
+                const auto progress=source->speedOperationProgress(row.dynamicOperationID);if(!progress)continue;
+                const auto& internal=*progress;
                 if(row.dynamicSession!=internal.session||row.dynamicOperationID!=internal.id)continue;
                 auto& external=*loopSpeeds.find(row.id);
                 if(internal.appliedS>=0){
                     external.committed=true;if(!external.commitObservedNs)external.commitObservedNs=now;
-                    external.firstChangedOutputFrame=std::max(0LL,internal.change.plan.appliedOutputSample);
-                    external.completionOutputFrame=std::max(0LL,internal.change.plan.completionOutputSample);
+                    external.firstChangedOutputFrame=std::max(0LL,internal.firstChanged);
+                    external.completionOutputFrame=std::max(0LL,internal.completion);
                     external.state=LS::Committed;
                     if(descriptor.operationID==internal.id&&descriptor.state==prototype::phase58::LoopTransitionState::Committed){
                         external.producerCycle=descriptor.cycle;external.mapVersion=descriptor.mapVersion;external.outputEnd=descriptor.localEnd;
                         const auto start=external.firstChangedOutputFrame;
                         const auto published=source->diagnosticFifoCursors().write;
                         if(start>=descriptor.localStart&&published>descriptor.cumulativeStart+start-descriptor.localStart&&!external.firstChangedPublishedObservedNs)external.firstChangedPublishedObservedNs=now;
-                        if(source->loopReadCycle()==descriptor.cycle&&d.consumed>start){external.outputStarted=true;external.state=LS::Applied;if(!external.firstPcmObservedNs){external.firstPcmObservedNs=now;external.cycle=loop.cycles;external.renderEpoch=sourceTarget?sourceTarget->currentEpoch():0;}}
+                        if(source->loopReadCycle()==descriptor.cycle&&source->logicalOutputFrame()>start){external.outputStarted=true;external.state=LS::Applied;if(!external.firstPcmObservedNs){external.firstPcmObservedNs=now;external.cycle=loop.cycles;external.renderEpoch=sourceTarget?sourceTarget->currentEpoch():0;}}
                     }
                     if(internal.completedS>=0){external.state=LS::Completed;external.completedNs=external.terminalNs=now;}
                 }
@@ -701,17 +712,19 @@ struct ProgressiveMacPlaybackEngine::Impl {
         if(audit.operations.size()>256){audit.droppedOperations=audit.operations.size()-256;audit.operations.erase(audit.operations.begin(),audit.operations.end()-256);}
         if(closed.size()==16)closed.erase(closed.begin());closed.push_back(std::move(audit));
     }
-    void seekLoop(){@autoreleasepool {while(!exit.load()){
+    void seekLoop(){pthread_setname_np("TSL seek control");@autoreleasepool {while(!exit.load()){
         controlTestEvent(ProgressiveControlTestPoint::LoopJobDispatch);
         std::unique_ptr<Pipeline> next,old;
         std::unique_ptr<RenderTarget> nextTarget,oldTarget;
         std::shared_ptr<RenderState> renderLease;
-        std::size_t index=std::size_t(-1);std::uint64_t version=0;
+        std::size_t index=std::size_t(-1);std::uint64_t version=0,seenWake=0;
         bool published=false,transitionDone=false,autoCycle=false,continuation=false;std::uint64_t jobLoopID=0,jobSpeedRequestID=0;
         prototype::phase58::LoopTransitionSnapshot dynamic;
         auto finalFailure=progressive::LoopSpeedDeferral::PreparationFailed;
         try{
             {std::lock_guard lock(mutex);
+                seenWake=seekWakeRevision;
+                if(options.measureControlCosts)++seekDispatchWakes;
                 collectLoopBoundary();if(!loopLive()&&!loop.clearPending)pendingLoop=false;
                 if(pipeline&&pendingSeek==std::size_t(-1)&&!pendingLoop&&target&&target->loopEnd.load()&&!pipeline->loopReuseEnabled()&&(loopLive()||loop.clearPending))pendingLoop=true;
                 if(pendingLoop&&pipeline&&pendingSeek==std::size_t(-1)){
@@ -756,7 +769,7 @@ struct ProgressiveMacPlaybackEngine::Impl {
                         external->state=progressive::LoopSpeedState::Preparing;external->preparationVersion=version;external->preparingNs=machNs();
                     }}
             }
-            if(!next){std::this_thread::sleep_for(std::chrono::milliseconds(2));continue;}
+            if(!next){std::unique_lock lock(mutex);seekChanged.wait(lock,[&]{return exit.load()||seekWakeRevision!=seenWake;});continue;}
             controlTestEvent(ProgressiveControlTestPoint::LoopJobSelected);
             next->start();controlTestEvent(ProgressiveControlTestPoint::SeekPreparationStarted);
             const auto deadline=std::chrono::steady_clock::now()+options.prepareTimeout;
@@ -997,7 +1010,11 @@ struct ProgressiveMacPlaybackEngine::Impl {
                 if(auto* external=loopSpeeds.find(jobSpeedRequestID);external&&external->clearContinuation&&!progressive::terminal(external->state)){external->state=progressive::LoopSpeedState::ReadyForResume;external->readyNs=machNs();}
             }
             if(auto* external=loopSpeeds.find(jobSpeedRequestID);external&&!progressive::terminal(external->state)&&!external->committed&&!transitionDone&&jobSpeedRequestID!=loop.speedRequestID){
-                external->adoptionPending=false;external->state=progressive::LoopSpeedState::Replaced;external->reason="未commit準備版の取消・退役後に最新要求へ置換";external->terminalNs=machNs();
+                const bool started=external->outputStarted||external->adoptionPending;
+                external->adoptionPending=false;
+                external->state=started?progressive::LoopSpeedState::Cancelled:progressive::LoopSpeedState::Replaced;
+                external->reason=started?"採用開始済みownerを出力静止後に退役。開始・実PCMの事実を保持して取消":"未commit準備版の取消・退役後に最新要求へ置換";
+                external->terminalNs=machNs();
             }
             const bool clearFinished=transitionDone&&continuation&&jobLoopID==loop.id&&seekVersion.load()==version;
             if(clearFinished)pausedClearInput.reset();
@@ -1013,11 +1030,11 @@ struct ProgressiveMacPlaybackEngine::Impl {
             }
             controlTestEvent(ProgressiveControlTestPoint::SeekCleanupComplete);}
     }}}
-    Impl(){stoppedSpeeds.reserve(4096);seeks.reserve(4096);closed.reserve(16);boundaries.reserve(64);monitor=std::thread([this]{@autoreleasepool {while(!exit.load()){
-        {std::lock_guard lock(mutex);try{tick();}catch(const std::exception& e){fail(e.what());}}
+    Impl(){stoppedSpeeds.reserve(4096);seeks.reserve(4096);closed.reserve(16);boundaries.reserve(64);monitor=std::thread([this]{pthread_setname_np("TSL monitor");@autoreleasepool {while(!exit.load()){
+        {std::lock_guard lock(mutex);ControlCostScope cost(monitorCost,options.measureControlCosts);try{tick();if(!seekBusy.load()&&(pendingSeek!=std::size_t(-1)||pendingStopped||pendingLoop||(pipeline&&target&&target->loopEnd.load()&&!pipeline->loopReuseEnabled()&&(loopLive()||loop.clearPending))))wakeSeek();}catch(const std::exception& e){fail(e.what());}}
         std::this_thread::sleep_for(std::chrono::milliseconds(2));
     }}});seekWorker=std::thread([this]{seekLoop();});}
-    ~Impl(){cancelPrepare=true;{std::lock_guard lock(mutex);quiesce(false);cancelSeeks("破棄により取消");}exit=true;++seekVersion;if(monitor.joinable())monitor.join();if(seekWorker.joinable())seekWorker.join();if(preparation.joinable())preparation.join();std::lock_guard lock(mutex);retire();rendering.reset();
+    ~Impl(){cancelPrepare=true;{std::lock_guard lock(mutex);quiesce(false);cancelSeeks("破棄により取消");}{std::lock_guard lock(mutex);exit=true;++seekVersion;wakeSeek();}if(monitor.joinable())monitor.join();if(seekWorker.joinable())seekWorker.join();if(preparation.joinable())preparation.join();std::lock_guard lock(mutex);retire();rendering.reset();
         if(options.receiveFinalLoopSpeedAudit){
             const FinalLoopSpeedAudit audit{loopSpeeds.records(),1,true,!pipeline&&!retiringPipeline&&!rendering};
             (void)options.receiveFinalLoopSpeedAudit(options.finalLoopSpeedAuditContext,audit);
@@ -1037,7 +1054,7 @@ struct ProgressiveMacPlaybackEngine::Impl {
         if(activeSeek<seeks.size()&&!progressive::terminal(seeks[activeSeek].state)){seeks[activeSeek].state=progressive::SeekState::Cancelled;seeks[activeSeek].reason="静止・退役により取消";}
         if(target){retiredEpoch=target->currentEpoch();retiredPresented=target->presented;for(auto& op:seeks)if(op.renderEpoch==target->currentEpoch()){op.firstCallbackNs=target->firstPcm;op.estimatedPresentationNs=target->firstTarget;}}
         if(rendering)rendering->target=nullptr;
-        if(pipeline){pipeline->setRealtimeRendering(false);pipeline->stop();retired=pipeline->diagnostics();retiredOperations=pipeline->speedOperations();retiredPosition=pipeline->positionSample();
+        if(pipeline){pipeline->setRealtimeRendering(false);pipeline->stop();retired=pipeline->diagnostics();retiredOperations=pipeline->speedOperations();retiredSpeedSummary=pipeline->speedStateSummary();retiredPosition=pipeline->positionSample();
             if(retired.analysisDone&&!retired.failed){try{retiredMap=pipeline->dynamicTimeMap();}catch(const std::logic_error&) {}}
             pipeline.reset();}
         target.reset();
@@ -1108,7 +1125,7 @@ struct ProgressiveMacPlaybackEngine::Impl {
     bool force=false;
     void launch(){
         cancelPrepare=false;autoPlay=false;acceptedAt=seconds();cpuStart=processCpu();readyAfter=constructorS=-1;++revision;
-        retired={};retiredEpoch=retiredPresented=0;retiredOperations.clear();retiredMap={};retiredPosition.reset();rendering.reset();native={};error.clear();reason=StopReason::None;reservation=0;
+        retired={};retiredEpoch=retiredPresented=0;retiredOperations.clear();retiredSpeedSummary={};retiredMap={};retiredPosition.reset();rendering.reset();native={};error.clear();reason=StopReason::None;reservation=0;
         loop={};pendingLoop=false;pausedClearInput.reset();boundaryRead=0;boundaries.clear();stoppedBase=stoppedSpeeds.size();pendingStopped=resumePending=stoppedStartBlocked=false;stoppedInput.reset();
         state=State::Accepted;
         seekBase=seeks.size();lifetimeWorkerDeadlines=lifetimeWorkerNews=lifetimeWorkgroupErrors=0;lifetimeMissing=lifetimeCalls=lifetimeRejected=lifetimeMaxMissing=0;closed.clear();closedQualityFailed=false;archivedEpochCount=archivedPreparedEpochCount=0;
@@ -1124,7 +1141,7 @@ struct ProgressiveMacPlaybackEngine::Impl {
                 controlTestEvent(ProgressiveControlTestPoint::AcquiringResources);
                 bool expected=false;if(!resourceOwner.compare_exchange_strong(expected,true))throw std::runtime_error("別の実験セッションが資源を使用中です");
                 {std::lock_guard lock(mutex);ownsBudget=true;reservation=reserve;}
-                prototype::phase58::Configuration c;c.speedMicros=progressive::speedMicros(o.initialSpeed);c.candidate=o.preset==Preset::Candidate;c.verifyPcm=false;c.residentInput=true;c.dynamicTransitions=true;c.scheduling=prototype::phase58::WorkerScheduling::AudioWorkgroup;c.sourceSnapshotBytes=bytes;c.seekCheckpoints=o.seekCheckpoints;c.lifecycleTestHooks=o.pipelineLifecycleTestHooks;c.controlTestHooks=o.pipelineControlTestHooks;c.boundedEpochReservations=o.allowExperimentalLoops;
+                prototype::phase58::Configuration c;c.speedMicros=progressive::speedMicros(o.initialSpeed);c.candidate=o.preset==Preset::Candidate;c.verifyPcm=false;c.residentInput=true;c.dynamicTransitions=true;c.scheduling=prototype::phase58::WorkerScheduling::AudioWorkgroup;c.sourceSnapshotBytes=bytes;c.measureControlCosts=o.measureControlCosts;c.seekCheckpoints=o.seekCheckpoints;c.lifecycleTestHooks=o.pipelineLifecycleTestHooks;c.controlTestHooks=o.pipelineControlTestHooks;c.boundedEpochReservations=o.allowExperimentalLoops;
                 const auto began=seconds();next=std::make_unique<Pipeline>(p,c);
                 if(next->diagnostics().sourceSnapshotBytes!=bytes||next->inputFrames()!=reader.frames()||next->sampleRate()!=reader.sampleRate()||next->channels()!=reader.channels())throw std::runtime_error("資源見積り中に入力形式・サイズが変化しました");
                 {std::lock_guard lock(mutex);constructorS=seconds()-began;}
@@ -1141,6 +1158,11 @@ struct ProgressiveMacPlaybackEngine::Impl {
     }
     void stopPreparation(){cancelPrepare=true;if(preparation.joinable())preparation.join();}
     double applied(const std::vector<Operation>& ops,const RenderTarget* effective=nullptr)const{double s=effective&&effective->loopEnd.load()?effective->speedMicros/1000000.:options.initialSpeed;if(effective&&effective!=target.get())for(const auto& seek:seeks)if(seek.renderEpoch==effective->currentEpoch()){s=seek.speedMicros/1000000.;break;}for(const auto& op:ops)if(op.appliedS>=0)s=op.target/1000000.;return s;}
+    double applied(const prototype::phase58::SpeedStateSummary& summary,const RenderTarget* effective=nullptr)const{
+        double s=effective&&effective->loopEnd.load()?effective->speedMicros/1000000.:options.initialSpeed;
+        if(effective&&effective!=target.get())for(const auto& seek:seeks)if(seek.renderEpoch==effective->currentEpoch()){s=seek.speedMicros/1000000.;break;}
+        return summary.lastAppliedSpeed?*summary.lastAppliedSpeed/1000000.:s;
+    }
 };
 ProgressiveMacPlaybackEngine::ProgressiveMacPlaybackEngine():impl_(std::make_unique<Impl>()){}
 ProgressiveMacPlaybackEngine::~ProgressiveMacPlaybackEngine()=default;
@@ -1160,6 +1182,7 @@ progressive::LoopReceipt ProgressiveMacPlaybackEngine::requestLoopRange(std::uin
     else if(options.startPolicy!=progressive::LoopStartPolicy::ReturnToA&&options.startPolicy!=progressive::LoopStartPolicy::KeepPosition)why="開始方針が不正です";
     else if(options.startPolicy==progressive::LoopStartPolicy::KeepPosition){
         if(a!=0||b!=x.pipeline->inputFrames())why="現在位置維持は全曲ループ専用です";
+        else if(t->pipeline!=x.pipeline.get())why="採用開始済みClearの旧owner退役待ちです。完了後の最新文脈で現在位置維持を再要求してください";
         else if(t->pipeline->loopOutputEndFrame()&&x.loop.endFrameExclusive!=x.pipeline->inputFrames())why="有界AB区間から現在位置維持へ移るには、解除完了またはA復帰が必要です";
         else try{(void)x.pipeline->fixedOutputFrameForInput(b);}catch(const std::exception& e){why=e.what();}
     }
@@ -1168,7 +1191,11 @@ progressive::LoopReceipt ProgressiveMacPlaybackEngine::requestLoopRange(std::uin
         return {id,false,why};
     }
     if(x.state==State::Playing&&!x.pipeline->cancelLoopTransition())return {id,false,"動的周期の採用が確定しました。B引継ぎ後に範囲を再要求してください"};
-    x.cancelSeeks("新しいループ設定を優先");x.loop={};x.loop.id=id;x.loop.enabled=true;x.loop.state=progressive::LoopState::Pending;
+    // Resolve Requested cancellation before closing the external Clear row.
+    // Once Started wins, its PCM and ID belong to the retained handoff until
+    // the worker captures Done and retires the old owner.
+    const auto retainedClearID=x.loop.clearPending&&x.startedSeek(Impl::loopIndex)?x.activeLoopSpeedRequestID:0;
+    x.cancelSeeks("新しいループ設定を優先",retainedClearID);x.loop={};x.loop.id=id;x.loop.enabled=true;x.loop.state=progressive::LoopState::Pending;
     x.loop.startFrame=a;x.loop.endFrameExclusive=b;x.loop.inputGeneration=context.inputGeneration;x.loop.session=context.session;x.loop.sourceRenderEpoch=context.renderEpoch;
     x.loop.acceptedNs=machNs();x.loop.requestedSpeed=x.requested;x.loop.appliedSpeed=t->speedMicros/1000000.;
     x.loopInitial=true;x.loopKeep=options.startPolicy==progressive::LoopStartPolicy::KeepPosition;x.pendingLoop=true;
@@ -1178,7 +1205,7 @@ progressive::LoopReceipt ProgressiveMacPlaybackEngine::requestLoopRange(std::uin
         t->loopA=a;t->loopB=b;t->loopID=id;t->loopEnd=x.pipeline->fixedOutputFrameForInput(b);
         if(!x.pipeline->requestNormalLoopReuse())x.loop.speedDeferReason="通常ownerの生成が終了済み、または原点準備待ち。既存の初回B供給版を維持";
     }
-    x.loopCycleBase=x.rendering?x.rendering->loopCycles.load():0;x.boundaries.clear();return {id,true,{}};
+    x.loopCycleBase=x.rendering?x.rendering->loopCycles.load():0;x.boundaries.clear();x.wakeSeek();return {id,true,{}};
 }
 progressive::LoopReceipt ProgressiveMacPlaybackEngine::requestClearLoop(std::uint64_t id,progressive::LoopContext context){
     workQueue();auto& x=*impl_;std::lock_guard lock(x.mutex);auto* t=x.effectiveTarget();
@@ -1230,7 +1257,7 @@ progressive::LoopReceipt ProgressiveMacPlaybackEngine::requestClearLoop(std::uin
 }
 progressive::LoopSnapshot ProgressiveMacPlaybackEngine::getLoopSnapshot()const{
     auto& x=*impl_;std::lock_guard lock(x.mutex);x.collectLoopBoundary();auto result=x.loop;
-    if(auto* t=x.effectiveTarget()){result.currentRenderEpoch=t->currentEpoch();result.appliedSpeed=x.applied(t->pipeline->speedOperations(),t);}return result;
+    if(auto* t=x.effectiveTarget()){result.currentRenderEpoch=t->currentEpoch();result.appliedSpeed=x.applied(t->pipeline->speedStateSummary(),t);}return result;
 }
 std::vector<progressive::LoopBoundaryEvent> ProgressiveMacPlaybackEngine::loopHistory()const{
     auto& x=*impl_;std::lock_guard lock(x.mutex);x.collectLoopBoundary();return x.boundaries;
@@ -1332,7 +1359,7 @@ prototype::phase59::RequestReceipt ProgressiveMacPlaybackEngine::setSpeedImpl(do
         x.requested=s;x.loop.requestedSpeed=s;x.loop.speedRequestID=external.id;x.loop.speedPreparationFailed=false;if(x.rendering)x.rendering->speedRequestID=external.id;
         x.loop.speedDeferReason.clear();
         if(x.loopKeep&&x.loopInitial&&!x.pipeline->loopReuseEnabled())x.loop.speedDeferReason="KeepPosition初回の自己反復準備待ち";
-        x.pendingLoop=true;return receipt(external.id,Result::Accepted,Code::Accepted);
+        x.pendingLoop=true;x.wakeSeek();return receipt(external.id,Result::Accepted,Code::Accepted);
     }
     if(x.state==State::Ready||x.state==State::Paused){
         if(auto* previous=x.stoppedSpeed();previous&&!previous->outputStarted&&previous->speedMicros==micros&&previous->inputGeneration==before->inputGeneration&&previous->loopID==(x.loopLive()?x.loop.id:0)&&(previous->state==StoppedSpeedState::Preparing||previous->state==StoppedSpeedState::ReadyForResume))return receipt(previous->id,Result::Duplicate,Code::Duplicate,"同じ停止位置・準備版の既存要求です");
@@ -1358,7 +1385,7 @@ prototype::phase59::RequestReceipt ProgressiveMacPlaybackEngine::setSpeedImpl(do
             x.pendingSeek=x.activeSeek;x.seeks[x.activeSeek].state=progressive::SeekState::Pending;
         }
         if(x.pendingSeek<x.seeks.size())x.stoppedInput=x.seeks[x.pendingSeek].requestedInputFrame;
-        x.captureStopped(op);x.stoppedSpeeds.push_back(op);x.pendingStopped=x.pendingSeek==std::size_t(-1);
+        x.captureStopped(op);x.stoppedSpeeds.push_back(op);x.pendingStopped=x.pendingSeek==std::size_t(-1);x.wakeSeek();
         return receipt(op.id,Result::Accepted,Code::Accepted);
     }
     if(x.rendering){auto phase=SwitchPhase::Requested;x.rendering->handoff.phase.compare_exchange_strong(phase,SwitchPhase::Cancelled,std::memory_order_acq_rel);}
@@ -1451,9 +1478,9 @@ std::vector<ProgressiveClosedEpoch> ProgressiveMacPlaybackEngine::closedEpochs()
 bool ProgressiveMacPlaybackEngine::seekToInputSeconds(double seconds)noexcept{try{return capabilities().seek&&requestSeekToInputSeconds(seconds).accepted;}catch(...){return false;}}
 progressive::State ProgressiveMacPlaybackEngine::getPlaybackState()const noexcept{return impl_->state.load();}
 ProgressiveStateSnapshot ProgressiveMacPlaybackEngine::getStateSnapshot()const{auto& x=*impl_;std::lock_guard lock(x.mutex);ProgressiveStateSnapshot s;s.state=x.state;s.reason=x.reason;s.preparation=x.revision;s.requestedSpeed=x.requested;s.error=x.error;
-    const auto* t=x.effectiveTarget();const auto d=t?t->pipeline->diagnostics():x.retired;s.session=d.session;s.inputGeneration=d.inputGeneration;s.renderEpoch=t?t->currentEpoch():x.retiredEpoch;auto ops=t?t->pipeline->speedOperations():x.retiredOperations;s.appliedTargetSpeed=x.applied(ops,t);
+    const auto* t=x.effectiveTarget();const auto d=t?t->pipeline->diagnostics():x.retired;s.session=d.session;s.inputGeneration=d.inputGeneration;s.renderEpoch=t?t->currentEpoch():x.retiredEpoch;const auto summary=t?t->pipeline->speedStateSummary():x.retiredSpeedSummary;s.appliedTargetSpeed=x.applied(summary,t);
     if(auto* op=x.stoppedSpeed())s.stoppedSpeed=*op;s.resumePending=x.resumePending;
-    for(const auto& op:ops){using O=prototype::phase59::OperationState;if(op.state==O::Pending)s.pending=op;else if(op.state==O::Submitted||op.state==O::Applied)s.active=op;else s.lastResult=op;}return s;}
+    s.pending=summary.pending;s.active=summary.active;s.lastResult=summary.lastResult;return s;}
 ProgressivePosition ProgressiveMacPlaybackEngine::getCurrentPlaybackPosition()const{auto& x=*impl_;std::lock_guard lock(x.mutex);const auto* t=x.effectiveTarget();auto sample=t?t->pipeline->positionSample():x.retiredPosition;const auto d=t?t->pipeline->diagnostics():x.retired;ProgressivePosition p;p.session=d.session;p.outputFrame=d.consumed;const auto rate=x.rendering?x.rendering->rate:0;if(rate)p.outputSeconds=p.outputFrame/rate;
     p.inputGeneration=d.inputGeneration;p.renderEpoch=t?t->currentEpoch():x.retiredEpoch;
     if(sample&&sample->session==d.session&&((x.state!=State::Ready&&x.state!=State::Paused)||sample->output==d.consumed)){p.inputFrame=sample->input;p.sampledOutputFrame=sample->output;if(rate)p.inputSeconds=sample->input/rate;}
@@ -1469,7 +1496,8 @@ ProgressivePosition ProgressiveMacPlaybackEngine::getCurrentPlaybackPosition()co
     return p;}
 ProgressiveDiagnostics ProgressiveMacPlaybackEngine::getPlaybackDiagnostics()const{auto& x=*impl_;std::lock_guard lock(x.mutex);ProgressiveDiagnostics d;if(x.options.allowExperimentalLoops)d.engineKind="Experimental Progressive Phase62";d.timeStretchLabSha=TIMESTRETCH_PHASE60_SHA;d.preparation=x.revision;const auto* t=x.effectiveTarget();d.pipeline=t?t->pipeline->diagnostics():x.retired;const auto& p=d.pipeline;
     d.session=p.session;d.inputGeneration=p.inputGeneration;d.renderEpoch=t?t->currentEpoch():x.retiredEpoch;d.generatedFrames=p.generated;d.publishedFrames=p.published;d.consumedFrames=p.consumed;d.presentedFrames=x.rendering?x.rendering->presented.load():0;d.currentEpochPresentedFrame=t?t->presented.load():x.retiredPresented;d.missingFrames=p.missingFrames+x.lifetimeMissing;d.underrunCalls=p.missingCalls+x.lifetimeCalls;d.maxConsecutiveMissingFrames=std::max(std::uint64_t(p.maxConsecutiveMissing),x.lifetimeMaxMissing);d.rejectedWrites=p.rejectedWrites+x.lifetimeRejected;
-    d.sourceSampleRate=x.rendering?static_cast<unsigned>(x.rendering->rate):0;d.channels=x.rendering?x.rendering->channels:0;d.inputFrames=p.inputFrames;d.residentInputBytes=p.residentInputBytes;d.temporarySourceBytes=p.sourceSnapshotBytes;d.reservationBytes=x.reservation;d.requestedSpeed=x.requested;d.appliedTargetSpeed=x.applied(t?t->pipeline->speedOperations():x.retiredOperations,t);d.processCpuS=x.acceptedAt?processCpu()-x.cpuStart:0;if(!x.pipeline&&p.session)d.dspWorkerCpuS=p.dspWorkerCpuS;d.acceptedToReadyS=x.readyAfter;d.constructorS=x.constructorS;d.fifoSupplyFailed=progressive::SupplyQuality::evaluate(p.missingFrames,p.missingCalls,p.rejectedWrites).failed;d.error=x.error.empty()?p.error:x.error;
+    d.controlCostsMeasured=x.options.measureControlCosts;d.monitorCost=x.monitorCost.value();d.syncLoopSpeedCost=x.syncLoopSpeedCost.value();d.seekDispatchWakes=x.seekDispatchWakes;
+    d.sourceSampleRate=x.rendering?static_cast<unsigned>(x.rendering->rate):0;d.channels=x.rendering?x.rendering->channels:0;d.inputFrames=p.inputFrames;d.residentInputBytes=p.residentInputBytes;d.temporarySourceBytes=p.sourceSnapshotBytes;d.reservationBytes=x.reservation;d.requestedSpeed=x.requested;d.appliedTargetSpeed=x.applied(t?t->pipeline->speedStateSummary():x.retiredSpeedSummary,t);d.processCpuS=x.acceptedAt?processCpu()-x.cpuStart:0;if(!x.pipeline&&p.session)d.dspWorkerCpuS=p.dspWorkerCpuS;d.acceptedToReadyS=x.readyAfter;d.constructorS=x.constructorS;d.fifoSupplyFailed=progressive::SupplyQuality::evaluate(p.missingFrames,p.missingCalls,p.rejectedWrites).failed;d.error=x.error.empty()?p.error:x.error;
     d.workerDeadlineMisses=x.lifetimeWorkerDeadlines+p.scheduling.deadlineMisses;d.workerNewCalls=x.lifetimeWorkerNews+p.realtimeNewCalls;d.workgroupErrors=x.lifetimeWorkgroupErrors+Impl::workerErrors(p);
     d.archivedEpochCount=x.archivedEpochCount;d.archivedPreparedEpochCount=x.archivedPreparedEpochCount;
     const auto add=[&](Pipeline* source){const auto old=source->diagnostics();d.missingFrames+=old.missingFrames;d.underrunCalls+=old.missingCalls;d.rejectedWrites+=old.rejectedWrites;d.maxConsecutiveMissingFrames=std::max(d.maxConsecutiveMissingFrames,old.maxConsecutiveMissing);d.workerDeadlineMisses+=old.scheduling.deadlineMisses;d.workerNewCalls+=old.realtimeNewCalls;d.workgroupErrors+=Impl::workerErrors(old);return old;};

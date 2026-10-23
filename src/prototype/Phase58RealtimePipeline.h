@@ -4,6 +4,7 @@
 #include "prototype/Phase58FixRealtimeWorker.h"
 #include "prototype/Phase59Control.h"
 #include <string>
+#include "playback/ControlCosts.h"
 
 namespace ts::prototype::phase58 {
 enum class WorkerScheduling {Standard,AudioWorkgroup};
@@ -29,6 +30,7 @@ struct Configuration {
     std::uint32_t speedMicros=500000;
     bool candidate=true,verifyPcm=true,recordWorkerProfile=false;
     bool detailedDiagnostics=false;
+    bool measureControlCosts=false; // explicit normal-thread attribution only
     bool sampleDspThread=false;
     bool residentInput=false;
     bool dynamicTransitions=false; // Phase59 explicit research opt-in only.
@@ -79,6 +81,7 @@ enum class NormalLoopReuseState {Inactive,Preparing,Ready,Failed,LimitReached};
 struct LoopReuseDiagnostics {
     bool enabled=false;
     bool initialCheckpointHit=false; // complete fixed A state restored for this initial ReturnToA epoch
+    bool initialPrefixCheckpointHit=false; // existing strict fixed seek P<=OA; resynthesize P->A
     NormalLoopReuseState normalPreparation=NormalLoopReuseState::Inactive;
     std::uint64_t reconstructionAttempts=0,reconstructedFrames=0,reconstructionDeferrals=0;
     double reconstructionWallS=0,reconstructionCpuS=0;
@@ -89,7 +92,18 @@ struct LoopReuseDiagnostics {
     double mapS=0,dspConstructS=0,coldPrefixS=0,coldCpuS=0,warmCpuS=0,seedCloneS=0,restoreS=0;
     double analysisWaitS=0,mapCpuS=0,coldPrefixCpuS=0,joinS=0;
 };
+struct SpeedStateSummary {
+    std::optional<phase59::SpeedOperation> pending,active,lastResult;
+    std::optional<std::uint32_t> lastAppliedSpeed;
+};
+struct SpeedOperationProgress {
+    std::uint64_t id=0,session=0;double appliedS=-1,completedS=-1;
+    long long firstChanged=0,completion=0;
+};
 struct Diagnostics {
+    bool controlCostsMeasured=false;
+    playback::ControlCostValue inputValidationCost,speedHistoryCopyCost;
+    std::uint64_t analysisIdleWakes=0;
     std::uint64_t session=0,analysisThread=0,dspThread=0,snapshotVersion=0;
     std::size_t inputFrames=0,receivedInput=0,generated=0,published=0,consumed=0,outputFrames=0;
     std::size_t inputAtFirstPcm=0,inputAtReady=0,nonEosPublished=0;
@@ -195,7 +209,11 @@ public:
     bool failed()const noexcept;
     phase59::RequestReceipt requestSpeed(std::uint32_t targetMicros,std::size_t logicalPresented,
         std::uint64_t expectedSession=0,std::uint64_t expectedInputGeneration=0);
-    std::vector<phase59::SpeedOperation> speedOperations()const; // Normal control thread only.
+    std::vector<phase59::SpeedOperation> speedOperations()const;
+    SpeedStateSummary speedStateSummary()const; // at most pending/active/latest result; full history is explicit
+    std::optional<SpeedOperationProgress> speedOperationProgress(std::uint64_t)const;
+    std::uint64_t sessionID()const noexcept;
+    std::size_t logicalOutputFrame()const noexcept; // Normal control thread only.
     TimeMap dynamicTimeMap()const; // Joined workers only, normal diagnostic copy.
     std::size_t available()const noexcept;
     std::uint32_t sampleRate()const noexcept;

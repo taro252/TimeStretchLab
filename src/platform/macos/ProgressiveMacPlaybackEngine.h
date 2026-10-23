@@ -66,6 +66,7 @@ struct ProgressiveOptions {
     RenderAllocationHooks allocationHooks{}; // explicit verification host only
     bool allowExperimentalLoops=false; // Phase62, OFF / public NO-GO
     bool seekCheckpoints=true;
+    bool measureControlCosts=false; // disabled in ordinary apps; normal-thread counters
     // Research opt-in only: long impulse-train quality is NOT approved.
     bool allowUnvalidatedFastLocalSeek=false;
     // Post-mix output is NOT one epoch's raw suffix. Called before gain 0.5.
@@ -126,6 +127,9 @@ struct ProgressiveStateSnapshot {
     bool resumePending=false; // accepted intent; Playing means output actually started
 };
 struct ProgressiveDiagnostics {
+    bool controlCostsMeasured=false;
+    ControlCostValue monitorCost,syncLoopSpeedCost;
+    std::uint64_t seekDispatchWakes=0;
     std::string engineKind="Experimental Progressive Phase61",timeStretchLabSha;
     std::uint64_t preparation=0,session=0,inputGeneration=0;
     std::uint64_t generatedFrames=0,publishedFrames=0,consumedFrames=0,presentedFrames=0;

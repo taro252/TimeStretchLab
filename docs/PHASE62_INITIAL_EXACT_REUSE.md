@@ -25,3 +25,9 @@
 hostのnative Accepted→Readyは同じnative clockの差、位置合わせと最初のA RAW観測はsteady_clock秒の差。時計の生値を混ぜない。性能指標はsteady_clockの受付→位置合わせとReady観測→最初A RAWの和で、両版とも明示的な30ms静止確認を含む。再生装置48kHz/512 callbackの実測であり物理出音時間ではない。early要求は実際のfinalAnalysisフラグを記録し、完了済みなら「解析完了前の実施」としない。
 
 旧固定Exact binaryのSHAと入力SHAを確認してRAWとMapを独立生成する。新製品RAWの全bit/全channel/フレーム/座標を比較し、非有限値は別FAIL。境界加工は旧RAWの終端/先頭と別実装の式から照合する。製品RAWだけで独立DSP oracleと呼ばない。試験コマンド・件数・参照hashは `results/phase62_terminal_initial` に記録する。性能、PCM、実時間期限、一般公開を別判定する。
+
+## 制御負荷修正後のprefix流用（2026-10-22）
+
+通常seekが既に持つ互換な固定完全保存点P<=OAを、初回Loopの生成workerが全Map確定後に一つだけ選択して流用できる。全ノード/最終長/入力・解析・Preset/速度/resident identityを厳密に照合し、残りの任意保存点を解放してから新A保存点を予約する。`initialPrefixCheckpointHit`を同A/Bの`initialCheckpointHit`と区別し、PからAまでの残破棄を実測する。既存2枠を増やさない。
+
+Clearの通常Exactでは同速度の不変A保存点からB/Cまで再合成する。B越えの未公開PCMをA保存点と組み合わせない。P=0も正当な完全状態であり、復元後の動的初期化を重ねない。今回の独立固定RAW・全suffix・取消/上限検証は[新REPORT](../results/phase62_control_ab/REPORT.md)に記録する。保存点のないfresh初回の前置DSPは残る。

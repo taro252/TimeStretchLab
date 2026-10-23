@@ -1,0 +1,227 @@
+{
+  "schema": 1,
+  "head": "ff1f677f7bcb6095b0f1d74538910f9c3e4b5d5d",
+  "branch": "codex/phase62-control-ab-performance",
+  "file_inventory_sha256": "a6440b55aa23f1920cdbd6717085cf691630bb2d1bc200367905034ce643d519",
+  "files": [
+    {
+      "path": "CMakeLists.txt",
+      "bytes": 67144,
+      "sha256": "aaa58aefeab042064f3cb2fd0430d5a579795fd10c8dbd43ec8530b70fffe3ac"
+    },
+    {
+      "path": "docs/PAUSED_SPEED_CHANGE_HANDOFF.md",
+      "bytes": 22612,
+      "sha256": "e5b8355e21506d0753901180e2cd2aff272a0274b16e6fb0f3e7cf358288971e"
+    },
+    {
+      "path": "docs/PHASE62_CONTROL_AB_PERFORMANCE.md",
+      "bytes": 9136,
+      "sha256": "33661faa0bb39274c8b171cc044b9fe8a611ad329bb8f252104650f80b21f368"
+    },
+    {
+      "path": "docs/PHASE62_CONTROL_AB_VALIDATION.md",
+      "bytes": 8878,
+      "sha256": "18cdc477f875e1de52bb0254471b0dac76b9f0cb785c19c8fa5ceb498abc7869"
+    },
+    {
+      "path": "docs/PHASE62_INITIAL_EXACT_REUSE.md",
+      "bytes": 5774,
+      "sha256": "801fa6ba5aa9bbfe9813fb7304bfdfd12c0663fb65909d7b9c29c3bdb6aa6eba"
+    },
+    {
+      "path": "docs/PHASE62_MERODOA_HANDOFF.md",
+      "bytes": 27991,
+      "sha256": "2ce12d24332608ed2fd79341b288832c95e7c36259360b24c2584a3800a41764"
+    },
+    {
+      "path": "results/phase62_control_ab/ENVIRONMENT.json",
+      "bytes": 1013,
+      "sha256": "52565953e2012b480b5989810801324a56ea77460ce2e7362f16fa267233b194"
+    },
+    {
+      "path": "results/phase62_control_ab/QUALITY_AUDIT.json",
+      "bytes": 54622,
+      "sha256": "19e96a7e80b8ec2e65de741b2112bdddf96ece5f17cb4fde7a6146508c470d9c"
+    },
+    {
+      "path": "results/phase62_control_ab/REFERENCE_AUDIT.json",
+      "bytes": 13152,
+      "sha256": "d3615accd881632601127e0752752258c9b5a8966758039ba5414229a5349f46"
+    },
+    {
+      "path": "results/phase62_control_ab/REPORT.md",
+      "bytes": 11954,
+      "sha256": "b799383724a6b9052fcc9d39604c139628dd6e071a4c4d31391bec66ef1260a8"
+    },
+    {
+      "path": "results/phase62_control_ab/SOURCE.json",
+      "bytes": 108137,
+      "sha256": "197ecefeb5fc49742011f5512ddf9162516e7d09508a39fe7952d99ca4e2e75b"
+    },
+    {
+      "path": "results/phase62_control_ab/manifest.json",
+      "bytes": 29688,
+      "sha256": "b8583dcf7d8cbf42f8ed07aaea188ca8117fa558656e73c95ab82b60e2e5f757"
+    },
+    {
+      "path": "results/phase62_control_ab/recipes/audit_reused_quality.py",
+      "bytes": 28447,
+      "sha256": "d462c636455a4c7a4c4fb4ffcb0adb8b1a8b3682296c01818ef5c5bc0247a669"
+    },
+    {
+      "path": "results/phase62_control_ab/recipes/baseline_ab_additions.patch",
+      "bytes": 11819,
+      "sha256": "49b1ec4beb427080a8032d88013f0471689771029576560143ca1bd90283627e"
+    },
+    {
+      "path": "results/phase62_control_ab/recipes/baseline_instrumentation.patch",
+      "bytes": 25370,
+      "sha256": "9388652c27847cf7f821eefaa0efe37fea190ce74bd9652c864d21acfe84f58b"
+    },
+    {
+      "path": "results/phase62_control_ab/recipes/build_suite.py",
+      "bytes": 1828,
+      "sha256": "1d186910ceefc30e35ab071e0f7a462aa5b9931b786b6adafae7b2ee9b8e171a"
+    },
+    {
+      "path": "results/phase62_control_ab/recipes/compare_cpu.py",
+      "bytes": 5472,
+      "sha256": "075320eb0bd251bbc42d83085df1e02ad90f8159dadfc9a3573a637ab692c6fe"
+    },
+    {
+      "path": "results/phase62_control_ab/recipes/finalize_evidence.py",
+      "bytes": 8368,
+      "sha256": "9fb6f1ae55bfbb5160cbcad311ff1dae58213e0bba0e958d7bab4204d67e87ed"
+    },
+    {
+      "path": "results/phase62_control_ab/recipes/generate_inputs.py",
+      "bytes": 2076,
+      "sha256": "4c655c22d2a34c472c920f5cddb1efa68f79dd50fc21ef7a79407e99ab7aad58"
+    },
+    {
+      "path": "results/phase62_control_ab/recipes/run_ab_quality.py",
+      "bytes": 8261,
+      "sha256": "329cbbff11cd9b5eae4c2defc6fbe5a8dd7f09d5216891a23dd0765c6babd260"
+    },
+    {
+      "path": "results/phase62_control_ab/recipes/run_control_regressions.py",
+      "bytes": 4145,
+      "sha256": "541dc96241b55aa8c21de39c1b2a64a44fffe8393da0380a90e0b97f498a4c5d"
+    },
+    {
+      "path": "results/phase62_control_ab/recipes/run_cpu.py",
+      "bytes": 2570,
+      "sha256": "92bf35d10095817bdd2c6f66c68d31559bdd505d78af22e85e94d2a46e946977"
+    },
+    {
+      "path": "results/phase62_control_ab/recipes/run_final_suite.py",
+      "bytes": 3007,
+      "sha256": "a8f32e3e6a215a3c9b72d5fdd2164e0d9ce2b74d1aa6efb9ab68edac06d90539"
+    },
+    {
+      "path": "results/phase62_control_ab/recipes/run_partial.py",
+      "bytes": 2517,
+      "sha256": "9a9039b9aa5d43f7536da9ddfc9938ba622615b8bfd6d2c951600e6f40db0713"
+    },
+    {
+      "path": "results/phase62_control_ab/recipes/run_range_replacements.py",
+      "bytes": 2521,
+      "sha256": "0478ef4c8544e6e5e63ae18a1c5df653fac9002962297f736ee3fcaf81955c0d"
+    },
+    {
+      "path": "results/phase62_control_ab/recipes/run_runtime_regressions.py",
+      "bytes": 5347,
+      "sha256": "70721c31d98ed80821471ec96439718d44fa937b127bf222110d9c19c880ff8a"
+    },
+    {
+      "path": "results/phase62_control_ab/recipes/validate_fixed_capture.py",
+      "bytes": 5245,
+      "sha256": "4db7ca2129eb9e5d727609242c38307be86a90743a43d1db461d091ca209e018"
+    },
+    {
+      "path": "results/phase62_control_ab/recipes/validate_initial_pcm.py",
+      "bytes": 22829,
+      "sha256": "cfb93847614fd9125219f221e684f6e51b292ec6f2c43082e71d85a9fe849918"
+    },
+    {
+      "path": "results/phase62_control_ab/recipes/write_report.py",
+      "bytes": 14024,
+      "sha256": "bfb3815a1fae7fba3d3a39f47462b4edb8db158970eb378dfa1660f1d087858f"
+    },
+    {
+      "path": "src/platform/macos/ProgressiveMacPlaybackEngine.h",
+      "bytes": 15460,
+      "sha256": "80816ae428b21e74f09603a366aa68768a3ab26f156051cacffe434e992aca54"
+    },
+    {
+      "path": "src/platform/macos/ProgressiveMacPlaybackEngine.mm",
+      "bytes": 149917,
+      "sha256": "585e270f241ccc0eff8f6305805296e02ca3f4ea5b8441c957431ee584773b06"
+    },
+    {
+      "path": "src/playback/ControlCosts.h",
+      "bytes": 1519,
+      "sha256": "6ebafde46e7add1e019ea67c8d6d242089a0f7f8cd30ec5e6231ddb6749087b3"
+    },
+    {
+      "path": "src/playback/LoopSpeedLedger.h",
+      "bytes": 4693,
+      "sha256": "5657f033c3ff3439efb653b9f6eba6f4a7f7163a9457878c82fbc7f2addb9a07"
+    },
+    {
+      "path": "src/prototype/Phase58RealtimePipeline.cpp",
+      "bytes": 136460,
+      "sha256": "cb7ee30f2183e0f09ccc2ef1feb2bfed4625ce87319e87ede66e03edc9af4d06"
+    },
+    {
+      "path": "src/prototype/Phase58RealtimePipeline.h",
+      "bytes": 16237,
+      "sha256": "37be1572092bd9541b81d1ee1df25567a052d4eb4a76623f720fe96fb67c020d"
+    },
+    {
+      "path": "tests/Phase62ClearReenableNative.cpp",
+      "bytes": 34600,
+      "sha256": "37ba5dd407be20f2243a9868538f206d7daa0dbed9ec053111235f30c2b65414"
+    },
+    {
+      "path": "tests/Phase62ControlCpuNative.cpp",
+      "bytes": 7299,
+      "sha256": "c82c7ffebfeb1d30bed3d11eed1ab6f091bbec3375de0401b87fbcd43c7ff999"
+    },
+    {
+      "path": "tests/Phase62ControlSummaryTests.cpp",
+      "bytes": 27454,
+      "sha256": "b1149001ae1a6d5761a3d19c04b9a63e91abb07157bc0fa8b25c26a747672d19"
+    },
+    {
+      "path": "tests/Phase62InitialLoopNative.cpp",
+      "bytes": 11651,
+      "sha256": "f65cf0e0ea2cb61255cc6d5872f6f134f6d894b4b561e03df1e11834c4517b52"
+    },
+    {
+      "path": "tests/Phase62InputWatchTests.cpp",
+      "bytes": 19607,
+      "sha256": "2bf4cac8a3b97bc5a6ac57892583c91be8c761d370a85c6086f9de0b55cb7788"
+    },
+    {
+      "path": "tests/Phase62PrefixCheckpointTests.cpp",
+      "bytes": 19715,
+      "sha256": "314711ca64222bb7efb201dc8ad60c6e306a3dd7b6e41de8d1a2ff87fc3e97d1"
+    },
+    {
+      "path": "tests/Phase62RangeReplacementNative.cpp",
+      "bytes": 13655,
+      "sha256": "68059a11342272741986c2f3cba6d4c3e8efc5783ab214dc09780afe9f018577"
+    },
+    {
+      "path": "tests/Phase62WarmReenableNative.cpp",
+      "bytes": 7128,
+      "sha256": "11c645ee2f2357fe17365de2ec2e8bf62e3549cfc466176fdac2fa767cbf5fb3"
+    }
+  ],
+  "self_excluded": "results/phase62_control_ab/WORKTREE_FILES.json",
+  "size_limit_exclusive_bytes": 50000000,
+  "staged_files": [],
+  "commit_push_history_rewrite": false
+}

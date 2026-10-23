@@ -160,3 +160,7 @@ Merodoa側は終端キャッシュで補正せず、同じ14 checksをbridge経�
 Ready/Pausedの初回ReturnToAはAへ位置合わせして静止し、明示Play前には消費/音声/周回を進めない。通常Paused速度変更は停止位置C保持であり、二つの契約を混同しない。Merodoa側ではA1のClear前凍結14checks、正当な未終端Clear移管、同prepare再要求/fresh初回/解析前後、A0/30/270、Playing進入混合、最新速度変更後の初期枠失効を限定再試験する。SpeedOperationの39fields/要求ID/終端不変/終了監査APIは変わらない。
 
 最終品質は独立旧Exact参照で7native条件14round＋offline両Preset、70/70 checks、最終A1/F01/Paused Clear等147/147。物理出音時間・p95・全条件実時間期限・一般公開・Merodoa既定採用の承認には広げない。短全曲F01中間試験の単発期限超過もREPORTに保持する。Merodoaのコード、submodule、UIはこの作業で変更していない。
+
+## 2026-10-22 制御待機・Loop Clear再ON
+
+[制御負荷・AB入口](PHASE62_CONTROL_AB_PERFORMANCE.md)の修正後も、静止C、Resume前の最新Ready、準備中の再開意思と再Pause取消、Stop/入力/装置/close失効を維持する。仕事のないseek workerは要求通知待ちへ移した。通常Paused制御とLoop Clearの準備/採用/退役を区別し、PausedのClear再ONで自動再生しない。[新REPORT](../results/phase62_control_ab/REPORT.md)を追加根拠とし、過去の未解決・公開判断は閉じない。

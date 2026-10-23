@@ -4,11 +4,13 @@
 #include <stdexcept>
 #include <algorithm>
 #include <array>
+#include <span>
 namespace ts::playback::progressive {
 // One normal-thread owner (the engine mutex), engine-lifetime retention. No
 // callback access, eviction, wraparound, or admission beyond the reserved bound.
 class LoopSpeedLedger {
     std::vector<LoopSpeedOperation> records_;
+    std::array<std::uint16_t,4096> unsettled_{};std::size_t unsettledCount_=0;
     std::array<std::size_t,8192> index_{}; // bounded identity index, not a second history
     static std::size_t hash(std::uint64_t id)noexcept {return std::size_t((id^(id>>32))*0x9e3779b97f4a7c15ULL)&8191;}
 public:
@@ -21,7 +23,7 @@ public:
     }
     LoopSpeedOperation& accept(LoopSpeedOperation op){
         if(!op.id||full()||find(op.id))throw std::logic_error("外部Loop速度台帳の予約・IDが不正です");
-        const auto id=op.id;records_.push_back(std::move(op));
+        const auto id=op.id;records_.push_back(std::move(op));unsettled_[unsettledCount_++]=std::uint16_t(records_.size()-1);
         for(auto at=hash(id);;at=(at+1)&8191)if(!index_[at]){index_[at]=records_.size();break;}
         return records_.back();
     }
@@ -51,6 +53,12 @@ public:
         if(!external||!external->clearContinuation||terminal(external->state)||external->loopID!=loopID||
            external->inputGeneration!=inputGeneration||external->preparationVersion!=preparationVersion)return false;
         external->discardedForPausedClearFrames=frames;return true;
+    }
+    // All state writers already serialize on the Engine mutex. Compact only
+    // this bounded pending index; terminal records themselves remain immutable.
+    std::span<const std::uint16_t> unsettled()noexcept {
+        std::size_t n=0;for(std::size_t i=0;i<unsettledCount_;++i)if(!terminal(records_[unsettled_[i]].state))unsettled_[n++]=unsettled_[i];
+        unsettledCount_=n;return {unsettled_.data(),n};
     }
     const std::vector<LoopSpeedOperation>& records()const noexcept {return records_;}
 };
