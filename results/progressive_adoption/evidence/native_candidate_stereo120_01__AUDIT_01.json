@@ -1,0 +1,1492 @@
+{
+  "schema": "adoption-native-performance-audit-v1",
+  "PASS": false,
+  "audit_status": "PASS",
+  "execution_complete": true,
+  "performance_status": "FAIL",
+  "functional_rt_status": "FAIL",
+  "latency_status": "PASS",
+  "quality_status": "UNMEASURED",
+  "quality_pass": null,
+  "allow_quality_pass": false,
+  "publication_status": "NOT_DECIDED",
+  "expected_count": 120,
+  "observed_count": 120,
+  "checks": [
+    {
+      "id": "expected_schema",
+      "PASS": true
+    },
+    {
+      "id": "quality_pass_prohibited",
+      "PASS": true
+    },
+    {
+      "id": "ready_target_is_200ms",
+      "PASS": true
+    },
+    {
+      "id": "normal_zero_fields_complete",
+      "PASS": true
+    },
+    {
+      "id": "execution_finite",
+      "PASS": true
+    },
+    {
+      "id": "execution_exit_and_timeout",
+      "PASS": true,
+      "detail": {
+        "returncode": 0,
+        "timed_out": false,
+        "wall_s": 38.85971425002208
+      }
+    },
+    {
+      "id": "native_command_shape",
+      "PASS": true
+    },
+    {
+      "id": "data_directory_binding",
+      "PASS": true
+    },
+    {
+      "id": "host_current_sha256",
+      "PASS": true
+    },
+    {
+      "id": "input_current_sha256",
+      "PASS": true
+    },
+    {
+      "id": "input_300s_44100_stereo",
+      "PASS": true
+    },
+    {
+      "id": "expected_key_types",
+      "PASS": true
+    },
+    {
+      "id": "expected_keys_fixed_complete_120",
+      "PASS": true
+    },
+    {
+      "id": "successful_build",
+      "PASS": true
+    },
+    {
+      "id": "build_binary_binding",
+      "PASS": true
+    },
+    {
+      "id": "build_source_identity",
+      "PASS": true
+    },
+    {
+      "id": "all_rows_parse",
+      "PASS": true,
+      "detail": []
+    },
+    {
+      "id": "observed_keys_exact_120",
+      "PASS": true
+    },
+    {
+      "id": "all_measurements_finite_present_analysis_complete",
+      "PASS": true,
+      "detail": []
+    },
+    {
+      "id": "device_actual_values_consistent",
+      "PASS": true,
+      "detail": [
+        [
+          72,
+          48000,
+          512
+        ]
+      ]
+    },
+    {
+      "id": "session_epoch_and_lifetime_order",
+      "PASS": true,
+      "detail": []
+    },
+    {
+      "id": "artifacts_unchanged_during_audit",
+      "PASS": true,
+      "detail": []
+    }
+  ],
+  "identities": [
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/native_candidate_stereo120_01/EXPECTED.json",
+      "bytes": 9051,
+      "sha256": "5ab3ad81467cfb2ca4dc243eceaba8b43dc5d40414f5f4b18674b3812adc84ca",
+      "stat": [
+        16777231,
+        222516929,
+        9051,
+        1792734224563315565,
+        1792734224563315565
+      ]
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/native_candidate_stereo120_01/EXECUTION.json",
+      "bytes": 75,
+      "sha256": "6650c832283b2b974c60940f32ad8dce14bd1b669ebe94ee5613d01b5a751c35",
+      "stat": [
+        16777231,
+        222517140,
+        75,
+        1792734264633860899,
+        1792734264633860899
+      ]
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/native_candidate_stereo120_01/data/rows.jsonl",
+      "bytes": 133265,
+      "sha256": "6a5f9fa5cfb275d51b78e7d27237f71d83c4e5bf1fae8812a655b62e2d10bfdc",
+      "stat": [
+        16777231,
+        222516947,
+        133265,
+        1792734264587975399,
+        1792734264587975399
+      ]
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/candidate/phase61_interactive_native_tests",
+      "bytes": 1081008,
+      "sha256": "35f82f9e97fe93c966303d0f7ae361d399aec466b4be3964c20c07950ab9b90c",
+      "stat": [
+        16777231,
+        222506751,
+        1081008,
+        1792733842801864826,
+        1792733842801864826
+      ],
+      "role": "host",
+      "expected_sha256": "35f82f9e97fe93c966303d0f7ae361d399aec466b4be3964c20c07950ab9b90c"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+      "bytes": 105840044,
+      "sha256": "fc8be98125b35e0b2bde0728ef8ccfc60ab2aee4462b72f61c55733ae277cf58",
+      "stat": [
+        16777231,
+        218428696,
+        105840044,
+        1792240177133725531,
+        1792240177133725531
+      ],
+      "role": "input",
+      "expected_sha256": "fc8be98125b35e0b2bde0728ef8ccfc60ab2aee4462b72f61c55733ae277cf58"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/build_candidate_04/BUILD.json",
+      "bytes": 122809,
+      "sha256": "4957b5b53829f2e1e5b9f03e38c09a7ae3fe05d55d3328039a247372911716aa",
+      "stat": [
+        16777231,
+        222515397,
+        122809,
+        1792734100435679151,
+        1792734100435679151
+      ]
+    }
+  ],
+  "PASS_scope": "Native functional/RT and Ready p95 target only; excludes PCM quality.",
+  "statistics_method": "Linear interpolation at (N-1)*q, using each operation timestamp difference.",
+  "argv": [
+    "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab/results/progressive_adoption/recipes/audit_native_performance.py",
+    "--run-dir",
+    "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/native_candidate_stereo120_01",
+    "--output",
+    "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/native_candidate_stereo120_01/AUDIT_01.json"
+  ],
+  "input": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+    "rate": 44100,
+    "channels": 2,
+    "frames": 13230000
+  },
+  "expected_keys": [
+    [
+      400000,
+      false,
+      0,
+      1323000
+    ],
+    [
+      400000,
+      false,
+      0,
+      3672645
+    ],
+    [
+      400000,
+      false,
+      0,
+      6615000
+    ],
+    [
+      400000,
+      false,
+      0,
+      11907000
+    ],
+    [
+      400000,
+      false,
+      0,
+      12568500
+    ],
+    [
+      400000,
+      false,
+      1,
+      1323000
+    ],
+    [
+      400000,
+      false,
+      1,
+      3672645
+    ],
+    [
+      400000,
+      false,
+      1,
+      6615000
+    ],
+    [
+      400000,
+      false,
+      1,
+      11907000
+    ],
+    [
+      400000,
+      false,
+      1,
+      12568500
+    ],
+    [
+      400000,
+      false,
+      2,
+      1323000
+    ],
+    [
+      400000,
+      false,
+      2,
+      3672645
+    ],
+    [
+      400000,
+      false,
+      2,
+      6615000
+    ],
+    [
+      400000,
+      false,
+      2,
+      11907000
+    ],
+    [
+      400000,
+      false,
+      2,
+      12568500
+    ],
+    [
+      400000,
+      true,
+      0,
+      1323000
+    ],
+    [
+      400000,
+      true,
+      0,
+      3672645
+    ],
+    [
+      400000,
+      true,
+      0,
+      6615000
+    ],
+    [
+      400000,
+      true,
+      0,
+      11907000
+    ],
+    [
+      400000,
+      true,
+      0,
+      12568500
+    ],
+    [
+      400000,
+      true,
+      1,
+      1323000
+    ],
+    [
+      400000,
+      true,
+      1,
+      3672645
+    ],
+    [
+      400000,
+      true,
+      1,
+      6615000
+    ],
+    [
+      400000,
+      true,
+      1,
+      11907000
+    ],
+    [
+      400000,
+      true,
+      1,
+      12568500
+    ],
+    [
+      400000,
+      true,
+      2,
+      1323000
+    ],
+    [
+      400000,
+      true,
+      2,
+      3672645
+    ],
+    [
+      400000,
+      true,
+      2,
+      6615000
+    ],
+    [
+      400000,
+      true,
+      2,
+      11907000
+    ],
+    [
+      400000,
+      true,
+      2,
+      12568500
+    ],
+    [
+      500000,
+      false,
+      0,
+      1323000
+    ],
+    [
+      500000,
+      false,
+      0,
+      3672645
+    ],
+    [
+      500000,
+      false,
+      0,
+      6615000
+    ],
+    [
+      500000,
+      false,
+      0,
+      11907000
+    ],
+    [
+      500000,
+      false,
+      0,
+      12568500
+    ],
+    [
+      500000,
+      false,
+      1,
+      1323000
+    ],
+    [
+      500000,
+      false,
+      1,
+      3672645
+    ],
+    [
+      500000,
+      false,
+      1,
+      6615000
+    ],
+    [
+      500000,
+      false,
+      1,
+      11907000
+    ],
+    [
+      500000,
+      false,
+      1,
+      12568500
+    ],
+    [
+      500000,
+      false,
+      2,
+      1323000
+    ],
+    [
+      500000,
+      false,
+      2,
+      3672645
+    ],
+    [
+      500000,
+      false,
+      2,
+      6615000
+    ],
+    [
+      500000,
+      false,
+      2,
+      11907000
+    ],
+    [
+      500000,
+      false,
+      2,
+      12568500
+    ],
+    [
+      500000,
+      true,
+      0,
+      1323000
+    ],
+    [
+      500000,
+      true,
+      0,
+      3672645
+    ],
+    [
+      500000,
+      true,
+      0,
+      6615000
+    ],
+    [
+      500000,
+      true,
+      0,
+      11907000
+    ],
+    [
+      500000,
+      true,
+      0,
+      12568500
+    ],
+    [
+      500000,
+      true,
+      1,
+      1323000
+    ],
+    [
+      500000,
+      true,
+      1,
+      3672645
+    ],
+    [
+      500000,
+      true,
+      1,
+      6615000
+    ],
+    [
+      500000,
+      true,
+      1,
+      11907000
+    ],
+    [
+      500000,
+      true,
+      1,
+      12568500
+    ],
+    [
+      500000,
+      true,
+      2,
+      1323000
+    ],
+    [
+      500000,
+      true,
+      2,
+      3672645
+    ],
+    [
+      500000,
+      true,
+      2,
+      6615000
+    ],
+    [
+      500000,
+      true,
+      2,
+      11907000
+    ],
+    [
+      500000,
+      true,
+      2,
+      12568500
+    ],
+    [
+      1000000,
+      false,
+      0,
+      1323000
+    ],
+    [
+      1000000,
+      false,
+      0,
+      3672645
+    ],
+    [
+      1000000,
+      false,
+      0,
+      6615000
+    ],
+    [
+      1000000,
+      false,
+      0,
+      11907000
+    ],
+    [
+      1000000,
+      false,
+      0,
+      12568500
+    ],
+    [
+      1000000,
+      false,
+      1,
+      1323000
+    ],
+    [
+      1000000,
+      false,
+      1,
+      3672645
+    ],
+    [
+      1000000,
+      false,
+      1,
+      6615000
+    ],
+    [
+      1000000,
+      false,
+      1,
+      11907000
+    ],
+    [
+      1000000,
+      false,
+      1,
+      12568500
+    ],
+    [
+      1000000,
+      false,
+      2,
+      1323000
+    ],
+    [
+      1000000,
+      false,
+      2,
+      3672645
+    ],
+    [
+      1000000,
+      false,
+      2,
+      6615000
+    ],
+    [
+      1000000,
+      false,
+      2,
+      11907000
+    ],
+    [
+      1000000,
+      false,
+      2,
+      12568500
+    ],
+    [
+      1000000,
+      true,
+      0,
+      1323000
+    ],
+    [
+      1000000,
+      true,
+      0,
+      3672645
+    ],
+    [
+      1000000,
+      true,
+      0,
+      6615000
+    ],
+    [
+      1000000,
+      true,
+      0,
+      11907000
+    ],
+    [
+      1000000,
+      true,
+      0,
+      12568500
+    ],
+    [
+      1000000,
+      true,
+      1,
+      1323000
+    ],
+    [
+      1000000,
+      true,
+      1,
+      3672645
+    ],
+    [
+      1000000,
+      true,
+      1,
+      6615000
+    ],
+    [
+      1000000,
+      true,
+      1,
+      11907000
+    ],
+    [
+      1000000,
+      true,
+      1,
+      12568500
+    ],
+    [
+      1000000,
+      true,
+      2,
+      1323000
+    ],
+    [
+      1000000,
+      true,
+      2,
+      3672645
+    ],
+    [
+      1000000,
+      true,
+      2,
+      6615000
+    ],
+    [
+      1000000,
+      true,
+      2,
+      11907000
+    ],
+    [
+      1000000,
+      true,
+      2,
+      12568500
+    ],
+    [
+      2000000,
+      false,
+      0,
+      1323000
+    ],
+    [
+      2000000,
+      false,
+      0,
+      3672645
+    ],
+    [
+      2000000,
+      false,
+      0,
+      6615000
+    ],
+    [
+      2000000,
+      false,
+      0,
+      11907000
+    ],
+    [
+      2000000,
+      false,
+      0,
+      12568500
+    ],
+    [
+      2000000,
+      false,
+      1,
+      1323000
+    ],
+    [
+      2000000,
+      false,
+      1,
+      3672645
+    ],
+    [
+      2000000,
+      false,
+      1,
+      6615000
+    ],
+    [
+      2000000,
+      false,
+      1,
+      11907000
+    ],
+    [
+      2000000,
+      false,
+      1,
+      12568500
+    ],
+    [
+      2000000,
+      false,
+      2,
+      1323000
+    ],
+    [
+      2000000,
+      false,
+      2,
+      3672645
+    ],
+    [
+      2000000,
+      false,
+      2,
+      6615000
+    ],
+    [
+      2000000,
+      false,
+      2,
+      11907000
+    ],
+    [
+      2000000,
+      false,
+      2,
+      12568500
+    ],
+    [
+      2000000,
+      true,
+      0,
+      1323000
+    ],
+    [
+      2000000,
+      true,
+      0,
+      3672645
+    ],
+    [
+      2000000,
+      true,
+      0,
+      6615000
+    ],
+    [
+      2000000,
+      true,
+      0,
+      11907000
+    ],
+    [
+      2000000,
+      true,
+      0,
+      12568500
+    ],
+    [
+      2000000,
+      true,
+      1,
+      1323000
+    ],
+    [
+      2000000,
+      true,
+      1,
+      3672645
+    ],
+    [
+      2000000,
+      true,
+      1,
+      6615000
+    ],
+    [
+      2000000,
+      true,
+      1,
+      11907000
+    ],
+    [
+      2000000,
+      true,
+      1,
+      12568500
+    ],
+    [
+      2000000,
+      true,
+      2,
+      1323000
+    ],
+    [
+      2000000,
+      true,
+      2,
+      3672645
+    ],
+    [
+      2000000,
+      true,
+      2,
+      6615000
+    ],
+    [
+      2000000,
+      true,
+      2,
+      11907000
+    ],
+    [
+      2000000,
+      true,
+      2,
+      12568500
+    ]
+  ],
+  "build": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/build_candidate_04/BUILD.json",
+    "source": "d9ddeb137b4be72ea521c353efdde6b89b3c4028d792ae2ce310e47c532c9d35",
+    "source_root": "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab",
+    "configuration": "Release",
+    "architecture": "arm64",
+    "baseline_commit_label": "f4f0e6187a643d9442216df87c04353eda4934e5"
+  },
+  "missing_keys": [],
+  "unexpected_keys": [],
+  "duplicate_keys": [],
+  "malformed_rows": [],
+  "device": {
+    "actual_values": [
+      {
+        "id": 72,
+        "rate": 48000,
+        "buffer_frames": 512
+      }
+    ],
+    "expected_rate": 48000,
+    "expected_buffer_frames": 512,
+    "independently_expected_id": null,
+    "recorded_hardware_label": "M1 MacBookAir10,1 16GiB macOS26.6.2 built-in speaker 48kHz/512; actual device fields recorded in each row",
+    "hardware_label_verification": "UNVERIFIED: model/OS/RAM/speaker name are not proven by these row fields."
+  },
+  "counter_tables": {
+    "delta": [
+      {
+        "field": "delta_missing",
+        "measured_rows": 120,
+        "unmeasured_or_invalid_rows": 0,
+        "max": 0,
+        "nonzero_rows": 0,
+        "nonzero_keys": [],
+        "all_zero": true,
+        "sum": 0,
+        "scope": "Per-operation after-minus-before delta recorded by the host."
+      },
+      {
+        "field": "delta_callback_deadlines",
+        "measured_rows": 120,
+        "unmeasured_or_invalid_rows": 0,
+        "max": 0,
+        "nonzero_rows": 0,
+        "nonzero_keys": [],
+        "all_zero": true,
+        "sum": 0,
+        "scope": "Per-operation after-minus-before delta recorded by the host."
+      },
+      {
+        "field": "delta_host_errors",
+        "measured_rows": 120,
+        "unmeasured_or_invalid_rows": 0,
+        "max": 0,
+        "nonzero_rows": 0,
+        "nonzero_keys": [],
+        "all_zero": true,
+        "sum": 0,
+        "scope": "Per-operation after-minus-before delta recorded by the host."
+      },
+      {
+        "field": "delta_sample_errors",
+        "measured_rows": 120,
+        "unmeasured_or_invalid_rows": 0,
+        "max": 0,
+        "nonzero_rows": 0,
+        "nonzero_keys": [],
+        "all_zero": true,
+        "sum": 0,
+        "scope": "Per-operation after-minus-before delta recorded by the host."
+      },
+      {
+        "field": "delta_hal_errors",
+        "measured_rows": 120,
+        "unmeasured_or_invalid_rows": 0,
+        "max": 0,
+        "nonzero_rows": 0,
+        "nonzero_keys": [],
+        "all_zero": true,
+        "sum": 0,
+        "scope": "Per-operation after-minus-before delta recorded by the host."
+      },
+      {
+        "field": "delta_worker_deadlines",
+        "measured_rows": 120,
+        "unmeasured_or_invalid_rows": 0,
+        "max": 1,
+        "nonzero_rows": 2,
+        "nonzero_keys": [
+          [
+            2000000,
+            false,
+            0,
+            3672645
+          ],
+          [
+            2000000,
+            false,
+            2,
+            3672645
+          ]
+        ],
+        "all_zero": false,
+        "sum": 2,
+        "scope": "Per-operation after-minus-before delta recorded by the host."
+      },
+      {
+        "field": "delta_callback_new",
+        "measured_rows": 120,
+        "unmeasured_or_invalid_rows": 0,
+        "max": 0,
+        "nonzero_rows": 0,
+        "nonzero_keys": [],
+        "all_zero": true,
+        "sum": 0,
+        "scope": "Per-operation after-minus-before delta recorded by the host."
+      },
+      {
+        "field": "delta_heap_calls",
+        "measured_rows": 120,
+        "unmeasured_or_invalid_rows": 0,
+        "max": 0,
+        "nonzero_rows": 0,
+        "nonzero_keys": [],
+        "all_zero": true,
+        "sum": 0,
+        "scope": "Per-operation after-minus-before delta recorded by the host."
+      },
+      {
+        "field": "delta_heap_frees",
+        "measured_rows": 120,
+        "unmeasured_or_invalid_rows": 0,
+        "max": 0,
+        "nonzero_rows": 0,
+        "nonzero_keys": [],
+        "all_zero": true,
+        "sum": 0,
+        "scope": "Per-operation after-minus-before delta recorded by the host."
+      }
+    ],
+    "lifetime": [
+      {
+        "field": "lifetime_missing",
+        "measured_rows": 120,
+        "unmeasured_or_invalid_rows": 0,
+        "max": 0,
+        "nonzero_rows": 0,
+        "nonzero_keys": [],
+        "all_zero": true,
+        "sum": null,
+        "scope": "Input session cumulative snapshots; never sum snapshots across rows."
+      },
+      {
+        "field": "lifetime_callback_deadlines",
+        "measured_rows": 120,
+        "unmeasured_or_invalid_rows": 0,
+        "max": 0,
+        "nonzero_rows": 0,
+        "nonzero_keys": [],
+        "all_zero": true,
+        "sum": null,
+        "scope": "Input session cumulative snapshots; never sum snapshots across rows."
+      },
+      {
+        "field": "lifetime_host_errors",
+        "measured_rows": 120,
+        "unmeasured_or_invalid_rows": 0,
+        "max": 0,
+        "nonzero_rows": 0,
+        "nonzero_keys": [],
+        "all_zero": true,
+        "sum": null,
+        "scope": "Input session cumulative snapshots; never sum snapshots across rows."
+      },
+      {
+        "field": "lifetime_sample_errors",
+        "measured_rows": 120,
+        "unmeasured_or_invalid_rows": 0,
+        "max": 0,
+        "nonzero_rows": 0,
+        "nonzero_keys": [],
+        "all_zero": true,
+        "sum": null,
+        "scope": "Input session cumulative snapshots; never sum snapshots across rows."
+      },
+      {
+        "field": "lifetime_hal_errors",
+        "measured_rows": 120,
+        "unmeasured_or_invalid_rows": 0,
+        "max": 0,
+        "nonzero_rows": 0,
+        "nonzero_keys": [],
+        "all_zero": true,
+        "sum": null,
+        "scope": "Input session cumulative snapshots; never sum snapshots across rows."
+      },
+      {
+        "field": "lifetime_worker_deadlines",
+        "measured_rows": 120,
+        "unmeasured_or_invalid_rows": 0,
+        "max": 1,
+        "nonzero_rows": 2,
+        "nonzero_keys": [
+          [
+            2000000,
+            false,
+            0,
+            3672645
+          ],
+          [
+            2000000,
+            false,
+            2,
+            3672645
+          ]
+        ],
+        "all_zero": false,
+        "sum": null,
+        "scope": "Input session cumulative snapshots; never sum snapshots across rows."
+      },
+      {
+        "field": "lifetime_callback_new",
+        "measured_rows": 120,
+        "unmeasured_or_invalid_rows": 0,
+        "max": 0,
+        "nonzero_rows": 0,
+        "nonzero_keys": [],
+        "all_zero": true,
+        "sum": null,
+        "scope": "Input session cumulative snapshots; never sum snapshots across rows."
+      },
+      {
+        "field": "lifetime_heap_calls",
+        "measured_rows": 120,
+        "unmeasured_or_invalid_rows": 0,
+        "max": 0,
+        "nonzero_rows": 0,
+        "nonzero_keys": [],
+        "all_zero": true,
+        "sum": null,
+        "scope": "Input session cumulative snapshots; never sum snapshots across rows."
+      },
+      {
+        "field": "lifetime_heap_frees",
+        "measured_rows": 120,
+        "unmeasured_or_invalid_rows": 0,
+        "max": 0,
+        "nonzero_rows": 0,
+        "nonzero_keys": [],
+        "all_zero": true,
+        "sum": null,
+        "scope": "Input session cumulative snapshots; never sum snapshots across rows."
+      }
+    ]
+  },
+  "realtime_delta_zero": false,
+  "realtime_lifetime_zero": false,
+  "valid_measurement_count": 120,
+  "summary": {
+    "ready": {
+      "count": 120,
+      "p50_ms": 142.7963335,
+      "p95_ms": 194.200425,
+      "max_ms": 263.443834
+    },
+    "first_pcm": {
+      "count": 120,
+      "p50_ms": 159.4809375,
+      "p95_ms": 214.18298065000002,
+      "max_ms": 276.875959
+    },
+    "target_ready_p95_ms": 200,
+    "target_applies_to": "All 120 operations combined, FIFO Ready only.",
+    "provisional": false
+  },
+  "groups": [
+    {
+      "group_by": "preset",
+      "key": [
+        "baseline"
+      ],
+      "ready": {
+        "count": 60,
+        "p50_ms": 132.94522899999998,
+        "p95_ms": 193.9259125,
+        "max_ms": 199.829584
+      },
+      "first_pcm": {
+        "count": 60,
+        "p50_ms": 145.708375,
+        "p95_ms": 202.22023714999997,
+        "max_ms": 225.027834
+      },
+      "ready_over_200ms": 0
+    },
+    {
+      "group_by": "preset",
+      "key": [
+        "candidate"
+      ],
+      "ready": {
+        "count": 60,
+        "p50_ms": 145.3419995,
+        "p95_ms": 195.01679585,
+        "max_ms": 263.443834
+      },
+      "first_pcm": {
+        "count": 60,
+        "p50_ms": 159.4809375,
+        "p95_ms": 220.0687982,
+        "max_ms": 276.875959
+      },
+      "ready_over_200ms": 1
+    },
+    {
+      "group_by": "speed",
+      "key": [
+        400000
+      ],
+      "ready": {
+        "count": 30,
+        "p50_ms": 174.31354149999999,
+        "p95_ms": 189.14683124999996,
+        "max_ms": 198.752375
+      },
+      "first_pcm": {
+        "count": 30,
+        "p50_ms": 180.064437,
+        "p95_ms": 196.95678329999998,
+        "max_ms": 202.260667
+      },
+      "ready_over_200ms": 0
+    },
+    {
+      "group_by": "speed",
+      "key": [
+        500000
+      ],
+      "ready": {
+        "count": 30,
+        "p50_ms": 95.32737499999999,
+        "p95_ms": 109.32633969999999,
+        "max_ms": 263.443834
+      },
+      "first_pcm": {
+        "count": 30,
+        "p50_ms": 105.91610399999999,
+        "p95_ms": 116.79990205,
+        "max_ms": 276.875959
+      },
+      "ready_over_200ms": 1
+    },
+    {
+      "group_by": "speed",
+      "key": [
+        1000000
+      ],
+      "ready": {
+        "count": 30,
+        "p50_ms": 115.864771,
+        "p95_ms": 123.58805,
+        "max_ms": 123.753208
+      },
+      "first_pcm": {
+        "count": 30,
+        "p50_ms": 125.611354,
+        "p95_ms": 134.89594144999998,
+        "max_ms": 137.953583
+      },
+      "ready_over_200ms": 0
+    },
+    {
+      "group_by": "speed",
+      "key": [
+        2000000
+      ],
+      "ready": {
+        "count": 30,
+        "p50_ms": 171.17562450000003,
+        "p95_ms": 196.11269769999998,
+        "max_ms": 199.829584
+      },
+      "first_pcm": {
+        "count": 30,
+        "p50_ms": 180.844375,
+        "p95_ms": 220.24328094999998,
+        "max_ms": 225.027834
+      },
+      "ready_over_200ms": 0
+    },
+    {
+      "group_by": "preset_speed",
+      "key": [
+        "baseline",
+        400000
+      ],
+      "ready": {
+        "count": 15,
+        "p50_ms": 170.257125,
+        "p95_ms": 188.3747,
+        "max_ms": 198.752375
+      },
+      "first_pcm": {
+        "count": 15,
+        "p50_ms": 180.152916,
+        "p95_ms": 194.3816168,
+        "max_ms": 201.592083
+      },
+      "ready_over_200ms": 0
+    },
+    {
+      "group_by": "preset_speed",
+      "key": [
+        "baseline",
+        500000
+      ],
+      "ready": {
+        "count": 15,
+        "p50_ms": 94.876875,
+        "p95_ms": 108.1063874,
+        "max_ms": 110.159458
+      },
+      "first_pcm": {
+        "count": 15,
+        "p50_ms": 104.879459,
+        "p95_ms": 116.6248624,
+        "max_ms": 116.981833
+      },
+      "ready_over_200ms": 0
+    },
+    {
+      "group_by": "preset_speed",
+      "key": [
+        "baseline",
+        1000000
+      ],
+      "ready": {
+        "count": 15,
+        "p50_ms": 115.888208,
+        "p95_ms": 123.7111499,
+        "max_ms": 123.753208
+      },
+      "first_pcm": {
+        "count": 15,
+        "p50_ms": 125.498583,
+        "p95_ms": 127.6297749,
+        "max_ms": 127.679708
+      },
+      "ready_over_200ms": 0
+    },
+    {
+      "group_by": "preset_speed",
+      "key": [
+        "baseline",
+        2000000
+      ],
+      "ready": {
+        "count": 15,
+        "p50_ms": 170.083583,
+        "p95_ms": 195.8604377,
+        "max_ms": 199.829584
+      },
+      "first_pcm": {
+        "count": 15,
+        "p50_ms": 180.955,
+        "p95_ms": 217.80637149999998,
+        "max_ms": 225.027834
+      },
+      "ready_over_200ms": 0
+    },
+    {
+      "group_by": "preset_speed",
+      "key": [
+        "candidate",
+        400000
+      ],
+      "ready": {
+        "count": 15,
+        "p50_ms": 176.473792,
+        "p95_ms": 185.4486125,
+        "max_ms": 193.4175
+      },
+      "first_pcm": {
+        "count": 15,
+        "p50_ms": 179.347916,
+        "p95_ms": 194.4724082,
+        "max_ms": 202.260667
+      },
+      "ready_over_200ms": 0
+    },
+    {
+      "group_by": "preset_speed",
+      "key": [
+        "candidate",
+        500000
+      ],
+      "ready": {
+        "count": 15,
+        "p50_ms": 95.618208,
+        "p95_ms": 154.84880899999982,
+        "max_ms": 263.443834
+      },
+      "first_pcm": {
+        "count": 15,
+        "p50_ms": 106.218333,
+        "p95_ms": 164.66706709999983,
+        "max_ms": 276.875959
+      },
+      "ready_over_200ms": 1
+    },
+    {
+      "group_by": "preset_speed",
+      "key": [
+        "candidate",
+        1000000
+      ],
+      "ready": {
+        "count": 15,
+        "p50_ms": 115.841334,
+        "p95_ms": 122.7220412,
+        "max_ms": 122.916875
+      },
+      "first_pcm": {
+        "count": 15,
+        "p50_ms": 125.965166,
+        "p95_ms": 137.9467286,
+        "max_ms": 137.953583
+      },
+      "ready_over_200ms": 0
+    },
+    {
+      "group_by": "preset_speed",
+      "key": [
+        "candidate",
+        2000000
+      ],
+      "ready": {
+        "count": 15,
+        "p50_ms": 171.471458,
+        "p95_ms": 195.92910419999998,
+        "max_ms": 196.443166
+      },
+      "first_pcm": {
+        "count": 15,
+        "p50_ms": 180.709416,
+        "p95_ms": 220.2363537,
+        "max_ms": 220.25575
+      },
+      "ready_over_200ms": 0
+    }
+  ],
+  "checks_passed": 22,
+  "checks_total": 22,
+  "completed_utc": "2026-10-23T05:45:56.230109+00:00",
+  "validator_sha256": "0f535e0192f7c3df99812d7b98ea827da70b104f6466d1876d0fec134e944930"
+}

@@ -1,0 +1,942 @@
+{
+  "schema": "progressive-adoption-read-only-reuse-audit-v1",
+  "created_utc": "2026-10-23T06:15:34.680374+00:00",
+  "audit_status": "READ_ONLY_AUDIT_COMPLETE",
+  "current_execution_status": "NOT_RUN_BY_THIS_AUDIT",
+  "new_PCM_cases": 0,
+  "new_audio_sessions": 0,
+  "old_results_relabelled": false,
+  "overall_GO": false,
+  "source_root": "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab",
+  "asset_root": "/Users/taro252/Docker/TimeStretchLab",
+  "base_HEAD": "f4f0e6187a643d9442216df87c04353eda4934e5",
+  "source_comparison": {
+    "historical_audit": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_f01/REUSE_AUDIT.json",
+      "exists": true,
+      "bytes": 523382,
+      "sha256": "2ef49d63c2d04015eb8e7a0d26ccc43b514691ef9cf4c116297b5ad1bbca402f"
+    },
+    "historical_project_dependency_count": 116,
+    "current_files_compared": 116,
+    "all_changed_dependency_paths": [
+      "CMakeLists.txt",
+      "src/playback/ProgressiveLoopContract.h",
+      "src/prototype/Phase58RealtimePipeline.cpp",
+      "src/prototype/Phase58RealtimePipeline.h"
+    ],
+    "unchanged_dependency_count": 112,
+    "dependency_sha256_list_current": "618c0c7716c0a1aa727309ce8b7364b1ffe3ce66d71c704820c20fa2799184ef",
+    "math_Phase36_57_59_files": [
+      {
+        "path": "src/prototype/Phase36PlaybackPipeline.cpp",
+        "old_sha256": "6a97cf9d3fc4a501c14cbee3e6ec0a99e6adc3c02d67b3f95911de626d5f7431",
+        "current_sha256": "6a97cf9d3fc4a501c14cbee3e6ec0a99e6adc3c02d67b3f95911de626d5f7431",
+        "identical": true
+      },
+      {
+        "path": "src/prototype/Phase36PlaybackPipeline.h",
+        "old_sha256": "50806026913f710452972f91f0eab6162fb872b8c7b4765448b1c6e6ac134c86",
+        "current_sha256": "50806026913f710452972f91f0eab6162fb872b8c7b4765448b1c6e6ac134c86",
+        "identical": true
+      },
+      {
+        "path": "src/prototype/Phase36StreamingSpeedEngine.cpp",
+        "old_sha256": "7b281dfdf18b4cc2f9e1d5c9c611dc6e1be91759cd9f20f97978460e7a75dd3f",
+        "current_sha256": "7b281dfdf18b4cc2f9e1d5c9c611dc6e1be91759cd9f20f97978460e7a75dd3f",
+        "identical": true
+      },
+      {
+        "path": "src/prototype/Phase36StreamingSpeedEngine.h",
+        "old_sha256": "3a7a98100e5fafcde9314a0762bf3dd6a468350e779ab796aeb2c06e7fbf0179",
+        "current_sha256": "3a7a98100e5fafcde9314a0762bf3dd6a468350e779ab796aeb2c06e7fbf0179",
+        "identical": true
+      },
+      {
+        "path": "src/prototype/Phase36SynthesisCore.h",
+        "old_sha256": "2e41cf982b8bf44064cffd6a76d56caf95465936db1d5d8432309fc79fd63a19",
+        "current_sha256": "2e41cf982b8bf44064cffd6a76d56caf95465936db1d5d8432309fc79fd63a19",
+        "identical": true
+      },
+      {
+        "path": "src/prototype/Phase57ProgressiveSynthesis.cpp",
+        "old_sha256": "00d92c115d7c9cb91a69b60dcfb64b781836668be9585e5a33efa4851fe20a6a",
+        "current_sha256": "00d92c115d7c9cb91a69b60dcfb64b781836668be9585e5a33efa4851fe20a6a",
+        "identical": true
+      },
+      {
+        "path": "src/prototype/Phase57ProgressiveSynthesis.h",
+        "old_sha256": "c44438334aeb2766a50e2ec6db7e237880c31465aa5860fadc1e84912e3640ce",
+        "current_sha256": "c44438334aeb2766a50e2ec6db7e237880c31465aa5860fadc1e84912e3640ce",
+        "identical": true
+      },
+      {
+        "path": "src/prototype/Phase59Control.h",
+        "old_sha256": "9abe66bb3b327c15a7c864a00b9aca8241e0d04772d95ced1d5508d082607b7e",
+        "current_sha256": "9abe66bb3b327c15a7c864a00b9aca8241e0d04772d95ced1d5508d082607b7e",
+        "identical": true
+      },
+      {
+        "path": "src/prototype/Phase59Diagnostics.h",
+        "old_sha256": "0e0d3be5988bb8d183790fa4b66d4bc6b50cd3d11d2a088620b0dd7b23da6c3a",
+        "current_sha256": "0e0d3be5988bb8d183790fa4b66d4bc6b50cd3d11d2a088620b0dd7b23da6c3a",
+        "identical": true
+      },
+      {
+        "path": "src/prototype/Phase59PlanningContract.h",
+        "old_sha256": "b4a6feae568628fd6ddd37ed5622bb9b03c0c5aa54f8d685f16bc44c713e46d3",
+        "current_sha256": "b4a6feae568628fd6ddd37ed5622bb9b03c0c5aa54f8d685f16bc44c713e46d3",
+        "identical": true
+      },
+      {
+        "path": "src/prototype/Phase59ProgressiveTransition.cpp",
+        "old_sha256": "fafa3dd9ca5a111674c7929f9e64e655323add98f3fa737734b438f02caabd78",
+        "current_sha256": "fafa3dd9ca5a111674c7929f9e64e655323add98f3fa737734b438f02caabd78",
+        "identical": true
+      },
+      {
+        "path": "src/prototype/Phase59ProgressiveTransition.h",
+        "old_sha256": "a49cf2e0094c849fed762c7547489860331cd6e5e52ebf83c865fe2fa203024c",
+        "current_sha256": "a49cf2e0094c849fed762c7547489860331cd6e5e52ebf83c865fe2fa203024c",
+        "identical": true
+      }
+    ],
+    "math_all_identical": true,
+    "meaning": "Historical dependency list vs current bytes, not a new binary/PCM/RT execution. Pipeline and CMake changes prevent blanket reuse of Pipeline-consuming groups.",
+    "targets": [
+      {
+        "target": "phase62_dynamic_pcm_tests",
+        "dependency_count": 104,
+        "unchanged_count": 101,
+        "changed_dependencies": [
+          "CMakeLists.txt",
+          "src/prototype/Phase58RealtimePipeline.cpp",
+          "src/prototype/Phase58RealtimePipeline.h"
+        ],
+        "old_execution_source": "cefdb1294e89cb5280ad8f6df401eac59825212334e4110f958ca6f0d7c0199c",
+        "current_binary": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/candidate/phase62_dynamic_pcm_tests",
+          "exists": false
+        },
+        "disposition": "OLD_RESULT_PRESERVED; NOT_CURRENT_SOURCE_PASS; PIPELINE_DEPENDENCY_CHANGED"
+      },
+      {
+        "target": "phase61_seek_check",
+        "dependency_count": 103,
+        "unchanged_count": 100,
+        "changed_dependencies": [
+          "CMakeLists.txt",
+          "src/prototype/Phase58RealtimePipeline.cpp",
+          "src/prototype/Phase58RealtimePipeline.h"
+        ],
+        "old_execution_source": "cefdb1294e89cb5280ad8f6df401eac59825212334e4110f958ca6f0d7c0199c",
+        "current_binary": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/candidate/phase61_seek_check",
+          "exists": false
+        },
+        "disposition": "OLD_RESULT_PRESERVED; NOT_CURRENT_SOURCE_PASS; PIPELINE_DEPENDENCY_CHANGED"
+      },
+      {
+        "target": "phase54_core_probe",
+        "dependency_count": 89,
+        "unchanged_count": 88,
+        "changed_dependencies": [
+          "CMakeLists.txt"
+        ],
+        "old_execution_source": "cefdb1294e89cb5280ad8f6df401eac59825212334e4110f958ca6f0d7c0199c",
+        "current_binary": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/candidate/phase54_core_probe",
+          "exists": false
+        },
+        "disposition": "GOLDEN_CORE_CANDIDATE_ONLY_PENDING_CURRENT_BINARY_OR_NEW_EXECUTION"
+      },
+      {
+        "target": "phase62_fix_reuse_tests",
+        "dependency_count": 103,
+        "unchanged_count": 100,
+        "changed_dependencies": [
+          "CMakeLists.txt",
+          "src/prototype/Phase58RealtimePipeline.cpp",
+          "src/prototype/Phase58RealtimePipeline.h"
+        ],
+        "old_execution_source": "cefdb1294e89cb5280ad8f6df401eac59825212334e4110f958ca6f0d7c0199c",
+        "current_binary": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/candidate/phase62_fix_reuse_tests",
+          "exists": false
+        },
+        "disposition": "OLD_RESULT_PRESERVED; NOT_CURRENT_SOURCE_PASS; PIPELINE_DEPENDENCY_CHANGED"
+      }
+    ]
+  },
+  "fixed180_cpu2": {
+    "input": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase55/long/boundary_1_2_44100_180/full.wav",
+      "exists": true,
+      "bytes": 31752044,
+      "sha256": "e5a589ce9e3ea436c53aadda233c96a8246e7a58466718600c82b68b47dd05ac"
+    },
+    "input_format": {
+      "encoding": 1,
+      "bits": 16,
+      "channels": 2,
+      "rate": 44100,
+      "frames": 7938000,
+      "seconds": 180
+    },
+    "independent_reference": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/phase_before/reference.f32",
+      "exists": true,
+      "bytes": 31752000,
+      "sha256": "dabd620ef05dcd1e84a4488883cdd4f962902d42f784ae5fc7f6efbbad6107b8"
+    },
+    "reference_frames": 3969000,
+    "play_seconds": 90,
+    "speed_micros": 2000000,
+    "reference_provenance": {
+      "manifest": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59_fix/phase_before/manifest.json",
+        "exists": true,
+        "bytes": 25196,
+        "sha256": "dc25e42c24ec37086622c57897aeee97ff6eb8f909e21ea97f7149da04e158c9"
+      },
+      "metadata": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59_fix/phase_before/reference.json",
+        "exists": true,
+        "bytes": 653,
+        "sha256": "0df0f622fe1d966df75ae90c686ef23a4ece2bd6f3a891d692cd88dec5ceca69"
+      },
+      "inventory": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59_fix/ARTIFACT_INDEX.json",
+        "exists": true,
+        "bytes": 6967230,
+        "sha256": "9cae52523c5ef661a27dceb7c8e97acb71b580e0b68db81e6da138a5b37913ab"
+      },
+      "original_frozen_oracle": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase58_frozen/product_reference",
+        "exists": true,
+        "bytes": 272224,
+        "sha256": "3a3b04454f754c35afa4cac121a726fa31c44a6854761a7de5f71aa057f2a957"
+      },
+      "required_oracle_sha256": "3a3b04454f754c35afa4cac121a726fa31c44a6854761a7de5f71aa057f2a957",
+      "new_reference_synthesis_needed": false
+    },
+    "current_host": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/candidate/phase59_native",
+      "exists": true,
+      "bytes": 871552,
+      "sha256": "df709713db3757820b6769e5e851f1d1f4c5509c7004c2992a578877d8ed2e80"
+    },
+    "commands_not_executed": {
+      "candidate": [
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/candidate/phase59_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase55/long/boundary_1_2_44100_180/full.wav",
+        "2000000",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/phase_before/reference.f32",
+        "3969000",
+        "dabd620ef05dcd1e84a4488883cdd4f962902d42f784ae5fc7f6efbbad6107b8",
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/fixed180_cpu2_candidate_NEW",
+        "normal",
+        "0",
+        "2",
+        "0",
+        "0",
+        "0",
+        "--worker=workgroup",
+        "--resident-input=on",
+        "--profile=block",
+        "--sample-thread=on"
+      ],
+      "baseline": [
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/candidate/phase59_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase55/long/boundary_1_2_44100_180/full.wav",
+        "2000000",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/phase_before/reference.f32",
+        "3969000",
+        "dabd620ef05dcd1e84a4488883cdd4f962902d42f784ae5fc7f6efbbad6107b8",
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/fixed180_cpu2_baseline_NEW",
+        "normal",
+        "0",
+        "2",
+        "0",
+        "0",
+        "0",
+        "--worker=workgroup",
+        "--resident-input=on",
+        "--profile=block",
+        "--sample-thread=on"
+      ]
+    },
+    "host_identity_note": "Hash is current file at audit time; root wrapper must bind it to its final build manifest and final source. Output _NEW must be replaced with a fresh path.",
+    "window_s": 0,
+    "cpu_load_threads": 2,
+    "memory_mib": 0,
+    "full_run_gate": [
+      "exit=0",
+      "summary.PASS=true",
+      "pcm_complete_exact=1",
+      "eos=1",
+      "windowed=0",
+      "output_frames=consumed_frames=3969000",
+      "workgroup_deadline_misses=callback_deadlines=missing_frames=rejected_writes=0",
+      "workgroup policy/joins/leaves/restores and device actual values measured"
+    ],
+    "external_timeout_seconds": 600,
+    "profile_off": {
+      "deadline_counter_retained": true,
+      "basis": [
+        "Phase58Native.mm:193 recordWorkerProfile only",
+        "Phase58RealtimePipeline.cpp:845-849 begin/finish outside profile branch",
+        "Phase58FixRealtimeWorker.cpp:44 end>deadline increments misses",
+        "Phase58FixRealtimeWorker.cpp:109 metrics exports deadlineMisses",
+        "Phase58Native.mm:318 PASS requires zero deadlineMisses"
+      ],
+      "lost_observation": "No individual worker.csv intervals or FFT/phase/OLA/FIR stage cost records. off is a separate measurement profile; block reproduces the saved flags."
+    },
+    "overwritten_workspaces_not_reusable": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix_artifacts/device_final/fixed_working/reference.f32",
+        "current_bytes": 28800000,
+        "required_bytes": 31752000
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase59_fix2_artifacts/device_final/fixed_working/reference.f32",
+        "current_bytes": 28800000,
+        "required_bytes": 31752000
+      }
+    ],
+    "historical_original_failures": [
+      {
+        "preset": "candidate",
+        "exit": 2,
+        "historical_PASS": false,
+        "pcm_complete_exact": 1,
+        "workgroup_deadline_misses": 2,
+        "callback_deadlines": 0,
+        "windowed": 0,
+        "eos": 1
+      },
+      {
+        "preset": "baseline",
+        "exit": 2,
+        "historical_PASS": false,
+        "pcm_complete_exact": 1,
+        "workgroup_deadline_misses": 3,
+        "callback_deadlines": 0,
+        "windowed": 0,
+        "eos": 1
+      }
+    ],
+    "subsequent_fix2_history": "Six saved 180s sessions, 3 per preset, are separate historical executions; not counted as current PASS.",
+    "historical_rows": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase59/device_final/fixed_long/rows.json",
+      "exists": true,
+      "bytes": 27622,
+      "sha256": "5b7f7ede42e05881ad248904125b43ce9840e67b89eaa1289922f37439f9f448"
+    }
+  },
+  "Exact896": {
+    "historical_only": true,
+    "newly_executed": false,
+    "old_summary": {
+      "PASS": true,
+      "passed": 896,
+      "failed": 0,
+      "expected": 896,
+      "checkpoint_hits": 448,
+      "max_checkpoint_states": 1,
+      "full": true,
+      "output": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/offline_final/final_regression/exact",
+      "manifest_sha256": "f04d69aa7e350ecf9bf5b90f484c09af85ccf298e2b250955c32e9e61e7d9148"
+    },
+    "artifacts": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/offline_final/final_regression/exact/summary.json",
+        "exists": true,
+        "bytes": 356,
+        "sha256": "1713cb4033937f0982b280964e731517d2d45511e62f0ae64cc69f0287c90a3f",
+        "expected_sha256": "1713cb4033937f0982b280964e731517d2d45511e62f0ae64cc69f0287c90a3f",
+        "matches_old_audit": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/offline_final/final_regression/exact/manifest.json",
+        "exists": true,
+        "bytes": 3146,
+        "sha256": "f04d69aa7e350ecf9bf5b90f484c09af85ccf298e2b250955c32e9e61e7d9148",
+        "expected_sha256": "f04d69aa7e350ecf9bf5b90f484c09af85ccf298e2b250955c32e9e61e7d9148",
+        "matches_old_audit": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/offline_final/final_regression/exact/rows.jsonl",
+        "exists": true,
+        "bytes": 790623,
+        "sha256": "558a82200a5286dd2d4a8efb97fdb07e08abd261c6e361a7d5508953a6391fac",
+        "expected_sha256": "558a82200a5286dd2d4a8efb97fdb07e08abd261c6e361a7d5508953a6391fac",
+        "matches_old_audit": true
+      }
+    ],
+    "input_files": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/offline_final/final_regression/exact/boundary_44100_1_1.wav",
+        "exists": true,
+        "bytes": 132344,
+        "sha256": "4ceeaad5713f96331795bdc1d185209aed75a289b5e0a8bb870b96d319be6142",
+        "expected_sha256": "4ceeaad5713f96331795bdc1d185209aed75a289b5e0a8bb870b96d319be6142",
+        "matches_old_audit": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/offline_final/final_regression/exact/boundary_44100_1_3.wav",
+        "exists": true,
+        "bytes": 264644,
+        "sha256": "877de30e869531188adfd76edbe2ed6b3ecd32421d1b5f1aed539f088d5e1197",
+        "expected_sha256": "877de30e869531188adfd76edbe2ed6b3ecd32421d1b5f1aed539f088d5e1197",
+        "matches_old_audit": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/offline_final/final_regression/exact/boundary_44100_2_1.wav",
+        "exists": true,
+        "bytes": 264644,
+        "sha256": "a0b2138e5607b7425ef5ce38b5f1e39a9706442f3bac967cbac68f3509460e1d",
+        "expected_sha256": "a0b2138e5607b7425ef5ce38b5f1e39a9706442f3bac967cbac68f3509460e1d",
+        "matches_old_audit": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/offline_final/final_regression/exact/boundary_44100_2_3.wav",
+        "exists": true,
+        "bytes": 529244,
+        "sha256": "d17545f49d933b923b182e790848c892b3480f7c47c0118de632717458bc2f86",
+        "expected_sha256": "d17545f49d933b923b182e790848c892b3480f7c47c0118de632717458bc2f86",
+        "matches_old_audit": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/offline_final/final_regression/exact/boundary_48000_1_1.wav",
+        "exists": true,
+        "bytes": 144044,
+        "sha256": "33b2cd1f3257f817bb2f3bf7a5240b9e84579e2a09bdb3a18f4d8efe4e2c8b7d",
+        "expected_sha256": "33b2cd1f3257f817bb2f3bf7a5240b9e84579e2a09bdb3a18f4d8efe4e2c8b7d",
+        "matches_old_audit": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/offline_final/final_regression/exact/boundary_48000_1_3.wav",
+        "exists": true,
+        "bytes": 288044,
+        "sha256": "6269d4e7ec39d912073a36464f6fcd9a5f52175078af6095322e1e7fbda119c8",
+        "expected_sha256": "6269d4e7ec39d912073a36464f6fcd9a5f52175078af6095322e1e7fbda119c8",
+        "matches_old_audit": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/offline_final/final_regression/exact/boundary_48000_2_1.wav",
+        "exists": true,
+        "bytes": 288044,
+        "sha256": "bd58b15c3f81ef84a182fb7ffddc5985a3b31a170dbe9aa6788046e01bc8b3d9",
+        "expected_sha256": "bd58b15c3f81ef84a182fb7ffddc5985a3b31a170dbe9aa6788046e01bc8b3d9",
+        "matches_old_audit": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/offline_final/final_regression/exact/boundary_48000_2_3.wav",
+        "exists": true,
+        "bytes": 576044,
+        "sha256": "bac213d3ec90440014b56093b89a10a0f884067343b88a9b96f13b3fb9dbb337",
+        "expected_sha256": "bac213d3ec90440014b56093b89a10a0f884067343b88a9b96f13b3fb9dbb337",
+        "matches_old_audit": true
+      }
+    ],
+    "input_count": 8,
+    "records": 896,
+    "unique_records": 896,
+    "historical_rows_exit0_PASS": 896,
+    "reference_logs_expected": 112,
+    "reference_logs_current_SHA_match": 112,
+    "expected_product": {
+      "formats": 8,
+      "speeds": 7,
+      "presets": 2,
+      "positions": 4,
+      "scheduling_modes": 2,
+      "total": 896
+    },
+    "disposition": "NOT_CURRENT_SOURCE_PASS: phase61_seek_check consumes changed Pipeline. Existing 896 results and original SHA/logs retained. Fixed full reference RAW was disposable success workspace; full RAW SHA is distinct from suffix SHA.",
+    "recipe": {
+      "path": "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab/tests/Phase61SeekSmoke.py",
+      "exists": true,
+      "bytes": 4592,
+      "sha256": "7521f2c8cbaf85372c2b3136732bbebefebec1ba85e2e7258958187e83a1027c"
+    }
+  },
+  "Golden25": {
+    "historical_only": true,
+    "newly_executed": false,
+    "historical_summary": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/offline_final/final_regression/golden/summary.json",
+      "exists": true,
+      "bytes": 21805,
+      "sha256": "4faa88e326cfde8fefb609909daaed5b9a585722bf48916aa4bbe77321e2b5ab",
+      "expected_sha256": "4faa88e326cfde8fefb609909daaed5b9a585722bf48916aa4bbe77321e2b5ab",
+      "matches_old_audit": true
+    },
+    "manifests": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/manifest.csv",
+        "exists": true,
+        "bytes": 5786,
+        "sha256": "a767c8cf262810ce8573254615c922c7b6f1b31644afda2e759544ddb79a4013",
+        "expected_sha256": "a767c8cf262810ce8573254615c922c7b6f1b31644afda2e759544ddb79a4013",
+        "matches_old_audit": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase28/golden/manifest.csv",
+        "exists": true,
+        "bytes": 5256,
+        "sha256": "5baf6bd1d6237006e2a2417b5dc1f614bd73423b17cfee571095b5115848cca4",
+        "expected_sha256": "5baf6bd1d6237006e2a2417b5dc1f614bd73423b17cfee571095b5115848cca4",
+        "matches_old_audit": true
+      }
+    ],
+    "expected_inputs": 5,
+    "expected_reference_WAVs": 25,
+    "speeds": [
+      "0.50",
+      "0.60",
+      "0.70",
+      "0.75",
+      "0.80"
+    ],
+    "input_paths": [
+      "results/phase12/golden/input/bass.wav",
+      "results/phase12/golden/input/drums.wav",
+      "results/phase12/golden/input/guitar.wav",
+      "results/phase12/golden/input/mix.wav",
+      "results/phase12/golden/input/vocal.wav"
+    ],
+    "original_root_input_files_present": 5,
+    "original_root_reference_WAVs_present": 25,
+    "worktree_input_files_present": 0,
+    "worktree_reference_WAVs_present": 0,
+    "Golden_WAV_current_full_SHA_rehash": "COMPLETE: 25/25 full WAV hashes match frozen manifests and old successful rows; no DSP or PCM synthesis executed.",
+    "disposition": "LIMITED_HISTORICAL_GOLDEN_NUMERICAL_EVIDENCE_REUSABLE: 25 original WAVs, 5 inputs, old saved producer and old passed summary retain identity. Core source dependencies (88 non-CMake files) match. This is not a new current-source Golden execution or a current rebuilt-binary identity claim.",
+    "recipe": {
+      "path": "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab/tests/Phase61Golden.py",
+      "exists": true,
+      "bytes": 2348,
+      "sha256": "fe5e09c1d11755e3bd28247a40a68ecaf63431791ef0243a0d80505ff08efdee"
+    },
+    "current_input_SHA_verified": 5,
+    "current_reference_WAV_SHA_verified": 25,
+    "inputs": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/input/mix.wav",
+        "bytes": 15876190,
+        "sha256": "6cf7cd9ca5dd7206ca8157e610da2ef870ef48625da6b1cfea38763fd2dff157",
+        "stat_unchanged": true,
+        "expected_sha256": "6cf7cd9ca5dd7206ca8157e610da2ef870ef48625da6b1cfea38763fd2dff157",
+        "matches_manifest": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/input/vocal.wav",
+        "bytes": 17280130,
+        "sha256": "78278018c95785ca68cf126c30b1e4f76dc24bd25cd35f35785daf14a5e3137b",
+        "stat_unchanged": true,
+        "expected_sha256": "78278018c95785ca68cf126c30b1e4f76dc24bd25cd35f35785daf14a5e3137b",
+        "matches_manifest": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/input/bass.wav",
+        "bytes": 17280130,
+        "sha256": "1405fb3051c0efdcd09baa385906af0e317a460493de9f087359f210953afb58",
+        "stat_unchanged": true,
+        "expected_sha256": "1405fb3051c0efdcd09baa385906af0e317a460493de9f087359f210953afb58",
+        "matches_manifest": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/input/drums.wav",
+        "bytes": 3840130,
+        "sha256": "9c73c02302497a738e20ca3d68231b2e20967f5ba40a164e1393479f2b71f928",
+        "stat_unchanged": true,
+        "expected_sha256": "9c73c02302497a738e20ca3d68231b2e20967f5ba40a164e1393479f2b71f928",
+        "matches_manifest": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/input/guitar.wav",
+        "bytes": 3840092,
+        "sha256": "21a0ae089ef4a1ddc9df1ae1d5e8b7591291dcf6017442fe68efa1dd327ae396",
+        "stat_unchanged": true,
+        "expected_sha256": "21a0ae089ef4a1ddc9df1ae1d5e8b7591291dcf6017442fe68efa1dd327ae396",
+        "matches_manifest": true
+      }
+    ],
+    "reference_WAVs": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/raw/mix_050.wav",
+        "bytes": 31752044,
+        "sha256": "a729f3764c7a387262ec2c139a1d9bb0ff1a9669fe817ddd837545a9847e01f1",
+        "stat_unchanged": true,
+        "name": "mix",
+        "speed": "0.50",
+        "expected_sha256": "a729f3764c7a387262ec2c139a1d9bb0ff1a9669fe817ddd837545a9847e01f1",
+        "matches_manifest": true,
+        "historical_full_PCM_result_SHA": "3e30676ffb3273ebf58eb03abec16bbd4d33cc3047d2a2c00a43db72c3b19b5a",
+        "frames": 3969000,
+        "matches_historical_passed_row": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/raw/mix_075.wav",
+        "bytes": 21168044,
+        "sha256": "ef1ed78c06dff4d7040afe0ed6516ae7e718503d7e5923e6f9e635d4d6149aec",
+        "stat_unchanged": true,
+        "name": "mix",
+        "speed": "0.75",
+        "expected_sha256": "ef1ed78c06dff4d7040afe0ed6516ae7e718503d7e5923e6f9e635d4d6149aec",
+        "matches_manifest": true,
+        "historical_full_PCM_result_SHA": "635734d135079ef89ccee6c19d01e201d098da5b568bc9a5bc965a025aafd60d",
+        "frames": 2646000,
+        "matches_historical_passed_row": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/raw/vocal_050.wav",
+        "bytes": 34560044,
+        "sha256": "44c33a2e1edbc879cdb533d90bb572aefacf735d0a39ea43cb85e048de0e0e1a",
+        "stat_unchanged": true,
+        "name": "vocal",
+        "speed": "0.50",
+        "expected_sha256": "44c33a2e1edbc879cdb533d90bb572aefacf735d0a39ea43cb85e048de0e0e1a",
+        "matches_manifest": true,
+        "historical_full_PCM_result_SHA": "50663cd3e57a08ccc768e249bd5320e09007d8a4d35234bb623d925892678f79",
+        "frames": 4320000,
+        "matches_historical_passed_row": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/raw/vocal_075.wav",
+        "bytes": 23040044,
+        "sha256": "109816b81df96523ffb6b351d34258708b08d9cb4d97bb82ae5db8891fe18512",
+        "stat_unchanged": true,
+        "name": "vocal",
+        "speed": "0.75",
+        "expected_sha256": "109816b81df96523ffb6b351d34258708b08d9cb4d97bb82ae5db8891fe18512",
+        "matches_manifest": true,
+        "historical_full_PCM_result_SHA": "e944e8105ad299e8b0a9ffd86f090c331582ebcd510ff5a239182a6ec172ccb5",
+        "frames": 2880000,
+        "matches_historical_passed_row": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/raw/bass_050.wav",
+        "bytes": 34560044,
+        "sha256": "70ba7adafe873aecbb76c3563b74a0fe99198a9587c5786de9f4f655e2a39bc8",
+        "stat_unchanged": true,
+        "name": "bass",
+        "speed": "0.50",
+        "expected_sha256": "70ba7adafe873aecbb76c3563b74a0fe99198a9587c5786de9f4f655e2a39bc8",
+        "matches_manifest": true,
+        "historical_full_PCM_result_SHA": "336d776f9d862c00c6e0b60f97e44e07dd899a1731bb7b5bc3bfceeb2d2049b2",
+        "frames": 4320000,
+        "matches_historical_passed_row": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/raw/bass_075.wav",
+        "bytes": 23040044,
+        "sha256": "10558461001d1e71732fd84334f37e59e37a0c9ba2d1c80d0267ccd69f82b04f",
+        "stat_unchanged": true,
+        "name": "bass",
+        "speed": "0.75",
+        "expected_sha256": "10558461001d1e71732fd84334f37e59e37a0c9ba2d1c80d0267ccd69f82b04f",
+        "matches_manifest": true,
+        "historical_full_PCM_result_SHA": "f34329ffcb11f3a5ce4dbd4e3039fd8628d0df5b8d7c22c5fbbdc0f36d6163d3",
+        "frames": 2880000,
+        "matches_historical_passed_row": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/raw/drums_050.wav",
+        "bytes": 7680044,
+        "sha256": "7cd350cee36ad5a6b9791074e0ee4fe50cba271bb20466339e2f451b3de2c663",
+        "stat_unchanged": true,
+        "name": "drums",
+        "speed": "0.50",
+        "expected_sha256": "7cd350cee36ad5a6b9791074e0ee4fe50cba271bb20466339e2f451b3de2c663",
+        "matches_manifest": true,
+        "historical_full_PCM_result_SHA": "3414a5369939a4fa6fcb40fbeaf8ca3beb667cfd4700310bab2a23bba7a3fb65",
+        "frames": 960000,
+        "matches_historical_passed_row": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/raw/drums_075.wav",
+        "bytes": 5120044,
+        "sha256": "bfa18f2ab42df3dbeeb445dc02bcad02604eff475f2d918212f204bb96e086ac",
+        "stat_unchanged": true,
+        "name": "drums",
+        "speed": "0.75",
+        "expected_sha256": "bfa18f2ab42df3dbeeb445dc02bcad02604eff475f2d918212f204bb96e086ac",
+        "matches_manifest": true,
+        "historical_full_PCM_result_SHA": "817bef5ea76ab896aa8791c5886477bea607a3f94bd9dad06d3a106c91818a03",
+        "frames": 640000,
+        "matches_historical_passed_row": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/raw/guitar_050.wav",
+        "bytes": 7680044,
+        "sha256": "871653d181b5b2124e233bc6258ae005ab75215786072435356abdab68628466",
+        "stat_unchanged": true,
+        "name": "guitar",
+        "speed": "0.50",
+        "expected_sha256": "871653d181b5b2124e233bc6258ae005ab75215786072435356abdab68628466",
+        "matches_manifest": true,
+        "historical_full_PCM_result_SHA": "ba2cba0ea541e68ecd067961984383b8740cff9c0697b75add991da44558d3d3",
+        "frames": 960000,
+        "matches_historical_passed_row": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase12/golden/raw/guitar_075.wav",
+        "bytes": 5120044,
+        "sha256": "0052694fab45da49eea0afbd8e1852dc801f484b96dcefcd7c52d04e949e3619",
+        "stat_unchanged": true,
+        "name": "guitar",
+        "speed": "0.75",
+        "expected_sha256": "0052694fab45da49eea0afbd8e1852dc801f484b96dcefcd7c52d04e949e3619",
+        "matches_manifest": true,
+        "historical_full_PCM_result_SHA": "f5d64945850c3daca7865603b3b4b3045c1e49da489ed6df80ef97018dbe61d9",
+        "frames": 640000,
+        "matches_historical_passed_row": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase28/golden/raw/mix_060.wav",
+        "bytes": 26460044,
+        "sha256": "e306b9199ed606c5f0ea1d93e7c5acd161dc71ed3c19275d141e4a7018827c78",
+        "stat_unchanged": true,
+        "name": "mix",
+        "speed": "0.60",
+        "expected_sha256": "e306b9199ed606c5f0ea1d93e7c5acd161dc71ed3c19275d141e4a7018827c78",
+        "matches_manifest": true,
+        "historical_full_PCM_result_SHA": "386870403652e46f358f5ff042c27a3e37313c69faea15789235a6fc81d7d46e",
+        "frames": 3307500,
+        "matches_historical_passed_row": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase28/golden/raw/mix_070.wav",
+        "bytes": 22680044,
+        "sha256": "0484291ea8d5f28f62400bd873a699a8fa627a53789dae3f19226d56a04e1c63",
+        "stat_unchanged": true,
+        "name": "mix",
+        "speed": "0.70",
+        "expected_sha256": "0484291ea8d5f28f62400bd873a699a8fa627a53789dae3f19226d56a04e1c63",
+        "matches_manifest": true,
+        "historical_full_PCM_result_SHA": "0c4ed2d8339f630415fbac1798943f78fc21d6e5357defa1eda9d191fa773335",
+        "frames": 2835000,
+        "matches_historical_passed_row": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase28/golden/raw/mix_080.wav",
+        "bytes": 19845044,
+        "sha256": "a4f05fab65a16c35c903c614a3a50257052c9790c99b0e33d90de6d5f431997a",
+        "stat_unchanged": true,
+        "name": "mix",
+        "speed": "0.80",
+        "expected_sha256": "a4f05fab65a16c35c903c614a3a50257052c9790c99b0e33d90de6d5f431997a",
+        "matches_manifest": true,
+        "historical_full_PCM_result_SHA": "bd90c25d6662b43bdb3f28e76bdb90b23f2ffc8f16cec30a3d5b2b397cf714bf",
+        "frames": 2480625,
+        "matches_historical_passed_row": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase28/golden/raw/vocal_060.wav",
+        "bytes": 28800044,
+        "sha256": "6b2bd1c97ac0b40a7aaddc60dc5bf5a6b3fbd56a5bf6a7cc53c77254d0bab335",
+        "stat_unchanged": true,
+        "name": "vocal",
+        "speed": "0.60",
+        "expected_sha256": "6b2bd1c97ac0b40a7aaddc60dc5bf5a6b3fbd56a5bf6a7cc53c77254d0bab335",
+        "matches_manifest": true,
+        "historical_full_PCM_result_SHA": "d1e5ff7fcd3f2b45826216cbd850173a20398482057f7f2c95385527872e1d63",
+        "frames": 3600000,
+        "matches_historical_passed_row": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase28/golden/raw/vocal_070.wav",
+        "bytes": 24685756,
+        "sha256": "910b54fb77fc8b8f00f35497392a79eb96ac727c1082301b5bc1c689c0006df3",
+        "stat_unchanged": true,
+        "name": "vocal",
+        "speed": "0.70",
+        "expected_sha256": "910b54fb77fc8b8f00f35497392a79eb96ac727c1082301b5bc1c689c0006df3",
+        "matches_manifest": true,
+        "historical_full_PCM_result_SHA": "c7bb80b552fea47285bf1682240db5e900e1cbc645e317b46fc91a87ace6372a",
+        "frames": 3085714,
+        "matches_historical_passed_row": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase28/golden/raw/vocal_080.wav",
+        "bytes": 21600044,
+        "sha256": "bf0e928db83551d2fca474eaca86e7b1a5d437f72a37fa5f693243ab66863a2d",
+        "stat_unchanged": true,
+        "name": "vocal",
+        "speed": "0.80",
+        "expected_sha256": "bf0e928db83551d2fca474eaca86e7b1a5d437f72a37fa5f693243ab66863a2d",
+        "matches_manifest": true,
+        "historical_full_PCM_result_SHA": "50666a2d66c8a18f8034ce674e8ca1750239a4dc02a49807f200276e3aea3289",
+        "frames": 2700000,
+        "matches_historical_passed_row": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase28/golden/raw/bass_060.wav",
+        "bytes": 28800044,
+        "sha256": "b12791d7fea8693737953a9e6cd7673c471cf46c3dd2eb4ce2a442eb7a546d22",
+        "stat_unchanged": true,
+        "name": "bass",
+        "speed": "0.60",
+        "expected_sha256": "b12791d7fea8693737953a9e6cd7673c471cf46c3dd2eb4ce2a442eb7a546d22",
+        "matches_manifest": true,
+        "historical_full_PCM_result_SHA": "c9041cd278c45ecad7697382ca14bd73e4939d1547175a4c7d64c647c6d669ce",
+        "frames": 3600000,
+        "matches_historical_passed_row": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase28/golden/raw/bass_070.wav",
+        "bytes": 24685756,
+        "sha256": "6078a2ff5c89af76797807b01a718528b21d4f0842c43b59c011b1434ddd6cec",
+        "stat_unchanged": true,
+        "name": "bass",
+        "speed": "0.70",
+        "expected_sha256": "6078a2ff5c89af76797807b01a718528b21d4f0842c43b59c011b1434ddd6cec",
+        "matches_manifest": true,
+        "historical_full_PCM_result_SHA": "ab1940f5a402122cdfa173cfa280b8f51542551f0747efbdaf0f34fba2655185",
+        "frames": 3085714,
+        "matches_historical_passed_row": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase28/golden/raw/bass_080.wav",
+        "bytes": 21600044,
+        "sha256": "6c54388e0cfc7f78eebdb52037f3f8f27497043d8cde315ca0cb2097318425b4",
+        "stat_unchanged": true,
+        "name": "bass",
+        "speed": "0.80",
+        "expected_sha256": "6c54388e0cfc7f78eebdb52037f3f8f27497043d8cde315ca0cb2097318425b4",
+        "matches_manifest": true,
+        "historical_full_PCM_result_SHA": "2547be1c195276be7e30a709dd0ea7d922f277598760674fab1db1aa1a02bdf6",
+        "frames": 2700000,
+        "matches_historical_passed_row": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase28/golden/raw/drums_060.wav",
+        "bytes": 6400044,
+        "sha256": "1f4711169863c185be4fe545b660d244d756ff1a8ade1d44c3ba979ea770e3d4",
+        "stat_unchanged": true,
+        "name": "drums",
+        "speed": "0.60",
+        "expected_sha256": "1f4711169863c185be4fe545b660d244d756ff1a8ade1d44c3ba979ea770e3d4",
+        "matches_manifest": true,
+        "historical_full_PCM_result_SHA": "40c9fa8a78b1c10e46ba8da68e60c5806d1fec4ba7a8653733250ff74ae22de8",
+        "frames": 800000,
+        "matches_historical_passed_row": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase28/golden/raw/drums_070.wav",
+        "bytes": 5485756,
+        "sha256": "5d788bb47d593af25eaf4871846e73969620e73a860a1ad2a20ff76b7d2246c8",
+        "stat_unchanged": true,
+        "name": "drums",
+        "speed": "0.70",
+        "expected_sha256": "5d788bb47d593af25eaf4871846e73969620e73a860a1ad2a20ff76b7d2246c8",
+        "matches_manifest": true,
+        "historical_full_PCM_result_SHA": "15056997ac9fd81aadd2b281e95294e601166d7d058852bcc4549729076b4383",
+        "frames": 685714,
+        "matches_historical_passed_row": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase28/golden/raw/drums_080.wav",
+        "bytes": 4800044,
+        "sha256": "2c9fb17396fecea8a72b88bc1404b1683a4705d1196fbb0a1c7a37ff055ca03e",
+        "stat_unchanged": true,
+        "name": "drums",
+        "speed": "0.80",
+        "expected_sha256": "2c9fb17396fecea8a72b88bc1404b1683a4705d1196fbb0a1c7a37ff055ca03e",
+        "matches_manifest": true,
+        "historical_full_PCM_result_SHA": "83cf8b56c5572c572b0240299feb3faac25efecb5d15ac9c737c189d5e7aa640",
+        "frames": 600000,
+        "matches_historical_passed_row": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase28/golden/raw/guitar_060.wav",
+        "bytes": 6400044,
+        "sha256": "22b6f937ed9d333fb62bb8cf5a1d52b4c1c94b6ed85a82ffdca528be7e1a3fe5",
+        "stat_unchanged": true,
+        "name": "guitar",
+        "speed": "0.60",
+        "expected_sha256": "22b6f937ed9d333fb62bb8cf5a1d52b4c1c94b6ed85a82ffdca528be7e1a3fe5",
+        "matches_manifest": true,
+        "historical_full_PCM_result_SHA": "bf4a832656bb5370b023bfb6ceefcb2b14079853422b569b81efd962b087983f",
+        "frames": 800000,
+        "matches_historical_passed_row": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase28/golden/raw/guitar_070.wav",
+        "bytes": 5485756,
+        "sha256": "37356db0d6dd75c28bb0f8b88fe6ffe4556f29c2fe7ecbdfcf5de36a5319aa70",
+        "stat_unchanged": true,
+        "name": "guitar",
+        "speed": "0.70",
+        "expected_sha256": "37356db0d6dd75c28bb0f8b88fe6ffe4556f29c2fe7ecbdfcf5de36a5319aa70",
+        "matches_manifest": true,
+        "historical_full_PCM_result_SHA": "606a3cb9e391137cc91ac1ec4a0509fd9d8dd271e7a14ef7781927d220379ea9",
+        "frames": 685714,
+        "matches_historical_passed_row": true
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase28/golden/raw/guitar_080.wav",
+        "bytes": 4800044,
+        "sha256": "09190f1273b63aa601f478305f4e8bbaf334e224d5d3e17f1eb14987b6713277",
+        "stat_unchanged": true,
+        "name": "guitar",
+        "speed": "0.80",
+        "expected_sha256": "09190f1273b63aa601f478305f4e8bbaf334e224d5d3e17f1eb14987b6713277",
+        "matches_manifest": true,
+        "historical_full_PCM_result_SHA": "b13f44a5a15c339fbae4dcb4be3590e33fac78209ce3261a013db3da60fb9584",
+        "frames": 600000,
+        "matches_historical_passed_row": true
+      }
+    ],
+    "old_saved_probe_current_identity": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_e5_review_20261021_01/candidate_build/phase54_core_probe",
+      "bytes": 551808,
+      "sha256": "f65b0ede979d71c5c3e7fcf578ff474fd11e37f32707b2c8718fd20540128734",
+      "stat_unchanged": true,
+      "expected_sha256": "f65b0ede979d71c5c3e7fcf578ff474fd11e37f32707b2c8718fd20540128734",
+      "matches_old_summary_and_audit": true
+    },
+    "historical_expected_ids_verified": 25,
+    "historical_exit0_PASS_complete_rows": 25,
+    "current_reference_WAV_total_bytes_hashed": 446248948
+  },
+  "loop_dynamic_PCM_reuse": {
+    "historical_groups": [
+      "final_dynamic161",
+      "final_priority",
+      "final_dynamic_strata",
+      "final_dynamic_remaining_formats",
+      "worker_transaction",
+      "cache_focus"
+    ],
+    "disposition": "HISTORICAL_RESULTS_PRESERVED; new Pipeline/control/Engine behavior needs current targeted regressions. Shared-math byte equality alone does not approve current loop/native/RT/Exact behavior.",
+    "old_D07_D08_status_changed": false,
+    "new_accepted_cases_copied_from_history": 0
+  },
+  "limits": [
+    "No build, audio, benchmark, PCM synthesis or full PCM recalculation executed.",
+    "This audit does not count root concurrent executions or infer their final result.",
+    "OS/device/physical continuity old evidence is not supplemented with current data.",
+    "Exact896 and Golden25 are distinct required sets; no Golden896 set is asserted."
+  ],
+  "Exact_only_approval_review": {
+    "reviewed_utc": "2026-10-23T06:15:34.679987+00:00",
+    "recommended_scope": "Exact mathematical/seek-method approval only, limited to declared input/environment. Interactive/Loop approval, RT/performance, physical audio and Merodoa/F remain separate.",
+    "full_896_or_25_new_execution_claim": false,
+    "normal_createSeek_delta_since_base_HEAD": "Sets new loopPreparationOnly=false; existing fixed Exact path/math/Map unchanged. readyLead is initialized to the old lead value. identityInvalid adds latched diagnostic state only.",
+    "historical_numerics": "Exact896 old result/8-input/112-reference-log identities verified; Golden25 old result/25-WAV/5-input/saved-probe identities now verified. Existing mathematical evidence is retained without adding it to this run count.",
+    "changed_path_confirmation_reported_by_root_not_independently_reaudited_here": [
+      "new initial/prefix: 4 formats x both presets, independent RAW all-bit and Map PASS",
+      "real 4096 limit then Stop/reprepare/close audit then new ExactCompleted PASS"
+    ],
+    "supplemental_gate_needed_after_approval_table_change": "Root plans build07 pure contract plus new product policy/checkpoint/limit/clock. This audit does not mark those future runs PASS.",
+    "legacy_capability_note": "seekAvailability().exact is mode-specific; old publicSeekApproved and Capabilities.seek still require both Exact and Interactive. Exact-only approval must not be reported as all-seek/Interactive approval.",
+    "old_D07_D08_reopened": false,
+    "current_source_896_relabelled": false,
+    "new_Golden_execution_count": 0
+  }
+}

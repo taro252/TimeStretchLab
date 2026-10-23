@@ -1,0 +1,106 @@
+{
+  "schema": "progressive-adoption-quality-summary-v1",
+  "PASS": false,
+  "status": "INCOMPLETE",
+  "execution_complete": false,
+  "quality_status": "INCOMPLETE",
+  "full_suite_complete": false,
+  "expected_count": 34,
+  "observed_count": 34,
+  "validated_count": 34,
+  "errors": [
+    "Identity/source changed during run: []"
+  ],
+  "structural_pass": true,
+  "structurally_valid_count": 34,
+  "quality_passed": 34,
+  "quality_failed": 0,
+  "quality_failed_ids": [],
+  "missing_ids": [],
+  "unexpected_ids": [],
+  "duplicate_ids": [],
+  "not_validated_ids": [],
+  "structural_failed_ids": [],
+  "changed_artifacts": [],
+  "jobs_expected": 9,
+  "jobs_completed": 9,
+  "source_unchanged": false,
+  "artifact_unchanged": true,
+  "repo_after": {
+    "root": "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab",
+    "HEAD": "f4f0e6187a643d9442216df87c04353eda4934e5",
+    "status_porcelain": " M CMakeLists.txt\n M src/platform/macos/ProgressiveMacPlaybackEngine.h\n M src/platform/macos/ProgressiveMacPlaybackEngine.mm\n M src/playback/ProgressiveContract.h\n M src/playback/ProgressiveLoopContract.h\n M src/playback/ProgressiveSeekContract.h\n M src/prototype/Phase58RealtimePipeline.cpp\n M src/prototype/Phase58RealtimePipeline.h\n M tests/Phase61ContractTests.cpp\n?? docs/PROGRESSIVE_ADOPTION_PLAN.md\n?? docs/PROGRESSIVE_ADOPTION_VALIDATION.md\n?? docs/PROGRESSIVE_LOOP_PREPARATION_DESIGN.md\n?? results/progressive_adoption/\n?? src/playback/ProgressiveFeatureContract.h\n?? tests/ProgressiveAdoptionContractTests.cpp\n",
+    "source_diff_sha256": "fca0b8be937577bdac3dee292cca126235751b262bd353be920ae6e970dc0a52",
+    "untracked_source_sha256": {
+      "src/playback/ProgressiveFeatureContract.h": "6b63ab2572d92c8886acb21ff619df80bf9016398c98df43f67c6ad992982351",
+      "tests/ProgressiveAdoptionContractTests.cpp": "f8f5c0bd7288996beba37c471ce61f1bb4ef98e6b4900f6debc4d3fd4deb729f"
+    }
+  },
+  "source_root_repo_after": {
+    "root": "/Users/taro252/Docker/TimeStretchLab",
+    "HEAD": "f4f0e6187a643d9442216df87c04353eda4934e5",
+    "status_porcelain": "",
+    "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "untracked_source_sha256": {}
+  },
+  "groups": [
+    {
+      "source": "chain_300s",
+      "preset": "baseline",
+      "preroll": 24000,
+      "cases": 8,
+      "quality_failed": 0,
+      "ready_p95_ms": 14809.199106799999,
+      "max_weighted_spectral_error_db": 0.0
+    },
+    {
+      "source": "chain_300s",
+      "preset": "baseline",
+      "preroll": 48000,
+      "cases": 5,
+      "quality_failed": 0,
+      "ready_p95_ms": 18553.1726756,
+      "max_weighted_spectral_error_db": 0.0
+    },
+    {
+      "source": "chain_300s",
+      "preset": "baseline",
+      "preroll": 96000,
+      "cases": 4,
+      "quality_failed": 0,
+      "ready_p95_ms": 10044.1888893,
+      "max_weighted_spectral_error_db": 0.0
+    },
+    {
+      "source": "chain_300s",
+      "preset": "candidate",
+      "preroll": 24000,
+      "cases": 8,
+      "quality_failed": 0,
+      "ready_p95_ms": 14199.71634605,
+      "max_weighted_spectral_error_db": 0.0
+    },
+    {
+      "source": "chain_300s",
+      "preset": "candidate",
+      "preroll": 48000,
+      "cases": 5,
+      "quality_failed": 0,
+      "ready_p95_ms": 19293.727257799997,
+      "max_weighted_spectral_error_db": 0.0
+    },
+    {
+      "source": "chain_300s",
+      "preset": "candidate",
+      "preroll": 96000,
+      "cases": 4,
+      "quality_failed": 0,
+      "ready_p95_ms": 9521.8237875,
+      "max_weighted_spectral_error_db": 0.0
+    }
+  ],
+  "completed_utc": "2026-10-23T05:18:44.466792+00:00",
+  "expected_sha256": "9fa23818997ddf8a75955b889d8623ca95c6967aacaa14aebac0ab2aa6608676",
+  "validator_sha256": "67d4a8892eafebe7f067a3b558e56cebca57105a84ef7598f23e3069f91db422",
+  "plan_sha256": "8e28915fdf74ce92ee56b0e894e7a0dc8faf37601995a23aaa146bfadd8efc3d"
+}

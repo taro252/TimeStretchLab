@@ -1,0 +1,357 @@
+{
+  "suite": "review",
+  "status": "INCOMPLETE_OR_FAIL",
+  "expected_programs": 10,
+  "executed_programs": 10,
+  "rows": [
+    {
+      "id": "a2_initial_supply_candidate",
+      "returncode": 1,
+      "timeout": false,
+      "wall_s": 0.37738116702530533,
+      "execution_complete": false,
+      "PASS": false,
+      "performance": "NOT_ASSESSED",
+      "summary": {
+        "schema": 1,
+        "suite": "phase62_adoption_review",
+        "mode": "a2_initial_supply",
+        "run_complete": false,
+        "status": "FAIL",
+        "expected": 6,
+        "executed": 1,
+        "reason": "現在位置が全曲ループの準備期限を過ぎています（最大callbackと混合の余裕が必要）"
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/review_final_02/a2_initial_supply_candidate.log",
+        "bytes": 114,
+        "sha256": "0e319c5fbeed1d4674a909d98e05a8e314d9093313425ab7073973dca536bcfd"
+      }
+    },
+    {
+      "id": "a2_checkpoint_supply_candidate",
+      "returncode": 0,
+      "timeout": false,
+      "wall_s": 2.6034635420073755,
+      "execution_complete": true,
+      "PASS": true,
+      "performance": "NOT_ASSESSED",
+      "summary": {
+        "schema": 1,
+        "suite": "phase62_adoption_review",
+        "mode": "a2_checkpoint_supply",
+        "preset": "candidate",
+        "run_complete": true,
+        "status": "PASS",
+        "expected": 7,
+        "executed": 7,
+        "Accepted_IDs": [
+          2,
+          3
+        ],
+        "owner_peak": 2,
+        "owners_alive": 0,
+        "callback_cpp_new": 0,
+        "callback_malloc": 0,
+        "callback_free": 0,
+        "independent_DSP": "NOT_RUN",
+        "RT_deadline_approval": "NOT_ASSESSED",
+        "local_overall_go": false
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/review_final_02/a2_checkpoint_supply_candidate.log",
+        "bytes": 363,
+        "sha256": "63935236b5f4eece297af88091cc4f68f099d4c8fd3cd0ae68a3352376b92d60"
+      }
+    },
+    {
+      "id": "a2_clear_started_candidate",
+      "returncode": 0,
+      "timeout": false,
+      "wall_s": 2.598439834022429,
+      "execution_complete": true,
+      "PASS": true,
+      "performance": "NOT_ASSESSED",
+      "summary": {
+        "schema": 1,
+        "suite": "phase62_adoption_review",
+        "mode": "a2_clear_started",
+        "preset": "candidate",
+        "run_complete": true,
+        "status": "PASS",
+        "expected": 7,
+        "executed": 7,
+        "Accepted_IDs": [
+          2,
+          3
+        ],
+        "owner_peak": 2,
+        "owners_alive": 0,
+        "callback_cpp_new": 0,
+        "callback_malloc": 0,
+        "callback_free": 0,
+        "independent_DSP": "NOT_RUN",
+        "RT_deadline_approval": "NOT_ASSESSED",
+        "local_overall_go": false
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/review_final_02/a2_clear_started_candidate.log",
+        "bytes": 359,
+        "sha256": "86e10d3b5d68f65f87b642e9ade737fb9702d22884a235d00f439c4fce5f8035"
+      }
+    },
+    {
+      "id": "f01_dsp_done_candidate",
+      "returncode": 0,
+      "timeout": false,
+      "wall_s": 1.115490083990153,
+      "execution_complete": true,
+      "PASS": true,
+      "performance": "NOT_ASSESSED",
+      "summary": {
+        "schema": 1,
+        "suite": "phase62_adoption_review",
+        "mode": "f01_dsp_done",
+        "preset": "candidate",
+        "run_complete": true,
+        "status": "PASS",
+        "expected": 7,
+        "executed": 7,
+        "Accepted_IDs": [
+          2,
+          3
+        ],
+        "owner_peak": 2,
+        "owners_alive": 0,
+        "callback_cpp_new": 0,
+        "callback_malloc": 0,
+        "callback_free": 0,
+        "independent_DSP": "NOT_RUN",
+        "RT_deadline_approval": "NOT_ASSESSED",
+        "local_overall_go": false
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/review_final_02/f01_dsp_done_candidate.log",
+        "bytes": 355,
+        "sha256": "d646d73c1ed7957369771f131822dd3ea634c547081cd7ac15ef9c9f1cfd3fcd"
+      }
+    },
+    {
+      "id": "f01_checkpoint_candidate",
+      "returncode": 0,
+      "timeout": false,
+      "wall_s": 2.5868229169864208,
+      "execution_complete": true,
+      "PASS": true,
+      "performance": "NOT_ASSESSED",
+      "summary": {
+        "schema": 1,
+        "suite": "phase62_adoption_review",
+        "mode": "f01_checkpoint",
+        "preset": "candidate",
+        "run_complete": true,
+        "status": "PASS",
+        "expected": 7,
+        "executed": 7,
+        "Accepted_IDs": [
+          2,
+          3
+        ],
+        "owner_peak": 2,
+        "owners_alive": 0,
+        "callback_cpp_new": 0,
+        "callback_malloc": 0,
+        "callback_free": 0,
+        "independent_DSP": "NOT_RUN",
+        "RT_deadline_approval": "NOT_ASSESSED",
+        "local_overall_go": false
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/review_final_02/f01_checkpoint_candidate.log",
+        "bytes": 357,
+        "sha256": "14d249dd3e0406ec80504b3dc39299f053defc24750965f504e8b926583844bb"
+      }
+    },
+    {
+      "id": "a2_initial_supply_baseline",
+      "returncode": 0,
+      "timeout": false,
+      "wall_s": 1.0748166250414215,
+      "execution_complete": true,
+      "PASS": true,
+      "performance": "NOT_ASSESSED",
+      "summary": {
+        "schema": 1,
+        "suite": "phase62_adoption_review",
+        "mode": "a2_initial_supply",
+        "preset": "baseline",
+        "run_complete": true,
+        "status": "PASS",
+        "expected": 6,
+        "executed": 6,
+        "Accepted_IDs": [
+          2,
+          3
+        ],
+        "owner_peak": 2,
+        "owners_alive": 0,
+        "callback_cpp_new": 0,
+        "callback_malloc": 0,
+        "callback_free": 0,
+        "independent_DSP": "NOT_RUN",
+        "RT_deadline_approval": "NOT_ASSESSED",
+        "local_overall_go": false
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/review_final_02/a2_initial_supply_baseline.log",
+        "bytes": 359,
+        "sha256": "503b39ae7e5dfb1ca0060cf2dafa712c9c4917adb39dc08617ba932ce32b2926"
+      }
+    },
+    {
+      "id": "a2_checkpoint_supply_baseline",
+      "returncode": 0,
+      "timeout": false,
+      "wall_s": 2.5838677089777775,
+      "execution_complete": true,
+      "PASS": true,
+      "performance": "NOT_ASSESSED",
+      "summary": {
+        "schema": 1,
+        "suite": "phase62_adoption_review",
+        "mode": "a2_checkpoint_supply",
+        "preset": "baseline",
+        "run_complete": true,
+        "status": "PASS",
+        "expected": 7,
+        "executed": 7,
+        "Accepted_IDs": [
+          2,
+          3
+        ],
+        "owner_peak": 2,
+        "owners_alive": 0,
+        "callback_cpp_new": 0,
+        "callback_malloc": 0,
+        "callback_free": 0,
+        "independent_DSP": "NOT_RUN",
+        "RT_deadline_approval": "NOT_ASSESSED",
+        "local_overall_go": false
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/review_final_02/a2_checkpoint_supply_baseline.log",
+        "bytes": 362,
+        "sha256": "8d5ebbe5c04616b2871c905a78b9b85ed05c1ded9c2ce1c5535350d4afc38a83"
+      }
+    },
+    {
+      "id": "a2_clear_started_baseline",
+      "returncode": 0,
+      "timeout": false,
+      "wall_s": 2.558100749971345,
+      "execution_complete": true,
+      "PASS": true,
+      "performance": "NOT_ASSESSED",
+      "summary": {
+        "schema": 1,
+        "suite": "phase62_adoption_review",
+        "mode": "a2_clear_started",
+        "preset": "baseline",
+        "run_complete": true,
+        "status": "PASS",
+        "expected": 7,
+        "executed": 7,
+        "Accepted_IDs": [
+          2,
+          3
+        ],
+        "owner_peak": 2,
+        "owners_alive": 0,
+        "callback_cpp_new": 0,
+        "callback_malloc": 0,
+        "callback_free": 0,
+        "independent_DSP": "NOT_RUN",
+        "RT_deadline_approval": "NOT_ASSESSED",
+        "local_overall_go": false
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/review_final_02/a2_clear_started_baseline.log",
+        "bytes": 358,
+        "sha256": "da2894497227bdaecb42952ff68949660392373d79c034691de2e8cc630dc35a"
+      }
+    },
+    {
+      "id": "f01_dsp_done_baseline",
+      "returncode": 0,
+      "timeout": false,
+      "wall_s": 1.1198669159784913,
+      "execution_complete": true,
+      "PASS": true,
+      "performance": "NOT_ASSESSED",
+      "summary": {
+        "schema": 1,
+        "suite": "phase62_adoption_review",
+        "mode": "f01_dsp_done",
+        "preset": "baseline",
+        "run_complete": true,
+        "status": "PASS",
+        "expected": 7,
+        "executed": 7,
+        "Accepted_IDs": [
+          2,
+          3
+        ],
+        "owner_peak": 2,
+        "owners_alive": 0,
+        "callback_cpp_new": 0,
+        "callback_malloc": 0,
+        "callback_free": 0,
+        "independent_DSP": "NOT_RUN",
+        "RT_deadline_approval": "NOT_ASSESSED",
+        "local_overall_go": false
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/review_final_02/f01_dsp_done_baseline.log",
+        "bytes": 354,
+        "sha256": "04e04476b14f23aa29e10597a1a939886b98e443666b9fb56690cbdaf2626614"
+      }
+    },
+    {
+      "id": "f01_checkpoint_baseline",
+      "returncode": 0,
+      "timeout": false,
+      "wall_s": 2.5612146250205114,
+      "execution_complete": true,
+      "PASS": true,
+      "performance": "NOT_ASSESSED",
+      "summary": {
+        "schema": 1,
+        "suite": "phase62_adoption_review",
+        "mode": "f01_checkpoint",
+        "preset": "baseline",
+        "run_complete": true,
+        "status": "PASS",
+        "expected": 7,
+        "executed": 7,
+        "Accepted_IDs": [
+          2,
+          3
+        ],
+        "owner_peak": 2,
+        "owners_alive": 0,
+        "callback_cpp_new": 0,
+        "callback_malloc": 0,
+        "callback_free": 0,
+        "independent_DSP": "NOT_RUN",
+        "RT_deadline_approval": "NOT_ASSESSED",
+        "local_overall_go": false
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/review_final_02/f01_checkpoint_baseline.log",
+        "bytes": 356,
+        "sha256": "8d6939df77bb86a24eb2c6498e2d2e2e47015edcac85872496601108112b5ff0"
+      }
+    }
+  ],
+  "physical_audio": null
+}

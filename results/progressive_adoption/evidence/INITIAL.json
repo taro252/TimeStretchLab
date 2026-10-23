@@ -1,0 +1,41 @@
+{
+  "created_utc": "2026-10-23T04:50:57.778657+00:00",
+  "baseline_head": "f4f0e6187a643d9442216df87c04353eda4934e5",
+  "branch": "codex/progressive-adoption",
+  "root": "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab",
+  "original_root": "/Users/taro252/Docker/TimeStretchLab",
+  "baseline_clean": true,
+  "merodoa_head": "c6ed9251fe6e6bb518039aa03332794dd72cea0c",
+  "merodoa_clean": true,
+  "merodoa_dependency": "f4f0e6187a643d9442216df87c04353eda4934e5 external/TimeStretchLab (phase53-handoff-32-gf4f0e6187)",
+  "rules": [
+    {
+      "path": "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab/AGENTS.md",
+      "bytes": 1560,
+      "sha256": "73149d73579def2cc9fecbdef5338eb7af19011af1fe85603b1d97d3e7290309"
+    },
+    {
+      "path": "/Users/taro252/Docker/merodoa/AGENTS.md",
+      "bytes": 34045,
+      "sha256": "075441ea9163309a5bf611d01f9f4c8b98ce7d6f28e35edf2277e4234ef4b8f1"
+    }
+  ],
+  "platform": "macOS-26.6.2-x86_64-i386-64bit-Mach-O",
+  "xcode": "Xcode 27.0\nBuild version 27A266a",
+  "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+  "cmake": "cmake version 4.3.3\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).",
+  "declared_scope": {
+    "platform": "macOS arm64; initial validated machine M1 MacBookAir10,1 / macOS26.6.2 / built-in speaker 48000Hz buffer512; unverified environments not guaranteed",
+    "input": "Float32 Merodoa-derived WAV, 44100/48000Hz, mono/stereo; PCM16 compatibility maintained",
+    "speeds": "40..200% step1%, 161 values, both Presets",
+    "ios": "shared-header compile regression only; audio implementation not added",
+    "budgets": "2 executing owners / 2 checkpoints, FIFO16384, RAW96000 per program, reservation1GiB+existing24MiB included"
+  },
+  "targets_fixed_before_candidate": {
+    "interactive_ready": "confirmed-analysis request to FIFO Ready p95<=200ms",
+    "ab_fresh_unvisited_no_checkpoint_no_prewarm": "native accepted to first A PCM p95<=1000ms for A30/A270, Float32 48k mono/stereo, candidate speeds40/100/200; Exact and local candidates separately; UI/service outside native to be measured at F",
+    "ab_prewarmed_and_warm": "native accepted to first A PCM p95<=250ms, preparation cost reported separately",
+    "normal_release": "unexpected missing/padding/rejected/PCM defects/callback forbidden operations zero; existing deadline criteria maintained"
+  },
+  "legacy_evidence": "old FAIL/NO-GO preserved; new adoption ledger separates feature implementation/configuration/approval/runtime; no push or release"
+}

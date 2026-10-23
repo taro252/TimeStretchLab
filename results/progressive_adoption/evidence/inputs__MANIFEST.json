@@ -1,0 +1,31 @@
+{
+  "schema": "adoption-inputs-v1",
+  "inputs": [
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/inputs/mono48_16s.wav",
+      "sha256": "225417ab731543dca88033f86d559275bbcbd6a7def776af39d5a971ec7e9cce",
+      "source": "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+      "source_sha256": "13c957e5c0f5e3d64c4973ac27117930bcc541ac67f4d21459417d8f5a4e0bd0",
+      "source_frames": 14400000,
+      "frames": 768000,
+      "channels": 1,
+      "rate": 48000,
+      "encoding": "Float32",
+      "method": "verbatim prefix PCM and original fmt; RIFF sizes rewritten",
+      "bytes": 3072044
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/inputs/stereo441_16s.wav",
+      "sha256": "0091c83fd800022c48ce634510f950be9a87cb5f1d9bd26eedc61a442a924290",
+      "source": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+      "source_sha256": "fc8be98125b35e0b2bde0728ef8ccfc60ab2aee4462b72f61c55733ae277cf58",
+      "source_frames": 13230000,
+      "frames": 705600,
+      "channels": 2,
+      "rate": 44100,
+      "encoding": "Float32",
+      "method": "verbatim prefix PCM and original fmt; RIFF sizes rewritten",
+      "bytes": 5644844
+    }
+  ]
+}

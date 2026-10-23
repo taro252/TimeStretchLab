@@ -1,0 +1,365 @@
+{
+  "schema": "progressive-adoption-quality-plan-v1",
+  "original_root": "/Users/taro252/Docker/TimeStretchLab",
+  "artifact_manifest": "results/phase61_fast_seek/ARTIFACT_MANIFEST.json",
+  "artifact_manifest_sha256": "ad9b1ec4765e6ecd5d177774d906b9b7faf83ddf01784cf624fec6184e6ea204",
+  "oracle": "build/phase61/oracle_release_v1/phase61_frozen_reference",
+  "oracle_sha256": "de70db5fbc4284fd13f3f9a7cf257cbca1d8d9a5755859067c7cfb234d1d5748",
+  "historical_binary": "build/phase61_fast_seek/release/phase61_fast_seek_study",
+  "historical_binary_sha256": "8dd0f1e9f3ebb52391e5e16a2ef4b98d62848645cf3d2b307930957e8e372a0d",
+  "metrics_driver": "scripts/phase61_fast_seek_study.py",
+  "metrics_driver_sha256": "93f5e74f17828954fec38c5cf53b80b5f26eb02354bd027d3b8255171c86c90a",
+  "speeds": [
+    400000,
+    500000,
+    750000,
+    1000000,
+    1500000,
+    2000000
+  ],
+  "thresholds": {
+    "rms_gain_db": 1.5,
+    "weighted_spectral_error_db": 3.0,
+    "stereo_ipd_error_deg": 10.0,
+    "stereo_balance_error_db": 1.0,
+    "low_tone_envelope_cv_excess": 0.03,
+    "low_tone_pitch_error_cents": 5.0
+  },
+  "known_failures_speed_preroll_input": [
+    [
+      400000,
+      24000,
+      9363423
+    ],
+    [
+      400000,
+      24000,
+      9591981
+    ],
+    [
+      400000,
+      48000,
+      13680000
+    ],
+    [
+      500000,
+      24000,
+      7200000
+    ],
+    [
+      500000,
+      24000,
+      9363423
+    ],
+    [
+      500000,
+      48000,
+      7200000
+    ],
+    [
+      500000,
+      48000,
+      12960000
+    ],
+    [
+      500000,
+      96000,
+      7200000
+    ],
+    [
+      500000,
+      96000,
+      12960000
+    ],
+    [
+      1500000,
+      24000,
+      9591981
+    ],
+    [
+      1500000,
+      24000,
+      11653778
+    ],
+    [
+      1500000,
+      48000,
+      13680000
+    ],
+    [
+      1500000,
+      96000,
+      1192034
+    ]
+  ],
+  "success_controls_speed_preroll_input": [
+    [
+      1500000,
+      48000,
+      11653778
+    ],
+    [
+      1500000,
+      96000,
+      11653778
+    ],
+    [
+      1000000,
+      24000,
+      11653778
+    ],
+    [
+      1500000,
+      24000,
+      0
+    ]
+  ],
+  "groups": {
+    "chain": {
+      "directory": "build/phase61_fast_seek/performance_chain",
+      "historical_repeats": 3,
+      "historical_cases": 1080,
+      "historical_failures": 78,
+      "manifest_sha256": "ad751671d37e6655751cfa3522820a1d594235bf877a251ae3d2caf36206c9e7",
+      "commands_sha256": "9cf619323b8b3afe312b1f053f4c0930c5fe5ccb572f014cac1c034f0d3a89d7",
+      "rows_sha256": "17cf2a387b5cdd1475d67a8802df1762064a81d4f2d68d8fc946d6fad9d2b9c8",
+      "historical_driver": "scripts/phase61_fast_seek_study.py",
+      "historical_driver_sha256": "93f5e74f17828954fec38c5cf53b80b5f26eb02354bd027d3b8255171c86c90a",
+      "sources": [
+        {
+          "name": "chain_300s",
+          "path": "results/phase56/long/chain_300s.wav",
+          "sha256": "13c957e5c0f5e3d64c4973ac27117930bcc541ac67f4d21459417d8f5a4e0bd0",
+          "rate": 48000,
+          "channels": 1,
+          "frames": 14400000,
+          "positions": [
+            0,
+            1440000,
+            7200000,
+            12960000,
+            13680000,
+            9363423,
+            9591981,
+            399191,
+            1192034,
+            11653778
+          ],
+          "prerolls": [
+            24000,
+            48000,
+            96000
+          ]
+        }
+      ]
+    },
+    "music": {
+      "directory": "build/phase61_fast_seek/performance_music",
+      "historical_repeats": 3,
+      "historical_cases": 360,
+      "historical_failures": 0,
+      "manifest_sha256": "cb0773cf6e2afcfd2ff5f0240327a36e4e825b5855fcea7301934ab5b3e34707",
+      "commands_sha256": "f6bd2e6ea7d66ce209702800cda22f0dbace9bd0fcec6d553f4726a3216ed887",
+      "rows_sha256": "77be087a0f31a888cb9bb8428026374685b2c86e52ee83d5c5da3484df3a2616",
+      "historical_driver": "scripts/phase61_fast_seek_study.py",
+      "historical_driver_sha256": "93f5e74f17828954fec38c5cf53b80b5f26eb02354bd027d3b8255171c86c90a",
+      "sources": [
+        {
+          "name": "music_300s",
+          "path": "build/phase61_fast_seek/music_300s.wav",
+          "sha256": "fc8be98125b35e0b2bde0728ef8ccfc60ab2aee4462b72f61c55733ae277cf58",
+          "rate": 44100,
+          "channels": 2,
+          "frames": 13230000,
+          "positions": [
+            0,
+            1323000,
+            6615000,
+            11907000,
+            12568500,
+            9359523,
+            9588081,
+            395291,
+            1188134,
+            11649878
+          ],
+          "prerolls": [
+            22050
+          ]
+        }
+      ]
+    },
+    "short": {
+      "directory": "build/phase61_fast_seek/quality_v1",
+      "historical_repeats": 1,
+      "historical_cases": 648,
+      "historical_failures": 0,
+      "manifest_sha256": "00314399aa81c39176d55e86cae31f13146962954c8bc9f0250c073882aa5657",
+      "commands_sha256": "9894af0b62b575e6e63c470ab7f6df2f27fda305578ba1e0ecb3a0adc3e6ba9e",
+      "rows_sha256": "cea15a783ba30b7362449e41717217459bf3c5c40a60bf969e276733f6c92c3a",
+      "historical_driver": "build/phase61_fast_seek/quality_driver_v1.py",
+      "historical_driver_sha256": "ca8ca817932b770da8b953cd72fc8b0d96659fddfcf742ae71da8dbf9ef73c0e",
+      "sources": [
+        {
+          "name": "mix",
+          "path": "results/phase31/input/mix.wav",
+          "sha256": "789d4c159e35b4c133a17913ad5a9c47b85970185e5d86b074d146afc1bb311e",
+          "rate": 44100,
+          "channels": 2,
+          "frames": 441000,
+          "positions": [
+            220517,
+            330781
+          ],
+          "prerolls": [
+            22050,
+            44100,
+            88200
+          ]
+        },
+        {
+          "name": "bass",
+          "path": "results/phase31/input/bass.wav",
+          "sha256": "37e6aec488ae3a838f67fc7cf8867588e2ca15cecc4dee0facd401a44890d3eb",
+          "rate": 48000,
+          "channels": 2,
+          "frames": 480000,
+          "positions": [
+            240017,
+            360031
+          ],
+          "prerolls": [
+            24000,
+            48000,
+            96000
+          ]
+        },
+        {
+          "name": "drums",
+          "path": "results/phase31/input/drums.wav",
+          "sha256": "d77f30cdc1b889227b7f3492791ca510be3ad3514aa7dc38be5f4f2d77297008",
+          "rate": 48000,
+          "channels": 2,
+          "frames": 480000,
+          "positions": [
+            240017,
+            360031
+          ],
+          "prerolls": [
+            24000,
+            48000,
+            96000
+          ]
+        },
+        {
+          "name": "guitar",
+          "path": "results/phase31/input/guitar.wav",
+          "sha256": "3da0902bd133bfe71c61650cae3e3f7ba0864bd0deb375387a36b3b38ec2f87a",
+          "rate": 48000,
+          "channels": 2,
+          "frames": 480000,
+          "positions": [
+            240017,
+            360031
+          ],
+          "prerolls": [
+            24000,
+            48000,
+            96000
+          ]
+        },
+        {
+          "name": "vocal",
+          "path": "results/phase31/input/vocal.wav",
+          "sha256": "2f7924d9b9c7cd2574d5c80a9cc98c59e02184cfda0676c5f5fa2c70793428ab",
+          "rate": 48000,
+          "channels": 2,
+          "frames": 480000,
+          "positions": [
+            240017,
+            360031
+          ],
+          "prerolls": [
+            24000,
+            48000,
+            96000
+          ]
+        },
+        {
+          "name": "low_tone",
+          "path": "build/phase61_fast_seek/quality_v1/inputs/low_tone.wav",
+          "sha256": "996f24d6c44151d908db8e96042abbf42e095fb197cb2f4cbb3add15a8229afa",
+          "rate": 48000,
+          "channels": 2,
+          "frames": 480000,
+          "positions": [
+            240017,
+            360031
+          ],
+          "prerolls": [
+            24000,
+            48000,
+            96000
+          ]
+        },
+        {
+          "name": "crossovers",
+          "path": "build/phase61_fast_seek/quality_v1/inputs/crossovers.wav",
+          "sha256": "4c1f69c37c20ccc5344bb9492575d16d2f79f5aeda3b7ac78aa4443544c32fde",
+          "rate": 48000,
+          "channels": 2,
+          "frames": 480000,
+          "positions": [
+            240017,
+            360031
+          ],
+          "prerolls": [
+            24000,
+            48000,
+            96000
+          ]
+        },
+        {
+          "name": "stereo",
+          "path": "build/phase61_fast_seek/quality_v1/inputs/stereo.wav",
+          "sha256": "73cf7eafa5ad55756532737d67fd04d7edb91f1c1278405a26de0162eea9fe67",
+          "rate": 48000,
+          "channels": 2,
+          "frames": 480000,
+          "positions": [
+            240017,
+            360031
+          ],
+          "prerolls": [
+            24000,
+            48000,
+            96000
+          ]
+        },
+        {
+          "name": "transients",
+          "path": "build/phase61_fast_seek/quality_v1/inputs/transients.wav",
+          "sha256": "0ee1862fe45ba4689d30dace16280da642f26082311389adc3e15c2033792c67",
+          "rate": 48000,
+          "channels": 2,
+          "frames": 480000,
+          "positions": [
+            240017,
+            360031
+          ],
+          "prerolls": [
+            24000,
+            48000,
+            96000
+          ]
+        }
+      ]
+    }
+  },
+  "defaults": {
+    "known26_repeats": 3,
+    "long_repeats": 3,
+    "short_repeats": 1
+  },
+  "scope": "固定済み旧閾値と完全ケース集合。参照新規生成なし。known26は26失敗条件と8成功対照。longはmono1080とstereo360、shortは9素材648。"
+}

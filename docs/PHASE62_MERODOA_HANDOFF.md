@@ -170,3 +170,20 @@ Pausedでは静止Cと明示Resume契約を維持する。ONは新Aへ位置を�
 `initialCheckpointHit`は同A/Bの保存点、`initialPrefixCheckpointHit`は互換な通常seekのP<=OA保存点の流用であり、速度/Preset/入力/全Map/完全DSP状態が一致した場合に限る。後者はP→Aの残合成がある。保存点のないA270のfresh初回は約28秒が残り、seekCheckpoints設定だけを高速化保証にしない。新しい先行準備APIは導入していない。
 
 受入時は同SHAのarchiveとheaderを同時に再ビルドし、同一入力・device/buffer・観測条件でアプリ側を再計測する。単体process CPUの約12%相対減を、Merodoa全体の改善率へ転記しない。旧Clear待ちと即時ReturnToAの両接続を実PCM採用時刻・全ID終端・自然周回・供給0・callback確保0・最大2owner/2checkpointで再確認する。品質、公開承認、既定化、ピッチシフトは別ゲートを維持する。
+
+
+## 2026-10-23 正式採用作業Dへの追記
+
+上記のNO-GO/既定化禁止は当時の対象・証拠の記録として保存する。今回の正式採用指示に対する最新の方式別判断は [Progressive採用台帳](PROGRESSIVE_ADOPTION_PLAN.md) と [新実行REPORT](../results/progressive_adoption/REPORT.md) を参照する。過去の未達を成功へ書き換えない。
+
+能力契約はv3。ヘッダーと全archiveを同じ候補から再ビルドし、`prepare(..., ContractV3Tag)`のリンク記号でも混在を防ぐ。`ProgressiveOptions::macOSProduct()`はExact方式だけをApprovedOnlyで有効にする。Interactive/FastLocal、nativeLoop、現在周期速度の正式承認は未達を残す。旧包括`Capabilities.seek`/`publicSeekApproved`はfalseで、Exact単独の承認を隠さないよう`seekAvailability().exact`と`.interactive`を分けて読む。現在のMerodoaのInteractive要求をExactへ差し替えてはいない。
+
+Loop研究経路を使用する場合は、明示の方式別Research設定を渡す。同じ実効設定から24MiB追加予約、有限観測、受付、診断を導出する。[v3 API・理由コード・復旧](PROGRESSIVE_ADOPTION_API_V3.md) に従い、日本語理由文の文字列一致で制御しない。採用済み境界・退役待ち・範囲拒否・入力障害・上限到達を区別する。
+
+A/B確定後の準備だけには`requestLoopPreparation(A,B,context)`を使う。これは位置を変えず、最大1件の準備を行い、全join後に不変A保存点をReadyとして返す。ONは従来`requestLoopRange`で明示する。準備前のON/Playは先行準備を取消して操作を優先する。Ready前に旧PCMを消費せず、Pausedから自動再開しない。warm短縮をcold高速化としない。
+
+専用の非メイン直列制御キュー、engine/prepare UUID、inputGeneration/session/epoch/loopID/requestID、FD/security scope/PCM leaseの全join後解放は維持する。4096上限はStop→prepareでは回復しない。全Acceptedの終端を所有コピーとして回収し、close後、新UUIDのengineを作り、入力・静止C・速度・Loop・再開意思を明示復元する。ID1の再利用を旧engineと混同しない。
+
+Merodoa本体、依存gitlink、承認SHAはこの作業では変更しない。実アプリF、TCC、試聴、物理loopback、RTと性能の未達は[受入表](PROGRESSIVE_ADOPTION_F_ACCEPTANCE.md)で個別に閉じる。
+
+通常速度全終端の回収には`receiveFinalEpochAudit`も設定する。全join/参照解放後・256件切詰め前に所有コピーし、destructorの最終`epochAuditConfigured/Calls/Rejected`を照合する。新300Accepted cohortのRelease/Debug各56 checks PASSを既存Loop H<=1から独立に記録した。詳細と未達は上記最終REPORTを参照。

@@ -1,0 +1,3059 @@
+{
+  "status": "PASS",
+  "source": "302ac6b3a24423d86b02451297a49447093852f62cc8dcf8459bf06dcfb26e2b",
+  "source_root": "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab",
+  "source_manifest": {
+    "sha256": "302ac6b3a24423d86b02451297a49447093852f62cc8dcf8459bf06dcfb26e2b",
+    "files": [
+      {
+        "path": "CMakeLists.txt",
+        "sha256": "ea0f831e1a4a57a23ee644648b89a4130ea03c74c87f7bae39c78855ad90fa22"
+      },
+      {
+        "path": "scripts/artifact_cleanup.py",
+        "sha256": "9f3703f1070c90b0b344378d243be196af69c3844eb8ffc346ae6a9d96981bb3"
+      },
+      {
+        "path": "scripts/check_git_blob_sizes.py",
+        "sha256": "16f843a818a12390d84e478ba4a921a36b8a6600b9dc6ccacfcad567f7da38c4"
+      },
+      {
+        "path": "scripts/phase101_evaluate.py",
+        "sha256": "98f3a35525b45734c09283c9f79df85a05737b124900c171844fa50a5cb88783"
+      },
+      {
+        "path": "scripts/phase101_generate.py",
+        "sha256": "04630671cc971012e131372eb86d4867cf3d1d753ac8550ee6aea43eb6900bf8"
+      },
+      {
+        "path": "scripts/phase101_lookahead.py",
+        "sha256": "f57e65fe8b38c6a2679dd7c11df892407dff9c56b9451426c4bbb826096ccff6"
+      },
+      {
+        "path": "scripts/phase101_reset_ablation.py",
+        "sha256": "79dadad11cab7f2d7b264b4067ad80ac6faa0fb918cb42d9b110391bee1dad42"
+      },
+      {
+        "path": "scripts/phase12_anchor_diagnostic.py",
+        "sha256": "c54781a1e5b2d9c7706317f10e525f26b4bb499ea5f6ff7183bb1fbc15c7f0c9"
+      },
+      {
+        "path": "scripts/phase12_audition.py",
+        "sha256": "66f49707d4240e030903aca05b53000799e29a4968cfc0701238f6baffc147c0"
+      },
+      {
+        "path": "scripts/phase12_golden.py",
+        "sha256": "8e88b7ad4deb0f9209b6fa2b4e5c60856874ebd9b8af4758424a4f4899eff4fb"
+      },
+      {
+        "path": "scripts/phase13_verify.py",
+        "sha256": "e015d0908c011acff06736a8edadbeb280a7e9b3c08e554314d494f19c2f7df4"
+      },
+      {
+        "path": "scripts/phase14_benchmark.py",
+        "sha256": "911f35a4bc52663e0ff137ebaa533bb48a0ac606178b0a98d45c7db72871f608"
+      },
+      {
+        "path": "scripts/phase14_verify.py",
+        "sha256": "71a76a22b62cd5791c44757ee1bf41094d4142ebb168358eb73ef19b896b628b"
+      },
+      {
+        "path": "scripts/phase17_cache_study.py",
+        "sha256": "753dcaddd65fd9f3891849fe1bd722d972493d94f8d95eebc99bcf9de8293fcc"
+      },
+      {
+        "path": "scripts/phase17_fade_study.py",
+        "sha256": "c192f53beb4a20cf6295d3ad1d056a37140490867f30bd3ed0725611354d82a9"
+      },
+      {
+        "path": "scripts/phase18_attack_ab.py",
+        "sha256": "539211174e0ef5a92a498101dba7b8e40b53988e35047bded079c9031f490e3b"
+      },
+      {
+        "path": "scripts/phase19_long_inputs.py",
+        "sha256": "1bd68f919612c2bc53183f8bc39da67d3807d89a6a0b51d67b61d33a3c782ee2"
+      },
+      {
+        "path": "scripts/phase28_fixed_baselines.py",
+        "sha256": "92faaacb19df8a9bad393f064e4e7058d548d9d4f1305c11d2876445a8bf89c2"
+      },
+      {
+        "path": "scripts/phase29_analyze.py",
+        "sha256": "e9c5c61f92c9923e7c0a8cde0febce43e8ead498c07e8bf9e577406d5f913af2"
+      },
+      {
+        "path": "scripts/phase29_fixed_stages.py",
+        "sha256": "5958a73c48b10b8037d7999af27df9459535ad5a3640c2e3fb57292bd0415352"
+      },
+      {
+        "path": "scripts/phase29_multi_prefix.py",
+        "sha256": "e619abb143f17ea0f30111b152bd9eac4a7f38affcc050f3a7f0e5f4041123dc"
+      },
+      {
+        "path": "scripts/phase29_regenerate_refs.py",
+        "sha256": "623a8ba8c5a086fa1c88ce2bb502851dc71a338ab4256d1c1b09b5121eafa744"
+      },
+      {
+        "path": "scripts/phase29_study.py",
+        "sha256": "80f2c0dff843cf74dac111be19737e20c29904c0936afa4e00bd461d1d74e915"
+      },
+      {
+        "path": "scripts/phase30_audio_metrics.py",
+        "sha256": "147dca24b0f4717f2ce9210aa8a3952908a06201bad879ccb34dbe61d55fe69f"
+      },
+      {
+        "path": "scripts/phase30_mac_matrix.py",
+        "sha256": "1dd28fca63dce4a1ae0e65b22e25659115d42aeb3a550f226227e2c89a4d8d5c"
+      },
+      {
+        "path": "scripts/phase30_partition.py",
+        "sha256": "c8c555e7dafb8ebf30821e07d97d40fe05fbb40e3259b59d5c6f4075beda839c"
+      },
+      {
+        "path": "scripts/phase30_study.py",
+        "sha256": "585fbe5afbf771b507c7309ea42254095af71b10bd9b597347875b14b094f5eb"
+      },
+      {
+        "path": "scripts/phase31_audition.py",
+        "sha256": "cceb360f0523788ead3ef3fa5181782645afa1ac8d0f0b4ad51a44b469cc11b2"
+      },
+      {
+        "path": "scripts/phase31_boundary.py",
+        "sha256": "baff844114f66814ae2d516fea79346236c611be53f6d4ff3630af3efd751c37"
+      },
+      {
+        "path": "scripts/phase31_study.py",
+        "sha256": "08a3d7a351d16de692ace0f9e31478fa812486108e1e94be950093b4b709832f"
+      },
+      {
+        "path": "scripts/phase31_summary.py",
+        "sha256": "b4bcf8fb25ac9ab020bbe662f2bb11df2e3493a749089c9da4e43563c859b972"
+      },
+      {
+        "path": "scripts/phase31_synthetic_metrics.py",
+        "sha256": "30a6c352946e3a4c131fbd19f75c8da783af51dff3b3d6e5944ac1cd36a09f8c"
+      },
+      {
+        "path": "scripts/phase32_band_metrics.py",
+        "sha256": "935894206f9caf7b03c98ae36e2e95307b0b148cdba2f83f131cc19a31805e13"
+      },
+      {
+        "path": "scripts/phase32_metrics.py",
+        "sha256": "c57e6ee2fcf8778eb3ce72f8c3803e0bb3e5ccc65c6a5fc83819fc6a1eda1b35"
+      },
+      {
+        "path": "scripts/phase32_regions.py",
+        "sha256": "bb85e7cb1eb84fd32a464cd861529397f71bacbce4e9280a54a51fcb9c20389f"
+      },
+      {
+        "path": "scripts/phase32_study.py",
+        "sha256": "23b82818258e5b036d80e6e140af38ff7549cdf11e3fbe69ef5ca5d6a1db9207"
+      },
+      {
+        "path": "scripts/phase33_analysis.py",
+        "sha256": "1b1bdf517bd5b284f794a3558415cf94246158d0a5e8f6a485b28ad364ab771d"
+      },
+      {
+        "path": "scripts/phase33_attack.py",
+        "sha256": "921ac504b7d07adce48b42e408fbaa4a2dbff90bd61caa6eb9c619c5660c4a2e"
+      },
+      {
+        "path": "scripts/phase33_audit_blind.py",
+        "sha256": "fa8311bccf4f2f5daa5ee5510b25b1d1657f6cedba708403687c1e7b8927185a"
+      },
+      {
+        "path": "scripts/phase33_measure.py",
+        "sha256": "d238747ea804957e391f2a2b218ea7e55cbec22e7ee0fedeabe6e5ca836672f6"
+      },
+      {
+        "path": "scripts/phase33_phase_summary.py",
+        "sha256": "a57fe88baea27e85b08b8cf078a61157bab7cab32a6f568728d20382f69f1bce"
+      },
+      {
+        "path": "scripts/phase33_synthetic.py",
+        "sha256": "4835597ee1826688e8fcc4b8d2ed2f46e0c0ef7bc46194f4b62f9b6f0edbd025"
+      },
+      {
+        "path": "scripts/phase33_synthetic_metrics.py",
+        "sha256": "5817f2525e55e546372e612e2ab645827d9e79731c57e0cbb09bee72bbe645aa"
+      },
+      {
+        "path": "scripts/phase34_metrics.py",
+        "sha256": "1eab76680f30f4057bd79856b25b2d36cd85654535a20dc36a77342076752c3c"
+      },
+      {
+        "path": "scripts/phase34_render.py",
+        "sha256": "f6428f45c27be07bacf5151fa585f7515355e114e54acd4a17304f2bfe3f69eb"
+      },
+      {
+        "path": "scripts/phase34_validate.py",
+        "sha256": "08b59616ae139699f24020c4f5bb98c53c30ca27ad02e7daa691eb47585ef45e"
+      },
+      {
+        "path": "scripts/phase35_study.py",
+        "sha256": "6fb0cfb5cafc8b93046661feb56d972598ac6aff5f2cf901ba8294f67710c285"
+      },
+      {
+        "path": "scripts/phase36_audition.py",
+        "sha256": "fd9ee94c5f8ff76c0cd06b2cf00626d296790d4e72fb467dd451d324e36b81cb"
+      },
+      {
+        "path": "scripts/phase36_mac_long.py",
+        "sha256": "d3f0e8d1e76cb28f3f686e68f4c3775977563b49c996751f6fa14de0d1dadc73"
+      },
+      {
+        "path": "scripts/phase36_mac_matrix.py",
+        "sha256": "9086792d36e18805e2870248f108651106caca4b53fc3e7517d0f48e63ad8fc6"
+      },
+      {
+        "path": "scripts/phase36_metrics.py",
+        "sha256": "f859b59dd5568c6b1bf14b39f18eaa53e9bdfbc20ae645d24f3875c5b57c2344"
+      },
+      {
+        "path": "scripts/phase36_study.py",
+        "sha256": "2d6c77280f464c6393fb60195c0dc39f82a5533843e492809b6f27b207038836"
+      },
+      {
+        "path": "scripts/phase37_events.py",
+        "sha256": "725a5a3898361395c260a4fffe6461a77d8363f0377efea68d1f6315da3c13a4"
+      },
+      {
+        "path": "scripts/phase37_golden.py",
+        "sha256": "12602d55295d1bf12b4f8c79fe05c5e86cc58e8aff798357fdfc06d75b60d576"
+      },
+      {
+        "path": "scripts/phase37_long.py",
+        "sha256": "9ef6969a32bac2ff25061fd36ff9343fc75ac41ae9b80576bb9ec1d25356468a"
+      },
+      {
+        "path": "scripts/phase37_study.py",
+        "sha256": "61a8334cfad5567f65bd260fde29656f15852d360fc8cb9a4466eee4335129ca"
+      },
+      {
+        "path": "scripts/phase38_audition.py",
+        "sha256": "0966e4423a07f02bd5a160e502e58fa10b438018ae287724376908089d00accd"
+      },
+      {
+        "path": "scripts/phase38_burst_diagnostic.py",
+        "sha256": "8866d75c219d7baeb6015f115f5d881b6a1cc610e767abff499f837e6a11d4df"
+      },
+      {
+        "path": "scripts/phase38_real_diagnostic.py",
+        "sha256": "ed19db7876fb13e9f74b8324aafe9a01b4029a52aa5160296f2074b07b0dd14b"
+      },
+      {
+        "path": "scripts/phase38_regression.py",
+        "sha256": "fba0ce08cda4d710e811cc141e7765053a327ca0dfd236e2ea3a75dccba9d116"
+      },
+      {
+        "path": "scripts/phase39_attack_metrics.py",
+        "sha256": "9374ae2283065faf9a5612007b997f14e3922bc90b1ae11f94da4f07ed783a79"
+      },
+      {
+        "path": "scripts/phase39_diagnostics.py",
+        "sha256": "6bcf07963696433afe66dfd5bfb6378cc9a3dae60b04973b64dc2687ed97fee9"
+      },
+      {
+        "path": "scripts/phase39_hops.py",
+        "sha256": "3fad0adb67bd7c34ff893b62b5b566062a3212f55692c0fdc635c3e8075330f1"
+      },
+      {
+        "path": "scripts/phase39_long.py",
+        "sha256": "6d4d8efe2a224be75f138d00132ef244db53df1af2b10b65e7d9254a6c8bf3a5"
+      },
+      {
+        "path": "scripts/phase39_noise_metrics.py",
+        "sha256": "8fbd926e5c59f9b67267b8bebe09ffde9e1bd48fc2c036118b254d5c7f005328"
+      },
+      {
+        "path": "scripts/phase39_verify.py",
+        "sha256": "747f2369e5b032241305c02901a3dc7778cf5c806b3092781d863ed3926ca841"
+      },
+      {
+        "path": "scripts/phase40_attack.py",
+        "sha256": "2e08b416f32899144c49b7976b064100e0761b64eb03781b8b0f311e40b21deb"
+      },
+      {
+        "path": "scripts/phase40_boundaries.py",
+        "sha256": "f58554be77a10794430ec41a6c60de8bd712ab7b4be388030d2a8c2d74dcb518"
+      },
+      {
+        "path": "scripts/phase40_compare.py",
+        "sha256": "b7b8acddfa3f7a9b3e79edccc97dcfc9cb720e1cfd6c3315cf1a15f38d66308c"
+      },
+      {
+        "path": "scripts/phase40_diagnostics.py",
+        "sha256": "2e464d8d9f8cfd4294733f7eccf2340aff69464fd11ba826eb63c92f2bc7da61"
+      },
+      {
+        "path": "scripts/phase40_fixed.py",
+        "sha256": "2c990ad85c441cbcb502f1f5a80c898097adfe619524c9d766cffd0b923ea6ce"
+      },
+      {
+        "path": "scripts/phase40_long.py",
+        "sha256": "01b4c8bd31f7e175ec593b74b275e330114cf65e1487ec227dcfd4cd57b0c7fd"
+      },
+      {
+        "path": "scripts/phase40_paced.py",
+        "sha256": "f50a5f5cf12ff879ccc075020094f5ee1114a7a320dccca0d9e07522232b866e"
+      },
+      {
+        "path": "scripts/phase41_acoustics.py",
+        "sha256": "d795f92144cf464f1fe50e1688c8c0eee39a05c6934e1eeeccafbecb5a377934"
+      },
+      {
+        "path": "scripts/phase41_attack.py",
+        "sha256": "1b6df22b0b9bc967f8566e5b5b72c192fc0abdbb981ef77e07b8e7baa7cdc2e6"
+      },
+      {
+        "path": "scripts/phase41_controls.py",
+        "sha256": "18083d750bba74c826951e8f70f9cea0dd60220afad56f80f3b75621ff4ed825"
+      },
+      {
+        "path": "scripts/phase41_paced.py",
+        "sha256": "194f368723c2e9f469d1f287f52d74dde178ec2b8c19ccbb1830a6191b518f1b"
+      },
+      {
+        "path": "scripts/phase41_profile.py",
+        "sha256": "42dd07f2952bbefe2a125e3bc7ff37333eabbd94ecab2e9a9bb6e4258ae8daf9"
+      },
+      {
+        "path": "scripts/phase42_acoustics.py",
+        "sha256": "979939b4ec82ee1b8f19a415e70ff35ddbda380daf1ec3f388ed87aac369dee7"
+      },
+      {
+        "path": "scripts/phase42_golden_audit.py",
+        "sha256": "ddef68b2e7d293e0bd0d09f36b452eac7dc2c321859bf1d4fe2872763f422728"
+      },
+      {
+        "path": "scripts/phase42_guard_test.py",
+        "sha256": "23562c6650385ec5a8f9544174a09a49da705272beb32b38449535067bd0d61b"
+      },
+      {
+        "path": "scripts/phase42_paced.py",
+        "sha256": "ff1584310cece6e5c14987ac8e7ec2e110e315d301a67c28bcca3750a3c78217"
+      },
+      {
+        "path": "scripts/phase42_profile.py",
+        "sha256": "60a07c5563ac49081f82b57f5435aaf6441f1a1ec1426dd94e70085cf59a0034"
+      },
+      {
+        "path": "scripts/phase42_validate.py",
+        "sha256": "389860dd63df713a37776ef5cf30da22543ea15b2b8c7fb696358875ec53dfd1"
+      },
+      {
+        "path": "scripts/phase43_measurement_check.py",
+        "sha256": "c751fe2ca018c81c8d2d668215e3c284a2a4d191d29f1b6060c1d9b48b9e6776"
+      },
+      {
+        "path": "scripts/phase43_paced_long.py",
+        "sha256": "3418cdfd0112b5a7012622dae96a8d4ff5b999902afb1e9a2353329e29423e0a"
+      },
+      {
+        "path": "scripts/phase43_trace_state.py",
+        "sha256": "4bf1c461b4ac59054528a6be74642cdd24a94952727566d23a9a3d49f7b6124c"
+      },
+      {
+        "path": "scripts/phase44_analyze_underruns.py",
+        "sha256": "32a260c158223957baa9b116736be41bfab06324edf3e222c9fa2f0733708241"
+      },
+      {
+        "path": "scripts/phase44_block_pcm.py",
+        "sha256": "570f8698f646fca1ac3dc0f129af6c69e4d5cde2a14562308138a7a0b7339f54"
+      },
+      {
+        "path": "scripts/phase44_callback_sweep.py",
+        "sha256": "3a1083476832274d13c473e70dd8e266dfb1385ec7908cc656a94b4cc9f5c34d"
+      },
+      {
+        "path": "scripts/phase44_live_check.py",
+        "sha256": "99a0b6b803298c30f2d85ea3fb89fe0a7ce01b490b6a3d840111270e26fbd487"
+      },
+      {
+        "path": "scripts/phase44_quality.py",
+        "sha256": "fd4734a3ec6813daa1b60074e6bb488a237ede7c3dcd2bb52a6434d28d2750e5"
+      },
+      {
+        "path": "scripts/phase44_quality_test.py",
+        "sha256": "30eef0f615764bf219c7604ec8ca324f586189391f664640df5c19806259e527"
+      },
+      {
+        "path": "scripts/phase44_rejection_test.py",
+        "sha256": "e08b08e6d58cb2b92f3754571ac4bae5a6b0365534fe1864e02b117ddceaebd7"
+      },
+      {
+        "path": "scripts/phase45_audition.py",
+        "sha256": "71fd47748541484b5e4a947e6225e5798ae07377a499b7857efc259ada01fcbd"
+      },
+      {
+        "path": "scripts/phase45_deadline_test.py",
+        "sha256": "b6660ed0c2935ae7e36e9348798e57c7c7a7a6a581676e0f986da84e28553cce"
+      },
+      {
+        "path": "scripts/phase45_device_change_test.py",
+        "sha256": "a56a6ffc58c61480ca54603c46940f66000d284c0004ed8bd62d0d0510f35efb"
+      },
+      {
+        "path": "scripts/phase45_focus_trace.py",
+        "sha256": "bd391e2586183ec6f7168787467d847bb72fe5e1a354c1f61f834b47f5bed0ff"
+      },
+      {
+        "path": "scripts/phase45_live_join.py",
+        "sha256": "703a8c69fb2ce0d92e1382c12c63ce299e45bfeaa795bd07ae6ee09e27e5a7da"
+      },
+      {
+        "path": "scripts/phase45_live_matrix.py",
+        "sha256": "6443b55bbc9670ad943c52de0e32c4b23fbaf3a45bf278365be0fcbdd5378cfc"
+      },
+      {
+        "path": "scripts/phase45_live_test.py",
+        "sha256": "2c61452b596176eb6dba3463f0485f264312ba5a490fb5cc76d48337bbfd6acc"
+      },
+      {
+        "path": "scripts/phase45_matrix.py",
+        "sha256": "e305c655fa0e5ab67b90918728a10b0e2119b6cd7fa366a95ebea6865a9ad743"
+      },
+      {
+        "path": "scripts/phase45_operation.py",
+        "sha256": "5eef231e7e3cd21a4c557189544e906482321b62636c2db7c13866853c446b6b"
+      },
+      {
+        "path": "scripts/phase45_paced.py",
+        "sha256": "dee329c02366200cc3692ac3c6142205b615938ac9466b4838326e378652d842"
+      },
+      {
+        "path": "scripts/phase45_route_test.py",
+        "sha256": "a68143dfc58cc205fdf450238f1b95c2fc6d1074d4e24b4a1747d1b7e8d98d51"
+      },
+      {
+        "path": "scripts/phase45_store.py",
+        "sha256": "b6c67faaa023fc0e6711baa66c12ba2fcaed69f2cb61991a16e255a7a9d38f19"
+      },
+      {
+        "path": "scripts/phase45_summary.py",
+        "sha256": "3955ef7d5fa90b5faf1470f18d3670c8313ea9069005b8cbdbc732e842466876"
+      },
+      {
+        "path": "scripts/phase45_trace_parser_test.py",
+        "sha256": "b4b4b4a56fb73ade33800483f2b3d9a8b8b34fa7c569e19f52ffee00769c55e7"
+      },
+      {
+        "path": "scripts/phase45_verdict.py",
+        "sha256": "d084801465a2abd3f0db668edccbc7d6ee914230c16ab46e4ffa1ae44abd3272"
+      },
+      {
+        "path": "scripts/phase46_forensics.py",
+        "sha256": "69e625d4e64c7d7f3eeb4401d6b1b44d859903fe0be1e856f6d18d0d77914128"
+      },
+      {
+        "path": "scripts/phase46_native.py",
+        "sha256": "509be522e093b8b46f537846820744f8f137d46a423f45c8b5ffa9cb36859a2f"
+      },
+      {
+        "path": "scripts/phase46_operation.py",
+        "sha256": "292084d4f132212f556fb1457ffdd2c3a0a6444ee067d2124e5f16b7cefb5980"
+      },
+      {
+        "path": "scripts/phase46_recover.py",
+        "sha256": "995346fefbe1731c8d81bcfbb8c64633ae44c4acaaf0cc7e92a7e15d923de8ef"
+      },
+      {
+        "path": "scripts/phase46_review.py",
+        "sha256": "42ffbbc8cfc9452be54b8b73af8a9a46e379c0014d05b50d9de07e6a70998c8a"
+      },
+      {
+        "path": "scripts/phase46_trace.py",
+        "sha256": "59f3f5d61000b440ce07a0566cef2d39ae5ab23dae5f8a5255b5f0e4ed616341"
+      },
+      {
+        "path": "scripts/phase46_validation_test.py",
+        "sha256": "39d7ca513244d1efcc8ecd52e98dd6d5b4180420f2fd4b900c73dd0ecb0dd485"
+      },
+      {
+        "path": "scripts/phase47_calibrate.py",
+        "sha256": "4383220271f6590e7bafba8a90c07891c1dc4df31a03a67f2df6022007ead624"
+      },
+      {
+        "path": "scripts/phase47_evidence.py",
+        "sha256": "b77a4ba7c378ae58a1bc6c4c42e58e5b9f7e5210e14f7cc8b1b96da20b01129f"
+      },
+      {
+        "path": "scripts/phase47_trace_storage.py",
+        "sha256": "31311e5f1031b5a32d23e612b0fa4c73c166518a0c597d24d13ce058c8764cad"
+      },
+      {
+        "path": "scripts/phase47_validation_test.py",
+        "sha256": "2923f4609dcce9be17c13e65ea54e5e16d93c29bea6153983f35eb8a507862be"
+      },
+      {
+        "path": "scripts/phase48_block_test.py",
+        "sha256": "a86abde78847af86bd2d32932a35181c35eab7888c5980cda111bf1815101d52"
+      },
+      {
+        "path": "scripts/phase48_metrics.py",
+        "sha256": "dd3aa65acf09761c4424c0581bf1482fe97ad1422944408226419fc64319872a"
+      },
+      {
+        "path": "scripts/phase48_study.py",
+        "sha256": "534729f6e8ba2491602f7c923a1e21b52f6f6b89be401a6b5d14b9ba76a570cc"
+      },
+      {
+        "path": "scripts/phase48_validation_test.py",
+        "sha256": "6cea08e95f5bb8ae39116c14d1c54b1abd650514dbd131e50b189ecb5ea42380"
+      },
+      {
+        "path": "scripts/phase49_diagnostics.py",
+        "sha256": "9f3dcc9a96b43196437fd2f654ac27285d6bb9ac65a152d7b6f4173fd4b3ccb5"
+      },
+      {
+        "path": "scripts/phase49_long.py",
+        "sha256": "789d4a69bd130c028f94988bddb6df881910b2bff158098f10e4ebdfbaa2cbd0"
+      },
+      {
+        "path": "scripts/phase49_metric_test.py",
+        "sha256": "0a68013353f3e051f05b08ae887ed24b0ade756e7bc9cc32c15a5d596cbcfcd8"
+      },
+      {
+        "path": "scripts/phase49_prepare_input.py",
+        "sha256": "a00834acfc86edf4568c44daeb25e6483b5506d8c48d2fdb91a6ffadfda57df3"
+      },
+      {
+        "path": "scripts/phase49_reaggregate.py",
+        "sha256": "8cb635d7e26cf3c2b0a34e48ec947a72c1da5f7097b395a05b1c7dab97c3fa6a"
+      },
+      {
+        "path": "scripts/phase49_resilience.py",
+        "sha256": "384e9f4c1d1c1d6866d8f3fdb713d7a63f3ec72c1de95505e77faac3035aad56"
+      },
+      {
+        "path": "scripts/phase50_acoustics.py",
+        "sha256": "c07fd6d55b5c9da6ea34432bb9a22562f050f9077047968ea7f415efe7bd677d"
+      },
+      {
+        "path": "scripts/phase50_l1_offline.py",
+        "sha256": "358e473b44d6eb617a249bf65ee3b9d80baf680bb0c56133ad59b4328e7752a5"
+      },
+      {
+        "path": "scripts/phase50_l1_test.py",
+        "sha256": "b0a69535ad6b532138b8ca08f13be9666fb65e74c7f3b194df6e6bf326f61074"
+      },
+      {
+        "path": "scripts/phase50_latency.py",
+        "sha256": "2350a9f5cd37d63cec7c38f7f391352f3cb91e6933ce0247cd77dccbbe19018f"
+      },
+      {
+        "path": "scripts/phase50_paced.py",
+        "sha256": "07f4bae4a98a1030acc06c084e3b669634e369643cfc8c830abe36a3c2082b07"
+      },
+      {
+        "path": "scripts/phase50_paced_verify.py",
+        "sha256": "03a8e0fdca239501c714a0de4c8fa40f3d63dcdf0f7a7ee42292c72f362c5e21"
+      },
+      {
+        "path": "scripts/phase50_parent_test.py",
+        "sha256": "79cc0ac37995f1feda7894334a674f4b2423fc43748c7a5e2e6d2bf3dfadcc2c"
+      },
+      {
+        "path": "scripts/phase50_resilience.py",
+        "sha256": "76ce051ab3c3ad28a168894794a6704e711ac9d0066968d4efc148f1ba187f8f"
+      },
+      {
+        "path": "scripts/phase50_summarize.py",
+        "sha256": "118eae694765559a5a6041e2fde0c4f290f96b20d70111d2de37618e1e613a70"
+      },
+      {
+        "path": "scripts/phase51_audio.py",
+        "sha256": "c6fa0cc1e709acbbd150a78feb707c64d63fe2e711830a84c3b6ce64470aa736"
+      },
+      {
+        "path": "scripts/phase51_audition.py",
+        "sha256": "0adf75ef005c8f5c2d0e124aa7efa3615c10114d33500e58de06ce385a0fb469"
+      },
+      {
+        "path": "scripts/phase51_busy.py",
+        "sha256": "43cda01d7f862754268f73fa39b61be0dbbc0b36736ee3abbffcc0a4edc5a509"
+      },
+      {
+        "path": "scripts/phase51_counter_verify.py",
+        "sha256": "1a0d9654882861be68b32f0c370dd982f904851f448f0563e1baf7af96bad88a"
+      },
+      {
+        "path": "scripts/phase51_native.py",
+        "sha256": "c32965f8c4a5505e609cbd00466d51464b42b2c53e2641308d41e9beda66543c"
+      },
+      {
+        "path": "scripts/phase51_pcm_test.py",
+        "sha256": "4b298eb3b481ddc4506c28414cb00e6011e6ffe70ff98db9c9c6a78da0b5f112"
+      },
+      {
+        "path": "scripts/phase51_quality.py",
+        "sha256": "3dd62e6fb67236a273356a2e76ec60a9e0362cd86cb968f494e70357e1d84ccb"
+      },
+      {
+        "path": "scripts/phase51_regression_audit.py",
+        "sha256": "ed185dec008a6cf1a0efcf93066e017ac4d4e77038bbe6e75bbf4816de240c2c"
+      },
+      {
+        "path": "scripts/phase51_resume.py",
+        "sha256": "633efb668144962a92c795de8a8df7b217cd0667d81c967f1c415ceb27aead44"
+      },
+      {
+        "path": "scripts/phase51_resume_test.py",
+        "sha256": "2e4c1cea71d16f5bf483fc817e94f157f04a839871ed97a7b6db48b67429491b"
+      },
+      {
+        "path": "scripts/phase51_summary.py",
+        "sha256": "9b844689c21a0695f6c62124c547aaaf833e379e954e1ab78da28c0a4531b12f"
+      },
+      {
+        "path": "scripts/phase51_timing.py",
+        "sha256": "b1be8a5a47f7655ba7a2554801e5affc679608d893a0af9384e9e7efc8f6619f"
+      },
+      {
+        "path": "scripts/phase51_timing_test.py",
+        "sha256": "be029c559d05c0ba57e214f78864c3c6dd4222d76c28797baa68ac1d6bda4590"
+      },
+      {
+        "path": "scripts/phase52_analyze.py",
+        "sha256": "8bd83d65b66911a8f1f9bad18a45a012886bb895878d8b61b35919e36fbfd1a7"
+      },
+      {
+        "path": "scripts/phase52_artificial.py",
+        "sha256": "07e1845044555f9720edea5b06607a5b445b3d1f61850745eea96d41f74a3718"
+      },
+      {
+        "path": "scripts/phase52_pcm_test.py",
+        "sha256": "d8fda96f212e427762325198a55dbe2e76feb0aaeddc7eaf31899c7d8369bd0f"
+      },
+      {
+        "path": "scripts/phase52_real.py",
+        "sha256": "c9e73c38768095f0a2a8a20559e315c2f95e0e431b7fa457fca37f132de6db49"
+      },
+      {
+        "path": "scripts/phase52_recheck_controls.py",
+        "sha256": "0cc6a626f8cdc867061249ce223e0ba5899015373e2ec9252aa0a75fb13bff58"
+      },
+      {
+        "path": "scripts/phase52_recheck_fixed.py",
+        "sha256": "5c4077fcf7ed3215d95e493f48f9155fe723861e7212353c5920c05997236b44"
+      },
+      {
+        "path": "scripts/phase52_summary.py",
+        "sha256": "f4c6c50befcd93fd78cf4006db7809258a8caf8af02ad59621ac27ceb8c78059"
+      },
+      {
+        "path": "scripts/phase52_validate.py",
+        "sha256": "bfd88af3225561b7abbd6dc85c6f280c4525cc406b4c0f699c4def793407cc66"
+      },
+      {
+        "path": "scripts/phase52_verdict.py",
+        "sha256": "be0516bed09cc8f2f091927e8011a25e29b71f63607996cac7c83edd6c76d5b0"
+      },
+      {
+        "path": "scripts/phase52_verdict_test.py",
+        "sha256": "03576f7c4af14d560c2e45c340d63a6668db1c42413af169ac58b85ffdd234be"
+      },
+      {
+        "path": "scripts/phase53_analyze.py",
+        "sha256": "9673f1d8cfc1c9713ae233621d8d2b496d5ff9381fda9979ac90a7c6930863f8"
+      },
+      {
+        "path": "scripts/phase53_crossover.py",
+        "sha256": "a316fcceb090ca2568a8d62dffd12fb5a5cab1efc9c76a079bf8631c542f12cf"
+      },
+      {
+        "path": "scripts/phase53_post_handoff_review.py",
+        "sha256": "f5bea6a52226fe855820051b3ca95b7a9754ff5d287fb519ca6f6de4bed31cbd"
+      },
+      {
+        "path": "scripts/phase53_post_handoff_test.py",
+        "sha256": "5f0c800658bb36af60866d85af03ce17b3329ff96347d610f02951d0d9383696"
+      },
+      {
+        "path": "scripts/phase53_real.py",
+        "sha256": "d75f4d5edcaac7bd28afee1bd21d1f5db2f47018e8e5b780972f6aeedf4f752c"
+      },
+      {
+        "path": "scripts/phase53_sessions.py",
+        "sha256": "fd840d02f88965e1b477d0db35f4e6dbb3e2e9ef02fb86748883189dd7c67660"
+      },
+      {
+        "path": "scripts/phase53_validate.py",
+        "sha256": "0599df3a5a52ade59826ad85dd618ec77e45b86e49e5b9ba93bf731217ef6234"
+      },
+      {
+        "path": "scripts/phase53_verdict_test.py",
+        "sha256": "afa1ddc20b24b72a25bde8ad10535a9c9b802c7eaf9386e0af18200d2d13207d"
+      },
+      {
+        "path": "scripts/phase54_asset_audit.py",
+        "sha256": "93074fc36ac94bb985bf2bfa87bbb742036fe65a4f70021c6d629379a7817fcd"
+      },
+      {
+        "path": "scripts/phase54_fade.py",
+        "sha256": "a2108865de0e7cb5462d97a38878cb74dc65681305e692b157f1cb915c9140cd"
+      },
+      {
+        "path": "scripts/phase54_golden.py",
+        "sha256": "f52702082701122ab905f12d720617cadd2cb0d2519a85c16dc9d4280e5a9151"
+      },
+      {
+        "path": "scripts/phase54_inputs.py",
+        "sha256": "eda622f455abc46a3a4bcfb89e3dd5a0b1b4c4a1c3d7445110a8445d8b326f5a"
+      },
+      {
+        "path": "scripts/phase54_native_batch.py",
+        "sha256": "049a35177e9c5c426012b2c874fd7ca1a0b68a6bc22098ee832468471f26f313"
+      },
+      {
+        "path": "scripts/phase54_seek_bench.py",
+        "sha256": "230062b1f66cb78ae6188d53bff24a908b84fb702ea9f80550e0caf281274ab9"
+      },
+      {
+        "path": "scripts/phase54_startup_matrix.py",
+        "sha256": "7044336baa6a36a6cb6ed7ac90aa9b7fde28e62124f2e814738412e1739cbe43"
+      },
+      {
+        "path": "scripts/phase55_analysis_cost.py",
+        "sha256": "2f10a906f3abbd1ebeb0cbebcbe285b0a1c7c3a01a4216ef7ca5f751acf4bc47"
+      },
+      {
+        "path": "scripts/phase55_audit.py",
+        "sha256": "ad8209f7cf92081c6cbe78ec79fd8f8537de35f76fe22d5a67eaf13895f563ed"
+      },
+      {
+        "path": "scripts/phase55_performance_input.py",
+        "sha256": "7cf257edcfd5aadf296e4893bce6f8260f472966722e4921975f40d2bd36e5f6"
+      },
+      {
+        "path": "scripts/phase55_study.py",
+        "sha256": "8600cbdb538bbad29f2cdd6104ad45a3fac91470b17faf0c87446221b940cfe1"
+      },
+      {
+        "path": "scripts/phase55_summarize.py",
+        "sha256": "df80e2e6643d2915ba6581f448e6a5d2e3c12ed6e7fce698aece9544fd638e43"
+      },
+      {
+        "path": "scripts/phase56_audit.py",
+        "sha256": "2f3abd86c598ea4abfa41e18636e5a287e861ff1a9a6bec9f2d8482fff37c3a6"
+      },
+      {
+        "path": "scripts/phase56_frozen_equivalence.py",
+        "sha256": "eb7447c98824a8318ee84fe4cf594172dacea5d3910e47fafd87609127f28815"
+      },
+      {
+        "path": "scripts/phase56_identity_cost.py",
+        "sha256": "e77007049120b087e06edf3e520659ede78b37058a6a6119a07fd7a85dc7704f"
+      },
+      {
+        "path": "scripts/phase56_percent_equivalence.py",
+        "sha256": "a88684b49a4bf54ae11f578b150877a062b0d784ceba0c3adae11de876a24d82"
+      },
+      {
+        "path": "scripts/phase56_study.py",
+        "sha256": "ca7fb2d65d98b99c87c31569a92ce7df888694295a2c318d336c66eb2993a6d3"
+      },
+      {
+        "path": "scripts/phase56_summary.py",
+        "sha256": "2e126dd9d5b7fa8b9bd57a70de94c2290eae5a4f45216669b88cd8a41138ab5a"
+      },
+      {
+        "path": "scripts/phase57_audit.py",
+        "sha256": "29ac94e791aeb8d4dfe8d074997fc3881b1f2cdefec9bf774cc9adc6f3cd13c4"
+      },
+      {
+        "path": "scripts/phase57_equivalence.py",
+        "sha256": "961a2ad7ad447efe9418dd51221849f68181f8eab7105adf407b310d7c18314c"
+      },
+      {
+        "path": "scripts/phase57_frozen_core.py",
+        "sha256": "89e16474cffa72e715120f496b5c894acbaf9d4609aeaf35c3a631a13fd44887"
+      },
+      {
+        "path": "scripts/phase57_golden.py",
+        "sha256": "4da8c73ba90e3138abd974a69e535d74f3d5acc5a17ca4dcf29cc8480218dfc7"
+      },
+      {
+        "path": "scripts/phase57_pipeline.py",
+        "sha256": "2a2a13a115701d19c2bb0921b0efb6e566851fe21987d75573e828eff19667d4"
+      },
+      {
+        "path": "scripts/phase57_report.py",
+        "sha256": "5ef67c921826044cc769ecaee63c650b0af4da7f548cdea2fdedbba8215783c7"
+      },
+      {
+        "path": "scripts/phase57_study.py",
+        "sha256": "b6582c8be4ea744ec1cbf251de7bd07d3bac986a5ae6ccf826c850abb1fb740a"
+      },
+      {
+        "path": "scripts/phase57_summary.py",
+        "sha256": "b8c2b82aeab953c332a8a74b0caa29b666b3f0c086b59c66436a05b854a2f624"
+      },
+      {
+        "path": "scripts/phase58_audit.py",
+        "sha256": "12e99fe8cdf65b469794f93882cd3bd2edd0bfc1f02bfedb6abf2e77faba3e70"
+      },
+      {
+        "path": "scripts/phase58_fix_audit.py",
+        "sha256": "94f19e3c906b448b1218166f54a9f096b6561c2460da7c23d111f56b57b6dedf"
+      },
+      {
+        "path": "scripts/phase58_fix_device_batch.py",
+        "sha256": "bcce441718d192d8123e3837fad3a14c01fd20a841b2af15a2fe5f5a86a751c3"
+      },
+      {
+        "path": "scripts/phase58_fix_final_validation.py",
+        "sha256": "97305644714b3bc6f773e751a0d4a5786018c2a9eafb6e1cb26b1b1320ee0971"
+      },
+      {
+        "path": "scripts/phase58_fix_flight_recorder.py",
+        "sha256": "51f6658c05bc232a1adb3b4f1bc1db409c49176f991423faf154639508a29d5f"
+      },
+      {
+        "path": "scripts/phase58_fix_legacy_device.py",
+        "sha256": "9d912d4590bfc224820e41e47e6be07df3cbdaffb1394cc3f9b43528884dec8f"
+      },
+      {
+        "path": "scripts/phase58_fix_measurement_audit.py",
+        "sha256": "8ed8e40a19a091f05fcfd3bf172e7de3e711a94327f27dbae47ce009a6b779b9"
+      },
+      {
+        "path": "scripts/phase58_fix_native_validation.py",
+        "sha256": "67daa7d27ef57b0746ad0d3dbb1df1f371cf7acbb7c28948721b115d57db3567"
+      },
+      {
+        "path": "scripts/phase58_fix_post_validation.py",
+        "sha256": "abee53d62ffeb5ec64f0374c91d81315100329fe9a252439850f10a01dcbd9e3"
+      },
+      {
+        "path": "scripts/phase58_fix_regression.py",
+        "sha256": "6a5245afbb0d9c6a72ee613cf4532875a3683dfb7dbc9527ed7078070da5db55"
+      },
+      {
+        "path": "scripts/phase58_fix_repeat.py",
+        "sha256": "4a8edc3153e4dfd9d6858529b277f0dc63099743087122b67b21f4c5b48d2c9d"
+      },
+      {
+        "path": "scripts/phase58_fix_statistics.py",
+        "sha256": "fd15ef476fe57fd6e873850950a40def09e38498494e90f0ce01b3d72188aa9a"
+      },
+      {
+        "path": "scripts/phase58_fix_study.py",
+        "sha256": "3d35b40ca7d650514fc1b1d87649f3f045529c344f537d49c586a7bdfae33a07"
+      },
+      {
+        "path": "scripts/phase58_fix_trace.py",
+        "sha256": "2acca66d08fb3282bf97585d41c8f32485167cd764eadf078c4b37cf77e8bf3c"
+      },
+      {
+        "path": "scripts/phase58_fix_trace_analyze.py",
+        "sha256": "629e55cb826ab61a92dd6f674fc318bd48363a9653060769acfc053aadcdd292"
+      },
+      {
+        "path": "scripts/phase58_frozen_reference.py",
+        "sha256": "85a5b7cc311bfb1e111503d58c8685f634c1747dbeb9d1b5ee3dd73a592a8333"
+      },
+      {
+        "path": "scripts/phase58_measurement_audit.py",
+        "sha256": "d1439ef809ee7fafb4ce57c659d181b19cd3b9ad092f12d41f7f7e11f7b44be8"
+      },
+      {
+        "path": "scripts/phase58_native_validation.py",
+        "sha256": "4e22b6dd115eee7088587005053a71fc50ed95b9275889845c20e2374d9f3536"
+      },
+      {
+        "path": "scripts/phase58_ready_stress.py",
+        "sha256": "887c1b87ae0f8fd255e736f5109717075089a165e7736725de7a132ee94bd1f0"
+      },
+      {
+        "path": "scripts/phase58_regression.py",
+        "sha256": "be0e9dafd88e9bb947a96511cc7be78bb3433a6b1a8c06cdc65011d1c5fdb4f2"
+      },
+      {
+        "path": "scripts/phase58_report.py",
+        "sha256": "b7198a61c4b5611fcc69177d53772a70eb6b6624dee51e6eeda3e175e842d6a0"
+      },
+      {
+        "path": "scripts/phase58_reproduce.py",
+        "sha256": "3d4b76b347b0855a180f1342f05583728d5ba8438ba72260ccde6155f6d391e7"
+      },
+      {
+        "path": "scripts/phase58_startup_statistics.py",
+        "sha256": "59381521ff1eced5353355025a4da851f0214c841927fee62a3fb65c10e4d373"
+      },
+      {
+        "path": "scripts/phase58_study.py",
+        "sha256": "6e877e83711fa1a8d3de90452cd26899150904a82f4835471ebea69337fac0f8"
+      },
+      {
+        "path": "scripts/phase59_archive_success.py",
+        "sha256": "019b92b5302371f36e41b840409e5a8341be87f4e8edcc655fb6462dee07ab11"
+      },
+      {
+        "path": "scripts/phase59_asset_audit.py",
+        "sha256": "183c2ddceefb785bc0c64e0cd37b7923b34a32be534317507484ab0606e6bfe7"
+      },
+      {
+        "path": "scripts/phase59_device_validation.py",
+        "sha256": "88c86caf2e295cae85e03cd256922e1b38c7284b4c2f3d3d50f9f33a9008bd82"
+      },
+      {
+        "path": "scripts/phase59_finish_regression.py",
+        "sha256": "3bcffe6341d49d6caf8d8bb4e365b7aabfd208d1fb995cd5fe97db37f90550ab"
+      },
+      {
+        "path": "scripts/phase59_fix2_checks.py",
+        "sha256": "ea1ea01ca857fceb7da7e9254a067d46df4afde20e40680e65ff31d8a0de08e3"
+      },
+      {
+        "path": "scripts/phase59_fix2_completion_queue.py",
+        "sha256": "3c03657d6d110d74cca194c20872eb8ddb3d22e5ace27a69d56070edd622a9dd"
+      },
+      {
+        "path": "scripts/phase59_fix2_deep_analyze.py",
+        "sha256": "4169cdd6ca38743e8e2bc891d530969cee00482e7ea9805a1fe7bfca10d32f6e"
+      },
+      {
+        "path": "scripts/phase59_fix2_deep_legacy.py",
+        "sha256": "2ca25709552461add8f6cf38a8b68f398cc87a7b5fc1e25255b4914302d2aac7"
+      },
+      {
+        "path": "scripts/phase59_fix2_delayed_trace.py",
+        "sha256": "2ee835fe7e7a06d14ce8336af90c826a9c30c8b5e53928106b9fc6fb52ee2e03"
+      },
+      {
+        "path": "scripts/phase59_fix2_delivery_audit.py",
+        "sha256": "ca034dc34f9a5da9dcd0470b08a69a5b46a04819467270b17e51e3894bc36927"
+      },
+      {
+        "path": "scripts/phase59_fix2_device.py",
+        "sha256": "571dc7fc0b5ff89246b632a4da72dd8cb9a9b23987bbcd22bdf147218e042dcd"
+      },
+      {
+        "path": "scripts/phase59_fix2_eos.py",
+        "sha256": "a7284db8369ea1d48d8c0502c27453634c8da4d2636b067be42e3499e40eda99"
+      },
+      {
+        "path": "scripts/phase59_fix2_eos_review.py",
+        "sha256": "808498f51b791d0aef5b7349b0a16d3891891552741a3de50e01f775395a1189"
+      },
+      {
+        "path": "scripts/phase59_fix2_freeze.py",
+        "sha256": "067c85668601f15cb6df0f9d24e2907b2f32448e5f35989887d4f2cc322c4102"
+      },
+      {
+        "path": "scripts/phase59_fix2_inventory.py",
+        "sha256": "b843120e45725dcc4b2af17535bc51f9da054c3c745bb407a19c7e4ff14f7a5a"
+      },
+      {
+        "path": "scripts/phase59_fix2_investigation_queue.py",
+        "sha256": "460a1d0f4b7238022caadba94c4e1ff0b3b7480102f9009ea73c3b81fce7188b"
+      },
+      {
+        "path": "scripts/phase59_fix2_legacy.py",
+        "sha256": "7c6ae707a7c6b429221ea0545900c355f7e40d4013f650d49db0e68af4751539"
+      },
+      {
+        "path": "scripts/phase59_fix2_legacy_analyze.py",
+        "sha256": "67bac17b6a67eb6fc64839d4b59cb1f1b07a789b5cabfe0c78d318ebd6050f85"
+      },
+      {
+        "path": "scripts/phase59_fix2_legacy_same_rate.py",
+        "sha256": "62db629731c6887caea1385d54842884fe414f1a68ba5515b341214f1aac7e3d"
+      },
+      {
+        "path": "scripts/phase59_fix2_legacy_trace_analyze.py",
+        "sha256": "9a033dff5ba0957900148c9d29f71ef996f70290574cc19760e3191ab14a3ef7"
+      },
+      {
+        "path": "scripts/phase59_fix2_measurements.py",
+        "sha256": "7815e2b7de40ba32b379326f4ce5dee0bdd37d37d40a3f4d6bb42ed36288bbd0"
+      },
+      {
+        "path": "scripts/phase59_fix2_minimal.py",
+        "sha256": "96b389c98fe2c6ed7f3cbff6c0b64a6b33c49880d86406ddcc28781ce9b4877a"
+      },
+      {
+        "path": "scripts/phase59_fix2_minimal_long.py",
+        "sha256": "e7c35fe24e822a96bcbcdd35557dcc607aae829bfe073be6a185b9ac9546018a"
+      },
+      {
+        "path": "scripts/phase59_fix2_old_hal_export.py",
+        "sha256": "5eabb73a2328f78e6c8c07ec91113df8adc4dc7e6e43b098d12d29224050186f"
+      },
+      {
+        "path": "scripts/phase59_fix2_old_product.py",
+        "sha256": "afa1c0c259f20feb5b3dcc70a18b044c827ec0696f51015a8c934c75df77ba14"
+      },
+      {
+        "path": "scripts/phase59_fix2_output_notify_review.py",
+        "sha256": "acaf58f3f70d904cfbd1f48dcd7de625ff88aff6b7986752a40e03a2b95530b8"
+      },
+      {
+        "path": "scripts/phase59_fix2_report.py",
+        "sha256": "fb6b220c7d9608ceede5d868c7eec5c07c372e9600423b6d6a6133ae9609b6e7"
+      },
+      {
+        "path": "scripts/phase59_fix2_start_state.py",
+        "sha256": "fc77f4fc476079142923bb6d9c2a2d08093fb693163afd63333f787e08d0c931"
+      },
+      {
+        "path": "scripts/phase59_fix2_startup.py",
+        "sha256": "a187ed8f030cbb1cf4d1ac0e9fe4790ea881831627f60b55aa62cee2a26a49c1"
+      },
+      {
+        "path": "scripts/phase59_fix2_synced_trace.py",
+        "sha256": "36031c3f610a743d1eca2f1c571b1163f6c59046fc58caba2e7781002bd525ea"
+      },
+      {
+        "path": "scripts/phase59_fix2_timeline_data.py",
+        "sha256": "8fb29de655b2d5f4791202602f33b2e05930db68aae50d830088b94889281527"
+      },
+      {
+        "path": "scripts/phase59_fix2_trace.py",
+        "sha256": "38858ac5d6255e088bd79294c4ae7f2a1f0b806c352a52463cb3edbfd9fd4612"
+      },
+      {
+        "path": "scripts/phase59_fix2_trace_analyze.py",
+        "sha256": "e86219ba8ecfa4730ff33bcaa061c5eaf7194a19c0ceb1385fdd08d22def6f0a"
+      },
+      {
+        "path": "scripts/phase59_fix2_validation.py",
+        "sha256": "c1ebfeb92fb6825549899f9897e085cab2715031a378d302ab9bfb77af843c3e"
+      },
+      {
+        "path": "scripts/phase59_fix2_worker_trace.py",
+        "sha256": "bab2f24c01e6a1629d72a5fb14ff39c5f22f1fab842310b182da4ee8662350c9"
+      },
+      {
+        "path": "scripts/phase59_fix2_workgroup_minimal.py",
+        "sha256": "b7697664279900fa2b37f82460e838bee82d4e19e437586430a8028073ca56c4"
+      },
+      {
+        "path": "scripts/phase59_fix_archive_debug.py",
+        "sha256": "ae2c8650f30e749b9ffd025a8d6b38cbafa4407888c93f71f7bc021e634a0e42"
+      },
+      {
+        "path": "scripts/phase59_fix_archive_device.py",
+        "sha256": "2d5f06a873f2df53808fb140f251ff36ef831d3c30072ae0b4377a3cacef1e86"
+      },
+      {
+        "path": "scripts/phase59_fix_archive_profiles.py",
+        "sha256": "5854a2384eb1e8e5fa693c39df9bcea4b012345135e9712abd1e7f29a2128c2c"
+      },
+      {
+        "path": "scripts/phase59_fix_archive_success.py",
+        "sha256": "c2102c5c7d52ca3d0c243efc8cf0338e28e906733292127ecfa05f96ee553b27"
+      },
+      {
+        "path": "scripts/phase59_fix_archive_trace.py",
+        "sha256": "097e624c4d295d6c39f4961798a66571fdbbf812407c5b0811f648d4da60f028"
+      },
+      {
+        "path": "scripts/phase59_fix_archive_xml.py",
+        "sha256": "651c2abe17f9824770c07cf8ed4e2bd206d9f23de4b6c9389751d9aeeac47c8c"
+      },
+      {
+        "path": "scripts/phase59_fix_artifacts.py",
+        "sha256": "b864b6400459d0f6909ae456364309e88245786461a2e65b011d7d3d74e2e751"
+      },
+      {
+        "path": "scripts/phase59_fix_checks.py",
+        "sha256": "e029e5c5bb6e8ba0d063512e090949b1cd54c123b60c6812c9101f317573ca9c"
+      },
+      {
+        "path": "scripts/phase59_fix_delivery_audit.py",
+        "sha256": "4357d4df461bf8d3f38209daec5d67c22f8bb8089efc1f85b3634c4ad9525899"
+      },
+      {
+        "path": "scripts/phase59_fix_device.py",
+        "sha256": "b51486e3d002128523678c13a0cc8c92e890a0f2ee7a2b559f02c7c9329b6933"
+      },
+      {
+        "path": "scripts/phase59_fix_eos.py",
+        "sha256": "542906a628c4dbf591ac69e51e08791ef151b0c62d599930806356c0cccf6915"
+      },
+      {
+        "path": "scripts/phase59_fix_eos_trace_analyze.py",
+        "sha256": "913c5895524c5663f0f3552c1e916bb9301cb3aa59ab65610f7b395004654c23"
+      },
+      {
+        "path": "scripts/phase59_fix_final_trace.py",
+        "sha256": "9b6ccc1a768f3e19d16d7386a341b55b7aa5045a1be3ff4d8e16dc1bba44c7e5"
+      },
+      {
+        "path": "scripts/phase59_fix_freeze.py",
+        "sha256": "b72fc17b1dbbe92a1b320975719e4b3a271d9e4d20e9be2500ce13a6761cebc4"
+      },
+      {
+        "path": "scripts/phase59_fix_legacy.py",
+        "sha256": "316bc29aee2ece4fec33f27c4d5894b52fc54ee0849a02288d3ce12f7331778a"
+      },
+      {
+        "path": "scripts/phase59_fix_phase_analyze.py",
+        "sha256": "f91da7aa2d60c6498333dbee562124d80a6717961244cce8672c74a80806af33"
+      },
+      {
+        "path": "scripts/phase59_fix_phase_profile.py",
+        "sha256": "f57bc4e9c445c1a6bbfbceeb76805a874b92aca92692e8442701050f3b83f366"
+      },
+      {
+        "path": "scripts/phase59_fix_post_trace.py",
+        "sha256": "5daaa13f408024037f8e8e9703f366aa3eccbcd6a12f2b5b195822ea83849f04"
+      },
+      {
+        "path": "scripts/phase59_fix_report.py",
+        "sha256": "c31322f71013d7c686c57990778ddb67ed53d13046cc9bc507d816af5d29042e"
+      },
+      {
+        "path": "scripts/phase59_fix_startup.py",
+        "sha256": "273ce6203aede3241f319646c69e2e5196060885d3e23426d9ef4561388f5abd"
+      },
+      {
+        "path": "scripts/phase59_fix_trace.py",
+        "sha256": "755049abc1d7fc061c297c1a3b251bebd2c2de51f617d44052a50fdd85268160"
+      },
+      {
+        "path": "scripts/phase59_fix_validation.py",
+        "sha256": "a36bfd5cecc9fbca768bbae2f9a6e0d947d9d99da9c64209c61f0ffc49e78212"
+      },
+      {
+        "path": "scripts/phase59_fix_validation_recover.py",
+        "sha256": "1ab4aec03dc4248328072ba4ff37d40805a5e72bf8132814b888686b89ae0f9f"
+      },
+      {
+        "path": "scripts/phase59_fixed_long_device.py",
+        "sha256": "6054adf642871236c7eeba70c59da15e3fd82e8d9923286590e4fcb36ed9ef4f"
+      },
+      {
+        "path": "scripts/phase59_incremental_study.py",
+        "sha256": "96679e566e5e0731f7065e131fbf67d9582563a127a309a4f3e0288f6389d0dd"
+      },
+      {
+        "path": "scripts/phase59_legacy_device.py",
+        "sha256": "1b9b6da629be30d921e8ecc5e3af7c3a60efc78b9da1bcc557f5ff794d8bbb01"
+      },
+      {
+        "path": "scripts/phase59_native_validation.py",
+        "sha256": "fe289d189d09c1558a7c90d39a510a24d9a432b649bb38eff0b0a4a8c576d53d"
+      },
+      {
+        "path": "scripts/phase59_parallel57_validation.py",
+        "sha256": "6a24a1763565a8cb5bf4b238366001781fac888014a637243addc7cce7932dc8"
+      },
+      {
+        "path": "scripts/phase59_quality_validation.py",
+        "sha256": "d297f19e2bc448dc9d8fa8f4add177b19aad0292ad8b51bc2a07bcbd266e43a0"
+      },
+      {
+        "path": "scripts/phase59_rebuild_reference.py",
+        "sha256": "d0b946e361ba1179dcc9aefd8e0648780ff9f10ac872136f8b30c1013e0a42a6"
+      },
+      {
+        "path": "scripts/phase59_reference_scope_audit.py",
+        "sha256": "0347d05ad37afd99338af0e201b0eaa0611018f0fd3ec282b9b91494145f2631"
+      },
+      {
+        "path": "scripts/phase59_regression_validation.py",
+        "sha256": "eccf8feabd613ebb4e2bde779d0761520392bf7855e2afe09bdae45d07b69373"
+      },
+      {
+        "path": "scripts/phase59_report.py",
+        "sha256": "bcd3ac7f11c1acf0a3c6a244e8e7d9749a050431c539b5718edcd593c39dbf9b"
+      },
+      {
+        "path": "scripts/phase59_resume_device.py",
+        "sha256": "2f70568845ac874658cd0938dbf1d847c2b45a685813b6f7e1261c695f615a64"
+      },
+      {
+        "path": "scripts/phase59_study.py",
+        "sha256": "c623ba15e09f9f8c759e95321840f116ded2bd21949f2036b2a59a8b45545da5"
+      },
+      {
+        "path": "scripts/phase60_build_legacy.py",
+        "sha256": "091468352d8833e374f9910b34b08e1b03e0ec7d4ff0721913762d383bc11ee7"
+      },
+      {
+        "path": "scripts/phase60_current_legacy.py",
+        "sha256": "5c6f4962765ede3ea06456f5a89742fcc17ccfe70636025acaadd751f4ae641c"
+      },
+      {
+        "path": "scripts/phase60_delivery_audit.py",
+        "sha256": "230fd958d17ab13514212f8721b4fd7fbeabaa280595eddf6b202b05210869b9"
+      },
+      {
+        "path": "scripts/phase60_finish.py",
+        "sha256": "982954b891aebb7a6dd6fc1d8076a2d503dab34725beb1a95fe33f4ab82d07dd"
+      },
+      {
+        "path": "scripts/phase60_inventory.py",
+        "sha256": "bfaea3a18ae4588deafd59b1cb0e653e10af424f79f335c982bf113ae67c030e"
+      },
+      {
+        "path": "scripts/phase60_native.py",
+        "sha256": "0a5f50e8b31c7e95825bcedbefb5128ba6fdde1de401a654c03788aeaef46429"
+      },
+      {
+        "path": "scripts/phase60_prepare_wav.py",
+        "sha256": "63c74c93f252e422140ff719a9731b09dd345e2ff6a75c54ce9c5ff7f300e8a1"
+      },
+      {
+        "path": "scripts/phase60_quality.py",
+        "sha256": "c966d3cd7962d56aeffddce7bc10f32fd79e557fa1a57479bebb28bd1e29e341"
+      },
+      {
+        "path": "scripts/phase60_report.py",
+        "sha256": "62ba3220f94277d79a724f50f9ea180e726d9d3bd5288995838adea98fde39a5"
+      },
+      {
+        "path": "scripts/phase60_restart_compare.py",
+        "sha256": "489a623f08c61572189fff9f115be723e4bcc5fb27fde7b56cde3a1b9387fefd"
+      },
+      {
+        "path": "scripts/phase61_fast_clock_experiment.py",
+        "sha256": "041df1c0696297d961fd2ae35008afddeed39ddf89766c52c3ec376c530c9b1e"
+      },
+      {
+        "path": "scripts/phase61_fast_seek_study.py",
+        "sha256": "93f5e74f17828954fec38c5cf53b80b5f26eb02354bd027d3b8255171c86c90a"
+      },
+      {
+        "path": "scripts/phase61_fast_verify_native.py",
+        "sha256": "96de4c467e02cae49656cfaf069ad2e160448a15b5a8b9bebc61d5df4e413785"
+      },
+      {
+        "path": "scripts/phase61_freeze_reference.py",
+        "sha256": "14e09713ff230104beedf4d01c43b1e42d83f7d38b3a8a57205fe27af4a22060"
+      },
+      {
+        "path": "scripts/phase61_interactive_baseline.py",
+        "sha256": "346b0092c342713b6ff8449448bf1c2f542d30678c7a8d0c88b2c2fcf83303d9"
+      },
+      {
+        "path": "scripts/phase61_interactive_pcm.py",
+        "sha256": "a7274a263a85bf293b6145cc52992420ec95e2c4f127139a364e67c5778e7364"
+      },
+      {
+        "path": "scripts/phase61_interactive_summary.py",
+        "sha256": "3be3e3efe6951ea2117478b91c99fc9abf88b20db1e29c23c45422d3c2034069"
+      },
+      {
+        "path": "scripts/phase61_interactive_verify.py",
+        "sha256": "0aacf56e1d930462a9d4986b4d84ea3858a0b927e3c1ff9ef49b39285ce2d40b"
+      },
+      {
+        "path": "scripts/phase61_verify_native.py",
+        "sha256": "dfbafa6d49c9a5d143b90a2c409a88067b21c6896145deb86e74e53036d9153c"
+      },
+      {
+        "path": "scripts/phase62_aggregation.py",
+        "sha256": "63d54c571cd1c2253c15af3fb1a49dc0c2857bcf1d22d03862a2b4fb6b83a0bf"
+      },
+      {
+        "path": "scripts/phase62_aggregation_manifest.py",
+        "sha256": "e8e19584dc425f4f2041ef4f8902f021e2dd80fa146599de8d191c356179f430"
+      },
+      {
+        "path": "scripts/phase62_api_oracle_audit.py",
+        "sha256": "e7d4b70f0ebbbc94de0ff6506bc7a55eb5c10cd40aa0991dc91ee8e8276ae4d8"
+      },
+      {
+        "path": "scripts/phase62_cli_smoke.py",
+        "sha256": "cef7ee029ea69b21ad502cbd5fdf90e6832e4fce6672e531e6717d20ae06f502"
+      },
+      {
+        "path": "scripts/phase62_clock_audit.py",
+        "sha256": "c47651b7473f684f520a48a5a82928d30925af05886b0d859db4c7fe50e99e1d"
+      },
+      {
+        "path": "scripts/phase62_dynamic_native_audit.py",
+        "sha256": "9f1baa67f68e8ca5156f030b58792941b2efed11eb0111cd71d2d8ee64e60e0a"
+      },
+      {
+        "path": "scripts/phase62_dynamic_validation.py",
+        "sha256": "922ea3bf7b7050f1bdc5050d904642211a7f7619fc05add4e10cb2a1bd97cbb1"
+      },
+      {
+        "path": "scripts/phase62_evidence.py",
+        "sha256": "238b0f363b5970c91549c33076733b252c133a29e40d4459f7d5e492bef1c2aa"
+      },
+      {
+        "path": "scripts/phase62_finish_control_validation.py",
+        "sha256": "cd3e281ff765167ce3650b750d475b2e50d0faf803f6583a91053eb20c48d9c5"
+      },
+      {
+        "path": "scripts/phase62_finish_validation.py",
+        "sha256": "a49e7096623f0f76c010d570888cddd538c575a7e3cd9003a20bcd513e6600d9"
+      },
+      {
+        "path": "scripts/phase62_fix_additional.py",
+        "sha256": "394e49d5270220a91cd512f668cd516ca5e64e42b0da16761f6bfdb3b4cfbf98"
+      },
+      {
+        "path": "scripts/phase62_fix_quality.py",
+        "sha256": "6705bd70ffca5d0d642495d9cb3db06ea97911bceea99936a7edb7a47be9dc4f"
+      },
+      {
+        "path": "scripts/phase62_gate_runner.py",
+        "sha256": "de9abb093050b0ac3a74a7fa2e3800543c19a61cdb7bb0f925f93d01fc81594e"
+      },
+      {
+        "path": "scripts/phase62_manifest.py",
+        "sha256": "3b067380088bd7e13daa3f6cdaedae627edb9d0a4cf8a6c4d5e5c9b1150d854f"
+      },
+      {
+        "path": "scripts/phase62_quality.py",
+        "sha256": "1fb59512753acfbe3d2b71e587875086b0dce8bdf4443bd9b3728a4ea1fb1e14"
+      },
+      {
+        "path": "scripts/phase62_review_validation.py",
+        "sha256": "9c2cc18c784c5aa239b7ba17729ac53ce76d15cb1811833dcc7c9fe8764d4812"
+      },
+      {
+        "path": "scripts/phase62_summarize.py",
+        "sha256": "6e92643c7d3be9c7c87b0967cc650a2cde0407a00be2b6772317170f399f5ae5"
+      },
+      {
+        "path": "scripts/phase62_verify.py",
+        "sha256": "1d69c79a00fedbcee10548aa727f9134a3047d55d7ba16160dca365fd0dc950f"
+      },
+      {
+        "path": "scripts/phase6_analyze.py",
+        "sha256": "7f3c29144564161c5589d9904105690fe711afd08bb6dec5b223a62c25cfc402"
+      },
+      {
+        "path": "scripts/phase6_artificial.py",
+        "sha256": "abc4d300cbeac4f123351976257c1393ce7497a922eccc317f940d0f85ff2069"
+      },
+      {
+        "path": "scripts/phase6_real.py",
+        "sha256": "5d3f5f264e6571ed12d02535ae5cacc693d710c1170413b91d1d833045294500"
+      },
+      {
+        "path": "scripts/phase7_ab.py",
+        "sha256": "129b420fa78a8eca8e3186b225de1e3d872597680a289d929a38744d8bf4069e"
+      },
+      {
+        "path": "scripts/phase7_analyze.py",
+        "sha256": "8d2c83ead022689e442ec0bc889fd558c5df177330cd777c31acdedba2c86230"
+      },
+      {
+        "path": "scripts/phase7_artificial.py",
+        "sha256": "f349528e9507610d6a5a835e1b0c0922d73ac40351f3cc8e20fedb1fda5540b8"
+      },
+      {
+        "path": "scripts/phase7_interval.py",
+        "sha256": "51268c6249d73e332fed4900aa94ae30152a628d85d48c98596dbc24c9769e02"
+      },
+      {
+        "path": "scripts/phase8a_analyze.py",
+        "sha256": "521c6c62311b4c8e0b68d5ea03b83f03cbfba2ce3723684080efd9f76e72f453"
+      },
+      {
+        "path": "scripts/phase8a_generate.py",
+        "sha256": "23efb2f605f9867a76ddc32cf125d25d3c6ef46667afc818bf2f548d330f18ea"
+      },
+      {
+        "path": "scripts/phase8a_parameters.py",
+        "sha256": "8598cef628558d1a57737f2e29cefa6ffdb6522751c03d38c3871faec2efe3f3"
+      },
+      {
+        "path": "scripts/phase9a_analyze.py",
+        "sha256": "a313df473b8479d2ded816e4a3736130f7b9316770286a4deda9df22c27d297f"
+      },
+      {
+        "path": "scripts/phase9a_generate.py",
+        "sha256": "af3761a7fb52784780bbc79bff9770bb1aebe565df5fd5fdf76118f2d9e6ccef"
+      },
+      {
+        "path": "scripts/phase9b_birth_death_metrics.py",
+        "sha256": "6c47ff4fd7e88defff794138d1e48434d66bb23425db7c7221e4947f3fa46599"
+      },
+      {
+        "path": "scripts/phase9b_components.py",
+        "sha256": "b07305f7f4d61e0baef02b69aad1c088eda3f93e8ab83f76f827854bae42bf70"
+      },
+      {
+        "path": "scripts/phase9b_loudness.py",
+        "sha256": "a3ac68e704d85b7c82cee2ff5295ef71d44f67ac0c375706af831e0aab271e1c"
+      },
+      {
+        "path": "scripts/phase9b_phase_compare.py",
+        "sha256": "c5fdec5231c9d15a79e073e0c0c19164051dffe55202728aebf1d5274333ef96"
+      },
+      {
+        "path": "scripts/phase9b_residual_metrics.py",
+        "sha256": "60a31a9dd84230912e1c7e2c99fd9275fd6ebdaeb9ddcd2ce24bbe5179e3f59b"
+      },
+      {
+        "path": "scripts/phase9c_generate.py",
+        "sha256": "8c8647eb8fd6d9664aaf336bc7154c99aea5c27e6a6f95ed4a196f5180393bbb"
+      },
+      {
+        "path": "scripts/phase9d_diagnostic.py",
+        "sha256": "37f10bd29248387d38ef63a9744ef69963129debdd1f18a06d9bd9ec6fadbab5"
+      },
+      {
+        "path": "scripts/verify_paused_speed.py",
+        "sha256": "6ea05f42e3d7d064030fe2710582259628d2400a7bc341e4fe83cffb71e1a83d"
+      },
+      {
+        "path": "scripts/verify_paused_speed_controls.py",
+        "sha256": "eb9c12ad742a4634929422ec68b17909620362974e9a25381b5e4121c929b026"
+      },
+      {
+        "path": "scripts/verify_paused_speed_regression.py",
+        "sha256": "470d9246473cb6f2ebd6fc71f166a8ca898d942f22b32b1eaa903f5f9c7fc663"
+      },
+      {
+        "path": "src/audio/WavFile.h",
+        "sha256": "235a51acfd9f45c7f69214d051e7339c8103aaa99d67b8d3b22ee5a0db15f2fd"
+      },
+      {
+        "path": "src/audio/WavReader.cpp",
+        "sha256": "600a66b1ca321bb8c7236ea4163b85d7c0d47c4d6dfd3bb54ed85935703114d4"
+      },
+      {
+        "path": "src/audio/WavReader.h",
+        "sha256": "791074df9fb9ec37ac99ae200a7d07903598a92cf61488d4c09b928955a38413"
+      },
+      {
+        "path": "src/audio/WavStream.cpp",
+        "sha256": "8c6881eba1d5bc4e69e52ac957d80e673e03536cbe178090db0dd4c8e2c0fd97"
+      },
+      {
+        "path": "src/audio/WavStream.h",
+        "sha256": "981efa02ab488f2f85f691b89154895fd6ef2cef45804e77d92e2f5c632fb9e4"
+      },
+      {
+        "path": "src/audio/WavWriter.cpp",
+        "sha256": "d213f1ea3fc21ccbe8b3e936cbc13518709d86ab470f1caaa16601bd3b272db4"
+      },
+      {
+        "path": "src/audio/WavWriter.h",
+        "sha256": "956d4286df72c154f19656abb6af5fb2b53d03e412a614a6da077a8d481406c4"
+      },
+      {
+        "path": "src/bass_pitch_metrics.cpp",
+        "sha256": "f620e5d687c0fe042014532891c998d96e88635eb43116985f93dc52bd7c1876"
+      },
+      {
+        "path": "src/dsp/ChunkedTimeStretchEngine.cpp",
+        "sha256": "80f7d79404530ea83c00383cfd17db49fb302e8ec1268f573e918c371a91e9e7"
+      },
+      {
+        "path": "src/dsp/ChunkedTimeStretchEngine.h",
+        "sha256": "4e9de3202ac7a6458ab8acfdc5768f82d05d73cf3e12fac479d475404607dc92"
+      },
+      {
+        "path": "src/dsp/FFTAccelerate.cpp",
+        "sha256": "d74f4f6484873da5b774404a7d4a74fd3660882cb0b393e2ca76459588daa12f"
+      },
+      {
+        "path": "src/dsp/FFTAccelerate.h",
+        "sha256": "a32c77a1373faf6e14345e44067d68cd2317e5d2b8cc23a77151a6e356ccec13"
+      },
+      {
+        "path": "src/dsp/MultiResolutionCrossover.cpp",
+        "sha256": "fb302babf0e5237fc2e19cb2e7502a12b95db02fceb5cfa766e831f259cc4db8"
+      },
+      {
+        "path": "src/dsp/MultiResolutionCrossover.h",
+        "sha256": "a0b72c1eaa61d9c9a6c6e1a702777b651635106387464f89a2a7e99b70e5558d"
+      },
+      {
+        "path": "src/dsp/OverlapAdd.cpp",
+        "sha256": "8d5cbb3f33fbae4a1ef9425eaf3f29f20650a3d1729be9b8748db6177c3b110e"
+      },
+      {
+        "path": "src/dsp/OverlapAdd.h",
+        "sha256": "15d18365e0b1296e0f985a3ca6dcbd00cf85d505ed8a3b64e8cea05d09bc17a5"
+      },
+      {
+        "path": "src/dsp/PartialTracker.cpp",
+        "sha256": "b23c381724e67c82d52063d6e66d743faa5e1dd027279dab7ea3a618dec79397"
+      },
+      {
+        "path": "src/dsp/PartialTracker.h",
+        "sha256": "27af68b6bbee0024a5f36de1b6f96ac9f75d332a8b40b6e45da8319bb058c96e"
+      },
+      {
+        "path": "src/dsp/PeriodicResynchronizer.cpp",
+        "sha256": "d65be58978bc9ea6c9906db717c0117206ba8464a1f5d8968fb0ddd71e440945"
+      },
+      {
+        "path": "src/dsp/PeriodicResynchronizer.h",
+        "sha256": "38e1ce0e0b732b14c0cc594028fb4d97e63906cb422eb5df75f4111653f040eb"
+      },
+      {
+        "path": "src/dsp/Phase13StreamingEngine.cpp",
+        "sha256": "b0081b76ff5f9a78ee5ac4dd67eebac155ce3e5bd07fcf4934c6e34b31f6e0f3"
+      },
+      {
+        "path": "src/dsp/Phase13StreamingEngine.h",
+        "sha256": "5842aa017e76042a4e9d495511153455413ddece5d7d26b6bf7507392edb1c91"
+      },
+      {
+        "path": "src/dsp/Phase14PlaybackPipeline.cpp",
+        "sha256": "7147e6cd5fd1e910222c7d3a651db9b38ad674b7b12465828374afd82bfdc3ad"
+      },
+      {
+        "path": "src/dsp/Phase14PlaybackPipeline.h",
+        "sha256": "9e5930a7613b5ae6c57ab87ebd2ab1ae9ee17a4e292d79e78a8d104cdee258e0"
+      },
+      {
+        "path": "src/dsp/Phase18PcmCache.cpp",
+        "sha256": "12f1498859e708b3179d083df108bfa990a5a4015566842bbec4a0a1cc72870e"
+      },
+      {
+        "path": "src/dsp/Phase18PcmCache.h",
+        "sha256": "bf3292dd54af63022af9681867111fd172c1311a075e095b73b4269e7ab88890"
+      },
+      {
+        "path": "src/dsp/Phase18SeekQueue.h",
+        "sha256": "bf0438864f6e3eab1a786e271a5b0d98a1fe6c3c6df5c8187e1d9216402ab8d0"
+      },
+      {
+        "path": "src/dsp/PhaseLocker.cpp",
+        "sha256": "fe2ebf3b0e73c81db1b601e12b8d244e9621a7010b5231f86fbf9c53c3c0b927"
+      },
+      {
+        "path": "src/dsp/PhaseLocker.h",
+        "sha256": "c3d6ece121a777f369acde0aca68fb252282f50c966d5ff984ca321137605a7c"
+      },
+      {
+        "path": "src/dsp/PhaseVocoder.cpp",
+        "sha256": "9231f8bd482643245df35b39d5e88762202579095e4fb7014ce6e712cc9fa17a"
+      },
+      {
+        "path": "src/dsp/PhaseVocoder.h",
+        "sha256": "18c4aa64e918769588ee29fd3ad21f589c34aa5b91e4605d61f5f1e638ec062d"
+      },
+      {
+        "path": "src/dsp/RingOverlapAdd.cpp",
+        "sha256": "907d2b163fd8ef58dc7cfc137b2a5f5576fd32896402d902e2885493559bffc2"
+      },
+      {
+        "path": "src/dsp/RingOverlapAdd.h",
+        "sha256": "dc1695cfa5f244bd5ecca34cf1925e1ee5d28649b93be0f608f6cac88a5b67ce"
+      },
+      {
+        "path": "src/dsp/STFT.cpp",
+        "sha256": "9421830964a9341b480b46264c90b807a0573ac52b4f86bb8567103cb927d252"
+      },
+      {
+        "path": "src/dsp/STFT.h",
+        "sha256": "3793e91efb30cf4aef454fdd21e1af53fa9297fd81d733fe2195c02df6455ae1"
+      },
+      {
+        "path": "src/dsp/SinusoidalResidualEngine.cpp",
+        "sha256": "798caf66b60b25a720429a6acede8229750152d71c8b9b069391fa7790457f31"
+      },
+      {
+        "path": "src/dsp/SinusoidalResidualEngine.h",
+        "sha256": "23157273c97547978280135bce252a76636ccc3de20e7d3228ad78e6d529cc75"
+      },
+      {
+        "path": "src/dsp/StereoPhaseCoherence.cpp",
+        "sha256": "c010674899bd829da0783cde63d6265014b50aaa248cb54d3a90648f2b286c0b"
+      },
+      {
+        "path": "src/dsp/StereoPhaseCoherence.h",
+        "sha256": "a85fbf3150357e5ccab5c5921b1e71feae3a7639fd99d765926b566edb730613"
+      },
+      {
+        "path": "src/dsp/StreamingCrossover.cpp",
+        "sha256": "10b5be1b4f32374beecef9b18ac2f43ac0a30346e6c81bebbc28102a392b5e2c"
+      },
+      {
+        "path": "src/dsp/StreamingCrossover.h",
+        "sha256": "2439365d6e82d6be9c6bb6fb6aef3799057c25b1863d91e1064f5d5a8749ce39"
+      },
+      {
+        "path": "src/dsp/TimeMap.cpp",
+        "sha256": "3f59ca30bd4cd49f9c6f6494036d44b2b6752c11c9690fffd5ceae0c958e1a2d"
+      },
+      {
+        "path": "src/dsp/TimeMap.h",
+        "sha256": "acd4e0cfd83a399f3d091e1558664bdfdfc229606ecd3b19a68ab54da36a22a0"
+      },
+      {
+        "path": "src/dsp/TimeStretchEngine.cpp",
+        "sha256": "f3ccf5060968d08b36dd7778d39e027585fcc313190602fc9a37768237013017"
+      },
+      {
+        "path": "src/dsp/TimeStretchEngine.h",
+        "sha256": "a64549cd97a7ef4373e22d73e986eeb16f9550cf50be37e05458ddf497b90753"
+      },
+      {
+        "path": "src/dsp/TimeStretchProcessor.cpp",
+        "sha256": "f9fcba7267e04a93cf0968bfa6fbd0e0a3deb311f8c4d867107e085a6a4288b9"
+      },
+      {
+        "path": "src/dsp/TimeStretchProcessor.h",
+        "sha256": "843618563ac5da8eaf22028ee3ae53011e0789344dc9c5ae26ee66de20eb569c"
+      },
+      {
+        "path": "src/dsp/TonalResidualEngine.cpp",
+        "sha256": "a373ff7aae5ddc7576092b2322336f002486ef5da81393ac9c7a2ea42f7b9fb9"
+      },
+      {
+        "path": "src/dsp/TonalResidualEngine.h",
+        "sha256": "32880b13734f0dfa297726d2282e30a4593f579a623b6fe32d0606c43f2fe576"
+      },
+      {
+        "path": "src/dsp/TransientAnchor.cpp",
+        "sha256": "d18175a55527f2cd34368b96fde6ce20ff1f74960a3b2456bee844fea2835ff8"
+      },
+      {
+        "path": "src/dsp/TransientAnchor.h",
+        "sha256": "416ea3c6f7ed7392a3ded42928b05881dd4833b251cd35ccde829440251d039c"
+      },
+      {
+        "path": "src/dsp/TransientDetector.cpp",
+        "sha256": "4276e17e78366196dcac5b5ef92238990eee9b4d5281d21be8bc86dd17045c83"
+      },
+      {
+        "path": "src/dsp/TransientDetector.h",
+        "sha256": "612c0058761c118d700f01e7ea275dea9b6d392b3124d37def42706a27ad040d"
+      },
+      {
+        "path": "src/dsp/TransientEventMap.cpp",
+        "sha256": "73d47996bb593a7f3b5fcf7417ef9707661e0b48cee2d4ab13baa7c96d50c630"
+      },
+      {
+        "path": "src/dsp/TransientEventMap.h",
+        "sha256": "7cc599615afdc36c2006c0087d492a1afc2da25b0930c61fd9e17b20cb1dede1"
+      },
+      {
+        "path": "src/dsp/WSOLAEngine.cpp",
+        "sha256": "a4eaaed34f0fb74e19ab8fe3242f1b349b08f9bcb56bbbccc320f0d26e9b7e97"
+      },
+      {
+        "path": "src/dsp/WSOLAEngine.h",
+        "sha256": "5712c71890edd164c856f177c33801bd7622719283ffca85dc861691175a13de"
+      },
+      {
+        "path": "src/main.cpp",
+        "sha256": "35a1d30bedccdb860676f651610aa702285d750714de276645bfc37d0de15646"
+      },
+      {
+        "path": "src/phase101_offline_events.cpp",
+        "sha256": "1ad1a3126502932e15e137d6a4b4780367ae24eb0507b68eada6901e2a3f1347"
+      },
+      {
+        "path": "src/phase13_main.cpp",
+        "sha256": "47bb22cb81d4255ede4e21d52ec21d8186179d8925e47cb7695fd306d0cbfa38"
+      },
+      {
+        "path": "src/phase14_main.cpp",
+        "sha256": "aa8eb2f6b8869cb84fbba17d551d4bcef9a7216b3a86eee093dd079ed9d54030"
+      },
+      {
+        "path": "src/phase17_cache_prefill_study.cpp",
+        "sha256": "001ec8b08d0eb4e861929606ab8466521b34c31f662d46a1a489d7190f0c528a"
+      },
+      {
+        "path": "src/phase17_seek_study.cpp",
+        "sha256": "1353015cc18afe0cd3c9502216465e783a1c0cbe7b802e73ba5a2a9d784ae3eb"
+      },
+      {
+        "path": "src/phase23_main.cpp",
+        "sha256": "298444191dc7f76d981fcdce399bc7e91f757f13e81779becc02968e332e9fae"
+      },
+      {
+        "path": "src/phase24_sim_main.cpp",
+        "sha256": "f011071d6cf62b11cb9ff6d323c45419235c88c3001972aa6de4a79cf07894eb"
+      },
+      {
+        "path": "src/phase29_main.cpp",
+        "sha256": "e0c2c0e483047b686a77f09a1f284de04f319215f2078dd9d637aa705c8aef90"
+      },
+      {
+        "path": "src/platform/macos/MacPlaybackEngine.h",
+        "sha256": "67cc2583ce10f4880cf04e4a740e089df9289b3074f3c9dcf6b34c54b99f0c48"
+      },
+      {
+        "path": "src/platform/macos/MacPlaybackEngine.mm",
+        "sha256": "0100bbc8ebc0cd46cf303fa82ae9903c507abdb1a4cc854fb1f39d3854096544"
+      },
+      {
+        "path": "src/platform/macos/Phase15MacPlayback.mm",
+        "sha256": "8d48b31fc8029bedc4fec45292ac5302e9a60630522cd721deb7686bc4b5f755"
+      },
+      {
+        "path": "src/platform/macos/Phase24MacPlayback.mm",
+        "sha256": "bfe9451aeeb1b54463e7aafd9b2cd63d4889b8e8df43bd1d5e0a7833a68cbd67"
+      },
+      {
+        "path": "src/platform/macos/Phase26MacPlayback.mm",
+        "sha256": "f425c4f5f25335157da24e9341a6715b642d2099027df65c8d2f16cb12161966"
+      },
+      {
+        "path": "src/platform/macos/Phase27MacPlayback.mm",
+        "sha256": "ac56106321353e75c5b2a910db426adbaf9817d5aaf5bb06472e1b5016109aba"
+      },
+      {
+        "path": "src/platform/macos/Phase30MacPlayback.mm",
+        "sha256": "d487833c6508737f90e1d96c97a46bee08d292ae984ceb144fd71aed9d3f9ff7"
+      },
+      {
+        "path": "src/platform/macos/Phase36MacPlayback.mm",
+        "sha256": "4cf42298b1e99b204f5a22c3437677998b0f3b0f0424aed4015ab6c501ea6fac"
+      },
+      {
+        "path": "src/platform/macos/Phase43MacPlayback.mm",
+        "sha256": "ce1c9445652b8d41f78f43f5fd70cac5152d56a0800a785d89548b8e56e29ed2"
+      },
+      {
+        "path": "src/platform/macos/Phase59Fix2SourceNode.mm",
+        "sha256": "7f802af9391c9f32aa1681d2e59a607a2c5645cb24c7c67fe7dbaf6f1b7df1d2"
+      },
+      {
+        "path": "src/platform/macos/ProgressiveMacPlaybackEngine.h",
+        "sha256": "f3fc3c828cbf5b9448eb5ab2997a434e0788681ae852de5596b888bfa6d3bd01"
+      },
+      {
+        "path": "src/platform/macos/ProgressiveMacPlaybackEngine.mm",
+        "sha256": "1ff2796700c3366b14d2e48c8b9dfcac7d48616ca275fafd6832dd3e83e77376"
+      },
+      {
+        "path": "src/playback/ControlCosts.h",
+        "sha256": "6ebafde46e7add1e019ea67c8d6d242089a0f7f8cd30ec5e6231ddb6749087b3"
+      },
+      {
+        "path": "src/playback/LoopSpeedLedger.h",
+        "sha256": "5657f033c3ff3439efb653b9f6eba6f4a7f7163a9457878c82fbc7f2addb9a07"
+      },
+      {
+        "path": "src/playback/Phase54CoreProbe.cpp",
+        "sha256": "730f2cd1acd2d83973a46d5e2a653f1c6cc8c6911469f41b0bc39b6a89322610"
+      },
+      {
+        "path": "src/playback/Phase54FadeStudy.cpp",
+        "sha256": "e43365fc9a0da6206cd4f2fd87890b1489cb8ead891de55cc53ef8fce8f5c6a6"
+      },
+      {
+        "path": "src/playback/Phase54NativeStudy.cpp",
+        "sha256": "538784aab924409d6c8ea1a3d1cd1f4db7ea124a2af91bffcdf34cad875a7087"
+      },
+      {
+        "path": "src/playback/Phase54ReferenceCheck.h",
+        "sha256": "d23339467d7a12000d18023c8c08b856be8a4863439f2b5aea8ec200de81d20f"
+      },
+      {
+        "path": "src/playback/Phase54SeekStudy.cpp",
+        "sha256": "baf42f40b5de004a9f1d59dfc277e50e68d012e383b428523992fa51bf8bd5d8"
+      },
+      {
+        "path": "src/playback/Phase54StartupProbe.cpp",
+        "sha256": "be21f449ca0ffa4a5d0f5bd94f90a49ed9d9af749ec7c0d61ef2a7e5ad5f191d"
+      },
+      {
+        "path": "src/playback/Phase60LegacyCompare.mm",
+        "sha256": "4887fb37ee0daebacb7a67ac4182923f70e8a8296ed3d7317059f86651d5985e"
+      },
+      {
+        "path": "src/playback/Phase60PlaybackCompare.mm",
+        "sha256": "96f4493e33b6b9bfec728a8505291cd5b0caa59ab630e90b1f3811c166b3a549"
+      },
+      {
+        "path": "src/playback/Phase61InteractivePlay.cpp",
+        "sha256": "c4b2aa618aaf64845e30cb02d11c2a11a0c82ab420be259be4e6373eba4f183c"
+      },
+      {
+        "path": "src/playback/Phase62LoopPlay.cpp",
+        "sha256": "a1755ab93c63fbfe0c2a390c2378603c8379964319695b3adf7de71ba0d26884"
+      },
+      {
+        "path": "src/playback/PlaybackAnalysisCache.cpp",
+        "sha256": "c000bc7e7e328d5550be1b6bf264e4089e2e83b427d0d347c24eb162c8bf11fa"
+      },
+      {
+        "path": "src/playback/PlaybackAnalysisCache.h",
+        "sha256": "8a3c439527ec38451fd540c0701618d959ba581278577d0437ba719d8f8a6e47"
+      },
+      {
+        "path": "src/playback/PlaybackDemo.cpp",
+        "sha256": "1242dead554d716091fb77608e619c66b2cf3856a3e4b68a2e1c07b041826694"
+      },
+      {
+        "path": "src/playback/PlaybackEngine.cpp",
+        "sha256": "03db36fc1b6d2cdaee8f650d76cad018a03129e6a948203b61c4ff32305da41f"
+      },
+      {
+        "path": "src/playback/PlaybackEngine.h",
+        "sha256": "cbbf728ff45892f077dc791c1d231cb7cf300cb5ea5873981ec903295295218c"
+      },
+      {
+        "path": "src/playback/PlaybackReference.cpp",
+        "sha256": "f0bdfdc988995cc3c0955ad9398c50b17e789fdd3f6efdd75f3f1f6fe4148122"
+      },
+      {
+        "path": "src/playback/ProgressiveContract.h",
+        "sha256": "04215c50da2c8e218029f033ef1ce810c7ffb03387e206aac16f8fe3b88321c1"
+      },
+      {
+        "path": "src/playback/ProgressiveFeatureContract.h",
+        "sha256": "8cf1c2563d2a1099caaefe8a57a21f95e48d826d55fcbb10c3638ed1479406db"
+      },
+      {
+        "path": "src/playback/ProgressiveLoopContract.h",
+        "sha256": "0256d66068d2c69d96b38ca40b3e97def0125e799b1ad4c832a9c7e083ef5939"
+      },
+      {
+        "path": "src/playback/ProgressiveSeekContract.h",
+        "sha256": "10865f9325e0b53d771b024cb9b41579290a891c6e47ca8a5394380e4839565d"
+      },
+      {
+        "path": "src/playback/StartupDiagnostics.h",
+        "sha256": "0187240e6b60acb59484a8511a3fe8d36347db18a4617c160a0b4063c269aa4f"
+      },
+      {
+        "path": "src/prototype/Phase22BResponsiveMap.cpp",
+        "sha256": "fa500beef9fd363a9a485058588a07dbcd8dd7760759ad85a131bbe4e5a77ee1"
+      },
+      {
+        "path": "src/prototype/Phase22BResponsiveMap.h",
+        "sha256": "313107b3231d36e8a33f1bf84c7d3cf674997093cd4739c401d2729784dd7cbf"
+      },
+      {
+        "path": "src/prototype/Phase22VariableTimeMap.cpp",
+        "sha256": "3bbd7ccbc0c8e209b8715f326768660cc89c3c05ae5d671db036018d92c2c51b"
+      },
+      {
+        "path": "src/prototype/Phase22VariableTimeMap.h",
+        "sha256": "6c94478ca3e3c9fe3ca81822b3ec0774296619a5123d3ad88d37512ac38666a3"
+      },
+      {
+        "path": "src/prototype/Phase23VariableSpeedEngine.cpp",
+        "sha256": "2e78b28f313bee4dd81e7648775d6d118dcbe44b0e4d0d62a1d7e91e051a620a"
+      },
+      {
+        "path": "src/prototype/Phase23VariableSpeedEngine.h",
+        "sha256": "f1adcbbfddfcd0c6d62861854f1ee84369c2c9659e8a60d67f27b7a6bc939dd2"
+      },
+      {
+        "path": "src/prototype/Phase24PlaybackPipeline.cpp",
+        "sha256": "a88a09685b83592f0e828889076fe7b386c1509fc68884bdb7ebba1eb9245112"
+      },
+      {
+        "path": "src/prototype/Phase24PlaybackPipeline.h",
+        "sha256": "9a4a57294f098345e212fa0cf823c66551a07439c1c3c1245103877c5097e98a"
+      },
+      {
+        "path": "src/prototype/Phase24StreamingSpeedEngine.cpp",
+        "sha256": "e84b660a6683c1c6571b6c47e175f935ceae7948c260a1a809302c874e36f2b5"
+      },
+      {
+        "path": "src/prototype/Phase24StreamingSpeedEngine.h",
+        "sha256": "d8c6793c4a61297e857d5d4481bf34c79bde6e6822ed30d08b657811c4ee82c9"
+      },
+      {
+        "path": "src/prototype/Phase26BidirectionalTimeMap.cpp",
+        "sha256": "5d4eaa022f9f80974767b9fdeba2af5d1f68ead6fffac9976f9fabcf3593cfea"
+      },
+      {
+        "path": "src/prototype/Phase26BidirectionalTimeMap.h",
+        "sha256": "b23833184f65295c7f43835b977ff8c70933f429f7fac75c1dfa4d69c46583a2"
+      },
+      {
+        "path": "src/prototype/Phase26PlaybackPipeline.cpp",
+        "sha256": "20efb5a2a18d284ad1fe1443a35796456c84caf90f2cde1e20d5a2ac04697cfb"
+      },
+      {
+        "path": "src/prototype/Phase26PlaybackPipeline.h",
+        "sha256": "c60a913ac247b1681c8fb849e55f316a8d0f3caf2903f96b3b644896c4b0055a"
+      },
+      {
+        "path": "src/prototype/Phase28ArbitraryTimeMap.cpp",
+        "sha256": "35f39385f2a200b5a011467a50b27ace6a80ed83319d5d44c857950e43c2a366"
+      },
+      {
+        "path": "src/prototype/Phase28ArbitraryTimeMap.h",
+        "sha256": "cfb4133cd6c97271dd1ea9fae1213eff492b013abaf01ccfd8a73d28a73bad44"
+      },
+      {
+        "path": "src/prototype/Phase30PlaybackPipeline.cpp",
+        "sha256": "12951b47dec08bcf2fefabdafc39578c959ac5e3315c90ee68fd837125387747"
+      },
+      {
+        "path": "src/prototype/Phase30PlaybackPipeline.h",
+        "sha256": "2f06ae0269ce03dcf37cf134e6fc90f970562dd7276f4bc760b8f781b8be7a28"
+      },
+      {
+        "path": "src/prototype/Phase31Feasibility.cpp",
+        "sha256": "f7807033285eadcf0b7326d2dc03f38f2bbcdbcd158fd686ad7c65e1e33cc346"
+      },
+      {
+        "path": "src/prototype/Phase31Render.cpp",
+        "sha256": "0312f4e44cdc4f80b3901e40af8744d81c53f0c3b6663e0bad8a97ae61be2ad8"
+      },
+      {
+        "path": "src/prototype/Phase31ResearchEngine.cpp",
+        "sha256": "c5d577a44e746055a5fce8510cc92bca15546a69b766f9fda5563703744e2629"
+      },
+      {
+        "path": "src/prototype/Phase31ResearchEngine.h",
+        "sha256": "7707d879ff808e15e1705d10e483b2c3f72a080d9476d1a2d57ace436ba573d2"
+      },
+      {
+        "path": "src/prototype/Phase32Render.cpp",
+        "sha256": "078172f25875958b7606940f3f1e6c899c99f03a5c146480c753262e46d901f5"
+      },
+      {
+        "path": "src/prototype/Phase32ResearchEngine.cpp",
+        "sha256": "738034d9d2f72f157a2b63185c0441006ce449d3e566c87061d25b1b18ae9396"
+      },
+      {
+        "path": "src/prototype/Phase32ResearchEngine.h",
+        "sha256": "ce4910a89df48d5f88615e4c45a0e088e4f9e08f11bf327322e502819f86c58a"
+      },
+      {
+        "path": "src/prototype/Phase33Crossover.cpp",
+        "sha256": "0a8b5540920fd93c375d5216448a9bfb5a03b633f861ce764d43fabd18fbe633"
+      },
+      {
+        "path": "src/prototype/Phase33TraceEngine.cpp",
+        "sha256": "4827c87b10372ac7720a8c47464c54853e2d29810fc5923b88dd527af6dbfa4e"
+      },
+      {
+        "path": "src/prototype/Phase33TraceEngine.h",
+        "sha256": "db07c9eed342bce27957675a455a17d1fa28d487a85a2da1480ce5154f8d76cc"
+      },
+      {
+        "path": "src/prototype/Phase33TraceRender.cpp",
+        "sha256": "9a82bd45c59dd572b7b43d30addc457327fa973fb249dcd3cb56c7678a42b581"
+      },
+      {
+        "path": "src/prototype/Phase35DensityControl.cpp",
+        "sha256": "3405ad3606ae57b5aeece7ebf871b3be8fcd5e9ca577616d19618dce9a6a455d"
+      },
+      {
+        "path": "src/prototype/Phase35PhaseVocoder.cpp",
+        "sha256": "8e49d29571635c2f50183a963a8ca1c9350e3a27d70aa2038002302a64cb1f84"
+      },
+      {
+        "path": "src/prototype/Phase35PhaseVocoder.h",
+        "sha256": "6b4ba59abff6aef2fd1abb8400f2c73e40749556271d2836c72fe81cf33e66eb"
+      },
+      {
+        "path": "src/prototype/Phase35Render.cpp",
+        "sha256": "4bf5f6ac348c68d501bfed683281ac3bc2d7b49a75c2e95066f4e537d8c0673f"
+      },
+      {
+        "path": "src/prototype/Phase35StereoPhaseCoherence.cpp",
+        "sha256": "202b375db154cfe718425bb46245037afaa0ade4f12ae3fba5daa82cb1735633"
+      },
+      {
+        "path": "src/prototype/Phase35StereoPhaseCoherence.h",
+        "sha256": "09b356be27cc210b7470c40db66568f577df9907e51ceaa4e28d2af50342cbcf"
+      },
+      {
+        "path": "src/prototype/Phase35TimeMap.cpp",
+        "sha256": "ce8ca7e9a721200df1d9e4e693a567498bc908fcc828402cd1cb358c5a802495"
+      },
+      {
+        "path": "src/prototype/Phase35TimeMap.h",
+        "sha256": "b08ff92c5321c45f49b5e4256fe15155d8bc369f0e8880dd85d6d0ef876f0894"
+      },
+      {
+        "path": "src/prototype/Phase35TransitionEngine.cpp",
+        "sha256": "244914d117caac7fc3d1a77395eb1b2c7b7fd83c886859972c075580d0d282a1"
+      },
+      {
+        "path": "src/prototype/Phase35TransitionEngine.h",
+        "sha256": "35f019afe9e2e96fef496d56223621af98274517a58dae72d212386995f00504"
+      },
+      {
+        "path": "src/prototype/Phase36PlaybackPipeline.cpp",
+        "sha256": "6a97cf9d3fc4a501c14cbee3e6ec0a99e6adc3c02d67b3f95911de626d5f7431"
+      },
+      {
+        "path": "src/prototype/Phase36PlaybackPipeline.h",
+        "sha256": "50806026913f710452972f91f0eab6162fb872b8c7b4765448b1c6e6ac134c86"
+      },
+      {
+        "path": "src/prototype/Phase36Reference.cpp",
+        "sha256": "8ae18846547914da2a2e4f069adfc976f7e4867206178890351fb62f5868f3b0"
+      },
+      {
+        "path": "src/prototype/Phase36Sim.cpp",
+        "sha256": "dad8c18e72bf7a31f1036610cefebc30ca56012c876317bd766844044144e1ee"
+      },
+      {
+        "path": "src/prototype/Phase36StreamingSpeedEngine.cpp",
+        "sha256": "7b281dfdf18b4cc2f9e1d5c9c611dc6e1be91759cd9f20f97978460e7a75dd3f"
+      },
+      {
+        "path": "src/prototype/Phase36StreamingSpeedEngine.h",
+        "sha256": "3a7a98100e5fafcde9314a0762bf3dd6a468350e779ab796aeb2c06e7fbf0179"
+      },
+      {
+        "path": "src/prototype/Phase36SynthesisCore.h",
+        "sha256": "2e41cf982b8bf44064cffd6a76d56caf95465936db1d5d8432309fc79fd63a19"
+      },
+      {
+        "path": "src/prototype/Phase37HighSpeedMap.cpp",
+        "sha256": "4613cd458059c77c70c016fbbedac3c81e649ba818ae07c9eefea3a9c3029ae9"
+      },
+      {
+        "path": "src/prototype/Phase37HighSpeedMap.h",
+        "sha256": "46994ee79deb2f9c4525687242397c6754fa27b3f4666043c78fe8f8515dcd83"
+      },
+      {
+        "path": "src/prototype/Phase37Render.cpp",
+        "sha256": "68fcec902dd37859f70a2cc677fdfd52f36f65b5d1474b623f297bf9e63b91a7"
+      },
+      {
+        "path": "src/prototype/Phase37SynthesisEngine.cpp",
+        "sha256": "785d55b5a4739b9fef85b99ab2b87df4da73689c10e8f1127f4d8ade9db1074c"
+      },
+      {
+        "path": "src/prototype/Phase37SynthesisEngine.h",
+        "sha256": "d3ae10a534b107f9a3059d95a3b816bdfbec46d8837b6f3314376e3074dd1cb9"
+      },
+      {
+        "path": "src/prototype/Phase38EventDump.cpp",
+        "sha256": "64255c923e5b6f53465c35c30ac941f51465b6f010a843d8a2233ec7c0e70481"
+      },
+      {
+        "path": "src/prototype/Phase39PacedSim.cpp",
+        "sha256": "729ac91b763ac9153ad1c921fdc2ffee610fdf49b807f3e7b641204bff328e9d"
+      },
+      {
+        "path": "src/prototype/Phase39PlaybackPipeline.cpp",
+        "sha256": "026bcccf626c44f0d261c49b1d9020b4a7da88ba3c9dc841bcbd0aab0574114a"
+      },
+      {
+        "path": "src/prototype/Phase39PlaybackPipeline.h",
+        "sha256": "a47ee88a3d53a66ee304038bca75234ec23a804d2e7bf5710a78db4430dde633"
+      },
+      {
+        "path": "src/prototype/Phase39Probe.cpp",
+        "sha256": "01471cc7e627c6b3c5ff2cedc1a8011892c726d0888ffbbf1d1ed3bf659c8913"
+      },
+      {
+        "path": "src/prototype/Phase39Reference.cpp",
+        "sha256": "8a80651adc3fcd3d1ce146ea8d78c81f81e885073f3f1df45e7e908dd978286d"
+      },
+      {
+        "path": "src/prototype/Phase39Sim.cpp",
+        "sha256": "d5f8e7180da479c57b97e49b70106837e6f21aa292304fbad77b3efc353937f1"
+      },
+      {
+        "path": "src/prototype/Phase39TimeMap.cpp",
+        "sha256": "d525a52c24e6882ce1197638c866dc5f8fa4c9a7aa7977f2824c81d939def31a"
+      },
+      {
+        "path": "src/prototype/Phase39TimeMap.h",
+        "sha256": "2018ebcb8a75c7902c98d0d8f9f239f6fafc0a3a0b607b30c0ab57c3d9723070"
+      },
+      {
+        "path": "src/prototype/Phase40PacedSim.cpp",
+        "sha256": "a59e2f5f06a12502baac25e46253d8ccb8ba82399815abdd02e63d6d01e6f4bc"
+      },
+      {
+        "path": "src/prototype/Phase41MapTrace.cpp",
+        "sha256": "230799cf935b9e3480aeb4d4283452ed1e1a5b8e0353b31a6b13d39f0016bbe8"
+      },
+      {
+        "path": "src/prototype/Phase42DensityGuard.cpp",
+        "sha256": "088b3f872a791a1cd8d4db0cdfad7add0e0622f4cbb736dc549f85087593fea4"
+      },
+      {
+        "path": "src/prototype/Phase42DensityGuard.h",
+        "sha256": "91004ee0b7c2129aeb41dd50bbe16f2432de1a9cca9cf67bcf4abfc27e57c9a4"
+      },
+      {
+        "path": "src/prototype/Phase45CallbackClock.h",
+        "sha256": "d69ee669853935d696ea6629778bd7fa4f0b97f62012f09f1e160537a4ca92db"
+      },
+      {
+        "path": "src/prototype/Phase45DeviceRate.cpp",
+        "sha256": "9f3c7e184ff5aaeea6d840c62fbb1423b2d468ab9d2306276331d0776b39bf65"
+      },
+      {
+        "path": "src/prototype/Phase45PcmDigest.h",
+        "sha256": "afe775ca6a9235b7b6ef705b3f9db6c04bd2a4509ba1bcb31ed9507ba1aefb36"
+      },
+      {
+        "path": "src/prototype/Phase45PcmHash.cpp",
+        "sha256": "edc58a29bd0d0fe999a9f3d193abf962931785aedbb6f06c8dbd812ceeb86d4d"
+      },
+      {
+        "path": "src/prototype/Phase46HostClock.h",
+        "sha256": "4e4ea2d3b3142d3dbb7beb8bdb4536b79178799a1135add473c75abaa4e05f7e"
+      },
+      {
+        "path": "src/prototype/Phase46Statistics.h",
+        "sha256": "a4eb5911b0a540ee7884532cb57097bf1736de53533fe4781b09d933cd92759f"
+      },
+      {
+        "path": "src/prototype/Phase47EvidenceFile.h",
+        "sha256": "40fbcdae22fbcce12e15f37939881490f50da12a71b69cb96f01fffaa0da6488"
+      },
+      {
+        "path": "src/prototype/Phase48ReplayBlocks.cpp",
+        "sha256": "b3c5d6f3a21d56a0fd0a1c7997221b7feb445a84d4cf7a245e9a15826798b955"
+      },
+      {
+        "path": "src/prototype/Phase50Boundary.h",
+        "sha256": "580eaebab2894f8f8d0d2046151fe566b2d4545b2c48222666b353992b826da4"
+      },
+      {
+        "path": "src/prototype/Phase50DeviceBuffer.cpp",
+        "sha256": "e0f2ed58c787d76c08a87e817c70a9db43f85e6dd41d1b13f273ce0cde59799a"
+      },
+      {
+        "path": "src/prototype/Phase51BusyStudy.cpp",
+        "sha256": "36bac2be588a9e728d671c4180f781f26f16d995e903fbe5c5f3797b85c949ad"
+      },
+      {
+        "path": "src/prototype/Phase51CommandControl.h",
+        "sha256": "e4f6eedb715d3bd1e0015d71222806c5b85e61ffa89c6f93cd431533a0ffdfc7"
+      },
+      {
+        "path": "src/prototype/Phase51Counterfactual.cpp",
+        "sha256": "9a2d4858ac27e04d8e08137e0058b55f4ebb177c82ba3ab7a95ddc250b3d81e6"
+      },
+      {
+        "path": "src/prototype/Phase55AnalysisProbe.cpp",
+        "sha256": "991f7cd71898da9b32f8568cf064339644d42ef06403ad11ba2dfa71ff4b2a3e"
+      },
+      {
+        "path": "src/prototype/Phase55StartupStudy.cpp",
+        "sha256": "3c3d7d5662af5dbd92e6d4285c9f1d8a8cb2a5a7b2a103cf3dd20a82f47c1bff"
+      },
+      {
+        "path": "src/prototype/Phase56Check.cpp",
+        "sha256": "82490b83e268094741406175855c9224978d695564eec42d218bb8a000e5f3f2"
+      },
+      {
+        "path": "src/prototype/Phase56ImmutableSeries.h",
+        "sha256": "06a4d2a9e0133e80b0d03165aee7ec0b7cc3f5465a6fe5fea9f537915ac24a17"
+      },
+      {
+        "path": "src/prototype/Phase56PinnedWav.h",
+        "sha256": "838434b47f12537abc40e5a65c06f9b2af9efdda3bb23a844cb4bb7e17def29b"
+      },
+      {
+        "path": "src/prototype/Phase56ProgressiveAnalysis.cpp",
+        "sha256": "dfb180d06882395c7c194e976f4959250103b76c5adf16ef5e8c3a2ee5356b09"
+      },
+      {
+        "path": "src/prototype/Phase56ProgressiveAnalysis.h",
+        "sha256": "56170b3a34655faa0ae0aa79eca14a116101deccc64a5654e9ad1ff074da2ba8"
+      },
+      {
+        "path": "src/prototype/Phase56Reference.cpp",
+        "sha256": "6be2abd298cca554026b0aa2bafa4964a40ea61f5798122e3324ec139a7423f8"
+      },
+      {
+        "path": "src/prototype/Phase56ReferenceData.h",
+        "sha256": "813fe9158f4b40cf68adcb56048013febe7920a0483ab6c8dc20bef40d5f9e1f"
+      },
+      {
+        "path": "src/prototype/Phase57Check.cpp",
+        "sha256": "9257708eb46c2d234eeee7bc234cc5f5fbfec3fd4af1668e133b875bc42070e2"
+      },
+      {
+        "path": "src/prototype/Phase57PinnedInput.h",
+        "sha256": "0c951f58a10f24653c59c01cfe4e6b79734735d22b60235ce306b3fe600012e3"
+      },
+      {
+        "path": "src/prototype/Phase57ProgressiveSynthesis.cpp",
+        "sha256": "00d92c115d7c9cb91a69b60dcfb64b781836668be9585e5a33efa4851fe20a6a"
+      },
+      {
+        "path": "src/prototype/Phase57ProgressiveSynthesis.h",
+        "sha256": "c44438334aeb2766a50e2ec6db7e237880c31465aa5860fadc1e84912e3640ce"
+      },
+      {
+        "path": "src/prototype/Phase57Reference.cpp",
+        "sha256": "78cc46960678e18135bab75cdcfa2dc81fff170ec69015f1f637428505225df4"
+      },
+      {
+        "path": "src/prototype/Phase58Check.cpp",
+        "sha256": "6c1cec5dc49c0182eeae39ed72c8cb814cc7d3f3f384d0ba953ce59f847f1515"
+      },
+      {
+        "path": "src/prototype/Phase58Diagnostics.h",
+        "sha256": "693844e9dec9583d6b507ca7d071962728b9657ee2ec9f3eea248980e825bd8a"
+      },
+      {
+        "path": "src/prototype/Phase58FixAllocationProbe.h",
+        "sha256": "87158422b21b10a3cde3690d0f85a0e17466e1bff2de47a225b6affcb33044ec"
+      },
+      {
+        "path": "src/prototype/Phase58FixRealtimeWorker.cpp",
+        "sha256": "36bb9a2cf227d65bb4d6f95cc2726998778e9c5a0ad7cca50d61a9ec7f712c6a"
+      },
+      {
+        "path": "src/prototype/Phase58FixRealtimeWorker.h",
+        "sha256": "16472b6e40e68180592d4a7ca9e365babeca6e6626b71a324b70e283a3997cf4"
+      },
+      {
+        "path": "src/prototype/Phase58FixSchedulingProbe.mm",
+        "sha256": "23e2863011c696568882ccc81a0e3cb7021223cc35e5fc07e22d321499ea55b2"
+      },
+      {
+        "path": "src/prototype/Phase58FixSnapshotMailbox.h",
+        "sha256": "6a0b330f88ef791e32fb447ef2e6f029a6e9e42397c6d356ca023c1f4a88a91b"
+      },
+      {
+        "path": "src/prototype/Phase58LegacyStartup.cpp",
+        "sha256": "b9c10984487c17f6dd77dc23a1e96e85ca83062057d20581aac6cc945e155bd0"
+      },
+      {
+        "path": "src/prototype/Phase58Native.mm",
+        "sha256": "4f37fbbadc2a5ef7480fb2de344a48455a0c5ccc877de7b39535f764ea3c0cff"
+      },
+      {
+        "path": "src/prototype/Phase58ProductReference.cpp",
+        "sha256": "49fc9fdc21beb828fb22015e478b87e2ad86287791905ef8ecb1f47f0647cad1"
+      },
+      {
+        "path": "src/prototype/Phase58RealtimePipeline.cpp",
+        "sha256": "b4614058318e44cfcd6cae1ce70e835f18a6bfa8be4510be48293b7c971cb96b"
+      },
+      {
+        "path": "src/prototype/Phase58RealtimePipeline.h",
+        "sha256": "24145b639f8d298415c73cb50ac88bac4b65511684c4adda9ef2266da771d04e"
+      },
+      {
+        "path": "src/prototype/Phase59CapturedReference.cpp",
+        "sha256": "32c723ce96178180d266f103ad218de24ff2f05efcfe81e4002b3af8d6960c18"
+      },
+      {
+        "path": "src/prototype/Phase59Check.cpp",
+        "sha256": "1e09ef3f139768d7f2c4aed8e27fcd552f7126c6f5120f726a30346dbfdbcc66"
+      },
+      {
+        "path": "src/prototype/Phase59Control.h",
+        "sha256": "9abe66bb3b327c15a7c864a00b9aca8241e0d04772d95ced1d5508d082607b7e"
+      },
+      {
+        "path": "src/prototype/Phase59Diagnostics.h",
+        "sha256": "0e0d3be5988bb8d183790fa4b66d4bc6b50cd3d11d2a088620b0dd7b23da6c3a"
+      },
+      {
+        "path": "src/prototype/Phase59PlanningContract.h",
+        "sha256": "b4a6feae568628fd6ddd37ed5622bb9b03c0c5aa54f8d685f16bc44c713e46d3"
+      },
+      {
+        "path": "src/prototype/Phase59ProgressiveReplay.cpp",
+        "sha256": "97495bb5bb904435251224bdd0c2285f9031a3f4012c19bcfff17746ab0a4663"
+      },
+      {
+        "path": "src/prototype/Phase59ProgressiveTransition.cpp",
+        "sha256": "fafa3dd9ca5a111674c7929f9e64e655323add98f3fa737734b438f02caabd78"
+      },
+      {
+        "path": "src/prototype/Phase59ProgressiveTransition.h",
+        "sha256": "a49cf2e0094c849fed762c7547489860331cd6e5e52ebf83c865fe2fa203024c"
+      },
+      {
+        "path": "src/prototype/Phase59Reference.cpp",
+        "sha256": "09f4bd3fd881115ceaec77a5f94ea6c5469d523ce623f31e10a6b9f653346a78"
+      },
+      {
+        "path": "src/prototype/Phase59ReplaySupport.h",
+        "sha256": "8d7227c312077ee3303ddc623d4dc1fa5d92d9b1b26b03168adf4690e1e36619"
+      },
+      {
+        "path": "src/prototype/Phase61FastSeekStudy.cpp",
+        "sha256": "a2f792d6c6d3474d1b927201c7075822ec241fa2df336166ae182f2a34ddc9b3"
+      },
+      {
+        "path": "src/prototype/Phase61OutputTransition.h",
+        "sha256": "36ad27306250e81fa57895a6ede4a1b88aabcc2d89353444e232b746f9ab7813"
+      },
+      {
+        "path": "src/prototype/Phase61SeekEnvelope.h",
+        "sha256": "e2623decd362dd184c222317987e7f775d09667c47875e392cca712e8c9881fe"
+      },
+      {
+        "path": "src/prototype/Phase61SeekReference.cpp",
+        "sha256": "72fc5f99ce49ea3bff6cb3260ecc5bbf8a5ff8a47ff5016ce9800a532e7ab742"
+      },
+      {
+        "path": "src/prototype/Phase62LoopBoundary.h",
+        "sha256": "4106b1eac002ed8178c06a305f42e0e0d43dce05bc4a037063f6adaa4fc9f165"
+      },
+      {
+        "path": "src/realtime_main.cpp",
+        "sha256": "181ef2dc1081360d191301b70378c754fa13f54defe26158cfa3a6a79d2aec19"
+      },
+      {
+        "path": "src/sinusoidal_residual_main.cpp",
+        "sha256": "30bcd2c541045cdc0b591da43eaa126725facb1603e5cabe7606825fa8ac44aa"
+      },
+      {
+        "path": "src/stereo_spectral_metrics.cpp",
+        "sha256": "c46a2b9ba7dfa056960a024dc2d300f1de5a13fc4a68526d452807d39d64e6ff"
+      },
+      {
+        "path": "src/tonal_residual_main.cpp",
+        "sha256": "b508d1af1d6ecf38b5e4d2fbec05fa08d755138ca5f61e0a411362e8781a9d11"
+      },
+      {
+        "path": "src/wav_compare.cpp",
+        "sha256": "685c380a7f416e580bc901ffdff3a7e6e5663bc415718f5cd20d23dd742f01ff"
+      },
+      {
+        "path": "src/wav_metrics.cpp",
+        "sha256": "fbcee1b77c798b9e53569dbe55544fec15484e63d4eca4041ce759194cc533b0"
+      },
+      {
+        "path": "src/wsola_main.cpp",
+        "sha256": "79aa22612bb3e8123865e49c5819dfabfadeb94a86cca266ce6fb2fe11f24c31"
+      },
+      {
+        "path": "tests/ApiOracleBoundaryReference.cpp",
+        "sha256": "44df7a92297e7defb8fe362f053c08bce7def130677b526f42db53b9889e45f6"
+      },
+      {
+        "path": "tests/ApiOracleCommitAdapter.h",
+        "sha256": "3c33fa2b9f2d762a433327cce036d3afac49057bd9089328845a8104c3351bca"
+      },
+      {
+        "path": "tests/ArtifactCleanupTests.py",
+        "sha256": "86f39026abb72c0b234e63136971977bbccb911d20caf2b949a81d9378f502fc"
+      },
+      {
+        "path": "tests/GitBlobSizeGuardTests.py",
+        "sha256": "9cfa7f76cadf66d8a34b3b9c0697c3d435fa4e5c43510fe592bb19e0ef436d02"
+      },
+      {
+        "path": "tests/PausedSpeedBoundaryTests.cpp",
+        "sha256": "4ab8ddeff77eb3097a2e3a4f851c6546378c08e52d626f4edc56c9afe04aa37b"
+      },
+      {
+        "path": "tests/PausedSpeedLoopTests.cpp",
+        "sha256": "be343b972229b123dd6f9132988c4bdef01527932f758909f5a3444895f079dd"
+      },
+      {
+        "path": "tests/PausedSpeedNativeTests.cpp",
+        "sha256": "dcc6e4656e0b60bf596da510afd2ab65cbd307e012d6e3dd79422a2fb840254b"
+      },
+      {
+        "path": "tests/PausedSpeedPipelineTests.cpp",
+        "sha256": "5951edbdb59c25ab9ad65979e97133d10c5b6b90ea8d9787a59087fd06bff578"
+      },
+      {
+        "path": "tests/Phase10Tests.cpp",
+        "sha256": "14ebdb9a7a2ee7e1f63bd1a5202d896ba9dfc723af1ced8cbe27dfd215af7f97"
+      },
+      {
+        "path": "tests/Phase13Tests.cpp",
+        "sha256": "91bb137809b8a652c37e060b4f86261768bde70a05c7682e377efa78f1d980de"
+      },
+      {
+        "path": "tests/Phase14Tests.cpp",
+        "sha256": "25c7b2a3919884aff64b45a9c10bffe4e3bb416c69f4c2f7907316dd49dbbef6"
+      },
+      {
+        "path": "tests/Phase16Tests.cpp",
+        "sha256": "9be1befe6f6d265a7cc78c750877b356b7b0dfde459e39cf58a9b6232448a4e9"
+      },
+      {
+        "path": "tests/Phase18Tests.cpp",
+        "sha256": "3fe6e0b0086bd69feb16ec2bd316db6d80794238cad6b009e862db806b9b82a0"
+      },
+      {
+        "path": "tests/Phase19Tests.cpp",
+        "sha256": "5c25d8d120d635fdb5f3509dfb86609ad9b6e97e900daba8efce55a6b904c1a5"
+      },
+      {
+        "path": "tests/Phase1Tests.cpp",
+        "sha256": "4ff6954b7c4c50a0dd4d965352d53e2a36f27e6e244c9669fc21bf55bb233ab9"
+      },
+      {
+        "path": "tests/Phase1Validation.cpp",
+        "sha256": "8c7545a1c3fe58fbc44e4d604bfd8bb35d8450c22337ef3a6be844aa097f2572"
+      },
+      {
+        "path": "tests/Phase20ArchitectureStudy.cpp",
+        "sha256": "61ac0aebb005cae8aa54c67220cccf430417b52541adc2dda8337dc365c3ab64"
+      },
+      {
+        "path": "tests/Phase21Tests.cpp",
+        "sha256": "91c63e6fe4a2cc863970fc866c19976dbae022b290361c8dac48dc63167bfd9e"
+      },
+      {
+        "path": "tests/Phase22BStudy.cpp",
+        "sha256": "cfae405c6b8138d26050cbf6ba00774752a046d40c6f23df7c234dfd6161cdd8"
+      },
+      {
+        "path": "tests/Phase22TimeMapStudy.cpp",
+        "sha256": "0e5a90861a988ef7263d683c23f0d4a568e129a09d1d6ef7168008d81c54ab47"
+      },
+      {
+        "path": "tests/Phase23Audition.py",
+        "sha256": "41ea5c7a07a0b67b2afa221841b2d0db742b31dc9d0a79cdfd5290de6b34da78"
+      },
+      {
+        "path": "tests/Phase23Metrics.py",
+        "sha256": "2c27c5ad96f782c2cd73e4fadb21771eebd9ae80d3282dfd02e3d91c975cc9c8"
+      },
+      {
+        "path": "tests/Phase23Smoke.py",
+        "sha256": "f2036771aa5f6c8cba341716b6d08992d55c5d11dc4fb3ab461187e1a874da97"
+      },
+      {
+        "path": "tests/Phase23Study.py",
+        "sha256": "ec1d48c9857cb3b177998bd94bba03d55f0d009eaa4cf536128eb646488f1bab"
+      },
+      {
+        "path": "tests/Phase24LongInput.py",
+        "sha256": "d5feecd1c6637883472032e4af2eecffbae126f68dcd07f2156e0706ee2c0692"
+      },
+      {
+        "path": "tests/Phase24Tests.cpp",
+        "sha256": "472d9130f8f099d698eb462abf429b0f5e89b171a965003eebdb0d17553aed69"
+      },
+      {
+        "path": "tests/Phase25RealtimeStudy.py",
+        "sha256": "495dc311f5742707916bcf5136caaa4ccbbdd7783e927b681789cdeec2da12a1"
+      },
+      {
+        "path": "tests/Phase26PlaybackTests.cpp",
+        "sha256": "cfba2da166a9cc3fa8fdfcc12fd2fc81dc869c42ab0476e4c10c1bd176a46036"
+      },
+      {
+        "path": "tests/Phase26RealtimeStudy.py",
+        "sha256": "8f00e8387c7b466432e710532599d51ed2ebcef15129a83323a2c79192d721e9"
+      },
+      {
+        "path": "tests/Phase26TimeMapTests.cpp",
+        "sha256": "8b6819fb9f6267efa718d26489c58e6be93e9a9010b0280e2d3c16e2138c6b82"
+      },
+      {
+        "path": "tests/Phase27RepeatedTests.cpp",
+        "sha256": "8ffa11140a9b505bdd1dc6eada7d02a1cd37d872aa45ddd227e15f1a80ffbea2"
+      },
+      {
+        "path": "tests/Phase28MapStudy.cpp",
+        "sha256": "1c436aa2165766e78840865bf079de7862b79135c7cc1a8e272822b655b8dc67"
+      },
+      {
+        "path": "tests/Phase29Smoke.py",
+        "sha256": "56f07504d7936a3d574315ac6b6fd44ba552602481f176ae8275bb5ebd225c4f"
+      },
+      {
+        "path": "tests/Phase2Tests.cpp",
+        "sha256": "3ec5d8c9d0053e68ec8dcb48d3226ff8dafdf717acc01dab120a9a5f6983bb6b"
+      },
+      {
+        "path": "tests/Phase30PlaybackTests.cpp",
+        "sha256": "4badb4a655626644a3ae4da16a40eaf1c4dd5bd366aa86d88e65f70060723d05"
+      },
+      {
+        "path": "tests/Phase30Smoke.py",
+        "sha256": "200fe7168ea0e1a2f4f9ff5f2675d9b2673b89a3a9cb3f4a06e311765943db60"
+      },
+      {
+        "path": "tests/Phase31Smoke.py",
+        "sha256": "70dc28cfca549a04f0eeeeb688cea228e2a4ac82a28f2e745e33807d748fb27e"
+      },
+      {
+        "path": "tests/Phase32Smoke.py",
+        "sha256": "5f82661bfa3f0b90301aad475d50c38375b7882ed3e3f9c81cd06958d8d16b56"
+      },
+      {
+        "path": "tests/Phase33Smoke.py",
+        "sha256": "426c70bfce430d52427589c1c52a061eb464e9029441101a9d9d47c77a3a2dca"
+      },
+      {
+        "path": "tests/Phase35Tests.cpp",
+        "sha256": "5d9ea946598e20aacc7d22ee22bd94d726a678c76f0386485cf6220955f471a7"
+      },
+      {
+        "path": "tests/Phase35TransitionSmoke.py",
+        "sha256": "e1da2d6aedaeafcc67d7e85091e372c46301b55650d329b86b0177f7ed385591"
+      },
+      {
+        "path": "tests/Phase36ApiTests.cpp",
+        "sha256": "09e8e9fe88bb7d911189ae519cd0fa543ae6a87bc8a57396af4de2931831a99c"
+      },
+      {
+        "path": "tests/Phase36Smoke.py",
+        "sha256": "7a08fb32e80c06802b82c56bea6e356da51a5e21bd84f269156738fcad1a3693"
+      },
+      {
+        "path": "tests/Phase36Tests.cpp",
+        "sha256": "d7f27a9907eba6c46ebaa5bb3d7bbb2d0d174b2f6cd6686f71978ebe6dddfcc8"
+      },
+      {
+        "path": "tests/Phase37Smoke.py",
+        "sha256": "a6c2f8ab21499721699d0160b67c45e403d4280b8f48338a25a379dff0707dd2"
+      },
+      {
+        "path": "tests/Phase37Tests.cpp",
+        "sha256": "59e5d2a6af5a4ca93d872f759b15d1d9934760e11a3ef83d478203704382d28d"
+      },
+      {
+        "path": "tests/Phase38Smoke.py",
+        "sha256": "d5988fd31b0293bebbfed3ba22f28bbf6c2a95567b5f0a5a19e1c47505857280"
+      },
+      {
+        "path": "tests/Phase39Smoke.py",
+        "sha256": "53824bbb884fc27f70050422ca8058820cdcb13485c6dc6845933c4781a2ab5b"
+      },
+      {
+        "path": "tests/Phase3Tests.cpp",
+        "sha256": "91c7e442f39e430adb705db435995cede48b7341a20e23a6130d77034c47dc46"
+      },
+      {
+        "path": "tests/Phase40Smoke.py",
+        "sha256": "2206b9517ee04737fdb28c35060192aa31991115c9090a3d8109702f39decb3e"
+      },
+      {
+        "path": "tests/Phase45CallbackClockTests.cpp",
+        "sha256": "15af623b7ac01df737453534323718c020cf1d536e995ac3c0a7b3aa8f36bfe6"
+      },
+      {
+        "path": "tests/Phase46HostClockTests.cpp",
+        "sha256": "1ca2981594837e682938730ba0d05e46f3d5c673526c2da3355085c0cc8f37f5"
+      },
+      {
+        "path": "tests/Phase47EvidenceFileTests.cpp",
+        "sha256": "e6375b9add53798bc763884cbfee5fdc3037d036b8b476d74c54521705ae42ca"
+      },
+      {
+        "path": "tests/Phase49StallTests.cpp",
+        "sha256": "5f16cddacd94c294750a7ba8092fdd320d3bf0653a3b041b4ebb83c71ddafbdf"
+      },
+      {
+        "path": "tests/Phase4Tests.cpp",
+        "sha256": "6d6e442ca20443393ae9c886b677f73f439f5b7a81055f25a7293428cf8140d9"
+      },
+      {
+        "path": "tests/Phase50BoundaryTests.cpp",
+        "sha256": "6a814f944d2389b1fcfdc3a28c15f1d1097271f7997c01659fe682e6a47bee8a"
+      },
+      {
+        "path": "tests/Phase51CommandTests.cpp",
+        "sha256": "d35ae57b456fe88e04aedc47afa8fb8a633ffd74b4704796f53fd6e37526b64d"
+      },
+      {
+        "path": "tests/Phase51Tests.cpp",
+        "sha256": "97ed0110a1248ed1dfa5ca140398de9d5836fdbb06a1c201c1b7cd4dfdf88e0c"
+      },
+      {
+        "path": "tests/Phase52Tests.cpp",
+        "sha256": "a31e1eb1ac2d5d17dfac868d9ffb2e4d1e892befce4c5c2fb7bcd2902d01dd0a"
+      },
+      {
+        "path": "tests/Phase53CallbackExportTests.cpp",
+        "sha256": "ca588a520519ebdd7094c1d7dd2eeef810272aef5587df7ed82e89bf2819630c"
+      },
+      {
+        "path": "tests/Phase53Tests.cpp",
+        "sha256": "0bf7d206199569017b84c031f382d9a215d641b8c67de46bab6cf147ab92f023"
+      },
+      {
+        "path": "tests/Phase54AnalysisCacheTests.cpp",
+        "sha256": "5ec2dd51248be5706817f21be78095248341f4e4d20e848f1c77f92d7a6578a0"
+      },
+      {
+        "path": "tests/Phase54SeekTests.cpp",
+        "sha256": "faff22d98407866bd01f2564f8c3d7f17ac632e0e7feb137767140d9a96a352b"
+      },
+      {
+        "path": "tests/Phase55DependencyTests.cpp",
+        "sha256": "e4c9b89429bfdbd3fab8bcbdaa6ee69e25d6bf9a05a9a9273433486c8cbfb2bf"
+      },
+      {
+        "path": "tests/Phase55Smoke.py",
+        "sha256": "a039ad3789bf05f2099d333368f9882406f2ba99f5b857af646414b65d7c14ec"
+      },
+      {
+        "path": "tests/Phase56FixedModes.cpp",
+        "sha256": "ba8d5546be6e22b1fd3984d2286942ce8fc97cd4c5ec9277eec4eade05a01746"
+      },
+      {
+        "path": "tests/Phase56Smoke.py",
+        "sha256": "4072430628e35c793ce782af887a49775e530138341bf68280682a497b8129a6"
+      },
+      {
+        "path": "tests/Phase56Tests.cpp",
+        "sha256": "ff871a4fb10dceab2220e6ffeca2e2bd5bf78a53e4157faaac98ce8c707b0241"
+      },
+      {
+        "path": "tests/Phase57Smoke.py",
+        "sha256": "97467d18c1487c9eb1abfd3888c6d6588ba79fbb465579d188abf961ec6a75c8"
+      },
+      {
+        "path": "tests/Phase57Tests.cpp",
+        "sha256": "5834857461c023805d86f738698cd9635245229ae6dfb14e2c042f115df6350e"
+      },
+      {
+        "path": "tests/Phase58FixMailboxTests.cpp",
+        "sha256": "68cad66eeb0c7a0355e070051fe0cf34419cbe822843d2bc613459c8884a4695"
+      },
+      {
+        "path": "tests/Phase58FixTests.cpp",
+        "sha256": "321cb7593a7be6cd9a3f9d578408e6bc1a5e282317caf5a0c4bba246dc492f29"
+      },
+      {
+        "path": "tests/Phase58FixTraceTests.py",
+        "sha256": "beaee41b91d9508f7e67cf1f6bf762c83d81fe35f59da7f1e5f589f00a1bfb69"
+      },
+      {
+        "path": "tests/Phase58FixWorkerTests.cpp",
+        "sha256": "72e07eb5853f26910cb0bbba1a41fe3ca6d1262c5b638b3ac52d3f39aade647f"
+      },
+      {
+        "path": "tests/Phase58PcmSmoke.py",
+        "sha256": "ea2996663c6e599b455420212999fa6697b22c1a8cbb909bbfd43031bff65d13"
+      },
+      {
+        "path": "tests/Phase58Tests.cpp",
+        "sha256": "a07832143dd1db8ba00849db6d58df165088f5ff58d91f829947e7527e22495b"
+      },
+      {
+        "path": "tests/Phase59ControlTests.cpp",
+        "sha256": "38d67bdb0ffd1561336757eb2efd303b66a5230fed3fb8edb5523cda51c68e2f"
+      },
+      {
+        "path": "tests/Phase59Fix2ForensicsTests.py",
+        "sha256": "9621ffd03681f4ab7c58d0abc67bb93bf67d2bb8ed4b2ba446f91db4cb153337"
+      },
+      {
+        "path": "tests/Phase59Fix2SupplyAnalysisTests.py",
+        "sha256": "a21d18d13b21636b6be3094d142b077949c87dae658b16fe001062f5cf461fa0"
+      },
+      {
+        "path": "tests/Phase59FixEOSProbe.cpp",
+        "sha256": "7c5aea95db581e25722874c15ced096d1b22b1d1495d760e0c06204bae27991c"
+      },
+      {
+        "path": "tests/Phase59FixStereoTests.cpp",
+        "sha256": "221e89688cb265d6088309b7a294ff54777b1f12e846184377d62b66c095df09"
+      },
+      {
+        "path": "tests/Phase59FixVocoderBench.cpp",
+        "sha256": "e2acf37d1a3e60e29052820b0af97f5d4bec454d4efa9d5e2ce78ba875b5c059"
+      },
+      {
+        "path": "tests/Phase59FixVocoderTests.cpp",
+        "sha256": "c370b4aa0c253dc052678418fe52a5a75dc5045e9bd0c5a91efe3634f975e87b"
+      },
+      {
+        "path": "tests/Phase59MailboxProbe.cpp",
+        "sha256": "63fc200bf8c7272a205d3b6ccfec0c0d43a6375a07945f9d63e731af3bf7390f"
+      },
+      {
+        "path": "tests/Phase59PcmSmoke.py",
+        "sha256": "44c1ab531d613d1efbae88a109891a2edaea591c6897b280eac9520df7b4796e"
+      },
+      {
+        "path": "tests/Phase59Tests.cpp",
+        "sha256": "21f008bf95ef6061b41a3dea117d0f921c6b8a0c5a6e46e7a76ac854e21938c5"
+      },
+      {
+        "path": "tests/Phase5Tests.cpp",
+        "sha256": "a25b4612b4f7b7924d1995f419be60ace81d6f6c3009fd7227a7fffc38a60487"
+      },
+      {
+        "path": "tests/Phase60AdapterTests.cpp",
+        "sha256": "67f19a0d1f62b926646b2c72d37cc552ece377f175a70590d936acaf12617193"
+      },
+      {
+        "path": "tests/Phase60ContractTests.cpp",
+        "sha256": "58d00f947fc8313b8d81df0a0bf14f27eb3640410a1c54a669e6c689ac846471"
+      },
+      {
+        "path": "tests/Phase60LifecycleTests.cpp",
+        "sha256": "603663deaeaa298b078577976cf78f453aba9dc005b8ab9ee7fb0e0d008fa30d"
+      },
+      {
+        "path": "tests/Phase60ResultTests.py",
+        "sha256": "a1cd58aab5b54b52a882a0259b61a90448f45c22ec1fd125e4aa58b68686d7aa"
+      },
+      {
+        "path": "tests/Phase61CallbackMallocProbe.cpp",
+        "sha256": "83b65a2e86cb9e2aba0aca2764e028965c0585ead026c1d1d7a15696c109daaa"
+      },
+      {
+        "path": "tests/Phase61CallbackMallocProbe.h",
+        "sha256": "998599e6918c4d06193692fa079e36d55156bc128dbae41f67b51af3b8e7b05a"
+      },
+      {
+        "path": "tests/Phase61CheckpointTests.cpp",
+        "sha256": "e4141bf4837d55e29abaf5b81c4337e909aafe2aae42c7f487a01cb548289145"
+      },
+      {
+        "path": "tests/Phase61ContractTests.cpp",
+        "sha256": "704e50f249e675fedc7c8da8030827372fbd5299a7a3d2f5565cef4e74138e58"
+      },
+      {
+        "path": "tests/Phase61DeviceRouteTests.cpp",
+        "sha256": "04a8843984ef822c87ee694e1223c5b5c1a74768803e58f93229c486874d45eb"
+      },
+      {
+        "path": "tests/Phase61FastNativeTests.cpp",
+        "sha256": "28e487c13e481d2e1f6d9c091e34135f56ab4a294a54b01d9f04c6b2ae43f323"
+      },
+      {
+        "path": "tests/Phase61FastSandboxApp.mm",
+        "sha256": "845e60fcd0edfb7d047b9b1f813edd0d3e6b5674d387a6568d166663b752e113"
+      },
+      {
+        "path": "tests/Phase61FastSeekSmoke.py",
+        "sha256": "11e3633203178825ea141ef4dd59531918be90ab2463eed8dfa25de3438ab912"
+      },
+      {
+        "path": "tests/Phase61FastSeekTests.cpp",
+        "sha256": "3a0d2d3ba4adfbef2002ff2b352ab7d8299bfbe3b17e2e55ec175ed616244584"
+      },
+      {
+        "path": "tests/Phase61Golden.py",
+        "sha256": "fe5e09c1d11755e3bd28247a40a68ecaf63431791ef0243a0d80505ff08efdee"
+      },
+      {
+        "path": "tests/Phase61InteractiveEofTests.cpp",
+        "sha256": "75ac3989bb479dd1d92fb7ecfcf07afb8215868b66737ca14de63120c4a79cd0"
+      },
+      {
+        "path": "tests/Phase61InteractiveNativeTests.cpp",
+        "sha256": "fdefd783388035582665fd63a0bd1bef7a886aee39707f2c236459477f19fc42"
+      },
+      {
+        "path": "tests/Phase61NativeTests.cpp",
+        "sha256": "58b8a018c3b21adaa53a120e6442d387732d38903306901799e061e7f63a08bf"
+      },
+      {
+        "path": "tests/Phase61OutputTransitionTests.cpp",
+        "sha256": "01d914fb6efb58ee178af8ad11f3aef16e04d2f57f80bf038498cf69b44440d8"
+      },
+      {
+        "path": "tests/Phase61PipelineSyncTests.cpp",
+        "sha256": "ac1f0e733846f19f49fc73b90fe3d49875a1cf18bc7dd7eacd3489c9e232357d"
+      },
+      {
+        "path": "tests/Phase61SafetyTests.cpp",
+        "sha256": "f6d747a4b9c2034ab6bc10fd8f26b3a1acfbe0a51bf3e96b287cc78dd8ce9948"
+      },
+      {
+        "path": "tests/Phase61SandboxApp.mm",
+        "sha256": "36cc92beb9656b1d3ece3fb1948a56bcf38178bdd42688146abbabc775e25b19"
+      },
+      {
+        "path": "tests/Phase61SeekCheck.cpp",
+        "sha256": "0dfd3d327f1c928d12f42d372b4136812b3b4e95652da0e662ffbb10d1c78ee7"
+      },
+      {
+        "path": "tests/Phase61SeekSmoke.py",
+        "sha256": "7521f2c8cbaf85372c2b3136732bbebefebec1ba85e2e7258958187e83a1027c"
+      },
+      {
+        "path": "tests/Phase61SyncRestartNativeTests.cpp",
+        "sha256": "a73061a7acda1486dc446dc26e185dcc5c52e479ca5ba6b3a8c4c1dca66a58e1"
+      },
+      {
+        "path": "tests/Phase61SyncRestartVerify.py",
+        "sha256": "3d6875e6a3f3c386659e8005d51852cee2e21298e7798bc3a438262b1385c527"
+      },
+      {
+        "path": "tests/Phase62AdoptionReviewNative.cpp",
+        "sha256": "292f2860c5861c840e3a3c698f9e0dad124044a19bc0a977f7669a6a8200da86"
+      },
+      {
+        "path": "tests/Phase62AggregationTests.py",
+        "sha256": "e6e91c835bdd1d13bad32cb91394e728025a52c208f14d8357bf2df19fdf121f"
+      },
+      {
+        "path": "tests/Phase62ApiOracleNative.cpp",
+        "sha256": "9e0c9390fe3ebaf0caecb8bd15f90e3f6398daaa464ad8fe2db2a1327d302af7"
+      },
+      {
+        "path": "tests/Phase62CacheFocusTests.cpp",
+        "sha256": "527005a2f1ddda7afd9352a85ae2c3d6ad7401e31454d11502895888d9e83306"
+      },
+      {
+        "path": "tests/Phase62ClearPcmNative.cpp",
+        "sha256": "e14d734be4c94b66ad04d65d5c7acb00d11e5c6453ed8ce942d25127a984cc77"
+      },
+      {
+        "path": "tests/Phase62ClearReenableNative.cpp",
+        "sha256": "37ba5dd407be20f2243a9868538f206d7daa0dbed9ec053111235f30c2b65414"
+      },
+      {
+        "path": "tests/Phase62ControlCpuNative.cpp",
+        "sha256": "c82c7ffebfeb1d30bed3d11eed1ab6f091bbec3375de0401b87fbcd43c7ff999"
+      },
+      {
+        "path": "tests/Phase62ControlSummaryTests.cpp",
+        "sha256": "b1149001ae1a6d5761a3d19c04b9a63e91abb07157bc0fa8b25c26a747672d19"
+      },
+      {
+        "path": "tests/Phase62DeadlineNative.cpp",
+        "sha256": "dc6a8ff7da8b8e747714630227374c8a67a2bdccb67d452ecbb9c6e01fa2c164"
+      },
+      {
+        "path": "tests/Phase62DescriptorInvariantTests.cpp",
+        "sha256": "3a6d30c9beba615fba91d633c409c7e36d04d159b82cc1423d96415305fede4c"
+      },
+      {
+        "path": "tests/Phase62DynamicBoundaryTests.mm",
+        "sha256": "d949717b2c9e1c60522c9bd39d2d63198c42998d13766f66b8810da4f3c5a7d7"
+      },
+      {
+        "path": "tests/Phase62DynamicControlsNative.cpp",
+        "sha256": "4eeebad1ba5087e0265d090683e4442350bfe964c139978e1e361c5146a4b810"
+      },
+      {
+        "path": "tests/Phase62DynamicHandoffTests.mm",
+        "sha256": "aa054bf26e5543ddde1107fc8cd145efad4ed6a3cd64ebc3d733779dd17004df"
+      },
+      {
+        "path": "tests/Phase62DynamicLoopProbe.cpp",
+        "sha256": "83e94ca5d9fd72f6e55cd72e77854fa9a6f673d1eec4198e4234b611af1df1d8"
+      },
+      {
+        "path": "tests/Phase62DynamicPcmTests.cpp",
+        "sha256": "da4bca7a386b50765a3afad0d6eb7f1d29427ac9cb1a7c9177e7672dcde3ace8"
+      },
+      {
+        "path": "tests/Phase62DynamicSeekNative.cpp",
+        "sha256": "cbb048bcfb5dc266fb0106ab7ddb32c097aba46a7797eadba9e8ffa23d665c19"
+      },
+      {
+        "path": "tests/Phase62EvidenceTests.py",
+        "sha256": "dfeebb58a376aa6970c96437f9e329d8a8b8ab292e74194925de20ec2400ead1"
+      },
+      {
+        "path": "tests/Phase62FinishEvidenceTests.py",
+        "sha256": "64f43b58d475f988d6b297a83039fa3383e289f9c633a7c9cf6517d105868d36"
+      },
+      {
+        "path": "tests/Phase62FixCheckpointTests.cpp",
+        "sha256": "c4fa5e687bb2840a06be6021155dc05d8177b95741dd0bfe3e085405a145bf79"
+      },
+      {
+        "path": "tests/Phase62FixClockNative.cpp",
+        "sha256": "5b5f55a1819e99f42282cc1b955776225bdecd099cf9c07cef25fc992d6321de"
+      },
+      {
+        "path": "tests/Phase62FixRenderTests.mm",
+        "sha256": "19634b9931b96b2d107ff607bdfc620ded557b904106310c05bcddba26d23385"
+      },
+      {
+        "path": "tests/Phase62FixReuseTests.cpp",
+        "sha256": "93be08a40f1acd7a0064f0f621c01b67132c7239074803f8c935113e3288fb71"
+      },
+      {
+        "path": "tests/Phase62FixSafetyTests.mm",
+        "sha256": "cf2a11ffcca2fa7c7da82351aaa4e26277bb2f4c2c7d31e1b3c48d224db89d24"
+      },
+      {
+        "path": "tests/Phase62FixSandboxApp.mm",
+        "sha256": "dc325224520092875d057a72690108b6f3e20606ba3795fd6608311164af0e0b"
+      },
+      {
+        "path": "tests/Phase62FixTrace.h",
+        "sha256": "25328661a5fdf29b2010775c655e462caa5d719495016ff3dca38a2dc6007ee2"
+      },
+      {
+        "path": "tests/Phase62HistoryClearNative.cpp",
+        "sha256": "e1056a20580c18561df089f586bc497dc616a16895dcb60b739deb9ae9e16352"
+      },
+      {
+        "path": "tests/Phase62HistoryInvariantTests.cpp",
+        "sha256": "8c1bcca0c2c35fddffdaa73815274f45048b13203cea19278e79d2c1b7d6864a"
+      },
+      {
+        "path": "tests/Phase62InitialCheckpointTests.cpp",
+        "sha256": "a10263b544249872010e160859984eb1f4c3463f27e5185c9ac8c7a870d23d7e"
+      },
+      {
+        "path": "tests/Phase62InitialEntryNative.cpp",
+        "sha256": "20e9420fcac99ed88721384a47a9cfa64e26f4ab3d213dd03fc0f7cd582bc149"
+      },
+      {
+        "path": "tests/Phase62InitialLoopNative.cpp",
+        "sha256": "f65cf0e0ea2cb61255cc6d5872f6f134f6d894b4b561e03df1e11834c4517b52"
+      },
+      {
+        "path": "tests/Phase62InputWatchTests.cpp",
+        "sha256": "2bf4cac8a3b97bc5a6ac57892583c91be8c761d370a85c6086f9de0b55cb7788"
+      },
+      {
+        "path": "tests/Phase62LoopSpeedLedgerNative.cpp",
+        "sha256": "5104e4f87a522e862f603f12da13b6ecc13dd9d44e8f7eec84e50eabafb604c1"
+      },
+      {
+        "path": "tests/Phase62LoopSpeedLedgerTests.cpp",
+        "sha256": "833d160b3c4f4813e243ad6145c204ca57a00023e9600e1b4deee11e745da5a8"
+      },
+      {
+        "path": "tests/Phase62LoopTests.cpp",
+        "sha256": "ee3bac7500749f0a589d88df1e9c6f7b2853681b897db632cc750ed9d885cfd9"
+      },
+      {
+        "path": "tests/Phase62NativeTests.cpp",
+        "sha256": "fb1c046784da7f8b489e1c133ff64c1bad496133cbe8d476252fa22b0458d2bf"
+      },
+      {
+        "path": "tests/Phase62OfflineCapture.h",
+        "sha256": "59165ec8a4df55dd157ca07bd4d7ae559bc30bd408c0941ae2f2c5c9b2988136"
+      },
+      {
+        "path": "tests/Phase62PartialMixNative.cpp",
+        "sha256": "3c37e2963a4c4a907e6d5d5498d57c395b14af5ea1d856322b3ec7002a9faa39"
+      },
+      {
+        "path": "tests/Phase62PausedClearNative.cpp",
+        "sha256": "d6649ddffd5ef863d181307833e3e2115a633d7d84ffed73f1db8ba7cf2307d8"
+      },
+      {
+        "path": "tests/Phase62PausedPcmTests.cpp",
+        "sha256": "7628bb89e96c85190d9226c45edf86b73e0fd28108e2f56d53c549056164542a"
+      },
+      {
+        "path": "tests/Phase62PcmAudit.h",
+        "sha256": "0b6f602dbbfa4a2ea4e483b4a99a3358068637f6ad5d12ea425db9c9fb1561d0"
+      },
+      {
+        "path": "tests/Phase62PlayingLedgerNative.cpp",
+        "sha256": "a58e27e61565db02493f66f480d66d73944b47a33b0eb088c3f5ab05f3693198"
+      },
+      {
+        "path": "tests/Phase62PrefixCheckpointTests.cpp",
+        "sha256": "314711ca64222bb7efb201dc8ad60c6e306a3dd7b6e41de8d1a2ff87fc3e97d1"
+      },
+      {
+        "path": "tests/Phase62PreparationFaultNative.cpp",
+        "sha256": "30e6fbd57af2a82bddff80667836ea7578ef07dc0e20419d09d8324c332afc6a"
+      },
+      {
+        "path": "tests/Phase62RaceNative.cpp",
+        "sha256": "15749552eeea2f8a0f141204badec1354d4b332cc2dc18c25a7887e1945730e7"
+      },
+      {
+        "path": "tests/Phase62RangeReplacementNative.cpp",
+        "sha256": "68059a11342272741986c2f3cba6d4c3e8efc5783ab214dc09780afe9f018577"
+      },
+      {
+        "path": "tests/Phase62RenderTests.mm",
+        "sha256": "724036430ab035f1ae7f87f92f3d802707fd3b8821b0aa2a6d662ed93e20a43a"
+      },
+      {
+        "path": "tests/Phase62WarmReenableNative.cpp",
+        "sha256": "11c645ee2f2357fe17365de2ec2e8bf62e3549cfc466176fdac2fa767cbf5fb3"
+      },
+      {
+        "path": "tests/Phase62WorkerTransactionTests.cpp",
+        "sha256": "b798572cd2fbbadb94d44b0743fecd845d8bad7698be0790363494fee9e2996e"
+      },
+      {
+        "path": "tests/Phase6Tests.cpp",
+        "sha256": "14563b71ec6b9c114edd5eb2973625f4ab81e707c31ef4c0310b4b75709e218d"
+      },
+      {
+        "path": "tests/Phase7Tests.cpp",
+        "sha256": "bbe20e860eb09617989ee503348b5028a30a4e28238320bfcdf758b4c109cd82"
+      },
+      {
+        "path": "tests/Phase8ATests.cpp",
+        "sha256": "c705e3f6a9d00d7fbe95b23d14d61d282ffb0c97603d0636999295787d05eba0"
+      },
+      {
+        "path": "tests/Phase9ATests.cpp",
+        "sha256": "93d8d87b13086280eee069ad7c28486e7bb65e4da2a1b3a228c3a6aa214a0c6a"
+      },
+      {
+        "path": "tests/Phase9CTests.cpp",
+        "sha256": "7858ce2482859cb009b9ba3508489ac9b12b3bf3c4bc5960e1656eacae4b4c0b"
+      },
+      {
+        "path": "tests/PlaybackEngineTests.cpp",
+        "sha256": "d04b2814322ecdfaf6df7e0bf6c148351f94d473bdfe5841a98f147720b44580"
+      },
+      {
+        "path": "tests/ProgressiveAdoptionAbNative.cpp",
+        "sha256": "9b6d9afb6a9f173d97e206f6e78b457946cc6dcd0ef0a1c6cb62bd65bb76f451"
+      },
+      {
+        "path": "tests/ProgressiveAdoptionClockNative.cpp",
+        "sha256": "7498fdd6cd5119c08e16dddb3c1498dff28cb2c376a70d399811a45890efe664"
+      },
+      {
+        "path": "tests/ProgressiveAdoptionContractTests.cpp",
+        "sha256": "f8f5c0bd7288996beba37c471ce61f1bb4ef98e6b4900f6debc4d3fd4deb729f"
+      },
+      {
+        "path": "tests/ProgressiveAdoptionLimitNative.cpp",
+        "sha256": "c83efe36e7564655abf4920352d93301a48bb455ae521d5aa50ea939b3c7cf03"
+      },
+      {
+        "path": "tests/ProgressiveAdoptionNativeTests.cpp",
+        "sha256": "2f7121ae8622effc995e1a1fd4504d71db841ed41281d983791422b2f3655317"
+      },
+      {
+        "path": "tests/reference/phase59_fix/Before59FixPhaseVocoder.cpp",
+        "sha256": "afa332c557039116c14b151d3cb689bf45e75dac36acf24e275a28ead11d4ad2"
+      },
+      {
+        "path": "tests/reference/phase59_fix/Before59FixPhaseVocoder.h",
+        "sha256": "f89a34b6804c9dd9edc4e891fe860abb59a057a7aed16572a93bca7e2c56d40d"
+      },
+      {
+        "path": "tests/reference/phase59_fix/Before59FixStereoPhaseCoherence.cpp",
+        "sha256": "357f7a4b620d781a210a45b1072736358f56bbb079f45e9004da1a0386776059"
+      },
+      {
+        "path": "tests/reference/phase59_fix/Before59FixStereoPhaseCoherence.h",
+        "sha256": "7910124f31fbb7d8dfe81438ac821a36e8a9315a5e90bad828555de3835767ba"
+      }
+    ]
+  },
+  "configuration": "Release",
+  "architecture": "arm64",
+  "rows": [
+    {
+      "command": [
+        "cmake",
+        "-S",
+        "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab",
+        "-B",
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/candidate",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DCMAKE_OSX_ARCHITECTURES=arm64",
+        "-DBUILD_TESTING=ON"
+      ],
+      "exit": 0,
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/build_study_final_01/configure.log",
+        "bytes": 176,
+        "sha256": "96074b80a6850d49405063e84c382a2cf4349c3b88caf1f027ae265d5a918e50"
+      }
+    },
+    {
+      "command": [
+        "cmake",
+        "--build",
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/candidate",
+        "--target",
+        "phase61_fast_seek_study",
+        "-j2"
+      ],
+      "exit": 0,
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/build_study_final_01/build.log",
+        "bytes": 507,
+        "sha256": "20e2346f2839bc2a266b0818b5a90a86b6400fcca7810515f9ef83fb67629bbd"
+      }
+    }
+  ],
+  "binaries": {
+    "phase61_fast_seek_study": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/candidate/phase61_fast_seek_study",
+      "bytes": 523992,
+      "sha256": "46f1871c5db1041e249ed38422ac03a2e49974f89d67d19119ac3b33386c2d67"
+    }
+  }
+}

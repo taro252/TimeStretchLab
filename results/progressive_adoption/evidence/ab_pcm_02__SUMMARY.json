@@ -1,0 +1,686 @@
+{
+  "expected_programs": 7,
+  "executed_programs": 7,
+  "PASS": true,
+  "rows": [
+    {
+      "exit": 0,
+      "summary": {
+        "schema": "adoption-independent-fixed-capture-summary-v1",
+        "status": "PASS",
+        "run_complete": true,
+        "expected": 5,
+        "executed": 5,
+        "passed": 5,
+        "checks": {
+          "independent_map": {
+            "status": "PASS",
+            "input_A": 12960000,
+            "input_B": 12964800,
+            "independent_OA": 12960000,
+            "independent_OB": 12964800,
+            "period_frames": 4800,
+            "boundary_frames": 240,
+            "native_completion": {
+              "schema": "AbNative.functional",
+              "functional_complete": true,
+              "reported_rt_pass": true,
+              "reported_performance_pass": false,
+              "reported_performance_exercised": true,
+              "RT_deadline_approval": null,
+              "interpretation": "Native completion prerequisite only; no RT/performance/physical approval is inferred."
+            },
+            "host_SHA_bound_in_capture": false
+          },
+          "raw_all_bits": {
+            "status": "PASS",
+            "frames": 506608,
+            "channels": 1,
+            "records": 996
+          },
+          "output_all_bits": {
+            "status": "PASS",
+            "frames": 506368,
+            "channels": 1,
+            "spans": 995,
+            "mixed_frames": 240,
+            "head_frames": 368,
+            "tail_frames": 480,
+            "arithmetic": "independent Equations(fused)",
+            "final_gain_applied": false
+          },
+          "coordinates": {
+            "status": "PASS",
+            "raw_sources_exactly_match_spans": true,
+            "periodic_source_intervals": 25,
+            "AB_boundary_exercised": true,
+            "callback_first_frame": 0,
+            "callback_end_frame": 506368
+          },
+          "gain": {
+            "status": "PASS",
+            "configured_final_gain": 0.5,
+            "scope": "Configuration source inspection only; captured/reference/output PCM all precede final gain.",
+            "physical_gain_verified": null,
+            "runtime_binary_gain_attestation": null,
+            "all_artifacts_unchanged": true
+          }
+        },
+        "reason": null,
+        "result": {
+          "channels": 1,
+          "rate": 48000,
+          "input_frames": 14400000,
+          "raw_frames": 506608,
+          "output_frames": 506368,
+          "records": 996,
+          "spans": 995,
+          "independent_OA": 12960000,
+          "independent_OB": 12964800,
+          "period_frames": 4800,
+          "boundary_frames": 240,
+          "mixed_frames": 240,
+          "native_reported": {
+            "schema": "AbNative.functional",
+            "functional_complete": true,
+            "reported_rt_pass": true,
+            "reported_performance_pass": false,
+            "reported_performance_exercised": true,
+            "RT_deadline_approval": null,
+            "interpretation": "Native completion prerequisite only; no RT/performance/physical approval is inferred."
+          },
+          "artifact_unchanged": true
+        },
+        "expected_sha256": "a4c9d8a2e8eaeb0b614d9db017552d45430b0aafb8884f6e3c988d9ab87c3a12",
+        "validator_sha256": "4dac95f5e7ad882ff2a28ae648a4c10b8bd553cc9dbb7bd7c814581ab2c8f451",
+        "performance_status": "NOT_ASSESSED",
+        "realtime_status": "NOT_ASSESSED",
+        "physical_audio_continuity_verified": null,
+        "public_approved": false,
+        "PASS_scope": "Independent captured PCM/coordinates/configuration audit only; no RT/performance/physical approval."
+      }
+    },
+    {
+      "exit": 0,
+      "summary": {
+        "schema": "adoption-independent-fixed-capture-summary-v1",
+        "status": "PASS",
+        "run_complete": true,
+        "expected": 5,
+        "executed": 5,
+        "passed": 5,
+        "checks": {
+          "independent_map": {
+            "status": "PASS",
+            "input_A": 12960000,
+            "input_B": 12964800,
+            "independent_OA": 12960000,
+            "independent_OB": 12964800,
+            "period_frames": 4800,
+            "boundary_frames": 240,
+            "native_completion": {
+              "schema": "AbNative.functional",
+              "functional_complete": true,
+              "reported_rt_pass": true,
+              "reported_performance_pass": true,
+              "reported_performance_exercised": true,
+              "RT_deadline_approval": null,
+              "interpretation": "Native completion prerequisite only; no RT/performance/physical approval is inferred."
+            },
+            "host_SHA_bound_in_capture": false
+          },
+          "raw_all_bits": {
+            "status": "PASS",
+            "frames": 511728,
+            "channels": 1,
+            "records": 1006
+          },
+          "output_all_bits": {
+            "status": "PASS",
+            "frames": 511488,
+            "channels": 1,
+            "spans": 1005,
+            "mixed_frames": 240,
+            "head_frames": 368,
+            "tail_frames": 480,
+            "arithmetic": "independent Equations(fused)",
+            "final_gain_applied": false
+          },
+          "coordinates": {
+            "status": "PASS",
+            "raw_sources_exactly_match_spans": true,
+            "periodic_source_intervals": 25,
+            "AB_boundary_exercised": true,
+            "callback_first_frame": 0,
+            "callback_end_frame": 511488
+          },
+          "gain": {
+            "status": "PASS",
+            "configured_final_gain": 0.5,
+            "scope": "Configuration source inspection only; captured/reference/output PCM all precede final gain.",
+            "physical_gain_verified": null,
+            "runtime_binary_gain_attestation": null,
+            "all_artifacts_unchanged": true
+          }
+        },
+        "reason": null,
+        "result": {
+          "channels": 1,
+          "rate": 48000,
+          "input_frames": 14400000,
+          "raw_frames": 511728,
+          "output_frames": 511488,
+          "records": 1006,
+          "spans": 1005,
+          "independent_OA": 12960000,
+          "independent_OB": 12964800,
+          "period_frames": 4800,
+          "boundary_frames": 240,
+          "mixed_frames": 240,
+          "native_reported": {
+            "schema": "AbNative.functional",
+            "functional_complete": true,
+            "reported_rt_pass": true,
+            "reported_performance_pass": true,
+            "reported_performance_exercised": true,
+            "RT_deadline_approval": null,
+            "interpretation": "Native completion prerequisite only; no RT/performance/physical approval is inferred."
+          },
+          "artifact_unchanged": true
+        },
+        "expected_sha256": "7d6920ae56046e6f3a6b2ec27e2067d323384dae62421fbe56b4e913c95adba7",
+        "validator_sha256": "4dac95f5e7ad882ff2a28ae648a4c10b8bd553cc9dbb7bd7c814581ab2c8f451",
+        "performance_status": "NOT_ASSESSED",
+        "realtime_status": "NOT_ASSESSED",
+        "physical_audio_continuity_verified": null,
+        "public_approved": false,
+        "PASS_scope": "Independent captured PCM/coordinates/configuration audit only; no RT/performance/physical approval."
+      }
+    },
+    {
+      "exit": 0,
+      "summary": {
+        "schema": "adoption-independent-fixed-capture-summary-v1",
+        "status": "PASS",
+        "run_complete": true,
+        "expected": 5,
+        "executed": 5,
+        "passed": 5,
+        "checks": {
+          "independent_map": {
+            "status": "PASS",
+            "input_A": 1440000,
+            "input_B": 1444800,
+            "independent_OA": 1440000,
+            "independent_OB": 1444800,
+            "period_frames": 4800,
+            "boundary_frames": 240,
+            "native_completion": {
+              "schema": "AbNative.functional",
+              "functional_complete": true,
+              "reported_rt_pass": true,
+              "reported_performance_pass": false,
+              "reported_performance_exercised": true,
+              "RT_deadline_approval": null,
+              "interpretation": "Native completion prerequisite only; no RT/performance/physical approval is inferred."
+            },
+            "host_SHA_bound_in_capture": false
+          },
+          "raw_all_bits": {
+            "status": "PASS",
+            "frames": 67824,
+            "channels": 1,
+            "records": 139
+          },
+          "output_all_bits": {
+            "status": "PASS",
+            "frames": 67584,
+            "channels": 1,
+            "spans": 138,
+            "mixed_frames": 240,
+            "head_frames": 368,
+            "tail_frames": 480,
+            "arithmetic": "independent Equations(fused)",
+            "final_gain_applied": false
+          },
+          "coordinates": {
+            "status": "PASS",
+            "raw_sources_exactly_match_spans": true,
+            "periodic_source_intervals": 25,
+            "AB_boundary_exercised": true,
+            "callback_first_frame": 0,
+            "callback_end_frame": 67584
+          },
+          "gain": {
+            "status": "PASS",
+            "configured_final_gain": 0.5,
+            "scope": "Configuration source inspection only; captured/reference/output PCM all precede final gain.",
+            "physical_gain_verified": null,
+            "runtime_binary_gain_attestation": null,
+            "all_artifacts_unchanged": true
+          }
+        },
+        "reason": null,
+        "result": {
+          "channels": 1,
+          "rate": 48000,
+          "input_frames": 14400000,
+          "raw_frames": 67824,
+          "output_frames": 67584,
+          "records": 139,
+          "spans": 138,
+          "independent_OA": 1440000,
+          "independent_OB": 1444800,
+          "period_frames": 4800,
+          "boundary_frames": 240,
+          "mixed_frames": 240,
+          "native_reported": {
+            "schema": "AbNative.functional",
+            "functional_complete": true,
+            "reported_rt_pass": true,
+            "reported_performance_pass": false,
+            "reported_performance_exercised": true,
+            "RT_deadline_approval": null,
+            "interpretation": "Native completion prerequisite only; no RT/performance/physical approval is inferred."
+          },
+          "artifact_unchanged": true
+        },
+        "expected_sha256": "83b0e0d31ead1f024c9a1ab5b49c5f47f0089a899d507835f00ab9625f808b0f",
+        "validator_sha256": "4dac95f5e7ad882ff2a28ae648a4c10b8bd553cc9dbb7bd7c814581ab2c8f451",
+        "performance_status": "NOT_ASSESSED",
+        "realtime_status": "NOT_ASSESSED",
+        "physical_audio_continuity_verified": null,
+        "public_approved": false,
+        "PASS_scope": "Independent captured PCM/coordinates/configuration audit only; no RT/performance/physical approval."
+      }
+    },
+    {
+      "exit": 0,
+      "summary": {
+        "schema": "adoption-independent-fixed-capture-summary-v1",
+        "status": "PASS",
+        "run_complete": true,
+        "expected": 5,
+        "executed": 5,
+        "passed": 5,
+        "checks": {
+          "independent_map": {
+            "status": "PASS",
+            "input_A": 1440000,
+            "input_B": 1444800,
+            "independent_OA": 1440000,
+            "independent_OB": 1444800,
+            "period_frames": 4800,
+            "boundary_frames": 240,
+            "native_completion": {
+              "schema": "AbNative.functional",
+              "functional_complete": true,
+              "reported_rt_pass": true,
+              "reported_performance_pass": false,
+              "reported_performance_exercised": true,
+              "RT_deadline_approval": null,
+              "interpretation": "Native completion prerequisite only; no RT/performance/physical approval is inferred."
+            },
+            "host_SHA_bound_in_capture": false
+          },
+          "raw_all_bits": {
+            "status": "PASS",
+            "frames": 72432,
+            "channels": 1,
+            "records": 148
+          },
+          "output_all_bits": {
+            "status": "PASS",
+            "frames": 72192,
+            "channels": 1,
+            "spans": 147,
+            "mixed_frames": 240,
+            "head_frames": 368,
+            "tail_frames": 480,
+            "arithmetic": "independent Equations(fused)",
+            "final_gain_applied": false
+          },
+          "coordinates": {
+            "status": "PASS",
+            "raw_sources_exactly_match_spans": true,
+            "periodic_source_intervals": 25,
+            "AB_boundary_exercised": true,
+            "callback_first_frame": 0,
+            "callback_end_frame": 72192
+          },
+          "gain": {
+            "status": "PASS",
+            "configured_final_gain": 0.5,
+            "scope": "Configuration source inspection only; captured/reference/output PCM all precede final gain.",
+            "physical_gain_verified": null,
+            "runtime_binary_gain_attestation": null,
+            "all_artifacts_unchanged": true
+          }
+        },
+        "reason": null,
+        "result": {
+          "channels": 1,
+          "rate": 48000,
+          "input_frames": 14400000,
+          "raw_frames": 72432,
+          "output_frames": 72192,
+          "records": 148,
+          "spans": 147,
+          "independent_OA": 1440000,
+          "independent_OB": 1444800,
+          "period_frames": 4800,
+          "boundary_frames": 240,
+          "mixed_frames": 240,
+          "native_reported": {
+            "schema": "AbNative.functional",
+            "functional_complete": true,
+            "reported_rt_pass": true,
+            "reported_performance_pass": false,
+            "reported_performance_exercised": true,
+            "RT_deadline_approval": null,
+            "interpretation": "Native completion prerequisite only; no RT/performance/physical approval is inferred."
+          },
+          "artifact_unchanged": true
+        },
+        "expected_sha256": "e19bca397d7b6b232905d3ad0346bcd134a5c1478292b95af5852e16735b0954",
+        "validator_sha256": "4dac95f5e7ad882ff2a28ae648a4c10b8bd553cc9dbb7bd7c814581ab2c8f451",
+        "performance_status": "NOT_ASSESSED",
+        "realtime_status": "NOT_ASSESSED",
+        "physical_audio_continuity_verified": null,
+        "public_approved": false,
+        "PASS_scope": "Independent captured PCM/coordinates/configuration audit only; no RT/performance/physical approval."
+      }
+    },
+    {
+      "exit": 0,
+      "summary": {
+        "schema": "adoption-independent-fixed-capture-summary-v1",
+        "status": "PASS",
+        "run_complete": true,
+        "expected": 5,
+        "executed": 5,
+        "passed": 5,
+        "checks": {
+          "independent_map": {
+            "status": "PASS",
+            "input_A": 1440000,
+            "input_B": 1444800,
+            "independent_OA": 1440000,
+            "independent_OB": 1444800,
+            "period_frames": 4800,
+            "boundary_frames": 240,
+            "native_completion": {
+              "schema": "AbNative.functional",
+              "functional_complete": true,
+              "reported_rt_pass": true,
+              "reported_performance_pass": false,
+              "reported_performance_exercised": true,
+              "RT_deadline_approval": null,
+              "interpretation": "Native completion prerequisite only; no RT/performance/physical approval is inferred."
+            },
+            "host_SHA_bound_in_capture": false
+          },
+          "raw_all_bits": {
+            "status": "PASS",
+            "frames": 65264,
+            "channels": 1,
+            "records": 134
+          },
+          "output_all_bits": {
+            "status": "PASS",
+            "frames": 65024,
+            "channels": 1,
+            "spans": 133,
+            "mixed_frames": 240,
+            "head_frames": 368,
+            "tail_frames": 480,
+            "arithmetic": "independent Equations(fused)",
+            "final_gain_applied": false
+          },
+          "coordinates": {
+            "status": "PASS",
+            "raw_sources_exactly_match_spans": true,
+            "periodic_source_intervals": 25,
+            "AB_boundary_exercised": true,
+            "callback_first_frame": 0,
+            "callback_end_frame": 65024
+          },
+          "gain": {
+            "status": "PASS",
+            "configured_final_gain": 0.5,
+            "scope": "Configuration source inspection only; captured/reference/output PCM all precede final gain.",
+            "physical_gain_verified": null,
+            "runtime_binary_gain_attestation": null,
+            "all_artifacts_unchanged": true
+          }
+        },
+        "reason": null,
+        "result": {
+          "channels": 1,
+          "rate": 48000,
+          "input_frames": 14400000,
+          "raw_frames": 65264,
+          "output_frames": 65024,
+          "records": 134,
+          "spans": 133,
+          "independent_OA": 1440000,
+          "independent_OB": 1444800,
+          "period_frames": 4800,
+          "boundary_frames": 240,
+          "mixed_frames": 240,
+          "native_reported": {
+            "schema": "AbNative.functional",
+            "functional_complete": true,
+            "reported_rt_pass": true,
+            "reported_performance_pass": false,
+            "reported_performance_exercised": true,
+            "RT_deadline_approval": null,
+            "interpretation": "Native completion prerequisite only; no RT/performance/physical approval is inferred."
+          },
+          "artifact_unchanged": true
+        },
+        "expected_sha256": "583859f2bd795572b373cf74d61a8daa24fd81dde46e4f2056acaa05ff2670c4",
+        "validator_sha256": "4dac95f5e7ad882ff2a28ae648a4c10b8bd553cc9dbb7bd7c814581ab2c8f451",
+        "performance_status": "NOT_ASSESSED",
+        "realtime_status": "NOT_ASSESSED",
+        "physical_audio_continuity_verified": null,
+        "public_approved": false,
+        "PASS_scope": "Independent captured PCM/coordinates/configuration audit only; no RT/performance/physical approval."
+      }
+    },
+    {
+      "exit": 0,
+      "summary": {
+        "schema": "adoption-independent-fixed-capture-summary-v1",
+        "status": "PASS",
+        "run_complete": true,
+        "expected": 5,
+        "executed": 5,
+        "passed": 5,
+        "checks": {
+          "independent_map": {
+            "status": "PASS",
+            "input_A": 1440000,
+            "input_B": 1444800,
+            "independent_OA": 1440000,
+            "independent_OB": 1444800,
+            "period_frames": 4800,
+            "boundary_frames": 240,
+            "native_completion": {
+              "schema": "AbNative.functional",
+              "functional_complete": true,
+              "reported_rt_pass": true,
+              "reported_performance_pass": true,
+              "reported_performance_exercised": true,
+              "RT_deadline_approval": null,
+              "interpretation": "Native completion prerequisite only; no RT/performance/physical approval is inferred."
+            },
+            "host_SHA_bound_in_capture": false
+          },
+          "raw_all_bits": {
+            "status": "PASS",
+            "frames": 65776,
+            "channels": 1,
+            "records": 135
+          },
+          "output_all_bits": {
+            "status": "PASS",
+            "frames": 65536,
+            "channels": 1,
+            "spans": 134,
+            "mixed_frames": 240,
+            "head_frames": 368,
+            "tail_frames": 480,
+            "arithmetic": "independent Equations(fused)",
+            "final_gain_applied": false
+          },
+          "coordinates": {
+            "status": "PASS",
+            "raw_sources_exactly_match_spans": true,
+            "periodic_source_intervals": 25,
+            "AB_boundary_exercised": true,
+            "callback_first_frame": 0,
+            "callback_end_frame": 65536
+          },
+          "gain": {
+            "status": "PASS",
+            "configured_final_gain": 0.5,
+            "scope": "Configuration source inspection only; captured/reference/output PCM all precede final gain.",
+            "physical_gain_verified": null,
+            "runtime_binary_gain_attestation": null,
+            "all_artifacts_unchanged": true
+          }
+        },
+        "reason": null,
+        "result": {
+          "channels": 1,
+          "rate": 48000,
+          "input_frames": 14400000,
+          "raw_frames": 65776,
+          "output_frames": 65536,
+          "records": 135,
+          "spans": 134,
+          "independent_OA": 1440000,
+          "independent_OB": 1444800,
+          "period_frames": 4800,
+          "boundary_frames": 240,
+          "mixed_frames": 240,
+          "native_reported": {
+            "schema": "AbNative.functional",
+            "functional_complete": true,
+            "reported_rt_pass": true,
+            "reported_performance_pass": true,
+            "reported_performance_exercised": true,
+            "RT_deadline_approval": null,
+            "interpretation": "Native completion prerequisite only; no RT/performance/physical approval is inferred."
+          },
+          "artifact_unchanged": true
+        },
+        "expected_sha256": "36a55e4dc033cbe65ee5545ccf174bfb7788d710ad9a5feb1f33329536b1b47f",
+        "validator_sha256": "4dac95f5e7ad882ff2a28ae648a4c10b8bd553cc9dbb7bd7c814581ab2c8f451",
+        "performance_status": "NOT_ASSESSED",
+        "realtime_status": "NOT_ASSESSED",
+        "physical_audio_continuity_verified": null,
+        "public_approved": false,
+        "PASS_scope": "Independent captured PCM/coordinates/configuration audit only; no RT/performance/physical approval."
+      }
+    },
+    {
+      "exit": 0,
+      "summary": {
+        "schema": "adoption-independent-fixed-capture-summary-v1",
+        "status": "PASS",
+        "run_complete": true,
+        "expected": 5,
+        "executed": 5,
+        "passed": 5,
+        "checks": {
+          "independent_map": {
+            "status": "PASS",
+            "input_A": 1440000,
+            "input_B": 1444800,
+            "independent_OA": 1440000,
+            "independent_OB": 1444800,
+            "period_frames": 4800,
+            "boundary_frames": 240,
+            "native_completion": {
+              "schema": "AbNative.functional",
+              "functional_complete": true,
+              "reported_rt_pass": true,
+              "reported_performance_pass": false,
+              "reported_performance_exercised": false,
+              "RT_deadline_approval": null,
+              "interpretation": "Native completion prerequisite only; no RT/performance/physical approval is inferred."
+            },
+            "host_SHA_bound_in_capture": false
+          },
+          "raw_all_bits": {
+            "status": "PASS",
+            "frames": 10240,
+            "channels": 1,
+            "records": 26
+          },
+          "output_all_bits": {
+            "status": "PASS",
+            "frames": 10240,
+            "channels": 1,
+            "spans": 26,
+            "mixed_frames": 0,
+            "head_frames": 368,
+            "tail_frames": 480,
+            "arithmetic": "independent Equations(fused)",
+            "final_gain_applied": false
+          },
+          "coordinates": {
+            "status": "PASS",
+            "raw_sources_exactly_match_spans": true,
+            "periodic_source_intervals": 25,
+            "AB_boundary_exercised": true,
+            "callback_first_frame": 0,
+            "callback_end_frame": 10240
+          },
+          "gain": {
+            "status": "PASS",
+            "configured_final_gain": 0.5,
+            "scope": "Configuration source inspection only; captured/reference/output PCM all precede final gain.",
+            "physical_gain_verified": null,
+            "runtime_binary_gain_attestation": null,
+            "all_artifacts_unchanged": true
+          }
+        },
+        "reason": null,
+        "result": {
+          "channels": 1,
+          "rate": 48000,
+          "input_frames": 14400000,
+          "raw_frames": 10240,
+          "output_frames": 10240,
+          "records": 26,
+          "spans": 26,
+          "independent_OA": 1440000,
+          "independent_OB": 1444800,
+          "period_frames": 4800,
+          "boundary_frames": 240,
+          "mixed_frames": 0,
+          "native_reported": {
+            "schema": "AbNative.functional",
+            "functional_complete": true,
+            "reported_rt_pass": true,
+            "reported_performance_pass": false,
+            "reported_performance_exercised": false,
+            "RT_deadline_approval": null,
+            "interpretation": "Native completion prerequisite only; no RT/performance/physical approval is inferred."
+          },
+          "artifact_unchanged": true
+        },
+        "expected_sha256": "6aa6e28392774b5fb8eb93aa2081afaf97513ccae5d3e81ea0a5cca1d747ce79",
+        "validator_sha256": "4dac95f5e7ad882ff2a28ae648a4c10b8bd553cc9dbb7bd7c814581ab2c8f451",
+        "performance_status": "NOT_ASSESSED",
+        "realtime_status": "NOT_ASSESSED",
+        "physical_audio_continuity_verified": null,
+        "public_approved": false,
+        "PASS_scope": "Independent captured PCM/coordinates/configuration audit only; no RT/performance/physical approval."
+      }
+    }
+  ]
+}

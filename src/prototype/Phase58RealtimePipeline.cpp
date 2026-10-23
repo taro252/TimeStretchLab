@@ -139,12 +139,12 @@ struct InputLease {
     }
     std::size_t checkpointBuilds=0;
     void pruneSeekCheckpoints(){std::vector<Checkpoint> old;{std::lock_guard lock(checkpointMutex);old.swap(checkpoints);}}
-    std::mutex identityMutex;std::chrono::steady_clock::time_point nextIdentityCheck{};std::exception_ptr identityFailure;
+    std::mutex identityMutex;std::chrono::steady_clock::time_point nextIdentityCheck{};std::exception_ptr identityFailure;std::atomic<bool> identityInvalid{false};
     void validateIdentity(bool force=false){
         std::lock_guard lock(identityMutex);if(identityFailure)std::rethrow_exception(identityFailure);
         const auto now=std::chrono::steady_clock::now();if(!force&&now<nextIdentityCheck)return;
         try{input.validate();nextIdentityCheck=std::chrono::steady_clock::now()+std::chrono::milliseconds(10);}
-        catch(...){identityFailure=std::current_exception();throw;}
+        catch(...){identityInvalid=true;identityFailure=std::current_exception();throw;}
     }
     explicit InputLease(const std::filesystem::path& p):input(p){}
 };
@@ -244,7 +244,7 @@ struct RealtimePipeline::Impl {
     bool localInitialized=false;
     std::atomic<std::size_t> localSeed{0},localBegin{0};std::atomic<double> localInitializeS{0};
     phase61::PublicationEnvelope envelope;
-    const std::uint64_t session=nextSession.fetch_add(1);const std::size_t lead;
+    const std::uint64_t session=nextSession.fetch_add(1);const std::size_t lead;std::size_t readyLead;
     Phase14AudioFifo fifo;
     std::thread analysisWorker,dspWorker,sampler;
     // Only the serialized lifecycle owner touches the std::thread objects.
@@ -306,7 +306,7 @@ struct RealtimePipeline::Impl {
     Impl(const std::filesystem::path& p,Configuration c):Impl(std::make_shared<InputLease>(p),c,false,0){}
     Impl(std::shared_ptr<InputLease> lease,Configuration c,bool seek,std::size_t at)
         :epochReservation(lease->reserveEpoch(c)),config(c),inputLease(std::move(lease)),input(inputLease->input),seeking(seek),seekInput(at),
-         envelope(input.rate,input.channels),lead(c.candidate?16384:12288),fifo(input.channels,16384){
+         envelope(input.rate,input.channels),lead(c.candidate?16384:12288),readyLead(lead),fifo(input.channels,16384){
         if(c.speedMicros<400000||c.speedMicros>2000000||c.speedMicros%10000||!c.analysisChunk||c.analysisChunk>131072||!std::isfinite(c.analysisDelayMs)||c.analysisDelayMs<0||!std::isfinite(c.dspDelayMs)||c.dspDelayMs<0)throw std::invalid_argument("Invalid Phase58 configuration");
         if(c.diagnosticEventLimit>262144)throw std::invalid_argument("Unbounded detail diagnostics");
         if(c.scheduling==WorkerScheduling::AudioWorkgroup&&(!c.residentInput||c.dspDelayMs))throw std::invalid_argument("Audio workgroup requires resident input and no synthetic DSP sleep");
@@ -413,7 +413,7 @@ struct RealtimePipeline::Impl {
         if(config.verifyPcm){for(std::size_t i=0;i<n;++i)for(std::size_t c=0;c<input.channels;++c)seekInterleaved[i*input.channels+c]=delivered[c][i];seekHash.update(seekInterleaved.data(),n*input.channels*sizeof(float));}
         seekPcmOffset+=n;seekPcmCount-=n;published.fetch_add(n);
         if(firstPublished.load()<0)firstPublished=elapsed();
-        if(published.load()-outputStart.load()>=std::min(lead,loopOutputEnd.load()?loopOutputEnd.load()-outputStart.load():lead)&&!ready.load()){
+        if(published.load()-outputStart.load()>=std::min(readyLead,loopOutputEnd.load()?loopOutputEnd.load()-outputStart.load():readyLead)&&!ready.load()){
             rememberCheckpoint(true);
             {std::lock_guard lock(mutex);inputAtReady=received.load();readyTime=elapsed();ready=true;}
             changed.notify_all();
@@ -878,7 +878,7 @@ struct RealtimePipeline::Impl {
         const auto demote=[&]{if(realtime->active()){realtimeNewCalls=realtimeNewCalls.load()+dspAllocations-allocationBase;realtimeAllocationsMeasured=countDspAllocations&&dspAllocationProbeAvailable;}return realtime->demote();};
             const auto begin=repeatBegin.load(),fixedEnd=loopOutputEnd.load(),length=fixedEnd-begin;auto end=fixedEnd;
             if(length<512)throw std::runtime_error("確定ループ周期が最小512フレーム未満です");
-            const bool cacheAllowed=length<=96000&&!(repeatBegin.load()==0&&loopInputEnd()==input.frames);
+            const bool cacheAllowed=!config.loopPreparationOnly&&length<=96000&&!(repeatBegin.load()==0&&loopInputEnd()==input.frames);
             for(std::size_t c=0;c<input.channels;++c)if(cacheAllowed)loopCache[c].resize(length);
             loopCacheBytes=cacheAllowed?length*input.channels*sizeof(float):0;
             std::uint64_t plansAtSeed=FFTAccelerate::threadPlanCreations();
@@ -1084,6 +1084,11 @@ struct RealtimePipeline::Impl {
                     loopASeedReady.store(true,std::memory_order_release);
                     rememberInitialCheckpoint(seed,position);
                     loopSeedCloneS=copy.elapsed().wallSeconds;loopSeedOutput=position;++loopSeedClones;plansAtSeed=FFTAccelerate::threadPlanCreations();loopFftPlans=plansAtSeed-plansBefore;
+                    if(config.loopPreparationOnly){
+                        loopColdPrefixS=cold.elapsed().wallSeconds;loopColdPrefixCpuS=cold.elapsed().threadCpuSeconds;
+                        {std::lock_guard lock(mutex);inputAtReady=received.load();readyTime=elapsed();ready=true;}
+                        changed.notify_all();return; // no A PCM, FIFO publication or callback adoption
+                    }
                 }
                 if(!realtime->beginInterval())throw std::runtime_error("再利用DSP区間開始に失敗しました");
                 playback::StageClock work;phase57::SynthesisState result;
@@ -1396,7 +1401,7 @@ std::size_t RealtimePipeline::outputStartFrame()const noexcept{return impl_->out
 std::uint64_t RealtimePipeline::inputGeneration()const noexcept{return impl_->inputLease->generation;}
 std::unique_ptr<RealtimePipeline> RealtimePipeline::createSeek(std::size_t frame,std::uint32_t speed)const{
     auto& x=*impl_;if(x.failure.load()||x.cancelled.load())throw std::logic_error("Seek from a failed/stopped epoch");
-    auto c=x.config;if(c.loopEndInputFrame&&c.scheduling==WorkerScheduling::AudioWorkgroup)c.dynamicTransitions=true;c.loopEndInputFrame=0;c.reusableLoop=false;c.loopBeginInputFrame=0;c.speedMicros=speed;c.fastLocalSeek=false;c.localPrerollInputFrames=0;
+    auto c=x.config;if(c.loopEndInputFrame&&c.scheduling==WorkerScheduling::AudioWorkgroup)c.dynamicTransitions=true;c.loopEndInputFrame=0;c.reusableLoop=false;c.loopPreparationOnly=false;c.loopBeginInputFrame=0;c.speedMicros=speed;c.fastLocalSeek=false;c.localPrerollInputFrames=0;
     auto result=std::unique_ptr<RealtimePipeline>(new RealtimePipeline(std::make_unique<Impl>(x.inputLease,c,true,frame)));
     x.inputLease->invalidateInitialPreparation();
     if(x.config.reusableLoop&&frame>=x.config.loopBeginInputFrame&&speed==x.config.speedMicros&&
@@ -1406,10 +1411,15 @@ std::unique_ptr<RealtimePipeline> RealtimePipeline::createSeek(std::size_t frame
 }
 std::unique_ptr<RealtimePipeline> RealtimePipeline::createFastLocalSeek(std::size_t frame,std::uint32_t speed,std::size_t preroll)const{
     auto& x=*impl_;if(x.failure.load()||x.cancelled.load())throw std::logic_error("Seek from a failed/stopped epoch");
-    auto c=x.config;if(c.loopEndInputFrame&&c.scheduling==WorkerScheduling::AudioWorkgroup)c.dynamicTransitions=true;c.loopEndInputFrame=0;c.reusableLoop=false;c.loopBeginInputFrame=0;c.speedMicros=speed;c.fastLocalSeek=true;c.localPrerollInputFrames=preroll?preroll:x.input.rate/2;
+    auto c=x.config;if(c.loopEndInputFrame&&c.scheduling==WorkerScheduling::AudioWorkgroup)c.dynamicTransitions=true;c.loopEndInputFrame=0;c.reusableLoop=false;c.loopPreparationOnly=false;c.loopBeginInputFrame=0;c.speedMicros=speed;c.fastLocalSeek=true;c.localPrerollInputFrames=preroll?preroll:x.input.rate/2;
     auto result=std::unique_ptr<RealtimePipeline>(new RealtimePipeline(std::make_unique<Impl>(x.inputLease,c,true,frame)));
     x.inputLease->invalidateInitialPreparation();return result;
 }
+std::unique_ptr<RealtimePipeline> RealtimePipeline::createLoopPreparation(std::size_t start,std::size_t end,std::uint32_t speed)const{
+    auto result=createLoopSeek(start,end,speed);result->enableLoopReuse(start);
+    result->impl_->config.loopPreparationOnly=true;return result;
+}
+void RealtimePipeline::discardLoopPreparation(){impl_->inputLease->invalidateInitialPreparation(true);}
 std::unique_ptr<RealtimePipeline> RealtimePipeline::createLoopSeek(std::size_t start,std::size_t end,std::uint32_t speed)const{
     if(start>=end||end>inputFrames())throw std::invalid_argument("ループは入力半開区間[A,B)です");
     auto result=createSeek(start,speed);auto& c=result->impl_->config;
@@ -1504,9 +1514,11 @@ Diagnostics RealtimePipeline::diagnostics()const{
     const auto& x=*impl_;Diagnostics d;std::lock_guard lock(x.mutex);
     d.lifecycle=x.lifecycle.load(std::memory_order_acquire);d.finalDataAvailable=d.lifecycle==LifecycleState::Finalized;
     d.session=x.session;d.analysisThread=x.analysisThread;d.dspThread=x.dspThread;d.snapshotVersion=x.version;
+    d.inputIdentityInvalid=x.inputLease->identityInvalid.load();
     d.inputGeneration=x.inputLease->generation;d.outputStartFrame=x.outputStart;d.discardedFrames=x.discarded;d.reusedInput=d.reusedAnalysis=x.seeking;
     d.sourceHashPasses=x.input.hashes();d.sourceSnapshotCreations=x.input.snapshots();d.residentLockCalls=x.input.locks();
     d.checkpointUsed=x.checkpointStart.load()!=0;d.checkpointStartFrame=x.checkpointStart;
+    d.readyLeadFrames=x.readyLead;d.steadyLeadFrames=x.lead;
     d.fastLocalSeek=x.config.fastLocalSeek;d.localSeedInput=x.localSeed;d.localBeginOutput=x.localBegin;
     d.localPrerollInputFrames=x.config.localPrerollInputFrames;d.localInitializeS=x.localInitializeS;
     {std::lock_guard checkpointLock(x.inputLease->checkpointMutex);d.checkpointResidentStates=x.inputLease->checkpoints.size();d.checkpointBuilds=x.inputLease->checkpointBuilds;}

@@ -49,7 +49,13 @@ struct FinalLoopSpeedAudit {
     std::uint64_t sequence=0;
     bool workersJoined=false,retirementComplete=false;
 };
+struct FinalOperationAudit;
+struct EpochOperationAudit;
 struct ProgressiveOptions {
+    // Concrete product configuration. Pending methods remain disabled; research
+    // access needs an explicit per-method Research policy. App F acceptance is
+    // separate from the engine's compiled per-method approval table.
+    static ProgressiveOptions macOSProduct(){ProgressiveOptions o;o.featurePolicy=progressive::FeaturePolicyOptions{};return o;}
     Preset preset=Preset::Candidate;
     double initialSpeed=1.00;
     std::uint64_t memoryReservationBudget=1024ULL*1024*1024;
@@ -64,7 +70,10 @@ struct ProgressiveOptions {
     void(*observeEpochPcm)(void*,const float*const*,std::size_t frames,std::size_t outputOffset,
         std::uint64_t inputGeneration,std::uint64_t renderEpoch,std::uint64_t session)noexcept=nullptr;
     RenderAllocationHooks allocationHooks{}; // explicit verification host only
-    bool allowExperimentalLoops=false; // Phase62, OFF / public NO-GO
+    bool allowExperimentalLoops=false; // legacy explicit research opt-in
+    // Explicit v3 settings override legacy booleans. Same resolved value controls
+    // reservation, owner budgets, finite observations, admission and diagnostics.
+    std::optional<progressive::FeaturePolicyOptions> featurePolicy;
     bool seekCheckpoints=true;
     bool measureControlCosts=false; // disabled in ordinary apps; normal-thread counters
     // Research opt-in only: long impulse-train quality is NOT approved.
@@ -81,6 +90,12 @@ struct ProgressiveOptions {
     prototype::phase58::ControlTestHooks pipelineControlTestHooks{};
     void* finalLoopSpeedAuditContext=nullptr;
     bool(*receiveFinalLoopSpeedAudit)(void*,const FinalLoopSpeedAudit&)noexcept=nullptr;
+    void* finalOperationAuditContext=nullptr;
+    bool(*receiveFinalOperationAudit)(void*,const FinalOperationAudit&)noexcept=nullptr;
+    // Normal thread only, after this owner joins and releases callback refs.
+    // Must copy before returning; no engine re-entry. false is audited.
+    void* finalEpochAuditContext=nullptr;
+    bool(*receiveFinalEpochAudit)(void*,const EpochOperationAudit&)noexcept=nullptr;
 };
 struct ProgressivePosition {
     std::uint64_t session=0,outputFrame=0;
@@ -115,7 +130,27 @@ struct StoppedSpeedOperation {
     progressive::SeekMode mode=progressive::SeekMode::Exact;
     std::string reason;
 };
+// Borrowed only for this normal destructor-thread call, after ALL joins.
+// Copy before returning; retain app engine/prepare UUIDs beside engineSerial.
+// Ordinary speed history is delivered by receiveFinalEpochAudit before the
+// bounded closed-history view is trimmed. Keep external UUIDs beside both.
+struct FinalOperationAudit {
+    std::uint64_t engineSerial=0,preparation=0;
+    std::span<const progressive::SeekOperation> seeks;
+    std::span<const StoppedSpeedOperation> stoppedSpeeds;
+    std::span<const progressive::LoopSpeedOperation> loopSpeeds;
+    std::span<const progressive::LoopPreparationOperation> loopPreparations;
+    bool workersJoined=false,retirementComplete=false;
+    std::uint64_t epochAuditCalls=0,epochAuditRejected=0;
+    bool epochAuditConfigured=false;
+};
+struct EpochOperationAudit {
+    std::uint64_t engineSerial=0,preparation=0,sequence=0,renderEpoch=0,session=0,inputGeneration=0;
+    std::span<const prototype::phase59::SpeedOperation> ordinarySpeeds;
+    bool preparedOnly=false,workersJoined=false,callbackReleased=false;
+};
 struct ProgressiveStateSnapshot {
+    progressive::AvailabilityReason failureCode=progressive::AvailabilityReason::Available;
     progressive::State state=progressive::State::Empty;
     StopReason reason=StopReason::None;
     std::uint64_t preparation=0,session=0,inputGeneration=0;
@@ -127,6 +162,11 @@ struct ProgressiveStateSnapshot {
     bool resumePending=false; // accepted intent; Playing means output actually started
 };
 struct ProgressiveDiagnostics {
+    unsigned contractVersion=progressive::contractVersion;
+    std::uint64_t engineSerial=0;
+    bool epochAuditConfigured=false;
+    std::uint64_t epochAuditCalls=0,epochAuditRejected=0;
+    progressive::EffectiveFeatures features;
     bool controlCostsMeasured=false;
     ControlCostValue monitorCost,syncLoopSpeedCost;
     std::uint64_t seekDispatchWakes=0;
@@ -185,6 +225,13 @@ public:
     static progressive::Capabilities capabilities() noexcept {return {};}
     progressive::SeekAvailability seekAvailability()const;
     progressive::LoopAvailability loopAvailability()const;
+    // A/B confirmed, no position change. At most one preparation; explicit
+    // user operations preempt it. Ready is visible only after owner retirement.
+    progressive::LoopReceipt requestLoopPreparation(std::uint64_t a,std::uint64_t b,progressive::LoopContext);
+    void cancelLoopPreparation();
+    progressive::LoopPreparationSnapshot loopPreparationSnapshot()const;
+    progressive::HistoryUsage historyUsage()const;
+    std::vector<progressive::LoopPreparationOperation> loopPreparationHistory()const;
     progressive::LoopReceipt requestLoopRange(std::uint64_t startFrame,std::uint64_t endFrameExclusive,progressive::LoopContext,progressive::LoopOptions={});
     // Clear matches loopID + input/session; epoch may have advanced automatically.
     progressive::LoopReceipt requestClearLoop(std::uint64_t loopID,progressive::LoopContext);
@@ -194,7 +241,7 @@ public:
     std::vector<progressive::LoopSpeedOperation> loopSpeedHistory()const; // engine lifetime, at most 4096 Accepted IDs
     std::optional<progressive::LoopSpeedOperation> loopSpeedOperation(std::uint64_t id)const;
     std::optional<LoopSpeedPcmEvidence> loopSpeedPcmEvidence(std::uint64_t id)const; // while current/retiring owner is retained; null is not PASS
-    bool prepare(const std::filesystem::path&,ProgressiveOptions={});
+    bool prepare(const std::filesystem::path&,ProgressiveOptions={},progressive::ContractV3Tag={});
     // play/resume true means accepted. During stopped preparation output starts
     // asynchronously only after the latest epoch is committed. pause also cancels
     // an accepted resume while still Ready/Paused. Poll state + resumePending.
@@ -213,7 +260,7 @@ public:
     progressive::SeekSnapshot getSeekSnapshot()const;
     std::vector<progressive::SeekOperation> seekHistory()const;
     std::vector<ProgressiveClosedEpoch> closedEpochs()const;
-    // v1 compatibility: false while the public seek capability gate is closed.
+    // v1 compatibility: static seek=true requires BOTH Exact and Interactive approval.
     // v2 clients use requestSeek* and distinguish acceptance from completion.
     bool seekToInputSeconds(double) noexcept;
     progressive::State getPlaybackState()const noexcept;

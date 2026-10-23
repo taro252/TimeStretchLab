@@ -164,3 +164,20 @@ Ready/Pausedの初回ReturnToAはAへ位置合わせして静止し、明示Play
 ## 2026-10-22 制御待機・Loop Clear再ON
 
 [制御負荷・AB入口](PHASE62_CONTROL_AB_PERFORMANCE.md)の修正後も、静止C、Resume前の最新Ready、準備中の再開意思と再Pause取消、Stop/入力/装置/close失効を維持する。仕事のないseek workerは要求通知待ちへ移した。通常Paused制御とLoop Clearの準備/採用/退役を区別し、PausedのClear再ONで自動再生しない。[新REPORT](../results/phase62_control_ab/REPORT.md)を追加根拠とし、過去の未解決・公開判断は閉じない。
+
+
+## 2026-10-23 正式採用作業Dへの追記
+
+上記のNO-GO/既定化禁止は当時の対象・証拠の記録として保存する。今回の正式採用指示に対する最新の方式別判断は [Progressive採用台帳](PROGRESSIVE_ADOPTION_PLAN.md) と [新実行REPORT](../results/progressive_adoption/REPORT.md) を参照する。過去の未達を成功へ書き換えない。
+
+能力契約はv3。ヘッダーと全archiveを同じ候補から再ビルドし、`prepare(..., ContractV3Tag)`のリンク記号でも混在を防ぐ。`ProgressiveOptions::macOSProduct()`はExact方式だけをApprovedOnlyで有効にする。Interactive/FastLocal、nativeLoop、現在周期速度の正式承認は未達を残す。旧包括`Capabilities.seek`/`publicSeekApproved`はfalseで、Exact単独の承認を隠さないよう`seekAvailability().exact`と`.interactive`を分けて読む。現在のMerodoaのInteractive要求をExactへ差し替えてはいない。
+
+Loop研究経路を使用する場合は、明示の方式別Research設定を渡す。同じ実効設定から24MiB追加予約、有限観測、受付、診断を導出する。[v3 API・理由コード・復旧](PROGRESSIVE_ADOPTION_API_V3.md) に従い、日本語理由文の文字列一致で制御しない。採用済み境界・退役待ち・範囲拒否・入力障害・上限到達を区別する。
+
+A/B確定後の準備だけには`requestLoopPreparation(A,B,context)`を使う。これは位置を変えず、最大1件の準備を行い、全join後に不変A保存点をReadyとして返す。ONは従来`requestLoopRange`で明示する。準備前のON/Playは先行準備を取消して操作を優先する。Ready前に旧PCMを消費せず、Pausedから自動再開しない。warm短縮をcold高速化としない。
+
+専用の非メイン直列制御キュー、engine/prepare UUID、inputGeneration/session/epoch/loopID/requestID、FD/security scope/PCM leaseの全join後解放は維持する。4096上限はStop→prepareでは回復しない。全Acceptedの終端を所有コピーとして回収し、close後、新UUIDのengineを作り、入力・静止C・速度・Loop・再開意思を明示復元する。ID1の再利用を旧engineと混同しない。
+
+Merodoa本体、依存gitlink、承認SHAはこの作業では変更しない。実アプリF、TCC、試聴、物理loopback、RTと性能の未達は[受入表](PROGRESSIVE_ADOPTION_F_ACCEPTANCE.md)で個別に閉じる。
+
+通常速度全終端の回収には`receiveFinalEpochAudit`も設定する。全join/参照解放後・256件切詰め前に所有コピーし、destructorの最終`epochAuditConfigured/Calls/Rejected`を照合する。新300Accepted cohortのRelease/Debug各56 checks PASSを既存Loop H<=1から独立に記録した。詳細と未達は上記最終REPORTを参照。

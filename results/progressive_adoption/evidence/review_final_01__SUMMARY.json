@@ -1,0 +1,393 @@
+{
+  "suite": "review",
+  "status": "INCOMPLETE_OR_FAIL",
+  "expected_programs": 14,
+  "executed_programs": 14,
+  "rows": [
+    {
+      "id": "a1_cancel_candidate",
+      "returncode": 0,
+      "timeout": false,
+      "wall_s": 0.7120129580143839,
+      "execution_complete": true,
+      "PASS": true,
+      "performance": "NOT_ASSESSED",
+      "summary": {
+        "schema": 1,
+        "suite": "phase62_adoption_review",
+        "mode": "a1_cancel",
+        "preset": "candidate",
+        "run_complete": true,
+        "status": "PASS",
+        "expected": 6,
+        "executed": 6,
+        "Accepted_IDs": [
+          2,
+          3
+        ],
+        "owner_peak": 2,
+        "owners_alive": 0,
+        "callback_cpp_new": 0,
+        "callback_malloc": 0,
+        "callback_free": 0,
+        "independent_DSP": "NOT_RUN",
+        "RT_deadline_approval": "NOT_ASSESSED",
+        "local_overall_go": false
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/review_final_01/a1_cancel_candidate.log",
+        "bytes": 352,
+        "sha256": "83e9951b6e94e7568f5f52255d7b7d56f1d9714ad725c3a9a6e6c34f54a6f2ad"
+      }
+    },
+    {
+      "id": "a1_started_candidate",
+      "returncode": 0,
+      "timeout": false,
+      "wall_s": 10.907004416978452,
+      "execution_complete": true,
+      "PASS": true,
+      "performance": "NOT_ASSESSED",
+      "summary": {
+        "schema": 1,
+        "suite": "phase62_adoption_review",
+        "mode": "a1_started",
+        "preset": "candidate",
+        "run_complete": true,
+        "status": "PASS",
+        "expected": 6,
+        "executed": 6,
+        "Accepted_IDs": [
+          2,
+          3
+        ],
+        "owner_peak": 2,
+        "owners_alive": 0,
+        "callback_cpp_new": 0,
+        "callback_malloc": 0,
+        "callback_free": 0,
+        "independent_DSP": "NOT_RUN",
+        "RT_deadline_approval": "NOT_ASSESSED",
+        "local_overall_go": false
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/review_final_01/a1_started_candidate.log",
+        "bytes": 353,
+        "sha256": "40b7d2bbd1e5023f975527b5cd5dc89bf2cd35779a4f93d7a35daef3ab3787c9"
+      }
+    },
+    {
+      "id": "a2_initial_supply_candidate",
+      "returncode": 1,
+      "timeout": false,
+      "wall_s": 0.1887887500342913,
+      "execution_complete": false,
+      "PASS": false,
+      "performance": "NOT_ASSESSED",
+      "summary": {
+        "schema": 1,
+        "suite": "phase62_adoption_review",
+        "mode": "a2_initial_supply",
+        "run_complete": false,
+        "status": "FAIL",
+        "expected": 6,
+        "executed": 0,
+        "reason": "A2は100ms以上かつ両PresetのFIFO先行量以下の短い全曲入力が必要"
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/review_final_01/a2_initial_supply_candidate.log",
+        "bytes": 84,
+        "sha256": "c5914f41a534918702eb3c230d1ac2f5c656f8e8780961cab6d5beae779fceda"
+      }
+    },
+    {
+      "id": "a2_checkpoint_supply_candidate",
+      "returncode": 1,
+      "timeout": false,
+      "wall_s": 0.19315333297709003,
+      "execution_complete": false,
+      "PASS": false,
+      "performance": "NOT_ASSESSED",
+      "summary": {
+        "schema": 1,
+        "suite": "phase62_adoption_review",
+        "mode": "a2_checkpoint_supply",
+        "run_complete": false,
+        "status": "FAIL",
+        "expected": 7,
+        "executed": 0,
+        "reason": "D09は500ms〜2秒の全曲入力を使う（推奨1秒）"
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/review_final_01/a2_checkpoint_supply_candidate.log",
+        "bytes": 59,
+        "sha256": "5ba1bef2b46055ef3dedf632a677528440a3e45adec498fa58cee5567436d37a"
+      }
+    },
+    {
+      "id": "a2_clear_started_candidate",
+      "returncode": 1,
+      "timeout": false,
+      "wall_s": 0.19868266599951312,
+      "execution_complete": false,
+      "PASS": false,
+      "performance": "NOT_ASSESSED",
+      "summary": {
+        "schema": 1,
+        "suite": "phase62_adoption_review",
+        "mode": "a2_clear_started",
+        "run_complete": false,
+        "status": "FAIL",
+        "expected": 7,
+        "executed": 0,
+        "reason": "A2 Clear競合は正確に1秒の全曲入力を使う"
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/review_final_01/a2_clear_started_candidate.log",
+        "bytes": 55,
+        "sha256": "c59ae9e263443412beb0f7eb94a541b281e4faf6188a10ca45ecc236e3a1ec36"
+      }
+    },
+    {
+      "id": "f01_dsp_done_candidate",
+      "returncode": 1,
+      "timeout": false,
+      "wall_s": 0.19204225001158193,
+      "execution_complete": false,
+      "PASS": false,
+      "performance": "NOT_ASSESSED",
+      "summary": {
+        "schema": 1,
+        "suite": "phase62_adoption_review",
+        "mode": "f01_dsp_done",
+        "run_complete": false,
+        "status": "FAIL",
+        "expected": 7,
+        "executed": 0,
+        "reason": "F01 dspDone条件は100ms以上・12288フレーム以下の短い全曲入力を使う"
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/review_final_01/f01_dsp_done_candidate.log",
+        "bytes": 88,
+        "sha256": "2f8d1590000dd13d1d71a64c974a2fba1700456f671731317ca717e24a92af45"
+      }
+    },
+    {
+      "id": "f01_checkpoint_candidate",
+      "returncode": 1,
+      "timeout": false,
+      "wall_s": 0.20209700003033504,
+      "execution_complete": false,
+      "PASS": false,
+      "performance": "NOT_ASSESSED",
+      "summary": {
+        "schema": 1,
+        "suite": "phase62_adoption_review",
+        "mode": "f01_checkpoint",
+        "run_complete": false,
+        "status": "FAIL",
+        "expected": 7,
+        "executed": 0,
+        "reason": "F01 checkpoint条件は正確に1秒の全曲入力を使う"
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/review_final_01/f01_checkpoint_candidate.log",
+        "bytes": 61,
+        "sha256": "e0f0b758d889d91aeefbe0d0aafecbf3d20dca1398421c67c48370d67cbc684d"
+      }
+    },
+    {
+      "id": "a1_cancel_baseline",
+      "returncode": 0,
+      "timeout": false,
+      "wall_s": 0.29896404198370874,
+      "execution_complete": true,
+      "PASS": true,
+      "performance": "NOT_ASSESSED",
+      "summary": {
+        "schema": 1,
+        "suite": "phase62_adoption_review",
+        "mode": "a1_cancel",
+        "preset": "baseline",
+        "run_complete": true,
+        "status": "PASS",
+        "expected": 6,
+        "executed": 6,
+        "Accepted_IDs": [
+          2,
+          3
+        ],
+        "owner_peak": 2,
+        "owners_alive": 0,
+        "callback_cpp_new": 0,
+        "callback_malloc": 0,
+        "callback_free": 0,
+        "independent_DSP": "NOT_RUN",
+        "RT_deadline_approval": "NOT_ASSESSED",
+        "local_overall_go": false
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/review_final_01/a1_cancel_baseline.log",
+        "bytes": 351,
+        "sha256": "161e46aafebabb5023c2ecd066eae0035f995c6a047b50f6ec76c5bba22f5c7f"
+      }
+    },
+    {
+      "id": "a1_started_baseline",
+      "returncode": 0,
+      "timeout": false,
+      "wall_s": 10.90170416701585,
+      "execution_complete": true,
+      "PASS": true,
+      "performance": "NOT_ASSESSED",
+      "summary": {
+        "schema": 1,
+        "suite": "phase62_adoption_review",
+        "mode": "a1_started",
+        "preset": "baseline",
+        "run_complete": true,
+        "status": "PASS",
+        "expected": 6,
+        "executed": 6,
+        "Accepted_IDs": [
+          2,
+          3
+        ],
+        "owner_peak": 2,
+        "owners_alive": 0,
+        "callback_cpp_new": 0,
+        "callback_malloc": 0,
+        "callback_free": 0,
+        "independent_DSP": "NOT_RUN",
+        "RT_deadline_approval": "NOT_ASSESSED",
+        "local_overall_go": false
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/review_final_01/a1_started_baseline.log",
+        "bytes": 352,
+        "sha256": "2ca3b3202a24fd45a80f7501eee704a03d769ca5f9a785b61d463c050e60b3fd"
+      }
+    },
+    {
+      "id": "a2_initial_supply_baseline",
+      "returncode": 1,
+      "timeout": false,
+      "wall_s": 0.1439269170514308,
+      "execution_complete": false,
+      "PASS": false,
+      "performance": "NOT_ASSESSED",
+      "summary": {
+        "schema": 1,
+        "suite": "phase62_adoption_review",
+        "mode": "a2_initial_supply",
+        "run_complete": false,
+        "status": "FAIL",
+        "expected": 6,
+        "executed": 0,
+        "reason": "A2は100ms以上かつ両PresetのFIFO先行量以下の短い全曲入力が必要"
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/review_final_01/a2_initial_supply_baseline.log",
+        "bytes": 84,
+        "sha256": "c5914f41a534918702eb3c230d1ac2f5c656f8e8780961cab6d5beae779fceda"
+      }
+    },
+    {
+      "id": "a2_checkpoint_supply_baseline",
+      "returncode": 1,
+      "timeout": false,
+      "wall_s": 0.1917964589665644,
+      "execution_complete": false,
+      "PASS": false,
+      "performance": "NOT_ASSESSED",
+      "summary": {
+        "schema": 1,
+        "suite": "phase62_adoption_review",
+        "mode": "a2_checkpoint_supply",
+        "run_complete": false,
+        "status": "FAIL",
+        "expected": 7,
+        "executed": 0,
+        "reason": "D09は500ms〜2秒の全曲入力を使う（推奨1秒）"
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/review_final_01/a2_checkpoint_supply_baseline.log",
+        "bytes": 59,
+        "sha256": "5ba1bef2b46055ef3dedf632a677528440a3e45adec498fa58cee5567436d37a"
+      }
+    },
+    {
+      "id": "a2_clear_started_baseline",
+      "returncode": 1,
+      "timeout": false,
+      "wall_s": 0.2052027500467375,
+      "execution_complete": false,
+      "PASS": false,
+      "performance": "NOT_ASSESSED",
+      "summary": {
+        "schema": 1,
+        "suite": "phase62_adoption_review",
+        "mode": "a2_clear_started",
+        "run_complete": false,
+        "status": "FAIL",
+        "expected": 7,
+        "executed": 0,
+        "reason": "A2 Clear競合は正確に1秒の全曲入力を使う"
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/review_final_01/a2_clear_started_baseline.log",
+        "bytes": 55,
+        "sha256": "c59ae9e263443412beb0f7eb94a541b281e4faf6188a10ca45ecc236e3a1ec36"
+      }
+    },
+    {
+      "id": "f01_dsp_done_baseline",
+      "returncode": 1,
+      "timeout": false,
+      "wall_s": 0.2024752909783274,
+      "execution_complete": false,
+      "PASS": false,
+      "performance": "NOT_ASSESSED",
+      "summary": {
+        "schema": 1,
+        "suite": "phase62_adoption_review",
+        "mode": "f01_dsp_done",
+        "run_complete": false,
+        "status": "FAIL",
+        "expected": 7,
+        "executed": 0,
+        "reason": "F01 dspDone条件は100ms以上・12288フレーム以下の短い全曲入力を使う"
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/review_final_01/f01_dsp_done_baseline.log",
+        "bytes": 88,
+        "sha256": "2f8d1590000dd13d1d71a64c974a2fba1700456f671731317ca717e24a92af45"
+      }
+    },
+    {
+      "id": "f01_checkpoint_baseline",
+      "returncode": 1,
+      "timeout": false,
+      "wall_s": 0.19457020901609212,
+      "execution_complete": false,
+      "PASS": false,
+      "performance": "NOT_ASSESSED",
+      "summary": {
+        "schema": 1,
+        "suite": "phase62_adoption_review",
+        "mode": "f01_checkpoint",
+        "run_complete": false,
+        "status": "FAIL",
+        "expected": 7,
+        "executed": 0,
+        "reason": "F01 checkpoint条件は正確に1秒の全曲入力を使う"
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/review_final_01/f01_checkpoint_baseline.log",
+        "bytes": 61,
+        "sha256": "e0f0b758d889d91aeefbe0d0aafecbf3d20dca1398421c67c48370d67cbc684d"
+      }
+    }
+  ],
+  "physical_audio": null
+}

@@ -1,0 +1,163 @@
+{
+  "source": "302ac6b3a24423d86b02451297a49447093852f62cc8dcf8459bf06dcfb26e2b",
+  "expected": 7,
+  "executed": 7,
+  "PASS": true,
+  "rows": [
+    {
+      "id": "debug_build",
+      "command": [
+        "/usr/local/bin/python3",
+        "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab/results/phase62_control_ab/recipes/build_suite.py",
+        "--source",
+        "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab",
+        "--build",
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/debug",
+        "--record",
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/build_debug_01",
+        "--config",
+        "Debug",
+        "--targets",
+        "progressive_adoption_contract_tests",
+        "progressive_adoption_native_tests"
+      ],
+      "exit": 0,
+      "timeout": false,
+      "wall_s": 46.31016804196406,
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/build_variants_01/debug_build.log",
+        "bytes": 11,
+        "sha256": "1217d90be083bf6ac0d7f961cf4f14e473719fdb7321be0ea7a00d7ab421f98a"
+      }
+    },
+    {
+      "id": "debug_contract",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/debug/progressive_adoption_contract_tests"
+      ],
+      "exit": 0,
+      "timeout": false,
+      "wall_s": 0.5493073330144398,
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/build_variants_01/debug_contract.log",
+        "bytes": 2425,
+        "sha256": "671da77de83658f99570ae5a50ab652ac6b9ab5d9ed6a864c2acd66f8fbf7280"
+      }
+    },
+    {
+      "id": "debug_native",
+      "command": [
+        "/usr/local/bin/python3",
+        "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab/results/progressive_adoption/recipes/run_native_suite.py",
+        "--build-record",
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/build_debug_01/BUILD.json",
+        "--input",
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/inputs/mono48_16s.wav",
+        "--output",
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/debug_native_01",
+        "--modes",
+        "prewarm_ready"
+      ],
+      "exit": 0,
+      "timeout": false,
+      "wall_s": 4.927474042051472,
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/build_variants_01/debug_native.log",
+        "bytes": 57,
+        "sha256": "7bfd4efdd56ec9e540b91a1d1339688e26c1761876c47891bc507b7830eb8826"
+      }
+    },
+    {
+      "id": "ios_simulator_headers",
+      "command": [
+        "/usr/bin/xcrun",
+        "clang++",
+        "-std=c++20",
+        "-target",
+        "arm64-apple-ios17.0-simulator",
+        "-isysroot",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk",
+        "-I/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab/src",
+        "-fsyntax-only",
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/build_variants_01/SharedHeaders.cpp"
+      ],
+      "exit": 0,
+      "timeout": false,
+      "wall_s": 2.424946582992561,
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/build_variants_01/ios_simulator_headers.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "ios_device_headers",
+      "command": [
+        "/usr/bin/xcrun",
+        "clang++",
+        "-std=c++20",
+        "-target",
+        "arm64-apple-ios17.0",
+        "-isysroot",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk",
+        "-I/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab/src",
+        "-fsyntax-only",
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/build_variants_01/SharedHeaders.cpp"
+      ],
+      "exit": 0,
+      "timeout": false,
+      "wall_s": 2.2803845410235226,
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/build_variants_01/ios_device_headers.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "ios_app_build",
+      "command": [
+        "/usr/bin/xcodebuild",
+        "-project",
+        "/Users/taro252/Docker/merodoa/Merodoa.xcodeproj",
+        "-scheme",
+        "Merodoa",
+        "-configuration",
+        "Debug",
+        "-sdk",
+        "iphonesimulator",
+        "-destination",
+        "generic/platform=iOS Simulator",
+        "-derivedDataPath",
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/ios_derived",
+        "CODE_SIGNING_ALLOWED=NO",
+        "build"
+      ],
+      "exit": 0,
+      "timeout": false,
+      "wall_s": 25.667568832985125,
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/build_variants_01/ios_app_build.log",
+        "bytes": 236541,
+        "sha256": "b952e4847839580eb65e7f30d22c162797f791b979fb3c10212c1d462761798e"
+      }
+    },
+    {
+      "id": "repo_unchanged",
+      "command": [
+        "/usr/bin/git",
+        "-C",
+        "/Users/taro252/Docker/merodoa",
+        "status",
+        "--porcelain=v1"
+      ],
+      "exit": 0,
+      "timeout": false,
+      "wall_s": 2.6682323340210132,
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/build_variants_01/repo_unchanged.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ]
+}

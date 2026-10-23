@@ -13,7 +13,7 @@ int main(){try{
         for(double s:{-1.,-.000001,std::numeric_limits<double>::infinity(),std::numeric_limits<double>::quiet_NaN()})rejects([&]{inputFrameForSeconds(s,rate,n);});
     }
     for(unsigned p=40;p<=200;++p)require(speedMicros(p/100.)==p*10000);
-    require(Capabilities{}.contractVersion==2&&Capabilities{}.seekRequests&&!Capabilities{}.seek);
+    require(Capabilities{}.contractVersion==3&&Capabilities{}.seekRequests&&!Capabilities{}.seek);
     require(Capabilities{}.maxConcurrentSessions==1&&Capabilities{}.maxRenderEpochs==2);
     for(auto s:{SeekState::Pending,SeekState::Preparing,SeekState::Ready})require(!terminal(s));
     for(auto s:{SeekState::Completed,SeekState::Replaced,SeekState::Cancelled,SeekState::Rejected,SeekState::Failed})require(terminal(s));

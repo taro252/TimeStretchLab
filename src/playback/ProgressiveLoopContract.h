@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <string>
 #include <optional>
+#include "playback/ProgressiveFeatureContract.h"
 namespace ts::playback::progressive {
 enum class LoopState {Disabled,Pending,Preparing,Armed,Active,Cancelled,Rejected,Failed};
 inline const char* name(LoopState s)noexcept{
@@ -12,7 +13,27 @@ inline const char* name(LoopState s)noexcept{
 enum class LoopStartPolicy {ReturnToA,KeepPosition};
 struct LoopContext {std::uint64_t inputGeneration=0,session=0,renderEpoch=0;};
 struct LoopOptions {LoopStartPolicy startPolicy=LoopStartPolicy::ReturnToA;};
-struct LoopReceipt {std::uint64_t id=0;bool accepted=false;std::string reason;};
+struct LoopReceipt {std::uint64_t id=0;bool accepted=false;std::string reason;AvailabilityReason code=AvailabilityReason::Available;};
+// Preparation is explicit, bounded and never changes playback position.
+enum class LoopPreparationState {Pending,Preparing,Cancelling,Ready,Replaced,Cancelled,Failed};
+inline bool terminal(LoopPreparationState s)noexcept{return s==LoopPreparationState::Ready||s==LoopPreparationState::Replaced||s==LoopPreparationState::Cancelled||s==LoopPreparationState::Failed;}
+inline const char* name(LoopPreparationState s)noexcept{switch(s){
+case LoopPreparationState::Pending:return "Pending";case LoopPreparationState::Preparing:return "Preparing";
+case LoopPreparationState::Cancelling:return "Cancelling";case LoopPreparationState::Ready:return "Ready";
+case LoopPreparationState::Replaced:return "Replaced";case LoopPreparationState::Cancelled:return "Cancelled";
+case LoopPreparationState::Failed:return "Failed";}return "Unknown";}
+struct LoopPreparationOperation {
+    std::uint64_t id=0,inputGeneration=0,session=0,sourceRenderEpoch=0,version=0;
+    std::uint64_t inputA=0,inputBExclusive=0,acceptedNs=0,startedNs=0,checkpointReadyNs=0,readyNs=0;
+    std::uint64_t checkpointOutput=0,discardedFrames=0;
+    std::uint32_t speedMicros=0;
+    LoopPreparationState state=LoopPreparationState::Pending;
+    AvailabilityReason code=AvailabilityReason::Available;
+    double prefixCpuS=0,prefixWallS=0;
+    bool workersJoined=false;
+    std::string reason;
+};
+struct LoopPreparationSnapshot {std::optional<LoopPreparationOperation> latest;bool available=false;};
 enum class LoopSpeedReceiptCode {Accepted,Duplicate,DuplicateInitial,InvalidContext,StaleContext,NoInput,NoLoop,ClearPending,LimitReached,Busy,Stopped};
 struct LoopSpeedReceipt {std::uint64_t id=0;bool accepted=false,duplicate=false;std::string reason;LoopSpeedReceiptCode code=LoopSpeedReceiptCode::Stopped;};
 enum class LoopSpeedState {Pending,Preparing,ReadyForResume,Committed,FixedBoundaryCommitted,Applied,Completed,Replaced,Cancelled,Failed};
@@ -69,7 +90,10 @@ struct LoopSnapshot {
 };
 struct LoopAvailability {
     bool implemented=true,optIn=false,allowed=false,publicLoopApproved=false;
-    bool currentCycleSpeedChanges=false; // partial implementation; full integration gates remain open
+    bool currentCycleSpeedChanges=false; // supported method; individual requests may defer to a protected B
+    bool currentCycleSpeedImplemented=true;
+    unsigned contractVersion=progressive::contractVersion;
+    FeatureAvailability nativeLoops;
     std::uint32_t minimumInputMillis=100,maximumCallbackFrames=4096;
 };
 inline bool validLoopRange(std::uint64_t a,std::uint64_t b,std::uint64_t frames)noexcept{return a<b&&b<=frames;}

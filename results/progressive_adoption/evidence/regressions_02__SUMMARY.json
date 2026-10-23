@@ -1,0 +1,198 @@
+{
+  "status": "PASS",
+  "expected_programs": 7,
+  "executed_programs": 7,
+  "rows": [
+    {
+      "id": "stopped_speed",
+      "returncode": 0,
+      "timeout": false,
+      "wall_s": 8.64562870800728,
+      "PASS": true,
+      "summary": null,
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/regressions_02/stopped_speed.log",
+        "bytes": 183,
+        "sha256": "d980e92cfe67f044127d41fc41d6ad5149fa365d2a88025b130bc0592341f853"
+      }
+    },
+    {
+      "id": "summary_candidate",
+      "returncode": 0,
+      "timeout": false,
+      "wall_s": 0.27189862495288253,
+      "PASS": true,
+      "summary": {
+        "suite": "phase62_control_summary",
+        "status": "PASS",
+        "expected": 24,
+        "executed": 24,
+        "passed": 24,
+        "run_complete": true,
+        "reason": "",
+        "audio_device": false,
+        "callback": false,
+        "independent_pcm": false,
+        "native_getters_exercised": false
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/regressions_02/summary_candidate.log",
+        "bytes": 67,
+        "sha256": "421e5da9325c1d0aa78a881a9ac74441b9f79dc3197abfc08ad7e51859e3bcfd"
+      }
+    },
+    {
+      "id": "limit_candidate",
+      "returncode": 0,
+      "timeout": false,
+      "wall_s": 0.41459166700951755,
+      "PASS": true,
+      "summary": {
+        "schema": 1,
+        "status": "PASS",
+        "run_complete": true,
+        "expected": 10,
+        "executed": 10,
+        "passed": 10,
+        "source": "8a17ac261f20470b6cfb3c00bbb3c0eb7c11ece0d63e1bfefbc7c44985dc8b58",
+        "preset": "candidate",
+        "real_seek_limit": 4096,
+        "old_recovered": 4096,
+        "new_recovered": 1,
+        "old_engine_serial": 1,
+        "new_engine_serial": 2,
+        "owner_alive": 0,
+        "owner_peak": 2,
+        "audio_playback": "NOT_RUN",
+        "performance": "NOT_ASSESSED",
+        "native_control_threads": 1,
+        "callback_gate": false,
+        "reason": ""
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/regressions_02/limit_candidate.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "summary_baseline",
+      "returncode": 0,
+      "timeout": false,
+      "wall_s": 0.25491274998057634,
+      "PASS": true,
+      "summary": {
+        "suite": "phase62_control_summary",
+        "status": "PASS",
+        "expected": 24,
+        "executed": 24,
+        "passed": 24,
+        "run_complete": true,
+        "reason": "",
+        "audio_device": false,
+        "callback": false,
+        "independent_pcm": false,
+        "native_getters_exercised": false
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/regressions_02/summary_baseline.log",
+        "bytes": 67,
+        "sha256": "421e5da9325c1d0aa78a881a9ac74441b9f79dc3197abfc08ad7e51859e3bcfd"
+      }
+    },
+    {
+      "id": "limit_baseline",
+      "returncode": 0,
+      "timeout": false,
+      "wall_s": 0.41412620805203915,
+      "PASS": true,
+      "summary": {
+        "schema": 1,
+        "status": "PASS",
+        "run_complete": true,
+        "expected": 10,
+        "executed": 10,
+        "passed": 10,
+        "source": "8a17ac261f20470b6cfb3c00bbb3c0eb7c11ece0d63e1bfefbc7c44985dc8b58",
+        "preset": "baseline",
+        "real_seek_limit": 4096,
+        "old_recovered": 4096,
+        "new_recovered": 1,
+        "old_engine_serial": 1,
+        "new_engine_serial": 2,
+        "owner_alive": 0,
+        "owner_peak": 2,
+        "audio_playback": "NOT_RUN",
+        "performance": "NOT_ASSESSED",
+        "native_control_threads": 1,
+        "callback_gate": false,
+        "reason": ""
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/regressions_02/limit_baseline.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "input_dynamic",
+      "returncode": 0,
+      "timeout": false,
+      "wall_s": 4.131069707975257,
+      "PASS": true,
+      "summary": {
+        "suite": "phase62_input_watch_offline",
+        "status": "PASS",
+        "run_complete": true,
+        "expected": 26,
+        "executed": 26,
+        "passed": 26,
+        "owner_peak": 2,
+        "owners_alive": 0,
+        "chmod_cases": 5,
+        "permission_open_denial_exercised": 5,
+        "permission_loss_detection_status": "EXERCISED",
+        "paused_scope": "offline consumed then stationary; native Pause is not exercised",
+        "duplicate_check_reduction": "NOT_ASSESSED",
+        "input_fixtures": "new unique copies only; original INPUT unchanged",
+        "RT_deadline_approval": "NOT_ASSESSED",
+        "public_go": false
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/regressions_02/input_dynamic.log",
+        "bytes": 48,
+        "sha256": "37d356b7233457f69afd889485d2bfeb4534fdfc4f02cb821c3b4ce114cc93f8"
+      }
+    },
+    {
+      "id": "input_standard",
+      "returncode": 0,
+      "timeout": false,
+      "wall_s": 4.291216415993404,
+      "PASS": true,
+      "summary": {
+        "suite": "phase62_input_watch_offline",
+        "status": "PASS",
+        "run_complete": true,
+        "expected": 26,
+        "executed": 26,
+        "passed": 26,
+        "owner_peak": 2,
+        "owners_alive": 0,
+        "chmod_cases": 5,
+        "permission_open_denial_exercised": 5,
+        "permission_loss_detection_status": "EXERCISED",
+        "paused_scope": "offline consumed then stationary; native Pause is not exercised",
+        "duplicate_check_reduction": "NOT_ASSESSED",
+        "input_fixtures": "new unique copies only; original INPUT unchanged",
+        "RT_deadline_approval": "NOT_ASSESSED",
+        "public_go": false
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/regressions_02/input_standard.log",
+        "bytes": 49,
+        "sha256": "f0c5272152bcb8cb7ef25d3d5a17ed27b0a59918e8cb203da4900db1dadbb49b"
+      }
+    }
+  ]
+}

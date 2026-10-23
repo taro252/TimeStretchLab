@@ -51,6 +51,7 @@ struct Configuration {
     std::size_t localPrerollInputFrames=0;
     std::size_t loopEndInputFrame=0; // Phase62 bounded exact epoch; 0 disables.
     bool reusableLoop=false;
+    bool loopPreparationOnly=false; // explicit prewarm factory: save A, publish no PCM, finish
     std::size_t loopBeginInputFrame=0;
     bool localPublicationFade=true; // Legacy experiment; Interactive mixes at output.
     LifecycleTestHooks lifecycleTestHooks{};
@@ -110,6 +111,7 @@ struct Diagnostics {
     std::size_t sourceSnapshotBytes=0;
     std::size_t residentInputBytes=0,borrowedSnapshotOwners=0;
     bool dynamicTransitions=false;
+    bool inputIdentityInvalid=false; // selected path / held FD validation failed; latched per lease
     std::size_t transitionOperations=0,transitionMapOwners=0,transitionHistory=0,transitionMapPeakBytes=0;
     std::size_t transitionPlanAttempts=0,transitionStaleReplans=0,transitionAnalysisDeferrals=0;
     double transitionPlanCpuS=0,transitionPlanWallS=0;
@@ -148,6 +150,7 @@ struct Diagnostics {
     bool checkpointUsed=false;
     std::size_t checkpointStartFrame=0,checkpointResidentStates=0,checkpointBuilds=0;
     bool fastLocalSeek=false;
+    std::size_t readyLeadFrames=0,steadyLeadFrames=0,fifoCapacityFrames=16384;
     std::size_t localSeedInput=0,localBeginOutput=0,localPrerollInputFrames=0;
     double localInitializeS=0;
     LifecycleState lifecycle=LifecycleState::Unstarted;
@@ -225,6 +228,8 @@ public:
     std::unique_ptr<RealtimePipeline> createFastLocalSeek(std::size_t inputFrame,std::uint32_t speedMicros,std::size_t prerollInputFrames=0)const;
     std::unique_ptr<RealtimePipeline> createInteractiveSeek(std::size_t inputFrame,std::uint32_t speedMicros,std::size_t prerollInputFrames=0)const;
     // Phase62: exact DSP, finite FIFO, shared input/analysis; no whole-song PCM cache.
+    std::unique_ptr<RealtimePipeline> createLoopPreparation(std::size_t start,std::size_t end,std::uint32_t speed)const;
+    void discardLoopPreparation(); // normal thread, invalidate the optional inert A seed
     std::unique_ptr<RealtimePipeline> createLoopSeek(std::size_t start,std::size_t end,std::uint32_t speed)const;
     void enableLoopReuse(std::size_t rangeStartInputFrame); // before start; same immutable program only
     void setLoopSupplyLimitForTest(std::size_t frames); // before start; finite producer ceiling >= Ready lead

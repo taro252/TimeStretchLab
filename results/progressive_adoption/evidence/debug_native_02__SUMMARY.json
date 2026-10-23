@@ -1,0 +1,97 @@
+{
+  "status": "PARTIAL_PASS",
+  "execution_complete": true,
+  "full_suite_complete": false,
+  "expected_programs": 2,
+  "executed_programs": 2,
+  "expected_checks": 16,
+  "executed_checks": 16,
+  "rows": [
+    {
+      "id": "prewarm_ready_candidate",
+      "mode": "prewarm_ready",
+      "preset": "candidate",
+      "required_ids": [
+        "prewarm_ready.feature_configuration",
+        "prewarm_ready.initial_ready_lead",
+        "prewarm_ready.preparation_receipt",
+        "prewarm_ready.action_state",
+        "prewarm_ready.preparation_history",
+        "prewarm_ready.stationary_or_adoption",
+        "prewarm_ready.resources",
+        "prewarm_ready.final_owned_audit"
+      ],
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/debug/progressive_adoption_native_tests",
+        "prewarm_ready",
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/inputs/mono48_16s.wav",
+        "candidate",
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/debug_native_02/prewarm_ready_candidate",
+        "2dae7749b928a72c36a8942563071ff073d89883012af77fb3822342453de392"
+      ],
+      "status": "PASS",
+      "returncode": 0,
+      "timeout": false,
+      "wall_s": 2.3371183339622803,
+      "summary": {
+        "status": "PASS",
+        "run_complete": true,
+        "expected": 8,
+        "executed": 8,
+        "mode": "prewarm_ready",
+        "source": "2dae7749b928a72c36a8942563071ff073d89883012af77fb3822342453de392",
+        "owner_alive": 0,
+        "owner_peak": 2,
+        "callback_gate": false,
+        "independent_PCM": "NOT_RUN",
+        "RT_deadline_approval": "NOT_ASSESSED",
+        "reason": ""
+      },
+      "check_ids_exact": true
+    },
+    {
+      "id": "prewarm_ready_baseline",
+      "mode": "prewarm_ready",
+      "preset": "baseline",
+      "required_ids": [
+        "prewarm_ready.feature_configuration",
+        "prewarm_ready.initial_ready_lead",
+        "prewarm_ready.preparation_receipt",
+        "prewarm_ready.action_state",
+        "prewarm_ready.preparation_history",
+        "prewarm_ready.stationary_or_adoption",
+        "prewarm_ready.resources",
+        "prewarm_ready.final_owned_audit"
+      ],
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/debug/progressive_adoption_native_tests",
+        "prewarm_ready",
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/inputs/mono48_16s.wav",
+        "baseline",
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/debug_native_02/prewarm_ready_baseline",
+        "2dae7749b928a72c36a8942563071ff073d89883012af77fb3822342453de392"
+      ],
+      "status": "PASS",
+      "returncode": 0,
+      "timeout": false,
+      "wall_s": 1.824059708043933,
+      "summary": {
+        "status": "PASS",
+        "run_complete": true,
+        "expected": 8,
+        "executed": 8,
+        "mode": "prewarm_ready",
+        "source": "2dae7749b928a72c36a8942563071ff073d89883012af77fb3822342453de392",
+        "owner_alive": 0,
+        "owner_peak": 2,
+        "callback_gate": false,
+        "independent_PCM": "NOT_RUN",
+        "RT_deadline_approval": "NOT_ASSESSED",
+        "reason": ""
+      },
+      "check_ids_exact": true
+    }
+  ],
+  "quality_gate": false,
+  "RT_gate": false
+}

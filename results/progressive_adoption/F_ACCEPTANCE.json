@@ -1,0 +1,714 @@
+{
+  "schema": "progressive-adoption-F-acceptance-v1",
+  "created_utc": "2026-10-23T06:22:51.128824+00:00",
+  "status": "NOT_RUN",
+  "run_complete": false,
+  "overall_approved": null,
+  "source_root": "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab",
+  "asset_root": "/Users/taro252/Docker/TimeStretchLab",
+  "documentation": {
+    "path": "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab/docs/PROGRESSIVE_ADOPTION_F_ACCEPTANCE.md",
+    "bytes": 14796,
+    "sha256": "f9908e6ee6dc9fe55878831e0dc48dcf982d29b0df11873a3273b6fba5c22333"
+  },
+  "final_candidate_identity": {
+    "commit": null,
+    "source_sha256": null,
+    "native_archive_sha256": null,
+    "native_header_set_sha256": null,
+    "native_binary_sha256": null,
+    "app_binary_sha256": null,
+    "contractVersion": 3,
+    "engine_approvals": null,
+    "matched_package_verified": null
+  },
+  "new_audio_sessions": 0,
+  "new_builds": 0,
+  "human_trials": 0,
+  "physical_loopback_trials": 0,
+  "old_results_relabelled": false,
+  "legacy_asset_identity_check": {
+    "selected_cases": 4,
+    "WAV_files": 8,
+    "WAV_SHA_matched": 8,
+    "source_files_SHA_matched": 4,
+    "total_WAV_bytes_hashed": 31435104,
+    "scope": "Existing historical materials only. No listening or present candidate quality/RT result inferred."
+  },
+  "historical_listening_assets": [
+    {
+      "id": "L01",
+      "label": "短Loop・低音",
+      "historical_case": "bass_100ms_2000000_candidate",
+      "old_run_root": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9",
+      "old_render_binary_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v8/release/phase62_fix_render_tests",
+      "old_source_inventory_sha256": "80e9c59efd5910183a6ac90d346c65dfc10f499ab16eba657fb54c705162e3d9",
+      "source": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/bass.wav",
+        "bytes": 3840044,
+        "sha256": "37e6aec488ae3a838f67fc7cf8867588e2ca15cecc4dee0facd401a44890d3eb",
+        "stat_unchanged": true,
+        "format": {
+          "encoding": 3,
+          "channels": 2,
+          "rate": 48000,
+          "bits": 32,
+          "frames": 480000,
+          "seconds": 10.0
+        }
+      },
+      "listening_metadata": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/listening_pack/bass_100ms_2000000_candidate/LISTENING.json",
+        "bytes": 1456,
+        "sha256": "d2af955238c80984711697251c60e1f98d5dfba8f16f2836041aca5ff28711d5",
+        "stat_unchanged": true
+      },
+      "source_capture_metadata": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/evidence/release_quality/bass_100ms_2000000_candidate/capture.json",
+        "bytes": 204,
+        "sha256": "7d35675f3999ff935afe77766285c1424f9679906289c5bb97034462328a068a",
+        "stat_unchanged": true
+      },
+      "source_metrics_metadata": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/evidence/release_quality/bass_100ms_2000000_candidate/metrics.json",
+        "bytes": 3470,
+        "sha256": "70aa23a42156f82838275e62b17a04c1b96c7b35adc7fc195c278b47a56dae9f",
+        "stat_unchanged": true
+      },
+      "pair": {
+        "raw": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/listening_pack/bass_100ms_2000000_candidate/raw_gain05.wav",
+          "bytes": 3851468,
+          "sha256": "6e21597f5b4d4803d5eb737ccc4d00b3255372d2b8d09967452d84e9f366ac84",
+          "stat_unchanged": true,
+          "format": {
+            "encoding": 3,
+            "channels": 2,
+            "rate": 48000,
+            "bits": 32,
+            "frames": 481428,
+            "seconds": 10.02975
+          }
+        },
+        "processed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/listening_pack/bass_100ms_2000000_candidate/processed_gain05.wav",
+          "bytes": 3851468,
+          "sha256": "98bcba85c21ba1cbedb4ea881537579971890e8fd1d413cb37376156a9a2d4c0",
+          "stat_unchanged": true,
+          "format": {
+            "encoding": 3,
+            "channels": 2,
+            "rate": 48000,
+            "bits": 32,
+            "frames": 481428,
+            "seconds": 10.02975
+          }
+        }
+      },
+      "period_frames": 1866,
+      "repeats": 258,
+      "seconds": 10.02975,
+      "gain": 0.5,
+      "rate": 48000,
+      "channels": 2,
+      "input_A": 1023,
+      "input_B_exclusive": 5823,
+      "output_OA": 398,
+      "output_OB": 2264,
+      "speed_micros": 2000000,
+      "preset": "candidate",
+      "construction": "Verified second steady period tiled to at least 10 seconds, no overlap or inserted silence; gain 0.5 once. This is historical offline material.",
+      "identity_audit": "VERIFIED",
+      "current_candidate_quality": null,
+      "current_candidate_RT": null,
+      "physical_loopback": null,
+      "subjective_listening": null,
+      "human_record": {
+        "status": "NOT_RUN",
+        "listener": null,
+        "time": null,
+        "device": null,
+        "volume": null,
+        "blind_order": null,
+        "repeat_count": null,
+        "accept": null,
+        "observations": null,
+        "artifact_sha256": null
+      },
+      "listening_focus": "低音の脈動、境界音量、周期の伸縮"
+    },
+    {
+      "id": "L02",
+      "label": "打楽器",
+      "historical_case": "drums_long_2000000_candidate",
+      "old_run_root": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9",
+      "old_render_binary_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v8/release/phase62_fix_render_tests",
+      "old_source_inventory_sha256": "80e9c59efd5910183a6ac90d346c65dfc10f499ab16eba657fb54c705162e3d9",
+      "source": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase31/input/drums.wav",
+        "bytes": 3840044,
+        "sha256": "d77f30cdc1b889227b7f3492791ca510be3ad3514aa7dc38be5f4f2d77297008",
+        "stat_unchanged": true,
+        "format": {
+          "encoding": 3,
+          "channels": 2,
+          "rate": 48000,
+          "bits": 32,
+          "frames": 480000,
+          "seconds": 10.0
+        }
+      },
+      "listening_metadata": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/listening_pack/drums_long_2000000_candidate/LISTENING.json",
+        "bytes": 1466,
+        "sha256": "73f22d4b2f7cae73fc6b8f7180d6bdb09122942fc83c9b5f81ed525bc1e087a2",
+        "stat_unchanged": true
+      },
+      "source_capture_metadata": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/evidence/release_quality/drums_long_2000000_candidate/capture.json",
+        "bytes": 209,
+        "sha256": "20c69c67dd73a3229a001d5d9f9467245a07907d4298edc4d1a79b9f7106a5e6",
+        "stat_unchanged": true
+      },
+      "source_metrics_metadata": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/evidence/release_quality/drums_long_2000000_candidate/metrics.json",
+        "bytes": 3514,
+        "sha256": "51a75df8357514385f8ceee0c1fa3a57a635a7159e8f0450f1043bde79380fd7",
+        "stat_unchanged": true
+      },
+      "pair": {
+        "raw": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/listening_pack/drums_long_2000000_candidate/raw_gain05.wav",
+          "bytes": 4184004,
+          "sha256": "ed2fb7bb72d409584797d5ec1c5b81ffee06621e08a9ad5fce5ae2bb90c840c6",
+          "stat_unchanged": true,
+          "format": {
+            "encoding": 3,
+            "channels": 2,
+            "rate": 48000,
+            "bits": 32,
+            "frames": 522995,
+            "seconds": 10.895729166666667
+          }
+        },
+        "processed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/listening_pack/drums_long_2000000_candidate/processed_gain05.wav",
+          "bytes": 4184004,
+          "sha256": "daf11fa55a9c0f2892306fba9dbdf412f0582efd3c90f63193e22f70cc0946cf",
+          "stat_unchanged": true,
+          "format": {
+            "encoding": 3,
+            "channels": 2,
+            "rate": 48000,
+            "bits": 32,
+            "frames": 522995,
+            "seconds": 10.895729166666667
+          }
+        }
+      },
+      "period_frames": 47545,
+      "repeats": 11,
+      "seconds": 10.895729166666667,
+      "gain": 0.5,
+      "rate": 48000,
+      "channels": 2,
+      "input_A": 1023,
+      "input_B_exclusive": 96017,
+      "output_OA": 341,
+      "output_OB": 47886,
+      "speed_micros": 2000000,
+      "preset": "candidate",
+      "construction": "Verified second steady period tiled to at least 10 seconds, no overlap or inserted silence; gain 0.5 once. This is historical offline material.",
+      "identity_audit": "VERIFIED",
+      "current_candidate_quality": null,
+      "current_candidate_RT": null,
+      "physical_loopback": null,
+      "subjective_listening": null,
+      "human_record": {
+        "status": "NOT_RUN",
+        "listener": null,
+        "time": null,
+        "device": null,
+        "volume": null,
+        "blind_order": null,
+        "repeat_count": null,
+        "accept": null,
+        "observations": null,
+        "artifact_sha256": null
+      },
+      "listening_focus": "アタック、連打、境界直前直後の拍"
+    },
+    {
+      "id": "L03",
+      "label": "stereo",
+      "historical_case": "stereo_phase_100ms_2000000_candidate",
+      "old_run_root": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9",
+      "old_render_binary_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v8/release/phase62_fix_render_tests",
+      "old_source_inventory_sha256": "80e9c59efd5910183a6ac90d346c65dfc10f499ab16eba657fb54c705162e3d9",
+      "source": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/evidence/release_quality/inputs/stereo_phase.wav",
+        "bytes": 1152044,
+        "sha256": "5dd7aabe08632b4ccaf2d0e040c13e5b61b5ac3b8402a27a3074853bb0686819",
+        "stat_unchanged": true,
+        "format": {
+          "encoding": 3,
+          "channels": 2,
+          "rate": 48000,
+          "bits": 32,
+          "frames": 144000,
+          "seconds": 3.0
+        }
+      },
+      "listening_metadata": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/listening_pack/stereo_phase_100ms_2000000_candidate/LISTENING.json",
+        "bytes": 1484,
+        "sha256": "ecae45bbb652040ed17704a994d805cc3a130b487c4af11549b9ed4f1ab3f844",
+        "stat_unchanged": true
+      },
+      "source_capture_metadata": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/evidence/release_quality/stereo_phase_100ms_2000000_candidate/capture.json",
+        "bytes": 204,
+        "sha256": "1847fa40fd854d9d2fc80a84c22f67e90c3d146cd631919bb408e6ada4d91a79",
+        "stat_unchanged": true
+      },
+      "source_metrics_metadata": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/evidence/release_quality/stereo_phase_100ms_2000000_candidate/metrics.json",
+        "bytes": 3560,
+        "sha256": "845f9402ab9cbb9f9feabfe96e33286969ce7d51f8d6cf312c05fbbac761e899",
+        "stat_unchanged": true
+      },
+      "pair": {
+        "raw": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/listening_pack/stereo_phase_100ms_2000000_candidate/raw_gain05.wav",
+          "bytes": 3840044,
+          "sha256": "9bf2e9cf3b1d2e1039bb7f90e895f8af4d22edd8f661166e4207103614229ef5",
+          "stat_unchanged": true,
+          "format": {
+            "encoding": 3,
+            "channels": 2,
+            "rate": 48000,
+            "bits": 32,
+            "frames": 480000,
+            "seconds": 10.0
+          }
+        },
+        "processed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/listening_pack/stereo_phase_100ms_2000000_candidate/processed_gain05.wav",
+          "bytes": 3840044,
+          "sha256": "bc344e072de6aec1ea1059685565445af26c8c1f53398fcce9681c5970fe7eb5",
+          "stat_unchanged": true,
+          "format": {
+            "encoding": 3,
+            "channels": 2,
+            "rate": 48000,
+            "bits": 32,
+            "frames": 480000,
+            "seconds": 10.0
+          }
+        }
+      },
+      "period_frames": 2400,
+      "repeats": 200,
+      "seconds": 10.0,
+      "gain": 0.5,
+      "rate": 48000,
+      "channels": 2,
+      "input_A": 1023,
+      "input_B_exclusive": 5823,
+      "output_OA": 512,
+      "output_OB": 2912,
+      "speed_micros": 2000000,
+      "preset": "candidate",
+      "construction": "Verified second steady period tiled to at least 10 seconds, no overlap or inserted silence; gain 0.5 once. This is historical offline material.",
+      "identity_audit": "VERIFIED",
+      "current_candidate_quality": null,
+      "current_candidate_RT": null,
+      "physical_loopback": null,
+      "subjective_listening": null,
+      "human_record": {
+        "status": "NOT_RUN",
+        "listener": null,
+        "time": null,
+        "device": null,
+        "volume": null,
+        "blind_order": null,
+        "repeat_count": null,
+        "accept": null,
+        "observations": null,
+        "artifact_sha256": null
+      },
+      "listening_focus": "左右定位、広がり、位相感の揺れ"
+    },
+    {
+      "id": "L04",
+      "label": "実録ピアノ",
+      "historical_case": "piano_real_100ms_2000000_candidate",
+      "old_run_root": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9",
+      "old_render_binary_path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v8/release/phase62_fix_render_tests",
+      "old_source_inventory_sha256": "80e9c59efd5910183a6ac90d346c65dfc10f499ab16eba657fb54c705162e3d9",
+      "source": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase2/real/stems/audition/piano_original.wav",
+        "bytes": 11520092,
+        "sha256": "cfdcd376749618a6cd775eb3b4834b9ba0cb19a56335e02b26d04227a166fa1d",
+        "stat_unchanged": true,
+        "format": {
+          "encoding": 3,
+          "channels": 2,
+          "rate": 48000,
+          "bits": 32,
+          "frames": 1440000,
+          "seconds": 30.0
+        }
+      },
+      "listening_metadata": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/piano_listening_pack/piano_real_100ms_2000000_candidate/LISTENING.json",
+        "bytes": 1472,
+        "sha256": "677cdf171ea9319f0a027c5c98e268624dc8d9d69d2d8ecf2d2df295e681f8f8",
+        "stat_unchanged": true
+      },
+      "source_capture_metadata": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/piano_quality/piano_real_100ms_2000000_candidate/capture.json",
+        "bytes": 204,
+        "sha256": "23fc4ee39ce765bc7959484facb94e8790cb1da161a7a833209ef35e272f1f9f",
+        "stat_unchanged": true
+      },
+      "source_metrics_metadata": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/piano_quality/piano_real_100ms_2000000_candidate/metrics.json",
+        "bytes": 3490,
+        "sha256": "ed036f5a5a74c1b71aea9363a4b658640aeb560e762d67b3318f4b36db55a699",
+        "stat_unchanged": true
+      },
+      "pair": {
+        "raw": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/piano_listening_pack/piano_real_100ms_2000000_candidate/raw_gain05.wav",
+          "bytes": 3842036,
+          "sha256": "c03e4c66f54ffa84228c911feefc23157118ce6facea7b5b91db2dd3762a3b80",
+          "stat_unchanged": true,
+          "format": {
+            "encoding": 3,
+            "channels": 2,
+            "rate": 48000,
+            "bits": 32,
+            "frames": 480249,
+            "seconds": 10.0051875
+          }
+        },
+        "processed": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/phase62_fix/run_01/final_v9/piano_listening_pack/piano_real_100ms_2000000_candidate/processed_gain05.wav",
+          "bytes": 3842036,
+          "sha256": "72e2dbebe1298ca2e52653a2637a1e8ab001b72b41b1bd92a6378680f936f307",
+          "stat_unchanged": true,
+          "format": {
+            "encoding": 3,
+            "channels": 2,
+            "rate": 48000,
+            "bits": 32,
+            "frames": 480249,
+            "seconds": 10.0051875
+          }
+        }
+      },
+      "period_frames": 2079,
+      "repeats": 231,
+      "seconds": 10.0051875,
+      "gain": 0.5,
+      "rate": 48000,
+      "channels": 2,
+      "input_A": 1023,
+      "input_B_exclusive": 5823,
+      "output_OA": 444,
+      "output_OB": 2523,
+      "speed_micros": 2000000,
+      "preset": "candidate",
+      "construction": "Verified second steady period tiled to at least 10 seconds, no overlap or inserted silence; gain 0.5 once. This is historical offline material.",
+      "identity_audit": "VERIFIED",
+      "current_candidate_quality": null,
+      "current_candidate_RT": null,
+      "physical_loopback": null,
+      "subjective_listening": null,
+      "human_record": {
+        "status": "NOT_RUN",
+        "listener": null,
+        "time": null,
+        "device": null,
+        "volume": null,
+        "blind_order": null,
+        "repeat_count": null,
+        "accept": null,
+        "observations": null,
+        "artifact_sha256": null
+      },
+      "listening_focus": "打鍵のアタック、余韻、境界の音量"
+    }
+  ],
+  "current_candidate_capture_plan": [
+    {
+      "id": "C01.static_loop",
+      "status": "NOT_RUN",
+      "artifact": null,
+      "reference": null,
+      "quality": null,
+      "RT": null,
+      "scope": "現candidate固定速度・短Loop。両Preset/0.4,1.0,2.0、100msと長区間は別ID。旧4教材と対応入力を使用。"
+    },
+    {
+      "id": "C02.speed_transition",
+      "status": "NOT_RUN",
+      "artifact": null,
+      "reference": null,
+      "quality": null,
+      "RT": null,
+      "scope": "Playing 1.0→0.75→1.5、別試行でPaused 1.0→0.75後明示Resume。同ID/旧新epoch/適用Map/実PCMを含む。"
+    },
+    {
+      "id": "C03.exact_seek",
+      "status": "NOT_RUN",
+      "artifact": null,
+      "reference": null,
+      "quality": null,
+      "RT": null,
+      "scope": "製品ApprovedOnly ExactをReady/Playing/PausedでA/中点/終端近傍へ。Loop研究試験のB-1/B/B+1とInteractiveは別ケース。"
+    },
+    {
+      "id": "C04.clear_reenable",
+      "status": "NOT_RUN",
+      "artifact": null,
+      "reference": null,
+      "quality": null,
+      "RT": null,
+      "scope": "同速度/異速度Clear、Preparing/Requested/Started/Done/Paused準備、再ON・Stop/close。必要採用と未採用取消を区別。"
+    }
+  ],
+  "current_candidate_music_listening_captures": "NOT_RUN",
+  "current_candidate_music_listening_note": "This is not a claim that all other current native/PCM tests are unmeasured. Only the F/music clips and subjective/physical acceptance in this sheet are unexecuted.",
+  "expected_acceptance_ids": [
+    "F01.native_v3_package",
+    "F02.product_policy",
+    "F03.serial_control_queue",
+    "F04.real_app_times",
+    "F05.sandbox_TCC",
+    "F06.input_and_route_recovery",
+    "F07.limit_recreation_and_owned_audit",
+    "F08.current_candidate_capture",
+    "F09.human_listening",
+    "F10.normal_RT",
+    "F11.physical_loopback",
+    "F12.stop_close_lifetime"
+  ],
+  "expected_acceptance_checks": 12,
+  "executed_acceptance_checks": 0,
+  "acceptance": [
+    {
+      "id": "F01.native_v3_package",
+      "title": "同時header/binary",
+      "required": true,
+      "status": "NOT_RUN",
+      "result": null,
+      "evidence": null,
+      "criteria": "最終TimeStretchLab commit/source・archive SHA・公開header群SHA・アプリbuild/署名/archを保存。contractVersion=3とprepare v3リンクタグを確認。意図した旧header/新archive等の混在がリンク拒否されることも別負試験。"
+    },
+    {
+      "id": "F02.product_policy",
+      "title": "製品設定・方式別承認",
+      "required": true,
+      "status": "NOT_RUN",
+      "result": null,
+      "evidence": null,
+      "criteria": "macOSProductのApprovedOnlyを実アプリbridgeから使用。exact/interactive/nativeLoopsのapproved/configured/effective/allowed/reasonを別表示。最終承認表でExactのみ有効ならInteractive/Loopを自動Research化しない。旧包括publicSeekApproved=falseとExact個別trueを両立して読む。ExactはrequestSeek*、InteractiveはrequestInteractiveSeek*を使い分け、旧bool seek APIの包括ゲートをExact有効化の判定に使わない。"
+    },
+    {
+      "id": "F03.serial_control_queue",
+      "title": "専用直列制御queue",
+      "required": true,
+      "status": "NOT_RUN",
+      "result": null,
+      "evidence": null,
+      "criteria": "MainActorやcallbackでprepare/request/stop/close/joinを実行しない。専用serial queue名・thread IDと順序を記録。Play/Resume/seek/速度/Clear/再ON/入力切替の最新revisionを照合し、同時native呼出し・UIの同期join待ちを発生させない。"
+    },
+    {
+      "id": "F04.real_app_times",
+      "title": "実アプリの時刻とID",
+      "required": true,
+      "status": "NOT_RUN",
+      "result": null,
+      "evidence": null,
+      "criteria": "UI意図→service enqueue→dequeue→native開始/accepted→analysis/FIFO Ready→switch Started→実first PCM→Done→reading生成→MainActor受信→UI反映を同じapp engine/prepare UUID・native engineSerial/inputGeneration/session/renderEpoch/操作IDで結ぶ。HAL推定と物理時刻は別欄。目標と母集団/統計法を事前固定。"
+    },
+    {
+      "id": "F05.sandbox_TCC",
+      "title": "Sandbox/TCC/入力lease",
+      "required": true,
+      "status": "NOT_RUN",
+      "result": null,
+      "evidence": null,
+      "criteria": "署名したSandbox実アプリで選択許可/拒否/取消/再起動bookmark失効/権限変更を実施。元assetのsecurity scopeと派生Float32 PCM/FDのleaseを全join/最終監査コピー完了まで保持する。chmod模型をTCC成功にしない。"
+    },
+    {
+      "id": "F06.input_and_route_recovery",
+      "title": "入力・装置の復旧",
+      "required": true,
+      "status": "NOT_RUN",
+      "result": null,
+      "evidence": null,
+      "criteria": "入力削除/置換/保持FD変更・装置抜去/レート変更から理由付き安全停止。再選択/再prepareと明示再開で復帰し、Pausedを自動Playingにしない。旧callback/完了を新UUIDへ混入させない。"
+    },
+    {
+      "id": "F07.limit_recreation_and_owned_audit",
+      "title": "実上限とengine再作成",
+      "required": true,
+      "status": "NOT_RUN",
+      "result": null,
+      "evidence": null,
+      "criteria": "実4096枠LimitReachedで有効FIFOを維持。入力/検査済み派生PCM/速度/C/Loop方針/停止状態/明示再開意思を保存し、Stop→close→全join→receiveFinalOperationAuditを所有コピー→新engine UUID/prepare UUID→prepare→明示復元。ID1の再利用を旧engine ID1と混同しない。"
+    },
+    {
+      "id": "F08.current_candidate_capture",
+      "title": "現candidateの試聴用capture",
+      "required": true,
+      "status": "NOT_RUN",
+      "result": null,
+      "evidence": null,
+      "criteria": "後述C01〜C04を最終source/binary/input/reference/validator/scheduleへ固定。RAW/全ch/長さ/finite/Map/混合と適用位相を独立検証し、gain前RAWから一度だけ0.5を掛けたWAVを保存。現F用の異速度/seek/Clear clipは未測定。"
+    },
+    {
+      "id": "F09.human_listening",
+      "title": "人の試聴",
+      "required": true,
+      "status": "NOT_RUN",
+      "result": null,
+      "evidence": null,
+      "criteria": "L01〜L04の旧教材と現candidate C01〜C04を別記。listener/実行時刻/device/volume/順序/反復/気づき/合否/試聴したWAV SHAを入力。旧metadataのtechnical PASSを主観承認にしない。"
+    },
+    {
+      "id": "F10.normal_RT",
+      "title": "通常実時間",
+      "required": true,
+      "status": "NOT_RUN",
+      "result": null,
+      "evidence": null,
+      "criteria": "最終候補の対応環境でcallback new/C malloc/free、worker/callback期限、欠損/padding/host/sample/HAL/Workgroup、最終joinを実測。正常系は全0、未測定はnull。故障注入と通常系、native単体と実アプリを分離。"
+    },
+    {
+      "id": "F11.physical_loopback",
+      "title": "物理loopback",
+      "required": true,
+      "status": "NOT_RUN",
+      "result": null,
+      "evidence": null,
+      "criteria": "実DAC/ADCまたは選定した外部音響測定で出力・入力device/時計/配線/レート/buffer/校正/録音SHAを記録。ソフトウェアtap、gain前RAW一致、HAL推定だけで物理無欠落にしない。起動最初のcallbackも除外しない。"
+    },
+    {
+      "id": "F12.stop_close_lifetime",
+      "title": "停止/closeと監査context",
+      "required": true,
+      "status": "NOT_RUN",
+      "result": null,
+      "evidence": null,
+      "criteria": "Playing/Paused/Preparing/採用Started中のStop/close/アプリ終了を専用queueで実施。callback静止、worker全join、最終監査1回配送と全Accepted集合/終端39fields、owner0と最大2/保存点2を確認後にobserver context/FD/security scopeを解放。"
+    }
+  ],
+  "app_timing_fields": [
+    "app_engine_UUID",
+    "prepare_UUID",
+    "user_intent_revision",
+    "native_engineSerial",
+    "inputGeneration",
+    "session",
+    "renderEpoch",
+    "operation_id",
+    "UI_intent_ns",
+    "service_enqueue_ns",
+    "service_dequeue_ns",
+    "native_begin_ns",
+    "accepted_ns",
+    "analysis_ready_ns",
+    "FIFO_ready_ns",
+    "switch_started_ns",
+    "first_contributing_PCM_ns",
+    "Done_ns",
+    "reading_created_ns",
+    "MainActor_received_ns",
+    "UI_applied_ns",
+    "HAL_estimate_ns",
+    "physical_loopback_ns"
+  ],
+  "app_timing_result": null,
+  "physical_loopback": {
+    "status": "NOT_RUN",
+    "result": null,
+    "device": null,
+    "rate": null,
+    "buffer_frames": null,
+    "calibration": null,
+    "recording_sha256": null
+  },
+  "human_listening": {
+    "status": "NOT_RUN",
+    "result": null
+  },
+  "sandbox_TCC": {
+    "status": "NOT_RUN",
+    "result": null,
+    "signed_app_entitlements_sha256": null,
+    "security_scope_held_until_final_join": null
+  },
+  "serial_control_queue": {
+    "status": "NOT_RUN",
+    "name": null,
+    "thread_ids": null,
+    "reentrant_native_calls": null,
+    "callback_performed_control_IO_or_join": null
+  },
+  "recovery": {
+    "status": "NOT_RUN",
+    "result": null,
+    "final_owned_audit": null,
+    "new_engine_UUID": null,
+    "old_engine_UUID": null
+  },
+  "normal_RT": {
+    "status": "NOT_RUN",
+    "callback_new": null,
+    "callback_malloc": null,
+    "callback_free": null,
+    "worker_deadline_misses": null,
+    "callback_deadline_misses": null,
+    "missing_frames": null,
+    "padding_frames": null,
+    "host_errors": null,
+    "sample_errors": null,
+    "HAL_misses": null
+  },
+  "limitations": [
+    "Historical technical PASS is not subjective or current-candidate quality/RT PASS.",
+    "All final candidate package/app identities remain null until root final build records are bound.",
+    "No runtime TCC, real app, listening, physical loopback, audio, build or capture performed in this document task.",
+    "Static steady tiling is labeled; transition clips must retain original timing.",
+    "Dynamic/seek/Clear F listening exporter is a pending prerequisite, not an existing complete CLI.",
+    "No approval flags or existing evidence modified."
+  ],
+  "latest_native_fixed_materials": {
+    "manifest": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/current_audition_02/MANIFEST.json",
+      "bytes": 6220,
+      "sha256": "900043c153ee253a73679fa3ecd01a3f6007dcd56fd00eddf0947461512c1227"
+    },
+    "source": "2dae7749b928a72c36a8942563071ff073d89883012af77fb3822342453de392",
+    "human_listening": null,
+    "physical_output": null,
+    "kind": "4 actual capture WAV, multiplied by source-configured gain0.5, no resampling/repetition; not F approval"
+  },
+  "latest_native_full_epoch_audit": {
+    "release": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/epoch_audit_01/SUMMARY.json",
+      "bytes": 5234,
+      "sha256": "7098a120feb1ed8ce18cbbd25d56bec9297f360a575e95da3e8bb55e486d2a45"
+    },
+    "debug": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/epoch_audit_debug_01/SUMMARY.json",
+      "bytes": 5474,
+      "sha256": "f91dcd6b623a234a104045207f30ecda98fd6424803e24f1576b3f2265995fb4"
+    },
+    "app_acceptance": "NOT_RUN"
+  }
+}

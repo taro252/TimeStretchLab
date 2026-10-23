@@ -1,0 +1,236 @@
+{
+  "expected_programs": 2,
+  "executed_programs": 2,
+  "rows": [
+    {
+      "command": [
+        "/Users/taro252/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab/results/progressive_adoption/recipes/validate_capture.py",
+        "--capture",
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/native_final_stereo_01/prewarm_ready_candidate",
+        "--input",
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/inputs/stereo441_16s.wav",
+        "--host-binary",
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/pinned_build07/progressive_adoption_native_tests",
+        "--reference-binary",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "--reference-raw",
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/references_short_01/stereo441_16s_candidate.f32",
+        "--reference-map",
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/stereo_prewarm_candidate_map.json",
+        "--output",
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/stereo_prewarm_pcm_01/candidate"
+      ],
+      "exit": 0,
+      "summary": {
+        "schema": "adoption-independent-fixed-capture-summary-v1",
+        "status": "PASS",
+        "run_complete": true,
+        "expected": 5,
+        "executed": 5,
+        "passed": 5,
+        "checks": {
+          "independent_map": {
+            "status": "PASS",
+            "input_A": 88200,
+            "input_B": 110250,
+            "independent_OA": 88200,
+            "independent_OB": 110250,
+            "period_frames": 22050,
+            "boundary_frames": 220,
+            "native_completion": {
+              "schema": "NativeTest.status",
+              "functional_complete": true,
+              "reported_rt_pass": null,
+              "reported_performance_pass": null,
+              "reported_performance_exercised": null,
+              "RT_deadline_approval": "NOT_ASSESSED",
+              "interpretation": "Native completion prerequisite only; no RT/performance/physical approval is inferred."
+            },
+            "host_SHA_bound_in_capture": true
+          },
+          "raw_all_bits": {
+            "status": "PASS",
+            "frames": 44218,
+            "channels": 2,
+            "records": 100
+          },
+          "output_all_bits": {
+            "status": "PASS",
+            "frames": 44218,
+            "channels": 2,
+            "spans": 100,
+            "mixed_frames": 0,
+            "head_frames": 338,
+            "tail_frames": 440,
+            "arithmetic": "independent Equations(fused)",
+            "final_gain_applied": false
+          },
+          "coordinates": {
+            "status": "PASS",
+            "raw_sources_exactly_match_spans": true,
+            "periodic_source_intervals": 100,
+            "AB_boundary_exercised": true,
+            "callback_first_frame": 0,
+            "callback_end_frame": 44218
+          },
+          "gain": {
+            "status": "PASS",
+            "configured_final_gain": 0.5,
+            "scope": "Configuration source inspection only; captured/reference/output PCM all precede final gain.",
+            "physical_gain_verified": null,
+            "runtime_binary_gain_attestation": null,
+            "all_artifacts_unchanged": true
+          }
+        },
+        "reason": null,
+        "result": {
+          "channels": 2,
+          "rate": 44100,
+          "input_frames": 705600,
+          "raw_frames": 44218,
+          "output_frames": 44218,
+          "records": 100,
+          "spans": 100,
+          "independent_OA": 88200,
+          "independent_OB": 110250,
+          "period_frames": 22050,
+          "boundary_frames": 220,
+          "mixed_frames": 0,
+          "native_reported": {
+            "schema": "NativeTest.status",
+            "functional_complete": true,
+            "reported_rt_pass": null,
+            "reported_performance_pass": null,
+            "reported_performance_exercised": null,
+            "RT_deadline_approval": "NOT_ASSESSED",
+            "interpretation": "Native completion prerequisite only; no RT/performance/physical approval is inferred."
+          },
+          "artifact_unchanged": true
+        },
+        "expected_sha256": "3960d9d337969bad20a2ba19d4bb5fc66497412506ce5ea70495a9a6b30d712d",
+        "validator_sha256": "4dac95f5e7ad882ff2a28ae648a4c10b8bd553cc9dbb7bd7c814581ab2c8f451",
+        "performance_status": "NOT_ASSESSED",
+        "realtime_status": "NOT_ASSESSED",
+        "physical_audio_continuity_verified": null,
+        "public_approved": false,
+        "PASS_scope": "Independent captured PCM/coordinates/configuration audit only; no RT/performance/physical approval."
+      }
+    },
+    {
+      "command": [
+        "/Users/taro252/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab/results/progressive_adoption/recipes/validate_capture.py",
+        "--capture",
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/native_final_stereo_01/prewarm_ready_baseline",
+        "--input",
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/inputs/stereo441_16s.wav",
+        "--host-binary",
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/pinned_build07/progressive_adoption_native_tests",
+        "--reference-binary",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "--reference-raw",
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/references_short_01/stereo441_16s_baseline.f32",
+        "--reference-map",
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/stereo_prewarm_baseline_map.json",
+        "--output",
+        "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/stereo_prewarm_pcm_01/baseline"
+      ],
+      "exit": 0,
+      "summary": {
+        "schema": "adoption-independent-fixed-capture-summary-v1",
+        "status": "PASS",
+        "run_complete": true,
+        "expected": 5,
+        "executed": 5,
+        "passed": 5,
+        "checks": {
+          "independent_map": {
+            "status": "PASS",
+            "input_A": 88200,
+            "input_B": 110250,
+            "independent_OA": 88200,
+            "independent_OB": 110250,
+            "period_frames": 22050,
+            "boundary_frames": 220,
+            "native_completion": {
+              "schema": "NativeTest.status",
+              "functional_complete": true,
+              "reported_rt_pass": null,
+              "reported_performance_pass": null,
+              "reported_performance_exercised": null,
+              "RT_deadline_approval": "NOT_ASSESSED",
+              "interpretation": "Native completion prerequisite only; no RT/performance/physical approval is inferred."
+            },
+            "host_SHA_bound_in_capture": true
+          },
+          "raw_all_bits": {
+            "status": "PASS",
+            "frames": 44218,
+            "channels": 2,
+            "records": 100
+          },
+          "output_all_bits": {
+            "status": "PASS",
+            "frames": 44218,
+            "channels": 2,
+            "spans": 100,
+            "mixed_frames": 0,
+            "head_frames": 338,
+            "tail_frames": 440,
+            "arithmetic": "independent Equations(fused)",
+            "final_gain_applied": false
+          },
+          "coordinates": {
+            "status": "PASS",
+            "raw_sources_exactly_match_spans": true,
+            "periodic_source_intervals": 100,
+            "AB_boundary_exercised": true,
+            "callback_first_frame": 0,
+            "callback_end_frame": 44218
+          },
+          "gain": {
+            "status": "PASS",
+            "configured_final_gain": 0.5,
+            "scope": "Configuration source inspection only; captured/reference/output PCM all precede final gain.",
+            "physical_gain_verified": null,
+            "runtime_binary_gain_attestation": null,
+            "all_artifacts_unchanged": true
+          }
+        },
+        "reason": null,
+        "result": {
+          "channels": 2,
+          "rate": 44100,
+          "input_frames": 705600,
+          "raw_frames": 44218,
+          "output_frames": 44218,
+          "records": 100,
+          "spans": 100,
+          "independent_OA": 88200,
+          "independent_OB": 110250,
+          "period_frames": 22050,
+          "boundary_frames": 220,
+          "mixed_frames": 0,
+          "native_reported": {
+            "schema": "NativeTest.status",
+            "functional_complete": true,
+            "reported_rt_pass": null,
+            "reported_performance_pass": null,
+            "reported_performance_exercised": null,
+            "RT_deadline_approval": "NOT_ASSESSED",
+            "interpretation": "Native completion prerequisite only; no RT/performance/physical approval is inferred."
+          },
+          "artifact_unchanged": true
+        },
+        "expected_sha256": "5bfe89d67d7094855a25f5ba74b66498099484a56a59a8b7bcd62559c46c0d28",
+        "validator_sha256": "4dac95f5e7ad882ff2a28ae648a4c10b8bd553cc9dbb7bd7c814581ab2c8f451",
+        "performance_status": "NOT_ASSESSED",
+        "realtime_status": "NOT_ASSESSED",
+        "physical_audio_continuity_verified": null,
+        "public_approved": false,
+        "PASS_scope": "Independent captured PCM/coordinates/configuration audit only; no RT/performance/physical approval."
+      }
+    }
+  ]
+}

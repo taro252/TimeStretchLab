@@ -1,0 +1,45 @@
+{
+  "suite": "review",
+  "status": "PASS",
+  "expected_programs": 1,
+  "executed_programs": 1,
+  "rows": [
+    {
+      "id": "a2_initial_supply_candidate",
+      "returncode": 0,
+      "timeout": false,
+      "wall_s": 1.2081157909706235,
+      "execution_complete": true,
+      "PASS": true,
+      "performance": "NOT_ASSESSED",
+      "summary": {
+        "schema": 1,
+        "suite": "phase62_adoption_review",
+        "mode": "a2_initial_supply",
+        "preset": "candidate",
+        "run_complete": true,
+        "status": "PASS",
+        "expected": 6,
+        "executed": 6,
+        "Accepted_IDs": [
+          2,
+          3
+        ],
+        "owner_peak": 2,
+        "owners_alive": 0,
+        "callback_cpp_new": 0,
+        "callback_malloc": 0,
+        "callback_free": 0,
+        "independent_DSP": "NOT_RUN",
+        "RT_deadline_approval": "NOT_ASSESSED",
+        "local_overall_go": false
+      },
+      "log": {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/review_final_03/a2_initial_supply_candidate.log",
+        "bytes": 360,
+        "sha256": "20c1aad0a58fa5c4b95fad8b8e430629ae6e3a2e7d29025ecfa2fb4896be9f8f"
+      }
+    }
+  ],
+  "physical_audio": null
+}
