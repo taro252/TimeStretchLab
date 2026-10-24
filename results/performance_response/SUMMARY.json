@@ -1,0 +1,138 @@
+{
+  "schema": "performance-response-summary-v1",
+  "head": "5674bd982d98caacaa3e87cdeae5bfc0b01c66ef",
+  "branch": "codex/performance-response",
+  "source_inventory_sha256": "b17217d8f9a7fffd0535bb360adda447015c08df232af519917937de8470ac94",
+  "source_entries": 768,
+  "uncommitted": true,
+  "local_overall": "INCOMPLETE",
+  "checkpoint_resolution": "PASS",
+  "CPU_bundle": "NOT_ADOPTED",
+  "public_release": "WITHHELD",
+  "Merodoa_default": "UNCHANGED",
+  "new_run_scope": "CPU09/10は独立隔離source。root08の追加反復/最終候補PASSに数えない。",
+  "experimental_sources": {
+    "09": "d38474d21a0484a7e923009474ab39b65b864fae40d9c1e839ea0199cd96a50f",
+    "10": "4d9b4a1e0ea4e74a3a969abdb59bfd767ec7641101471102fd9cad35463102bf"
+  },
+  "unmet": [
+    {
+      "id": "CPU08",
+      "status": "INCOMPLETE",
+      "expected": "native48 + fixed followup18",
+      "reason": "固定mono1倍n6全pair増加、範囲は重なり因果的有意差を主張しない。改善NOT_DEMONSTRATEDのため08一式を性能採用しない。",
+      "scope": "local"
+    },
+    {
+      "id": "interactive08",
+      "status": "NOT_RUN",
+      "expected": "48program / 240case",
+      "reason": "CPU不採用の08を広い最終候補行列へ進めない。05結果を08へ付け替えない。",
+      "scope": "local"
+    },
+    {
+      "id": "cold_AB08",
+      "status": "NOT_RUN",
+      "expected": "72program",
+      "reason": "CPU不採用の08を広い最終候補行列へ進めない。05結果を08へ付け替えない。",
+      "scope": "local"
+    },
+    {
+      "id": "nonfresh_AB08",
+      "status": "NOT_RUN",
+      "expected": "36program",
+      "reason": "CPU不採用の08を広い最終候補行列へ進めない。05結果を08へ付け替えない。",
+      "scope": "local"
+    },
+    {
+      "id": "warm_AB08",
+      "status": "NOT_RUN",
+      "expected": "12program / 144checks",
+      "reason": "CPU不採用の08を広い最終候補行列へ進めない。05結果を08へ付け替えない。",
+      "scope": "local"
+    },
+    {
+      "id": "paused_deep08",
+      "status": "NOT_RUN",
+      "expected": "6program / 72checks",
+      "reason": "CPU不採用の08を広い最終候補行列へ進めない。05結果を08へ付け替えない。",
+      "scope": "local"
+    },
+    {
+      "id": "warm_PCM08",
+      "status": "NOT_RUN",
+      "expected": "24capture / 120checks",
+      "reason": "CPU不採用の08を広い最終候補行列へ進めない。05結果を08へ付け替えない。",
+      "scope": "local"
+    },
+    {
+      "id": "AB_PCM08",
+      "status": "NOT_RUN",
+      "expected": "108capture / 540checks",
+      "reason": "CPU不採用の08を広い最終候補行列へ進めない。05結果を08へ付け替えない。",
+      "scope": "local"
+    },
+    {
+      "id": "related_D3_08",
+      "status": "NOT_RUN",
+      "expected": "12driver",
+      "reason": "CPU不採用の08を広い最終候補行列へ進めない。05結果を08へ付け替えない。",
+      "scope": "local"
+    },
+    {
+      "id": "ABI_iOS08",
+      "status": "NOT_RUN",
+      "expected": "9checks",
+      "reason": "CPU不採用の08を広い最終候補行列へ進めない。05結果を08へ付け替えない。",
+      "scope": "local"
+    },
+    {
+      "id": "FastLocal_quality",
+      "status": "FAIL",
+      "expected": "26既知条件×3＋24対照",
+      "reason": "保存された102件で78FAIL、最大3.593187876dB。08への限定再利用はAUDITの許可行だけ。",
+      "scope": "local"
+    },
+    {
+      "id": "Interactive_200ms",
+      "status": "INCOMPLETE",
+      "expected": "2倍Candidate p95<=200ms",
+      "reason": "05の同条件15件p95 206.476ms未達。08再測定NOT_RUN。",
+      "scope": "local"
+    },
+    {
+      "id": "cold_AB_1000ms",
+      "status": "INCOMPLETE",
+      "expected": "accepted→first A PCM p95<=1000ms",
+      "reason": "05の全cold群は未達、08再測定NOT_RUN。先行準備完了をcold成功へ読み替えない。",
+      "scope": "local"
+    },
+    {
+      "id": "human_physical_F",
+      "status": "NOT_RUN",
+      "expected": "代表試聴/物理出力/Merodoa実アプリTCC",
+      "reason": "実施なし。native PCM/RT成功とは別。",
+      "scope": "human"
+    }
+  ],
+  "evidence_export": {
+    "path": "results/performance_response/evidence/CAPACITY_RESUME_EXPORTS.json",
+    "bytes": 7136,
+    "sha256": "9d53ac6df3878554bcf93036bed133b4c4fb7b08ed0310b83b0f5854d19a785c"
+  },
+  "commit_push_release": false,
+  "large_assets": "build/performance_response_20261023_01, Git除外、既存証拠削除なし",
+  "last_added_batch_counts": {
+    "native_CPU_programs": 18,
+    "root08_checkpoint_cases": 3,
+    "isolated_checkpoint_cases": 6,
+    "silent_supervisor_cases": 4
+  },
+  "current08_native_counts": {
+    "CPU_primary": 48,
+    "CPU_fixed_followup": 18,
+    "saved08_controls_in_isolated_experiments": 6,
+    "controls_not_pooled_into_predeclared_n6": true
+  },
+  "whole_CPU_improvement": "NOT_DEMONSTRATED"
+}

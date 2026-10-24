@@ -33,7 +33,7 @@ struct ProgressiveCallbackRecord {
     std::size_t outputAffectedFrames=0,failurePaddingFrames=0,pauseSilenceFrames=0;
     prototype::Phase46HostClock::Evidence clock;
 };
-enum class ProgressiveControlTestPoint {SeekPreparationStarted,SwitchStartedOrDone,RetiringOld,RetiringPreparation,RestartWait,SeekCleanupWait,SeekCleanupComplete,RestartLaunch,AcquiringResources,PauseObserved,SwitchPublished,SpeedReplacementDecision,LoopJobDispatch,NextPreparationDeadline,PartialMixReplaceDecision,PartialMixClearDecision,PartialMixStopDecision,ClearCancellationDecision,LoopJobSelected};
+enum class ProgressiveControlTestPoint {SeekPreparationStarted,SwitchStartedOrDone,RetiringOld,RetiringPreparation,RestartWait,SeekCleanupWait,SeekCleanupComplete,RestartLaunch,AcquiringResources,PauseObserved,SwitchPublished,SpeedReplacementDecision,LoopJobDispatch,NextPreparationDeadline,PartialMixReplaceDecision,PartialMixClearDecision,PartialMixStopDecision,ClearCancellationDecision,LoopJobSelected,InputPreparationJoinWait,ReadyBeforeConfigure};
 // Explicit normal-thread tests only; empty in ordinary apps. Hooks must not call
 // engine APIs. Replacement/clear/partial-mix decisions and SeekCleanupComplete
 // hold the engine mutex and must not wait for callers of engine APIs. Worker
@@ -76,6 +76,9 @@ struct ProgressiveOptions {
     std::optional<progressive::FeaturePolicyOptions> featurePolicy;
     bool seekCheckpoints=true;
     bool measureControlCosts=false; // disabled in ordinary apps; normal-thread counters
+    // 内部DSP hash。OFFでmonoの全体CPU増加を実測したため既存ONを維持する。
+    // 詳細profileとは独立し、入力SHAと最終PCM照合も省略しない。
+    bool recordStageDigests=true;
     // Research opt-in only: long impulse-train quality is NOT approved.
     bool allowUnvalidatedFastLocalSeek=false;
     // Post-mix output is NOT one epoch's raw suffix. Called before gain 0.5.
@@ -170,6 +173,7 @@ struct ProgressiveDiagnostics {
     bool controlCostsMeasured=false;
     ControlCostValue monitorCost,syncLoopSpeedCost;
     std::uint64_t seekDispatchWakes=0;
+    std::uint64_t seekTimingVisits=0,seekTimingLatches=0; // engine寿命、履歴全走査なし
     std::string engineKind="Experimental Progressive Phase61",timeStretchLabSha;
     std::uint64_t preparation=0,session=0,inputGeneration=0;
     std::uint64_t generatedFrames=0,publishedFrames=0,consumedFrames=0,presentedFrames=0;
@@ -241,7 +245,7 @@ public:
     std::vector<progressive::LoopSpeedOperation> loopSpeedHistory()const; // engine lifetime, at most 4096 Accepted IDs
     std::optional<progressive::LoopSpeedOperation> loopSpeedOperation(std::uint64_t id)const;
     std::optional<LoopSpeedPcmEvidence> loopSpeedPcmEvidence(std::uint64_t id)const; // while current/retiring owner is retained; null is not PASS
-    bool prepare(const std::filesystem::path&,ProgressiveOptions={},progressive::ContractV3Tag={});
+    bool prepare(const std::filesystem::path&,ProgressiveOptions={},progressive::ContractV4Tag={});
     // play/resume true means accepted. During stopped preparation output starts
     // asynchronously only after the latest epoch is committed. pause also cancels
     // an accepted resume while still Ready/Paused. Poll state + resumePending.

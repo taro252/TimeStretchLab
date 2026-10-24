@@ -1,0 +1,49 @@
+--- a/src/prototype/Phase36SynthesisCore.h
++++ b/src/prototype/Phase36SynthesisCore.h
+@@ -353,7 +353,7 @@
+         } }
+         { StageClock measure(profile_,1,resolutionIndex_);
+           stft_.analyze(frame_.data(),inputSpectra_[channel].data()); }
+-        if(recordDigests_)hashSpectrum(digests_.fft[resolutionIndex_], inputSpectra_[channel]);
++        hashSpectrum(digests_.fft[resolutionIndex_], inputSpectra_[channel]);
+     }
+     long long startAt(std::size_t frameIndex) const {
+         (void)frameIndex;
+@@ -465,12 +465,12 @@
+         phaseMeasure.finish();
+         for (std::size_t c=0; c<reader_.channels(); ++c) {
+             StageClock synthesisMeasure(profile_,3,resolutionIndex_);
+-            if(recordDigests_)hashSpectrum(digests_.phase[resolutionIndex_], outputSpectra_[c]);
++            hashSpectrum(digests_.phase[resolutionIndex_], outputSpectra_[c]);
+             stft_.synthesize(outputSpectra_[c].data(),synthesized_.data());
+-            if(recordDigests_)for (const auto sample : synthesized_) hashFloat(digests_.ifft[resolutionIndex_], sample);
++            for (const auto sample : synthesized_) hashFloat(digests_.ifft[resolutionIndex_], sample);
+             olas_[c].add(synthesized_.data(),stft_.window().data(),fftSize_,start);
+         }
+-        if (stageTrace_ && recordDigests_ && std::llabs(static_cast<long long>(position_)-
++        if (stageTrace_ && std::llabs(static_cast<long long>(position_)-
+                                       static_cast<long long>(probeInputSample_))<=65536)
+             *stageTrace_<<"frame,"<<resolutionIndex_<<','<<nextFrame_<<','
+                         <<position_<<','<<start<<','
+@@ -502,7 +502,7 @@
+         for (std::size_t c=0; c<reader_.channels(); ++c) {
+             while (olas_[c].nextAbsoluteSample()<absolute) olas_[c].pop();
+             cache_[produced_%cacheSize][c]=olas_[c].pop();
+-            if(recordDigests_)hashFloat(digests_.ola[resolutionIndex_], cache_[produced_%cacheSize][c]);
++            hashFloat(digests_.ola[resolutionIndex_], cache_[produced_%cacheSize][c]);
+         }
+         ++produced_;
+     }
+--- a/src/prototype/Phase57ProgressiveSynthesis.cpp
++++ b/src/prototype/Phase57ProgressiveSynthesis.cpp
+@@ -110,8 +110,8 @@
+             const auto at=published+i;const auto hi=resolution[2]->get(c,at);
+             const auto lf=low[c]->next(at,[&](std::size_t n){return resolution[0]->get(c,n)-resolution[1]->get(c,n);});
+             const auto hf=high[c]->next(at,[&](std::size_t n){return resolution[1]->get(c,n)-resolution[2]->get(c,n);});
+-            if(recordStageDigests){hashFloat(digests.lowFir,lf);hashFloat(digests.highFir,hf);}
+-            float value=hi;value+=lf;value+=hf;pcm[c][i]=value;if(recordStageDigests)hashFloat(digests.fir,value);
++            hashFloat(digests.lowFir,lf);hashFloat(digests.highFir,hf);
++            float value=hi;value+=lf;value+=hf;pcm[c][i]=value;hashFloat(digests.fir,value);
+         }
+         generated=published+count;
+         if(validate)validate();if(cancelled.load())return state=SynthesisState::Cancelled;

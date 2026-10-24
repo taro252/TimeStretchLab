@@ -1,0 +1,79 @@
+{
+  "source": "b17217d8f9a7fffd0535bb360adda447015c08df232af519917937de8470ac94",
+  "live_source": "b17217d8f9a7fffd0535bb360adda447015c08df232af519917937de8470ac94",
+  "build": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/build_native_default_08/BUILD.json",
+    "bytes": 135253,
+    "sha256": "6a1ea92a6b968e916ce416f7e74e69b2a421cb7b4ee9392759fda3fbec97454f"
+  },
+  "source_root": "/Users/taro252/Docker/TimeStretchLab",
+  "host": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/phase61_checkpoint_tests",
+    "bytes": 579352,
+    "sha256": "fde87c54ad0b19c0906fe8ffe54230cac968d6e3038e9422f6dfb3fc06bb7287"
+  },
+  "driver": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/performance_response/recipes/run_checkpoint_saved_raw.py",
+    "bytes": 3817,
+    "sha256": "50eb505300e842a5333f52076b329dbe56670fef430a3360dc3eeab110bbd3b0"
+  },
+  "command": [
+    "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/phase61_checkpoint_tests",
+    "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/inputs/mono48_16s.wav",
+    "--expect-no-safe-interval",
+    "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/checkpoint_rejection_final_01/500000.f32",
+    "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/checkpoint_rejection_final_01/400000.f32"
+  ],
+  "expected_cases": 3,
+  "all_expected_ids": [
+    "rejected_pcm_unchanged",
+    "rejected_then_duplicate",
+    "explicit_fixed_Exact_reprepare"
+  ],
+  "old_reference_record": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/checkpoint_rejection_final_01/EXPECTED.json",
+    "bytes": 4913,
+    "sha256": "3d75d83e52c8da2060c39d0684362c8414ca27a8c7c8204f7f884ecf6f14e9c9"
+  },
+  "reused_reference_generation_not_new_runs": true,
+  "input_and_references": [
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/progressive_adoption_20261023_01/inputs/mono48_16s.wav",
+      "bytes": 3072044,
+      "sha256": "225417ab731543dca88033f86d559275bbcbd6a7def776af39d5a971ec7e9cce"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/checkpoint_rejection_final_01/500000.f32",
+      "bytes": 6144000,
+      "sha256": "373dc70b3094c1af4be87158e713fe4923ffa78409eeffc3a183a4a6104ce177"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/checkpoint_rejection_final_01/500000.log",
+      "bytes": 166,
+      "sha256": "6b1f2abb2c184db0c7fce5c55ad8cdbfcc0ab3a8653a71555b0bd4a1daa60907"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/checkpoint_rejection_final_01/400000.f32",
+      "bytes": 7680000,
+      "sha256": "e0ef1cad6a34b492b875d4571ec567a1f0404c7c1705ff34d26650e159efbac2"
+    },
+    {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/checkpoint_rejection_final_01/400000.log",
+      "bytes": 166,
+      "sha256": "c482cca081b177f0c040c4f051c3674a809ab7fdc60d9a152a5bad22697a3e90"
+    }
+  ],
+  "reference_binary": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/phase61/oracle_release_v1/phase61_frozen_reference",
+    "bytes": 274184,
+    "sha256": "de70db5fbc4284fd13f3f9a7cf257cbca1d8d9a5755859067c7cfb234d1d5748"
+  },
+  "reference_manifest": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/phase62_fix/recipes/oracle_manifest.json",
+    "bytes": 2248,
+    "sha256": "abf48d368e907fab2fd6d6557e1e1417b457d00f114275cf0335422c8caf4630"
+  },
+  "independent_fixed_PCM": true,
+  "performance_approval": false,
+  "realtime_approval": false
+}

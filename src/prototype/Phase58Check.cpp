@@ -14,6 +14,8 @@ int main(int argc,char** argv){try{
         else if(flag=="--worker=standard")config.scheduling=phase58::WorkerScheduling::Standard;
         else if(flag=="--resident-input=on")config.residentInput=true;
         else if(flag=="--resident-input=off")config.residentInput=false;
+        else if(flag=="--stage-digests=on")config.recordStageDigests=true;
+        else if(flag=="--stage-digests=off")config.recordStageDigests=false;
         else throw std::invalid_argument("Unknown verification option: "+flag);
     }
     phase58::RealtimePipeline engine(argv[1],config);std::ifstream ref(argv[4],std::ios::binary);if(!ref)throw std::runtime_error("Missing independent raw reference");

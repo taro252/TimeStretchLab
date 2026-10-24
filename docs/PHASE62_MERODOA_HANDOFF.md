@@ -187,3 +187,39 @@ A/B確定後の準備だけには`requestLoopPreparation(A,B,context)`を使う�
 Merodoa本体、依存gitlink、承認SHAはこの作業では変更しない。実アプリF、TCC、試聴、物理loopback、RTと性能の未達は[受入表](PROGRESSIVE_ADOPTION_F_ACCEPTANCE.md)で個別に閉じる。
 
 通常速度全終端の回収には`receiveFinalEpochAudit`も設定する。全join/参照解放後・256件切詰め前に所有コピーし、destructorの最終`epochAuditConfigured/Calls/Rejected`を照合する。新300Accepted cohortのRelease/Debug各56 checks PASSを既存Loop H<=1から独立に記録した。詳細と未達は上記最終REPORTを参照。
+
+## 2026-10-23 性能・応答候補の追加契約
+
+今回の候補は契約v4／`ContractV4Tag`。同じソースから全header/archiveを同時に
+再ビルドする。`ContractV3Tag`名はソース互換の別名だけで、旧v3のリンク記号は
+提供しない。上のv3実行結果は当時の結果として保持する。
+
+同一identityの準備途中に明示ReturnToAを受けた場合は、先行jobの完了済み仕事を
+保持し、残りを待って完全A状態を引き継ぐ。`LoopSnapshot.preparationRequestID`と
+非終端準備行の`transferredToLoopID`を別IDとして対応付け、終端行を書き換えない。
+準備Ready・Loop採用・最初のPCM・旧owner退役を分ける。Pauseは静止を優先し、
+移管済み準備は継続する。明示Resumeの意思は準備と必要な退役が終わるまで保持する。
+未移管の任意先行準備は従来どおり操作優先で取り消す。
+
+通常Exactの一部は必要な解析確定後に開始できる。全曲解析完了とは別の事実であり、
+FastLocal・Loop保存点・末尾Nのfinal待ちまで解消したという意味ではない。
+共有解析はInputLeaseごと一つで、旧owner停止後も新ownerへ供給し、最後の利用者の
+join後にFD／常駐PCMを解放する。最大2owner／2checkpointと予約は維持する。
+
+内部stage hashは最終候補08でnative通常時も既定ONへ戻した。
+保存05の既定OFFは全体CPU悪化を実測したため取り下げ、入力identity SHAと最終PCM検査は維持する。
+必要な診断は`recordStageDigests`または詳細profileで明示する。未測定値をhash=0の
+実測として扱わない。採用判断・実行コマンド・失敗は
+[性能・応答REPORT](../results/performance_response/REPORT.md)へ分ける。
+本体・gitlink・承認SHA・既定engineはこの作業で変更しない。統合時はcommitした
+40桁候補SHAを固定し、同じ提供素材・Release・UI条件で受け入れる。
+
+## 性能候補08の評価確定（2026-10-24）
+
+性能候補は未commitのsource08 `b17217d8f9a7fffd0535bb360adda447015c08df232af519917937de8470ac94`。
+checkpointの安全拒否/状態保持/明示Exact再準備3caseは現行実行体でPASS。
+CPUは固定n6のmono1倍で全pair増加し、一式として性能採用しない。隔離09/probe10も棄却。
+Closed済みPhase62の機能証拠は維持するが、08の全面native回帰・性能採用へ拡張しない。
+契約v4は候補で、今回Merodoaへ固定する承認済みcommit SHAは作っていない。
+本体/gitlink/承認SHA/既定engineを変更せず、[確定REPORT](../results/performance_response/REPORT.md)
+のNOT_RUN・品質/応答FAIL・実アプリFを引き継ぐ。

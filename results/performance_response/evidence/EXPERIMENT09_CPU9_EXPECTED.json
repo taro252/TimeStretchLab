@@ -1,0 +1,1414 @@
+{
+  "schema": "performance-mono1-fixed-ablation-v1",
+  "created_utc": "2026-10-24T01:44:23.699726+00:00",
+  "expected_programs": 9,
+  "repeats_per_version": 3,
+  "labels": [
+    "old5674",
+    "saved08",
+    "new09"
+  ],
+  "orders": [
+    [
+      "old5674",
+      "saved08",
+      "new09"
+    ],
+    [
+      "saved08",
+      "new09",
+      "old5674"
+    ],
+    [
+      "new09",
+      "old5674",
+      "saved08"
+    ]
+  ],
+  "all_expected_ids": [
+    "mono1_candidate_r01_old5674",
+    "mono1_candidate_r01_saved08",
+    "mono1_candidate_r01_new09",
+    "mono1_candidate_r02_saved08",
+    "mono1_candidate_r02_new09",
+    "mono1_candidate_r02_old5674",
+    "mono1_candidate_r03_new09",
+    "mono1_candidate_r03_old5674",
+    "mono1_candidate_r03_saved08"
+  ],
+  "preset": "candidate",
+  "speed": 1.0,
+  "measurement_seconds": 30,
+  "per_native_timeout_s": 180,
+  "callback_gate": false,
+  "new_requested_source": "d38474d21a0484a7e923009474ab39b65b864fae40d9c1e839ea0199cd96a50f",
+  "stage_digests_required": "ON all three labels",
+  "new_build_path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/build_digest_on_experiment_09_02/BUILD.json",
+  "preflight_status": "PASS",
+  "reserve_bytes": 268435456,
+  "comparisons": [
+    [
+      "old5674",
+      "saved08"
+    ],
+    [
+      "old5674",
+      "new09"
+    ],
+    [
+      "saved08",
+      "new09"
+    ]
+  ],
+  "CPU_approval": false,
+  "adoption_approved": false,
+  "quality_approval": false,
+  "physical_audio": null,
+  "application_F": null,
+  "statistics": "Descriptive n3 only; no significance/tolerance/automatic non-regression acceptance.",
+  "CPU_scope": "Native 30-second process user+system/wall window; wait4 whole child cost is separate.",
+  "history": "9 new programs only; prior steady48/followup18/Armed/OFF07 comparisons not added.",
+  "ordinary_speed_requests": "Fixed initial speed; no new Accepted speed-operation audit is claimed.",
+  "stage_digest_setting": "old5674 unconditional ON; saved08/new09 native option default ON, profiles OFF",
+  "historical_result": "Old experiment07 OFF/mono2 failure remains REJECTED; this ON/mono1 source09 is a distinct condition.",
+  "rejection_policy": "No CPU improvement means reject this isolated experiment; no automatic adoption or extra repetitions.",
+  "plan": {
+    "hosts": {
+      "old5674": {
+        "source": "2dae7749b928a72c36a8942563071ff073d89883012af77fb3822342453de392",
+        "binary": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+          "bytes": 1081576,
+          "sha256": "7831a21cdd33b90cf22df0afae7669c93d099e7be53834142bfe4855dc349a21"
+        },
+        "contract_version": 3
+      },
+      "saved08": {
+        "source": "b17217d8f9a7fffd0535bb360adda447015c08df232af519917937de8470ac94",
+        "binary": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/performance_steady_native",
+          "bytes": 1135832,
+          "sha256": "e8b269561938fe1b8f45ca9a26b3aaab439db6261a2843e04a9af2d2dea42a36"
+        },
+        "contract_version": 4
+      },
+      "new09": {
+        "source": "d38474d21a0484a7e923009474ab39b65b864fae40d9c1e839ea0199cd96a50f",
+        "binary": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/performance_steady_native",
+          "bytes": 1154760,
+          "sha256": "e09e1e9d99951f9a8d494956f06de0b4f1bce03ac87c11b33177e2c5f961a9b2"
+        },
+        "contract_version": 4
+      }
+    },
+    "input": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+      "bytes": 57600044,
+      "sha256": "13c957e5c0f5e3d64c4973ac27117930bcc541ac67f4d21459417d8f5a4e0bd0",
+      "sample_format": "Float32",
+      "rate": 48000,
+      "channels": 1,
+      "frames": 14400000,
+      "duration_s": 300.0,
+      "data_bytes": 57600000
+    },
+    "roots": [
+      {
+        "label": "old5674",
+        "root": "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab",
+        "source": "2dae7749b928a72c36a8942563071ff073d89883012af77fb3822342453de392"
+      },
+      {
+        "label": "saved08",
+        "root": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_source_08",
+        "source": "b17217d8f9a7fffd0535bb360adda447015c08df232af519917937de8470ac94"
+      },
+      {
+        "label": "new09",
+        "root": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_source_09",
+        "source": "d38474d21a0484a7e923009474ab39b65b864fae40d9c1e839ea0199cd96a50f"
+      },
+      {
+        "label": "ROOT08_guard",
+        "root": "/Users/taro252/Docker/TimeStretchLab",
+        "source": "b17217d8f9a7fffd0535bb360adda447015c08df232af519917937de8470ac94"
+      }
+    ],
+    "headers": [
+      {
+        "label": "old5674",
+        "relative": "src/platform/macos/ProgressiveMacPlaybackEngine.h",
+        "identity": {
+          "path": "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab/src/platform/macos/ProgressiveMacPlaybackEngine.h",
+          "bytes": 18469,
+          "sha256": "8602171051c713b1191a97c7a669bae4578820da2ba4c5d8b3c8f212685b75e6"
+        },
+        "contract_version": 3
+      },
+      {
+        "label": "old5674",
+        "relative": "src/playback/ProgressiveContract.h",
+        "identity": {
+          "path": "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab/src/playback/ProgressiveContract.h",
+          "bytes": 2934,
+          "sha256": "04215c50da2c8e218029f033ef1ce810c7ffb03387e206aac16f8fe3b88321c1"
+        },
+        "contract_version": 3
+      },
+      {
+        "label": "old5674",
+        "relative": "src/playback/ProgressiveLoopContract.h",
+        "identity": {
+          "path": "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab/src/playback/ProgressiveLoopContract.h",
+          "bytes": 7429,
+          "sha256": "0256d66068d2c69d96b38ca40b3e97def0125e799b1ad4c832a9c7e083ef5939"
+        },
+        "contract_version": 3
+      },
+      {
+        "label": "old5674",
+        "relative": "src/prototype/Phase58RealtimePipeline.h",
+        "identity": {
+          "path": "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab/src/prototype/Phase58RealtimePipeline.h",
+          "bytes": 16724,
+          "sha256": "24145b639f8d298415c73cb50ac88bac4b65511684c4adda9ef2266da771d04e"
+        },
+        "contract_version": 3
+      },
+      {
+        "label": "old5674",
+        "relative": "src/prototype/Phase35PhaseVocoder.h",
+        "identity": {
+          "path": "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab/src/prototype/Phase35PhaseVocoder.h",
+          "bytes": 1717,
+          "sha256": "6b4ba59abff6aef2fd1abb8400f2c73e40749556271d2836c72fe81cf33e66eb"
+        },
+        "contract_version": 3
+      },
+      {
+        "label": "old5674",
+        "relative": "src/prototype/Phase35StereoPhaseCoherence.h",
+        "identity": {
+          "path": "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab/src/prototype/Phase35StereoPhaseCoherence.h",
+          "bytes": 1384,
+          "sha256": "09b356be27cc210b7470c40db66568f577df9907e51ceaa4e28d2af50342cbcf"
+        },
+        "contract_version": 3
+      },
+      {
+        "label": "old5674",
+        "relative": "tests/Phase62InitialLoopNative.cpp",
+        "identity": {
+          "path": "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab/tests/Phase62InitialLoopNative.cpp",
+          "bytes": 11651,
+          "sha256": "f65cf0e0ea2cb61255cc6d5872f6f134f6d894b4b561e03df1e11834c4517b52"
+        },
+        "contract_version": 3
+      },
+      {
+        "label": "old5674",
+        "relative": "tests/PerformanceSteadyNative.cpp",
+        "identity": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/client.cpp",
+          "bytes": 3729,
+          "sha256": "696004d7cf55101529590fb0ce7c9137c12fcc9dd811a9765aacb40c7ba0e1a6"
+        },
+        "contract_version": 3,
+        "origin": "frozen02 external common host body"
+      },
+      {
+        "label": "saved08",
+        "relative": "src/platform/macos/ProgressiveMacPlaybackEngine.h",
+        "identity": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_source_08/src/platform/macos/ProgressiveMacPlaybackEngine.h",
+          "bytes": 18834,
+          "sha256": "422f4529def0ec2a62b39f08f126422865498d96739a0bb4649ca9e222c61402"
+        },
+        "contract_version": 4
+      },
+      {
+        "label": "saved08",
+        "relative": "src/playback/ProgressiveContract.h",
+        "identity": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_source_08/src/playback/ProgressiveContract.h",
+          "bytes": 2934,
+          "sha256": "04215c50da2c8e218029f033ef1ce810c7ffb03387e206aac16f8fe3b88321c1"
+        },
+        "contract_version": 4
+      },
+      {
+        "label": "saved08",
+        "relative": "src/playback/ProgressiveLoopContract.h",
+        "identity": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_source_08/src/playback/ProgressiveLoopContract.h",
+          "bytes": 7565,
+          "sha256": "665493c5f8d610f51ac54e8e3f83d2c6da30eb68c974bf7c97f283cc1198f6b9"
+        },
+        "contract_version": 4
+      },
+      {
+        "label": "saved08",
+        "relative": "src/prototype/Phase58RealtimePipeline.h",
+        "identity": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_source_08/src/prototype/Phase58RealtimePipeline.h",
+          "bytes": 18053,
+          "sha256": "866c61f9c987e3626cc9e3191b74e2834085d8e6b99161d6292d069644eb6fb0"
+        },
+        "contract_version": 4
+      },
+      {
+        "label": "saved08",
+        "relative": "src/prototype/Phase35PhaseVocoder.h",
+        "identity": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_source_08/src/prototype/Phase35PhaseVocoder.h",
+          "bytes": 3476,
+          "sha256": "b9af7fc60f96c8fcc575122da96cd1b60b93789e3eab613329d2c4745929a31d"
+        },
+        "contract_version": 4
+      },
+      {
+        "label": "saved08",
+        "relative": "src/prototype/Phase35StereoPhaseCoherence.h",
+        "identity": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_source_08/src/prototype/Phase35StereoPhaseCoherence.h",
+          "bytes": 1543,
+          "sha256": "427a71038ccd7d2dfa1a928e6db62462a86e212cee82ccc1b47dd6cc69461720"
+        },
+        "contract_version": 4
+      },
+      {
+        "label": "saved08",
+        "relative": "tests/Phase62InitialLoopNative.cpp",
+        "identity": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_source_08/tests/Phase62InitialLoopNative.cpp",
+          "bytes": 11651,
+          "sha256": "f65cf0e0ea2cb61255cc6d5872f6f134f6d894b4b561e03df1e11834c4517b52"
+        },
+        "contract_version": 4
+      },
+      {
+        "label": "saved08",
+        "relative": "tests/PerformanceSteadyNative.cpp",
+        "identity": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_source_08/tests/PerformanceSteadyNative.cpp",
+          "bytes": 3729,
+          "sha256": "696004d7cf55101529590fb0ce7c9137c12fcc9dd811a9765aacb40c7ba0e1a6"
+        },
+        "contract_version": 4
+      },
+      {
+        "label": "new09",
+        "relative": "src/platform/macos/ProgressiveMacPlaybackEngine.h",
+        "identity": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_source_09/src/platform/macos/ProgressiveMacPlaybackEngine.h",
+          "bytes": 18834,
+          "sha256": "422f4529def0ec2a62b39f08f126422865498d96739a0bb4649ca9e222c61402"
+        },
+        "contract_version": 4
+      },
+      {
+        "label": "new09",
+        "relative": "src/playback/ProgressiveContract.h",
+        "identity": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_source_09/src/playback/ProgressiveContract.h",
+          "bytes": 2934,
+          "sha256": "04215c50da2c8e218029f033ef1ce810c7ffb03387e206aac16f8fe3b88321c1"
+        },
+        "contract_version": 4
+      },
+      {
+        "label": "new09",
+        "relative": "src/playback/ProgressiveLoopContract.h",
+        "identity": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_source_09/src/playback/ProgressiveLoopContract.h",
+          "bytes": 7565,
+          "sha256": "665493c5f8d610f51ac54e8e3f83d2c6da30eb68c974bf7c97f283cc1198f6b9"
+        },
+        "contract_version": 4
+      },
+      {
+        "label": "new09",
+        "relative": "src/prototype/Phase58RealtimePipeline.h",
+        "identity": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_source_09/src/prototype/Phase58RealtimePipeline.h",
+          "bytes": 18053,
+          "sha256": "866c61f9c987e3626cc9e3191b74e2834085d8e6b99161d6292d069644eb6fb0"
+        },
+        "contract_version": 4
+      },
+      {
+        "label": "new09",
+        "relative": "src/prototype/Phase35PhaseVocoder.h",
+        "identity": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_source_09/src/prototype/Phase35PhaseVocoder.h",
+          "bytes": 3476,
+          "sha256": "b9af7fc60f96c8fcc575122da96cd1b60b93789e3eab613329d2c4745929a31d"
+        },
+        "contract_version": 4
+      },
+      {
+        "label": "new09",
+        "relative": "src/prototype/Phase35StereoPhaseCoherence.h",
+        "identity": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_source_09/src/prototype/Phase35StereoPhaseCoherence.h",
+          "bytes": 1543,
+          "sha256": "427a71038ccd7d2dfa1a928e6db62462a86e212cee82ccc1b47dd6cc69461720"
+        },
+        "contract_version": 4
+      },
+      {
+        "label": "new09",
+        "relative": "tests/Phase62InitialLoopNative.cpp",
+        "identity": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_source_09/tests/Phase62InitialLoopNative.cpp",
+          "bytes": 11651,
+          "sha256": "f65cf0e0ea2cb61255cc6d5872f6f134f6d894b4b561e03df1e11834c4517b52"
+        },
+        "contract_version": 4
+      },
+      {
+        "label": "new09",
+        "relative": "tests/PerformanceSteadyNative.cpp",
+        "identity": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_source_09/tests/PerformanceSteadyNative.cpp",
+          "bytes": 3729,
+          "sha256": "696004d7cf55101529590fb0ce7c9137c12fcc9dd811a9765aacb40c7ba0e1a6"
+        },
+        "contract_version": 4
+      }
+    ],
+    "libraries": {
+      "old5674": [
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/baseline/libmacos_progressive_playback_engine.a",
+          "bytes": 261520,
+          "sha256": "51ffdf0140436c821f5d3080f8e32a736fda1e3c3054422763751ee2c33408a9"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/baseline/libphase61_callback_heap_probe.dylib",
+          "bytes": 51624,
+          "sha256": "9ec0f1eb959dfa2cab8224ea7d8482ca0e5d5c7cde6c226e5345d0c1eebb259c"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/baseline/libphase58_realtime.a",
+          "bytes": 343960,
+          "sha256": "19b2b69a20dc31893f750681432d03029d61e40e9c7c74ba79e944118fdb4630"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/baseline/libphase57_synthesis.a",
+          "bytes": 140184,
+          "sha256": "cdb0928208b5d629e18f570b6fd53d4204ee3a7514c68bc56788db2f0d23990a"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/baseline/libphase59_transition.a",
+          "bytes": 47184,
+          "sha256": "82f815b44da036f7a7b94d9b76f15640738453f692d50e30640bae8ccec7b17d"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/baseline/libphase56_incremental.a",
+          "bytes": 214456,
+          "sha256": "016742db5ad7b33ef92edea021a7fef9564ee376e38c695ac9a1ffeae4e15290"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/baseline/libphase39_variable.a",
+          "bytes": 175704,
+          "sha256": "d632c0e8b4a48bc0b2a2e99c240c3d24fd77a93bce7216a410fc6b8bb20507e0"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/baseline/libphase36_variable.a",
+          "bytes": 174432,
+          "sha256": "2bcf0f26dca449dce16959055b13c5f3d88fb0c51569a2c88088b0d4708e8120"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/baseline/libphase24_variable.a",
+          "bytes": 119120,
+          "sha256": "3a87cea191971e24dd59b61decaefea4dc4e6a4b29cf2c9fec42c794b77e03d0"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/baseline/libtimestretch_core.a",
+          "bytes": 643032,
+          "sha256": "40565d210aefc23a026650d8e76f37c325c75d4777fa1c3ff792544d0018b7bf"
+        }
+      ],
+      "saved08": [
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/libmacos_progressive_playback_engine.a",
+          "bytes": 264408,
+          "sha256": "ac051055e640ba836426c0f8c901f0dd39ef494e6f175831d1e20436d4dcc017"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/libphase61_callback_heap_probe.dylib",
+          "bytes": 51624,
+          "sha256": "9ec0f1eb959dfa2cab8224ea7d8482ca0e5d5c7cde6c226e5345d0c1eebb259c"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/libphase58_realtime.a",
+          "bytes": 406712,
+          "sha256": "375ac9518bb65e01604f9d618d45f382addcb84deecff9b55a415ea13b37b51c"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/libphase57_synthesis.a",
+          "bytes": 146392,
+          "sha256": "04bb45047a032d47cc0c5fb2045b70967d7d2181f1e038fe33cc32008969c05f"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/libphase59_transition.a",
+          "bytes": 116104,
+          "sha256": "367c6ebcbc4ee3aed0cae100166374d8491979fc7d95cadda0b067cce8e5c790"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/libphase56_incremental.a",
+          "bytes": 214456,
+          "sha256": "8964bf00088a79e12056050449f74f3aff206f240f9e2f66b534765735491f90"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/libphase39_variable.a",
+          "bytes": 177432,
+          "sha256": "18c69747db303c16c56f257faccd77dde667e7f475ead7aa98d94e2aaf39ca40"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/libphase36_variable.a",
+          "bytes": 175624,
+          "sha256": "a59ad04923a1d4ceb3d6ff99e07c1bc9610aa6987d12cac583c471ac00bac880"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/libphase24_variable.a",
+          "bytes": 119120,
+          "sha256": "e24e2507f3cc4b293bbd20190cc155234feb9e08e0febaeeeb9f17894fad5355"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/libtimestretch_core.a",
+          "bytes": 643344,
+          "sha256": "c829d6c3eff4c4124d66b7ca862278c59e8bbc6381b09b55b34fafaaf473518d"
+        }
+      ],
+      "new09": [
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/libmacos_progressive_playback_engine.a",
+          "bytes": 264408,
+          "sha256": "2b7102639408fc8c05fd7ae4ef17d7815d80ec60503094ca95f12744ef06c846"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/libphase61_callback_heap_probe.dylib",
+          "bytes": 51624,
+          "sha256": "9ec0f1eb959dfa2cab8224ea7d8482ca0e5d5c7cde6c226e5345d0c1eebb259c"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/libphase58_realtime.a",
+          "bytes": 406712,
+          "sha256": "0f5bad765a8935cb96e40b93df87b71ee350abcf40fb0c0c376e155e0c7831a6"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/libphase57_synthesis.a",
+          "bytes": 155952,
+          "sha256": "99d9607b0f9ef3dc424d59b15c0608bc74798c1b350ecf99f605abc47dbff9f7"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/libphase59_transition.a",
+          "bytes": 116104,
+          "sha256": "4616ea38c630b45cc37fd157f7b4350a94efdf6612543cdb3b48def99cc240ee"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/libphase56_incremental.a",
+          "bytes": 214456,
+          "sha256": "604975c3d2947221451b5f5bd3d2c76ecea6cfe465e84657d8b7498d61154b59"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/libphase39_variable.a",
+          "bytes": 177432,
+          "sha256": "67aae7a3e40be8559390eea6dfef070fba641972e38654e2627974cd15bf26ff"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/libphase36_variable.a",
+          "bytes": 175624,
+          "sha256": "6f54534e58514d2e791177c19b2819103dc5b0fb517788a8d6a3d99c20092c7f"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/libphase24_variable.a",
+          "bytes": 119120,
+          "sha256": "6a7277d206856c13dfd7e3f5318f2e19f924f9d0048fef6960aea8aaaa1d0b98"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/libtimestretch_core.a",
+          "bytes": 643344,
+          "sha256": "1c81ab24b40c4a190112feb57e55d691fc6344e5166a37efb30b8acd9d43fbe6"
+        }
+      ]
+    },
+    "inventory": [
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/CLIENT.json",
+        "bytes": 1241349,
+        "sha256": "45eca7d30805baea514d79eb2291ed359c2daa17f5c83d4269fea830a4447087"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/ARCHIVE.json",
+        "bytes": 34843,
+        "sha256": "8559063d9905dddabe366c225368e27ba628250042d4e79877bd8162aae14f3a"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_source_08/SOURCE.json",
+        "bytes": 118579,
+        "sha256": "f2304408ea89ba72b4d0c2dc3f1e8d609b1a780b69d0835f854586d4016515ad"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/build_native_default_08/BUILD.json",
+        "bytes": 135253,
+        "sha256": "6a1ea92a6b968e916ce416f7e74e69b2a421cb7b4ee9392759fda3fbec97454f"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/build_digest_on_experiment_09_02/BUILD.json",
+        "bytes": 120853,
+        "sha256": "2e6c499278e37016124a48f5181f0226aa342c840cc1fdc044677bb02c2cfb72"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/build_baseline_01/BUILD.json",
+        "bytes": 117931,
+        "sha256": "573cd60fa9277bb39d802873d1aa2fe6f330268952e541d2adf369c48f2dc25d"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/performance_response/recipes/run_mono1_digest_on_ablation.py",
+        "bytes": 36592,
+        "sha256": "b319c8299b2ca88ac6671464f9dcb65189f33b8793e777c82d4f72e612666e2c"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/performance_response/recipes/run_pairs.py",
+        "bytes": 29305,
+        "sha256": "a92c133f2a33d8c4ff23153218aadb22e12304edba3674bb0df10d6b080515fb"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/tests/PerformanceSteadyNative.cpp",
+        "bytes": 3729,
+        "sha256": "696004d7cf55101529590fb0ce7c9137c12fcc9dd811a9765aacb40c7ba0e1a6"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/client.cpp",
+        "bytes": 3729,
+        "sha256": "696004d7cf55101529590fb0ce7c9137c12fcc9dd811a9765aacb40c7ba0e1a6"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/client.o",
+        "bytes": 185560,
+        "sha256": "844001170c4a2cc5e08d1bf898e49bc9c12d9c21830b8caea00465c3d67d82ac"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/client.d",
+        "bytes": 262348,
+        "sha256": "fbdba698c9de5195d347dad5b97c682ecc74d24d18b989001ac0017817005a1c"
+      },
+      {
+        "path": "/usr/bin/c++",
+        "bytes": 118640,
+        "sha256": "b8763cf250e607a778bb4603cecb5b90338814d0a3dfcba0d57b1de242f610e9"
+      },
+      {
+        "path": "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab/src/platform/macos/ProgressiveMacPlaybackEngine.h",
+        "bytes": 18469,
+        "sha256": "8602171051c713b1191a97c7a669bae4578820da2ba4c5d8b3c8f212685b75e6"
+      },
+      {
+        "path": "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab/src/playback/ProgressiveContract.h",
+        "bytes": 2934,
+        "sha256": "04215c50da2c8e218029f033ef1ce810c7ffb03387e206aac16f8fe3b88321c1"
+      },
+      {
+        "path": "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab/src/playback/ProgressiveLoopContract.h",
+        "bytes": 7429,
+        "sha256": "0256d66068d2c69d96b38ca40b3e97def0125e799b1ad4c832a9c7e083ef5939"
+      },
+      {
+        "path": "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab/src/prototype/Phase58RealtimePipeline.h",
+        "bytes": 16724,
+        "sha256": "24145b639f8d298415c73cb50ac88bac4b65511684c4adda9ef2266da771d04e"
+      },
+      {
+        "path": "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab/src/prototype/Phase35PhaseVocoder.h",
+        "bytes": 1717,
+        "sha256": "6b4ba59abff6aef2fd1abb8400f2c73e40749556271d2836c72fe81cf33e66eb"
+      },
+      {
+        "path": "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab/src/prototype/Phase35StereoPhaseCoherence.h",
+        "bytes": 1384,
+        "sha256": "09b356be27cc210b7470c40db66568f577df9907e51ceaa4e28d2af50342cbcf"
+      },
+      {
+        "path": "/Users/taro252/.codex/worktrees/progressive-adoption/TimeStretchLab/tests/Phase62InitialLoopNative.cpp",
+        "bytes": 11651,
+        "sha256": "f65cf0e0ea2cb61255cc6d5872f6f134f6d894b4b561e03df1e11834c4517b52"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/client.cpp",
+        "bytes": 3729,
+        "sha256": "696004d7cf55101529590fb0ce7c9137c12fcc9dd811a9765aacb40c7ba0e1a6"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_source_08/src/platform/macos/ProgressiveMacPlaybackEngine.h",
+        "bytes": 18834,
+        "sha256": "422f4529def0ec2a62b39f08f126422865498d96739a0bb4649ca9e222c61402"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_source_08/src/playback/ProgressiveContract.h",
+        "bytes": 2934,
+        "sha256": "04215c50da2c8e218029f033ef1ce810c7ffb03387e206aac16f8fe3b88321c1"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_source_08/src/playback/ProgressiveLoopContract.h",
+        "bytes": 7565,
+        "sha256": "665493c5f8d610f51ac54e8e3f83d2c6da30eb68c974bf7c97f283cc1198f6b9"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_source_08/src/prototype/Phase58RealtimePipeline.h",
+        "bytes": 18053,
+        "sha256": "866c61f9c987e3626cc9e3191b74e2834085d8e6b99161d6292d069644eb6fb0"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_source_08/src/prototype/Phase35PhaseVocoder.h",
+        "bytes": 3476,
+        "sha256": "b9af7fc60f96c8fcc575122da96cd1b60b93789e3eab613329d2c4745929a31d"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_source_08/src/prototype/Phase35StereoPhaseCoherence.h",
+        "bytes": 1543,
+        "sha256": "427a71038ccd7d2dfa1a928e6db62462a86e212cee82ccc1b47dd6cc69461720"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_source_08/tests/Phase62InitialLoopNative.cpp",
+        "bytes": 11651,
+        "sha256": "f65cf0e0ea2cb61255cc6d5872f6f134f6d894b4b561e03df1e11834c4517b52"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_source_08/tests/PerformanceSteadyNative.cpp",
+        "bytes": 3729,
+        "sha256": "696004d7cf55101529590fb0ce7c9137c12fcc9dd811a9765aacb40c7ba0e1a6"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_source_09/src/platform/macos/ProgressiveMacPlaybackEngine.h",
+        "bytes": 18834,
+        "sha256": "422f4529def0ec2a62b39f08f126422865498d96739a0bb4649ca9e222c61402"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_source_09/src/playback/ProgressiveContract.h",
+        "bytes": 2934,
+        "sha256": "04215c50da2c8e218029f033ef1ce810c7ffb03387e206aac16f8fe3b88321c1"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_source_09/src/playback/ProgressiveLoopContract.h",
+        "bytes": 7565,
+        "sha256": "665493c5f8d610f51ac54e8e3f83d2c6da30eb68c974bf7c97f283cc1198f6b9"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_source_09/src/prototype/Phase58RealtimePipeline.h",
+        "bytes": 18053,
+        "sha256": "866c61f9c987e3626cc9e3191b74e2834085d8e6b99161d6292d069644eb6fb0"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_source_09/src/prototype/Phase35PhaseVocoder.h",
+        "bytes": 3476,
+        "sha256": "b9af7fc60f96c8fcc575122da96cd1b60b93789e3eab613329d2c4745929a31d"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_source_09/src/prototype/Phase35StereoPhaseCoherence.h",
+        "bytes": 1543,
+        "sha256": "427a71038ccd7d2dfa1a928e6db62462a86e212cee82ccc1b47dd6cc69461720"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_source_09/tests/Phase62InitialLoopNative.cpp",
+        "bytes": 11651,
+        "sha256": "f65cf0e0ea2cb61255cc6d5872f6f134f6d894b4b561e03df1e11834c4517b52"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_source_09/tests/PerformanceSteadyNative.cpp",
+        "bytes": 3729,
+        "sha256": "696004d7cf55101529590fb0ce7c9137c12fcc9dd811a9765aacb40c7ba0e1a6"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "bytes": 57600044,
+        "sha256": "13c957e5c0f5e3d64c4973ac27117930bcc541ac67f4d21459417d8f5a4e0bd0"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/compile_commands.json",
+        "bytes": 260055,
+        "sha256": "7c75a45278def5d5e57a9f157b1d37e493330476bb3e7ba33348212c4d907655"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/CMakeFiles/performance_steady_native.dir/link.txt",
+        "bytes": 686,
+        "sha256": "4d1c71a4312f069ad59ca128e85f4c3d26eac65ba31c8152c032362de63eb2a8"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/CMakeFiles/performance_steady_native.dir/flags.make",
+        "bytes": 368,
+        "sha256": "5f91448c276ebba0e0f35a727b5560c9b47838c0cd4c94f2884bfcc3b8ef472c"
+      },
+      {
+        "path": "/usr/bin/c++",
+        "bytes": 118640,
+        "sha256": "b8763cf250e607a778bb4603cecb5b90338814d0a3dfcba0d57b1de242f610e9"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/CMakeFiles/performance_steady_native.dir/tests/PerformanceSteadyNative.cpp.o",
+        "bytes": 186816,
+        "sha256": "faee3c8fabf30f23dc72a04a9f650b810a2e3670b66c2ab008ab47075385e7dc"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/CMakeFiles/performance_steady_native.dir/tests/PerformanceSteadyNative.cpp.o.d",
+        "bytes": 263814,
+        "sha256": "4058976a66e2547e32c5220c023a7922b98637050607c27373dabae9c0fb69e9"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/baseline/libmacos_progressive_playback_engine.a",
+        "bytes": 261520,
+        "sha256": "51ffdf0140436c821f5d3080f8e32a736fda1e3c3054422763751ee2c33408a9"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/baseline/libphase61_callback_heap_probe.dylib",
+        "bytes": 51624,
+        "sha256": "9ec0f1eb959dfa2cab8224ea7d8482ca0e5d5c7cde6c226e5345d0c1eebb259c"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/baseline/libphase58_realtime.a",
+        "bytes": 343960,
+        "sha256": "19b2b69a20dc31893f750681432d03029d61e40e9c7c74ba79e944118fdb4630"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/baseline/libphase57_synthesis.a",
+        "bytes": 140184,
+        "sha256": "cdb0928208b5d629e18f570b6fd53d4204ee3a7514c68bc56788db2f0d23990a"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/baseline/libphase59_transition.a",
+        "bytes": 47184,
+        "sha256": "82f815b44da036f7a7b94d9b76f15640738453f692d50e30640bae8ccec7b17d"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/baseline/libphase56_incremental.a",
+        "bytes": 214456,
+        "sha256": "016742db5ad7b33ef92edea021a7fef9564ee376e38c695ac9a1ffeae4e15290"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/baseline/libphase39_variable.a",
+        "bytes": 175704,
+        "sha256": "d632c0e8b4a48bc0b2a2e99c240c3d24fd77a93bce7216a410fc6b8bb20507e0"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/baseline/libphase36_variable.a",
+        "bytes": 174432,
+        "sha256": "2bcf0f26dca449dce16959055b13c5f3d88fb0c51569a2c88088b0d4708e8120"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/baseline/libphase24_variable.a",
+        "bytes": 119120,
+        "sha256": "3a87cea191971e24dd59b61decaefea4dc4e6a4b29cf2c9fec42c794b77e03d0"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/baseline/libtimestretch_core.a",
+        "bytes": 643032,
+        "sha256": "40565d210aefc23a026650d8e76f37c325c75d4777fa1c3ff792544d0018b7bf"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "bytes": 1081576,
+        "sha256": "7831a21cdd33b90cf22df0afae7669c93d099e7be53834142bfe4855dc349a21"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/baseline/libphase61_callback_heap_probe.dylib",
+        "bytes": 51624,
+        "sha256": "9ec0f1eb959dfa2cab8224ea7d8482ca0e5d5c7cde6c226e5345d0c1eebb259c"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/libmacos_progressive_playback_engine.a",
+        "bytes": 264408,
+        "sha256": "ac051055e640ba836426c0f8c901f0dd39ef494e6f175831d1e20436d4dcc017"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/libphase61_callback_heap_probe.dylib",
+        "bytes": 51624,
+        "sha256": "9ec0f1eb959dfa2cab8224ea7d8482ca0e5d5c7cde6c226e5345d0c1eebb259c"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/libphase58_realtime.a",
+        "bytes": 406712,
+        "sha256": "375ac9518bb65e01604f9d618d45f382addcb84deecff9b55a415ea13b37b51c"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/libphase57_synthesis.a",
+        "bytes": 146392,
+        "sha256": "04bb45047a032d47cc0c5fb2045b70967d7d2181f1e038fe33cc32008969c05f"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/libphase59_transition.a",
+        "bytes": 116104,
+        "sha256": "367c6ebcbc4ee3aed0cae100166374d8491979fc7d95cadda0b067cce8e5c790"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/libphase56_incremental.a",
+        "bytes": 214456,
+        "sha256": "8964bf00088a79e12056050449f74f3aff206f240f9e2f66b534765735491f90"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/libphase39_variable.a",
+        "bytes": 177432,
+        "sha256": "18c69747db303c16c56f257faccd77dde667e7f475ead7aa98d94e2aaf39ca40"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/libphase36_variable.a",
+        "bytes": 175624,
+        "sha256": "a59ad04923a1d4ceb3d6ff99e07c1bc9610aa6987d12cac583c471ac00bac880"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/libphase24_variable.a",
+        "bytes": 119120,
+        "sha256": "e24e2507f3cc4b293bbd20190cc155234feb9e08e0febaeeeb9f17894fad5355"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/libtimestretch_core.a",
+        "bytes": 643344,
+        "sha256": "c829d6c3eff4c4124d66b7ca862278c59e8bbc6381b09b55b34fafaaf473518d"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/performance_steady_native",
+        "bytes": 1135832,
+        "sha256": "e8b269561938fe1b8f45ca9a26b3aaab439db6261a2843e04a9af2d2dea42a36"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/libphase61_callback_heap_probe.dylib",
+        "bytes": 51624,
+        "sha256": "9ec0f1eb959dfa2cab8224ea7d8482ca0e5d5c7cde6c226e5345d0c1eebb259c"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/libmacos_progressive_playback_engine.a",
+        "bytes": 264408,
+        "sha256": "2b7102639408fc8c05fd7ae4ef17d7815d80ec60503094ca95f12744ef06c846"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/libphase61_callback_heap_probe.dylib",
+        "bytes": 51624,
+        "sha256": "9ec0f1eb959dfa2cab8224ea7d8482ca0e5d5c7cde6c226e5345d0c1eebb259c"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/libphase58_realtime.a",
+        "bytes": 406712,
+        "sha256": "0f5bad765a8935cb96e40b93df87b71ee350abcf40fb0c0c376e155e0c7831a6"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/libphase57_synthesis.a",
+        "bytes": 155952,
+        "sha256": "99d9607b0f9ef3dc424d59b15c0608bc74798c1b350ecf99f605abc47dbff9f7"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/libphase59_transition.a",
+        "bytes": 116104,
+        "sha256": "4616ea38c630b45cc37fd157f7b4350a94efdf6612543cdb3b48def99cc240ee"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/libphase56_incremental.a",
+        "bytes": 214456,
+        "sha256": "604975c3d2947221451b5f5bd3d2c76ecea6cfe465e84657d8b7498d61154b59"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/libphase39_variable.a",
+        "bytes": 177432,
+        "sha256": "67aae7a3e40be8559390eea6dfef070fba641972e38654e2627974cd15bf26ff"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/libphase36_variable.a",
+        "bytes": 175624,
+        "sha256": "6f54534e58514d2e791177c19b2819103dc5b0fb517788a8d6a3d99c20092c7f"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/libphase24_variable.a",
+        "bytes": 119120,
+        "sha256": "6a7277d206856c13dfd7e3f5318f2e19f924f9d0048fef6960aea8aaaa1d0b98"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/libtimestretch_core.a",
+        "bytes": 643344,
+        "sha256": "1c81ab24b40c4a190112feb57e55d691fc6344e5166a37efb30b8acd9d43fbe6"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/performance_steady_native",
+        "bytes": 1154760,
+        "sha256": "e09e1e9d99951f9a8d494956f06de0b4f1bce03ac87c11b33177e2c5f961a9b2"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/libphase61_callback_heap_probe.dylib",
+        "bytes": 51624,
+        "sha256": "9ec0f1eb959dfa2cab8224ea7d8482ca0e5d5c7cde6c226e5345d0c1eebb259c"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/stage_digest_experiment07_draft/after.cpp",
+        "bytes": 31492,
+        "sha256": "c12dee6510abcc9295f72634b127c144ad01c21abd6dfeade9a9aa8d81e0d76b"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/CMakeFiles/phase57_synthesis.dir/flags.make",
+        "bytes": 418,
+        "sha256": "95adef9e76a761bcb3f9a3bfa9ed37fc74cd5b76ba738aab5c98bfaf1681a894"
+      },
+      {
+        "path": "/Users/taro252/Docker/TimeStretchLab/results/performance_response/recipes/run_mono2_digest_ablation.py",
+        "bytes": 30123,
+        "sha256": "866c3f5dac667e513e81810aebad34539220ad574cccf5c9896788c6a84e6916"
+      }
+    ],
+    "runtime_linkages": {
+      "old5674": {
+        "binary": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+          "bytes": 1081576,
+          "sha256": "7831a21cdd33b90cf22df0afae7669c93d099e7be53834142bfe4855dc349a21"
+        },
+        "architecture": {
+          "command": [
+            "/usr/bin/lipo",
+            "-archs",
+            "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native"
+          ],
+          "returncode": 0,
+          "stdout": "arm64\n",
+          "stderr": ""
+        },
+        "loads": {
+          "command": [
+            "/usr/bin/otool",
+            "-L",
+            "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native"
+          ],
+          "returncode": 0,
+          "stdout": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native:\n\t@rpath/libphase61_callback_heap_probe.dylib (compatibility version 0.0.0, current version 0.0.0)\n\t/System/Library/Frameworks/Accelerate.framework/Versions/A/Accelerate (compatibility version 1.0.0, current version 4.0.0)\n\t/System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox (compatibility version 1.0.0, current version 1000.0.0)\n\t/System/Library/Frameworks/AVFoundation.framework/Versions/A/AVFoundation (compatibility version 1.0.0, current version 2.0.0)\n\t/System/Library/Frameworks/Foundation.framework/Versions/C/Foundation (compatibility version 300.0.0, current version 5027.0.69)\n\t/System/Library/Frameworks/CoreAudio.framework/Versions/A/CoreAudio (compatibility version 1.0.0, current version 1.0.0)\n\t/usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 2200.27.0)\n\t/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)\n\t/System/Library/Frameworks/AVFAudio.framework/Versions/A/AVFAudio (compatibility version 1.0.0, current version 1.0.0)\n\t/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation (compatibility version 150.0.0, current version 5027.0.69)\n\t/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)\n",
+          "stderr": ""
+        },
+        "load_commands": {
+          "command": [
+            "/usr/bin/otool",
+            "-l",
+            "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native"
+          ],
+          "returncode": 0,
+          "stdout": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native:\nLoad command 0\n      cmd LC_SEGMENT_64\n  cmdsize 72\n  segname __PAGEZERO\n   vmaddr 0x0000000000000000\n   vmsize 0x0000000100000000\n  fileoff 0\n filesize 0\n  maxprot 0x00000000\n initprot 0x00000000\n   nsects 0\n    flags 0x0\nLoad command 1\n      cmd LC_SEGMENT_64\n  cmdsize 792\n  segname __TEXT\n   vmaddr 0x0000000100000000\n   vmsize 0x00000000000b4000\n  fileoff 0\n filesize 737280\n  maxprot 0x00000005\n initprot 0x00000005\n   nsects 9\n    flags 0x0\nSection\n  sectname __text\n   segname __TEXT\n      addr 0x0000000100003838\n      size 0x0000000000098a54\n    offset 14392\n     align 2^2 (4)\n    reloff 0\n    nreloc 0\n     flags 0x80000400\n reserved1 0\n reserved2 0\nSection\n  sectname __stubs\n   segname __TEXT\n      addr 0x000000010009c28c\n      size 0x0000000000000a50\n    offset 639628\n     align 2^2 (4)\n    reloff 0\n    nreloc 0\n     flags 0x80000408\n reserved1 0 (index into indirect symbol table)\n reserved2 12 (size of stubs)\nSection\n  sectname __objc_stubs\n   segname __TEXT\n      addr 0x000000010009cce0\n      size 0x0000000000000320\n    offset 642272\n     align 2^5 (32)\n    reloff 0\n    nreloc 0\n     flags 0x80000400\n reserved1 0\n reserved2 0\nSection\n  sectname __const\n   segname __TEXT\n      addr 0x000000010009d000\n      size 0x0000000000003450\n    offset 643072\n     align 2^4 (16)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nSection\n  sectname __gcc_except_tab\n   segname __TEXT\n      addr 0x00000001000a0450\n      size 0x00000000000096a8\n    offset 656464\n     align 2^2 (4)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nSection\n  sectname __cstring\n   segname __TEXT\n      addr 0x00000001000a9af8\n      size 0x0000000000006cf3\n    offset 695032\n     align 2^0 (1)\n    reloff 0\n    nreloc 0\n     flags 0x00000002\n reserved1 0\n reserved2 0\nSection\n  sectname __objc_methname\n   segname __TEXT\n      addr 0x00000001000b07eb\n      size 0x00000000000001b1\n    offset 722923\n     align 2^0 (1)\n    reloff 0\n    nreloc 0\n     flags 0x00000002\n reserved1 0\n reserved2 0\nSection\n  sectname __unwind_info\n   segname __TEXT\n      addr 0x00000001000b099c\n      size 0x0000000000001e28\n    offset 723356\n     align 2^2 (4)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nSection\n  sectname __eh_frame\n   segname __TEXT\n      addr 0x00000001000b27c8\n      size 0x0000000000000050\n    offset 731080\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x6800000b\n reserved1 0\n reserved2 0\nLoad command 2\n      cmd LC_SEGMENT_64\n  cmdsize 312\n  segname __DATA_CONST\n   vmaddr 0x00000001000b4000\n   vmsize 0x0000000000004000\n  fileoff 737280\n filesize 16384\n  maxprot 0x00000003\n initprot 0x00000003\n   nsects 3\n    flags 0x10\nSection\n  sectname __const\n   segname __DATA_CONST\n      addr 0x00000001000b4000\n      size 0x0000000000001558\n    offset 737280\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nSection\n  sectname __objc_imageinfo\n   segname __DATA_CONST\n      addr 0x00000001000b5558\n      size 0x0000000000000008\n    offset 742744\n     align 2^2 (4)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nSection\n  sectname __got\n   segname __DATA_CONST\n      addr 0x00000001000b5560\n      size 0x0000000000000890\n    offset 742752\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000006\n reserved1 220 (index into indirect symbol table)\n reserved2 0\nLoad command 3\n      cmd LC_SEGMENT_64\n  cmdsize 472\n  segname __DATA\n   vmaddr 0x00000001000b8000\n   vmsize 0x0000000000004000\n  fileoff 753664\n filesize 16384\n  maxprot 0x00000003\n initprot 0x00000003\n   nsects 5\n    flags 0x0\nSection\n  sectname __objc_selrefs\n   segname __DATA\n      addr 0x00000001000b8000\n      size 0x00000000000000c8\n    offset 753664\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x10000005\n reserved1 0\n reserved2 0\nSection\n  sectname __data\n   segname __DATA\n      addr 0x00000001000b80c8\n      size 0x0000000000000010\n    offset 753864\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nSection\n  sectname __thread_vars\n   segname __DATA\n      addr 0x00000001000b80d8\n      size 0x0000000000000090\n    offset 753880\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000013\n reserved1 0\n reserved2 0\nSection\n  sectname __thread_bss\n   segname __DATA\n      addr 0x00000001000b8168\n      size 0x0000000000000040\n    offset 0\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000012\n reserved1 0\n reserved2 0\nSection\n  sectname __bss\n   segname __DATA\n      addr 0x00000001000b81a8\n      size 0x0000000000000078\n    offset 0\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000001\n reserved1 0\n reserved2 0\nLoad command 4\n      cmd LC_SEGMENT_64\n  cmdsize 72\n  segname __LINKEDIT\n   vmaddr 0x00000001000bc000\n   vmsize 0x0000000000050000\n  fileoff 770048\n filesize 311528\n  maxprot 0x00000001\n initprot 0x00000001\n   nsects 0\n    flags 0x0\nLoad command 5\n      cmd LC_DYLD_CHAINED_FIXUPS\n  cmdsize 16\n  dataoff 770048\n datasize 10488\nLoad command 6\n      cmd LC_DYLD_EXPORTS_TRIE\n  cmdsize 16\n  dataoff 780536\n datasize 18152\nLoad command 7\n     cmd LC_SYMTAB\n cmdsize 24\n  symoff 800528\n   nsyms 2761\n  stroff 846680\n strsize 226376\nLoad command 8\n            cmd LC_DYSYMTAB\n        cmdsize 80\n      ilocalsym 0\n      nlocalsym 2084\n     iextdefsym 2084\n     nextdefsym 406\n      iundefsym 2490\n      nundefsym 271\n         tocoff 0\n           ntoc 0\n      modtaboff 0\n        nmodtab 0\n   extrefsymoff 0\n    nextrefsyms 0\n indirectsymoff 844704\n  nindirectsyms 494\n      extreloff 0\n        nextrel 0\n      locreloff 0\n        nlocrel 0\nLoad command 9\n          cmd LC_LOAD_DYLINKER\n      cmdsize 32\n         name /usr/lib/dyld (offset 12)\nLoad command 10\n     cmd LC_UUID\n cmdsize 24\n    uuid A4FB8F80-1A18-3FE5-8753-362F6AC3A5E4\nLoad command 11\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform 1\n    minos 26.0\n      sdk 27.0\n   ntools 1\n     tool 3\n  version 27037.1\nLoad command 12\n      cmd LC_SOURCE_VERSION\n  cmdsize 16\n  version 0.0\nLoad command 13\n       cmd LC_MAIN\n   cmdsize 24\n  entryoff 89080\n stacksize 0\nLoad command 14\n          cmd LC_LOAD_DYLIB\n      cmdsize 72\n         name @rpath/libphase61_callback_heap_probe.dylib (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 0.0.0\ncompatibility version 0.0.0\nLoad command 15\n          cmd LC_LOAD_DYLIB\n      cmdsize 96\n         name /System/Library/Frameworks/Accelerate.framework/Versions/A/Accelerate (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 4.0.0\ncompatibility version 1.0.0\nLoad command 16\n          cmd LC_LOAD_DYLIB\n      cmdsize 104\n         name /System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 1000.0.0\ncompatibility version 1.0.0\nLoad command 17\n          cmd LC_LOAD_DYLIB\n      cmdsize 104\n         name /System/Library/Frameworks/AVFoundation.framework/Versions/A/AVFoundation (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 2.0.0\ncompatibility version 1.0.0\nLoad command 18\n          cmd LC_LOAD_DYLIB\n      cmdsize 96\n         name /System/Library/Frameworks/Foundation.framework/Versions/C/Foundation (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 5027.0.69\ncompatibility version 300.0.0\nLoad command 19\n          cmd LC_LOAD_DYLIB\n      cmdsize 96\n         name /System/Library/Frameworks/CoreAudio.framework/Versions/A/CoreAudio (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 1.0.0\ncompatibility version 1.0.0\nLoad command 20\n          cmd LC_LOAD_DYLIB\n      cmdsize 48\n         name /usr/lib/libc++.1.dylib (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 2200.27.0\ncompatibility version 1.0.0\nLoad command 21\n          cmd LC_LOAD_DYLIB\n      cmdsize 56\n         name /usr/lib/libSystem.B.dylib (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 1359.0.0\ncompatibility version 1.0.0\nLoad command 22\n          cmd LC_LOAD_DYLIB\n      cmdsize 96\n         name /System/Library/Frameworks/AVFAudio.framework/Versions/A/AVFAudio (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 1.0.0\ncompatibility version 1.0.0\nLoad command 23\n          cmd LC_LOAD_DYLIB\n      cmdsize 104\n         name /System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 5027.0.69\ncompatibility version 150.0.0\nLoad command 24\n          cmd LC_LOAD_DYLIB\n      cmdsize 56\n         name /usr/lib/libobjc.A.dylib (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 228.0.0\ncompatibility version 1.0.0\nLoad command 25\n          cmd LC_RPATH\n      cmdsize 104\n         path /Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/baseline (offset 12)\nLoad command 26\n      cmd LC_FUNCTION_STARTS\n  cmdsize 16\n  dataoff 798688\n datasize 1840\nLoad command 27\n      cmd LC_DATA_IN_CODE\n  cmdsize 16\n  dataoff 800528\n datasize 0\nLoad command 28\n      cmd LC_CODE_SIGNATURE\n  cmdsize 16\n  dataoff 1073056\n datasize 8520\n",
+          "stderr": ""
+        },
+        "LC_RPATH": [
+          "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/baseline"
+        ],
+        "probe_reference": "@rpath/libphase61_callback_heap_probe.dylib",
+        "ordered_probe_candidates": [
+          "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/baseline/libphase61_callback_heap_probe.dylib"
+        ],
+        "resolved_probe": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/baseline/libphase61_callback_heap_probe.dylib",
+          "bytes": 51624,
+          "sha256": "9ec0f1eb959dfa2cab8224ea7d8482ca0e5d5c7cde6c226e5345d0c1eebb259c"
+        },
+        "probe_loads": {
+          "command": [
+            "/usr/bin/otool",
+            "-L",
+            "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/baseline/libphase61_callback_heap_probe.dylib"
+          ],
+          "returncode": 0,
+          "stdout": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/baseline/libphase61_callback_heap_probe.dylib:\n\t@rpath/libphase61_callback_heap_probe.dylib (compatibility version 0.0.0, current version 0.0.0)\n\t/usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 2200.27.0)\n\t/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)\n",
+          "stderr": ""
+        },
+        "scope": "Default dyld paths, environment overrides forbidden; system dylibs not independently rehashed."
+      },
+      "saved08": {
+        "binary": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/performance_steady_native",
+          "bytes": 1135832,
+          "sha256": "e8b269561938fe1b8f45ca9a26b3aaab439db6261a2843e04a9af2d2dea42a36"
+        },
+        "architecture": {
+          "command": [
+            "/usr/bin/lipo",
+            "-archs",
+            "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/performance_steady_native"
+          ],
+          "returncode": 0,
+          "stdout": "arm64\n",
+          "stderr": ""
+        },
+        "loads": {
+          "command": [
+            "/usr/bin/otool",
+            "-L",
+            "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/performance_steady_native"
+          ],
+          "returncode": 0,
+          "stdout": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/performance_steady_native:\n\t@rpath/libphase61_callback_heap_probe.dylib (compatibility version 0.0.0, current version 0.0.0)\n\t/System/Library/Frameworks/Accelerate.framework/Versions/A/Accelerate (compatibility version 1.0.0, current version 4.0.0)\n\t/System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox (compatibility version 1.0.0, current version 1000.0.0)\n\t/System/Library/Frameworks/AVFoundation.framework/Versions/A/AVFoundation (compatibility version 1.0.0, current version 2.0.0)\n\t/System/Library/Frameworks/Foundation.framework/Versions/C/Foundation (compatibility version 300.0.0, current version 5027.0.69)\n\t/System/Library/Frameworks/CoreAudio.framework/Versions/A/CoreAudio (compatibility version 1.0.0, current version 1.0.0)\n\t/usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 2200.27.0)\n\t/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)\n\t/System/Library/Frameworks/AVFAudio.framework/Versions/A/AVFAudio (compatibility version 1.0.0, current version 1.0.0)\n\t/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation (compatibility version 150.0.0, current version 5027.0.69)\n\t/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)\n",
+          "stderr": ""
+        },
+        "load_commands": {
+          "command": [
+            "/usr/bin/otool",
+            "-l",
+            "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/performance_steady_native"
+          ],
+          "returncode": 0,
+          "stdout": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/performance_steady_native:\nLoad command 0\n      cmd LC_SEGMENT_64\n  cmdsize 72\n  segname __PAGEZERO\n   vmaddr 0x0000000000000000\n   vmsize 0x0000000100000000\n  fileoff 0\n filesize 0\n  maxprot 0x00000000\n initprot 0x00000000\n   nsects 0\n    flags 0x0\nLoad command 1\n      cmd LC_SEGMENT_64\n  cmdsize 792\n  segname __TEXT\n   vmaddr 0x0000000100000000\n   vmsize 0x00000000000bc000\n  fileoff 0\n filesize 770048\n  maxprot 0x00000005\n initprot 0x00000005\n   nsects 9\n    flags 0x0\nSection\n  sectname __text\n   segname __TEXT\n      addr 0x0000000100003838\n      size 0x000000000009ff9c\n    offset 14392\n     align 2^2 (4)\n    reloff 0\n    nreloc 0\n     flags 0x80000400\n reserved1 0\n reserved2 0\nSection\n  sectname __stubs\n   segname __TEXT\n      addr 0x00000001000a37d4\n      size 0x0000000000000a50\n    offset 669652\n     align 2^2 (4)\n    reloff 0\n    nreloc 0\n     flags 0x80000408\n reserved1 0 (index into indirect symbol table)\n reserved2 12 (size of stubs)\nSection\n  sectname __objc_stubs\n   segname __TEXT\n      addr 0x00000001000a4240\n      size 0x0000000000000320\n    offset 672320\n     align 2^5 (32)\n    reloff 0\n    nreloc 0\n     flags 0x80000400\n reserved1 0\n reserved2 0\nSection\n  sectname __const\n   segname __TEXT\n      addr 0x00000001000a4560\n      size 0x0000000000003820\n    offset 673120\n     align 2^4 (16)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nSection\n  sectname __gcc_except_tab\n   segname __TEXT\n      addr 0x00000001000a7d80\n      size 0x0000000000009f3c\n    offset 687488\n     align 2^2 (4)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nSection\n  sectname __cstring\n   segname __TEXT\n      addr 0x00000001000b1cbc\n      size 0x0000000000007078\n    offset 728252\n     align 2^0 (1)\n    reloff 0\n    nreloc 0\n     flags 0x00000002\n reserved1 0\n reserved2 0\nSection\n  sectname __objc_methname\n   segname __TEXT\n      addr 0x00000001000b8d34\n      size 0x00000000000001b1\n    offset 757044\n     align 2^0 (1)\n    reloff 0\n    nreloc 0\n     flags 0x00000002\n reserved1 0\n reserved2 0\nSection\n  sectname __unwind_info\n   segname __TEXT\n      addr 0x00000001000b8ee8\n      size 0x0000000000001fe0\n    offset 757480\n     align 2^2 (4)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nSection\n  sectname __eh_frame\n   segname __TEXT\n      addr 0x00000001000baec8\n      size 0x0000000000000050\n    offset 765640\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x6800000b\n reserved1 0\n reserved2 0\nLoad command 2\n      cmd LC_SEGMENT_64\n  cmdsize 312\n  segname __DATA_CONST\n   vmaddr 0x00000001000bc000\n   vmsize 0x0000000000004000\n  fileoff 770048\n filesize 16384\n  maxprot 0x00000003\n initprot 0x00000003\n   nsects 3\n    flags 0x10\nSection\n  sectname __const\n   segname __DATA_CONST\n      addr 0x00000001000bc000\n      size 0x00000000000016f8\n    offset 770048\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nSection\n  sectname __objc_imageinfo\n   segname __DATA_CONST\n      addr 0x00000001000bd6f8\n      size 0x0000000000000008\n    offset 775928\n     align 2^2 (4)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nSection\n  sectname __got\n   segname __DATA_CONST\n      addr 0x00000001000bd700\n      size 0x0000000000000890\n    offset 775936\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000006\n reserved1 220 (index into indirect symbol table)\n reserved2 0\nLoad command 3\n      cmd LC_SEGMENT_64\n  cmdsize 472\n  segname __DATA\n   vmaddr 0x00000001000c0000\n   vmsize 0x0000000000004000\n  fileoff 786432\n filesize 16384\n  maxprot 0x00000003\n initprot 0x00000003\n   nsects 5\n    flags 0x0\nSection\n  sectname __objc_selrefs\n   segname __DATA\n      addr 0x00000001000c0000\n      size 0x00000000000000c8\n    offset 786432\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x10000005\n reserved1 0\n reserved2 0\nSection\n  sectname __data\n   segname __DATA\n      addr 0x00000001000c00c8\n      size 0x0000000000000010\n    offset 786632\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nSection\n  sectname __thread_vars\n   segname __DATA\n      addr 0x00000001000c00d8\n      size 0x0000000000000090\n    offset 786648\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000013\n reserved1 0\n reserved2 0\nSection\n  sectname __thread_bss\n   segname __DATA\n      addr 0x00000001000c0168\n      size 0x0000000000000040\n    offset 0\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000012\n reserved1 0\n reserved2 0\nSection\n  sectname __bss\n   segname __DATA\n      addr 0x00000001000c01a8\n      size 0x0000000000000078\n    offset 0\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000001\n reserved1 0\n reserved2 0\nLoad command 4\n      cmd LC_SEGMENT_64\n  cmdsize 72\n  segname __LINKEDIT\n   vmaddr 0x00000001000c4000\n   vmsize 0x0000000000054000\n  fileoff 802816\n filesize 333016\n  maxprot 0x00000001\n initprot 0x00000001\n   nsects 0\n    flags 0x0\nLoad command 5\n      cmd LC_DYLD_CHAINED_FIXUPS\n  cmdsize 16\n  dataoff 802816\n datasize 10488\nLoad command 6\n      cmd LC_DYLD_EXPORTS_TRIE\n  cmdsize 16\n  dataoff 813304\n datasize 18480\nLoad command 7\n     cmd LC_SYMTAB\n cmdsize 24\n  symoff 833728\n   nsyms 2941\n  stroff 882760\n strsize 244104\nLoad command 8\n            cmd LC_DYSYMTAB\n        cmdsize 80\n      ilocalsym 0\n      nlocalsym 2257\n     iextdefsym 2257\n     nextdefsym 413\n      iundefsym 2670\n      nundefsym 271\n         tocoff 0\n           ntoc 0\n      modtaboff 0\n        nmodtab 0\n   extrefsymoff 0\n    nextrefsyms 0\n indirectsymoff 880784\n  nindirectsyms 494\n      extreloff 0\n        nextrel 0\n      locreloff 0\n        nlocrel 0\nLoad command 9\n          cmd LC_LOAD_DYLINKER\n      cmdsize 32\n         name /usr/lib/dyld (offset 12)\nLoad command 10\n     cmd LC_UUID\n cmdsize 24\n    uuid 6C05FF1F-8CC4-3519-AC6B-8B682040E509\nLoad command 11\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform 1\n    minos 26.0\n      sdk 27.0\n   ntools 1\n     tool 3\n  version 27037.1\nLoad command 12\n      cmd LC_SOURCE_VERSION\n  cmdsize 16\n  version 0.0\nLoad command 13\n       cmd LC_MAIN\n   cmdsize 24\n  entryoff 90184\n stacksize 0\nLoad command 14\n          cmd LC_LOAD_DYLIB\n      cmdsize 72\n         name @rpath/libphase61_callback_heap_probe.dylib (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 0.0.0\ncompatibility version 0.0.0\nLoad command 15\n          cmd LC_LOAD_DYLIB\n      cmdsize 96\n         name /System/Library/Frameworks/Accelerate.framework/Versions/A/Accelerate (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 4.0.0\ncompatibility version 1.0.0\nLoad command 16\n          cmd LC_LOAD_DYLIB\n      cmdsize 104\n         name /System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 1000.0.0\ncompatibility version 1.0.0\nLoad command 17\n          cmd LC_LOAD_DYLIB\n      cmdsize 104\n         name /System/Library/Frameworks/AVFoundation.framework/Versions/A/AVFoundation (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 2.0.0\ncompatibility version 1.0.0\nLoad command 18\n          cmd LC_LOAD_DYLIB\n      cmdsize 96\n         name /System/Library/Frameworks/Foundation.framework/Versions/C/Foundation (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 5027.0.69\ncompatibility version 300.0.0\nLoad command 19\n          cmd LC_LOAD_DYLIB\n      cmdsize 96\n         name /System/Library/Frameworks/CoreAudio.framework/Versions/A/CoreAudio (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 1.0.0\ncompatibility version 1.0.0\nLoad command 20\n          cmd LC_LOAD_DYLIB\n      cmdsize 48\n         name /usr/lib/libc++.1.dylib (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 2200.27.0\ncompatibility version 1.0.0\nLoad command 21\n          cmd LC_LOAD_DYLIB\n      cmdsize 56\n         name /usr/lib/libSystem.B.dylib (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 1359.0.0\ncompatibility version 1.0.0\nLoad command 22\n          cmd LC_LOAD_DYLIB\n      cmdsize 96\n         name /System/Library/Frameworks/AVFAudio.framework/Versions/A/AVFAudio (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 1.0.0\ncompatibility version 1.0.0\nLoad command 23\n          cmd LC_LOAD_DYLIB\n      cmdsize 104\n         name /System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 5027.0.69\ncompatibility version 150.0.0\nLoad command 24\n          cmd LC_LOAD_DYLIB\n      cmdsize 56\n         name /usr/lib/libobjc.A.dylib (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 228.0.0\ncompatibility version 1.0.0\nLoad command 25\n          cmd LC_RPATH\n      cmdsize 104\n         path /Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate (offset 12)\nLoad command 26\n      cmd LC_FUNCTION_STARTS\n  cmdsize 16\n  dataoff 831784\n datasize 1944\nLoad command 27\n      cmd LC_DATA_IN_CODE\n  cmdsize 16\n  dataoff 833728\n datasize 0\nLoad command 28\n      cmd LC_CODE_SIGNATURE\n  cmdsize 16\n  dataoff 1126864\n datasize 8968\n",
+          "stderr": ""
+        },
+        "LC_RPATH": [
+          "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate"
+        ],
+        "probe_reference": "@rpath/libphase61_callback_heap_probe.dylib",
+        "ordered_probe_candidates": [
+          "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/libphase61_callback_heap_probe.dylib"
+        ],
+        "resolved_probe": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/libphase61_callback_heap_probe.dylib",
+          "bytes": 51624,
+          "sha256": "9ec0f1eb959dfa2cab8224ea7d8482ca0e5d5c7cde6c226e5345d0c1eebb259c"
+        },
+        "probe_loads": {
+          "command": [
+            "/usr/bin/otool",
+            "-L",
+            "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/libphase61_callback_heap_probe.dylib"
+          ],
+          "returncode": 0,
+          "stdout": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/libphase61_callback_heap_probe.dylib:\n\t@rpath/libphase61_callback_heap_probe.dylib (compatibility version 0.0.0, current version 0.0.0)\n\t/usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 2200.27.0)\n\t/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)\n",
+          "stderr": ""
+        },
+        "scope": "Default dyld paths, environment overrides forbidden; system dylibs not independently rehashed."
+      },
+      "new09": {
+        "binary": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/performance_steady_native",
+          "bytes": 1154760,
+          "sha256": "e09e1e9d99951f9a8d494956f06de0b4f1bce03ac87c11b33177e2c5f961a9b2"
+        },
+        "architecture": {
+          "command": [
+            "/usr/bin/lipo",
+            "-archs",
+            "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/performance_steady_native"
+          ],
+          "returncode": 0,
+          "stdout": "arm64\n",
+          "stderr": ""
+        },
+        "loads": {
+          "command": [
+            "/usr/bin/otool",
+            "-L",
+            "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/performance_steady_native"
+          ],
+          "returncode": 0,
+          "stdout": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/performance_steady_native:\n\t@rpath/libphase61_callback_heap_probe.dylib (compatibility version 0.0.0, current version 0.0.0)\n\t/System/Library/Frameworks/Accelerate.framework/Versions/A/Accelerate (compatibility version 1.0.0, current version 4.0.0)\n\t/System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox (compatibility version 1.0.0, current version 1000.0.0)\n\t/System/Library/Frameworks/AVFoundation.framework/Versions/A/AVFoundation (compatibility version 1.0.0, current version 2.0.0)\n\t/System/Library/Frameworks/Foundation.framework/Versions/C/Foundation (compatibility version 300.0.0, current version 5027.0.69)\n\t/System/Library/Frameworks/CoreAudio.framework/Versions/A/CoreAudio (compatibility version 1.0.0, current version 1.0.0)\n\t/usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 2200.27.0)\n\t/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)\n\t/System/Library/Frameworks/AVFAudio.framework/Versions/A/AVFAudio (compatibility version 1.0.0, current version 1.0.0)\n\t/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation (compatibility version 150.0.0, current version 5027.0.69)\n\t/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)\n",
+          "stderr": ""
+        },
+        "load_commands": {
+          "command": [
+            "/usr/bin/otool",
+            "-l",
+            "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/performance_steady_native"
+          ],
+          "returncode": 0,
+          "stdout": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/performance_steady_native:\nLoad command 0\n      cmd LC_SEGMENT_64\n  cmdsize 72\n  segname __PAGEZERO\n   vmaddr 0x0000000000000000\n   vmsize 0x0000000100000000\n  fileoff 0\n filesize 0\n  maxprot 0x00000000\n initprot 0x00000000\n   nsects 0\n    flags 0x0\nLoad command 1\n      cmd LC_SEGMENT_64\n  cmdsize 792\n  segname __TEXT\n   vmaddr 0x0000000100000000\n   vmsize 0x00000000000c0000\n  fileoff 0\n filesize 786432\n  maxprot 0x00000005\n initprot 0x00000005\n   nsects 9\n    flags 0x0\nSection\n  sectname __text\n   segname __TEXT\n      addr 0x0000000100003848\n      size 0x00000000000a10ac\n    offset 14408\n     align 2^2 (4)\n    reloff 0\n    nreloc 0\n     flags 0x80000400\n reserved1 0\n reserved2 0\nSection\n  sectname __stubs\n   segname __TEXT\n      addr 0x00000001000a48f4\n      size 0x0000000000000a50\n    offset 674036\n     align 2^2 (4)\n    reloff 0\n    nreloc 0\n     flags 0x80000408\n reserved1 0 (index into indirect symbol table)\n reserved2 12 (size of stubs)\nSection\n  sectname __objc_stubs\n   segname __TEXT\n      addr 0x00000001000a5360\n      size 0x0000000000000320\n    offset 676704\n     align 2^5 (32)\n    reloff 0\n    nreloc 0\n     flags 0x80000400\n reserved1 0\n reserved2 0\nSection\n  sectname __const\n   segname __TEXT\n      addr 0x00000001000a5680\n      size 0x0000000000003820\n    offset 677504\n     align 2^4 (16)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nSection\n  sectname __gcc_except_tab\n   segname __TEXT\n      addr 0x00000001000a8ea0\n      size 0x000000000000a044\n    offset 691872\n     align 2^2 (4)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nSection\n  sectname __cstring\n   segname __TEXT\n      addr 0x00000001000b2ee4\n      size 0x0000000000007078\n    offset 732900\n     align 2^0 (1)\n    reloff 0\n    nreloc 0\n     flags 0x00000002\n reserved1 0\n reserved2 0\nSection\n  sectname __objc_methname\n   segname __TEXT\n      addr 0x00000001000b9f5c\n      size 0x00000000000001b1\n    offset 761692\n     align 2^0 (1)\n    reloff 0\n    nreloc 0\n     flags 0x00000002\n reserved1 0\n reserved2 0\nSection\n  sectname __unwind_info\n   segname __TEXT\n      addr 0x00000001000ba110\n      size 0x0000000000002000\n    offset 762128\n     align 2^2 (4)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nSection\n  sectname __eh_frame\n   segname __TEXT\n      addr 0x00000001000bc110\n      size 0x0000000000000050\n    offset 770320\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x6800000b\n reserved1 0\n reserved2 0\nLoad command 2\n      cmd LC_SEGMENT_64\n  cmdsize 312\n  segname __DATA_CONST\n   vmaddr 0x00000001000c0000\n   vmsize 0x0000000000004000\n  fileoff 786432\n filesize 16384\n  maxprot 0x00000003\n initprot 0x00000003\n   nsects 3\n    flags 0x10\nSection\n  sectname __const\n   segname __DATA_CONST\n      addr 0x00000001000c0000\n      size 0x00000000000016f8\n    offset 786432\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nSection\n  sectname __objc_imageinfo\n   segname __DATA_CONST\n      addr 0x00000001000c16f8\n      size 0x0000000000000008\n    offset 792312\n     align 2^2 (4)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nSection\n  sectname __got\n   segname __DATA_CONST\n      addr 0x00000001000c1700\n      size 0x0000000000000890\n    offset 792320\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000006\n reserved1 220 (index into indirect symbol table)\n reserved2 0\nLoad command 3\n      cmd LC_SEGMENT_64\n  cmdsize 472\n  segname __DATA\n   vmaddr 0x00000001000c4000\n   vmsize 0x0000000000004000\n  fileoff 802816\n filesize 16384\n  maxprot 0x00000003\n initprot 0x00000003\n   nsects 5\n    flags 0x0\nSection\n  sectname __objc_selrefs\n   segname __DATA\n      addr 0x00000001000c4000\n      size 0x00000000000000c8\n    offset 802816\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x10000005\n reserved1 0\n reserved2 0\nSection\n  sectname __data\n   segname __DATA\n      addr 0x00000001000c40c8\n      size 0x0000000000000010\n    offset 803016\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nSection\n  sectname __thread_vars\n   segname __DATA\n      addr 0x00000001000c40d8\n      size 0x0000000000000090\n    offset 803032\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000013\n reserved1 0\n reserved2 0\nSection\n  sectname __thread_bss\n   segname __DATA\n      addr 0x00000001000c4168\n      size 0x0000000000000040\n    offset 0\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000012\n reserved1 0\n reserved2 0\nSection\n  sectname __bss\n   segname __DATA\n      addr 0x00000001000c41a8\n      size 0x0000000000000078\n    offset 0\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000001\n reserved1 0\n reserved2 0\nLoad command 4\n      cmd LC_SEGMENT_64\n  cmdsize 72\n  segname __LINKEDIT\n   vmaddr 0x00000001000c8000\n   vmsize 0x0000000000054000\n  fileoff 819200\n filesize 335560\n  maxprot 0x00000001\n initprot 0x00000001\n   nsects 0\n    flags 0x0\nLoad command 5\n      cmd LC_DYLD_CHAINED_FIXUPS\n  cmdsize 16\n  dataoff 819200\n datasize 10488\nLoad command 6\n      cmd LC_DYLD_EXPORTS_TRIE\n  cmdsize 16\n  dataoff 829688\n datasize 18480\nLoad command 7\n     cmd LC_SYMTAB\n cmdsize 24\n  symoff 850112\n   nsyms 2960\n  stroff 899448\n strsize 246216\nLoad command 8\n            cmd LC_DYSYMTAB\n        cmdsize 80\n      ilocalsym 0\n      nlocalsym 2276\n     iextdefsym 2276\n     nextdefsym 413\n      iundefsym 2689\n      nundefsym 271\n         tocoff 0\n           ntoc 0\n      modtaboff 0\n        nmodtab 0\n   extrefsymoff 0\n    nextrefsyms 0\n indirectsymoff 897472\n  nindirectsyms 494\n      extreloff 0\n        nextrel 0\n      locreloff 0\n        nlocrel 0\nLoad command 9\n          cmd LC_LOAD_DYLINKER\n      cmdsize 32\n         name /usr/lib/dyld (offset 12)\nLoad command 10\n     cmd LC_UUID\n cmdsize 24\n    uuid 2C069177-FDB9-370D-A73E-755AC857370B\nLoad command 11\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform 1\n    minos 26.0\n      sdk 27.0\n   ntools 1\n     tool 3\n  version 27037.1\nLoad command 12\n      cmd LC_SOURCE_VERSION\n  cmdsize 16\n  version 0.0\nLoad command 13\n       cmd LC_MAIN\n   cmdsize 24\n  entryoff 90200\n stacksize 0\nLoad command 14\n          cmd LC_LOAD_DYLIB\n      cmdsize 72\n         name @rpath/libphase61_callback_heap_probe.dylib (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 0.0.0\ncompatibility version 0.0.0\nLoad command 15\n          cmd LC_LOAD_DYLIB\n      cmdsize 96\n         name /System/Library/Frameworks/Accelerate.framework/Versions/A/Accelerate (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 4.0.0\ncompatibility version 1.0.0\nLoad command 16\n          cmd LC_LOAD_DYLIB\n      cmdsize 104\n         name /System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 1000.0.0\ncompatibility version 1.0.0\nLoad command 17\n          cmd LC_LOAD_DYLIB\n      cmdsize 104\n         name /System/Library/Frameworks/AVFoundation.framework/Versions/A/AVFoundation (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 2.0.0\ncompatibility version 1.0.0\nLoad command 18\n          cmd LC_LOAD_DYLIB\n      cmdsize 96\n         name /System/Library/Frameworks/Foundation.framework/Versions/C/Foundation (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 5027.0.69\ncompatibility version 300.0.0\nLoad command 19\n          cmd LC_LOAD_DYLIB\n      cmdsize 96\n         name /System/Library/Frameworks/CoreAudio.framework/Versions/A/CoreAudio (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 1.0.0\ncompatibility version 1.0.0\nLoad command 20\n          cmd LC_LOAD_DYLIB\n      cmdsize 48\n         name /usr/lib/libc++.1.dylib (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 2200.27.0\ncompatibility version 1.0.0\nLoad command 21\n          cmd LC_LOAD_DYLIB\n      cmdsize 56\n         name /usr/lib/libSystem.B.dylib (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 1359.0.0\ncompatibility version 1.0.0\nLoad command 22\n          cmd LC_LOAD_DYLIB\n      cmdsize 96\n         name /System/Library/Frameworks/AVFAudio.framework/Versions/A/AVFAudio (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 1.0.0\ncompatibility version 1.0.0\nLoad command 23\n          cmd LC_LOAD_DYLIB\n      cmdsize 104\n         name /System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 5027.0.69\ncompatibility version 150.0.0\nLoad command 24\n          cmd LC_LOAD_DYLIB\n      cmdsize 56\n         name /usr/lib/libobjc.A.dylib (offset 24)\n   time stamp 2 Thu Jan  1 09:00:02 1970\n      current version 228.0.0\ncompatibility version 1.0.0\nLoad command 25\n          cmd LC_RPATH\n      cmdsize 120\n         path /Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02 (offset 12)\nLoad command 26\n      cmd LC_FUNCTION_STARTS\n  cmdsize 16\n  dataoff 848168\n datasize 1944\nLoad command 27\n      cmd LC_DATA_IN_CODE\n  cmdsize 16\n  dataoff 850112\n datasize 0\nLoad command 28\n      cmd LC_CODE_SIGNATURE\n  cmdsize 16\n  dataoff 1145664\n datasize 9096\n",
+          "stderr": ""
+        },
+        "LC_RPATH": [
+          "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02"
+        ],
+        "probe_reference": "@rpath/libphase61_callback_heap_probe.dylib",
+        "ordered_probe_candidates": [
+          "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/libphase61_callback_heap_probe.dylib"
+        ],
+        "resolved_probe": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/libphase61_callback_heap_probe.dylib",
+          "bytes": 51624,
+          "sha256": "9ec0f1eb959dfa2cab8224ea7d8482ca0e5d5c7cde6c226e5345d0c1eebb259c"
+        },
+        "probe_loads": {
+          "command": [
+            "/usr/bin/otool",
+            "-L",
+            "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/libphase61_callback_heap_probe.dylib"
+          ],
+          "returncode": 0,
+          "stdout": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/libphase61_callback_heap_probe.dylib:\n\t@rpath/libphase61_callback_heap_probe.dylib (compatibility version 0.0.0, current version 0.0.0)\n\t/usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 2200.27.0)\n\t/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)\n",
+          "stderr": ""
+        },
+        "scope": "Default dyld paths, environment overrides forbidden; system dylibs not independently rehashed."
+      }
+    },
+    "changes08_to09": [
+      "src/prototype/Phase57ProgressiveSynthesis.cpp"
+    ],
+    "initial_space": [
+      {
+        "path": "/private/tmp",
+        "free_bytes": 670556160,
+        "input_bytes": 57600044,
+        "reserve_bytes": 268435456,
+        "required_bytes": 326035500,
+        "pass": true
+      },
+      {
+        "path": "/private/var/folders/ft/xsqp1bg15lvcr2m90ynsllmr0000gn/T",
+        "free_bytes": 670556160,
+        "input_bytes": 57600044,
+        "reserve_bytes": 268435456,
+        "required_bytes": 326035500,
+        "pass": true
+      }
+    ],
+    "new_compile_flags": {
+      "CXX_DEFINES": [],
+      "CXX_INCLUDES": [
+        "-I/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_source_09/src"
+      ],
+      "CXX_FLAGS": [
+        "-O3",
+        "-DNDEBUG",
+        "-std=c++20",
+        "-arch",
+        "arm64"
+      ]
+    },
+    "new_compile_command": {
+      "directory": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02",
+      "command": "/usr/bin/c++  -I/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_source_09/src -O3 -DNDEBUG -std=c++20 -arch arm64 -o CMakeFiles/performance_steady_native.dir/tests/PerformanceSteadyNative.cpp.o -c /Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_source_09/tests/PerformanceSteadyNative.cpp",
+      "file": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_source_09/tests/PerformanceSteadyNative.cpp",
+      "output": "CMakeFiles/performance_steady_native.dir/tests/PerformanceSteadyNative.cpp.o"
+    },
+    "old_archive_pin_provenance": "2026-10-23旧baseline読取り固定。旧BUILDに個別archive SHAなし。",
+    "old_host_body_provenance": "Pinned external common body compiled against old V3 headers/libs; absent from baseline752 ledger.",
+    "source_entries": {
+      "old5674": 752,
+      "saved08": 768,
+      "new09": 768,
+      "ROOT08_guard": 768
+    },
+    "stage_digest_settings": {
+      "old5674": "unconditional legacy hashes; no ON/OFF setting",
+      "saved08": "recordStageDigests=true default; fixed host has no override",
+      "new09": "recordStageDigests=true default; fixed host has no override"
+    },
+    "reviewed_block_dispatch_body": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/stage_digest_experiment07_draft/after.cpp",
+      "bytes": 31492,
+      "sha256": "c12dee6510abcc9295f72634b127c144ad01c21abd6dfeade9a9aa8d81e0d76b"
+    },
+    "derived_recipe": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/performance_response/recipes/run_mono2_digest_ablation.py",
+      "bytes": 30123,
+      "sha256": "866c3f5dac667e513e81810aebad34539220ad574cccf5c9896788c6a84e6916"
+    },
+    "new_phase57_compile_flags": {
+      "CXX_DEFINES": [],
+      "CXX_INCLUDES": [
+        "-I/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_source_09/src"
+      ],
+      "CXX_FLAGS": [
+        "-O3",
+        "-DNDEBUG",
+        "-std=c++20",
+        "-arch",
+        "arm64",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic"
+      ]
+    },
+    "new_phase57_compile_command": {
+      "directory": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02",
+      "command": "/usr/bin/c++  -I/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_source_09/src -O3 -DNDEBUG -std=c++20 -arch arm64 -Wall -Wextra -Wpedantic -o CMakeFiles/phase57_synthesis.dir/src/prototype/Phase57ProgressiveSynthesis.cpp.o -c /Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_source_09/src/prototype/Phase57ProgressiveSynthesis.cpp",
+      "file": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_source_09/src/prototype/Phase57ProgressiveSynthesis.cpp",
+      "output": "CMakeFiles/phase57_synthesis.dir/src/prototype/Phase57ProgressiveSynthesis.cpp.o"
+    },
+    "archive08_actual_check_scope": "Saved steady host, nine static libraries and heap probe; other archive members metadata only.",
+    "old08_compile_commands_scope": "Historical BUILD SHA retained; its overwritten live compile_commands path is not used.",
+    "runtime": {
+      "platform": "macOS-26.6.2-arm64-arm-64bit",
+      "machine": "arm64",
+      "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]"
+    },
+    "sources": {
+      "old5674": "2dae7749b928a72c36a8942563071ff073d89883012af77fb3822342453de392",
+      "saved08": "b17217d8f9a7fffd0535bb360adda447015c08df232af519917937de8470ac94",
+      "new09": "d38474d21a0484a7e923009474ab39b65b864fae40d9c1e839ea0199cd96a50f"
+    },
+    "supervision": {
+      "mode": "direct native common.execute",
+      "SIGTERM": "wrapper KeyboardInterrupt handler; common direct-child wait4/finally retirement; no delegated driver/grandchild"
+    }
+  },
+  "jobs": [
+    {
+      "id": "mono1_candidate_r01_old5674",
+      "repeat": 1,
+      "label": "old5674",
+      "version": "old5674",
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 1.0,
+      "source": "2dae7749b928a72c36a8942563071ff073d89883012af77fb3822342453de392",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "1.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_digest_on_ablation09/mono1_candidate_r01_old5674"
+      ]
+    },
+    {
+      "id": "mono1_candidate_r01_saved08",
+      "repeat": 1,
+      "label": "saved08",
+      "version": "saved08",
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 1.0,
+      "source": "b17217d8f9a7fffd0535bb360adda447015c08df232af519917937de8470ac94",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "1.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_digest_on_ablation09/mono1_candidate_r01_saved08"
+      ]
+    },
+    {
+      "id": "mono1_candidate_r01_new09",
+      "repeat": 1,
+      "label": "new09",
+      "version": "new09",
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 1.0,
+      "source": "d38474d21a0484a7e923009474ab39b65b864fae40d9c1e839ea0199cd96a50f",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "1.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_digest_on_ablation09/mono1_candidate_r01_new09"
+      ]
+    },
+    {
+      "id": "mono1_candidate_r02_saved08",
+      "repeat": 2,
+      "label": "saved08",
+      "version": "saved08",
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 1.0,
+      "source": "b17217d8f9a7fffd0535bb360adda447015c08df232af519917937de8470ac94",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "1.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_digest_on_ablation09/mono1_candidate_r02_saved08"
+      ]
+    },
+    {
+      "id": "mono1_candidate_r02_new09",
+      "repeat": 2,
+      "label": "new09",
+      "version": "new09",
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 1.0,
+      "source": "d38474d21a0484a7e923009474ab39b65b864fae40d9c1e839ea0199cd96a50f",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "1.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_digest_on_ablation09/mono1_candidate_r02_new09"
+      ]
+    },
+    {
+      "id": "mono1_candidate_r02_old5674",
+      "repeat": 2,
+      "label": "old5674",
+      "version": "old5674",
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 1.0,
+      "source": "2dae7749b928a72c36a8942563071ff073d89883012af77fb3822342453de392",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "1.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_digest_on_ablation09/mono1_candidate_r02_old5674"
+      ]
+    },
+    {
+      "id": "mono1_candidate_r03_new09",
+      "repeat": 3,
+      "label": "new09",
+      "version": "new09",
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 1.0,
+      "source": "d38474d21a0484a7e923009474ab39b65b864fae40d9c1e839ea0199cd96a50f",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/digest_on_candidate_09_02/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "1.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_digest_on_ablation09/mono1_candidate_r03_new09"
+      ]
+    },
+    {
+      "id": "mono1_candidate_r03_old5674",
+      "repeat": 3,
+      "label": "old5674",
+      "version": "old5674",
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 1.0,
+      "source": "2dae7749b928a72c36a8942563071ff073d89883012af77fb3822342453de392",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "1.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_digest_on_ablation09/mono1_candidate_r03_old5674"
+      ]
+    },
+    {
+      "id": "mono1_candidate_r03_saved08",
+      "repeat": 3,
+      "label": "saved08",
+      "version": "saved08",
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 1.0,
+      "source": "b17217d8f9a7fffd0535bb360adda447015c08df232af519917937de8470ac94",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "1.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_digest_on_ablation09/mono1_candidate_r03_saved08"
+      ]
+    }
+  ],
+  "driver": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/performance_response/recipes/run_mono1_digest_on_ablation.py",
+    "bytes": 36592,
+    "sha256": "b319c8299b2ca88ac6671464f9dcb65189f33b8793e777c82d4f72e612666e2c"
+  },
+  "helper": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/performance_response/recipes/run_pairs.py",
+    "bytes": 29305,
+    "sha256": "a92c133f2a33d8c4ff23153218aadb22e12304edba3674bb0df10d6b080515fb"
+  }
+}

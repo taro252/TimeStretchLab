@@ -217,3 +217,24 @@ D07のLoop所有者履歴H<=1<512、D08のdescriptor距離d-c<=44<64は閉鎖済
 - Exact896/Golden25は旧証拠の現SHA・数学依存照合であり今回の新実行件数に足さない。D07/D08の既存閉鎖を保存し、新監査の証明へ一般化しない。過去/途中のFAIL・未成立・INCOMPLETEを保存した。
 
 今回の追加契約・先行準備・全量監査は局所PASS。全体正式採用・一般公開・Merodoa既定採用は未完了。FastLocalの品質/200ms/RT、cold ABの方式/性能、実アプリF/TCC/試聴/物理確認を個別に閉じる。新API・理由・予約・寿命・復旧は[契約v3](PROGRESSIVE_ADOPTION_API_V3.md)、Fの必須12項目は[受入表](PROGRESSIVE_ADOPTION_F_ACCEPTANCE.md)。Merodoaソース/gitlink/承認SHAは変更しない。
+
+
+## 2026-10-23開始の性能・応答候補
+
+現在の追加変更は契約v4の未commit候補である。上のv3時点の件数・採用範囲は保存する。
+今回の実装・ソース台帳・新規実行・限定再利用・未達は
+[性能・応答REPORT](../results/performance_response/REPORT.md)で機能別に対応付ける。
+全161速度の固定/動的Exact、Golden、解析寿命、先行job移管、checkpoint、監査の
+機能結果と、定常CPU、cold/warm AB、Interactive Ready、FastLocal品質は別の判定軸とする。
+旧v3 binaryとv4 headerを混在させず、正式承認フラグを今回の性能結果だけで変更しない。
+Merodoaのgitlink/既定engine/承認SHAは変更しない。アプリFと物理確認も未実施のまま保存する。
+
+## 性能候補08の評価確定（2026-10-24）
+
+性能候補は未commitのsource08 `b17217d8f9a7fffd0535bb360adda447015c08df232af519917937de8470ac94`。
+checkpointの安全拒否/状態保持/明示Exact再準備3caseは現行実行体でPASS。
+CPUは固定n6のmono1倍で全pair増加し、一式として性能採用しない。隔離09/probe10も棄却。
+Closed済みPhase62の機能証拠は維持するが、08の全面native回帰・性能採用へ拡張しない。
+契約v4は候補で、今回Merodoaへ固定する承認済みcommit SHAは作っていない。
+本体/gitlink/承認SHA/既定engineを変更せず、[確定REPORT](../results/performance_response/REPORT.md)
+のNOT_RUN・品質/応答FAIL・実アプリFを引き継ぐ。

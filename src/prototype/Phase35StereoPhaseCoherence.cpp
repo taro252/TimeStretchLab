@@ -29,7 +29,9 @@ void Phase35StereoPhaseCoherence::process(const std::complex<float>* leftInput,
                                    std::complex<float>* leftOutput,
                                    std::complex<float>* rightOutput,
                                    Phase35PhaseVocoder& leftVocoder, Phase35PhaseVocoder& rightVocoder,
-                                   const std::vector<int>& owners) {
+                                   const std::vector<int>& owners,
+                                   const Phase35PhaseVocoder::InputPolarView* leftPolar,
+                                   const Phase35PhaseVocoder::InputPolarView* rightPolar) {
     constexpr double twoPi = 2 * std::numbers::pi;
     lastNeighborhoodEvaluations_ = 0;
     const auto disjoint=[&](const auto* input,const auto* output){
@@ -38,18 +40,23 @@ void Phase35StereoPhaseCoherence::process(const std::complex<float>* leftInput,
     };
     const bool reuse=disjoint(leftInput,leftOutput)&&disjoint(leftInput,rightOutput)&&
         disjoint(rightInput,leftOutput)&&disjoint(rightInput,rightOutput);
+    const bool polarReuse=reuse&&leftPolar&&rightPolar&&
+        leftPolar->validFor(leftVocoder,leftInput,fftSize_/2+1)&&rightPolar->validFor(rightVocoder,rightInput,fftSize_/2+1);
+    const auto leftMagnitude=[&](std::size_t k){return polarReuse?leftPolar->magnitude[k]:std::abs(leftInput[k]);};
+    const auto rightMagnitude=[&](std::size_t k){return polarReuse?rightPolar->magnitude[k]:std::abs(rightInput[k]);};
     // Adjacent region members share exactly this owner-local calculation.
     // Reuse only while the inputs cannot be changed through either output.
     int cachedOwner=-1;double cachedTonality=0;
     for (std::size_t k = 1; k < fftSize_ / 2; ++k) {
         weights_[k] = 0;
-        const double leftMag = std::abs(leftInput[k]), rightMag = std::abs(rightInput[k]);
+        const double leftMag = leftMagnitude(k), rightMag = rightMagnitude(k);
         if (std::min(leftMag, rightMag) < 1e-7) {
             valid_[k] = false;
             continue;
         }
-        const double ipd = std::remainder(double(std::arg(rightInput[k])) -
-                                          std::arg(leftInput[k]), twoPi);
+        const bool phaseReuse=polarReuse&&leftPolar->phaseValid(k)&&rightPolar->phaseValid(k);
+        const double ipd = std::remainder(double(phaseReuse?rightPolar->phase[k]:std::arg(rightInput[k])) -
+                                          (phaseReuse?leftPolar->phase[k]:std::arg(leftInput[k])), twoPi);
         const double stability = valid_[k]
             ? std::clamp(1.0 - std::abs(std::remainder(ipd - previousIpd_[k], twoPi)) / 1.2,
                          0.0, 1.0) : 0.0;
@@ -62,8 +69,7 @@ void Phase35StereoPhaseCoherence::process(const std::complex<float>* leftInput,
         else{
             ++lastNeighborhoodEvaluations_;
             const auto combined = [&](std::size_t bin) {
-                return std::hypot(double(std::abs(leftInput[bin])),
-                                  double(std::abs(rightInput[bin])));
+                return std::hypot(double(leftMagnitude(bin)),double(rightMagnitude(bin)));
             };
             const double peak = combined(static_cast<std::size_t>(owner));
             double localMean = 0;

@@ -5,6 +5,7 @@
 #include <fstream>
 #include <vector>
 #include <span>
+#include <functional>
 
 namespace ts {
 class WavStreamReader {
@@ -19,7 +20,7 @@ public:
     std::size_t channels() const { return channels_; }
     std::size_t frames() const { return frames_; }
     float sample(std::size_t channel, std::size_t frame);
-    void validateEncodedSamples() const; // Normal preparation, encoded byte input only.
+    void validateEncodedSamples(std::function<void(std::size_t)> progress={}) const;
 private:
     static constexpr std::size_t cacheFrames_ = 65536;
     std::ifstream input_;

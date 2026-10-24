@@ -1,0 +1,257 @@
+{
+  "status": "PASS",
+  "expected_cases": 4,
+  "executed_cases": 4,
+  "passed_cases": 4,
+  "rows": [
+    {
+      "id": "timeout",
+      "status": "PASS",
+      "execution": {
+        "returncode": -15,
+        "timeout": true,
+        "interrupted": false,
+        "wall_s": 5.85077895905124,
+        "process_user_s": 0.026372,
+        "process_system_s": 0.008898999999999999,
+        "whole_process_cpu_s": 0.035271,
+        "max_rss_native_units": 24969216,
+        "max_rss_units": "bytes on macOS",
+        "voluntary_context_switches": 2,
+        "involuntary_context_switches": 98,
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/group_supervisor_dummy_v2_01/timeout/driver.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "supervisor": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/group_supervisor_dummy_v2_01/timeout/driver.log.SUPERVISOR_V2.json",
+          "bytes": 116850,
+          "sha256": "3030babe07908039fcde959620f24c459a4ddca405535e91a26b89d4f9e4a4f5"
+        },
+        "cleanup_confirmed": true,
+        "next_job_allowed": false,
+        "abnormal_reason": "TIMEOUT"
+      },
+      "fixtures": {
+        "driver": {
+          "pid": 78031,
+          "ppid": 78030,
+          "uid": 501,
+          "pgid": 78031,
+          "sid": 78031,
+          "kind": "driver"
+        },
+        "child": {
+          "pid": 78032,
+          "ppid": 78031,
+          "uid": 501,
+          "pgid": 78031,
+          "sid": 78031,
+          "kind": "child"
+        },
+        "leaf": {
+          "pid": 78033,
+          "ppid": 78032,
+          "uid": 501,
+          "pgid": 78031,
+          "sid": 78031,
+          "kind": "leaf"
+        }
+      },
+      "same_group_session": true,
+      "suppressed_independent_group_requests": 2,
+      "error": null,
+      "timer_errors": [],
+      "self_signal": []
+    },
+    {
+      "id": "SIGTERM",
+      "status": "PASS",
+      "execution": {
+        "returncode": -15,
+        "timeout": false,
+        "interrupted": true,
+        "wall_s": 3.5990174160106108,
+        "process_user_s": 0.025699,
+        "process_system_s": 0.007921,
+        "whole_process_cpu_s": 0.03362,
+        "max_rss_native_units": 25149440,
+        "max_rss_units": "bytes on macOS",
+        "voluntary_context_switches": 1,
+        "involuntary_context_switches": 94,
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/group_supervisor_dummy_v2_01/SIGTERM/driver.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "supervisor": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/group_supervisor_dummy_v2_01/SIGTERM/driver.log.SUPERVISOR_V2.json",
+          "bytes": 117492,
+          "sha256": "120f72b8e61c224fe04f485008333a9acec04e5ec930c7f6a46594304593477d"
+        },
+        "cleanup_confirmed": true,
+        "next_job_allowed": false,
+        "abnormal_reason": "INTERRUPTED: supervisor signal 15"
+      },
+      "fixtures": {
+        "driver": {
+          "pid": 78084,
+          "ppid": 78030,
+          "uid": 501,
+          "pgid": 78084,
+          "sid": 78084,
+          "kind": "driver"
+        },
+        "child": {
+          "pid": 78085,
+          "ppid": 78084,
+          "uid": 501,
+          "pgid": 78084,
+          "sid": 78084,
+          "kind": "child"
+        },
+        "leaf": {
+          "pid": 78086,
+          "ppid": 78085,
+          "uid": 501,
+          "pgid": 78084,
+          "sid": 78084,
+          "kind": "leaf"
+        }
+      },
+      "same_group_session": true,
+      "suppressed_independent_group_requests": 2,
+      "error": null,
+      "timer_errors": [],
+      "self_signal": [
+        "SIGTERM"
+      ]
+    },
+    {
+      "id": "SIGINT",
+      "status": "PASS",
+      "execution": {
+        "returncode": -15,
+        "timeout": false,
+        "interrupted": true,
+        "wall_s": 3.5615931669599377,
+        "process_user_s": 0.025546,
+        "process_system_s": 0.00762,
+        "whole_process_cpu_s": 0.033166,
+        "max_rss_native_units": 25051136,
+        "max_rss_units": "bytes on macOS",
+        "voluntary_context_switches": 1,
+        "involuntary_context_switches": 93,
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/group_supervisor_dummy_v2_01/SIGINT/driver.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "supervisor": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/group_supervisor_dummy_v2_01/SIGINT/driver.log.SUPERVISOR_V2.json",
+          "bytes": 117476,
+          "sha256": "decc1a31457ea061c507b39750ec404ee70c8e28c8ce83d9144a8d6a5e3303af"
+        },
+        "cleanup_confirmed": true,
+        "next_job_allowed": false,
+        "abnormal_reason": "INTERRUPTED: supervisor signal 2"
+      },
+      "fixtures": {
+        "driver": {
+          "pid": 78130,
+          "ppid": 78030,
+          "uid": 501,
+          "pgid": 78130,
+          "sid": 78130,
+          "kind": "driver"
+        },
+        "child": {
+          "pid": 78131,
+          "ppid": 78130,
+          "uid": 501,
+          "pgid": 78130,
+          "sid": 78130,
+          "kind": "child"
+        },
+        "leaf": {
+          "pid": 78132,
+          "ppid": 78131,
+          "uid": 501,
+          "pgid": 78130,
+          "sid": 78130,
+          "kind": "leaf"
+        }
+      },
+      "same_group_session": true,
+      "suppressed_independent_group_requests": 2,
+      "error": null,
+      "timer_errors": [],
+      "self_signal": [
+        "SIGINT"
+      ]
+    },
+    {
+      "id": "inner_killpg",
+      "status": "PASS",
+      "execution": {
+        "returncode": -9,
+        "timeout": false,
+        "interrupted": false,
+        "wall_s": 0.1705108750029467,
+        "process_user_s": 0.026524,
+        "process_system_s": 0.008981,
+        "whole_process_cpu_s": 0.035504999999999995,
+        "max_rss_native_units": 25133056,
+        "max_rss_units": "bytes on macOS",
+        "voluntary_context_switches": 1,
+        "involuntary_context_switches": 101,
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/group_supervisor_dummy_v2_01/inner_killpg/driver.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "supervisor": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/group_supervisor_dummy_v2_01/inner_killpg/driver.log.SUPERVISOR_V2.json",
+          "bytes": 91620,
+          "sha256": "7c202ffc5262b158eae1ecdf1b8fc1d56cf8b49d237ffb2090235f428f5e1fed"
+        },
+        "cleanup_confirmed": true,
+        "next_job_allowed": false,
+        "abnormal_reason": "INNER_GROUP_ABORT_OR_UNSUPPORTED_ESCAPE"
+      },
+      "fixtures": {
+        "driver": {
+          "pid": 78176,
+          "ppid": 78030,
+          "uid": 501,
+          "pgid": 78176,
+          "sid": 78176,
+          "kind": "driver"
+        },
+        "child": {
+          "pid": 78177,
+          "ppid": 78176,
+          "uid": 501,
+          "pgid": 78176,
+          "sid": 78176,
+          "kind": "child"
+        },
+        "leaf": {
+          "pid": 78178,
+          "ppid": 78177,
+          "uid": 501,
+          "pgid": 78176,
+          "sid": 78176,
+          "kind": "leaf"
+        }
+      },
+      "same_group_session": true,
+      "suppressed_independent_group_requests": 2,
+      "error": null,
+      "timer_errors": [],
+      "self_signal": []
+    }
+  ],
+  "scope": "音声なしgroup監督のみ。製品/RT/品質/公開承認ではない。"
+}

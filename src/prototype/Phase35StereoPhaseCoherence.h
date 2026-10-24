@@ -15,7 +15,9 @@ public:
     void process(const std::complex<float>* leftInput, const std::complex<float>* rightInput,
                  std::complex<float>* leftOutput, std::complex<float>* rightOutput,
                  Phase35PhaseVocoder& leftVocoder, Phase35PhaseVocoder& rightVocoder,
-                 const std::vector<int>& owners);
+                 const std::vector<int>& owners,
+                 const Phase35PhaseVocoder::InputPolarView* leftPolar=nullptr,
+                 const Phase35PhaseVocoder::InputPolarView* rightPolar=nullptr);
     const std::vector<float>& weights() const { return weights_; }
     double averageWeight() const { return weightedBins_ ? weightSum_ / weightedBins_ : 0.0; }
     std::size_t lastNeighborhoodEvaluations() const { return lastNeighborhoodEvaluations_; }

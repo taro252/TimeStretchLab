@@ -34,7 +34,16 @@ inline StretchConfig experimental(const WavStreamReader& reader,std::uint32_t in
     c.enableMultiResolution=true;c.qualityMode=QualityMode::Experimental;c.enablePhaseLocking=true;
     c.enableTransientHandling=true;c.enableAdaptiveTimeMapping=true;c.enablePreciseTransientAnchoring=true;c.enableStereoCoherence=true;return c;
 }
-inline std::string mapSha(const TimeMap& map){Phase45PcmDigest digest;digest.update(map.starts().data(),map.starts().size()*sizeof(long long));return digest.finish();}
+template<class Map> inline std::string mapSha(const Map& map){
+    Phase45PcmDigest digest;const auto& nodes=map.starts();
+    if constexpr(requires{nodes.data();})digest.update(nodes.data(),nodes.size()*sizeof(long long));
+    else{
+        std::array<long long,512> chunk{};
+        for(std::size_t at=0;at<nodes.size();){const auto n=std::min(chunk.size(),nodes.size()-at);
+            for(std::size_t i=0;i<n;++i)chunk[i]=nodes[at+i];digest.update(chunk.data(),n*sizeof(long long));at+=n;}
+    }
+    return digest.finish();
+}
 inline void writeOperations(const std::filesystem::path& path,const std::vector<LogicalOperation>& operations) {
     std::ofstream out(path);if(!out)throw std::runtime_error("Cannot write logical results");
     out<<"id,at_output,target_micros,status,generation,dispatched_output,outcome,requested_input,fence,requested_frame,applied_frame,ramp_end_frame,applied_output,completion_output,first_mutable,first_safe,next_event,protection_end,safe_frames,held_frames,skipped,paused,density_input,state_preserved,output_frames";

@@ -1,0 +1,1240 @@
+{
+  "schema": "performance-steady-native08-followup-summary-v1",
+  "status": "COMPLETE_OBSERVATIONS",
+  "collection_status": "PASS",
+  "complete": true,
+  "RT_supply_status": "PASS",
+  "expected_new_programs": 18,
+  "executed_new_programs": 18,
+  "expected_new_pairs": 9,
+  "pooled_pairs_per_stratum": 6,
+  "pooled_total_pairs": 18,
+  "primary_full_programs_retained": 48,
+  "primary_counted_as_new": false,
+  "selected_strata": [
+    "mono48chain300s_s050_candidate",
+    "mono48chain300s_s100_candidate",
+    "stereo441music300s_s100_candidate"
+  ],
+  "all_expected_ids": [
+    "mono48chain300s_s050_candidate_r04_candidate",
+    "mono48chain300s_s050_candidate_r04_old",
+    "mono48chain300s_s100_candidate_r04_candidate",
+    "mono48chain300s_s100_candidate_r04_old",
+    "stereo441music300s_s100_candidate_r04_candidate",
+    "stereo441music300s_s100_candidate_r04_old",
+    "mono48chain300s_s050_candidate_r05_old",
+    "mono48chain300s_s050_candidate_r05_candidate",
+    "mono48chain300s_s100_candidate_r05_old",
+    "mono48chain300s_s100_candidate_r05_candidate",
+    "stereo441music300s_s100_candidate_r05_old",
+    "stereo441music300s_s100_candidate_r05_candidate",
+    "mono48chain300s_s050_candidate_r06_candidate",
+    "mono48chain300s_s050_candidate_r06_old",
+    "mono48chain300s_s100_candidate_r06_candidate",
+    "mono48chain300s_s100_candidate_r06_old",
+    "stereo441music300s_s100_candidate_r06_candidate",
+    "stereo441music300s_s100_candidate_r06_old"
+  ],
+  "executed_ids": [
+    "mono48chain300s_s050_candidate_r04_candidate",
+    "mono48chain300s_s050_candidate_r04_old",
+    "mono48chain300s_s100_candidate_r04_candidate",
+    "mono48chain300s_s100_candidate_r04_old",
+    "stereo441music300s_s100_candidate_r04_candidate",
+    "stereo441music300s_s100_candidate_r04_old",
+    "mono48chain300s_s050_candidate_r05_old",
+    "mono48chain300s_s050_candidate_r05_candidate",
+    "mono48chain300s_s100_candidate_r05_old",
+    "mono48chain300s_s100_candidate_r05_candidate",
+    "stereo441music300s_s100_candidate_r05_old",
+    "stereo441music300s_s100_candidate_r05_candidate",
+    "mono48chain300s_s050_candidate_r06_candidate",
+    "mono48chain300s_s050_candidate_r06_old",
+    "mono48chain300s_s100_candidate_r06_candidate",
+    "mono48chain300s_s100_candidate_r06_old",
+    "stereo441music300s_s100_candidate_r06_candidate",
+    "stereo441music300s_s100_candidate_r06_old"
+  ],
+  "baseline_source": "2dae7749b928a72c36a8942563071ff073d89883012af77fb3822342453de392",
+  "candidate_source": "b17217d8f9a7fffd0535bb360adda447015c08df232af519917937de8470ac94",
+  "groups": [
+    {
+      "stratum": "mono48chain300s_s050_candidate",
+      "primary_n3": {
+        "pairs": 3,
+        "version_samples": {
+          "old": {
+            "n": 3,
+            "samples": [
+              8.9628690025356,
+              8.17450615273665,
+              7.87482417683539
+            ],
+            "mean": 8.337399777369214,
+            "median": 8.17450615273665,
+            "min": 7.87482417683539,
+            "max": 8.9628690025356,
+            "p95": 8.884032717555705,
+            "sample_stdev": 0.5620152448045345
+          },
+          "candidate": {
+            "n": 3,
+            "samples": [
+              9.28849551048484,
+              8.12459070530541,
+              7.99848425288978
+            ],
+            "mean": 8.47052348956001,
+            "median": 8.12459070530541,
+            "min": 7.99848425288978,
+            "max": 9.28849551048484,
+            "p95": 9.172105029966897,
+            "sample_stdev": 0.7111851936008662
+          }
+        },
+        "paired_rows": [
+          {
+            "round": "primary",
+            "native_repeat": 1,
+            "old": 8.9628690025356,
+            "candidate": 9.28849551048484,
+            "candidate_minus_old_pp": 0.32562650794923975,
+            "candidate_over_old": 1.0363306110863741,
+            "source_ids": {
+              "old": "primary/mono48chain300s_s050_candidate_r01_old",
+              "candidate": "primary/mono48chain300s_s050_candidate_r01_candidate"
+            }
+          },
+          {
+            "round": "primary",
+            "native_repeat": 2,
+            "old": 8.17450615273665,
+            "candidate": 8.12459070530541,
+            "candidate_minus_old_pp": -0.0499154474312391,
+            "candidate_over_old": 0.9938937659965515,
+            "source_ids": {
+              "old": "primary/mono48chain300s_s050_candidate_r02_old",
+              "candidate": "primary/mono48chain300s_s050_candidate_r02_candidate"
+            }
+          },
+          {
+            "round": "primary",
+            "native_repeat": 3,
+            "old": 7.87482417683539,
+            "candidate": 7.99848425288978,
+            "candidate_minus_old_pp": 0.12366007605438956,
+            "candidate_over_old": 1.0157032174023832,
+            "source_ids": {
+              "old": "primary/mono48chain300s_s050_candidate_r03_old",
+              "candidate": "primary/mono48chain300s_s050_candidate_r03_candidate"
+            }
+          }
+        ],
+        "paired_candidate_minus_old_pp": {
+          "n": 3,
+          "samples": [
+            0.32562650794923975,
+            -0.0499154474312391,
+            0.12366007605438956
+          ],
+          "mean": 0.13312371219079674,
+          "median": 0.12366007605438956,
+          "min": -0.0499154474312391,
+          "max": 0.32562650794923975,
+          "p95": 0.30542986475975475,
+          "sample_stdev": 0.18794975490657104
+        },
+        "lower_pairs": 1,
+        "higher_pairs": 2,
+        "equal_pairs": 0,
+        "ranges_overlap": true,
+        "mean_candidate_minus_old_pp": 0.13312371219079644,
+        "median_candidate_minus_old_pp": -0.0499154474312391,
+        "classification": "NOT_DEMONSTRATED",
+        "classification_scope": "Observed direction/range description; no statistical or adoption acceptance."
+      },
+      "followup_n3": {
+        "pairs": 3,
+        "version_samples": {
+          "old": {
+            "n": 3,
+            "samples": [
+              7.89592678631771,
+              7.75833517054811,
+              8.49814014691939
+            ],
+            "mean": 8.050800701261736,
+            "median": 7.89592678631771,
+            "min": 7.75833517054811,
+            "max": 8.49814014691939,
+            "p95": 8.437918810859221,
+            "sample_stdev": 0.3934682934030324
+          },
+          "candidate": {
+            "n": 3,
+            "samples": [
+              7.86848196131284,
+              7.77734537543309,
+              8.42421587910757
+            ],
+            "mean": 8.023347738617833,
+            "median": 7.86848196131284,
+            "min": 7.77734537543309,
+            "max": 8.42421587910757,
+            "p95": 8.368642487328096,
+            "sample_stdev": 0.35013985615212145
+          }
+        },
+        "paired_rows": [
+          {
+            "round": "followup",
+            "native_repeat": 4,
+            "old": 7.89592678631771,
+            "candidate": 7.86848196131284,
+            "candidate_minus_old_pp": -0.027444825004869777,
+            "candidate_over_old": 0.9965241793968471,
+            "source_ids": {
+              "old": "followup/mono48chain300s_s050_candidate_r04_old",
+              "candidate": "followup/mono48chain300s_s050_candidate_r04_candidate"
+            }
+          },
+          {
+            "round": "followup",
+            "native_repeat": 5,
+            "old": 7.75833517054811,
+            "candidate": 7.77734537543309,
+            "candidate_minus_old_pp": 0.01901020488498073,
+            "candidate_over_old": 1.002450294356597,
+            "source_ids": {
+              "old": "followup/mono48chain300s_s050_candidate_r05_old",
+              "candidate": "followup/mono48chain300s_s050_candidate_r05_candidate"
+            }
+          },
+          {
+            "round": "followup",
+            "native_repeat": 6,
+            "old": 8.49814014691939,
+            "candidate": 8.42421587910757,
+            "candidate_minus_old_pp": -0.0739242678118206,
+            "candidate_over_old": 0.9913011239478536,
+            "source_ids": {
+              "old": "followup/mono48chain300s_s050_candidate_r06_old",
+              "candidate": "followup/mono48chain300s_s050_candidate_r06_candidate"
+            }
+          }
+        ],
+        "paired_candidate_minus_old_pp": {
+          "n": 3,
+          "samples": [
+            -0.027444825004869777,
+            0.01901020488498073,
+            -0.0739242678118206
+          ],
+          "mean": -0.027452962643903216,
+          "median": -0.027444825004869777,
+          "min": -0.0739242678118206,
+          "max": 0.01901020488498073,
+          "p95": 0.014364701895995674,
+          "sample_stdev": 0.046467236882818896
+        },
+        "lower_pairs": 2,
+        "higher_pairs": 1,
+        "equal_pairs": 0,
+        "ranges_overlap": true,
+        "mean_candidate_minus_old_pp": -0.027452962643902623,
+        "median_candidate_minus_old_pp": -0.027444825004869777,
+        "classification": "NOT_DEMONSTRATED",
+        "classification_scope": "Observed direction/range description; no statistical or adoption acceptance."
+      },
+      "pooled_n6": {
+        "pairs": 6,
+        "version_samples": {
+          "old": {
+            "n": 6,
+            "samples": [
+              8.9628690025356,
+              8.17450615273665,
+              7.87482417683539,
+              7.89592678631771,
+              7.75833517054811,
+              8.49814014691939
+            ],
+            "mean": 8.194100239315475,
+            "median": 8.03521646952718,
+            "min": 7.75833517054811,
+            "max": 8.9628690025356,
+            "p95": 8.846686788631548,
+            "sample_stdev": 0.46142505615774265
+          },
+          "candidate": {
+            "n": 6,
+            "samples": [
+              9.28849551048484,
+              8.12459070530541,
+              7.99848425288978,
+              7.86848196131284,
+              7.77734537543309,
+              8.42421587910757
+            ],
+            "mean": 8.24693561408892,
+            "median": 8.061537479097595,
+            "min": 7.77734537543309,
+            "max": 9.28849551048484,
+            "p95": 9.072425602640521,
+            "sample_stdev": 0.5579809719466621
+          }
+        },
+        "paired_rows": [
+          {
+            "round": "followup",
+            "native_repeat": 4,
+            "old": 7.89592678631771,
+            "candidate": 7.86848196131284,
+            "candidate_minus_old_pp": -0.027444825004869777,
+            "candidate_over_old": 0.9965241793968471,
+            "source_ids": {
+              "old": "followup/mono48chain300s_s050_candidate_r04_old",
+              "candidate": "followup/mono48chain300s_s050_candidate_r04_candidate"
+            }
+          },
+          {
+            "round": "followup",
+            "native_repeat": 5,
+            "old": 7.75833517054811,
+            "candidate": 7.77734537543309,
+            "candidate_minus_old_pp": 0.01901020488498073,
+            "candidate_over_old": 1.002450294356597,
+            "source_ids": {
+              "old": "followup/mono48chain300s_s050_candidate_r05_old",
+              "candidate": "followup/mono48chain300s_s050_candidate_r05_candidate"
+            }
+          },
+          {
+            "round": "followup",
+            "native_repeat": 6,
+            "old": 8.49814014691939,
+            "candidate": 8.42421587910757,
+            "candidate_minus_old_pp": -0.0739242678118206,
+            "candidate_over_old": 0.9913011239478536,
+            "source_ids": {
+              "old": "followup/mono48chain300s_s050_candidate_r06_old",
+              "candidate": "followup/mono48chain300s_s050_candidate_r06_candidate"
+            }
+          },
+          {
+            "round": "primary",
+            "native_repeat": 1,
+            "old": 8.9628690025356,
+            "candidate": 9.28849551048484,
+            "candidate_minus_old_pp": 0.32562650794923975,
+            "candidate_over_old": 1.0363306110863741,
+            "source_ids": {
+              "old": "primary/mono48chain300s_s050_candidate_r01_old",
+              "candidate": "primary/mono48chain300s_s050_candidate_r01_candidate"
+            }
+          },
+          {
+            "round": "primary",
+            "native_repeat": 2,
+            "old": 8.17450615273665,
+            "candidate": 8.12459070530541,
+            "candidate_minus_old_pp": -0.0499154474312391,
+            "candidate_over_old": 0.9938937659965515,
+            "source_ids": {
+              "old": "primary/mono48chain300s_s050_candidate_r02_old",
+              "candidate": "primary/mono48chain300s_s050_candidate_r02_candidate"
+            }
+          },
+          {
+            "round": "primary",
+            "native_repeat": 3,
+            "old": 7.87482417683539,
+            "candidate": 7.99848425288978,
+            "candidate_minus_old_pp": 0.12366007605438956,
+            "candidate_over_old": 1.0157032174023832,
+            "source_ids": {
+              "old": "primary/mono48chain300s_s050_candidate_r03_old",
+              "candidate": "primary/mono48chain300s_s050_candidate_r03_candidate"
+            }
+          }
+        ],
+        "paired_candidate_minus_old_pp": {
+          "n": 6,
+          "samples": [
+            -0.027444825004869777,
+            0.01901020488498073,
+            -0.0739242678118206,
+            0.32562650794923975,
+            -0.0499154474312391,
+            0.12366007605438956
+          ],
+          "mean": 0.05283537477344676,
+          "median": -0.0042173100599445235,
+          "min": -0.0739242678118206,
+          "max": 0.32562650794923975,
+          "p95": 0.2751348999755272,
+          "sample_stdev": 0.150762018888964
+        },
+        "lower_pairs": 3,
+        "higher_pairs": 3,
+        "equal_pairs": 0,
+        "ranges_overlap": true,
+        "mean_candidate_minus_old_pp": 0.05283537477344602,
+        "median_candidate_minus_old_pp": 0.026321009570414944,
+        "classification": "NOT_DEMONSTRATED",
+        "classification_scope": "Observed direction/range description; no statistical or adoption acceptance."
+      }
+    },
+    {
+      "stratum": "mono48chain300s_s100_candidate",
+      "primary_n3": {
+        "pairs": 3,
+        "version_samples": {
+          "old": {
+            "n": 3,
+            "samples": [
+              13.9698579370665,
+              11.9499498359399,
+              11.9307540259497
+            ],
+            "mean": 12.616853932985366,
+            "median": 11.9499498359399,
+            "min": 11.9307540259497,
+            "max": 13.9698579370665,
+            "p95": 13.76786712695384,
+            "sample_stdev": 1.1717751474045606
+          },
+          "candidate": {
+            "n": 3,
+            "samples": [
+              14.3116370060069,
+              12.1536071081823,
+              12.0915223213356
+            ],
+            "mean": 12.852255478508265,
+            "median": 12.1536071081823,
+            "min": 12.0915223213356,
+            "max": 14.3116370060069,
+            "p95": 14.095834016224439,
+            "sample_stdev": 1.2642426437565824
+          }
+        },
+        "paired_rows": [
+          {
+            "round": "primary",
+            "native_repeat": 1,
+            "old": 13.9698579370665,
+            "candidate": 14.3116370060069,
+            "candidate_minus_old_pp": 0.341779068940399,
+            "candidate_over_old": 1.0244654648944962,
+            "source_ids": {
+              "old": "primary/mono48chain300s_s100_candidate_r01_old",
+              "candidate": "primary/mono48chain300s_s100_candidate_r01_candidate"
+            }
+          },
+          {
+            "round": "primary",
+            "native_repeat": 2,
+            "old": 11.9499498359399,
+            "candidate": 12.1536071081823,
+            "candidate_minus_old_pp": 0.20365727224239905,
+            "candidate_over_old": 1.0170425211016278,
+            "source_ids": {
+              "old": "primary/mono48chain300s_s100_candidate_r02_old",
+              "candidate": "primary/mono48chain300s_s100_candidate_r02_candidate"
+            }
+          },
+          {
+            "round": "primary",
+            "native_repeat": 3,
+            "old": 11.9307540259497,
+            "candidate": 12.0915223213356,
+            "candidate_minus_old_pp": 0.16076829538589976,
+            "candidate_over_old": 1.0134751160770077,
+            "source_ids": {
+              "old": "primary/mono48chain300s_s100_candidate_r03_old",
+              "candidate": "primary/mono48chain300s_s100_candidate_r03_candidate"
+            }
+          }
+        ],
+        "paired_candidate_minus_old_pp": {
+          "n": 3,
+          "samples": [
+            0.341779068940399,
+            0.20365727224239905,
+            0.16076829538589976
+          ],
+          "mean": 0.23540154552289927,
+          "median": 0.20365727224239905,
+          "min": 0.16076829538589976,
+          "max": 0.341779068940399,
+          "p95": 0.327966889270599,
+          "sample_stdev": 0.09458857859318884
+        },
+        "lower_pairs": 0,
+        "higher_pairs": 3,
+        "equal_pairs": 0,
+        "ranges_overlap": true,
+        "mean_candidate_minus_old_pp": 0.23540154552289927,
+        "median_candidate_minus_old_pp": 0.20365727224239905,
+        "classification": "NOT_DEMONSTRATED",
+        "classification_scope": "Observed direction/range description; no statistical or adoption acceptance."
+      },
+      "followup_n3": {
+        "pairs": 3,
+        "version_samples": {
+          "old": {
+            "n": 3,
+            "samples": [
+              11.8013570596877,
+              11.7038582379248,
+              13.095309182954
+            ],
+            "mean": 12.2001748268555,
+            "median": 11.8013570596877,
+            "min": 11.7038582379248,
+            "max": 13.095309182954,
+            "p95": 12.965913970627371,
+            "sample_stdev": 0.7767403952815872
+          },
+          "candidate": {
+            "n": 3,
+            "samples": [
+              11.8864162206025,
+              12.4099016104066,
+              13.2261527165123
+            ],
+            "mean": 12.507490182507134,
+            "median": 12.4099016104066,
+            "min": 11.8864162206025,
+            "max": 13.2261527165123,
+            "p95": 13.144527605901729,
+            "sample_stdev": 0.6751785813187741
+          }
+        },
+        "paired_rows": [
+          {
+            "round": "followup",
+            "native_repeat": 4,
+            "old": 11.8013570596877,
+            "candidate": 11.8864162206025,
+            "candidate_minus_old_pp": 0.08505916091480081,
+            "candidate_over_old": 1.0072075745598237,
+            "source_ids": {
+              "old": "followup/mono48chain300s_s100_candidate_r04_old",
+              "candidate": "followup/mono48chain300s_s100_candidate_r04_candidate"
+            }
+          },
+          {
+            "round": "followup",
+            "native_repeat": 5,
+            "old": 11.7038582379248,
+            "candidate": 12.4099016104066,
+            "candidate_minus_old_pp": 0.7060433724817994,
+            "candidate_over_old": 1.0603256941539123,
+            "source_ids": {
+              "old": "followup/mono48chain300s_s100_candidate_r05_old",
+              "candidate": "followup/mono48chain300s_s100_candidate_r05_candidate"
+            }
+          },
+          {
+            "round": "followup",
+            "native_repeat": 6,
+            "old": 13.095309182954,
+            "candidate": 13.2261527165123,
+            "candidate_minus_old_pp": 0.13084353355829847,
+            "candidate_over_old": 1.0099916337774304,
+            "source_ids": {
+              "old": "followup/mono48chain300s_s100_candidate_r06_old",
+              "candidate": "followup/mono48chain300s_s100_candidate_r06_candidate"
+            }
+          }
+        ],
+        "paired_candidate_minus_old_pp": {
+          "n": 3,
+          "samples": [
+            0.08505916091480081,
+            0.7060433724817994,
+            0.13084353355829847
+          ],
+          "mean": 0.30731535565163287,
+          "median": 0.13084353355829847,
+          "min": 0.08505916091480081,
+          "max": 0.7060433724817994,
+          "p95": 0.6485233885894492,
+          "sample_stdev": 0.34606657704635074
+        },
+        "lower_pairs": 0,
+        "higher_pairs": 3,
+        "equal_pairs": 0,
+        "ranges_overlap": true,
+        "mean_candidate_minus_old_pp": 0.3073153556516335,
+        "median_candidate_minus_old_pp": 0.6085445507189,
+        "classification": "NOT_DEMONSTRATED",
+        "classification_scope": "Observed direction/range description; no statistical or adoption acceptance."
+      },
+      "pooled_n6": {
+        "pairs": 6,
+        "version_samples": {
+          "old": {
+            "n": 6,
+            "samples": [
+              13.9698579370665,
+              11.9499498359399,
+              11.9307540259497,
+              11.8013570596877,
+              11.7038582379248,
+              13.095309182954
+            ],
+            "mean": 12.408514379920433,
+            "median": 11.9403519309448,
+            "min": 11.7038582379248,
+            "max": 13.9698579370665,
+            "p95": 13.751220748538376,
+            "sample_stdev": 0.9179539739771411
+          },
+          "candidate": {
+            "n": 6,
+            "samples": [
+              14.3116370060069,
+              12.1536071081823,
+              12.0915223213356,
+              11.8864162206025,
+              12.4099016104066,
+              13.2261527165123
+            ],
+            "mean": 12.6798728305077,
+            "median": 12.28175435929445,
+            "min": 11.8864162206025,
+            "max": 14.3116370060069,
+            "p95": 14.040265933633249,
+            "sample_stdev": 0.9259207117154961
+          }
+        },
+        "paired_rows": [
+          {
+            "round": "followup",
+            "native_repeat": 4,
+            "old": 11.8013570596877,
+            "candidate": 11.8864162206025,
+            "candidate_minus_old_pp": 0.08505916091480081,
+            "candidate_over_old": 1.0072075745598237,
+            "source_ids": {
+              "old": "followup/mono48chain300s_s100_candidate_r04_old",
+              "candidate": "followup/mono48chain300s_s100_candidate_r04_candidate"
+            }
+          },
+          {
+            "round": "followup",
+            "native_repeat": 5,
+            "old": 11.7038582379248,
+            "candidate": 12.4099016104066,
+            "candidate_minus_old_pp": 0.7060433724817994,
+            "candidate_over_old": 1.0603256941539123,
+            "source_ids": {
+              "old": "followup/mono48chain300s_s100_candidate_r05_old",
+              "candidate": "followup/mono48chain300s_s100_candidate_r05_candidate"
+            }
+          },
+          {
+            "round": "followup",
+            "native_repeat": 6,
+            "old": 13.095309182954,
+            "candidate": 13.2261527165123,
+            "candidate_minus_old_pp": 0.13084353355829847,
+            "candidate_over_old": 1.0099916337774304,
+            "source_ids": {
+              "old": "followup/mono48chain300s_s100_candidate_r06_old",
+              "candidate": "followup/mono48chain300s_s100_candidate_r06_candidate"
+            }
+          },
+          {
+            "round": "primary",
+            "native_repeat": 1,
+            "old": 13.9698579370665,
+            "candidate": 14.3116370060069,
+            "candidate_minus_old_pp": 0.341779068940399,
+            "candidate_over_old": 1.0244654648944962,
+            "source_ids": {
+              "old": "primary/mono48chain300s_s100_candidate_r01_old",
+              "candidate": "primary/mono48chain300s_s100_candidate_r01_candidate"
+            }
+          },
+          {
+            "round": "primary",
+            "native_repeat": 2,
+            "old": 11.9499498359399,
+            "candidate": 12.1536071081823,
+            "candidate_minus_old_pp": 0.20365727224239905,
+            "candidate_over_old": 1.0170425211016278,
+            "source_ids": {
+              "old": "primary/mono48chain300s_s100_candidate_r02_old",
+              "candidate": "primary/mono48chain300s_s100_candidate_r02_candidate"
+            }
+          },
+          {
+            "round": "primary",
+            "native_repeat": 3,
+            "old": 11.9307540259497,
+            "candidate": 12.0915223213356,
+            "candidate_minus_old_pp": 0.16076829538589976,
+            "candidate_over_old": 1.0134751160770077,
+            "source_ids": {
+              "old": "primary/mono48chain300s_s100_candidate_r03_old",
+              "candidate": "primary/mono48chain300s_s100_candidate_r03_candidate"
+            }
+          }
+        ],
+        "paired_candidate_minus_old_pp": {
+          "n": 6,
+          "samples": [
+            0.08505916091480081,
+            0.7060433724817994,
+            0.13084353355829847,
+            0.341779068940399,
+            0.20365727224239905,
+            0.16076829538589976
+          ],
+          "mean": 0.2713584505872661,
+          "median": 0.1822127838141494,
+          "min": 0.08505916091480081,
+          "max": 0.7060433724817994,
+          "p95": 0.6149772965964493,
+          "sample_stdev": 0.23029352749417978
+        },
+        "lower_pairs": 0,
+        "higher_pairs": 6,
+        "equal_pairs": 0,
+        "ranges_overlap": true,
+        "mean_candidate_minus_old_pp": 0.2713584505872664,
+        "median_candidate_minus_old_pp": 0.3414024283496495,
+        "classification": "NOT_DEMONSTRATED",
+        "classification_scope": "Observed direction/range description; no statistical or adoption acceptance."
+      }
+    },
+    {
+      "stratum": "stereo441music300s_s100_candidate",
+      "primary_n3": {
+        "pairs": 3,
+        "version_samples": {
+          "old": {
+            "n": 3,
+            "samples": [
+              20.2050339679276,
+              19.5992182980966,
+              20.3432572643457
+            ],
+            "mean": 20.04916984345663,
+            "median": 20.2050339679276,
+            "min": 19.5992182980966,
+            "max": 20.3432572643457,
+            "p95": 20.32943493470389,
+            "sample_stdev": 0.39575082412685325
+          },
+          "candidate": {
+            "n": 3,
+            "samples": [
+              20.2717814325664,
+              19.9284008604373,
+              20.2978727512393
+            ],
+            "mean": 20.166018348081,
+            "median": 20.2717814325664,
+            "min": 19.9284008604373,
+            "max": 20.2978727512393,
+            "p95": 20.295263619372008,
+            "sample_stdev": 0.20619588272586967
+          }
+        },
+        "paired_rows": [
+          {
+            "round": "primary",
+            "native_repeat": 1,
+            "old": 20.2050339679276,
+            "candidate": 20.2717814325664,
+            "candidate_minus_old_pp": 0.066747464638798,
+            "candidate_over_old": 1.0033035066778284,
+            "source_ids": {
+              "old": "primary/stereo441music300s_s100_candidate_r01_old",
+              "candidate": "primary/stereo441music300s_s100_candidate_r01_candidate"
+            }
+          },
+          {
+            "round": "primary",
+            "native_repeat": 2,
+            "old": 19.5992182980966,
+            "candidate": 19.9284008604373,
+            "candidate_minus_old_pp": 0.3291825623407014,
+            "candidate_over_old": 1.0167956985495012,
+            "source_ids": {
+              "old": "primary/stereo441music300s_s100_candidate_r02_old",
+              "candidate": "primary/stereo441music300s_s100_candidate_r02_candidate"
+            }
+          },
+          {
+            "round": "primary",
+            "native_repeat": 3,
+            "old": 20.3432572643457,
+            "candidate": 20.2978727512393,
+            "candidate_minus_old_pp": -0.04538451310639857,
+            "candidate_over_old": 0.9977690636009435,
+            "source_ids": {
+              "old": "primary/stereo441music300s_s100_candidate_r03_old",
+              "candidate": "primary/stereo441music300s_s100_candidate_r03_candidate"
+            }
+          }
+        ],
+        "paired_candidate_minus_old_pp": {
+          "n": 3,
+          "samples": [
+            0.066747464638798,
+            0.3291825623407014,
+            -0.04538451310639857
+          ],
+          "mean": 0.11684850462436695,
+          "median": 0.066747464638798,
+          "min": -0.04538451310639857,
+          "max": 0.3291825623407014,
+          "p95": 0.30293905257051107,
+          "sample_stdev": 0.19224387937714704
+        },
+        "lower_pairs": 1,
+        "higher_pairs": 2,
+        "equal_pairs": 0,
+        "ranges_overlap": true,
+        "mean_candidate_minus_old_pp": 0.11684850462436813,
+        "median_candidate_minus_old_pp": 0.066747464638798,
+        "classification": "NOT_DEMONSTRATED",
+        "classification_scope": "Observed direction/range description; no statistical or adoption acceptance."
+      },
+      "followup_n3": {
+        "pairs": 3,
+        "version_samples": {
+          "old": {
+            "n": 3,
+            "samples": [
+              20.2495191068458,
+              20.4663604300085,
+              20.2706142882619
+            ],
+            "mean": 20.328831275038734,
+            "median": 20.2706142882619,
+            "min": 20.2495191068458,
+            "max": 20.4663604300085,
+            "p95": 20.446785815833838,
+            "sample_stdev": 0.11956986668792503
+          },
+          "candidate": {
+            "n": 3,
+            "samples": [
+              18.9066382065629,
+              19.6973430588354,
+              19.6539381085131
+            ],
+            "mean": 19.419306457970468,
+            "median": 19.6539381085131,
+            "min": 18.9066382065629,
+            "max": 19.6973430588354,
+            "p95": 19.69300256380317,
+            "sample_stdev": 0.4445138349130313
+          }
+        },
+        "paired_rows": [
+          {
+            "round": "followup",
+            "native_repeat": 4,
+            "old": 20.2495191068458,
+            "candidate": 18.9066382065629,
+            "candidate_minus_old_pp": -1.3428809002828999,
+            "candidate_over_old": 0.9336833189372429,
+            "source_ids": {
+              "old": "followup/stereo441music300s_s100_candidate_r04_old",
+              "candidate": "followup/stereo441music300s_s100_candidate_r04_candidate"
+            }
+          },
+          {
+            "round": "followup",
+            "native_repeat": 5,
+            "old": 20.4663604300085,
+            "candidate": 19.6973430588354,
+            "candidate_minus_old_pp": -0.7690173711730992,
+            "candidate_over_old": 0.9624252991242381,
+            "source_ids": {
+              "old": "followup/stereo441music300s_s100_candidate_r05_old",
+              "candidate": "followup/stereo441music300s_s100_candidate_r05_candidate"
+            }
+          },
+          {
+            "round": "followup",
+            "native_repeat": 6,
+            "old": 20.2706142882619,
+            "candidate": 19.6539381085131,
+            "candidate_minus_old_pp": -0.6166761797488007,
+            "candidate_over_old": 0.9695778247773231,
+            "source_ids": {
+              "old": "followup/stereo441music300s_s100_candidate_r06_old",
+              "candidate": "followup/stereo441music300s_s100_candidate_r06_candidate"
+            }
+          }
+        ],
+        "paired_candidate_minus_old_pp": {
+          "n": 3,
+          "samples": [
+            -1.3428809002828999,
+            -0.7690173711730992,
+            -0.6166761797488007
+          ],
+          "mean": -0.9095248170682666,
+          "median": -0.7690173711730992,
+          "min": -1.3428809002828999,
+          "max": -0.6166761797488007,
+          "p95": -0.6319102988912306,
+          "sample_stdev": 0.3829491882684827
+        },
+        "lower_pairs": 3,
+        "higher_pairs": 0,
+        "equal_pairs": 0,
+        "ranges_overlap": false,
+        "mean_candidate_minus_old_pp": -0.9095248170682666,
+        "median_candidate_minus_old_pp": -0.6166761797488007,
+        "classification": "OBSERVED_CONSISTENT_DECREASE",
+        "classification_scope": "Observed direction/range description; no statistical or adoption acceptance."
+      },
+      "pooled_n6": {
+        "pairs": 6,
+        "version_samples": {
+          "old": {
+            "n": 6,
+            "samples": [
+              20.2050339679276,
+              19.5992182980966,
+              20.3432572643457,
+              20.2495191068458,
+              20.4663604300085,
+              20.2706142882619
+            ],
+            "mean": 20.18900055924768,
+            "median": 20.26006669755385,
+            "min": 19.5992182980966,
+            "max": 20.4663604300085,
+            "p95": 20.4355846385928,
+            "sample_stdev": 0.30303369783096
+          },
+          "candidate": {
+            "n": 6,
+            "samples": [
+              20.2717814325664,
+              19.9284008604373,
+              20.2978727512393,
+              18.9066382065629,
+              19.6973430588354,
+              19.6539381085131
+            ],
+            "mean": 19.792662403025734,
+            "median": 19.81287195963635,
+            "min": 18.9066382065629,
+            "max": 20.2978727512393,
+            "p95": 20.291349921571076,
+            "sample_stdev": 0.5131445319231315
+          }
+        },
+        "paired_rows": [
+          {
+            "round": "followup",
+            "native_repeat": 4,
+            "old": 20.2495191068458,
+            "candidate": 18.9066382065629,
+            "candidate_minus_old_pp": -1.3428809002828999,
+            "candidate_over_old": 0.9336833189372429,
+            "source_ids": {
+              "old": "followup/stereo441music300s_s100_candidate_r04_old",
+              "candidate": "followup/stereo441music300s_s100_candidate_r04_candidate"
+            }
+          },
+          {
+            "round": "followup",
+            "native_repeat": 5,
+            "old": 20.4663604300085,
+            "candidate": 19.6973430588354,
+            "candidate_minus_old_pp": -0.7690173711730992,
+            "candidate_over_old": 0.9624252991242381,
+            "source_ids": {
+              "old": "followup/stereo441music300s_s100_candidate_r05_old",
+              "candidate": "followup/stereo441music300s_s100_candidate_r05_candidate"
+            }
+          },
+          {
+            "round": "followup",
+            "native_repeat": 6,
+            "old": 20.2706142882619,
+            "candidate": 19.6539381085131,
+            "candidate_minus_old_pp": -0.6166761797488007,
+            "candidate_over_old": 0.9695778247773231,
+            "source_ids": {
+              "old": "followup/stereo441music300s_s100_candidate_r06_old",
+              "candidate": "followup/stereo441music300s_s100_candidate_r06_candidate"
+            }
+          },
+          {
+            "round": "primary",
+            "native_repeat": 1,
+            "old": 20.2050339679276,
+            "candidate": 20.2717814325664,
+            "candidate_minus_old_pp": 0.066747464638798,
+            "candidate_over_old": 1.0033035066778284,
+            "source_ids": {
+              "old": "primary/stereo441music300s_s100_candidate_r01_old",
+              "candidate": "primary/stereo441music300s_s100_candidate_r01_candidate"
+            }
+          },
+          {
+            "round": "primary",
+            "native_repeat": 2,
+            "old": 19.5992182980966,
+            "candidate": 19.9284008604373,
+            "candidate_minus_old_pp": 0.3291825623407014,
+            "candidate_over_old": 1.0167956985495012,
+            "source_ids": {
+              "old": "primary/stereo441music300s_s100_candidate_r02_old",
+              "candidate": "primary/stereo441music300s_s100_candidate_r02_candidate"
+            }
+          },
+          {
+            "round": "primary",
+            "native_repeat": 3,
+            "old": 20.3432572643457,
+            "candidate": 20.2978727512393,
+            "candidate_minus_old_pp": -0.04538451310639857,
+            "candidate_over_old": 0.9977690636009435,
+            "source_ids": {
+              "old": "primary/stereo441music300s_s100_candidate_r03_old",
+              "candidate": "primary/stereo441music300s_s100_candidate_r03_candidate"
+            }
+          }
+        ],
+        "paired_candidate_minus_old_pp": {
+          "n": 6,
+          "samples": [
+            -1.3428809002828999,
+            -0.7690173711730992,
+            -0.6166761797488007,
+            0.066747464638798,
+            0.3291825623407014,
+            -0.04538451310639857
+          ],
+          "mean": -0.39633815622194984,
+          "median": -0.33103034642759965,
+          "min": -1.3428809002828999,
+          "max": 0.3291825623407014,
+          "p95": 0.26357378791522557,
+          "sample_stdev": 0.6240799424962294
+        },
+        "lower_pairs": 4,
+        "higher_pairs": 2,
+        "equal_pairs": 0,
+        "ranges_overlap": true,
+        "mean_candidate_minus_old_pp": -0.39633815622194746,
+        "median_candidate_minus_old_pp": -0.4471947379174992,
+        "classification": "NOT_DEMONSTRATED",
+        "classification_scope": "Observed direction/range description; no statistical or adoption acceptance."
+      }
+    }
+  ],
+  "reason": null,
+  "execution": {
+    "command": [
+      "/Users/taro252/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taro252/Docker/TimeStretchLab/results/performance_response/recipes/run_pairs.py",
+      "--baseline-client",
+      "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/CLIENT.json",
+      "--candidate-build",
+      "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/build_native_default_08/BUILD.json",
+      "--suite",
+      "steady",
+      "--only",
+      "mono48chain300s_s050_candidate_r04",
+      "mono48chain300s_s100_candidate_r04",
+      "stereo441music300s_s100_candidate_r04",
+      "mono48chain300s_s050_candidate_r05",
+      "mono48chain300s_s100_candidate_r05",
+      "stereo441music300s_s100_candidate_r05",
+      "mono48chain300s_s050_candidate_r06",
+      "mono48chain300s_s100_candidate_r06",
+      "stereo441music300s_s100_candidate_r06",
+      "--repeats",
+      "6",
+      "--seconds",
+      "30",
+      "--presets",
+      "candidate",
+      "--timeout",
+      "180",
+      "--device-rate",
+      "48000",
+      "--device-buffer",
+      "512",
+      "--output",
+      "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_followup_native08_01/native_run",
+      "--mono-input",
+      "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+      "--stereo-input",
+      "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav"
+    ],
+    "returncode": 0,
+    "timeout": false,
+    "interrupted": false,
+    "driver_retirement_confirmed": true,
+    "wall_s": 556.8637300829869,
+    "log": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_followup_native08_01/RUN_PAIRS.log",
+      "bytes": 1224,
+      "sha256": "d56c606b76429dd4bfde79a2aaa693151b867dd7179bb5d3c748ceab6c7a0b8b"
+    }
+  },
+  "first_version_balance_plan": [
+    {
+      "stratum": "mono48chain300s_s050_candidate",
+      "first_version_counts": {
+        "primary": {
+          "old": 2,
+          "candidate": 1
+        },
+        "followup": {
+          "old": 1,
+          "candidate": 2
+        }
+      },
+      "pooled_first_version_counts": {
+        "old": 3,
+        "candidate": 3
+      }
+    },
+    {
+      "stratum": "mono48chain300s_s100_candidate",
+      "first_version_counts": {
+        "primary": {
+          "old": 2,
+          "candidate": 1
+        },
+        "followup": {
+          "old": 1,
+          "candidate": 2
+        }
+      },
+      "pooled_first_version_counts": {
+        "old": 3,
+        "candidate": 3
+      }
+    },
+    {
+      "stratum": "stereo441music300s_s100_candidate",
+      "first_version_counts": {
+        "primary": {
+          "old": 2,
+          "candidate": 1
+        },
+        "followup": {
+          "old": 1,
+          "candidate": 2
+        }
+      },
+      "pooled_first_version_counts": {
+        "old": 3,
+        "candidate": 3
+      }
+    }
+  ],
+  "once_only_claim": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_native08_followup_claims/0d2da6e83f140d4443f9b84dc668d1631495db531ac5b8bc28561e221fe85606_ff7a88bd9ff760657f94b1f679354b04bd71dc2587ad439e005c62d6c280f8ce.json",
+    "bytes": 2499,
+    "sha256": "89c038e215f38d6ad65a090c79667cea68ededaccb1fa8e2c67163240e66980b"
+  },
+  "original_primary_expected": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/EXPECTED.json",
+    "bytes": 41991,
+    "sha256": "0d2da6e83f140d4443f9b84dc668d1631495db531ac5b8bc28561e221fe85606"
+  },
+  "original_primary_summary": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/SUMMARY.json",
+    "bytes": 141676,
+    "sha256": "ff7a88bd9ff760657f94b1f679354b04bd71dc2587ad439e005c62d6c280f8ce"
+  },
+  "primary_and_followup_final_identity_check_complete": true,
+  "measured_order_balance": [
+    {
+      "stratum": "mono48chain300s_s050_candidate",
+      "first_version_counts": {
+        "primary": {
+          "old": 2,
+          "candidate": 1
+        },
+        "followup": {
+          "old": 1,
+          "candidate": 2
+        }
+      },
+      "pooled_first_version_counts": {
+        "old": 3,
+        "candidate": 3
+      }
+    },
+    {
+      "stratum": "mono48chain300s_s100_candidate",
+      "first_version_counts": {
+        "primary": {
+          "old": 2,
+          "candidate": 1
+        },
+        "followup": {
+          "old": 1,
+          "candidate": 2
+        }
+      },
+      "pooled_first_version_counts": {
+        "old": 3,
+        "candidate": 3
+      }
+    },
+    {
+      "stratum": "stereo441music300s_s100_candidate",
+      "first_version_counts": {
+        "primary": {
+          "old": 2,
+          "candidate": 1
+        },
+        "followup": {
+          "old": 1,
+          "candidate": 2
+        }
+      },
+      "pooled_first_version_counts": {
+        "old": 3,
+        "candidate": 3
+      }
+    }
+  ],
+  "selection_plan": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/NATIVE08_CPU_FOLLOWUP_PLAN.json",
+    "bytes": 1239,
+    "sha256": "c15707c5721203ecee47858de4e46dd338ad69194c91a86df2ab723f3d6b78b6"
+  },
+  "whole_CPU_improvement": "NOT_DEMONSTRATED_AUTOMATICALLY; inspect both followup and pooled distributions",
+  "whole_CPU_no_regression": "NOT_APPROVED_AUTOMATICALLY",
+  "expected": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_followup_native08_01/EXPECTED.json",
+    "bytes": 76319,
+    "sha256": "494d24725b8bcf97dcff9449e5766501d400c1442bfde6266825deaa4432ce4b"
+  },
+  "CPU_approval": false,
+  "adoption_approved": false,
+  "quality_approval": false,
+  "physical_audio": null,
+  "application_F": null,
+  "exit_scope": "Completed fixed collection, integrity and measured RT only; CPU acceptance is not automatic.",
+  "statistics": "Descriptive paired n3 and n6; no significance claim or new numerical tolerance.",
+  "stopping": "One atomic primary-evidence claim, one fixed additional n3 only; no retry/condition reselection after new outcomes.",
+  "selection_scope": "Selected concerns after primary48, fixed before any followup result; all primary48 retained.",
+  "adoption_policy": "Worse or uncertain followup/pooled CPU keeps adoption withheld; no further repetitions to select favorable results."
+}

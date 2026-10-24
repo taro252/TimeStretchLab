@@ -1,0 +1,88 @@
+{
+  "schema": "performance_response.frozen_scalar_reference.v1",
+  "commit": "5674bd982d98caacaa3e87cdeae5bfc0b01c66ef",
+  "status": "FROZEN_SOURCE_ONLY_NOT_EXECUTED",
+  "recipe": "git show COMMIT:original; apply replacements in listed order; retain every other source byte.",
+  "ordered_replacements": [
+    [
+      "Phase35PhaseVocoder",
+      "Frozen5674PhaseVocoder"
+    ],
+    [
+      "Phase35StereoPhaseCoherence",
+      "Frozen5674StereoPhaseCoherence"
+    ],
+    [
+      "PhaseLocker",
+      "Frozen5674PhaseLocker"
+    ],
+    [
+      "SpectralPeak",
+      "Frozen5674SpectralPeak"
+    ],
+    [
+      "prototype/Frozen5674PhaseVocoder.h",
+      "Frozen5674PhaseVocoder.h"
+    ],
+    [
+      "prototype/Frozen5674StereoPhaseCoherence.h",
+      "Frozen5674StereoPhaseCoherence.h"
+    ],
+    [
+      "dsp/Frozen5674PhaseLocker.h",
+      "Frozen5674PhaseLocker.h"
+    ]
+  ],
+  "independence": "PV, stereo coherence, and PhaseLocker are all frozen. No candidate DSP implementation is called by the reference. The same C++ standard library math and compiler/toolchain are used for exact scalar arithmetic comparison.",
+  "scope": "Low-level spectrum/state equivalence only; this reference is not an independent full-song Exact, dynamic Map, Golden, audio-device, RT, or performance result.",
+  "files": [
+    {
+      "original": "src/prototype/Phase35PhaseVocoder.h",
+      "baseline_git_blob": "f178caf818d6d586fffde20b63b87ba96f79b826",
+      "baseline_sha256": "6b4ba59abff6aef2fd1abb8400f2c73e40749556271d2836c72fe81cf33e66eb",
+      "copy": "tests/reference/performance_response/Frozen5674PhaseVocoder.h",
+      "sha256": "a04b2b42f813df633e2155c2f002ba40c77c2d698860d90a45362d2fed9278bf",
+      "bytes": 1749
+    },
+    {
+      "original": "src/prototype/Phase35PhaseVocoder.cpp",
+      "baseline_git_blob": "a5a39a81b6839a195e993804b6b31d67e40fd168",
+      "baseline_sha256": "8e49d29571635c2f50183a963a8ca1c9350e3a27d70aa2038002302a64cb1f84",
+      "copy": "tests/reference/performance_response/Frozen5674PhaseVocoder.cpp",
+      "sha256": "4f8010b0d167f14ebc93c6dd6dca6517c93fa090e0d166868f22b8ad344bab10",
+      "bytes": 8818
+    },
+    {
+      "original": "src/prototype/Phase35StereoPhaseCoherence.h",
+      "baseline_git_blob": "c5510d9ca20c6aa0f0952df7cc91969252a46715",
+      "baseline_sha256": "09b356be27cc210b7470c40db66568f577df9907e51ceaa4e28d2af50342cbcf",
+      "copy": "tests/reference/performance_response/Frozen5674StereoPhaseCoherence.h",
+      "sha256": "07aaf47fdaef1296726133014aebe3dfab5cf00af408ba555467cac4b73ba72a",
+      "bytes": 1389
+    },
+    {
+      "original": "src/prototype/Phase35StereoPhaseCoherence.cpp",
+      "baseline_git_blob": "c35eb7324c7f79311b04c5cf2bb824e11df718d2",
+      "baseline_sha256": "202b375db154cfe718425bb46245037afaa0ade4f12ae3fba5daa82cb1735633",
+      "copy": "tests/reference/performance_response/Frozen5674StereoPhaseCoherence.cpp",
+      "sha256": "380fdda0bf4d241bc07c06827bf477e9a640096f042e88b11fbf00af71bd9c1a",
+      "bytes": 5682
+    },
+    {
+      "original": "src/dsp/PhaseLocker.h",
+      "baseline_git_blob": "fb91cc411b4f12f99daccb028744b021cd233d5c",
+      "baseline_sha256": "c3d6ece121a777f369acde0aca68fb252282f50c966d5ff984ca321137605a7c",
+      "copy": "tests/reference/performance_response/Frozen5674PhaseLocker.h",
+      "sha256": "926cb2f654188507195efa3260491135a8798189eb8a035e042691e45955ba7f",
+      "bytes": 1258
+    },
+    {
+      "original": "src/dsp/PhaseLocker.cpp",
+      "baseline_git_blob": "43ef70c107f333db34cc0153f6b1c63793a4d3b6",
+      "baseline_sha256": "fe2ebf3b0e73c81db1b601e12b8d244e9621a7010b5231f86fbf9c53c3c0b927",
+      "copy": "tests/reference/performance_response/Frozen5674PhaseLocker.cpp",
+      "sha256": "c7a19402196972a1960d0ebfeb4f599c174bf1e02f5f2cff018988738e53b816",
+      "bytes": 5169
+    }
+  ]
+}

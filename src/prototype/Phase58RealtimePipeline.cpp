@@ -49,13 +49,15 @@ public:
     std::size_t snapshotBytes()const{return snapshotFd_>=0?std::size_t(identity_.st_size):0;}
     std::span<const unsigned char> residentBytes()const{return {resident_,residentSize_};}
     std::size_t hashes()const{return hashes_;}std::size_t snapshots()const{return snapshots_;}std::size_t locks()const{return locks_;}
-    void makeResident(){
+    void makeResident(const std::function<void(ControlTestPoint,std::size_t)>& progress){
         if(snapshotFd_<0||resident_)throw std::logic_error("Resident source preparation order");
+        progress(ControlTestPoint::InputResidentBefore,0);
         const auto bytes=snapshotBytes();void* memory=mmap(nullptr,bytes,PROT_READ,MAP_PRIVATE,snapshotFd_,0);
         if(memory==MAP_FAILED)throw std::runtime_error("Cannot map private encoded input");
         ++locks_;if(mlock(memory,bytes)!=0){munmap(memory,bytes);throw std::runtime_error("Cannot lock private encoded input in memory");}
         resident_=static_cast<unsigned char*>(memory);residentSize_=bytes;
-        WavStreamReader validated(std::filesystem::path{},residentBytes());validated.validateEncodedSamples();
+        progress(ControlTestPoint::InputResidentAfter,bytes);
+        WavStreamReader validated(std::filesystem::path{},residentBytes());validated.validateEncodedSamples([&](auto at){progress(ControlTestPoint::InputSamplesProgress,at);});
     }
     void validate()const{
         playback::ControlCostScope measured(validationCost,measureControlCosts);
@@ -64,7 +66,7 @@ public:
         if(choice>=0)close(choice);
         if(!valid)throw std::runtime_error("Input changed/replaced/unavailable");
     }
-    std::string identify(std::size_t budget){
+    std::string identify(std::size_t budget,const std::function<void(ControlTestPoint,std::size_t)>& progress){
         ++hashes_;
         validate();Phase45PcmDigest hash;std::array<unsigned char,131072> b{};off_t at=0;
         if(std::uint64_t(identity_.st_size)>budget)throw std::length_error("Input snapshot budget exceeded");
@@ -72,22 +74,75 @@ public:
         ++snapshots_;snapshotFd_=mkstemp(name.data());if(snapshotFd_<0)throw std::runtime_error("Cannot allocate private source snapshot");
         if(unlink(name.c_str())!=0)throw std::runtime_error("Cannot unlink private source snapshot");
         if(fcntl(snapshotFd_,F_SETFD,FD_CLOEXEC)<0)throw std::runtime_error("Cannot protect source snapshot FD");
-        while(at<identity_.st_size){const auto n=pread(fd_,b.data(),std::min<off_t>(b.size(),identity_.st_size-at),at);
+        while(at<identity_.st_size){progress(ControlTestPoint::InputCopyProgress,at);const auto n=pread(fd_,b.data(),std::min<off_t>(b.size(),identity_.st_size-at),at);
             if(n<0&&errno==EINTR)continue;
             if(n<=0)throw std::runtime_error("Input identification read failed");
-            std::size_t written=0;while(written<std::size_t(n)){const auto count=write(snapshotFd_,b.data()+written,std::size_t(n)-written);if(count<0&&errno==EINTR)continue;if(count<=0)throw std::runtime_error("Private input snapshot write failed");written+=count;}
+            std::size_t written=0;while(written<std::size_t(n)){progress(ControlTestPoint::InputCopyProgress,at+written);const auto count=write(snapshotFd_,b.data()+written,std::size_t(n)-written);if(count<0&&errno==EINTR)continue;if(count<=0)throw std::runtime_error("Private input snapshot write failed");written+=count;}
             hash.update(b.data(),std::size_t(n));at+=n;}
-        validate();return hash.finish();
+        progress(ControlTestPoint::InputCopyProgress,at);validate();return hash.finish();
     }
 };
-// One source preparation, independently retained by at most two render epochs.
-// No mutable analysis/DSP state is shared between their workers.
+// One source preparation and one analysis producer per input. Render epochs
+// share only immutable snapshots; their DSP and planner remain independent.
 struct InputLease {
     Input input;
     std::uint64_t generation=0;
     std::string sha;
     std::shared_ptr<const phase56::AnalysisSnapshot> finalAnalysis;
     std::atomic<bool> analysisFailed{false};
+    std::exception_ptr analysisFailure;
+    void checkAnalysis()const{if(analysisFailed.load(std::memory_order_acquire))std::rethrow_exception(analysisFailure);}
+    std::shared_ptr<const phase56::AnalysisSnapshot> latestAnalysis;
+    std::mutex analysisUsersMutex,analysisWaitMutex;std::condition_variable analysisChanged;
+    std::thread analysisProducer;unsigned analysisUsers=0;bool analysisStarted=false,analysisClosing=false;
+    std::atomic<bool> analysisCancelled{false};
+    std::atomic<std::uint64_t> analysisProducerThread{0},analysisProducerStarts{0};
+    std::atomic<std::size_t> analysisReceived{0},analysisPeak{0},analysisCopies{0};
+    std::atomic<double> analysisProducerCpu{0};
+    Configuration analysisConfiguration;
+    struct AnalysisUse {InputLease* lease;explicit AnalysisUse(InputLease* p):lease(p){}~AnalysisUse(){lease->releaseAnalysis();}};
+    std::unique_ptr<AnalysisUse> acquireAnalysis(){
+        std::lock_guard lock(analysisUsersMutex);
+        if(analysisClosing)throw std::logic_error("Input analysis has retired");
+        auto use=std::make_unique<AnalysisUse>(this);++analysisUsers;return use;
+    }
+    void releaseAnalysis(){
+        bool last=false;
+        {std::lock_guard lock(analysisUsersMutex);last=!--analysisUsers;if(last){analysisClosing=true;analysisCancelled=true;}}
+        if(last){analysisChanged.notify_all();
+            const auto& hooks=analysisConfiguration.controlTestHooks;
+            if(hooks.event)hooks.event(hooks.context,ControlTestPoint::InputAnalysisJoinWait,generation,analysisReceived.load());
+            if(analysisProducer.joinable())analysisProducer.join();}
+    }
+    void startAnalysis(){
+        std::lock_guard lock(analysisUsersMutex);if(analysisStarted)return;
+        if(analysisClosing)throw std::logic_error("Input analysis has retired");
+        analysisProducer=std::thread([this]{produceAnalysis();});analysisStarted=true;
+    }
+    void produceAnalysis(){
+        const auto began=playback::threadCpuSeconds();
+        struct Measure {InputLease& x;double began;~Measure(){x.analysisProducerCpu=playback::threadCpuSeconds()-began;x.analysisChanged.notify_all();}} measured{*this,began};
+        try{
+            ++analysisProducerStarts;std::uint64_t tid=0;pthread_threadid_np(nullptr,&tid);analysisProducerThread=tid;
+            pthread_setname_np("Phase58 input analysis");pthread_set_qos_class_self_np(QOS_CLASS_UTILITY,0);
+            const auto check=[&]{if(analysisCancelled.load())throw Cancelled{};validateIdentity();};
+            phase56::ProgressiveAnalysisSession a(input.rate,input.channels,generation,phase56::AnalysisLimits{},std::vector<std::uint32_t>{analysisConfiguration.speedMicros});
+            phase56::PinnedWavSource source(input.snapshotDescriptor(),generation);std::size_t at=0;
+            const auto emit=[&]{auto snapshot=a.getSnapshot();
+                const auto stats=a.statistics();analysisPeak=stats.snapshotPeakBytes;analysisCopies=stats.snapshotCopyBytes;analysisReceived=snapshot->receivedInputFrames;
+                if(snapshot->isFinal)std::atomic_store(&finalAnalysis,snapshot);
+                // A final latest snapshot must already have its canonical
+                // identity and accounting available to checkpoint consumers.
+                std::atomic_store(&latestAnalysis,snapshot);
+                analysisProducerCpu=playback::threadCpuSeconds()-began;analysisChanged.notify_all();
+                const auto& hooks=analysisConfiguration.controlTestHooks;if(hooks.event)hooks.event(hooks.context,ControlTestPoint::InputAnalysisPublished,generation,at);
+            };
+            while(at<input.frames){check();
+                if(analysisConfiguration.analysisDelayMs){std::unique_lock wait(analysisWaitMutex);analysisChanged.wait_for(wait,std::chrono::duration<double,std::milli>(analysisConfiguration.analysisDelayMs),[&]{return analysisCancelled.load();});}
+                check();at+=source.appendNext(a,analysisConfiguration.analysisChunk);check();emit();}
+            check();source.finish(a);check();emit();
+        }catch(const Cancelled&){}catch(...){analysisFailure=std::current_exception();analysisFailed.store(true,std::memory_order_release);}
+    }
     struct FixedHead {std::atomic<bool> ready{false};std::atomic<std::uint64_t> bits{0};};
     std::array<FixedHead,161> fixedHeads;
     struct CheckpointBudget {std::atomic<unsigned> count{0},peak{0};};
@@ -147,6 +202,7 @@ struct InputLease {
         catch(...){identityInvalid=true;identityFailure=std::current_exception();throw;}
     }
     explicit InputLease(const std::filesystem::path& p):input(p){}
+    ~InputLease(){analysisCancelled=true;analysisChanged.notify_all();if(analysisProducer.joinable())analysisProducer.join();}
 };
 std::atomic<std::uint64_t> nextSession{1};
 std::atomic<std::uint64_t> liveExecutionOwners{0},peakExecutionOwners{0};
@@ -182,6 +238,17 @@ struct RealtimePipeline::Impl {
     ExecutionOwnerLease executionOwner; // after workers/input, before reservation
     playback::StageClock origin;Configuration config;
     std::shared_ptr<InputLease> inputLease;Input& input;
+    std::unique_ptr<InputLease::AnalysisUse> analysisUse;
+    std::unique_ptr<phase56::MapPrefixBuilder> seekMapBuilder;std::size_t seekClosedEvents=0;
+    bool seekMapFinished=false;
+    std::shared_ptr<phase56::MemoryLedger> seekMapLedger;
+    phase56::ImmutableSeries<long long> seekMapNodes;
+    std::shared_ptr<const phase56::AnalysisSnapshot> seekAnalysisBase;
+    std::atomic<std::size_t> analysisProducerReceivedAtStop{0};
+    std::atomic<std::uint64_t> analysisProducerThreadAtStop{0},analysisProducerStartsAtStop{0};
+    std::atomic<double> analysisProducerCpuAtStop{0};
+    std::atomic<AnalysisWaitReason> analysisRequirement{AnalysisWaitReason::None};
+    std::atomic<std::size_t> certifiedAnalysisNodes{0};
     bool seeking=false;std::size_t seekInput=0;
     std::atomic<std::size_t> outputStart{0},discarded{0};
     std::atomic<bool> seekMapReady{false};
@@ -256,6 +323,7 @@ struct RealtimePipeline::Impl {
     BorrowedSnapshotMailbox<phase59::DynamicMap> dynamicMailbox;
     phase59::ValueMailbox<phase59::PlanningFrontier> frontierMailbox;
     mutable phase59::ValueMailbox<PositionSample> positionMailbox;
+    mutable phase59::ValueMailbox<phase59::IncrementalPlanningStatistics> incrementalPlanningMailbox;
     std::unique_ptr<phase59::ProgressiveTransitionPlanner> transitionPlanner;
     std::shared_ptr<const phase59::DynamicMap> committedPositionMap; // normal owner publication only
     mutable std::mutex operationMutex;
@@ -323,12 +391,19 @@ struct RealtimePipeline::Impl {
         error.reserve(256);inputLease->validateIdentity(true);verified=elapsed();
         if(!seeking){
             inputLease->generation=session;
-            inputLease->sha=input.identify(config.sourceSnapshotBytes);
-            if(config.residentInput){input.makeResident();residentReady=elapsed();}
+            const auto preparationProgress=[&](ControlTestPoint point,std::size_t at){
+                if(config.controlTestHooks.event)config.controlTestHooks.event(config.controlTestHooks.context,point,session,at);
+                if(config.inputPreparationCancel&&config.inputPreparationCancel->load())throw std::runtime_error("入力準備が取り消されました");
+                if(config.inputPreparationDeadline!=std::chrono::steady_clock::time_point{}&&std::chrono::steady_clock::now()>=config.inputPreparationDeadline)throw std::runtime_error("入力準備が受付からの期限を超えました");
+            };
+            inputLease->sha=input.identify(config.sourceSnapshotBytes,preparationProgress);
+            if(config.residentInput){input.makeResident(preparationProgress);residentReady=elapsed();}
         }else if(config.residentInput&&input.residentBytes().empty())throw std::logic_error("Seek requires prepared resident input");
         inputSha=inputLease->sha;identified=elapsed();
         realtime=std::make_unique<RealtimeWorkerSupport>(config.scheduling==WorkerScheduling::AudioWorkgroup,input.rate);
-        if(config.dynamicTransitions){operations.reserve(4096);transitionPlanner=std::make_unique<phase59::ProgressiveTransitionPlanner>(input.rate,input.frames,inputLease->generation,c.speedMicros,c.candidate);}
+        if(config.dynamicTransitions){operations.reserve(4096);transitionPlanner=std::make_unique<phase59::ProgressiveTransitionPlanner>(input.rate,input.frames,inputLease->generation,c.speedMicros,c.candidate,c.verifyIncrementalPlanning);}
+        if(!seeking){inputLease->analysisConfiguration=c;inputLease->analysisConfiguration.inputPreparationCancel=nullptr;}
+        analysisUse=inputLease->acquireAnalysis();
     }
     double elapsed()const{return origin.elapsed().wallSeconds;}
     void rememberFixedHead(std::size_t offset,const float*const* pcm,std::size_t count)noexcept{
@@ -342,31 +417,42 @@ struct RealtimePipeline::Impl {
         try{
         playback::StageClock preparationCost;const auto plansBefore=FFTAccelerate::threadPlanCreations();
         auto permit=inputLease->reserveCheckpoint(config,session);if(!permit){normalLoopState=NormalLoopReuseState::LimitReached;return;}
-        auto seed=InputLease::ownCheckpoint(phase57::ProgressiveSynthesisEngine::makeFixedLoopOriginCheckpoint(input.snapshotDescriptor(),input.residentBytes(),config.speedMicros,snapshot,map),std::move(permit));
+        auto seed=InputLease::ownCheckpoint(phase57::ProgressiveSynthesisEngine::makeFixedLoopOriginCheckpoint(input.snapshotDescriptor(),input.residentBytes(),config.speedMicros,snapshot,map,config.recordStageDigests||config.recordWorkerProfile||config.detailedDiagnostics),std::move(permit));
         if(!seed)throw std::logic_error("通常ownerの固定原点保存点を構築できません");
         normalLoopPreparation=std::make_unique<NormalLoopPreparation>(NormalLoopPreparation{std::move(seed),snapshot,std::move(map),std::bit_cast<std::array<float,2>>(head.bits.load())});
         loopSeedClones=1;loopSeedOutput=0;loopSeedCloneS=preparationCost.elapsed().wallSeconds;loopFftPlans=FFTAccelerate::threadPlanCreations()-plansBefore;loopMapBuilds=1;
         normalLoopPrepared.store(normalLoopPreparation.get(),std::memory_order_release);realtime->signal();
         }catch(...){normalLoopState.store(NormalLoopReuseState::Failed,std::memory_order_release);}
     }
+    std::shared_ptr<const phase56::AnalysisSnapshot> convertSeekAnalysis(const std::shared_ptr<const phase56::AnalysisSnapshot>& base){
+        seekAnalysisBase=base;
+        if(base->speedCount==1&&base->speedMicros[0]==config.speedMicros)return base;
+        if(!seekMapBuilder){seekMapBuilder=std::make_unique<phase56::MapPrefixBuilder>(std::vector<std::uint32_t>{config.speedMicros});seekMapLedger=std::make_shared<phase56::MemoryLedger>(4*1024*1024);seekMapLedger->owner=seekMapLedger;}
+        while(seekClosedEvents<base->closedEventCount){seekMapBuilder->close(base->events.at(seekClosedEvents),base->anchors.at(seekClosedEvents));++seekClosedEvents;}
+        if(base->isFinal&&!seekMapFinished){seekMapBuilder->finish(base->featureThrough);seekMapFinished=true;}
+        seekMapNodes=seekMapNodes.extend(seekMapBuilder->nodes[0],seekMapBuilder->nodes[0].size(),seekMapLedger);
+        if(seekMapNodes.size()!=base->mapThroughNode)throw std::logic_error("Seek certified map prefix differs");
+        auto s=std::make_shared<phase56::AnalysisSnapshot>(*base);s->maps={};s->speedCount=1;s->speedMicros={};s->speedMicros[0]=config.speedMicros;s->maps[0]=seekMapNodes;return s;
+    }
     std::shared_ptr<const phase56::AnalysisSnapshot> seekAnalysis(){
         playback::StageClock mapTimer;
-        std::shared_ptr<const phase56::AnalysisSnapshot> base;
-        while(!(base=std::atomic_load(&inputLease->finalAnalysis))){
-            check();if(inputLease->analysisFailed.load())throw std::runtime_error("Source analysis failed");
+        std::shared_ptr<const phase56::AnalysisSnapshot> s;
+        // Loop seeds and FastLocal currently require a final fixed map. Ordinary
+        // Exact may start with a certified interpolation prefix; DSP lookahead
+        // and FIR readiness are still checked by Phase57 for every output block.
+        const bool needsFinal=config.fastLocalSeek||config.loopEndInputFrame||seekInput==input.frames;
+        analysisRequirement=seekInput==input.frames?AnalysisWaitReason::EndOfInput:needsFinal?AnalysisWaitReason::FinalFixedMap:AnalysisWaitReason::CertifiedInterpolation;
+        std::shared_ptr<const phase56::AnalysisSnapshot> previous;
+        while(true){
+            check();inputLease->checkAnalysis();
+            auto base=std::atomic_load(&inputLease->latestAnalysis);
+            if(base&&base!=previous){previous=base;s=convertSeekAnalysis(base);received=s->receivedInputFrames;certifiedAnalysisNodes=s->mapThroughNode;
+                const auto node=seekInput/1024;
+                if((!needsFinal||s->isFinal)&&(s->isFinal||s->mapThroughNode>node+1))break;}
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
         }
         if(config.reusableLoop)loopAnalysisWaitS=mapTimer.elapsed().wallSeconds;playback::StageClock mapWork;
-        check();auto s=std::make_shared<phase56::AnalysisSnapshot>(*base);
-        if(s->speedCount!=1||s->speedMicros[0]!=config.speedMicros){
-            phase56::MapPrefixBuilder builder({config.speedMicros});
-            for(std::size_t i=0;i<s->closedEventCount;++i)builder.close(s->events.at(i),s->anchors.at(i));
-            builder.finish(s->featureThrough);
-            auto ledger=std::make_shared<phase56::MemoryLedger>(64*1024*1024);ledger->owner=ledger;
-            s->maps={};s->speedCount=1;s->speedMicros={};s->speedMicros[0]=config.speedMicros;
-            s->maps[0]=s->maps[0].extend(builder.nodes[0],builder.nodes[0].size(),ledger);
-            s->mapThroughNode=s->maps[0].size();
-        }
+        check();
         std::vector<long long> nodes;nodes.reserve(s->mapThroughNode);
         for(std::size_t i=0;i<s->mapThroughNode;++i)nodes.push_back(s->maps[0].at(i));
         const auto length=std::size_t(std::llround(input.frames*(1.0/(double(config.speedMicros)/1000000.0))));
@@ -383,13 +469,13 @@ struct RealtimePipeline::Impl {
             if(loopOutputEnd.load()-repeatBegin.load()<512)throw std::runtime_error("確定ループ周期が最小512フレーム未満です");
             auto view=std::make_shared<phase59::DynamicMap>();view->map=map;view->inputGeneration=inputLease->generation;view->version=1;view->baseVersion=0;view->certifiedNodes=map.starts().size();view->receivedInput=input.frames;view->outputFrames=length;view->final=true;fixedLoopMap=std::move(view);
             if(config.dynamicTransitions){
-                transitionPlanner->update(s);lastPlannerReceived=s->receivedInputFrames;plannerSawFinal=true;
+                transitionPlanner->update(s);incrementalPlanningMailbox.publish(transitionPlanner->statistics());lastPlannerReceived=s->receivedInputFrames;plannerSawFinal=true;
                 fixedLoopMap=transitionPlanner->view();std::atomic_store(&committedPositionMap,fixedLoopMap);
                 loopDynamicCapable=true;
             }
             loopSnapshot=s;++loopMapBuilds;loopMapS=mapWork.elapsed().wallSeconds;loopMapCpuS=mapWork.elapsed().threadCpuSeconds;
         }
-        output=length;outputStart=start;published=start;consumed=start;seekMapReady.store(true,std::memory_order_release);
+        output=length;outputStart=start;published=start;consumed=start;analysisRequirement=AnalysisWaitReason::None;seekMapReady.store(true,std::memory_order_release);
         return s;
     }
     void stageSeekPcm(std::uint64_t generation,std::size_t offset,const float*const* p,std::size_t n){
@@ -442,7 +528,8 @@ struct RealtimePipeline::Impl {
                     engine->prepareCheckpointForEpoch();checkpointStart=point;lastCheckpointOutput=point;generated=point;checkpointRestored=true;return engine;}
             }
         }
-        return std::make_unique<phase57::ProgressiveSynthesisEngine>(input.snapshotDescriptor(),config.speedMicros,inputLease->generation,std::move(validate),16*1024*1024,input.residentBytes());
+        auto engine=std::make_unique<phase57::ProgressiveSynthesisEngine>(input.snapshotDescriptor(),config.speedMicros,inputLease->generation,std::move(validate),16*1024*1024,input.residentBytes());
+        engine->setStageDigestsEnabled(config.recordStageDigests||config.recordWorkerProfile||config.detailedDiagnostics);return engine;
     }
     void rememberCheckpoint(bool atReady=false){
         if(!seeking||config.fastLocalSeek||config.loopEndInputFrame||!config.seekCheckpoints||!activeSynthesis||ready.load()||realtime->active()||config.recordWorkerProfile||config.detailedDiagnostics)return;
@@ -534,6 +621,7 @@ struct RealtimePipeline::Impl {
         realtime->signal();
     }
     void publish(std::shared_ptr<const phase56::AnalysisSnapshot> s){
+        certifiedAnalysisNodes=s->mapThroughNode;
         if(config.scheduling==WorkerScheduling::AudioWorkgroup){
             const auto* view=s.get();
             while(!borrowedMailbox.tryPublish(s)){
@@ -622,7 +710,7 @@ struct RealtimePipeline::Impl {
         }
         if(cancelled.load()||failure.load())return;
         if(snapshot->receivedInputFrames!=lastPlannerReceived||snapshot->isFinal!=plannerSawFinal){
-            planner.update(snapshot);lastPlannerReceived=snapshot->receivedInputFrames;plannerSawFinal=snapshot->isFinal;
+            planner.update(snapshot);incrementalPlanningMailbox.publish(planner.statistics());lastPlannerReceived=snapshot->receivedInputFrames;plannerSawFinal=snapshot->isFinal;
             transitionMapPeak=std::max(transitionMapPeak.load(),planner.mapBytes());
             if(auto view=planner.view();view&&view->version!=(frontierMailbox.read().value_or(phase59::PlanningFrontier{}).mapVersion)){
                 pendingMap=std::move(view);return;
@@ -667,6 +755,7 @@ struct RealtimePipeline::Impl {
             {std::lock_guard lock(operationMutex);operations[activeOperation].logicalPresented=plannedPosition;}
             testEvent(ControlTestPoint::PlannerBeforePlan,op.id);
             result=planner.plan({op.target},op.generation,plannedPosition,latest->published,f);
+            incrementalPlanningMailbox.publish(planner.statistics());
         }catch(...){const auto cost=timing.elapsed();transitionCpu=transitionCpu.load()+cost.threadCpuSeconds;transitionWall=transitionWall.load()+cost.wallSeconds;++transitionAttempts;
             std::lock_guard lock(operationMutex);auto& record=operations[activeOperation];record.planFinishedS=elapsed();record.planCpuS+=cost.threadCpuSeconds;record.planWallS+=cost.wallSeconds;++record.attempts;throw;}
         testEvent(ControlTestPoint::PlannerProposal,op.id);
@@ -689,7 +778,6 @@ struct RealtimePipeline::Impl {
     }
     void analyze(){
         CpuEnd measured{analysisWorkerCpu};
-        std::unique_ptr<phase56::ProgressiveAnalysisSession> a;
         try{
             std::uint64_t tid=0;pthread_threadid_np(nullptr,&tid);analysisThread=tid;
             analysisQos=pthread_set_qos_class_self_np(QOS_CLASS_UTILITY,0)==0;
@@ -699,16 +787,21 @@ struct RealtimePipeline::Impl {
             pthread_setname_np("Phase58 analysis");
             analysisStart=elapsed();playback::StageClock cpu;
             std::shared_ptr<const phase56::AnalysisSnapshot> completed;
-            if(seeking){completed=seekAnalysis();received=input.frames;}
-            else{
-                a=std::make_unique<phase56::ProgressiveAnalysisSession>(input.rate,input.channels,session,phase56::AnalysisLimits{},std::vector<std::uint32_t>{config.speedMicros});
-                phase56::PinnedWavSource source(input.snapshotDescriptor(),session);std::size_t at=0;
-                while(at<input.frames){check();if(config.analysisDelayMs)std::this_thread::sleep_for(std::chrono::duration<double,std::milli>(config.analysisDelayMs));
-                    check();at+=source.appendNext(*a,config.analysisChunk);check();received=at;publish(a->getSnapshot());transitionStep(a->getSnapshot());}
-                check();source.finish(*a);check();completed=a->getSnapshot();std::atomic_store(&inputLease->finalAnalysis,completed);
-                const auto stats=a->statistics();snapshotPeak=stats.snapshotPeakBytes;snapshotCopies=stats.snapshotCopyBytes;
+            if(seeking){completed=seekAnalysis();received=completed->receivedInputFrames;publish(completed);transitionStep(completed);}
+            std::shared_ptr<const phase56::AnalysisSnapshot> previous=seeking?seekAnalysisBase:std::atomic_load(&inputLease->latestAnalysis);
+            if(!seeking&&previous){completed=previous;received=completed->receivedInputFrames;publish(completed);transitionStep(completed);}
+            while(!completed||!completed->isFinal){
+                check();inputLease->checkAnalysis();
+                auto next=std::atomic_load(&inputLease->latestAnalysis);
+                if(next&&next!=previous){previous=next;completed=seeking?convertSeekAnalysis(next):next;
+                    received=completed->receivedInputFrames;certifiedAnalysisNodes=completed->mapThroughNode;publish(completed);transitionStep(completed);continue;}
+                if(completed)transitionStep(completed);
+                std::unique_lock wait(inputLease->analysisWaitMutex);inputLease->analysisChanged.wait_for(wait,std::chrono::milliseconds(1));
             }
-            analysisEnd=elapsed();analysisDone=true;publish(completed);transitionStep(completed);
+            snapshotPeak=inputLease->analysisPeak.load();snapshotCopies=inputLease->analysisCopies.load();
+            // completed was published exactly once above. A second final
+            // publication could race the DSP into accepting EOS twice.
+            analysisEnd=elapsed();analysisDone=true;
             analysisCpu=cpu.elapsed().threadCpuSeconds;
             // Continue validating the selected source after analysis EOS. The
             // control/audio owner joins this worker before releasing the FD.
@@ -724,10 +817,10 @@ struct RealtimePipeline::Impl {
                 if(!seeking&&dspDone.load()&&fifo.available()==0)break;check();
             }
             if(config.dynamicTransitions)transitionStep(completed);
-        }catch(const Cancelled&){if(a)a->cancel();}
+        }catch(const Cancelled&){}
         catch(const std::exception& e){if(!seeking&&dspDone.load()&&fifo.available()==0&&!failure.load())return;
-            if(!analysisDone.load())inputLease->analysisFailed=true;
-            if(a&&!analysisDone.load()){try{a->failInput(session,phase56::AnalysisError::InputRead);}catch(...){}}fail(e.what());}
+            if(inputLease->analysisFailed.load())analysisRequirement=AnalysisWaitReason::ProducerFailure;
+            fail(e.what());}
         changed.notify_all();
     }
     void synthesizeRealtime(){
@@ -1075,6 +1168,7 @@ struct RealtimePipeline::Impl {
                     continue;
                 }
                 const auto position=engine.frontier().published;
+                if(config.loopPreparationOnly&&!realtime->active())testEvent(ControlTestPoint::LoopPreparationPrefixProgress,position);
                 if(!seed&&position<=begin&&position+2048>begin){
                     playback::StageClock copy;auto permit=inputLease->reserveCheckpoint(config,session);
                     if(!permit)throw std::length_error("固定保存点の合計上限2に到達しました");
@@ -1171,6 +1265,7 @@ struct RealtimePipeline::Impl {
             }
             if(!engine){
                 engine=std::make_unique<phase57::ProgressiveSynthesisEngine>(input.snapshotDescriptor(),config.speedMicros,inputLease->generation,[this]{check(true);},16*1024*1024,input.residentBytes());
+                engine->setStageDigestsEnabled(config.recordStageDigests||config.recordWorkerProfile||config.detailedDiagnostics);
                 engine->enableDynamicTransitions();engine->supplySnapshot(loopSnapshot);
                 if(!engine->trySupplyBorrowedDynamicMap(fixedLoopMap.get()))throw std::logic_error("固定ループMapの初期化失敗");
             }
@@ -1290,6 +1385,11 @@ struct RealtimePipeline::Impl {
         if(sampler.joinable())sampler.join();
         if(analysisWorker.joinable())analysisWorker.join();
         if(dspWorker.joinable())dspWorker.join();
+        // Unstarted replacement epochs hold a subscription too. Only the last
+        // user cancels/joins the input producer, always outside consumer locks.
+        analysisUse.reset();
+        analysisProducerReceivedAtStop=inputLease->analysisReceived.load();analysisProducerCpuAtStop=inputLease->analysisProducerCpu.load();
+        analysisProducerThreadAtStop=inputLease->analysisProducerThread.load();analysisProducerStartsAtStop=inputLease->analysisProducerStarts.load();
         lifecycleEvent(LifecycleTestPoint::JoinedBeforeFinalize);
         if(config.dynamicTransitions){finalizeTransition();cancelOperations();}
         lifecycleEvent(LifecycleTestPoint::BeforeFinalPublish);
@@ -1309,6 +1409,7 @@ void RealtimePipeline::start(){auto& x=*impl_;
     x.lifecycle.store(LifecycleState::Starting,std::memory_order_release);
     const auto fault=[&](unsigned worker){if(x.config.lifecycleTestHooks.failStartBeforeWorker==worker)throw std::runtime_error("Injected worker creation failure");};
     try{
+        x.inputLease->startAnalysis();
         if(x.config.reusableLoop)x.loopWorkerCreations=2+(x.config.sampleDspThread?1:0);
         fault(1);x.analysisWorker=std::thread([&x]{x.analyze();x.lifecycleEvent(LifecycleTestPoint::WorkerExit);});
         fault(2);x.dspWorker=std::thread([&x]{x.synthesize();x.lifecycleEvent(LifecycleTestPoint::WorkerExit);});
@@ -1392,7 +1493,7 @@ std::optional<SpeedOperationProgress> RealtimePipeline::speedOperationProgress(s
 }
 std::uint64_t RealtimePipeline::sessionID()const noexcept{return impl_->session;}
 std::size_t RealtimePipeline::logicalOutputFrame()const noexcept {const auto& x=*impl_;return x.loopMode()?x.repeatPosition(x.repeatConsumedFrames()):x.consumed.load();}
-TimeMap RealtimePipeline::dynamicTimeMap()const{const auto& x=*impl_;if(x.lifecycle.load(std::memory_order_acquire)==LifecycleState::Finalized&&!(x.loopMode()&&x.loopTransitionState.load()==LoopTransitionState::Committed))if(auto map=std::atomic_load(&x.fixedSeekMap))return *map;if(x.lifecycle.load(std::memory_order_acquire)!=LifecycleState::Finalized||!x.transitionPlanner||!x.transitionPlanner->view())throw std::logic_error("Joined dynamic session required");return x.transitionPlanner->view()->map;}
+TimeMap RealtimePipeline::dynamicTimeMap()const{const auto& x=*impl_;if(x.lifecycle.load(std::memory_order_acquire)==LifecycleState::Finalized&&!(x.loopMode()&&x.loopTransitionState.load()==LoopTransitionState::Committed))if(auto map=std::atomic_load(&x.fixedSeekMap))return *map;if(x.lifecycle.load(std::memory_order_acquire)!=LifecycleState::Finalized||!x.transitionPlanner||!x.transitionPlanner->view())throw std::logic_error("Joined dynamic session required");return x.transitionPlanner->view()->map.materialize();}
 std::size_t RealtimePipeline::available()const noexcept{return impl_->fifo.available();}
 std::uint32_t RealtimePipeline::sampleRate()const noexcept{return impl_->input.rate;}
 std::size_t RealtimePipeline::channels()const noexcept{return impl_->input.channels;}
@@ -1439,7 +1540,7 @@ void RealtimePipeline::enableLoopReuse(std::size_t a){
         if(a!=x.seekInput)unusedInitial.swap(x.inputLease->initialLoopCheckpoint);}
     unusedInitial.reset();
     x.config.reusableLoop=true;x.config.loopBeginInputFrame=a;
-    if(x.config.scheduling==WorkerScheduling::AudioWorkgroup){x.config.dynamicTransitions=true;x.operations.reserve(4096);x.transitionPlanner=std::make_unique<phase59::ProgressiveTransitionPlanner>(x.input.rate,x.input.frames,x.inputLease->generation,x.config.speedMicros,x.config.candidate);}
+    if(x.config.scheduling==WorkerScheduling::AudioWorkgroup){x.config.dynamicTransitions=true;x.operations.reserve(4096);x.transitionPlanner=std::make_unique<phase59::ProgressiveTransitionPlanner>(x.input.rate,x.input.frames,x.inputLease->generation,x.config.speedMicros,x.config.candidate,x.config.verifyIncrementalPlanning);}
     x.loopPcmDescriptors=std::make_unique<LoopPcmDescriptorRing>();
 }
 bool RealtimePipeline::loopReuseEnabled()const noexcept{return impl_->loopMode();}
@@ -1480,7 +1581,7 @@ LoopTransitionSnapshot RealtimePipeline::loopTransition()const noexcept{
 }
 std::optional<TimeMap> RealtimePipeline::loopCommittedTimeMap()const{
     const auto descriptor=loopTransition();if(descriptor.state!=LoopTransitionState::Committed&&descriptor.state!=LoopTransitionState::FixedBoundaryCommitted)return {};
-    auto map=std::atomic_load(&impl_->committedPositionMap);if(!map||map->version!=descriptor.mapVersion)return {};return map->map;
+    auto map=std::atomic_load(&impl_->committedPositionMap);if(!map||map->version!=descriptor.mapVersion)return {};return map->map.materialize();
 }
 bool RealtimePipeline::cancelLoopTransition()noexcept{
     auto& state=impl_->loopTransitionState;auto value=state.load(std::memory_order_acquire);
@@ -1508,6 +1609,7 @@ std::unique_ptr<RealtimePipeline> RealtimePipeline::createInteractiveSeek(std::s
     auto result=createFastLocalSeek(frame,speed,preroll);result->impl_->config.localPublicationFade=false;return result;
 }
 bool RealtimePipeline::finalAnalysisAvailable()const noexcept{return bool(std::atomic_load(&impl_->inputLease->finalAnalysis));}
+bool RealtimePipeline::requiredAnalysisAvailable()const noexcept{return impl_->seeking?impl_->seekMapReady.load(std::memory_order_acquire):impl_->analysisDone.load();}
 bool RealtimePipeline::retireFadeDrained()const noexcept{const auto& x=*impl_;const auto end=x.envelope.retireEnd.load();return (end&&x.consumed.load()>=end)||drained();}
 double RealtimePipeline::elapsedSeconds()const noexcept{return impl_->elapsed();}
 Diagnostics RealtimePipeline::diagnostics()const{
@@ -1528,6 +1630,14 @@ Diagnostics RealtimePipeline::diagnostics()const{
     d.residentInputBytes=x.input.residentBytes().size();d.residentReadyS=x.residentReady;d.renderingRequested=x.renderingRequested;
     d.inputSamplesPrevalidated=!x.input.residentBytes().empty();
     d.dynamicTransitions=x.config.dynamicTransitions;d.transitionHistory=x.transitionHistory;d.transitionMapPeakBytes=x.transitionMapPeak;
+    if(auto stats=x.incrementalPlanningMailbox.read()){d.incrementalPlanning=*stats;d.incrementalPlanningMeasured=true;}
+    d.requiredAnalysisReady=requiredAnalysisAvailable();
+    d.analysisWaitReason=x.analysisRequirement;d.requiredAnalysisNodes=x.seeking?x.seekInput/1024+2:0;d.certifiedAnalysisNodes=x.certifiedAnalysisNodes;
+    const bool finalized=x.lifecycle.load(std::memory_order_acquire)==LifecycleState::Finalized;
+    d.analysisProducerThread=finalized?x.analysisProducerThreadAtStop.load():x.inputLease->analysisProducerThread.load();
+    d.analysisProducerStarts=finalized?x.analysisProducerStartsAtStop.load():x.inputLease->analysisProducerStarts.load();
+    d.analysisProducerReceived=finalized?x.analysisProducerReceivedAtStop.load():x.inputLease->analysisReceived.load();
+    d.analysisProducerCpuS=finalized?x.analysisProducerCpuAtStop.load():x.inputLease->analysisProducerCpu.load();
     d.transitionPlanAttempts=x.transitionAttempts;d.transitionStaleReplans=x.transitionStale;d.transitionAnalysisDeferrals=x.transitionDeferrals;d.transitionPlanCpuS=x.transitionCpu;d.transitionPlanWallS=x.transitionWall;
     {std::lock_guard operationLock(x.operationMutex);d.transitionOperations=x.operations.size();}
     if(d.finalDataAvailable)d.transitionMapOwners=x.dynamicMailbox.ownerCount();
@@ -1548,6 +1658,7 @@ Diagnostics RealtimePipeline::diagnostics()const{
     d.analysisQos=x.analysisQos;d.dspQos=x.dspQos;d.analysisDone=x.analysisDone;d.dspDone=x.dspDone;d.cancelled=x.cancelled&&!x.dspDone;d.failed=x.failure;
     d.loopReuse.normalPreparation=x.normalLoopState.load();d.loopReuse.checkpointStates=x.inputLease->checkpointBudget->count;d.loopReuse.checkpointPeak=x.inputLease->checkpointBudget->peak;
     d.loopReuse.reconstructionAttempts=x.loopReconstructionAttempts;d.loopReuse.reconstructedFrames=x.loopReconstructedFrames;d.loopReuse.reconstructionDeferrals=x.loopReconstructionDeferrals;d.loopReuse.reconstructionWallS=x.loopReconstructionWallS;d.loopReuse.reconstructionCpuS=x.loopReconstructionCpuS;
+    d.stageDigestsMeasured=x.config.recordStageDigests||x.config.recordWorkerProfile||x.config.detailedDiagnostics;
     d.controlCostsMeasured=x.config.measureControlCosts;d.inputValidationCost=x.input.validationCost.value();d.speedHistoryCopyCost=x.speedHistoryCopyCost.value();d.analysisIdleWakes=x.analysisIdleWakes;
     d.loopReuse.initialCheckpointHit=x.initialCheckpointHit.load();
     d.loopReuse.initialPrefixCheckpointHit=x.initialPrefixCheckpointHit.load();

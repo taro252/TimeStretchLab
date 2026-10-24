@@ -1,0 +1,652 @@
+{
+  "schema": "performance-response-failure-history-v1",
+  "created_utc": "2026-10-23T14:42:40.907684+00:00",
+  "repo_root": "/Users/taro252/Docker/TimeStretchLab",
+  "evidence_root": "build/performance_response_20261023_01",
+  "final_candidate_source": "0d8d2e867a70878107400c85b37221c466b6243b0349adaee4ae04f8cf81b41e",
+  "identity_policy": "Only small JSON/logs rehashed here. Larger original JSON, PCM/input and binaries use preserved original or parent audit identities with current size only. Full source/binary reuse validation is the separate final05 parent audit.",
+  "parent_audit": {
+    "path": "build/performance_response_20261023_01/FINAL04_REUSE_AUDIT.json",
+    "bytes": 56973,
+    "sha256": "42934afd7dbdf79fdc45449046f4d09959f387fdbb28e942f69c81a23e65693c",
+    "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+  },
+  "history": [
+    {
+      "run": "build_candidate_01",
+      "status": "FAIL",
+      "reason": "DSP等価試験compile失敗。",
+      "records": [
+        {
+          "path": "build/performance_response_20261023_01/build_candidate_01/BUILD.json",
+          "bytes": 118336,
+          "sha256": "e7d7c1ab49b28bcfb8e8dd3be347fbcbcfc6efbfdb7bea088a92f45d49b2dd59",
+          "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+        },
+        {
+          "path": "build/performance_response_20261023_01/build_candidate_01/EXPECTED.json",
+          "bytes": 117983,
+          "sha256": "c402b869e16338c050e2f6207adebbd36b05091a8ffa53d973c152b9a9e7789c",
+          "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+        }
+      ],
+      "resolution": "SEE_ORIGINAL_AND_LATER_RUN; never rewrite this attempt",
+      "recorded_counts": {},
+      "source": "a10d3f6860540e8f32b4a873d1ecf1759ab7d9ed9dc64213082b174731b5f224",
+      "primary_counts": {
+        "unit": "build_commands",
+        "expected": 2,
+        "executed": 2,
+        "PASS": 1,
+        "FAIL": 1,
+        "NOT_RUN": 0
+      },
+      "representative_logs": [
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/build_candidate_01/configure.log",
+          "bytes": 663,
+          "sha256": "3611cb0296f0cff0037061f449df6c4a9c1d0425e0f1cb2d680d939fdfe5d206"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/build_candidate_01/build.log",
+          "bytes": 7691,
+          "sha256": "496b410723b8029e51680ae5c33cd7d1361521efcf06ea85e6e71a580136d1f1"
+        }
+      ]
+    },
+    {
+      "run": "build_final_02",
+      "status": "FAIL",
+      "reason": "v4試験移行途中compile失敗。",
+      "records": [
+        {
+          "path": "build/performance_response_20261023_01/build_final_02/BUILD.json",
+          "bytes": 121006,
+          "sha256": "a8ae4ae4d0f1069e1af5e380f795fc5ac862b4aa84ecdfaabe4eef788dada310",
+          "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+        },
+        {
+          "path": "build/performance_response_20261023_01/build_final_02/EXPECTED.json",
+          "bytes": 119688,
+          "sha256": "cf20240c26d395fbf868eb48ac9c59c87e3e14a7e32b6a3416a344439d9dde03",
+          "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+        }
+      ],
+      "resolution": "SEE_ORIGINAL_AND_LATER_RUN; never rewrite this attempt",
+      "recorded_counts": {},
+      "source": "e2089a2b55845f4005e281eec62ac33c82760ea3016e29026044801451b485f5",
+      "primary_counts": {
+        "unit": "build_commands",
+        "expected": 2,
+        "executed": 2,
+        "PASS": 1,
+        "FAIL": 1,
+        "NOT_RUN": 0
+      },
+      "representative_logs": [
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/build_final_02/configure.log",
+          "bytes": 176,
+          "sha256": "1f634ae3b4d04872bb8b2c861c803090ac15f288a8ad0d08d2fb488201df3ecd"
+        },
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/build_final_02/build.log",
+          "bytes": 13616,
+          "sha256": "dd1f2708886478eb16650b069a3bd7eeacb54aec25a72f35167d861ace57029e"
+        }
+      ]
+    },
+    {
+      "run": "checkpoint_fixture_repro_01",
+      "status": "FAIL",
+      "reason": "driver型不整合、実行0。製品試験FAILと混同しない。",
+      "records": [
+        {
+          "path": "build/performance_response_20261023_01/checkpoint_fixture_repro_01/SUMMARY.json",
+          "bytes": 136,
+          "sha256": "15a795ae1ef53bbf6fbe88abf80dbdaa925fc7d3316a8384b2df36d9646d786b",
+          "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+        }
+      ],
+      "resolution": "SEE_ORIGINAL_AND_LATER_RUN; never rewrite this attempt",
+      "recorded_counts": {
+        "executed_programs": 0
+      },
+      "primary_counts": {
+        "unit": "programs",
+        "expected": null,
+        "executed": 0,
+        "PASS": 0,
+        "FAIL": 0,
+        "NOT_RUN": null
+      },
+      "source": "NO_NATIVE_EXECUTION_RECORDED"
+    },
+    {
+      "run": "units_final_01",
+      "status": "INCOMPLETE_OR_FAIL",
+      "reason": "追加monoで肯定Applied不成立。旧版もNoSafeInterval。肯定別素材＋専用負例へ分離。",
+      "records": [
+        {
+          "path": "build/performance_response_20261023_01/units_final_01/SUMMARY.json",
+          "bytes": 3344,
+          "sha256": "4db01432886fabe33399ce38c44e192ae93f869c83bfec44e880cf369ab74612",
+          "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+        },
+        {
+          "path": "build/performance_response_20261023_01/units_final_01/EXPECTED.json",
+          "bytes": 5077,
+          "sha256": "205c5ea19914bccdc2c59c6d54db2e7503a75ceeed011825ddd393ac529a32fd",
+          "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+        }
+      ],
+      "resolution": "SEE_ORIGINAL_AND_LATER_RUN; never rewrite this attempt",
+      "recorded_counts": {
+        "expected_programs": 5,
+        "executed_programs": 5
+      },
+      "source": "c23094e73fd2587f4295ce850fb356e080ced0dcbdbd0c9bca2290bccbe69e98",
+      "primary_counts": {
+        "unit": "programs",
+        "expected": 5,
+        "executed": 5,
+        "PASS": 4,
+        "FAIL": 1,
+        "NOT_RUN": 0
+      }
+    },
+    {
+      "run": "c2_partial_full_01",
+      "status": "INCOMPLETE_OR_FAIL",
+      "reason": "last_stopのgate解除がproducer取消前だったfixture競合。8実行／62checksの失敗を保持。",
+      "records": [
+        {
+          "path": "build/performance_response_20261023_01/c2_partial_full_01/SUMMARY.json",
+          "bytes": 18320,
+          "sha256": "8e9826270ac32bc60303152eba5201e21e8247cb86d6be869c71b3ebc1323369",
+          "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+        },
+        {
+          "path": "build/performance_response_20261023_01/c2_partial_full_01/EXPECTED.json",
+          "bytes": 36127,
+          "sha256": "d3169229696fa3b648243fb570377791433cbfc9029ba05613611b986727b1bd",
+          "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+        }
+      ],
+      "resolution": "SEE_ORIGINAL_AND_LATER_RUN; never rewrite this attempt",
+      "recorded_counts": {
+        "expected_programs": 48,
+        "executed_programs": 8,
+        "expected_checks": 384,
+        "executed_checks": 62
+      },
+      "source": "8870415f6a27e10b26f6e3258367998de22637b9ee0536d9b39cd97f7093d3c0",
+      "primary_counts": {
+        "unit": "programs",
+        "expected": 48,
+        "executed": 8,
+        "PASS": 7,
+        "FAIL": 1,
+        "NOT_RUN": 40
+      }
+    },
+    {
+      "run": "adoption_regression_final_01",
+      "status": "INCOMPLETE",
+      "reason": "v3固定期待の試験移行漏れ。21実行18PASS／contract＋limit2本FAIL。retry02の3PASSと重複加算しない。",
+      "records": [
+        {
+          "path": "build/performance_response_20261023_01/adoption_regression_final_01/SUMMARY.json",
+          "bytes": 14794,
+          "sha256": "06922bd9f7a1d040575fcc09e5324f06a0f189bbc1a485d243fd3c7042c4bb19",
+          "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+        },
+        {
+          "path": "build/performance_response_20261023_01/adoption_regression_final_01/EXPECTED.json",
+          "bytes": 145005,
+          "sha256": "87ac2d5d5fcad7e73ef9feae872220e9c5c0a418c39a2dda8038b80f53b98a7d",
+          "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+        }
+      ],
+      "resolution": "SEE_ORIGINAL_AND_LATER_RUN; never rewrite this attempt",
+      "recorded_counts": {
+        "expected_programs": 21,
+        "executed_programs": 21
+      },
+      "source": "c23094e73fd2587f4295ce850fb356e080ced0dcbdbd0c9bca2290bccbe69e98",
+      "primary_counts": {
+        "unit": "programs",
+        "expected": 21,
+        "executed": 21,
+        "PASS": 18,
+        "FAIL": 3,
+        "NOT_RUN": 0
+      }
+    },
+    {
+      "run": "abi_headers_final_01",
+      "status": "FAIL_OR_INCOMPLETE",
+      "reason": "probe／driver途中失敗6/9。final02は9/9の静的ABIのみPASS。iOS runtime未実施。",
+      "records": [
+        {
+          "path": "build/performance_response_20261023_01/abi_headers_final_01/SUMMARY.json",
+          "bytes": 3208087,
+          "sha256": "b02ad9b7e3d867fbb365c424f355770e630e1a0de35c6f4fe31b64172f7e69f7",
+          "identity_verification": "RECORDED_IDENTITY_CURRENT_SIZE_ONLY_NO_REHASH"
+        }
+      ],
+      "resolution": "SEE_ORIGINAL_AND_LATER_RUN; never rewrite this attempt",
+      "primary_counts": {
+        "unit": "checks",
+        "expected": 9,
+        "executed": 6,
+        "PASS": 6,
+        "FAIL": 0,
+        "NOT_RUN": 3
+      },
+      "source": "bfa05533e0d5bef0f5543a09a40e5ee181111bf4e557ca066310ef8f779c7688"
+    },
+    {
+      "run": "ab_pairs_01",
+      "status": "INCOMPLETE_OR_FAIL",
+      "reason": "Rosetta親Pythonで実行0。",
+      "records": [
+        {
+          "path": "build/performance_response_20261023_01/ab_pairs_01/SUMMARY.json",
+          "bytes": 627,
+          "sha256": "317575fb476b49236c8a86558ab13678ad414076818047fa96c8da6d1ce7ea8b",
+          "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+        }
+      ],
+      "resolution": "SEE_ORIGINAL_AND_LATER_RUN; never rewrite this attempt",
+      "recorded_counts": {
+        "expected_programs": 0,
+        "executed_programs": 0
+      },
+      "primary_counts": {
+        "unit": "original_recorded_programs",
+        "expected": 0,
+        "executed": 0,
+        "PASS": 0,
+        "FAIL": 0,
+        "NOT_RUN": 0
+      },
+      "source": "NO_NATIVE_EXECUTION_RECORDED; architecture preflight stopped before EXPECTED"
+    },
+    {
+      "run": "ab_pairs_02",
+      "status": "INCOMPLETE_OR_FAIL",
+      "reason": "freshのpreparing_at_on default誤判定。48完走でも整合FAIL。",
+      "records": [
+        {
+          "path": "build/performance_response_20261023_01/ab_pairs_02/SUMMARY.json",
+          "bytes": 304673,
+          "sha256": "0ac5f675c4045734c279290bec2f2a5cdd42755204f6200e77f9fb5472a79f4c",
+          "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+        },
+        {
+          "path": "build/performance_response_20261023_01/ab_pairs_02/EXPECTED.json",
+          "bytes": 44267,
+          "sha256": "cc3962aa03bd5bed18127592ef12a11b2e90d3f7f619324aa273a49052650e28",
+          "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+        }
+      ],
+      "resolution": "SEE_ORIGINAL_AND_LATER_RUN; never rewrite this attempt",
+      "recorded_counts": {
+        "expected_programs": 48,
+        "executed_programs": 48
+      },
+      "source": "110645cf3ee11ef2ff1f461a2be9b79f51d1c6386364174211c38ae213f6f2aa",
+      "primary_counts": {
+        "unit": "integrity_classified_programs",
+        "expected": 48,
+        "executed": 48,
+        "PASS": 36,
+        "FAIL": 12,
+        "NOT_RUN": 0
+      }
+    },
+    {
+      "run": "ab_main_pairs_final_01",
+      "status": "INCOMPLETE_OR_FAIL",
+      "reason": "40秒観測上限で20/72中断。正常18件も180秒観測主比較へ流用しない。",
+      "records": [
+        {
+          "path": "build/performance_response_20261023_01/ab_main_pairs_final_01/SUMMARY.json",
+          "bytes": 216427,
+          "sha256": "3dc2f5109eafa5fc676652767221242b26f4caf095d267d2dd5a0dc783cb3cca",
+          "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+        },
+        {
+          "path": "build/performance_response_20261023_01/ab_main_pairs_final_01/EXPECTED.json",
+          "bytes": 70966,
+          "sha256": "b6da3c35e56949bee3baf8a7533ed3ae30044ac58f74cca844665305f6785804",
+          "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+        }
+      ],
+      "resolution": "SEE_ORIGINAL_AND_LATER_RUN; never rewrite this attempt",
+      "recorded_counts": {
+        "expected_programs": 72,
+        "executed_programs": 20
+      },
+      "source": "c23094e73fd2587f4295ce850fb356e080ced0dcbdbd0c9bca2290bccbe69e98",
+      "primary_counts": {
+        "unit": "integrity_classified_programs",
+        "expected": 72,
+        "executed": 20,
+        "PASS": 18,
+        "FAIL": 2,
+        "NOT_RUN": 52
+      }
+    },
+    {
+      "run": "d3_related_final_01",
+      "status": "INCOMPLETE_OR_FAIL",
+      "reason": "初回preparationはchain300誤指定、1実行0check FAIL。他11行PASS。retry preparation_final_04は40/40・320PASS。",
+      "records": [
+        {
+          "path": "build/performance_response_20261023_01/d3_related_final_01/SUMMARY.json",
+          "bytes": 201792,
+          "sha256": "2287ef4aa8deb256889c143612eb75916fb6a5861330abe9b65488facede8434",
+          "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+        },
+        {
+          "path": "build/performance_response_20261023_01/d3_related_final_01/EXPECTED.json",
+          "bytes": 12454,
+          "sha256": "463e65f87f61fd80d285560c4c76f586f4aa3eb104b408d419b0f887b75fd38e",
+          "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+        }
+      ],
+      "resolution": "SEE_ORIGINAL_AND_LATER_RUN; never rewrite this attempt",
+      "recorded_counts": {},
+      "source": "02b81c089a78155232a5fa4428586f1a6f81c53de90b1a319924fa9a4b04ac4b",
+      "primary_counts": {
+        "unit": "driver_or_native_rows",
+        "expected": 12,
+        "executed": 12,
+        "PASS": 11,
+        "FAIL": 1,
+        "NOT_RUN": 0
+      }
+    },
+    {
+      "run": "quality_known26_final_01",
+      "status": "QUALITY_FAIL",
+      "reason": "102行中24PASS／78FAIL（26条件×3）。追加失敗0でも品質未達。",
+      "records": [
+        {
+          "path": "build/performance_response_20261023_01/quality_known26_final_01/SUMMARY.json",
+          "bytes": 15703,
+          "sha256": "e66e8cc5c036907c3f3f196fb097fb2041afec035764ca1937a42cc9ac0416e9",
+          "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+        },
+        {
+          "path": "build/performance_response_20261023_01/quality_known26_final_01/EXPECTED.json",
+          "bytes": 165937,
+          "sha256": "0e3b00fff0b17cabe6f155c46d6baa67b7021b9d7ab4974b09b9a42fabbde88d",
+          "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+        }
+      ],
+      "resolution": "SEE_ORIGINAL_AND_LATER_RUN; never rewrite this attempt",
+      "recorded_counts": {
+        "quality_passed": 24,
+        "quality_failed": 78,
+        "observed_count": 102,
+        "expected_count": 102
+      },
+      "source": "bfa05533e0d5bef0f5543a09a40e5ee181111bf4e557ca066310ef8f779c7688",
+      "quality_counts": {
+        "unit": "quality_rows",
+        "expected": 102,
+        "executed": 102,
+        "PASS": 24,
+        "FAIL": 78,
+        "NOT_RUN": 0
+      },
+      "failed_conditions": 26,
+      "new_failures_vs_saved_baseline": 0,
+      "max_weighted_spectral_error_db": 3.593187876467319,
+      "structural_missing_duplicate_coordinate_errors": 0,
+      "comparison_record": {
+        "path": "build/performance_response_20261023_01/FASTLOCAL_FINAL_COMPARISON.json",
+        "bytes": 52980,
+        "sha256": "16460d60548f62727273ebcdc8db1c256eca2cb803148fb2ced4fe03829e59b7",
+        "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+      },
+      "primary_counts": {
+        "unit": "quality_rows",
+        "expected": 102,
+        "executed": 102,
+        "PASS": 24,
+        "FAIL": 78,
+        "NOT_RUN": 0
+      }
+    },
+    {
+      "run": "quality_phase_replay_known26_01",
+      "status": "INCOMPLETE",
+      "reason": "個別34全bit一致でもsource変更でINCOMPLETE。Ready7–19秒、製品不採用。",
+      "records": [
+        {
+          "path": "results/progressive_adoption/evidence/quality_phase_replay_known26_01__SUMMARY.json",
+          "bytes": 3899,
+          "sha256": "ce18e8f4a5baae9f464ab9f6315685fdf42a915110d60453bed57024731e0746",
+          "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+        }
+      ],
+      "resolution": "SEE_ORIGINAL_AND_LATER_RUN; never rewrite this attempt",
+      "recorded_counts": {
+        "quality_passed": 34,
+        "quality_failed": 0,
+        "observed_count": 34,
+        "expected_count": 34
+      },
+      "primary_counts": {
+        "unit": "observed_individual_quality_rows",
+        "expected": 34,
+        "executed": 34,
+        "PASS": 34,
+        "FAIL": 0,
+        "NOT_RUN": 0
+      },
+      "source": {
+        "repo_after_HEAD": "f4f0e6187a643d9442216df87c04353eda4934e5",
+        "repo_dirty_after": true,
+        "repo_after_source_diff_sha256": "fca0b8be937577bdac3dee292cca126235751b262bd353be920ae6e970dc0a52",
+        "source_unchanged": false,
+        "qualification": "No single unchanged source SHA asserted; individual34 does not close the INCOMPLETE run."
+      }
+    },
+    {
+      "run": "armed_wait_revision_pairs_final_01",
+      "status": "FUNCTIONAL_RT_PASS_BUT_IMPLEMENTATION_REJECTED",
+      "source_by_revision": {
+        "before_wait": "bfa05533e0d5bef0f5543a09a40e5ee181111bf4e557ca066310ef8f779c7688",
+        "after_wait": "02b81c089a78155232a5fa4428586f1a6f81c53de90b1a319924fa9a4b04ac4b"
+      },
+      "primary_counts": {
+        "unit": "checks",
+        "expected": 48,
+        "executed": 48,
+        "PASS": 48,
+        "FAIL": 0,
+        "NOT_RUN": 0
+      },
+      "programs": {
+        "unit": "programs",
+        "expected": 6,
+        "executed": 6,
+        "PASS": 6,
+        "FAIL": 0,
+        "NOT_RUN": 0
+      },
+      "records": [
+        {
+          "path": "build/performance_response_20261023_01/armed_wait_revision_pairs_final_01/EXPECTED.json",
+          "bytes": 18229,
+          "sha256": "e49d12b9af6fd5109d5f4d97e3b9c71e281219d1685ddbacff67d4cf886e81d0",
+          "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+        },
+        {
+          "path": "build/performance_response_20261023_01/armed_wait_revision_pairs_final_01/SUMMARY.json",
+          "bytes": 64497,
+          "sha256": "9e3025868766ab7ed61521e5f00f437c0ae0b66104ec8c65a7a6f360597de21d",
+          "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+        }
+      ],
+      "functional_pass": true,
+      "RT_reported_pass": true,
+      "process_CPU_percent_median": {
+        "before_wait": 13.6532770460263,
+        "after_wait": 16.3266657819672
+      },
+      "selection": "CV02 not adopted because whole-process CPU worsened. Do not substitute seek-thread contribution or functional/RT PASS for a whole-process performance improvement.",
+      "runtime_binaries_recorded": {
+        "before_wait": {
+          "path": "build/performance_response_20261023_01/armed_wait_clients_final_01/candidate/armed_wait_native",
+          "bytes": 1174352,
+          "sha256": "d9a9124044c4486a5582e092ab1e096d42d468a713fbfa115bc86a8033770e4f",
+          "identity_verification": "RECORDED_IDENTITY_CURRENT_SIZE_ONLY_NO_REHASH"
+        },
+        "after_wait": {
+          "path": "build/performance_response_20261023_01/armed_wait_revision_clients_final_02/after_wait/armed_wait_native",
+          "bytes": 1174352,
+          "sha256": "60a7b7259ea05b638d0024b40de9268ee0f8cfa6e751874af06e037847f11631",
+          "identity_verification": "RECORDED_IDENTITY_CURRENT_SIZE_ONLY_NO_REHASH"
+        }
+      },
+      "significance": "NOT_ASSESSED; n3 descriptive"
+    },
+    {
+      "run": "abi_headers_final_03",
+      "source": "02b81c089a78155232a5fa4428586f1a6f81c53de90b1a319924fa9a4b04ac4b",
+      "status": "FAIL_OR_INCOMPLETE",
+      "primary_counts": {
+        "unit": "checks",
+        "expected": 9,
+        "executed": 0,
+        "PASS": 0,
+        "FAIL": 0,
+        "NOT_RUN": 9
+      },
+      "reason": "KeyError: 'product_src_all_identical'",
+      "records": [
+        {
+          "path": "build/performance_response_20261023_01/abi_headers_final_03/EXPECTED.json",
+          "bytes": 1942,
+          "sha256": "b4c2cbbaa24b5438605652e7d316c2a2cc4f564cf0ff6ea2d14a61249c74ff26",
+          "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+        },
+        {
+          "path": "build/performance_response_20261023_01/abi_headers_final_03/SUMMARY.json",
+          "bytes": 2430,
+          "sha256": "21e2aadbf476d027c54f3f93772cef452efefc0ada804cc671a792baf106afb1",
+          "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+        }
+      ],
+      "compiler_or_linker_checks_executed": false,
+      "resolution": "generic checker created separately; source02 remains unadopted CV02"
+    },
+    {
+      "run": "abi_headers_final06",
+      "source": "0d8d2e867a70878107400c85b37221c466b6243b0349adaee4ae04f8cf81b41e",
+      "status": "FAIL_OR_INCOMPLETE",
+      "primary_counts": {
+        "unit": "checks",
+        "expected": 9,
+        "executed": 0,
+        "PASS": 0,
+        "FAIL": 0,
+        "NOT_RUN": 9
+      },
+      "reason": "ValueError: Full depfile and recorded header inventory differ",
+      "records": [
+        {
+          "path": "build/performance_response_20261023_01/abi_headers_final06/EXPECTED.json",
+          "bytes": 2384,
+          "sha256": "c97fc31ff085cd0cbf9ea8c99ad5849e631ef9a3e67ffdbf86c777f9f4dc5ebe",
+          "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+        },
+        {
+          "path": "build/performance_response_20261023_01/abi_headers_final06/SUMMARY.json",
+          "bytes": 2829,
+          "sha256": "c5111cd5a3ebf6f273012c49ff776e98b1c311d6b6c3b0adcf35fd2241697c82",
+          "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+        }
+      ],
+      "compiler_or_linker_checks_executed": false,
+      "diagnosis": "depfile and header resolved-path sets match; recorded SDK aliases have multiplicity. Initial generic incorrectly required unique resolved records.",
+      "fix_record": {
+        "path": "build/performance_response_20261023_01/ABI_DEPENDENCY_MULTISET_FIX.json",
+        "bytes": 749,
+        "sha256": "19ae95febeac0fbcf8ac79fc6f560e0eee6da83b8a32afdb6c58a15af1349f4e",
+        "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+      },
+      "resolution": "separate v2 generic driver recorded; rerun pending, no PASS credited"
+    },
+    {
+      "run": "debug_checkpoint_final06",
+      "source": "0d8d2e867a70878107400c85b37221c466b6243b0349adaee4ae04f8cf81b41e",
+      "status": "FAIL_OPEN_INVESTIGATION",
+      "primary_counts": {
+        "unit": "reported_cases",
+        "expected": 3,
+        "executed": 0,
+        "PASS": 0,
+        "FAIL": null,
+        "NOT_RUN": 3
+      },
+      "process_attempt": {
+        "unit": "programs",
+        "expected": 1,
+        "executed": 1,
+        "PASS": 0,
+        "FAIL": 1,
+        "NOT_RUN": 0
+      },
+      "records": [
+        {
+          "path": "build/performance_response_20261023_01/debug_checkpoint_final06/EXPECTED.json",
+          "bytes": 4886,
+          "sha256": "251dc383eec335e3eea34a6f7f884d026218c714073ce7bf83ddf9acc689ff19",
+          "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+        },
+        {
+          "path": "build/performance_response_20261023_01/debug_checkpoint_final06/SUMMARY.json",
+          "bytes": 732,
+          "sha256": "1781040103c22f911bf1b6da37ddd3493e547e3ce2e4de0a39eff02574c898d4",
+          "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+        },
+        {
+          "path": "build/performance_response_20261023_01/debug_checkpoint_final06/checkpoint.log",
+          "bytes": 39,
+          "sha256": "ea6a4ec2cae073fc7ba9fd6bebfc2154635394a2c7225bd8c67e538e3e34854a",
+          "identity_verification": "CURRENT_SMALL_FILE_SHA256"
+        }
+      ],
+      "host_recorded": {
+        "path": "build/performance_response_20261023_01/debug_candidate/phase61_checkpoint_tests",
+        "bytes": 2508360,
+        "sha256": "2f85f91333d72c4f4204c61bb6c05dea48ea8f933047f55b8f730b2f7a785de8",
+        "identity_verification": "RECORDED_IDENTITY_CURRENT_SIZE_ONLY_NO_REHASH"
+      },
+      "reference_recorded": {
+        "path": "build/phase61/oracle_release_v1/phase61_frozen_reference",
+        "bytes": 274184,
+        "sha256": "de70db5fbc4284fd13f3f9a7cf257cbca1d8d9a5755859067c7cfb234d1d5748",
+        "identity_verification": "RECORDED_IDENTITY_CURRENT_SIZE_ONLY_NO_REHASH"
+      },
+      "message": "checkpoint independent suffix PCM bits",
+      "comparison": "Debug O0 candidate versus frozen Release O3 reference",
+      "cause": "UNDETERMINED: must distinguish flags-dependent bytes from a Debug regression; no weakening or rewriting as PASS.",
+      "positive_scope": "Debug positive mix/stereo and planner52/contract20 passed separately; those do not resolve this negative RAW mismatch.",
+      "resolution": "OPEN; independent same-flags oracle provenance investigation pending"
+    }
+  ],
+  "new_comparisons_status": "final_response_queue_02 IN_PROGRESS_UNDETERMINED; completed comparison counts credited=0",
+  "timer05_retention_is_not_formal_quality_or_application_approval": true,
+  "past_failures_erased": false,
+  "flags_or_fixture_failure_reclassified_without_evidence": false,
+  "no_build_test_audio_executed_for_packaging": true,
+  "counting_note": "Null expected/FAIL/NOT_RUN means not recorded or no completed case report, never zero-by-assumption. Process failure and individual-case result are separate. No grand total."
+}

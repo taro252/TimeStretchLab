@@ -26,6 +26,7 @@ struct LoopPreparationOperation {
     std::uint64_t id=0,inputGeneration=0,session=0,sourceRenderEpoch=0,version=0;
     std::uint64_t inputA=0,inputBExclusive=0,acceptedNs=0,startedNs=0,checkpointReadyNs=0,readyNs=0;
     std::uint64_t checkpointOutput=0,discardedFrames=0;
+    std::uint64_t transferredToLoopID=0;
     std::uint32_t speedMicros=0;
     LoopPreparationState state=LoopPreparationState::Pending;
     AvailabilityReason code=AvailabilityReason::Available;
@@ -74,6 +75,7 @@ struct LoopSnapshot {
     bool enabled=false,initialPositionComplete=false,clearPending=false;
     double requestedSpeed=1,appliedSpeed=1;
     std::uint64_t speedRequestID=0,acceptedNs=0,readyNs=0,preparationCount=0;
+    std::uint64_t preparationRequestID=0; // 別domainの先行要求ID。Ready行は不変。
     std::uint64_t dynamicOperationID=0,dynamicCycle=0,mapVersion=0,dynamicOutputEnd=0;
     std::uint64_t dynamicSpeedRequestID=0,speedFailureRequestID=0;
     bool speedPreparationFailed=false;

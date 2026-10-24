@@ -74,7 +74,7 @@ int main(int argc,char** argv){try{
             throw std::runtime_error("Logical plan/reference differs: "+suffix);
         }
     };
-    std::ofstream nodes(std::string(argv[7])+".nodes.bin",std::ios::binary);nodes.write(reinterpret_cast<const char*>(view->map.starts().data()),view->map.starts().size()*sizeof(long long));nodes.close();
+    std::ofstream nodes(std::string(argv[7])+".nodes.bin",std::ios::binary);const auto exportedMap=view->map.materialize();nodes.write(reinterpret_cast<const char*>(exportedMap.starts().data()),exportedMap.starts().size()*sizeof(long long));nodes.close();
     compare(".operations.csv");compare(".nodes.bin");
     std::ofstream summary(std::string(argv[7])+".json");summary<<"{\"PASS\":true,\"frames\":"<<published<<",\"pcm_sha256\":\""<<hash.finish()<<"\",\"map_sha256\":\""<<mapSha(view->map)<<"\",\"same_dsp_instance\":true,\"analysis_chunk\":\""<<chunkOption<<"\",\"history_count\":"<<planner.historyCount()<<",\"map_bytes\":"<<planner.mapBytes()<<",\"streaming\":"<<streaming<<",\"nonfinal_pcm_frames\":"<<nonfinalPcm<<",\"nonfinal_plans\":"<<nonfinalPlans<<"}\n";
     std::cout<<"PASS frames="<<published<<" transitions="<<planner.historyCount()<<'\n';

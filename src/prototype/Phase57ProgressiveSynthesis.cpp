@@ -24,7 +24,7 @@ struct ProgressiveSynthesisEngine::Impl final:ProgressiveAccess {
     mutable std::size_t positionCacheCount=0,positionCacheNext=0;
     bool waiting=false;std::size_t waitedNodes=0,waitedInput=0;
     SynthesisState waitedState=SynthesisState::NeedsMoreAnalysis;
-    Detection detection;Phase13StageDigests digests{};std::vector<std::pair<std::size_t,bool>> modes;
+    Detection detection;Phase13StageDigests digests{};bool recordStageDigests=true;std::vector<std::pair<std::size_t,bool>> modes;
     std::array<std::unique_ptr<ResolutionStream>,3> resolution;
     std::vector<std::unique_ptr<LiveStreamingFIR>> low,high;
     std::array<std::vector<float>,2> pcm;std::array<const float*,2> pointers{};
@@ -110,8 +110,8 @@ struct ProgressiveSynthesisEngine::Impl final:ProgressiveAccess {
             const auto at=published+i;const auto hi=resolution[2]->get(c,at);
             const auto lf=low[c]->next(at,[&](std::size_t n){return resolution[0]->get(c,n)-resolution[1]->get(c,n);});
             const auto hf=high[c]->next(at,[&](std::size_t n){return resolution[1]->get(c,n)-resolution[2]->get(c,n);});
-            hashFloat(digests.lowFir,lf);hashFloat(digests.highFir,hf);
-            float value=hi;value+=lf;value+=hf;pcm[c][i]=value;hashFloat(digests.fir,value);
+            if(recordStageDigests){hashFloat(digests.lowFir,lf);hashFloat(digests.highFir,hf);}
+            float value=hi;value+=lf;value+=hf;pcm[c][i]=value;if(recordStageDigests)hashFloat(digests.fir,value);
         }
         generated=published+count;
         if(validate)validate();if(cancelled.load())return state=SynthesisState::Cancelled;
@@ -126,6 +126,13 @@ ProgressiveSynthesisEngine::ProgressiveSynthesisEngine(int fd,std::uint32_t s,st
     impl_=std::make_unique<Impl>(std::filesystem::path{},s,g,std::move(v),b,bytes,fd);
 }
 ProgressiveSynthesisEngine::~ProgressiveSynthesisEngine()=default;
+void ProgressiveSynthesisEngine::setStageDigestsEnabled(bool enabled){auto& x=*impl_;
+    if(x.snapshot||x.generated)throw std::logic_error("Stage digest設定は最初のsnapshot前だけ変更できます");
+    x.recordStageDigests=enabled;for(auto& r:x.resolution)r->setStageDigestsEnabled(enabled);
+}
+std::optional<Phase13StageDigests> ProgressiveSynthesisEngine::stageDigests()const{
+    if(!impl_->recordStageDigests)return {};return impl_->digests;
+}
 void ProgressiveSynthesisEngine::setDeclaredFinalOutputFrames(std::size_t frames){auto& x=*impl_;
     if(x.snapshot||x.generated||x.finished.load()||x.failed||x.cancelled.load())throw std::logic_error("Set output contract before input");
     const auto legacy=std::size_t(std::llround(x.length*x.config.timeRatio));
@@ -238,6 +245,7 @@ std::unique_ptr<ProgressiveSynthesisEngine> ProgressiveSynthesisEngine::cloneFix
         old.localInitialized||!old.snapshot||!old.snapshot->isFinal||old.failed||old.cancelled.load()||old.finished.load()||old.generated!=old.published||
         old.profileEnabled||old.preparedObserver||!old.modes.empty()||(old.dynamicEnabled&&(!old.dynamicMap||!old.dynamicMap->final||old.dynamicMap->hasTransitions)))return {};
     auto copy=std::make_unique<ProgressiveSynthesisEngine>(fd,old.speed,old.generation,std::move(validate),16*1024*1024,bytes);
+    copy->setStageDigestsEnabled(old.recordStageDigests);
     if(old.dynamicEnabled)copy->enableDynamicTransitions();
     auto& x=*copy->impl_;x.output=old.output;x.generated=old.generated;x.published=old.published;x.declaredFinalOutput=old.declaredFinalOutput;
     x.snapshotOwner=std::make_shared<const phase56::AnalysisSnapshot>(*old.snapshot);x.snapshot=x.snapshotOwner.get();
@@ -253,12 +261,13 @@ std::unique_ptr<ProgressiveSynthesisEngine> ProgressiveSynthesisEngine::cloneFix
 }
 std::unique_ptr<ProgressiveSynthesisEngine> ProgressiveSynthesisEngine::makeFixedLoopOriginCheckpoint(int fd,
     std::span<const unsigned char> bytes,std::uint32_t speed,std::shared_ptr<const phase56::AnalysisSnapshot> snapshot,
-    std::shared_ptr<const phase59::DynamicMap> map){
+    std::shared_ptr<const phase59::DynamicMap> map,bool recordStageDigests){
     if(bytes.empty()||!snapshot||!snapshot->isFinal||snapshot->hasError||snapshot->isCancelled||!map||!map->final||map->hasTransitions||!map->modes.empty()||
        map->inputGeneration!=snapshot->inputGeneration||map->certifiedNodes!=snapshot->mapThroughNode||map->certifiedNodes!=map->map.starts().size())return {};
     const auto& nodes=snapshot->mapForSpeed(speed);if(nodes.size()!=map->certifiedNodes)return {};
     for(std::size_t i=0;i<nodes.size();++i)if(nodes.at(i)!=map->map.starts()[i])return {};
     auto saved=std::make_unique<ProgressiveSynthesisEngine>(fd,speed,snapshot->inputGeneration,std::function<void()>{},16*1024*1024,bytes);
+    saved->setStageDigestsEnabled(recordStageDigests);
     saved->enableDynamicTransitions();saved->supplySnapshot(snapshot);auto& x=*saved->impl_;
     if(map->receivedInput!=x.length||map->outputFrames!=std::size_t(std::llround(x.length*x.config.timeRatio)))return {};
     // This is initialization of a never-run zero state, not an attempt to
@@ -277,7 +286,7 @@ bool ProgressiveSynthesisEngine::restoreFixedLoopCheckpoint(const ProgressiveSyn
     if(!x.snapshot||!x.snapshot->isFinal||old.fixedLoopOrigin!=x.snapshot||
        x.speed!=old.speed||x.generation!=old.generation||x.length!=old.length||x.channels!=old.channels||
        x.residentIdentity.empty()||x.residentIdentity.data()!=old.residentIdentity.data()||x.residentIdentity.size()!=old.residentIdentity.size()||
-       x.dynamicEnabled!=old.dynamicEnabled||x.localInitialized||old.localInitialized||
+       x.dynamicEnabled!=old.dynamicEnabled||x.recordStageDigests!=old.recordStageDigests||x.localInitialized||old.localInitialized||
        (x.dynamicEnabled&&(!x.dynamicMap||!old.dynamicMap||old.fixedLoopMapOrigin!=x.dynamicMap||x.dynamicMap->hasTransitions||old.dynamicMap->hasTransitions))||
        x.cancelled.load()||x.failed||old.cancelled.load()||old.failed||old.finished.load()||
        old.generated!=old.published||x.profileEnabled||old.profileEnabled||x.preparedObserver||old.preparedObserver||
@@ -301,7 +310,7 @@ bool ProgressiveSynthesisEngine::captureFixedLoopCheckpoint(ProgressiveSynthesis
     if(!old.snapshot||!old.snapshot->isFinal||x.fixedLoopOrigin!=old.snapshot||
        x.speed!=old.speed||x.generation!=old.generation||x.length!=old.length||x.channels!=old.channels||
        x.residentIdentity.empty()||x.residentIdentity.data()!=old.residentIdentity.data()||x.residentIdentity.size()!=old.residentIdentity.size()||
-       x.dynamicEnabled!=old.dynamicEnabled||x.localInitialized||old.localInitialized||
+       x.dynamicEnabled!=old.dynamicEnabled||x.recordStageDigests!=old.recordStageDigests||x.localInitialized||old.localInitialized||
        (old.dynamicEnabled&&(!x.dynamicMap||!old.dynamicMap||x.fixedLoopMapOrigin!=old.dynamicMap||x.dynamicMap->hasTransitions||old.dynamicMap->hasTransitions))||
        x.cancelled.load()||old.cancelled.load()||x.failed||old.failed||old.finished.load()||old.generated!=old.published||
        x.profileEnabled||old.profileEnabled||x.preparedObserver||old.preparedObserver||!x.modes.empty()||!old.modes.empty())return false;

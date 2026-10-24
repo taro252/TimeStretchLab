@@ -3,10 +3,11 @@
 #include <stdexcept>
 
 namespace ts::playback::progressive {
-// v3 changes the native prepare link symbol too: mixing old headers and a new
+// Each ABI revision changes the native prepare link symbol: mixing old headers and a new
 // binary (or the reverse) fails at link time instead of reading a changed struct.
-inline constexpr unsigned contractVersion=3;
-struct ContractV3Tag {};
+inline constexpr unsigned contractVersion=4;
+struct ContractV4Tag {};
+using ContractV3Tag=ContractV4Tag; // ソース互換のみ。旧v3のリンク記号は提供しない。
 enum class FeaturePolicy : std::uint8_t {Disabled,ApprovedOnly,Research};
 enum class AvailabilityReason : std::uint16_t {
     Available=0,NotConfigured=1,NotApproved=2,NoInput=3,InvalidState=4,

@@ -1,0 +1,999 @@
+{
+  "schema": "performance-pairs-v1",
+  "suite": "steady",
+  "baseline_commit": "5674bd982d98caacaa3e87cdeae5bfc0b01c66ef",
+  "baseline_source": "2dae7749b928a72c36a8942563071ff073d89883012af77fb3822342453de392",
+  "candidate_source": "b17217d8f9a7fffd0535bb360adda447015c08df232af519917937de8470ac94",
+  "client_source_sha256": "696004d7cf55101529590fb0ce7c9137c12fcc9dd811a9765aacb40c7ba0e1a6",
+  "records": {
+    "baseline_client": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/CLIENT.json",
+      "bytes": 1241349,
+      "sha256": "45eca7d30805baea514d79eb2291ed359c2daa17f5c83d4269fea830a4447087"
+    },
+    "candidate_build": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/build_native_default_08/BUILD.json",
+      "bytes": 135253,
+      "sha256": "6a1ea92a6b968e916ce416f7e74e69b2a421cb7b4ee9392759fda3fbec97454f"
+    }
+  },
+  "hosts": {
+    "old": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+      "bytes": 1081576,
+      "sha256": "7831a21cdd33b90cf22df0afae7669c93d099e7be53834142bfe4855dc349a21"
+    },
+    "candidate": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/performance_steady_native",
+      "bytes": 1135832,
+      "sha256": "e8b269561938fe1b8f45ca9a26b3aaab439db6261a2843e04a9af2d2dea42a36"
+    }
+  },
+  "driver": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/results/performance_response/recipes/run_pairs.py",
+    "bytes": 29305,
+    "sha256": "a92c133f2a33d8c4ff23153218aadb22e12304edba3674bb0df10d6b080515fb"
+  },
+  "inputs": {
+    "mono48chain300s": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+      "bytes": 57600044,
+      "sha256": "13c957e5c0f5e3d64c4973ac27117930bcc541ac67f4d21459417d8f5a4e0bd0",
+      "sample_format": "Float32",
+      "rate": 48000,
+      "channels": 1,
+      "frames": 14400000,
+      "duration_s": 300.0,
+      "data_bytes": 57600000
+    },
+    "stereo441music300s": {
+      "path": "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+      "bytes": 105840044,
+      "sha256": "fc8be98125b35e0b2bde0728ef8ccfc60ab2aee4462b72f61c55733ae277cf58",
+      "sample_format": "Float32",
+      "rate": 44100,
+      "channels": 2,
+      "frames": 13230000,
+      "duration_s": 300.0,
+      "data_bytes": 105840000
+    }
+  },
+  "expected_programs": 48,
+  "expected_pairs": 24,
+  "all_expected_ids": [
+    "mono48chain300s_s040_candidate_r01_old",
+    "mono48chain300s_s040_candidate_r01_candidate",
+    "mono48chain300s_s050_candidate_r01_old",
+    "mono48chain300s_s050_candidate_r01_candidate",
+    "mono48chain300s_s100_candidate_r01_old",
+    "mono48chain300s_s100_candidate_r01_candidate",
+    "mono48chain300s_s200_candidate_r01_old",
+    "mono48chain300s_s200_candidate_r01_candidate",
+    "stereo441music300s_s040_candidate_r01_old",
+    "stereo441music300s_s040_candidate_r01_candidate",
+    "stereo441music300s_s050_candidate_r01_old",
+    "stereo441music300s_s050_candidate_r01_candidate",
+    "stereo441music300s_s100_candidate_r01_old",
+    "stereo441music300s_s100_candidate_r01_candidate",
+    "stereo441music300s_s200_candidate_r01_old",
+    "stereo441music300s_s200_candidate_r01_candidate",
+    "mono48chain300s_s040_candidate_r02_candidate",
+    "mono48chain300s_s040_candidate_r02_old",
+    "mono48chain300s_s050_candidate_r02_candidate",
+    "mono48chain300s_s050_candidate_r02_old",
+    "mono48chain300s_s100_candidate_r02_candidate",
+    "mono48chain300s_s100_candidate_r02_old",
+    "mono48chain300s_s200_candidate_r02_candidate",
+    "mono48chain300s_s200_candidate_r02_old",
+    "stereo441music300s_s040_candidate_r02_candidate",
+    "stereo441music300s_s040_candidate_r02_old",
+    "stereo441music300s_s050_candidate_r02_candidate",
+    "stereo441music300s_s050_candidate_r02_old",
+    "stereo441music300s_s100_candidate_r02_candidate",
+    "stereo441music300s_s100_candidate_r02_old",
+    "stereo441music300s_s200_candidate_r02_candidate",
+    "stereo441music300s_s200_candidate_r02_old",
+    "mono48chain300s_s040_candidate_r03_old",
+    "mono48chain300s_s040_candidate_r03_candidate",
+    "mono48chain300s_s050_candidate_r03_old",
+    "mono48chain300s_s050_candidate_r03_candidate",
+    "mono48chain300s_s100_candidate_r03_old",
+    "mono48chain300s_s100_candidate_r03_candidate",
+    "mono48chain300s_s200_candidate_r03_old",
+    "mono48chain300s_s200_candidate_r03_candidate",
+    "stereo441music300s_s040_candidate_r03_old",
+    "stereo441music300s_s040_candidate_r03_candidate",
+    "stereo441music300s_s050_candidate_r03_old",
+    "stereo441music300s_s050_candidate_r03_candidate",
+    "stereo441music300s_s100_candidate_r03_old",
+    "stereo441music300s_s100_candidate_r03_candidate",
+    "stereo441music300s_s200_candidate_r03_old",
+    "stereo441music300s_s200_candidate_r03_candidate"
+  ],
+  "jobs": [
+    {
+      "id": "mono48chain300s_s040_candidate_r01_old",
+      "stratum": "mono48chain300s_s040_candidate",
+      "repeat": 1,
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 0.4,
+      "pair_id": "mono48chain300s_s040_candidate_r01",
+      "version": "old",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "0.4",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/mono48chain300s_s040_candidate_r01_old"
+      ]
+    },
+    {
+      "id": "mono48chain300s_s040_candidate_r01_candidate",
+      "stratum": "mono48chain300s_s040_candidate",
+      "repeat": 1,
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 0.4,
+      "pair_id": "mono48chain300s_s040_candidate_r01",
+      "version": "candidate",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "0.4",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/mono48chain300s_s040_candidate_r01_candidate"
+      ]
+    },
+    {
+      "id": "mono48chain300s_s050_candidate_r01_old",
+      "stratum": "mono48chain300s_s050_candidate",
+      "repeat": 1,
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 0.5,
+      "pair_id": "mono48chain300s_s050_candidate_r01",
+      "version": "old",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "0.5",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/mono48chain300s_s050_candidate_r01_old"
+      ]
+    },
+    {
+      "id": "mono48chain300s_s050_candidate_r01_candidate",
+      "stratum": "mono48chain300s_s050_candidate",
+      "repeat": 1,
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 0.5,
+      "pair_id": "mono48chain300s_s050_candidate_r01",
+      "version": "candidate",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "0.5",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/mono48chain300s_s050_candidate_r01_candidate"
+      ]
+    },
+    {
+      "id": "mono48chain300s_s100_candidate_r01_old",
+      "stratum": "mono48chain300s_s100_candidate",
+      "repeat": 1,
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 1.0,
+      "pair_id": "mono48chain300s_s100_candidate_r01",
+      "version": "old",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "1.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/mono48chain300s_s100_candidate_r01_old"
+      ]
+    },
+    {
+      "id": "mono48chain300s_s100_candidate_r01_candidate",
+      "stratum": "mono48chain300s_s100_candidate",
+      "repeat": 1,
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 1.0,
+      "pair_id": "mono48chain300s_s100_candidate_r01",
+      "version": "candidate",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "1.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/mono48chain300s_s100_candidate_r01_candidate"
+      ]
+    },
+    {
+      "id": "mono48chain300s_s200_candidate_r01_old",
+      "stratum": "mono48chain300s_s200_candidate",
+      "repeat": 1,
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 2.0,
+      "pair_id": "mono48chain300s_s200_candidate_r01",
+      "version": "old",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "2.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/mono48chain300s_s200_candidate_r01_old"
+      ]
+    },
+    {
+      "id": "mono48chain300s_s200_candidate_r01_candidate",
+      "stratum": "mono48chain300s_s200_candidate",
+      "repeat": 1,
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 2.0,
+      "pair_id": "mono48chain300s_s200_candidate_r01",
+      "version": "candidate",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "2.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/mono48chain300s_s200_candidate_r01_candidate"
+      ]
+    },
+    {
+      "id": "stereo441music300s_s040_candidate_r01_old",
+      "stratum": "stereo441music300s_s040_candidate",
+      "repeat": 1,
+      "preset": "candidate",
+      "input": "stereo441music300s",
+      "speed": 0.4,
+      "pair_id": "stereo441music300s_s040_candidate_r01",
+      "version": "old",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "candidate",
+        "0.4",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/stereo441music300s_s040_candidate_r01_old"
+      ]
+    },
+    {
+      "id": "stereo441music300s_s040_candidate_r01_candidate",
+      "stratum": "stereo441music300s_s040_candidate",
+      "repeat": 1,
+      "preset": "candidate",
+      "input": "stereo441music300s",
+      "speed": 0.4,
+      "pair_id": "stereo441music300s_s040_candidate_r01",
+      "version": "candidate",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "candidate",
+        "0.4",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/stereo441music300s_s040_candidate_r01_candidate"
+      ]
+    },
+    {
+      "id": "stereo441music300s_s050_candidate_r01_old",
+      "stratum": "stereo441music300s_s050_candidate",
+      "repeat": 1,
+      "preset": "candidate",
+      "input": "stereo441music300s",
+      "speed": 0.5,
+      "pair_id": "stereo441music300s_s050_candidate_r01",
+      "version": "old",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "candidate",
+        "0.5",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/stereo441music300s_s050_candidate_r01_old"
+      ]
+    },
+    {
+      "id": "stereo441music300s_s050_candidate_r01_candidate",
+      "stratum": "stereo441music300s_s050_candidate",
+      "repeat": 1,
+      "preset": "candidate",
+      "input": "stereo441music300s",
+      "speed": 0.5,
+      "pair_id": "stereo441music300s_s050_candidate_r01",
+      "version": "candidate",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "candidate",
+        "0.5",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/stereo441music300s_s050_candidate_r01_candidate"
+      ]
+    },
+    {
+      "id": "stereo441music300s_s100_candidate_r01_old",
+      "stratum": "stereo441music300s_s100_candidate",
+      "repeat": 1,
+      "preset": "candidate",
+      "input": "stereo441music300s",
+      "speed": 1.0,
+      "pair_id": "stereo441music300s_s100_candidate_r01",
+      "version": "old",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "candidate",
+        "1.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/stereo441music300s_s100_candidate_r01_old"
+      ]
+    },
+    {
+      "id": "stereo441music300s_s100_candidate_r01_candidate",
+      "stratum": "stereo441music300s_s100_candidate",
+      "repeat": 1,
+      "preset": "candidate",
+      "input": "stereo441music300s",
+      "speed": 1.0,
+      "pair_id": "stereo441music300s_s100_candidate_r01",
+      "version": "candidate",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "candidate",
+        "1.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/stereo441music300s_s100_candidate_r01_candidate"
+      ]
+    },
+    {
+      "id": "stereo441music300s_s200_candidate_r01_old",
+      "stratum": "stereo441music300s_s200_candidate",
+      "repeat": 1,
+      "preset": "candidate",
+      "input": "stereo441music300s",
+      "speed": 2.0,
+      "pair_id": "stereo441music300s_s200_candidate_r01",
+      "version": "old",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "candidate",
+        "2.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/stereo441music300s_s200_candidate_r01_old"
+      ]
+    },
+    {
+      "id": "stereo441music300s_s200_candidate_r01_candidate",
+      "stratum": "stereo441music300s_s200_candidate",
+      "repeat": 1,
+      "preset": "candidate",
+      "input": "stereo441music300s",
+      "speed": 2.0,
+      "pair_id": "stereo441music300s_s200_candidate_r01",
+      "version": "candidate",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "candidate",
+        "2.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/stereo441music300s_s200_candidate_r01_candidate"
+      ]
+    },
+    {
+      "id": "mono48chain300s_s040_candidate_r02_candidate",
+      "stratum": "mono48chain300s_s040_candidate",
+      "repeat": 2,
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 0.4,
+      "pair_id": "mono48chain300s_s040_candidate_r02",
+      "version": "candidate",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "0.4",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/mono48chain300s_s040_candidate_r02_candidate"
+      ]
+    },
+    {
+      "id": "mono48chain300s_s040_candidate_r02_old",
+      "stratum": "mono48chain300s_s040_candidate",
+      "repeat": 2,
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 0.4,
+      "pair_id": "mono48chain300s_s040_candidate_r02",
+      "version": "old",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "0.4",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/mono48chain300s_s040_candidate_r02_old"
+      ]
+    },
+    {
+      "id": "mono48chain300s_s050_candidate_r02_candidate",
+      "stratum": "mono48chain300s_s050_candidate",
+      "repeat": 2,
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 0.5,
+      "pair_id": "mono48chain300s_s050_candidate_r02",
+      "version": "candidate",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "0.5",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/mono48chain300s_s050_candidate_r02_candidate"
+      ]
+    },
+    {
+      "id": "mono48chain300s_s050_candidate_r02_old",
+      "stratum": "mono48chain300s_s050_candidate",
+      "repeat": 2,
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 0.5,
+      "pair_id": "mono48chain300s_s050_candidate_r02",
+      "version": "old",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "0.5",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/mono48chain300s_s050_candidate_r02_old"
+      ]
+    },
+    {
+      "id": "mono48chain300s_s100_candidate_r02_candidate",
+      "stratum": "mono48chain300s_s100_candidate",
+      "repeat": 2,
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 1.0,
+      "pair_id": "mono48chain300s_s100_candidate_r02",
+      "version": "candidate",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "1.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/mono48chain300s_s100_candidate_r02_candidate"
+      ]
+    },
+    {
+      "id": "mono48chain300s_s100_candidate_r02_old",
+      "stratum": "mono48chain300s_s100_candidate",
+      "repeat": 2,
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 1.0,
+      "pair_id": "mono48chain300s_s100_candidate_r02",
+      "version": "old",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "1.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/mono48chain300s_s100_candidate_r02_old"
+      ]
+    },
+    {
+      "id": "mono48chain300s_s200_candidate_r02_candidate",
+      "stratum": "mono48chain300s_s200_candidate",
+      "repeat": 2,
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 2.0,
+      "pair_id": "mono48chain300s_s200_candidate_r02",
+      "version": "candidate",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "2.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/mono48chain300s_s200_candidate_r02_candidate"
+      ]
+    },
+    {
+      "id": "mono48chain300s_s200_candidate_r02_old",
+      "stratum": "mono48chain300s_s200_candidate",
+      "repeat": 2,
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 2.0,
+      "pair_id": "mono48chain300s_s200_candidate_r02",
+      "version": "old",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "2.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/mono48chain300s_s200_candidate_r02_old"
+      ]
+    },
+    {
+      "id": "stereo441music300s_s040_candidate_r02_candidate",
+      "stratum": "stereo441music300s_s040_candidate",
+      "repeat": 2,
+      "preset": "candidate",
+      "input": "stereo441music300s",
+      "speed": 0.4,
+      "pair_id": "stereo441music300s_s040_candidate_r02",
+      "version": "candidate",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "candidate",
+        "0.4",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/stereo441music300s_s040_candidate_r02_candidate"
+      ]
+    },
+    {
+      "id": "stereo441music300s_s040_candidate_r02_old",
+      "stratum": "stereo441music300s_s040_candidate",
+      "repeat": 2,
+      "preset": "candidate",
+      "input": "stereo441music300s",
+      "speed": 0.4,
+      "pair_id": "stereo441music300s_s040_candidate_r02",
+      "version": "old",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "candidate",
+        "0.4",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/stereo441music300s_s040_candidate_r02_old"
+      ]
+    },
+    {
+      "id": "stereo441music300s_s050_candidate_r02_candidate",
+      "stratum": "stereo441music300s_s050_candidate",
+      "repeat": 2,
+      "preset": "candidate",
+      "input": "stereo441music300s",
+      "speed": 0.5,
+      "pair_id": "stereo441music300s_s050_candidate_r02",
+      "version": "candidate",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "candidate",
+        "0.5",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/stereo441music300s_s050_candidate_r02_candidate"
+      ]
+    },
+    {
+      "id": "stereo441music300s_s050_candidate_r02_old",
+      "stratum": "stereo441music300s_s050_candidate",
+      "repeat": 2,
+      "preset": "candidate",
+      "input": "stereo441music300s",
+      "speed": 0.5,
+      "pair_id": "stereo441music300s_s050_candidate_r02",
+      "version": "old",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "candidate",
+        "0.5",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/stereo441music300s_s050_candidate_r02_old"
+      ]
+    },
+    {
+      "id": "stereo441music300s_s100_candidate_r02_candidate",
+      "stratum": "stereo441music300s_s100_candidate",
+      "repeat": 2,
+      "preset": "candidate",
+      "input": "stereo441music300s",
+      "speed": 1.0,
+      "pair_id": "stereo441music300s_s100_candidate_r02",
+      "version": "candidate",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "candidate",
+        "1.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/stereo441music300s_s100_candidate_r02_candidate"
+      ]
+    },
+    {
+      "id": "stereo441music300s_s100_candidate_r02_old",
+      "stratum": "stereo441music300s_s100_candidate",
+      "repeat": 2,
+      "preset": "candidate",
+      "input": "stereo441music300s",
+      "speed": 1.0,
+      "pair_id": "stereo441music300s_s100_candidate_r02",
+      "version": "old",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "candidate",
+        "1.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/stereo441music300s_s100_candidate_r02_old"
+      ]
+    },
+    {
+      "id": "stereo441music300s_s200_candidate_r02_candidate",
+      "stratum": "stereo441music300s_s200_candidate",
+      "repeat": 2,
+      "preset": "candidate",
+      "input": "stereo441music300s",
+      "speed": 2.0,
+      "pair_id": "stereo441music300s_s200_candidate_r02",
+      "version": "candidate",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "candidate",
+        "2.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/stereo441music300s_s200_candidate_r02_candidate"
+      ]
+    },
+    {
+      "id": "stereo441music300s_s200_candidate_r02_old",
+      "stratum": "stereo441music300s_s200_candidate",
+      "repeat": 2,
+      "preset": "candidate",
+      "input": "stereo441music300s",
+      "speed": 2.0,
+      "pair_id": "stereo441music300s_s200_candidate_r02",
+      "version": "old",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "candidate",
+        "2.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/stereo441music300s_s200_candidate_r02_old"
+      ]
+    },
+    {
+      "id": "mono48chain300s_s040_candidate_r03_old",
+      "stratum": "mono48chain300s_s040_candidate",
+      "repeat": 3,
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 0.4,
+      "pair_id": "mono48chain300s_s040_candidate_r03",
+      "version": "old",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "0.4",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/mono48chain300s_s040_candidate_r03_old"
+      ]
+    },
+    {
+      "id": "mono48chain300s_s040_candidate_r03_candidate",
+      "stratum": "mono48chain300s_s040_candidate",
+      "repeat": 3,
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 0.4,
+      "pair_id": "mono48chain300s_s040_candidate_r03",
+      "version": "candidate",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "0.4",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/mono48chain300s_s040_candidate_r03_candidate"
+      ]
+    },
+    {
+      "id": "mono48chain300s_s050_candidate_r03_old",
+      "stratum": "mono48chain300s_s050_candidate",
+      "repeat": 3,
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 0.5,
+      "pair_id": "mono48chain300s_s050_candidate_r03",
+      "version": "old",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "0.5",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/mono48chain300s_s050_candidate_r03_old"
+      ]
+    },
+    {
+      "id": "mono48chain300s_s050_candidate_r03_candidate",
+      "stratum": "mono48chain300s_s050_candidate",
+      "repeat": 3,
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 0.5,
+      "pair_id": "mono48chain300s_s050_candidate_r03",
+      "version": "candidate",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "0.5",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/mono48chain300s_s050_candidate_r03_candidate"
+      ]
+    },
+    {
+      "id": "mono48chain300s_s100_candidate_r03_old",
+      "stratum": "mono48chain300s_s100_candidate",
+      "repeat": 3,
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 1.0,
+      "pair_id": "mono48chain300s_s100_candidate_r03",
+      "version": "old",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "1.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/mono48chain300s_s100_candidate_r03_old"
+      ]
+    },
+    {
+      "id": "mono48chain300s_s100_candidate_r03_candidate",
+      "stratum": "mono48chain300s_s100_candidate",
+      "repeat": 3,
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 1.0,
+      "pair_id": "mono48chain300s_s100_candidate_r03",
+      "version": "candidate",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "1.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/mono48chain300s_s100_candidate_r03_candidate"
+      ]
+    },
+    {
+      "id": "mono48chain300s_s200_candidate_r03_old",
+      "stratum": "mono48chain300s_s200_candidate",
+      "repeat": 3,
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 2.0,
+      "pair_id": "mono48chain300s_s200_candidate_r03",
+      "version": "old",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "2.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/mono48chain300s_s200_candidate_r03_old"
+      ]
+    },
+    {
+      "id": "mono48chain300s_s200_candidate_r03_candidate",
+      "stratum": "mono48chain300s_s200_candidate",
+      "repeat": 3,
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 2.0,
+      "pair_id": "mono48chain300s_s200_candidate_r03",
+      "version": "candidate",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "2.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/mono48chain300s_s200_candidate_r03_candidate"
+      ]
+    },
+    {
+      "id": "stereo441music300s_s040_candidate_r03_old",
+      "stratum": "stereo441music300s_s040_candidate",
+      "repeat": 3,
+      "preset": "candidate",
+      "input": "stereo441music300s",
+      "speed": 0.4,
+      "pair_id": "stereo441music300s_s040_candidate_r03",
+      "version": "old",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "candidate",
+        "0.4",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/stereo441music300s_s040_candidate_r03_old"
+      ]
+    },
+    {
+      "id": "stereo441music300s_s040_candidate_r03_candidate",
+      "stratum": "stereo441music300s_s040_candidate",
+      "repeat": 3,
+      "preset": "candidate",
+      "input": "stereo441music300s",
+      "speed": 0.4,
+      "pair_id": "stereo441music300s_s040_candidate_r03",
+      "version": "candidate",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "candidate",
+        "0.4",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/stereo441music300s_s040_candidate_r03_candidate"
+      ]
+    },
+    {
+      "id": "stereo441music300s_s050_candidate_r03_old",
+      "stratum": "stereo441music300s_s050_candidate",
+      "repeat": 3,
+      "preset": "candidate",
+      "input": "stereo441music300s",
+      "speed": 0.5,
+      "pair_id": "stereo441music300s_s050_candidate_r03",
+      "version": "old",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "candidate",
+        "0.5",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/stereo441music300s_s050_candidate_r03_old"
+      ]
+    },
+    {
+      "id": "stereo441music300s_s050_candidate_r03_candidate",
+      "stratum": "stereo441music300s_s050_candidate",
+      "repeat": 3,
+      "preset": "candidate",
+      "input": "stereo441music300s",
+      "speed": 0.5,
+      "pair_id": "stereo441music300s_s050_candidate_r03",
+      "version": "candidate",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "candidate",
+        "0.5",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/stereo441music300s_s050_candidate_r03_candidate"
+      ]
+    },
+    {
+      "id": "stereo441music300s_s100_candidate_r03_old",
+      "stratum": "stereo441music300s_s100_candidate",
+      "repeat": 3,
+      "preset": "candidate",
+      "input": "stereo441music300s",
+      "speed": 1.0,
+      "pair_id": "stereo441music300s_s100_candidate_r03",
+      "version": "old",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "candidate",
+        "1.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/stereo441music300s_s100_candidate_r03_old"
+      ]
+    },
+    {
+      "id": "stereo441music300s_s100_candidate_r03_candidate",
+      "stratum": "stereo441music300s_s100_candidate",
+      "repeat": 3,
+      "preset": "candidate",
+      "input": "stereo441music300s",
+      "speed": 1.0,
+      "pair_id": "stereo441music300s_s100_candidate_r03",
+      "version": "candidate",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "candidate",
+        "1.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/stereo441music300s_s100_candidate_r03_candidate"
+      ]
+    },
+    {
+      "id": "stereo441music300s_s200_candidate_r03_old",
+      "stratum": "stereo441music300s_s200_candidate",
+      "repeat": 3,
+      "preset": "candidate",
+      "input": "stereo441music300s",
+      "speed": 2.0,
+      "pair_id": "stereo441music300s_s200_candidate_r03",
+      "version": "old",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "candidate",
+        "2.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/stereo441music300s_s200_candidate_r03_old"
+      ]
+    },
+    {
+      "id": "stereo441music300s_s200_candidate_r03_candidate",
+      "stratum": "stereo441music300s_s200_candidate",
+      "repeat": 3,
+      "preset": "candidate",
+      "input": "stereo441music300s",
+      "speed": 2.0,
+      "pair_id": "stereo441music300s_s200_candidate_r03",
+      "version": "candidate",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/candidate/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/build/phase61_fast_seek/music_300s.wav",
+        "candidate",
+        "2.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/steady_pairs_native08/stereo441music300s_s200_candidate_r03_candidate"
+      ]
+    }
+  ],
+  "required_matrix": true,
+  "repeats": 3,
+  "seconds": 30,
+  "only": null,
+  "order": "odd repeat old/candidate; even repeat candidate/old",
+  "cpu_formula": "100 * (RUSAGE_SELF user_s + system_s delta) / steady_clock wall_s delta; 1 core = 100%",
+  "p95_formula": "(N-1)*0.95 linear interpolation; n=3 is a measured sample, not broad approval",
+  "cold_target_p95_ms": 1000,
+  "warm_target_p95_ms": 250,
+  "device_condition": {
+    "rate": 48000,
+    "buffer_frames": 512
+  },
+  "callback_gate": false,
+  "quality_approval": false,
+  "realtime_approval": false,
+  "formal_approval": false,
+  "independent_pcm": "ROOT_SEPARATE_AUDIT",
+  "physical_audio": null,
+  "application_F": null
+}

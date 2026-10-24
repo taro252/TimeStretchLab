@@ -1,4 +1,4 @@
-// 採用契約v3の純粋な値型・設定変換を検査する。Engine/装置/DSPは作らない。
+// 現行の採用契約の純粋な値型・設定変換を検査する。Engine/装置/DSPは作らない。
 // true承認は試験用入力だけに使い、製品のfeatureApprovals定数を変更しない。
 #include "playback/ProgressiveContract.h"
 #include "playback/ProgressiveLoopContract.h"
@@ -128,8 +128,8 @@ void runtimeValue(const Availability& a, const Truth& row, const Runtime& state)
 struct Reporter {
     std::size_t passed=0;
     void expected() const {
-        std::cout << "{\"record\":\"expected\",\"schema\":1,\"contract_version\":3,\"expected\":"
-                  << checkIDs.size() << ",\"required_ids\":[";
+        std::cout << "{\"record\":\"expected\",\"schema\":1,\"contract_version\":"
+                  << contract::contractVersion << ",\"expected\":" << checkIDs.size() << ",\"required_ids\":[";
         for (std::size_t i=0;i<checkIDs.size();++i)
             std::cout << (i?",":"") << '"' << checkIDs[i] << '"';
         std::cout << "],\"audio\":false,\"engine_created\":false}\n";
@@ -151,7 +151,7 @@ int main() {
         {
             static_assert(std::is_empty_v<contract::ContractV3Tag>);
             const contract::FeaturePolicyOptions p;
-            need(contract::contractVersion==3 && p.version==3, "契約版はv3");
+            need(p.version==contract::contractVersion, "既定の契約版は現行版");
             need(p.exactSeek==Policy::ApprovedOnly && p.interactiveSeek==Policy::ApprovedOnly &&
                  p.nativeLoops==Policy::ApprovedOnly, "正式設定の既定はApprovedOnly");
             need(unsigned(Policy::Disabled)==0 && unsigned(Policy::ApprovedOnly)==1 &&
@@ -311,8 +311,9 @@ int main() {
                                                "不一致の契約版を受理");
                 ++cases;
             };
+            // 現行版だけを除外し、旧v3を含む不一致版は拒否する。
             for (unsigned version=0;version<=255;++version)
-                if (version!=3) rejectVersion(version);
+                if (version!=contract::contractVersion) rejectVersion(version);
             rejectVersion(std::numeric_limits<unsigned>::max());
             need(cases==256, "不一致版の検査不足");
             report.pass("D4.invalid_versions",cases);
@@ -351,8 +352,9 @@ int main() {
         }
         {
             const contract::Capabilities c;
-            need(c.contractVersion==3 && contract::SeekAvailability{}.contractVersion==3 &&
-                 contract::LoopAvailability{}.contractVersion==3, "公開能力の版不一致");
+            need(c.contractVersion==contract::contractVersion &&
+                 contract::SeekAvailability{}.contractVersion==contract::contractVersion &&
+                 contract::LoopAvailability{}.contractVersion==contract::contractVersion, "公開能力の版不一致");
             need(c.experimental && !c.seek && c.seekRequests && c.dynamicSpeed && c.incrementalReady,
                  "旧能力boolの意味を新方式の一括承認へ変更");
             need(c.minSpeedPercent==40 && c.maxSpeedPercent==200 && c.speedStepPercent==1 &&

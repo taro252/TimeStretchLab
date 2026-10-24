@@ -1,0 +1,225 @@
+{
+  "status": "REJECTED",
+  "source": "d38474d21a0484a7e923009474ab39b65b864fae40d9c1e839ea0199cd96a50f",
+  "evidence": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_digest_on_ablation09/SUMMARY.json",
+    "bytes": 36687,
+    "sha256": "98253e4c1fa697eded3a44bdc90656534ab67d5f66406714f76bc34b5ecc2f09"
+  },
+  "reason": "09vs08 2増/1減、mean +0.062011pp。改善なし。広い候補試験へ進めない。",
+  "product_modified": false,
+  "versions": {
+    "old5674": {
+      "n": 3,
+      "samples": [
+        12.1507284812402,
+        13.0769282584474,
+        13.023984899103
+      ],
+      "mean": 12.7505472129302,
+      "median": 13.023984899103,
+      "min": 12.1507284812402,
+      "max": 13.0769282584474,
+      "p95": 13.071633922512959,
+      "sample_stdev": 0.520132322576974
+    },
+    "saved08": {
+      "n": 3,
+      "samples": [
+        12.1842846316136,
+        13.018577118628,
+        12.9899006522741
+      ],
+      "mean": 12.730920800838566,
+      "median": 12.9899006522741,
+      "min": 12.1842846316136,
+      "max": 13.018577118628,
+      "p95": 13.01570947199261,
+      "sample_stdev": 0.4736178956282652
+    },
+    "new09": {
+      "n": 3,
+      "samples": [
+        12.3955523998994,
+        13.0247232577308,
+        12.9585185384846
+      ],
+      "mean": 12.792931398704933,
+      "median": 12.9585185384846,
+      "min": 12.3955523998994,
+      "max": 13.0247232577308,
+      "p95": 13.01810278580618,
+      "sample_stdev": 0.34572867646665284
+    }
+  },
+  "comparisons": [
+    {
+      "left": "old5674",
+      "right": "saved08",
+      "pairs": [
+        {
+          "repeat": 1,
+          "left": 12.1507284812402,
+          "right": 12.1842846316136,
+          "right_minus_left_pp": 0.03355615037339987,
+          "right_over_left": 1.0027616574944629,
+          "functional_measurement_pair": true,
+          "RT_pair_pass": true
+        },
+        {
+          "repeat": 2,
+          "left": 13.0769282584474,
+          "right": 13.018577118628,
+          "right_minus_left_pp": -0.05835113981939877,
+          "right_over_left": 0.9955378557818649,
+          "functional_measurement_pair": true,
+          "RT_pair_pass": true
+        },
+        {
+          "repeat": 3,
+          "left": 13.023984899103,
+          "right": 12.9899006522741,
+          "right_minus_left_pp": -0.03408424682890043,
+          "right_over_left": 0.9973829632717673,
+          "functional_measurement_pair": true,
+          "RT_pair_pass": true
+        }
+      ],
+      "complete_n3": true,
+      "RT_all_pairs_pass": true,
+      "pair_differences_pp": {
+        "n": 3,
+        "samples": [
+          0.03355615037339987,
+          -0.05835113981939877,
+          -0.03408424682890043
+        ],
+        "mean": -0.01962641209163311,
+        "median": -0.03408424682890043,
+        "min": -0.05835113981939877,
+        "max": 0.03355615037339987,
+        "p95": 0.02679211065316984,
+        "sample_stdev": 0.047628869780978696
+      },
+      "ranges_overlap": true,
+      "lower_pairs": 2,
+      "higher_pairs": 1,
+      "mean_right_minus_left_pp": -0.019626412091634293,
+      "median_right_minus_left_pp": -0.03408424682890043,
+      "classification": "NOT_DEMONSTRATED",
+      "scope": "Observed n3 pattern, never automatic adoption/significance."
+    },
+    {
+      "left": "old5674",
+      "right": "new09",
+      "pairs": [
+        {
+          "repeat": 1,
+          "left": 12.1507284812402,
+          "right": 12.3955523998994,
+          "right_minus_left_pp": 0.24482391865919872,
+          "right_over_left": 1.0201489086878361,
+          "functional_measurement_pair": true,
+          "RT_pair_pass": true
+        },
+        {
+          "repeat": 2,
+          "left": 13.0769282584474,
+          "right": 13.0247232577308,
+          "right_minus_left_pp": -0.05220500071659906,
+          "right_over_left": 0.9960078544682024,
+          "functional_measurement_pair": true,
+          "RT_pair_pass": true
+        },
+        {
+          "repeat": 3,
+          "left": 13.023984899103,
+          "right": 12.9585185384846,
+          "right_minus_left_pp": -0.06546636061839983,
+          "right_over_left": 0.9949734001439983,
+          "functional_measurement_pair": true,
+          "RT_pair_pass": true
+        }
+      ],
+      "complete_n3": true,
+      "RT_all_pairs_pass": true,
+      "pair_differences_pp": {
+        "n": 3,
+        "samples": [
+          0.24482391865919872,
+          -0.05220500071659906,
+          -0.06546636061839983
+        ],
+        "mean": 0.042384185774733275,
+        "median": -0.05220500071659906,
+        "min": -0.06546636061839983,
+        "max": 0.24482391865919872,
+        "p95": 0.21512102672161892,
+        "sample_stdev": 0.1754432956951093
+      },
+      "ranges_overlap": true,
+      "lower_pairs": 2,
+      "higher_pairs": 1,
+      "mean_right_minus_left_pp": 0.042384185774732686,
+      "median_right_minus_left_pp": -0.06546636061839983,
+      "classification": "NOT_DEMONSTRATED",
+      "scope": "Observed n3 pattern, never automatic adoption/significance."
+    },
+    {
+      "left": "saved08",
+      "right": "new09",
+      "pairs": [
+        {
+          "repeat": 1,
+          "left": 12.1842846316136,
+          "right": 12.3955523998994,
+          "right_minus_left_pp": 0.21126776828579885,
+          "right_over_left": 1.0173393658038519,
+          "functional_measurement_pair": true,
+          "RT_pair_pass": true
+        },
+        {
+          "repeat": 2,
+          "left": 13.018577118628,
+          "right": 13.0247232577308,
+          "right_minus_left_pp": 0.006146139102799708,
+          "right_over_left": 1.0004721052882197,
+          "functional_measurement_pair": true,
+          "RT_pair_pass": true
+        },
+        {
+          "repeat": 3,
+          "left": 12.9899006522741,
+          "right": 12.9585185384846,
+          "right_minus_left_pp": -0.0313821137894994,
+          "right_over_left": 0.9975841144109131,
+          "functional_measurement_pair": true,
+          "RT_pair_pass": true
+        }
+      ],
+      "complete_n3": true,
+      "RT_all_pairs_pass": true,
+      "pair_differences_pp": {
+        "n": 3,
+        "samples": [
+          0.21126776828579885,
+          0.006146139102799708,
+          -0.0313821137894994
+        ],
+        "mean": 0.06201059786636639,
+        "median": 0.006146139102799708,
+        "min": -0.0313821137894994,
+        "max": 0.21126776828579885,
+        "p95": 0.19075560536749891,
+        "sample_stdev": 0.13061534991148138
+      },
+      "ranges_overlap": true,
+      "lower_pairs": 1,
+      "higher_pairs": 2,
+      "mean_right_minus_left_pp": 0.06201059786636698,
+      "median_right_minus_left_pp": -0.0313821137894994,
+      "classification": "NOT_DEMONSTRATED",
+      "scope": "Observed n3 pattern, never automatic adoption/significance."
+    }
+  ]
+}

@@ -1,0 +1,1051 @@
+{
+  "schema": "performance-mono1-fixed-ablation-summary-v1",
+  "status": "COMPLETE_OBSERVATIONS",
+  "complete": true,
+  "collection_status": "PASS",
+  "RT_supply_status": "PASS",
+  "expected_programs": 9,
+  "executed_programs": 9,
+  "all_expected_ids": [
+    "mono1_candidate_r01_old5674",
+    "mono1_candidate_r01_saved08",
+    "mono1_candidate_r01_new10",
+    "mono1_candidate_r02_saved08",
+    "mono1_candidate_r02_new10",
+    "mono1_candidate_r02_old5674",
+    "mono1_candidate_r03_new10",
+    "mono1_candidate_r03_old5674",
+    "mono1_candidate_r03_saved08"
+  ],
+  "executed_ids": [
+    "mono1_candidate_r01_old5674",
+    "mono1_candidate_r01_saved08",
+    "mono1_candidate_r01_new10",
+    "mono1_candidate_r02_saved08",
+    "mono1_candidate_r02_new10",
+    "mono1_candidate_r02_old5674",
+    "mono1_candidate_r03_new10",
+    "mono1_candidate_r03_old5674",
+    "mono1_candidate_r03_saved08"
+  ],
+  "NOT_RUN_ids": [],
+  "reason": null,
+  "rows": [
+    {
+      "id": "mono1_candidate_r01_old5674",
+      "repeat": 1,
+      "label": "old5674",
+      "version": "old5674",
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 1.0,
+      "source": "2dae7749b928a72c36a8942563071ff073d89883012af77fb3822342453de392",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "1.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_unconditional_probe10/mono1_candidate_r01_old5674"
+      ],
+      "integrity_pass": true,
+      "errors": [],
+      "rt_pass": true,
+      "latency_target_ms": null,
+      "latency_sample_pass": null,
+      "summary": {
+        "complete": true,
+        "rt_pass": true,
+        "cpu_percent": 13.4722476039556,
+        "cpu_s": 4.043883,
+        "wall_s": 30.0163945829845,
+        "interrupt_wakeups": 24083,
+        "polls": 145,
+        "source_rate": 48000,
+        "device_rate": 48000,
+        "device_buffer": 512,
+        "input_sha256": "13c957e5c0f5e3d64c4973ac27117930bcc541ac67f4d21459417d8f5a4e0bd0",
+        "worker_deadlines": 0,
+        "callback_deadlines": 0,
+        "missing": 0,
+        "rejected": 0,
+        "generated_delta": 1439744,
+        "owners_peak": 1,
+        "quality": null,
+        "physical_audio": null
+      },
+      "execution": {
+        "returncode": 0,
+        "timeout": false,
+        "interrupted": false,
+        "wall_s": 30.827557166980114,
+        "process_user_s": 4.04643,
+        "process_system_s": 0.474076,
+        "whole_process_cpu_s": 4.520506,
+        "max_rss_native_units": 89636864,
+        "max_rss_units": "bytes on macOS; KiB on Linux",
+        "voluntary_context_switches": 1298,
+        "involuntary_context_switches": 32416,
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_unconditional_probe10/mono1_candidate_r01_old5674.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "space_before": [
+        {
+          "path": "/private/tmp",
+          "free_bytes": 586272768,
+          "input_bytes": 57600044,
+          "reserve_bytes": 268435456,
+          "required_bytes": 326035500,
+          "pass": true
+        },
+        {
+          "path": "/private/var/folders/ft/xsqp1bg15lvcr2m90ynsllmr0000gn/T",
+          "free_bytes": 586272768,
+          "input_bytes": 57600044,
+          "reserve_bytes": 268435456,
+          "required_bytes": 326035500,
+          "pass": true
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_unconditional_probe10/mono1_candidate_r01_old5674/SUMMARY.json",
+          "bytes": 435,
+          "sha256": "035cb3dc6e975cf041f3dec66405872017acf5beaa69cd4694adc4a8c767d4a3"
+        }
+      ]
+    },
+    {
+      "id": "mono1_candidate_r01_saved08",
+      "repeat": 1,
+      "label": "saved08",
+      "version": "saved08",
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 1.0,
+      "source": "b17217d8f9a7fffd0535bb360adda447015c08df232af519917937de8470ac94",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "1.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_unconditional_probe10/mono1_candidate_r01_saved08"
+      ],
+      "integrity_pass": true,
+      "errors": [],
+      "rt_pass": true,
+      "latency_target_ms": null,
+      "latency_sample_pass": null,
+      "summary": {
+        "complete": true,
+        "rt_pass": true,
+        "cpu_percent": 13.5109650091873,
+        "cpu_s": 4.05528,
+        "wall_s": 30.0147324579884,
+        "interrupt_wakeups": 24026,
+        "polls": 145,
+        "source_rate": 48000,
+        "device_rate": 48000,
+        "device_buffer": 512,
+        "input_sha256": "13c957e5c0f5e3d64c4973ac27117930bcc541ac67f4d21459417d8f5a4e0bd0",
+        "worker_deadlines": 0,
+        "callback_deadlines": 0,
+        "missing": 0,
+        "rejected": 0,
+        "generated_delta": 1439744,
+        "owners_peak": 1,
+        "quality": null,
+        "physical_audio": null
+      },
+      "execution": {
+        "returncode": 0,
+        "timeout": false,
+        "interrupted": false,
+        "wall_s": 30.72269900003448,
+        "process_user_s": 4.070613,
+        "process_system_s": 0.45287099999999997,
+        "whole_process_cpu_s": 4.523484,
+        "max_rss_native_units": 87441408,
+        "max_rss_units": "bytes on macOS; KiB on Linux",
+        "voluntary_context_switches": 903,
+        "involuntary_context_switches": 32423,
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_unconditional_probe10/mono1_candidate_r01_saved08.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "space_before": [
+        {
+          "path": "/private/tmp",
+          "free_bytes": 585711616,
+          "input_bytes": 57600044,
+          "reserve_bytes": 268435456,
+          "required_bytes": 326035500,
+          "pass": true
+        },
+        {
+          "path": "/private/var/folders/ft/xsqp1bg15lvcr2m90ynsllmr0000gn/T",
+          "free_bytes": 585711616,
+          "input_bytes": 57600044,
+          "reserve_bytes": 268435456,
+          "required_bytes": 326035500,
+          "pass": true
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_unconditional_probe10/mono1_candidate_r01_saved08/SUMMARY.json",
+          "bytes": 434,
+          "sha256": "6a9f74e6c6f499d9f85948fd5ddb944f013a58de34ecc8861992ac2e595e697d"
+        }
+      ]
+    },
+    {
+      "id": "mono1_candidate_r01_new10",
+      "repeat": 1,
+      "label": "new10",
+      "version": "new10",
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 1.0,
+      "source": "4d9b4a1e0ea4e74a3a969abdb59bfd767ec7641101471102fd9cad35463102bf",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/unconditional_digest_candidate_10/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "1.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_unconditional_probe10/mono1_candidate_r01_new10"
+      ],
+      "integrity_pass": true,
+      "errors": [],
+      "rt_pass": true,
+      "latency_target_ms": null,
+      "latency_sample_pass": null,
+      "summary": {
+        "complete": true,
+        "rt_pass": true,
+        "cpu_percent": 12.9486174375155,
+        "cpu_s": 3.891815,
+        "wall_s": 30.0558342910372,
+        "interrupt_wakeups": 24080,
+        "polls": 145,
+        "source_rate": 48000,
+        "device_rate": 48000,
+        "device_buffer": 512,
+        "input_sha256": "13c957e5c0f5e3d64c4973ac27117930bcc541ac67f4d21459417d8f5a4e0bd0",
+        "worker_deadlines": 0,
+        "callback_deadlines": 0,
+        "missing": 0,
+        "rejected": 0,
+        "generated_delta": 1441792,
+        "owners_peak": 1,
+        "quality": null,
+        "physical_audio": null
+      },
+      "execution": {
+        "returncode": 0,
+        "timeout": false,
+        "interrupted": false,
+        "wall_s": 31.546610457997303,
+        "process_user_s": 3.968137,
+        "process_system_s": 0.43756399999999995,
+        "whole_process_cpu_s": 4.405701,
+        "max_rss_native_units": 87588864,
+        "max_rss_units": "bytes on macOS; KiB on Linux",
+        "voluntary_context_switches": 659,
+        "involuntary_context_switches": 32468,
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_unconditional_probe10/mono1_candidate_r01_new10.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "space_before": [
+        {
+          "path": "/private/tmp",
+          "free_bytes": 584540160,
+          "input_bytes": 57600044,
+          "reserve_bytes": 268435456,
+          "required_bytes": 326035500,
+          "pass": true
+        },
+        {
+          "path": "/private/var/folders/ft/xsqp1bg15lvcr2m90ynsllmr0000gn/T",
+          "free_bytes": 584540160,
+          "input_bytes": 57600044,
+          "reserve_bytes": 268435456,
+          "required_bytes": 326035500,
+          "pass": true
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_unconditional_probe10/mono1_candidate_r01_new10/SUMMARY.json",
+          "bytes": 435,
+          "sha256": "97089a33594ae56f3d86285b87b33c206b1fa5df4eaafde180e0ba6a6b3d51b3"
+        }
+      ]
+    },
+    {
+      "id": "mono1_candidate_r02_saved08",
+      "repeat": 2,
+      "label": "saved08",
+      "version": "saved08",
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 1.0,
+      "source": "b17217d8f9a7fffd0535bb360adda447015c08df232af519917937de8470ac94",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "1.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_unconditional_probe10/mono1_candidate_r02_saved08"
+      ],
+      "integrity_pass": true,
+      "errors": [],
+      "rt_pass": true,
+      "latency_target_ms": null,
+      "latency_sample_pass": null,
+      "summary": {
+        "complete": true,
+        "rt_pass": true,
+        "cpu_percent": 13.1704495454737,
+        "cpu_s": 3.956301,
+        "wall_s": 30.0392252089805,
+        "interrupt_wakeups": 24011,
+        "polls": 145,
+        "source_rate": 48000,
+        "device_rate": 48000,
+        "device_buffer": 512,
+        "input_sha256": "13c957e5c0f5e3d64c4973ac27117930bcc541ac67f4d21459417d8f5a4e0bd0",
+        "worker_deadlines": 0,
+        "callback_deadlines": 0,
+        "missing": 0,
+        "rejected": 0,
+        "generated_delta": 1441792,
+        "owners_peak": 1,
+        "quality": null,
+        "physical_audio": null
+      },
+      "execution": {
+        "returncode": 0,
+        "timeout": false,
+        "interrupted": false,
+        "wall_s": 30.73985591699602,
+        "process_user_s": 3.990639,
+        "process_system_s": 0.436142,
+        "whole_process_cpu_s": 4.426781,
+        "max_rss_native_units": 87851008,
+        "max_rss_units": "bytes on macOS; KiB on Linux",
+        "voluntary_context_switches": 718,
+        "involuntary_context_switches": 32555,
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_unconditional_probe10/mono1_candidate_r02_saved08.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "space_before": [
+        {
+          "path": "/private/tmp",
+          "free_bytes": 606031872,
+          "input_bytes": 57600044,
+          "reserve_bytes": 268435456,
+          "required_bytes": 326035500,
+          "pass": true
+        },
+        {
+          "path": "/private/var/folders/ft/xsqp1bg15lvcr2m90ynsllmr0000gn/T",
+          "free_bytes": 606031872,
+          "input_bytes": 57600044,
+          "reserve_bytes": 268435456,
+          "required_bytes": 326035500,
+          "pass": true
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_unconditional_probe10/mono1_candidate_r02_saved08/SUMMARY.json",
+          "bytes": 435,
+          "sha256": "69fcc5283ad8bd7d5062b7cf678c9133d4efb221cecfd7ef1b46e4c40296dd05"
+        }
+      ]
+    },
+    {
+      "id": "mono1_candidate_r02_new10",
+      "repeat": 2,
+      "label": "new10",
+      "version": "new10",
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 1.0,
+      "source": "4d9b4a1e0ea4e74a3a969abdb59bfd767ec7641101471102fd9cad35463102bf",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/unconditional_digest_candidate_10/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "1.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_unconditional_probe10/mono1_candidate_r02_new10"
+      ],
+      "integrity_pass": true,
+      "errors": [],
+      "rt_pass": true,
+      "latency_target_ms": null,
+      "latency_sample_pass": null,
+      "summary": {
+        "complete": true,
+        "rt_pass": true,
+        "cpu_percent": 12.9697595807739,
+        "cpu_s": 3.915379,
+        "wall_s": 30.1885241250275,
+        "interrupt_wakeups": 24111,
+        "polls": 146,
+        "source_rate": 48000,
+        "device_rate": 48000,
+        "device_buffer": 512,
+        "input_sha256": "13c957e5c0f5e3d64c4973ac27117930bcc541ac67f4d21459417d8f5a4e0bd0",
+        "worker_deadlines": 0,
+        "callback_deadlines": 0,
+        "missing": 0,
+        "rejected": 0,
+        "generated_delta": 1447936,
+        "owners_peak": 1,
+        "quality": null,
+        "physical_audio": null
+      },
+      "execution": {
+        "returncode": 0,
+        "timeout": false,
+        "interrupted": false,
+        "wall_s": 30.80386233399622,
+        "process_user_s": 3.970126,
+        "process_system_s": 0.403414,
+        "whole_process_cpu_s": 4.37354,
+        "max_rss_native_units": 87523328,
+        "max_rss_units": "bytes on macOS; KiB on Linux",
+        "voluntary_context_switches": 454,
+        "involuntary_context_switches": 31565,
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_unconditional_probe10/mono1_candidate_r02_new10.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "space_before": [
+        {
+          "path": "/private/tmp",
+          "free_bytes": 599056384,
+          "input_bytes": 57600044,
+          "reserve_bytes": 268435456,
+          "required_bytes": 326035500,
+          "pass": true
+        },
+        {
+          "path": "/private/var/folders/ft/xsqp1bg15lvcr2m90ynsllmr0000gn/T",
+          "free_bytes": 599056384,
+          "input_bytes": 57600044,
+          "reserve_bytes": 268435456,
+          "required_bytes": 326035500,
+          "pass": true
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_unconditional_probe10/mono1_candidate_r02_new10/SUMMARY.json",
+          "bytes": 435,
+          "sha256": "97678e8618d3dc65f0fffee9d635a048ebbe5d8e258f97c3dcb56b94fc1f0a80"
+        }
+      ]
+    },
+    {
+      "id": "mono1_candidate_r02_old5674",
+      "repeat": 2,
+      "label": "old5674",
+      "version": "old5674",
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 1.0,
+      "source": "2dae7749b928a72c36a8942563071ff073d89883012af77fb3822342453de392",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "1.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_unconditional_probe10/mono1_candidate_r02_old5674"
+      ],
+      "integrity_pass": true,
+      "errors": [],
+      "rt_pass": true,
+      "latency_target_ms": null,
+      "latency_sample_pass": null,
+      "summary": {
+        "complete": true,
+        "rt_pass": true,
+        "cpu_percent": 12.9805926693246,
+        "cpu_s": 3.900254,
+        "wall_s": 30.0468098749989,
+        "interrupt_wakeups": 24127,
+        "polls": 145,
+        "source_rate": 48000,
+        "device_rate": 48000,
+        "device_buffer": 512,
+        "input_sha256": "13c957e5c0f5e3d64c4973ac27117930bcc541ac67f4d21459417d8f5a4e0bd0",
+        "worker_deadlines": 0,
+        "callback_deadlines": 0,
+        "missing": 0,
+        "rejected": 0,
+        "generated_delta": 1441792,
+        "owners_peak": 1,
+        "quality": null,
+        "physical_audio": null
+      },
+      "execution": {
+        "returncode": 0,
+        "timeout": false,
+        "interrupted": false,
+        "wall_s": 30.759551625000313,
+        "process_user_s": 3.958112,
+        "process_system_s": 0.45146899999999995,
+        "whole_process_cpu_s": 4.409581,
+        "max_rss_native_units": 89784320,
+        "max_rss_units": "bytes on macOS; KiB on Linux",
+        "voluntary_context_switches": 536,
+        "involuntary_context_switches": 32544,
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_unconditional_probe10/mono1_candidate_r02_old5674.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "space_before": [
+        {
+          "path": "/private/tmp",
+          "free_bytes": 590893056,
+          "input_bytes": 57600044,
+          "reserve_bytes": 268435456,
+          "required_bytes": 326035500,
+          "pass": true
+        },
+        {
+          "path": "/private/var/folders/ft/xsqp1bg15lvcr2m90ynsllmr0000gn/T",
+          "free_bytes": 590893056,
+          "input_bytes": 57600044,
+          "reserve_bytes": 268435456,
+          "required_bytes": 326035500,
+          "pass": true
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_unconditional_probe10/mono1_candidate_r02_old5674/SUMMARY.json",
+          "bytes": 435,
+          "sha256": "6be389d398392f721da19eabde8a1d532e20aec2df00f6382ca49eff66b59bb2"
+        }
+      ]
+    },
+    {
+      "id": "mono1_candidate_r03_new10",
+      "repeat": 3,
+      "label": "new10",
+      "version": "new10",
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 1.0,
+      "source": "4d9b4a1e0ea4e74a3a969abdb59bfd767ec7641101471102fd9cad35463102bf",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/unconditional_digest_candidate_10/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "1.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_unconditional_probe10/mono1_candidate_r03_new10"
+      ],
+      "integrity_pass": true,
+      "errors": [],
+      "rt_pass": true,
+      "latency_target_ms": null,
+      "latency_sample_pass": null,
+      "summary": {
+        "complete": true,
+        "rt_pass": true,
+        "cpu_percent": 13.0596064588856,
+        "cpu_s": 3.941428,
+        "wall_s": 30.1802968750126,
+        "interrupt_wakeups": 24145,
+        "polls": 146,
+        "source_rate": 48000,
+        "device_rate": 48000,
+        "device_buffer": 512,
+        "input_sha256": "13c957e5c0f5e3d64c4973ac27117930bcc541ac67f4d21459417d8f5a4e0bd0",
+        "worker_deadlines": 0,
+        "callback_deadlines": 0,
+        "missing": 0,
+        "rejected": 0,
+        "generated_delta": 1447936,
+        "owners_peak": 1,
+        "quality": null,
+        "physical_audio": null
+      },
+      "execution": {
+        "returncode": 0,
+        "timeout": false,
+        "interrupted": false,
+        "wall_s": 30.802039750036784,
+        "process_user_s": 3.984908,
+        "process_system_s": 0.42749,
+        "whole_process_cpu_s": 4.412398,
+        "max_rss_native_units": 87752704,
+        "max_rss_units": "bytes on macOS; KiB on Linux",
+        "voluntary_context_switches": 412,
+        "involuntary_context_switches": 32067,
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_unconditional_probe10/mono1_candidate_r03_new10.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "space_before": [
+        {
+          "path": "/private/tmp",
+          "free_bytes": 589545472,
+          "input_bytes": 57600044,
+          "reserve_bytes": 268435456,
+          "required_bytes": 326035500,
+          "pass": true
+        },
+        {
+          "path": "/private/var/folders/ft/xsqp1bg15lvcr2m90ynsllmr0000gn/T",
+          "free_bytes": 589545472,
+          "input_bytes": 57600044,
+          "reserve_bytes": 268435456,
+          "required_bytes": 326035500,
+          "pass": true
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_unconditional_probe10/mono1_candidate_r03_new10/SUMMARY.json",
+          "bytes": 435,
+          "sha256": "8aa10764cc9c897439ed7d394eb5f65bde702116346d97d2c55bdc71fd2687b0"
+        }
+      ]
+    },
+    {
+      "id": "mono1_candidate_r03_old5674",
+      "repeat": 3,
+      "label": "old5674",
+      "version": "old5674",
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 1.0,
+      "source": "2dae7749b928a72c36a8942563071ff073d89883012af77fb3822342453de392",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/frozen_clients_02/steady/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "1.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_unconditional_probe10/mono1_candidate_r03_old5674"
+      ],
+      "integrity_pass": true,
+      "errors": [],
+      "rt_pass": true,
+      "latency_target_ms": null,
+      "latency_sample_pass": null,
+      "summary": {
+        "complete": true,
+        "rt_pass": true,
+        "cpu_percent": 11.988640650895,
+        "cpu_s": 3.59988,
+        "wall_s": 30.0274243329768,
+        "interrupt_wakeups": 24250,
+        "polls": 145,
+        "source_rate": 48000,
+        "device_rate": 48000,
+        "device_buffer": 512,
+        "input_sha256": "13c957e5c0f5e3d64c4973ac27117930bcc541ac67f4d21459417d8f5a4e0bd0",
+        "worker_deadlines": 0,
+        "callback_deadlines": 0,
+        "missing": 0,
+        "rejected": 0,
+        "generated_delta": 1441792,
+        "owners_peak": 1,
+        "quality": null,
+        "physical_audio": null
+      },
+      "execution": {
+        "returncode": 0,
+        "timeout": false,
+        "interrupted": false,
+        "wall_s": 30.771113708033226,
+        "process_user_s": 3.681281,
+        "process_system_s": 0.449252,
+        "whole_process_cpu_s": 4.130533,
+        "max_rss_native_units": 90128384,
+        "max_rss_units": "bytes on macOS; KiB on Linux",
+        "voluntary_context_switches": 716,
+        "involuntary_context_switches": 33460,
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_unconditional_probe10/mono1_candidate_r03_old5674.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "space_before": [
+        {
+          "path": "/private/tmp",
+          "free_bytes": 592117760,
+          "input_bytes": 57600044,
+          "reserve_bytes": 268435456,
+          "required_bytes": 326035500,
+          "pass": true
+        },
+        {
+          "path": "/private/var/folders/ft/xsqp1bg15lvcr2m90ynsllmr0000gn/T",
+          "free_bytes": 592117760,
+          "input_bytes": 57600044,
+          "reserve_bytes": 268435456,
+          "required_bytes": 326035500,
+          "pass": true
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_unconditional_probe10/mono1_candidate_r03_old5674/SUMMARY.json",
+          "bytes": 433,
+          "sha256": "4d94acf6ca3776fa924d97fcd58ef388a15b6e212418763a1af92c3a2b3739fa"
+        }
+      ]
+    },
+    {
+      "id": "mono1_candidate_r03_saved08",
+      "repeat": 3,
+      "label": "saved08",
+      "version": "saved08",
+      "preset": "candidate",
+      "input": "mono48chain300s",
+      "speed": 1.0,
+      "source": "b17217d8f9a7fffd0535bb360adda447015c08df232af519917937de8470ac94",
+      "command": [
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/native_archive_08/performance_steady_native",
+        "/Users/taro252/Docker/TimeStretchLab/results/phase56/long/chain_300s.wav",
+        "candidate",
+        "1.0",
+        "30",
+        "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_unconditional_probe10/mono1_candidate_r03_saved08"
+      ],
+      "integrity_pass": true,
+      "errors": [],
+      "rt_pass": true,
+      "latency_target_ms": null,
+      "latency_sample_pass": null,
+      "summary": {
+        "complete": true,
+        "rt_pass": true,
+        "cpu_percent": 11.9392284978104,
+        "cpu_s": 3.604552,
+        "wall_s": 30.1908285000245,
+        "interrupt_wakeups": 24387,
+        "polls": 146,
+        "source_rate": 48000,
+        "device_rate": 48000,
+        "device_buffer": 512,
+        "input_sha256": "13c957e5c0f5e3d64c4973ac27117930bcc541ac67f4d21459417d8f5a4e0bd0",
+        "worker_deadlines": 0,
+        "callback_deadlines": 0,
+        "missing": 0,
+        "rejected": 0,
+        "generated_delta": 1447936,
+        "owners_peak": 1,
+        "quality": null,
+        "physical_audio": null
+      },
+      "execution": {
+        "returncode": 0,
+        "timeout": false,
+        "interrupted": false,
+        "wall_s": 30.816280416969676,
+        "process_user_s": 3.659502,
+        "process_system_s": 0.426538,
+        "whole_process_cpu_s": 4.08604,
+        "max_rss_native_units": 88031232,
+        "max_rss_units": "bytes on macOS; KiB on Linux",
+        "voluntary_context_switches": 238,
+        "involuntary_context_switches": 32992,
+        "log": {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_unconditional_probe10/mono1_candidate_r03_saved08.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "space_before": [
+        {
+          "path": "/private/tmp",
+          "free_bytes": 601673728,
+          "input_bytes": 57600044,
+          "reserve_bytes": 268435456,
+          "required_bytes": 326035500,
+          "pass": true
+        },
+        {
+          "path": "/private/var/folders/ft/xsqp1bg15lvcr2m90ynsllmr0000gn/T",
+          "free_bytes": 601673728,
+          "input_bytes": 57600044,
+          "reserve_bytes": 268435456,
+          "required_bytes": 326035500,
+          "pass": true
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_unconditional_probe10/mono1_candidate_r03_saved08/SUMMARY.json",
+          "bytes": 435,
+          "sha256": "8b35566480a29699117c1df5b4f014a9b113fedbdcb3d7528728ec7361b706c4"
+        }
+      ]
+    }
+  ],
+  "versions": {
+    "old5674": {
+      "n": 3,
+      "samples": [
+        13.4722476039556,
+        12.9805926693246,
+        11.988640650895
+      ],
+      "mean": 12.813826974725067,
+      "median": 12.9805926693246,
+      "min": 11.988640650895,
+      "max": 13.4722476039556,
+      "p95": 13.4230821104925,
+      "sample_stdev": 0.7557317615820361
+    },
+    "saved08": {
+      "n": 3,
+      "samples": [
+        13.5109650091873,
+        13.1704495454737,
+        11.9392284978104
+      ],
+      "mean": 12.873547684157133,
+      "median": 13.1704495454737,
+      "min": 11.9392284978104,
+      "max": 13.5109650091873,
+      "p95": 13.47691346281594,
+      "sample_stdev": 0.8268627163796525
+    },
+    "new10": {
+      "n": 3,
+      "samples": [
+        12.9486174375155,
+        12.9697595807739,
+        13.0596064588856
+      ],
+      "mean": 12.992661159058333,
+      "median": 12.9697595807739,
+      "min": 12.9486174375155,
+      "max": 13.0596064588856,
+      "p95": 13.05062177107443,
+      "sample_stdev": 0.058932185027467575
+    }
+  },
+  "comparisons": [
+    {
+      "left": "old5674",
+      "right": "saved08",
+      "pairs": [
+        {
+          "repeat": 1,
+          "left": 13.4722476039556,
+          "right": 13.5109650091873,
+          "right_minus_left_pp": 0.03871740523170075,
+          "right_over_left": 1.0028738638399382,
+          "functional_measurement_pair": true,
+          "RT_pair_pass": true
+        },
+        {
+          "repeat": 2,
+          "left": 12.9805926693246,
+          "right": 13.1704495454737,
+          "right_minus_left_pp": 0.18985687614909885,
+          "right_over_left": 1.0146262101419887,
+          "functional_measurement_pair": true,
+          "RT_pair_pass": true
+        },
+        {
+          "repeat": 3,
+          "left": 11.988640650895,
+          "right": 11.9392284978104,
+          "right_minus_left_pp": -0.04941215308459945,
+          "right_over_left": 0.995878419036531,
+          "functional_measurement_pair": true,
+          "RT_pair_pass": true
+        }
+      ],
+      "complete_n3": true,
+      "RT_all_pairs_pass": true,
+      "pair_differences_pp": {
+        "n": 3,
+        "samples": [
+          0.03871740523170075,
+          0.18985687614909885,
+          -0.04941215308459945
+        ],
+        "mean": 0.05972070943206672,
+        "median": 0.03871740523170075,
+        "min": -0.04941215308459945,
+        "max": 0.18985687614909885,
+        "p95": 0.17474292905735903,
+        "sample_stdev": 0.12100938466957398
+      },
+      "ranges_overlap": true,
+      "lower_pairs": 1,
+      "higher_pairs": 2,
+      "mean_right_minus_left_pp": 0.05972070943206553,
+      "median_right_minus_left_pp": 0.18985687614909885,
+      "classification": "NOT_DEMONSTRATED",
+      "scope": "Observed n3 pattern, never automatic adoption/significance."
+    },
+    {
+      "left": "old5674",
+      "right": "new10",
+      "pairs": [
+        {
+          "repeat": 1,
+          "left": 13.4722476039556,
+          "right": 12.9486174375155,
+          "right_minus_left_pp": -0.5236301664400997,
+          "right_over_left": 0.9611326794286088,
+          "functional_measurement_pair": true,
+          "RT_pair_pass": true
+        },
+        {
+          "repeat": 2,
+          "left": 12.9805926693246,
+          "right": 12.9697595807739,
+          "right_minus_left_pp": -0.010833088550700865,
+          "right_over_left": 0.9991654396045951,
+          "functional_measurement_pair": true,
+          "RT_pair_pass": true
+        },
+        {
+          "repeat": 3,
+          "left": 11.988640650895,
+          "right": 13.0596064588856,
+          "right_minus_left_pp": 1.0709658079906,
+          "right_over_left": 1.089331713175559,
+          "functional_measurement_pair": true,
+          "RT_pair_pass": true
+        }
+      ],
+      "complete_n3": true,
+      "RT_all_pairs_pass": true,
+      "pair_differences_pp": {
+        "n": 3,
+        "samples": [
+          -0.5236301664400997,
+          -0.010833088550700865,
+          1.0709658079906
+        ],
+        "mean": 0.17883418433326645,
+        "median": -0.010833088550700865,
+        "min": -0.5236301664400997,
+        "max": 1.0709658079906,
+        "p95": 0.9627859183364698,
+        "sample_stdev": 0.8140419744829372
+      },
+      "ranges_overlap": true,
+      "lower_pairs": 2,
+      "higher_pairs": 1,
+      "mean_right_minus_left_pp": 0.17883418433326526,
+      "median_right_minus_left_pp": -0.010833088550700865,
+      "classification": "NOT_DEMONSTRATED",
+      "scope": "Observed n3 pattern, never automatic adoption/significance."
+    },
+    {
+      "left": "saved08",
+      "right": "new10",
+      "pairs": [
+        {
+          "repeat": 1,
+          "left": 13.5109650091873,
+          "right": 12.9486174375155,
+          "right_minus_left_pp": -0.5623475716718005,
+          "right_over_left": 0.9583784303127563,
+          "functional_measurement_pair": true,
+          "RT_pair_pass": true
+        },
+        {
+          "repeat": 2,
+          "left": 13.1704495454737,
+          "right": 12.9697595807739,
+          "right_minus_left_pp": -0.20068996469979972,
+          "right_over_left": 0.9847621021585576,
+          "functional_measurement_pair": true,
+          "RT_pair_pass": true
+        },
+        {
+          "repeat": 3,
+          "left": 11.9392284978104,
+          "right": 13.0596064588856,
+          "right_minus_left_pp": 1.1203779610751994,
+          "right_over_left": 1.0938400635586019,
+          "functional_measurement_pair": true,
+          "RT_pair_pass": true
+        }
+      ],
+      "complete_n3": true,
+      "RT_all_pairs_pass": true,
+      "pair_differences_pp": {
+        "n": 3,
+        "samples": [
+          -0.5623475716718005,
+          -0.20068996469979972,
+          1.1203779610751994
+        ],
+        "mean": 0.11911347490119972,
+        "median": -0.20068996469979972,
+        "min": -0.5623475716718005,
+        "max": 1.1203779610751994,
+        "p95": 0.9882711684976992,
+        "sample_stdev": 0.8857747934013144
+      },
+      "ranges_overlap": true,
+      "lower_pairs": 2,
+      "higher_pairs": 1,
+      "mean_right_minus_left_pp": 0.11911347490119972,
+      "median_right_minus_left_pp": -0.20068996469979972,
+      "classification": "NOT_DEMONSTRATED",
+      "scope": "Observed n3 pattern, never automatic adoption/significance."
+    }
+  ],
+  "whole_CPU_improvement": "NOT_APPROVED_AUTOMATICALLY",
+  "expected": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/mono1_unconditional_probe10/EXPECTED.json",
+    "bytes": 100717,
+    "sha256": "cd960da4195c91c5a4bedb0edaaeeb3466057795e10f7be410a9a303853c8d4a"
+  },
+  "CPU_approval": false,
+  "adoption_approved": false,
+  "quality_approval": false,
+  "physical_audio": null,
+  "application_F": null,
+  "statistics": "Descriptive n3 only; no significance/tolerance/automatic non-regression acceptance.",
+  "CPU_scope": "Native 30-second process user+system/wall window; wait4 whole child cost is separate.",
+  "history": "9 new programs only; prior steady48/followup18/Armed/OFF07 comparisons not added.",
+  "ordinary_speed_requests": "Fixed initial speed; no new Accepted speed-operation audit is claimed.",
+  "stage_digest_setting": "old5674 unconditional ON; saved08/new10 native option default ON, profiles OFF",
+  "historical_result": "06/07/09 remain rejected. Probe10 is an ON-only non-adoptable causal test of runtime stage-hash checks.",
+  "non_adoptable_probe": true,
+  "rejection_policy": "No CPU improvement means reject probe10. Positive result would require coherent B3 API rollback and new final candidate gates; no automatic adoption."
+}

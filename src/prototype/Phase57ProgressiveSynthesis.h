@@ -3,6 +3,7 @@
 #include "prototype/Phase36StreamingSpeedEngine.h"
 #include <functional>
 #include <span>
+#include <optional>
 namespace ts::prototype::phase59 {struct DynamicMap;}
 namespace ts::prototype::phase57 {
 enum class SynthesisState {Produced,NeedsMoreInput,NeedsMoreAnalysis,Finished,Cancelled,Failed};
@@ -35,6 +36,8 @@ public:
     // Phase58: optional fixed PlaybackEngine output-length contract. Must be
     // selected before the first snapshot; the Phase57 default is unchanged.
     void setDeclaredFinalOutputFrames(std::size_t);
+    void setStageDigestsEnabled(bool); // 最初のsnapshot前、通常ownerのみ。既定ON。
+    std::optional<Phase13StageDigests> stageDigests()const;
     void enableWorkProfiling(); // Producer only, before first snapshot.
     void setWorkObserver(Phase36StreamingSpeedEngine::WorkProfile::Observer,void*);
     void setWorkObserverActive(bool) noexcept; // DSP owner, between advance calls.
@@ -64,7 +67,7 @@ public:
     // requires the exact snapshot/map lineage and resident input identity.
     static std::unique_ptr<ProgressiveSynthesisEngine> makeFixedLoopOriginCheckpoint(int pinnedFd,
         std::span<const unsigned char>,std::uint32_t speedMicros,
-        std::shared_ptr<const phase56::AnalysisSnapshot>,std::shared_ptr<const phase59::DynamicMap>);
+        std::shared_ptr<const phase56::AnalysisSnapshot>,std::shared_ptr<const phase59::DynamicMap>,bool recordStageDigests=true);
     // A clone adopts the new epoch's same final fixed map before producing PCM.
     void prepareCheckpointForEpoch();
     // Persistent fixed-loop producer only. Same final snapshot object, resident

@@ -56,7 +56,7 @@ int main(int argc,char** argv){try{
     }
     for(auto& op:records)if(op.state==OperationState::Pending||op.state==OperationState::Submitted||op.state==OperationState::Applied){op.state=OperationState::Cancelled;op.workerState=Phase39RequestState::Cancelled;}
     exportOperations(directory,records,initial);
-    std::ofstream nodes(directory/"dynamic_map.nodes.bin",std::ios::binary);nodes.write(reinterpret_cast<const char*>(view->map.starts().data()),view->map.starts().size()*sizeof(long long));
+    std::ofstream nodes(directory/"dynamic_map.nodes.bin",std::ios::binary);const auto exportedMap=view->map.materialize();nodes.write(reinterpret_cast<const char*>(exportedMap.starts().data()),exportedMap.starts().size()*sizeof(long long));
     std::size_t deferrals=0;for(const auto& op:records)deferrals+=op.analysisDeferrals;
     std::ofstream summary(directory/"summary.json");summary<<"{\"frames\":"<<published<<",\"channels\":"<<reader.channels()<<",\"pcm_sha256\":\""<<digest.finish()<<"\",\"nonfinal_pcm_frames\":"<<nonfinalPcm<<",\"nonfinal_plans\":"<<nonfinalPlans<<",\"analysis_deferrals\":"<<deferrals<<",\"same_dsp_instance\":true,\"plans\":"<<planner.historyCount()<<"}\n";
     std::cout<<"progressive replay frames="<<published<<" deferrals="<<deferrals<<" nonfinal_plans="<<nonfinalPlans<<'\n';

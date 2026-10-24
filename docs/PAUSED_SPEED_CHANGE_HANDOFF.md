@@ -181,3 +181,32 @@ A/B確定後の準備だけには`requestLoopPreparation(A,B,context)`を使う�
 Merodoa本体、依存gitlink、承認SHAはこの作業では変更しない。実アプリF、TCC、試聴、物理loopback、RTと性能の未達は[受入表](PROGRESSIVE_ADOPTION_F_ACCEPTANCE.md)で個別に閉じる。
 
 通常速度全終端の回収には`receiveFinalEpochAudit`も設定する。全join/参照解放後・256件切詰め前に所有コピーし、destructorの最終`epochAuditConfigured/Calls/Rejected`を照合する。新300Accepted cohortのRelease/Debug各56 checks PASSを既存Loop H<=1から独立に記録した。詳細と未達は上記最終REPORTを参照。
+
+
+## 2026-10-23 性能候補v4の停止中契約
+
+[性能・応答REPORT](../results/performance_response/REPORT.md)は今回の別台帳である。
+header/archive/bridgeを同じ契約v4で再ビルドする。既存の静止C、最新要求の
+ReadyForResume、明示Resume、再Pauseによる再開意思取消、専用discard計数は維持する。
+共有解析はInputLeaseの最後の利用者まで継続し、旧owner停止で置換先の解析を止めない。
+必要解析の確定と全曲finalを区別し、通常Exact以外のfinal条件を勝手に緩めない。
+
+未採用ReturnToAを停止中の新速度で置換するときは、実消費Cを採用まで保持し、
+元の明示行先Aを新速度で準備する。C保持の通常Paused速度操作と明示移動を区別し、
+A採用時は内部停止位置もAへ更新して後の要求で旧Cへ戻さない。
+移管済み先行jobの準備はPause中も継続するが、音声は必要な退役と明示再開を待つ。
+終端監査は全join/参照解放後に回収し、FD/scope/contextをそれ以前に解放しない。
+
+checkpointのNoSafeInterval負例は、安全拒否後の旧PCMと別操作の固定Exact復旧を
+独立Release/Debug参照で検査した。任意動的要求の自動Exact切替ではない。
+深いCの準備時間と既存性能目標は新台帳で別判定し、準備が始まることを高速化と呼ばない。
+
+## 性能候補08の評価確定（2026-10-24）
+
+性能候補は未commitのsource08 `b17217d8f9a7fffd0535bb360adda447015c08df232af519917937de8470ac94`。
+checkpointの安全拒否/状態保持/明示Exact再準備3caseは現行実行体でPASS。
+CPUは固定n6のmono1倍で全pair増加し、一式として性能採用しない。隔離09/probe10も棄却。
+Closed済みPhase62の機能証拠は維持するが、08の全面native回帰・性能採用へ拡張しない。
+契約v4は候補で、今回Merodoaへ固定する承認済みcommit SHAは作っていない。
+本体/gitlink/承認SHA/既定engineを変更せず、[確定REPORT](../results/performance_response/REPORT.md)
+のNOT_RUN・品質/応答FAIL・実アプリFを引き継ぐ。

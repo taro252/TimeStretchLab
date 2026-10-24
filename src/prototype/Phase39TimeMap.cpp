@@ -55,6 +55,13 @@ Phase39TimeMap::Phase39TimeMap(TimeMap initialMap,std::uint32_t rate,
     indexProtection();
     fixed_.emplace(initial.micros,std::make_shared<TimeMap>(current_));
 }
+void Phase39TimeMap::restoreCertifiedHistory(std::uint64_t generation,long long published,
+    long long completion,const std::vector<Phase39Plan>& history){
+    if(!certifiedFactory_||!generation||published<0||completion<0||history.empty()||history.size()>512||
+       !history_.empty()||lastGeneration_||history.back().completionOutputSample!=completion)
+        throw std::invalid_argument("Invalid certified history continuation");
+    lastGeneration_=generation;lastPublished_=published;completionOutput_=completion;history_=history;
+}
 void Phase39TimeMap::indexProtection() {
     const auto limit=current_.starts().size()-1;
     protectedEndByFrame_.assign(current_.starts().size(),

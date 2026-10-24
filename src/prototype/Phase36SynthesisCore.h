@@ -253,6 +253,7 @@ public:
     }
     void setWorkProfile(WorkProfile* profile){profile_=profile;}
     using Frontier=Phase36StreamingSpeedEngine::Frontier;
+    void setStageDigestsEnabled(bool enabled){recordDigests_=enabled;}
     ResolutionStream(const std::filesystem::path& path, const StretchConfig& config,
                      int fftSize, int hop, const Detection& detection,
                      bool mid, std::size_t outputLength,
@@ -352,7 +353,7 @@ private:
         } }
         { StageClock measure(profile_,1,resolutionIndex_);
           stft_.analyze(frame_.data(),inputSpectra_[channel].data()); }
-        hashSpectrum(digests_.fft[resolutionIndex_], inputSpectra_[channel]);
+        if(recordDigests_)hashSpectrum(digests_.fft[resolutionIndex_], inputSpectra_[channel]);
     }
     long long startAt(std::size_t frameIndex) const {
         (void)frameIndex;
@@ -441,9 +442,10 @@ private:
             if (tracker_) throw std::logic_error("Partial tracking is outside Phase 36 scope");
             if (config_.enableStereoCoherence){
                 ObservedPhaseStage measured(profile_,24,resolutionIndex_);
+                const auto leftPolar=vocoders_[0].inputPolarView(),rightPolar=vocoders_[1].inputPolarView();
                 coherence_.process(inputSpectra_[0].data(),inputSpectra_[1].data(),
                     outputSpectra_[0].data(),outputSpectra_[1].data(),
-                    vocoders_[0],vocoders_[1],sharedPeaks_.ownerPeak());
+                    vocoders_[0],vocoders_[1],sharedPeaks_.ownerPeak(),&leftPolar,&rightPolar);
                 if(profile_)profile_->phaseFrames[resolutionIndex_].neighborhoodEvaluations+=coherence_.lastNeighborhoodEvaluations();
             }
             if (tracker_) tracker_->synchronize({outputSpectra_[0].data(),outputSpectra_[1].data()});
@@ -463,12 +465,12 @@ private:
         phaseMeasure.finish();
         for (std::size_t c=0; c<reader_.channels(); ++c) {
             StageClock synthesisMeasure(profile_,3,resolutionIndex_);
-            hashSpectrum(digests_.phase[resolutionIndex_], outputSpectra_[c]);
+            if(recordDigests_)hashSpectrum(digests_.phase[resolutionIndex_], outputSpectra_[c]);
             stft_.synthesize(outputSpectra_[c].data(),synthesized_.data());
-            for (const auto sample : synthesized_) hashFloat(digests_.ifft[resolutionIndex_], sample);
+            if(recordDigests_)for (const auto sample : synthesized_) hashFloat(digests_.ifft[resolutionIndex_], sample);
             olas_[c].add(synthesized_.data(),stft_.window().data(),fftSize_,start);
         }
-        if (stageTrace_ && std::llabs(static_cast<long long>(position_)-
+        if (stageTrace_ && recordDigests_ && std::llabs(static_cast<long long>(position_)-
                                       static_cast<long long>(probeInputSample_))<=65536)
             *stageTrace_<<"frame,"<<resolutionIndex_<<','<<nextFrame_<<','
                         <<position_<<','<<start<<','
@@ -500,7 +502,7 @@ private:
         for (std::size_t c=0; c<reader_.channels(); ++c) {
             while (olas_[c].nextAbsoluteSample()<absolute) olas_[c].pop();
             cache_[produced_%cacheSize][c]=olas_[c].pop();
-            hashFloat(digests_.ola[resolutionIndex_], cache_[produced_%cacheSize][c]);
+            if(recordDigests_)hashFloat(digests_.ola[resolutionIndex_], cache_[produced_%cacheSize][c]);
         }
         ++produced_;
     }
@@ -511,6 +513,7 @@ private:
     std::size_t fftSize_,hop_,padding_,length_,outputLength_;
     const std::vector<std::pair<std::size_t,bool>>& modeChanges_;
     Phase13StageDigests& digests_;
+    bool recordDigests_=true;
     std::size_t resolutionIndex_;
     std::ostream* stageTrace_;
     std::size_t probeInputSample_;

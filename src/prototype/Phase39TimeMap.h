@@ -57,6 +57,10 @@ public:
     using CertifiedFixedFactory=std::function<TimeMap(Phase39Speed)>;
     Phase39TimeMap(TimeMap certifiedInitial,std::uint32_t sampleRate,
         Phase39Speed initial,Phase39Planning planning,CertifiedFixedFactory);
+    // Phase59 normal-thread continuation: coordinates already contain all
+    // committed ramps. Restore guards/history without submitting them again.
+    void restoreCertifiedHistory(std::uint64_t generation,long long published,
+        long long completion,const std::vector<Phase39Plan>& history);
     // The shared ownership lease remains valid even when the cache evicts it.
     std::shared_ptr<const TimeMap> fixed(Phase39Speed speed);
     const TimeMap& current() const noexcept { return current_; }

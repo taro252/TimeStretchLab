@@ -1,4 +1,4 @@
-// 公開v3先行準備・失効・資源・互換性。MODE INPUT PRESET NEW_OUT SOURCE_SHA。
+// 現行公開契約の先行準備・失効・資源・互換性。MODE INPUT PRESET NEW_OUT SOURCE_SHA。
 // 1 mode/process。全制御は専用通常thread、gateも通常workerだけ。
 #define PHASE62_PLAYING_LEDGER_NO_MAIN 1
 #include "Phase62PlayingLedgerNative.cpp"
@@ -259,7 +259,7 @@ int adoptionNativeMain(int argc,char** argv){
   if(mode=="policy_precedence"){f->options.featurePolicy=ProgressiveOptions::macOSProduct().featurePolicy;f->options.allowExperimentalLoops=true;f->options.allowUnvalidatedFastLocalSeek=true;}
   f->prepare();
   if(mode.starts_with("pause_")||mode=="resume_preparing")f->paused();
-  const auto sa=f->engine->seekAvailability();const auto la=f->engine->loopAvailability();require(sa.contractVersion==3&&la.contractVersion==3&&!sa.publicSeekApproved&&!la.publicLoopApproved&&!la.currentCycleSpeedChanges,"v3 implementation vs approval");
+  const auto sa=f->engine->seekAvailability();const auto la=f->engine->loopAvailability();require(sa.contractVersion==progressive::contractVersion&&la.contractVersion==progressive::contractVersion&&!sa.publicSeekApproved&&!la.publicLoopApproved&&!la.currentCycleSpeedChanges,"current contract implementation vs approval");
   if(mode=="legacy_disabled")require(!la.allowed&&!sa.interactiveAllowed&&sa.exact.allowed&&la.nativeLoops.reason==AR::NotConfigured,"legacy false feature state");
   else if(mode=="policy_precedence")require(!la.allowed&&sa.exact.allowed&&sa.exact.approved&&!sa.exact.research&&!sa.interactiveAllowed&&la.nativeLoops.reason==AR::NotApproved&&sa.interactive.reason==AR::NotApproved,"ApprovedOnly overwritten by old true booleans");
   else require(la.allowed&&sa.exact.allowed&&sa.interactiveAllowed&&la.nativeLoops.research&&!la.nativeLoops.approved,"explicit Research/legacy feature link");
@@ -306,15 +306,15 @@ int adoptionNativeMain(int argc,char** argv){
   }else if(mode=="policy_precedence"){
    const auto base=progressive::reservationBytes(std::filesystem::file_size(f->input),wav.frames());const auto blocked=f->engine->requestLoopPreparation(f->a,f->b,f->context());
    require(!blocked.accepted&&blocked.code==AR::NotApproved&&f->engine->getPlaybackDiagnostics().reservationBytes==base,"ApprovedOnly old-boolean override or reservation");pass();
-   f->engine->stop();f->options.featurePolicy=progressive::FeaturePolicyOptions{3,Policy::Disabled,Policy::Disabled,Policy::Disabled};f->prepare();
+   f->engine->stop();f->options.featurePolicy=progressive::FeaturePolicyOptions{progressive::contractVersion,Policy::Disabled,Policy::Disabled,Policy::Disabled};f->prepare();
    const auto disabled=f->engine->requestLoopPreparation(f->a,f->b,f->context());require(!disabled.accepted&&disabled.code==AR::NotConfigured&&!f->engine->seekAvailability().exact.allowed&&!f->engine->loopAvailability().allowed&&f->engine->getPlaybackDiagnostics().reservationBytes==base,"explicit Disabled old-boolean override");pass();
-   f->engine->stop();f->options.allowExperimentalLoops=false;f->options.allowUnvalidatedFastLocalSeek=false;f->options.featurePolicy=progressive::FeaturePolicyOptions{3,Policy::Research,Policy::Research,Policy::Research};f->prepare();
+   f->engine->stop();f->options.allowExperimentalLoops=false;f->options.allowUnvalidatedFastLocalSeek=false;f->options.featurePolicy=progressive::FeaturePolicyOptions{progressive::contractVersion,Policy::Research,Policy::Research,Policy::Research};f->prepare();
    const auto id=f->request();f->ready(id);require(f->engine->loopAvailability().allowed&&f->engine->seekAvailability().interactiveAllowed&&f->engine->getPlaybackDiagnostics().reservationBytes==base+24ULL*1024*1024,"explicit Research did not supersede old false");f->checkHistory();pass();
    const auto position=f->engine->getCurrentPlaybackPosition();require(position.inputFrame==std::optional<std::uint64_t>(0)&&position.outputFrame==0&&!f->capture.outputFrames.load(),"policy tests moved/played");f->record("policy_precedence");pass();
   }else if(mode=="reservation_delta"){
    const auto base=progressive::reservationBytes(std::filesystem::file_size(f->input),wav.frames());const auto on=f->engine->getPlaybackDiagnostics().reservationBytes;
    require(on==base+24ULL*1024*1024,"formal Research omitted 24MiB");pass();
-   f->engine->stop();f->options.featurePolicy=progressive::FeaturePolicyOptions{3,Policy::Research,Policy::Research,Policy::Disabled};f->options.allowExperimentalLoops=true;f->prepare();
+   f->engine->stop();f->options.featurePolicy=progressive::FeaturePolicyOptions{progressive::contractVersion,Policy::Research,Policy::Research,Policy::Disabled};f->options.allowExperimentalLoops=true;f->prepare();
    const auto off=f->engine->getPlaybackDiagnostics().reservationBytes;require(off==base&&on-off==24ULL*1024*1024&&!f->engine->loopAvailability().allowed,"reservation difference vs effective loop");pass();
    require(f->engine->historyUsage().engineSerial==f->serial&&!f->engine->historyUsage().loopPreparation,"reservation reprepare changed identity/history");f->checkHistory();pass();
    require(!f->capture.outputFrames.load()&&f->engine->getCurrentPlaybackPosition().outputFrame==0,"reservation test consumed PCM");f->record("reservation_delta");pass();
@@ -372,4 +372,6 @@ int adoptionNativeMain(int argc,char** argv){
  }
 }
 }
+#ifndef PROGRESSIVE_ADOPTION_NATIVE_NO_MAIN
 int main(int argc,char** argv){int result=1;std::thread control([&]{try{result=adoptionNativeMain(argc,argv);}catch(const std::exception& error){std::cerr<<error.what()<<'\n';}});control.join();return result;}
+#endif

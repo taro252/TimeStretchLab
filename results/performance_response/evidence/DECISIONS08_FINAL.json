@@ -1,0 +1,140 @@
+{
+  "schema": "native08-final-decisions-v1",
+  "source": "b17217d8f9a7fffd0535bb360adda447015c08df232af519917937de8470ac94",
+  "unmet": [
+    {
+      "id": "CPU08",
+      "status": "INCOMPLETE",
+      "expected": "native48 + fixed followup18",
+      "reason": "固定mono1倍n6全pair増加、範囲は重なり因果的有意差を主張しない。改善NOT_DEMONSTRATEDのため08一式を性能採用しない。",
+      "scope": "local"
+    },
+    {
+      "id": "interactive08",
+      "status": "NOT_RUN",
+      "expected": "48program / 240case",
+      "reason": "CPU不採用の08を広い最終候補行列へ進めない。05結果を08へ付け替えない。",
+      "scope": "local"
+    },
+    {
+      "id": "cold_AB08",
+      "status": "NOT_RUN",
+      "expected": "72program",
+      "reason": "CPU不採用の08を広い最終候補行列へ進めない。05結果を08へ付け替えない。",
+      "scope": "local"
+    },
+    {
+      "id": "nonfresh_AB08",
+      "status": "NOT_RUN",
+      "expected": "36program",
+      "reason": "CPU不採用の08を広い最終候補行列へ進めない。05結果を08へ付け替えない。",
+      "scope": "local"
+    },
+    {
+      "id": "warm_AB08",
+      "status": "NOT_RUN",
+      "expected": "12program / 144checks",
+      "reason": "CPU不採用の08を広い最終候補行列へ進めない。05結果を08へ付け替えない。",
+      "scope": "local"
+    },
+    {
+      "id": "paused_deep08",
+      "status": "NOT_RUN",
+      "expected": "6program / 72checks",
+      "reason": "CPU不採用の08を広い最終候補行列へ進めない。05結果を08へ付け替えない。",
+      "scope": "local"
+    },
+    {
+      "id": "warm_PCM08",
+      "status": "NOT_RUN",
+      "expected": "24capture / 120checks",
+      "reason": "CPU不採用の08を広い最終候補行列へ進めない。05結果を08へ付け替えない。",
+      "scope": "local"
+    },
+    {
+      "id": "AB_PCM08",
+      "status": "NOT_RUN",
+      "expected": "108capture / 540checks",
+      "reason": "CPU不採用の08を広い最終候補行列へ進めない。05結果を08へ付け替えない。",
+      "scope": "local"
+    },
+    {
+      "id": "related_D3_08",
+      "status": "NOT_RUN",
+      "expected": "12driver",
+      "reason": "CPU不採用の08を広い最終候補行列へ進めない。05結果を08へ付け替えない。",
+      "scope": "local"
+    },
+    {
+      "id": "ABI_iOS08",
+      "status": "NOT_RUN",
+      "expected": "9checks",
+      "reason": "CPU不採用の08を広い最終候補行列へ進めない。05結果を08へ付け替えない。",
+      "scope": "local"
+    },
+    {
+      "id": "FastLocal_quality",
+      "status": "FAIL",
+      "expected": "26既知条件×3＋24対照",
+      "reason": "保存された102件で78FAIL、最大3.593187876dB。08への限定再利用はAUDITの許可行だけ。",
+      "scope": "local"
+    },
+    {
+      "id": "Interactive_200ms",
+      "status": "INCOMPLETE",
+      "expected": "2倍Candidate p95<=200ms",
+      "reason": "05の同条件15件p95 206.476ms未達。08再測定NOT_RUN。",
+      "scope": "local"
+    },
+    {
+      "id": "cold_AB_1000ms",
+      "status": "INCOMPLETE",
+      "expected": "accepted→first A PCM p95<=1000ms",
+      "reason": "05の全cold群は未達、08再測定NOT_RUN。先行準備完了をcold成功へ読み替えない。",
+      "scope": "local"
+    },
+    {
+      "id": "human_physical_F",
+      "status": "NOT_RUN",
+      "expected": "代表試聴/物理出力/Merodoa実アプリTCC",
+      "reason": "実施なし。native PCM/RT成功とは別。",
+      "scope": "human"
+    }
+  ],
+  "missing_evidence": {},
+  "decisions": {
+    "CPU_adoption": {
+      "status": "NOT_ADOPTED",
+      "reason": "08は固定n6のmono1倍が6/6増加。09/probe10も改善を示さず棄却。",
+      "evidence": [
+        "build/performance_response_20261023_01/steady_pairs_native08/SUMMARY.json",
+        "build/performance_response_20261023_01/steady_followup_native08_01/SUMMARY.json",
+        "build/performance_response_20261023_01/EXPERIMENT09_REJECTED.json",
+        "build/performance_response_20261023_01/PROBE10_REJECTED.json"
+      ]
+    },
+    "local_overall": {
+      "status": "INCOMPLETE",
+      "reason": "checkpointは閉鎖、既存機能回帰は許可範囲で保持。性能一式の採用/最終native回帰は未完了。",
+      "evidence": [
+        "build/performance_response_20261023_01/checkpoint_native08_recheck_01/SUMMARY.json",
+        "build/performance_response_20261023_01/native08_reuse_audit_01/AUDIT.json"
+      ]
+    },
+    "public_release": {
+      "status": "WITHHELD",
+      "reason": "今回の性能候補を公開承認しない。既存の機能別状態は維持。",
+      "evidence": []
+    },
+    "Merodoa_default": {
+      "status": "UNCHANGED",
+      "reason": "Merodoa本体/gitlink/承認SHA/既定engineは変更していない。",
+      "evidence": []
+    },
+    "human_physical_application_F": {
+      "status": "NOT_RUN",
+      "reason": "今回試聴/物理loopback/実アプリFを行っていない。",
+      "evidence": []
+    }
+  }
+}

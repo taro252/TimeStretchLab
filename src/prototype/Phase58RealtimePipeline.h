@@ -20,7 +20,7 @@ struct LifecycleTestHooks {
 };
 // Explicit bounded normal-worker probes. Never invoked in audio pull or an
 // active Workgroup interval. Context outlives every epoch of the input lease.
-enum class ControlTestPoint {PlannerBeforePlan,PlannerProposal,ApplyingBeforeSupply,ApplyingRejected,CacheReconstructionStarted,CacheDeadlineDecided,CacheDeadlineFinished,CheckpointPermit,EpochReservation,WorkgroupJoin};
+enum class ControlTestPoint {PlannerBeforePlan,PlannerProposal,ApplyingBeforeSupply,ApplyingRejected,CacheReconstructionStarted,CacheDeadlineDecided,CacheDeadlineFinished,CheckpointPermit,EpochReservation,WorkgroupJoin,LoopPreparationPrefixProgress,InputCopyProgress,InputSamplesProgress,InputResidentBefore,InputResidentAfter,InputAnalysisPublished,InputAnalysisJoinWait};
 struct ControlTestHooks {
     void* context=nullptr;
     void(*event)(void*,ControlTestPoint,std::uint64_t session,std::uint64_t operation)noexcept=nullptr;
@@ -30,6 +30,9 @@ struct Configuration {
     std::uint32_t speedMicros=500000;
     bool candidate=true,verifyPcm=true,recordWorkerProfile=false;
     bool detailedDiagnostics=false;
+    bool recordStageDigests=true; // 研究/Golden既定ON。最終PCM照合とは別。
+    const std::atomic<bool>* inputPreparationCancel=nullptr; // 同期constructor中だけ借用。
+    std::chrono::steady_clock::time_point inputPreparationDeadline{};
     bool measureControlCosts=false; // explicit normal-thread attribution only
     bool sampleDspThread=false;
     bool residentInput=false;
@@ -57,6 +60,7 @@ struct Configuration {
     LifecycleTestHooks lifecycleTestHooks{};
     ControlTestHooks controlTestHooks{};
     bool boundedEpochReservations=false; // native Loop: two 12MiB portions of existing 24MiB
+    bool verifyIncrementalPlanning=false; // explicit normal-thread full-replay diagnostic only
 };
 struct RenderResult {std::size_t wanted=0,received=0,outputBefore=0,fifoBefore=0;};
 struct FifoCursors {std::uint64_t read=0,write=0;};
@@ -101,7 +105,18 @@ struct SpeedOperationProgress {
     std::uint64_t id=0,session=0;double appliedS=-1,completedS=-1;
     long long firstChanged=0,completion=0;
 };
+enum class AnalysisWaitReason {None,CertifiedInterpolation,FinalFixedMap,EndOfInput,ProducerFailure};
 struct Diagnostics {
+    AnalysisWaitReason analysisWaitReason=AnalysisWaitReason::None;
+    std::size_t requiredAnalysisNodes=0,certifiedAnalysisNodes=0;
+    // Shared input producer totals, identified by inputGeneration/thread. Do not
+    // sum the same producer across render epochs. analysisWorkerCpuS is now the
+    // epoch's snapshot/planner consumer only.
+    std::uint64_t analysisProducerThread=0,analysisProducerStarts=0;
+    std::size_t analysisProducerReceived=0;
+    double analysisProducerCpuS=0;
+    bool requiredAnalysisReady=false,incrementalPlanningMeasured=false;
+    bool stageDigestsMeasured=false;
     bool controlCostsMeasured=false;
     playback::ControlCostValue inputValidationCost,speedHistoryCopyCost;
     std::uint64_t analysisIdleWakes=0;
@@ -113,6 +128,7 @@ struct Diagnostics {
     bool dynamicTransitions=false;
     bool inputIdentityInvalid=false; // selected path / held FD validation failed; latched per lease
     std::size_t transitionOperations=0,transitionMapOwners=0,transitionHistory=0,transitionMapPeakBytes=0;
+    phase59::IncrementalPlanningStatistics incrementalPlanning{};
     std::size_t transitionPlanAttempts=0,transitionStaleReplans=0,transitionAnalysisDeferrals=0;
     double transitionPlanCpuS=0,transitionPlanWallS=0;
     double residentReadyS=-1;
@@ -250,6 +266,7 @@ public:
     std::size_t loopOutputEndFrame()const noexcept; // valid after Ready
     std::size_t fixedOutputFrameForInput(std::size_t)const; // final analysis; rejects dynamic plans
     bool finalAnalysisAvailable()const noexcept;
+    bool requiredAnalysisAvailable()const noexcept;
     // Normal owner only. Fade on DSP publication, then wait for its absolute
     // end to be consumed. Cancelling restores gain through another 5ms ramp.
     void requestRetireFade(bool);

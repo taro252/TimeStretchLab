@@ -8,7 +8,7 @@ namespace ts::prototype::phase59 {
 inline bool formalSpeed(std::uint32_t s) noexcept {
     return s>=400000 && s<=2000000 && s%10000==0;
 }
-inline std::size_t inverseInput(const TimeMap& map,std::size_t output) {
+template<class Map> inline std::size_t inverseInput(const Map& map,std::size_t output) {
     const auto& starts=map.starts();
     auto it=std::upper_bound(starts.begin(),starts.end(),static_cast<long long>(output));
     if(it==starts.begin())return 0;

@@ -43,8 +43,43 @@ template<class T> class ImmutableSeries {
         return n?n->page:nullptr;
     }
 public:
+    static constexpr std::size_t pageWidth=width;
     std::size_t size()const noexcept{return size_;}
     const T& at(std::size_t i)const{if(i>=size_)throw std::out_of_range("Unpublished series index");return pageAt(i/width)->values[i%width];}
+    // The caller retains this immutable root. No shared_ptr operations occur
+    // while a DSP reader borrows a page already pinned by its mailbox.
+    const T* borrowedPageData(std::size_t key)const{
+        if(key>=(size_+width-1)/width)throw std::out_of_range("Unpublished series page");
+        const auto* n=root_.get();
+        for(unsigned level=depth;level&&n;--level)
+            n=(key&(std::size_t(1)<<(level-1)))?n->right.get():n->left.get();
+        if(!n||!n->page)throw std::logic_error("Missing immutable series page");
+        return n->page->values.data();
+    }
+    const T& borrowedAt(std::size_t i)const{
+        if(i>=size_)throw std::out_of_range("Unpublished series index");
+        return borrowedPageData(i/width)[i%width];
+    }
+    ImmutableSeries prefix(std::size_t end)const{
+        if(end>size_)throw std::out_of_range("Series prefix extent");
+        auto result=*this;result.size_=end;return result;
+    }
+    // Normal-thread construction only. Index is absolute, including a retained
+    // prefix; at most one partial page and the appended pages are copied.
+    template<class Read> ImmutableSeries extendFrom(std::size_t end,Read read,
+        const std::shared_ptr<MemoryLedger>& m)const{
+        if(end<size_||end>width*(std::size_t(1)<<depth))throw std::out_of_range("Series extent");
+        auto result=*this;
+        while(result.size_<end){
+            const auto key=result.size_/width,offset=result.size_%width;
+            auto old=result.pageAt(key);auto page=old?m->make<Page>(*old):m->make<Page>();
+            m->copied.fetch_add(sizeof(Page));
+            const auto n=std::min(width-offset,end-result.size_);
+            for(std::size_t j=0;j<n;++j)page->values[offset+j]=read(result.size_+j);
+            result.root_=replace(result.root_,key,depth,std::move(page),m);result.size_+=n;
+        }
+        return result;
+    }
     ImmutableSeries extend(const std::vector<T>& source,std::size_t end,const std::shared_ptr<MemoryLedger>& m)const{
         if(end<size_||end>source.size()||end>width*(std::size_t(1)<<depth))throw std::out_of_range("Series extent");
         auto result=*this;

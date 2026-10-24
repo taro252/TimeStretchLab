@@ -19,6 +19,7 @@ Phase35PhaseVocoder::Phase35PhaseVocoder(std::size_t size, int hop, bool enableP
         throw std::invalid_argument("Invalid analysis hop or sample rate");
 }
 void Phase35PhaseVocoder::reset() {
+    cacheWitness_.owner=nullptr;cacheWitness_.input=nullptr;++cacheWitness_.frame;
     std::fill(initialized_.begin(), initialized_.end(), false);
     std::fill(resyncPending_.begin(), resyncPending_.end(), false);
     std::fill(previousPhase_.begin(), previousPhase_.end(), 0.0);
@@ -31,11 +32,12 @@ void Phase35PhaseVocoder::process(const std::complex<float>* input, std::complex
                            bool selectiveReset, float eventStrength,
                            const std::vector<int>* sharedOwners,int analysisHopOverride) {
     constexpr double pi = std::numbers::pi;
+    cacheWitness_.owner=nullptr;cacheWitness_.input=nullptr;++cacheWitness_.frame;
     static_assert(std::is_same_v<decltype(std::atan2(float{},float{})),float>);
     const auto inputAddress=reinterpret_cast<std::uintptr_t>(input);
     const auto outputAddress=reinterpret_cast<std::uintptr_t>(output);
     const auto distance=inputAddress<outputAddress?outputAddress-inputAddress:inputAddress-outputAddress;
-    const bool reuse=enablePhaseLocking_&&sharedOwners&&
+    const bool reuse=enablePhaseLocking_&&sharedOwners&&sharedOwners->size()==size_/2+1&&
         distance/sizeof(std::complex<float>)>=size_/2+1;
     if(reuse){
         // Public callers can supply a Nyquist owner even though the generated
@@ -94,7 +96,8 @@ void Phase35PhaseVocoder::process(const std::complex<float>* input, std::complex
         previousPhase_[k] = phase;
         previousMagnitude_[k] = static_cast<float>(magnitude);
         initialized_[k] = true;
-        output[k] = std::polar(static_cast<float>(magnitude), static_cast<float>(synthesisPhase_[k]));
+        // 全入力cache確定後、昇順lock loopで最終値を一度だけ書く。
+        if(!reuse)output[k] = std::polar(static_cast<float>(magnitude), static_cast<float>(synthesisPhase_[k]));
     }
     if (enablePhaseLocking_) {
         if (reuse) {
@@ -104,13 +107,16 @@ void Phase35PhaseVocoder::process(const std::complex<float>* input, std::complex
             constexpr double twoPi=2.0*pi;
             for(std::size_t k=1;k+1<sharedOwners->size();++k){
                 const int owner=(*sharedOwners)[k];
-                if(owner<1||static_cast<int>(k)==owner||
-                    inputMagnitudeCache_[k]<1e-7f||inputMagnitudeCache_[owner]<1e-7f)continue;
+                if(inputMagnitudeCache_[k]<1e-7f)continue;
+                if(owner<1||static_cast<int>(k)==owner||inputMagnitudeCache_[owner]<1e-7f){
+                    output[k]=std::polar(inputMagnitudeCache_[k],static_cast<float>(synthesisPhase_[k]));continue;
+                }
                 const double relative=std::remainder(double(inputPhaseCache_[k])-inputPhaseCache_[owner],twoPi);
                 const double locked=std::remainder(synthesisPhase_[owner]+relative,twoPi);
                 synthesisPhase_[k]=locked;
                 output[k]=std::polar(inputMagnitudeCache_[k],static_cast<float>(locked));
             }
+            cacheWitness_.owner=this;cacheWitness_.input=input;
         } else if (sharedOwners) PhaseLocker::lockWithOwners(input, output, synthesisPhase_, *sharedOwners);
         else {
             phaseLocker_.analyzePeaks(input, size_ / 2 + 1);
@@ -122,6 +128,7 @@ void Phase35PhaseVocoder::resynchronize(const std::complex<float>* scheduled,
                                  const std::complex<float>* aligned,
                                  std::complex<float>* output,
                                  const std::vector<int>* sharedOwners) {
+    cacheWitness_.owner=nullptr;cacheWitness_.input=nullptr;++cacheWitness_.frame;
     constexpr double twoPi=2.0*std::numbers::pi;
     for (std::size_t k=1;k<size_/2;++k) {
         const float magnitude=std::abs(scheduled[k]);

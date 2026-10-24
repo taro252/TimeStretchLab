@@ -121,12 +121,18 @@ float WavStreamReader::sample(std::size_t channel, std::size_t frame) {
     if (!std::isfinite(value)) throw std::runtime_error("Non-finite WAV sample");
     return value;
 }
-void WavStreamReader::validateEncodedSamples() const {
+void WavStreamReader::validateEncodedSamples(std::function<void(std::size_t)> progress) const {
     if(pinnedBytes_.empty())throw std::logic_error("Encoded input required for prevalidation");
+    if(progress)progress(0);
     if(format_!=3)return; // Every PCM16 code is finite.
     const auto* data=pinnedBytes_.data()+std::size_t(dataOffset_);
-    for(std::size_t i=0;i<frames_*channels_;++i)
-        if((u32(data+4*i)&0x7f800000U)==0x7f800000U)throw std::runtime_error("Non-finite WAV sample");
+    for(std::size_t at=0;at<frames_*channels_;at+=16384){
+        if(progress&&at)progress(at);
+        const auto end=std::min(at+16384,frames_*channels_);
+        for(std::size_t i=at;i<end;++i)
+            if((u32(data+4*i)&0x7f800000U)==0x7f800000U)throw std::runtime_error("Non-finite WAV sample");
+    }
+    if(progress)progress(frames_*channels_);
 }
 WavStreamWriter::WavStreamWriter(const std::filesystem::path& path, std::uint32_t rate,
                                  std::size_t channels, std::size_t frames)

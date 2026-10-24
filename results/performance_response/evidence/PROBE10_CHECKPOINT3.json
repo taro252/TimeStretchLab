@@ -1,0 +1,58 @@
+{
+  "status": "PASS",
+  "complete": true,
+  "expected_cases": 3,
+  "completed_cases": 3,
+  "cases": [
+    {
+      "case": "rejected_pcm_unchanged",
+      "PASS": true,
+      "outcome": "NoSafeInterval",
+      "published": 16384,
+      "suffix_frames": 1519616,
+      "independent_fixed_PCM": true
+    },
+    {
+      "case": "rejected_then_duplicate",
+      "PASS": true,
+      "outcome": "NoSafeInterval",
+      "published": 16384,
+      "suffix_frames": 1519616,
+      "independent_fixed_PCM": true
+    },
+    {
+      "case": "explicit_fixed_Exact_reprepare",
+      "PASS": true,
+      "frames": 1920000,
+      "independent_fixed_PCM": true,
+      "old_checkpoint_reused_at_wrong_speed": false
+    }
+  ],
+  "final": [
+    {
+      "suite": "checkpoint_safe_rejection",
+      "PASS": true,
+      "expected": 3,
+      "completed": 3,
+      "compared_suffix_frames": 3039232,
+      "new_exact_frames": 1920000,
+      "audio_output": false,
+      "performance_approval": false
+    }
+  ],
+  "returncode": 0,
+  "log": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/checkpoint_unconditional_probe10/checkpoint.log",
+    "bytes": 621,
+    "sha256": "74dc07f998aa42ad5010f34dff54e13d1efdabb4e6812fd8145fa089f6290f41"
+  },
+  "expected": {
+    "path": "/Users/taro252/Docker/TimeStretchLab/build/performance_response_20261023_01/checkpoint_unconditional_probe10/EXPECTED.json",
+    "bytes": 3926,
+    "sha256": "7e40cf91bc20e7e929bb72be5a32cc0bfd65ccf2c759f10c0a2b8f05b52e5600"
+  },
+  "new_reference_renders": 0,
+  "independent_fixed_PCM": true,
+  "performance_approval": false,
+  "realtime_approval": false
+}

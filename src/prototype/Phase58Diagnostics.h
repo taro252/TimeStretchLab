@@ -9,11 +9,23 @@ inline void writeDiagnostics(std::ostream& out,const Diagnostics& d){
     const auto final=[&](const char* k,auto v){n(k,d.finalDataAvailable?std::to_string(v):"null");};
     n("lifecycle",int(d.lifecycle));n("final_data_available",d.finalDataAvailable);
     n("session",d.session);n("analysis_thread",d.analysisThread);n("dsp_thread",d.dspThread);n("snapshot_version",d.snapshotVersion);
+    n("analysis_producer_thread",d.analysisProducerThread);n("analysis_producer_starts",d.analysisProducerStarts);
+    n("analysis_producer_received",d.analysisProducerReceived);n("analysis_producer_cpu_s",d.analysisProducerCpuS);n("required_analysis_ready",d.requiredAnalysisReady);
+    n("analysis_wait_reason",int(d.analysisWaitReason));n("required_analysis_nodes",d.requiredAnalysisNodes);n("certified_analysis_nodes",d.certifiedAnalysisNodes);
+    n("incremental_planning_measured",d.incrementalPlanningMeasured);
+    if(d.incrementalPlanningMeasured){const auto& p=d.incrementalPlanning;
+        n("planner_updates",p.updates);n("planner_fixed_event_visits",p.fixedEventVisits);n("planner_fixed_appended_nodes",p.fixedAppendedNodes);
+        n("planner_dynamic_appended_nodes",p.dynamicAppendedNodes);n("planner_materialized_nodes",p.materializedNodes);n("planner_history_replays",p.historyReplays);
+        n("planner_diagnostic_replay_requests",p.diagnosticReplayRequests);n("planner_diagnostic_comparisons",p.diagnosticComparisons);
+        n("planner_prefix_proof_pages",p.prefixProofPages);n("planner_prefix_proof_nodes",p.prefixProofNodes);n("planner_index_bytes_copied",p.indexBytesCopied);
+        n("planner_fixed_cache_entries",p.fixedCacheEntries);n("planner_page_live_bytes",p.pageLiveBytes);n("planner_page_peak_bytes",p.pagePeakBytes);n("planner_page_copied_bytes",p.pageCopiedBytes);}
+    if(d.incrementalPlanningMeasured)n("planner_scratch_estimated_peak_bytes",d.incrementalPlanning.planningScratchEstimatedPeakBytes);
     n("input_frames",d.inputFrames);n("received_input",d.receivedInput);n("generated_frames",d.generated);n("published_frames",d.published);n("consumed_frames",d.consumed);n("output_frames",d.outputFrames);
     n("input_at_first_pcm",d.inputAtFirstPcm);n("input_at_ready",d.inputAtReady);n("non_eos_published",d.nonEosPublished);
     n("source_snapshot_bytes",d.sourceSnapshotBytes);final("analysis_worker_cpu_s",d.analysisWorkerCpuS);
     n("resident_input_bytes",d.residentInputBytes);n("resident_ready_s",d.residentReadyS);final("borrowed_snapshot_owners",d.borrowedSnapshotOwners);n("rendering_requested",d.renderingRequested);
     n("input_samples_prevalidated",d.inputSamplesPrevalidated);
+    n("stage_digests_measured",d.stageDigestsMeasured?"true":"false");
     n("dynamic_transitions",d.dynamicTransitions);n("transition_operations",d.transitionOperations);final("transition_map_owners",d.transitionMapOwners);
     n("transition_history",d.transitionHistory);n("transition_map_peak_bytes",d.transitionMapPeakBytes);n("transition_plan_attempts",d.transitionPlanAttempts);
     n("transition_stale_replans",d.transitionStaleReplans);n("transition_analysis_deferrals",d.transitionAnalysisDeferrals);

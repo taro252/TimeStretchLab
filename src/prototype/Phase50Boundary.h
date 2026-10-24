@@ -11,8 +11,8 @@ struct Phase50Boundary {
 };
 // Read-only dependency audit. Frame starts use padded OLA coordinates;
 // raw FIR source n uses OLA n + FFT/2. No history/state is reconstructed.
-inline Phase50Boundary phase50Boundary(const Phase36StreamingSpeedEngine::Frontier& f,
-                                      const TimeMap& map,std::size_t published) {
+template<class Map> inline Phase50Boundary phase50Boundary(const Phase36StreamingSpeedEngine::Frontier& f,
+                                      const Map& map,std::size_t published) {
     Phase50Boundary b;
     b.precise=b.legacy=std::max(f.preparedOutput,published);
     constexpr std::array<std::size_t,3> hop{2048,1024,256};
@@ -30,8 +30,8 @@ inline Phase50Boundary phase50Boundary(const Phase36StreamingSpeedEngine::Fronti
     for (auto source:f.firstUnprocessedFirSource) b.legacy=std::max(b.legacy,source+4096);
     return b;
 }
-inline bool phase50PreservesState(const Phase36StreamingSpeedEngine::Frontier& f,
-                                 const TimeMap& before,const TimeMap& after) {
+template<class Before,class After> inline bool phase50PreservesState(const Phase36StreamingSpeedEngine::Frontier& f,
+                                 const Before& before,const After& after) {
     for (std::size_t r=0;r<3;++r) {
         const auto node=(f.lastProcessedInput[r]+1023)/1024;
         for (std::size_t i=0;i<=node && i<before.starts().size();++i)

@@ -1,18 +1,49 @@
-# Progressive採用候補・契約版3
+# Progressive採用契約：版3の履歴と版4の性能候補
 
-この候補の機能別判定は[採用台帳](PROGRESSIVE_ADOPTION_PLAN.md)、新規実行の結果は`results/progressive_adoption/REPORT.md`を参照する。旧NO-GOは当時の範囲として保存し、今回の正式化を禁止する規則として使わない。未達の方法を承認済みに読み替えない。
+## 性能・応答候補の契約版4（2026-10-23）
+
+現在の性能候補は`contractVersion=4`、`ContractV4Tag`を使う。新しい
+`recordStageDigests`設定、先行準備からLoopへの移管ID、seek時刻観測の診断を追加した。
+`ContractV3Tag`はソース互換の型別名であり、旧版3バイナリのリンク互換を意味しない。
+bridgeを含む呼出側を全て同じヘッダーとlibraryで再ビルドする。旧版3の
+`prepare(..., ContractV3Tag)`シンボルは提供しない。方式別承認フラグは変更しない。
+
+最終候補08では通常nativeの`recordStageDigests=true`を既定とする。
+保存05の既定OFFは全体CPUの悪化を実測して取り下げた。
+明示的な研究設定`recordStageDigests=false`は内部FFT/phase/IFFT/OLA/FIR hashを
+省く設定であり、入力identityのSHAと有限値検査は維持する。詳細診断またはworker
+profileを有効にした場合はhashを測定する。`stageDigestsMeasured`で実測有無を判別する。
+研究用Pipeline/Goldenの既定は測定ONを維持する。
+
+同一identityでPending/Preparingの先行準備をReturnToAが使うとき、
+`LoopSnapshot.preparationRequestID`と非終端の`LoopPreparationOperation.transferredToLoopID`
+で関連を観測できる。先行準備Readyは音声採用ではない。初回A準備と必要な旧ownerの
+退役を終えてから、保持したResume意思を一度だけ実行する。完了済み履歴は書き換えない。
+この候補の証拠と未達は[性能・応答検証](PERFORMANCE_RESPONSE_VALIDATION.md)へ分けて記録する。
+
+v4の内部解析はInputLeaseごとに一つのproducerが不変snapshotを供給し、未開始の
+置換先も寿命を保持する。通常Exactだけは認証済み補間prefixと既存DSP先読み条件が
+成立すれば全曲解析前にReadyとなる。Interactive/FastLocal、Loop保存点、入力Nへの
+シークはfinal解析条件を維持する。操作の`analysisReadyNs`は必要解析の確定であり、
+全曲解析完了とは限らない。診断の`requiredAnalysisReady`、`analysisWaitReason`、
+必要/認証済みノード数と`finalAnalysisAvailable()`を区別する。
+解析producerのCPUは入力世代ごとの共有値で、複数epochへ重複加算しない。
+ホストは従来どおり専用直列キューで採用・旧callback静止・旧owner stop/joinを行う。
+最後のepochをcloseするとproducerもjoinされ、その前にFD/PCM leaseを解放しない。
+
+この候補の機能別判定は[採用台帳](PROGRESSIVE_ADOPTION_PLAN.md)、版3の結果は`results/progressive_adoption/REPORT.md`、今回の版4候補は`results/performance_response/REPORT.md`を参照する。旧NO-GOは当時の範囲として保存し、今回の正式化を禁止する規則として使わない。未達の方法を承認済みに読み替えない。
 
 ## 方式、承認、設定、実行可能性
 
 `ProgressiveFeatureContract.h`の`FeatureAvailability`はimplemented / approved / configured / effective / allowed / research / reasonを分ける。compiled `featureApprovals`は方式ごとのengine承認で、Merodoaのアプリ受入・物理音響承認とは別である。`SeekAvailability.exact`と`.interactive`、`LoopAvailability.nativeLoops`を使う。現在周期の実装は`currentCycleSpeedImplemented`、正式対応は`currentCycleSpeedChanges`、個別延期は既存LoopSpeedOperation.deferralを使う。現在周期内の即時変更を常時保証しない。
 
-`ProgressiveOptions::macOSProduct()`は具体的な製品設定である。各方式をApprovedOnlyにし、承認表で合格した方法だけを実効化する。今回の表はExact=true、Interactive/nativeLoops/currentCycleSpeed=falseで、Exactの数値・所有権方式承認を通常RT・アプリF・音響の承認から分ける。未承認方法のResearchへの変更は、ホストの明示操作を必要とする。既存オプションのfalseを新しい既定値で上書きしないため、`featurePolicy`未指定なら従来boolを変換する。旧Exact要求は従来の研究実装として利用でき、Loop/Interactiveの旧falseはそのまま無効となる。明示v3設定があれば旧boolより優先する。
+`ProgressiveOptions::macOSProduct()`は具体的な製品設定である。各方式をApprovedOnlyにし、承認表で合格した方法だけを実効化する。今回の表はExact=true、Interactive/nativeLoops/currentCycleSpeed=falseで、Exactの数値・所有権方式承認を通常RT・アプリF・音響の承認から分ける。未承認方法のResearchへの変更は、ホストの明示操作を必要とする。既存オプションのfalseを新しい既定値で上書きしないため、`featurePolicy`未指定なら従来boolを変換する。旧Exact要求は従来の研究実装として利用でき、Loop/Interactiveの旧falseはそのまま無効となる。現候補では明示v4設定があれば旧boolより優先し、version=3は拒否する。
 
 正規化はprepareごとに1回行う。同じnativeLoops.effectiveを、追加24MiB予約・boundedEpochReservations・有限callback観測・受付・診断へ使う。一時的なallowed=falseで必要な予約を外さない。Clear/Stop/closeは後始末なので承認フラグで禁止しない。
 
-旧`Capabilities.seek`/`publicSeekApproved`はExactとInteractiveの両方が承認された場合だけtrueとなる保守的な互換値である。Exactだけの承認をInteractive有効化の根拠にしない。旧bool `seekToInputSeconds`はこの包括ゲートを維持する。v3利用者はrequestSeek*のExactとrequestInteractiveSeek*を区別する。
+旧`Capabilities.seek`/`publicSeekApproved`はExactとInteractiveの両方が承認された場合だけtrueとなる保守的な互換値である。Exactだけの承認をInteractive有効化の根拠にしない。旧bool `seekToInputSeconds`はこの包括ゲートを維持する。v3からの移行時もrequestSeek*のExactとrequestInteractiveSeek*を区別する。
 
-ヘッダーと実行体を一緒に更新・再ビルドする。`prepare`へ既定引数ContractV3Tagを追加してリンク名を変えたため、新旧ヘッダー/バイナリ混在はprepareのリンク時に失敗する。構造体を旧ABIのまま渡さない。policy.version不一致は旧入力を退役させる前に拒否する。contractVersion=3をbridgeへ渡す。
+ヘッダーと実行体を一緒に更新・再ビルドする。版3導入時はContractV3Tag、現候補はContractV4Tagでprepareのリンク名を変え、新旧バイナリ混在を拒否する。構造体を旧ABIのまま渡さない。policy.version不一致は旧入力を退役させる前に拒否する。今回のbridgeへ渡すcontractVersionは4である。
 
 ## 安定した理由コード
 
@@ -78,3 +109,10 @@ D07のH<=1とD08の距離上限を通常速度履歴へ一般化しない。今�
 最後のcurrent ownerの拒否はdestructor中にも起こり得る。`FinalOperationAudit.epochAuditConfigured/epochAuditCalls/epochAuditRejected`で最終状態を回収し、configuredかつ拒否0、期待session/ID集合の全終端・全フィールド回収を確認した場合だけ全量監査の成功とする。外部UUIDを一緒に保持する。sink未設定で閉鎖表示だけを読む利用者には全Acceptedの最終監査完了を保証しない。D07のH<=1は使わない。
 
 互換availabilityの`optIn`/`interactiveOptIn`は内部の実効有効化を表す。研究承認の判定には新しい`.research`/`.approved`を使い、包括boolや名称から正式承認を推測しない。
+
+## 性能候補の引渡し判定
+
+v4候補08はcheckpoint回帰を通過したが、mono1倍の全体CPU増加が残るため性能一式の
+採用は未完了。契約版・実装の存在を承認と混同せず、今回Merodoaの固定SHAを更新しない。
+ヘッダーとライブラリを同じsourceからbuildする規則、最大2 owner/2 checkpoint、
+停止Cと明示Resume、全Accepted終端監査、close後の新engine UUIDによる復旧は維持する。
